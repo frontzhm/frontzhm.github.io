@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="js," />
 
 
 
@@ -87,12 +87,19 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="花花的博客">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="编辑推荐： 掘金是一个高质量的技术社区，从 CSS 到 Vue.js，性能优化到开源类库，让你不错过前端开发的每一个技术干货。 点击链接查看最新前端内容，或到各大应用市场搜索「 掘金」下载APP，技术干货尽在掌握中。
+本文转载@晚晴幽草轩轩主的《你所不知道的setInterval》，如需转载，烦请注明原文出处：http://www.jeffjade.com/2016/01/10/2016-01-">
+<meta property="og:type" content="article">
+<meta property="og:title" content="es6">
+<meta property="og:url" content="http://yoursite.com/2017/03/09/es6/index.html">
 <meta property="og:site_name" content="花花的博客">
+<meta property="og:description" content="编辑推荐： 掘金是一个高质量的技术社区，从 CSS 到 Vue.js，性能优化到开源类库，让你不错过前端开发的每一个技术干货。 点击链接查看最新前端内容，或到各大应用市场搜索「 掘金」下载APP，技术干货尽在掌握中。
+本文转载@晚晴幽草轩轩主的《你所不知道的setInterval》，如需转载，烦请注明原文出处：http://www.jeffjade.com/2016/01/10/2016-01-">
+<meta property="og:updated_time" content="2017-03-09T14:09:24.783Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="花花的博客">
+<meta name="twitter:title" content="es6">
+<meta name="twitter:description" content="编辑推荐： 掘金是一个高质量的技术社区，从 CSS 到 Vue.js，性能优化到开源类库，让你不错过前端开发的每一个技术干货。 点击链接查看最新前端内容，或到各大应用市场搜索「 掘金」下载APP，技术干货尽在掌握中。
+本文转载@晚晴幽草轩轩主的《你所不知道的setInterval》，如需转载，烦请注明原文出处：http://www.jeffjade.com/2016/01/10/2016-01-">
 
 
 
@@ -120,13 +127,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/03/09/es6/"/>
 
 
 
 
 
-  <title> 花花的博客 </title>
+  <title> es6 | 花花的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="">
@@ -161,9 +168,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-right 
-   page-home 
- ">
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -246,9 +251,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -278,10 +283,7 @@
             
             
               
-                
-                <a class="post-title-link" href="/2017/03/09/es6/" itemprop="url">
-                  es6
-                </a>
+                es6
               
             
           </h1>
@@ -342,9 +344,7 @@
       
 
       
-        
-          
-            <blockquote>
+        <blockquote>
 <p>编辑推荐： 掘金是一个高质量的技术社区，从 CSS 到 Vue.js，性能优化到开源类库，让你不错过前端开发的每一个技术干货。 点击链接查看最新前端内容，或到各大应用市场搜索「 掘金」下载APP，技术干货尽在掌握中。</p>
 <p>本文转载@晚晴幽草轩轩主的《你所不知道的setInterval》，如需转载，烦请注明原文出处：<a href="http://www.jeffjade.com/2016/01/10/2016-01-10-javaScript-setInterval/。" target="_blank" rel="external">http://www.jeffjade.com/2016/01/10/2016-01-10-javaScript-setInterval/。</a></p>
 </blockquote>
@@ -357,351 +357,66 @@
 <h2 id="setInterval-运行机制"><a href="#setInterval-运行机制" class="headerlink" title="setInterval()运行机制"></a>setInterval()运行机制</h2><p>如果网页不在浏览器的当前窗口（或tab），许多浏览器限制<code>setInteral()</code>指定的反复运行的任务最多每秒执行一次。著作权归作者所有。<br>商业转载请联系作者获得授权,非商业转载请注明出处。<br>原文: <a href="http://www.w3cplus.com/javascript/javaScript-setInterval.html" target="_blank" rel="external">http://www.w3cplus.com/javascript/javaScript-setInterval.html</a> © w3cplus.com</p>
 <p><code>setInterval()</code>指定的是“开始执行”之间的间隔，并不考虑每次任务执行本身所消耗的事件。因此实际上，两次执行之间的间隔会小于指定的时间。比如，<code>setInterval()</code>指定每<code>100ms</code>执行一次，每次执行需要<code>5ms</code>，那么第一次执行结束后<code>95</code>毫秒，第二次执行就会开始。如果某次执行耗时特别长，比如需要<code>105</code>毫秒，那么它结束后，下一次执行就会立即开始。著作权归作者所有。<br>商业转载请联系作者获得授权,非商业转载请注明出处。<br>原文: <a href="http://www.w3cplus.com/javascript/javaScript-setInterval.html" target="_blank" rel="external">http://www.w3cplus.com/javascript/javaScript-setInterval.html</a> © w3cplus.com</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">var i = 1; var timer = setInterval(function() &#123; alert(i++); &#125;, 2000);著作权归作者所有。</div><div class="line">商业转载请联系作者获得授权,非商业转载请注明出处。</div><div class="line">原文: http://www.w3cplus.com/javascript/javaScript-setInterval.html © w3cplus.com</div></pre></td></tr></table></figure>
-          
+      
+    </div>
+
+    <div>
+      
         
+
       
     </div>
 
     <div>
       
-    </div>
+        
 
-    <div>
       
     </div>
 
 
     <footer class="post-footer">
       
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/08/My-New-Post/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/08/My-New-Post/" itemprop="url">
-                  My New Post
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-08T21:23:36+08:00">
-                2017-03-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
+        <div class="post-tags">
           
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/c1/" itemprop="url" rel="index">
-                    <span itemprop="name">c1</span>
-                  </a>
-                </span>
-
-                
-                
-                  , 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/c1/c2/" itemprop="url" rel="index">
-                    <span itemprop="name">c2</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
+            <a href="/tags/js/" rel="tag"># js</a>
           
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/03/08/My-New-Post/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/08/My-New-Post/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
         
-          
-            <p>#test</p>
-<blockquote>
-<p>z这是真的定义么,我试试<br>哈哈范德萨范德萨发顺丰达</p>
-</blockquote>
-<p>喜欢未来的我</p>
-<p><em>恩</em>fdas <strong>方式</strong> <strong><em>等等</em></strong><br><a href="范德萨发生">地方</a></p>
-<ul>
-<li>电视剧暗访</li>
-<li>的说法</li>
-<li>的撒范德萨</li>
-</ul>
-<ol>
-<li>讽德诵功发送</li>
-<li>无法送达</li>
-<li>vadfs</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">var x= 1;</div><div class="line">var i = 0;</div><div class="line">function x()&#123;</div><div class="line">   console.log(0)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
       
 
       
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/08/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
+              <a href="/2017/03/08/My-New-Post/" rel="next" title="My New Post">
+                <i class="fa fa-chevron-left"></i> My New Post
+              </a>
             
-              
-                
-                <a class="post-title-link" href="/2017/03/08/hello-world/" itemprop="url">
-                  Hello World
-                </a>
-              
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
             
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-08T21:15:09+08:00">
-                2017-03-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/03/08/hello-world/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/08/hello-world/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
           
           </div>
@@ -709,6 +424,14 @@
 
 
           
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/03/09/es6/"
+           data-title="es6" data-url="http://yoursite.com/2017/03/09/es6/">
+      </div>
+    
+  </div>
+
 
         </div>
         
@@ -728,8 +451,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="http://omizt4opc.bkt.clouddn.com/avatar.jpg"
@@ -791,6 +523,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#setInterval-基础"><span class="nav-number">1.</span> <span class="nav-text">setInterval()基础</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#setInterval-运行机制"><span class="nav-number">2.</span> <span class="nav-text">setInterval()运行机制</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -903,6 +651,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
 
   
 
