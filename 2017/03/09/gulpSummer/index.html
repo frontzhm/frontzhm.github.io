@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="gulp," />
 
 
 
@@ -87,12 +87,43 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="花花的博客">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="gulp是可以自动化执行任务的工具。如拷贝文件,合并文件,压缩文件等
+安装和简单运行gulp如果没有安装node,请先安装node
+如果之前全局安装过gulp,可以先运行npm rm --global gulp
+安装gulp cli:1npm install --global gulp-cli
+在项目根目录下,运行以下命令
+
+创建package.json  
+1npm init
+
+安装gulp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="gulp的总结">
+<meta property="og:url" content="http://yoursite.com/2017/03/09/gulpSummer/index.html">
 <meta property="og:site_name" content="花花的博客">
+<meta property="og:description" content="gulp是可以自动化执行任务的工具。如拷贝文件,合并文件,压缩文件等
+安装和简单运行gulp如果没有安装node,请先安装node
+如果之前全局安装过gulp,可以先运行npm rm --global gulp
+安装gulp cli:1npm install --global gulp-cli
+在项目根目录下,运行以下命令
+
+创建package.json  
+1npm init
+
+安装gulp">
+<meta property="og:updated_time" content="2017-03-12T13:24:37.882Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="花花的博客">
+<meta name="twitter:title" content="gulp的总结">
+<meta name="twitter:description" content="gulp是可以自动化执行任务的工具。如拷贝文件,合并文件,压缩文件等
+安装和简单运行gulp如果没有安装node,请先安装node
+如果之前全局安装过gulp,可以先运行npm rm --global gulp
+安装gulp cli:1npm install --global gulp-cli
+在项目根目录下,运行以下命令
+
+创建package.json  
+1npm init
+
+安装gulp">
 
 
 
@@ -120,13 +151,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/03/09/gulpSummer/"/>
 
 
 
 
 
-  <title> 花花的博客 </title>
+  <title> gulp的总结 | 花花的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="">
@@ -161,9 +192,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-right 
-   page-home 
- ">
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -246,9 +275,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -278,10 +307,7 @@
             
             
               
-                
-                <a class="post-title-link" href="/2017/03/09/gulpSummer/" itemprop="url">
-                  gulp的总结
-                </a>
+                gulp的总结
               
             
           </h1>
@@ -375,9 +401,7 @@
       
 
       
-        
-          
-            <p><code>gulp</code>是可以自动化执行任务的工具。如拷贝文件,合并文件,压缩文件等</p>
+        <p><code>gulp</code>是可以自动化执行任务的工具。如拷贝文件,合并文件,压缩文件等</p>
 <h2 id="安装和简单运行gulp"><a href="#安装和简单运行gulp" class="headerlink" title="安装和简单运行gulp"></a>安装和简单运行gulp</h2><p>如果没有安装<code>node</code>,请先安装<code>node</code></p>
 <p>如果之前全局安装过<code>gulp</code>,可以先运行<code>npm rm --global gulp</code></p>
 <p>安装<code>gulp cli</code>:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install --global gulp-cli</div></pre></td></tr></table></figure></p>
@@ -441,39 +465,50 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">&quot;devDependencies&quot;: &#123;</div><div class="line">  &quot;gulp&quot;: &quot;^3.9.1&quot;,</div><div class="line">  &quot;gulp-concat&quot;: &quot;^2.6.1&quot;,</div><div class="line">  &quot;gulp-connect&quot;: &quot;^5.0.0&quot;,</div><div class="line">  &quot;gulp-imagemin&quot;: &quot;^3.1.1&quot;,</div><div class="line">  &quot;gulp-jshint&quot;: &quot;^2.0.4&quot;,</div><div class="line">  &quot;gulp-minify-css&quot;: &quot;^1.2.4&quot;,</div><div class="line">  &quot;gulp-minify-html&quot;: &quot;^1.0.6&quot;,</div><div class="line">  &quot;gulp-rename&quot;: &quot;^1.2.2&quot;,</div><div class="line">  &quot;gulp-sass&quot;: &quot;^3.1.0&quot;,</div><div class="line">  &quot;gulp-uglify&quot;: &quot;^2.1.0&quot;,</div><div class="line">  &quot;jshint&quot;: &quot;^2.9.4&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div></pre></td><td class="code"><pre><div class="line">var gulp = require(&quot;gulp&quot;);</div><div class="line">var sass = require(&quot;gulp-sass&quot;);</div><div class="line">var connect = require(&quot;gulp-connect&quot;);</div><div class="line">var concat = require(&quot;gulp-concat&quot;);</div><div class="line">var uglify = require(&quot;gulp-uglify&quot;);</div><div class="line">var minifyHtml = require(&quot;gulp-minify-html&quot;);</div><div class="line">var minifyCss = require(&quot;gulp-minify-css&quot;);</div><div class="line">var rename = require(&quot;gulp-rename&quot;);</div><div class="line">var imagemin = require(&quot;gulp-imagemin&quot;);</div><div class="line">var jshint = require(&quot;gulp-jshint&quot;);</div><div class="line"></div><div class="line">// 定义默认的任务</div><div class="line">gulp.task(&apos;default&apos;, function() &#123;</div><div class="line">  console.log(&apos;default&apos;)</div><div class="line">&#125;);</div><div class="line"></div><div class="line">// 复制index.html</div><div class="line">gulp.task(&apos;copy-html&apos;, function() &#123;</div><div class="line">    return gulp.src(&apos;index.html&apos;)</div><div class="line">      .pipe(gulp.dest(&apos;dist&apos;))</div><div class="line">&#125;);</div><div class="line"></div><div class="line">// 复制图片</div><div class="line">gulp.task(&apos;copy-imgs&apos;, function() &#123;</div><div class="line">  return gulp.src(&apos;app/imgs/**/*.&#123;jpg,png&#125;&apos;, &#123; base: &apos;app&apos; &#125;)</div><div class="line">    .pipe(gulp.dest(&apos;dist&apos;));</div><div class="line">&#125;)</div><div class="line"></div><div class="line">// 复制css js</div><div class="line">gulp.task(&apos;copy-other&apos;, function() &#123;</div><div class="line">  return gulp.src([&apos;app/js/*&apos;, &apos;app/css/*&apos;, &apos;!app/js/tmp*&apos;], &#123; base: &apos;app&apos; &#125;)</div><div class="line">    .pipe(gulp.dest(&apos;dist&apos;))</div><div class="line">&#125;)</div><div class="line"></div><div class="line">//  合并复制的任务</div><div class="line">gulp.task(&apos;build&apos;, [&apos;copy-html&apos;, &apos;copy-imgs&apos;, &apos;copy-other&apos;], function() &#123;</div><div class="line">  console.log(&apos;build&apos;)</div><div class="line">&#125;)</div><div class="line"></div><div class="line"></div><div class="line">// 监测index.html,css,js,发生改变就复制一份到dist</div><div class="line">gulp.task(&apos;watch&apos;, function() &#123;</div><div class="line">  gulp.watch(&apos;index.html&apos;, [&quot;copy-html&quot;]);</div><div class="line">  gulp.watch(&apos;app/imgs/**/*.&#123;jpg,png&#125;&apos;, [&quot;copy-imgs&quot;]);</div><div class="line">  gulp.watch([&apos;app/js/*&apos;, &apos;app/css/*&apos;, &apos;!app/js/tmp*&apos;], [&quot;copy-other&quot;]);</div><div class="line">&#125;)</div><div class="line"></div><div class="line">// 建立本地服务器</div><div class="line">gulp.task(&apos;server&apos;, function() &#123;</div><div class="line">  connect.server(&#123;</div><div class="line">    //服务器的根目录 </div><div class="line">    root: &apos;./&apos;,</div><div class="line">    //服务器的地址，没有此配置项默认也是 8080 &#125;);</div><div class="line">    port:8080,</div><div class="line">    //启用实时刷新的功能</div><div class="line">    liveload: true</div><div class="line">  &#125;);</div><div class="line">&#125;)</div><div class="line"></div><div class="line">// 找到html并刷新页面</div><div class="line">gulp.task(&apos;find-html-live&apos;,function()&#123;</div><div class="line">	// gulp.src(&apos;./dist/index.html&apos;)</div><div class="line">	gulp.src(&apos;./dist/index.html&apos;)</div><div class="line">		.pipe(connect.reload());</div><div class="line">&#125;);</div><div class="line"></div><div class="line">// 监测html发生改变就刷新页面</div><div class="line">gulp.task(&apos;watch-html-live&apos;,function()&#123;</div><div class="line">	gulp.watch(&apos;index.html&apos;,[&apos;copy-html&apos;,&apos;find-html-live&apos;])</div><div class="line">&#125;)</div><div class="line"></div><div class="line">//运行此任务的时候会在8080上启动服务器</div><div class="line">gulp.task(&apos;watch-live&apos;,[&apos;server&apos;,&apos;watch-html-live&apos;]);</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">// 合并压缩js,并重命名后输出到dist/js</div><div class="line">gulp.task(&apos;rename&apos;,function()&#123;</div><div class="line">	gulp.src([&apos;app/js/*.js&apos;,&apos;!app/js/tmp*&apos;])</div><div class="line">		.pipe(concat(&apos;concat.js&apos;))</div><div class="line">		.pipe(uglify())</div><div class="line">		.pipe(rename(&apos;concat.min.js&apos;))</div><div class="line">		.pipe(gulp.dest(&apos;dist/js&apos;))</div><div class="line">&#125;)</div><div class="line"></div><div class="line">// 先编译sass,然后合并压缩css,并重命名后输出到dist/css</div><div class="line">gulp.task(&apos;minifyCss&apos;,function()&#123;</div><div class="line">	gulp.src([&apos;app/sass/*.scss&apos;])</div><div class="line">		.pipe(sass())</div><div class="line">		.pipe(concat(&apos;concat.css&apos;))</div><div class="line">		.pipe(minifyCss())</div><div class="line">		.pipe(rename(&apos;concat.min.css&apos;))</div><div class="line">		.pipe(gulp.dest(&apos;dist/css&apos;))</div><div class="line">&#125;)</div><div class="line"></div><div class="line">// 合并压缩html</div><div class="line">gulp.task(&apos;minifyHtml&apos;,function()&#123;</div><div class="line">  gulp.src(&apos;index.html&apos;)</div><div class="line">    .pipe(minifyHtml())</div><div class="line">    .pipe(gulp.dest(&apos;dist&apos;))</div><div class="line">&#125;)</div><div class="line"></div><div class="line">// 压缩图片</div><div class="line">gulp.task(&apos;imagemin&apos;,function()&#123;</div><div class="line">	gulp.src(&apos;app/imgs/**/*.&#123;jpg,png&#125;&apos;)</div><div class="line">		.pipe(imagemin())</div><div class="line">		.pipe(gulp.dest(&apos;dist/imgs&apos;))</div><div class="line">&#125;)</div><div class="line"></div><div class="line">// js检查</div><div class="line">gulp.task(&apos;jshint&apos;,function()&#123;</div><div class="line">	gulp.src(&apos;app/js/*.js&apos;)</div><div class="line">		// 进行代码检查</div><div class="line">		.pipe(jshint())</div><div class="line">		// 输出检查结果.pipe(jshint())</div><div class="line">		.pipe(jshint.reporter()); </div><div class="line">&#125;)</div></pre></td></tr></table></figure>
 
-          
+      
+    </div>
+
+    <div>
+      
         
+
       
     </div>
 
     <div>
       
-    </div>
+        
 
-    <div>
       
     </div>
 
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/gulp/" rel="tag"># gulp</a>
+          
+        </div>
+      
+
+      
+        
+      
 
       
 
       
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
           
           </div>
@@ -481,6 +516,14 @@
 
 
           
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/03/09/gulpSummer/"
+           data-title="gulp的总结" data-url="http://yoursite.com/2017/03/09/gulpSummer/">
+      </div>
+    
+  </div>
+
 
         </div>
         
@@ -500,8 +543,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Übersicht
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="http://omizt4opc.bkt.clouddn.com/avatar.jpg"
@@ -563,6 +615,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装和简单运行gulp"><span class="nav-number">1.</span> <span class="nav-text">安装和简单运行gulp</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gulp常用的4个API"><span class="nav-number">2.</span> <span class="nav-text">gulp常用的4个API</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#gulp-src-globs-options"><span class="nav-number">2.1.</span> <span class="nav-text">gulp.src(globs[,options])</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gulp-dest-path-options"><span class="nav-number">2.2.</span> <span class="nav-text">gulp.dest(path[,options])</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#生成的文件路径和path之间的关系"><span class="nav-number">2.2.1.</span> <span class="nav-text">生成的文件路径和path之间的关系</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#理解base"><span class="nav-number">2.2.2.</span> <span class="nav-text">理解base</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gulp-task-name-deps-fn"><span class="nav-number">2.3.</span> <span class="nav-text">gulp.task(name[,deps][,fn])</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#那怎么等待异步任务中的异步操作完成后再执行后续的任务？"><span class="nav-number">2.3.1.</span> <span class="nav-text">那怎么等待异步任务中的异步操作完成后再执行后续的任务？</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gulp-watch-globs-opts-tasks-或-gulp-watch-globs-opts-cb"><span class="nav-number">2.4.</span> <span class="nav-text">gulp.watch(globs[, opts], tasks) 或 gulp.watch(globs[, opts, cb])</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gulp插件"><span class="nav-number">3.</span> <span class="nav-text">gulp插件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#常用的插件"><span class="nav-number">3.1.</span> <span class="nav-text">常用的插件:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#插件使用顺序"><span class="nav-number">3.2.</span> <span class="nav-text">插件使用顺序:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小例子"><span class="nav-number">3.3.</span> <span class="nav-text">小例子</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -675,6 +743,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
 
   
 
