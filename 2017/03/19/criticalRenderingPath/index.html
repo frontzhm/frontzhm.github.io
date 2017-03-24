@@ -95,8 +95,8 @@
 <meta property="og:description" content="关键渲染路径是浏览器从收到 HTML、CSS 和 JavaScript 字节到对其进行必需的处理，从而将它们转变成渲染的像素这一过程中的一些中间步骤。">
 <meta property="og:image" content="http://yoursite.com/2017/03/19/criticalRenderingPath/full-process.png">
 <meta property="og:image" content="http://yoursite.com/2017/03/19/criticalRenderingPath/dom-tree.png">
-<meta property="og:image" content="http://yoursite.com/2017/03/19/criticalRenderingPath/dom-tree.png">
-<meta property="og:updated_time" content="2017-03-21T14:43:11.108Z">
+<meta property="og:image" content="http://yoursite.com/2017/03/19/criticalRenderingPath/cssom-tree.png">
+<meta property="og:updated_time" content="2017-03-22T00:12:05.606Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="关键渲染路径">
 <meta name="twitter:description" content="关键渲染路径是浏览器从收到 HTML、CSS 和 JavaScript 字节到对其进行必需的处理，从而将它们转变成渲染的像素这一过程中的一些中间步骤。">
@@ -386,12 +386,12 @@
 <p><li><strong>DOM 构建：</strong> 最后，由于 HTML 标记定义不同标记之间的关系（一些标记包含在其他标记内），创建的对象链接在一个树数据结构内，此结构也会捕获原始标记中定义的父项-子项关系：<em>HTML</em> 对象是 <em>body</em> 对象的父项，<em>body</em> 是 <em>paragraph</em> 对象的父项，依此类推。</li><br><br><img src="/2017/03/19/criticalRenderingPath/dom-tree.png" alt="DOM图"></p>
 <p>整个流程的最终输出是我们这个简单页面的文档对象模型 (DOM)，浏览器对页面进行的所有进一步处理都会用到它。<br>DOM 树捕获文档标记的属性和关系，但并未告诉我们元素在渲染后呈现的外观。那是 CSSOM 的责任。</p>
 <h2 id="CSS对象模型（CSSOM）"><a href="#CSS对象模型（CSSOM）" class="headerlink" title="CSS对象模型（CSSOM）"></a>CSS对象模型（CSSOM）</h2><p>当浏览器会将下载到的 css 文件和 html 文件一样的处理方式，字节 -&gt; 字符串 -&gt; 令牌 -&gt; 节点 -&gt; CSSOM</p>
-<p><img src="/2017/03/19/criticalRenderingPath/dom-tree.png" alt="CSSOM图"><br>注意display：none的元素，依然会在DOM上,只是不被渲染</p>
+<p><img src="/2017/03/19/criticalRenderingPath/cssom-tree.png" alt="CSSOM图"><br>注意display：none的元素，依然会在DOM上,只是不被渲染</p>
 <h2 id="渲染树的构建、布局和绘制"><a href="#渲染树的构建、布局和绘制" class="headerlink" title="渲染树的构建、布局和绘制"></a>渲染树的构建、布局和绘制</h2><p>CSSOM和DOM建成之后，浏览器会将其合并成渲染树，再根据渲染树计算每个节点的几何信息然后将各个节点绘制到屏幕上</p>
 <h2 id="阻塞渲染的CSS"><a href="#阻塞渲染的CSS" class="headerlink" title="阻塞渲染的CSS"></a>阻塞渲染的CSS</h2><p>只有当CSSOM和DOM构建完毕的时候，浏览器才能形成渲染树，并开始渲染。<br>两个中任何一个没有构建完毕，其实不会渲染。<br>所以也可以说阻塞渲染的html和阻塞渲染的css。<br>但因为，html是显示的主体，所以一般更多说的是阻塞渲染的css</p>
 <h2 id="js影响关键渲染路径"><a href="#js影响关键渲染路径" class="headerlink" title="js影响关键渲染路径"></a>js影响关键渲染路径</h2><p>js可以读取和修改DOM和CSSOM。<br>浏览器遇到script标记，DOM停止构建，若CSSOM正在下载和构建，则等其下载和构建完毕，执行脚本，执行完之后DOM接着构建。<br>但是script标签有async属性的时候，就可以指示浏览器在等待脚本可用期间不阻止 DOM 构建</p>
 <blockquote>
-<p>参考<a href="http://kiss2.me/2016/02/19/%E6%B7%B1%E5%85%A5%E5%AD%A6%E4%B9%A0%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93%E6%9C%BA%E5%88%B6/" target="_blank" rel="external">kiss2的博客</a><br>谷歌的<a href="https://developers.google.com/web/fundamentals/performance/critical-rendering-path/constructing-the-object-model?hl=zh-cn" target="_blank" rel="external">官方解释</a></p>
+<p>参考<a href="http://kiss2.me/2016/02/19/%E6%B7%B1%E5%85%A5%E5%AD%A6%E4%B9%A0%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93%E6%9C%BA%E5%88%B6/" target="_blank" rel="external">kiss2的博客</a><br>谷歌的<a href="https://developers.google.com/web/fundamentals/performance/critical-rendering-path/constructing-the-object-model?hl=zh-cn" target="_blank" rel="external">官方解释</a><br>大漠的<a href="http://www.w3cplus.com/performance/understanding-the-critical-rendering-path.html" target="_blank" rel="external">理解关键的渲染路径</a></p>
 </blockquote>
 
       
@@ -438,6 +438,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/24/bind/" rel="prev" title="深入理解call,apply,bind">
+                深入理解call,apply,bind <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -513,7 +517,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -535,7 +539,7 @@
             
             <div class="site-state-item site-state-tags">
               
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">标签</span>
               
             </div>
