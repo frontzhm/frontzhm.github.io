@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="vue," />
+  <meta name="keywords" content="date," />
 
 
 
@@ -87,16 +87,16 @@
 
 
 
-<meta name="description" content="请直接前往官网阅读">
+<meta name="description" content="创建Date实例用来处理日期和时间。Date对象是基于1970年1月1日（世界标准时间）起的毫秒数。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Vue的介绍">
-<meta property="og:url" content="http://yoursite.com/2017/04/01/vueIntroduction1/index.html">
+<meta property="og:title" content="Date对象的理解和使用">
+<meta property="og:url" content="http://yoursite.com/2017/04/07/dateIntroduction/index.html">
 <meta property="og:site_name" content="花花的博客">
-<meta property="og:description" content="请直接前往官网阅读">
-<meta property="og:updated_time" content="2017-04-02T13:29:30.825Z">
+<meta property="og:description" content="创建Date实例用来处理日期和时间。Date对象是基于1970年1月1日（世界标准时间）起的毫秒数。">
+<meta property="og:updated_time" content="2017-04-07T10:07:18.266Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Vue的介绍">
-<meta name="twitter:description" content="请直接前往官网阅读">
+<meta name="twitter:title" content="Date对象的理解和使用">
+<meta name="twitter:description" content="创建Date实例用来处理日期和时间。Date对象是基于1970年1月1日（世界标准时间）起的毫秒数。">
 
 
 
@@ -124,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/04/01/vueIntroduction1/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/04/07/dateIntroduction/"/>
 
 
 
 
 
-  <title> Vue的介绍 | 花花的博客 </title>
+  <title> Date对象的理解和使用 | 花花的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -259,7 +259,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/01/vueIntroduction1/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/07/dateIntroduction/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="frontzhm">
@@ -280,7 +280,7 @@
             
             
               
-                Vue的介绍
+                Date对象的理解和使用
               
             
           </h2>
@@ -295,8 +295,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-01T16:12:28+08:00">
-                2017-04-01
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-07T15:51:17+08:00">
+                2017-04-07
               </time>
             
 
@@ -336,8 +336,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/04/01/vueIntroduction1/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/01/vueIntroduction1/" itemprop="commentCount"></span>
+                <a href="/2017/04/07/dateIntroduction/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/07/dateIntroduction/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -363,25 +363,27 @@
       
 
       
-        <blockquote>
-<p>请直接前往<a href="https://cn.vuejs.org/v2/guide/instance.html#实例生命周期" target="_blank" rel="external">官网阅读</a></p>
-</blockquote>
+        <p>创建Date实例用来处理日期和时间。<br>Date对象是基于1970年1月1日（世界标准时间）起的毫秒数。</p>
 <a id="more"></a>
-<p>Vue.js 是一套构建用户界面的渐进式框架。<br>Vue 采用自底向上增量开发的设计。<br>Vue 的核心库只关注视图层，它不仅易于上手，还便于与第三方库或既有项目整合。<br>另一方面，当与单文件组件和 Vue 生态系统支持的库结合使用时，Vue 也完全能够为复杂的单页应用程序提供驱动。</p>
-<h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><p>声明式渲染： 和 v-bind:title=”title”<br>条件：v-if=”isSeen”<br>循环：v-for=”item in items”<br>事件绑定：v-on:click=”someFn”<br>表单元素双向绑定：v-model=”value”<br>组件：Vue.component(‘componentName’,{props:[item],templates:”&lt; li&gt;&lt;/ li&gt;”})</p>
-<h2 id="声明式渲染"><a href="#声明式渲染" class="headerlink" title="声明式渲染"></a>声明式渲染</h2><p>两种声明：</p>
-<ul>
-<li>采用简洁的模板语法来声明式的将数据渲染进 DOM：<code></code>,数据和 DOM 被绑定在一起，一切都是响应式的</li>
-<li>绑定 DOM 元素属性 <code>v-bind:title = &quot;cnt&quot;</code>,v-bind将这个元素节点的 title 属性和 Vue 实例的 cnt 属性保持一致”。</li>
+<h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
+<li>创建实例的四种方式</li>
+<li>month是</li>
 </ul>
-<h2 id="条件与循环"><a href="#条件与循环" class="headerlink" title="条件与循环"></a>条件与循环</h2><p><code>v-if=&quot;seen&quot;</code> 控制切换一个元素的显示。<br>vue不仅可以绑定 DOM 文本到数据，也可以绑定 DOM 结构到数据。而且，Vue 也提供一个强大的过渡效果系统，可以在 Vue 插入/更新/删除元素时自动应用过渡效果。<br><code>v-for = &#39;todo in todos&#39;</code> 指令可以绑定数组的数据来渲染一个项目列表</p>
-<h2 id="处理用户输入"><a href="#处理用户输入" class="headerlink" title="处理用户输入"></a>处理用户输入</h2><p><code>v-on:click=&quot;reverseMessage&quot;</code> 指令绑定一个调用 Vue 实例方法的事件监听器<br>reverseMessage没有触碰 DOM - 所有的 DOM 操作都由 Vue 来处理，你编写的代码只需要关注底层逻辑。<br><code>v-model=&quot;value&quot;</code> 指令，使表单输入和应用状态间的双向绑定变得轻而易举。双向意味着，当html那边改变时，vue实例里面的相应值也会变化</p>
-<h2 id="组件化应用构建"><a href="#组件化应用构建" class="headerlink" title="组件化应用构建"></a>组件化应用构建</h2><p>在 Vue 里，一个组件本质上是一个拥有预定义选项的一个 Vue 实例，在 Vue 中注册组件很简单，接着将应用分割成了两个更小的单元，子单元通过 props 接口实现了与父单元很好的解耦。我们现在可以进一步为我们的 todo-item 组件实现更复杂的模板和逻辑的改进，而不会影响到父单元。<br>在一个大型应用中，有必要将整个应用程序划分为组件，以使开发可管理。在后续教程中我们将详述组件，不过这里有一个（假想的）使用了组件的应用模板是什么样的例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;div id=&quot;app&quot;&gt;</div><div class="line">  &lt;app-nav&gt;&lt;/app-nav&gt;</div><div class="line">  &lt;app-view&gt;</div><div class="line">    &lt;app-sidebar&gt;&lt;/app-sidebar&gt;</div><div class="line">    &lt;app-content&gt;&lt;/app-content&gt;</div><div class="line">  &lt;/app-view&gt;</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure></p>
-<h2 id="与自定义元素的关系"><a href="#与自定义元素的关系" class="headerlink" title="与自定义元素的关系"></a>与自定义元素的关系</h2><ol>
-<li>Vue 组件支持ie9+,必要时，可以被包装在原生自定义元素之内</li>
-<li>Vue 组件提供了纯自定义元素所不具备的一些重要功能，最突出的是跨组件数据流，自定义事件通信以及构建工具集成。</li>
-</ol>
-<h2 id="练习的demo"><a href="#练习的demo" class="headerlink" title="练习的demo"></a>练习的demo</h2><p><a href="https://codepen.io/frontzhm/pen/LWMjpN?editors=1010" target="_blank" rel="external">demo</a></p>
+<h2 id="创建date实例"><a href="#创建date实例" class="headerlink" title="创建date实例"></a>创建date实例</h2><p>创建实例有以下四种形式：没有参数第一个，至少两个参数是第四种情况，参数没有默认0。新建的时间都是本地时间，不是世界标准时间即格林威治时间。我们国家时间比格林威治快8小时。</p>
+<ul>
+<li>new Date();</li>
+<li>new Date(value);<br>value代表自1970年1月1日00:00:00 (世界标准时间) 起经过的毫秒数。</li>
+<li>new Date(dateString);<br>表示日期的字符串值。该字符串应该能被 Date.parse() 方法识别（符合 IETF-compliant RFC 2822 timestamps 或 version of ISO8601）。</li>
+<li>new Date(year, month[, day[, hour[, minutes[, seconds[, milliseconds]]]]]);<br>year代表年份的整数值。为了避免2000年问题最好指定4位数的年份; 使用 1998, 而不要用 98.<br>注意：month代表月份的整数值从<strong><em>0（1月）</em></strong>到11（12月）<br>day代表一个月中的第几天的整数值，从1开始。<br>hour代表一天中的小时数的整数值 (24小时制)。后面的字面上意思。</li>
+</ul>
+<h3 id="备注"><a href="#备注" class="headerlink" title="备注"></a>备注</h3><p> 月份：”Jan” / “Feb” / “Mar” / “Apr” / “May” / “Jun” / “Jul” / “Aug” / “Sep” / “Oct” / “Nov” / “Dec”<br> 周：”Mon” / “Tue” / “Wed” / “Thu” / “Fri” / “Sat” / “Sun”</p>
+<h3 id="demo"><a href="#demo" class="headerlink" title="demo"></a>demo</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">/*返回值格式：Tue Dec 12 1995 13:24:00 GMT+0800 (中国标准时间)*/</div><div class="line">var noParams = new Date();</div><div class="line">var timeStamp = new Date(1000);</div><div class="line">var oneString = new Date(&apos;December 12,1995 13:24:00&apos;);</div><div class="line">var oneString2 = new Date(&apos;Tue Dec 12 1995 13:24:00 GMT+0800 (中国标准时间)&apos;);</div><div class="line">// 特殊：1978年这个表示世界标准时间，返回值是Sat Dec 09 1978 11:23:09 GMT+0800 (中国标准时间)</div><div class="line">var oneString3 = new Date(&apos;1978-12-09T03:23:09&apos;);</div><div class="line">var moreParams = new Date(1978,11,1,3,23,12);</div><div class="line">// Fri Dec 01 1978 00:00:00 GMT+0800 (中国标准时间)</div><div class="line">var moreParams2 = new Date(1978,11);</div></pre></td></tr></table></figure>
+<h2 id="静态方法"><a href="#静态方法" class="headerlink" title="静态方法"></a>静态方法</h2><h3 id="Date-now"><a href="#Date-now" class="headerlink" title="Date.now()"></a>Date.now()</h3><p>返回自1970年1月1日 00:00:00 UTC到当前时间的毫秒数，类型为Number。<br>相当于<code>new Date().getTime()</code></p>
+<h2 id="Date-parse-dateString"><a href="#Date-parse-dateString" class="headerlink" title="Date.parse(dateString)"></a>Date.parse(dateString)</h2><p>解析一个表示某个日期的字符串，并返回从1970-1-1 00:00:00 UTC 到该日期对象（该日期对象的UTC时间）的毫秒数,其最后三位始终是000。<br>如果参数不能解析为一个有效的日期，则返回NaN。类型为Number。<br>其实就是隐式调用<code>new Date(dateString)</code>。</p>
+<h2 id="Date-UTC-year-month-date-hrs-min-sec-ms"><a href="#Date-UTC-year-month-date-hrs-min-sec-ms" class="headerlink" title="Date.UTC(year,month[,date[,hrs[,min[,sec[,ms]]]]])"></a>Date.UTC(year,month[,date[,hrs[,min[,sec[,ms]]]]])</h2><p>接受以逗号隔开的日期参数，返回1970-1-1 00:00:00 UTC到指定的日期之间的毫秒数。<br>仔细理解下，日期参数是本地时间 localTime，其转换为格林威志时间 glTime，将1970-1-1 00:00:00 UTC设为 startGl，其转化为本地时间是 startLocal<br>那么 这个返回的结果是 res。时间差始终是一样的。<br>res = localTime - startGl = localTime - ( startLocal - 时间差) = (glTime + 时间差) - startGl</p>
+<blockquote>
+<p>MDN的<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank" rel="external">文档</a></p>
+</blockquote>
 
       
     </div>
@@ -405,7 +407,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/vue/" rel="tag"># vue</a>
+            <a href="/tags/date/" rel="tag"># date</a>
           
         </div>
       
@@ -418,8 +420,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/04/01/vueExample2/" rel="next" title="Vue实例">
-                <i class="fa fa-chevron-left"></i> Vue实例
+              <a href="/2017/04/07/scssMain1/" rel="next" title="scss语法">
+                <i class="fa fa-chevron-left"></i> scss语法
               </a>
             
           </div>
@@ -428,8 +430,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/04/02/vueComputed4/" rel="prev" title="vue的计算属性">
-                vue的计算属性 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/04/12/functionOfScss/" rel="prev" title="sass的function">
+                sass的function <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -456,8 +458,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/04/01/vueIntroduction1/"
-           data-title="Vue的介绍" data-url="http://yoursite.com/2017/04/01/vueIntroduction1/">
+      <div class="ds-thread" data-thread-key="2017/04/07/dateIntroduction/"
+           data-title="Date对象的理解和使用" data-url="http://yoursite.com/2017/04/07/dateIntroduction/">
       </div>
     
   </div>
@@ -563,7 +565,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#TL-DR"><span class="nav-number">1.</span> <span class="nav-text">TL;DR</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#声明式渲染"><span class="nav-number">2.</span> <span class="nav-text">声明式渲染</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#条件与循环"><span class="nav-number">3.</span> <span class="nav-text">条件与循环</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#处理用户输入"><span class="nav-number">4.</span> <span class="nav-text">处理用户输入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组件化应用构建"><span class="nav-number">5.</span> <span class="nav-text">组件化应用构建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#与自定义元素的关系"><span class="nav-number">6.</span> <span class="nav-text">与自定义元素的关系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#练习的demo"><span class="nav-number">7.</span> <span class="nav-text">练习的demo</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#TL-DR"><span class="nav-number">1.</span> <span class="nav-text">TL;DR</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建date实例"><span class="nav-number">2.</span> <span class="nav-text">创建date实例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#备注"><span class="nav-number">2.1.</span> <span class="nav-text">备注</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#demo"><span class="nav-number">2.2.</span> <span class="nav-text">demo</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#静态方法"><span class="nav-number">3.</span> <span class="nav-text">静态方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Date-now"><span class="nav-number">3.1.</span> <span class="nav-text">Date.now()</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Date-parse-dateString"><span class="nav-number">4.</span> <span class="nav-text">Date.parse(dateString)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Date-UTC-year-month-date-hrs-min-sec-ms"><span class="nav-number">5.</span> <span class="nav-text">Date.UTC(year,month[,date[,hrs[,min[,sec[,ms]]]]])</span></a></li></ol></div>
             
 
           </div>
