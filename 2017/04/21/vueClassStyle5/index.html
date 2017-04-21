@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="浏览器渲染," />
+  <meta name="keywords" content="vue," />
 
 
 
@@ -87,20 +87,16 @@
 
 
 
-<meta name="description" content="关键渲染路径是浏览器从收到 HTML、CSS 和 JavaScript 字节到对其进行必需的处理，从而将它们转变成渲染的像素这一过程中的一些中间步骤。">
+<meta name="description" content="请直接前往官网阅读">
 <meta property="og:type" content="article">
-<meta property="og:title" content="关键渲染路径">
-<meta property="og:url" content="http://yoursite.com/2017/03/19/criticalRenderingPath/index.html">
+<meta property="og:title" content="vue的class与style绑定">
+<meta property="og:url" content="http://yoursite.com/2017/04/21/vueClassStyle5/index.html">
 <meta property="og:site_name" content="花花的博客">
-<meta property="og:description" content="关键渲染路径是浏览器从收到 HTML、CSS 和 JavaScript 字节到对其进行必需的处理，从而将它们转变成渲染的像素这一过程中的一些中间步骤。">
-<meta property="og:image" content="http://yoursite.com/2017/03/19/criticalRenderingPath/full-process.png">
-<meta property="og:image" content="http://yoursite.com/2017/03/19/criticalRenderingPath/dom-tree.png">
-<meta property="og:image" content="http://yoursite.com/2017/03/19/criticalRenderingPath/cssom-tree.png">
-<meta property="og:updated_time" content="2017-03-22T00:12:05.606Z">
+<meta property="og:description" content="请直接前往官网阅读">
+<meta property="og:updated_time" content="2017-04-21T07:11:15.190Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="关键渲染路径">
-<meta name="twitter:description" content="关键渲染路径是浏览器从收到 HTML、CSS 和 JavaScript 字节到对其进行必需的处理，从而将它们转变成渲染的像素这一过程中的一些中间步骤。">
-<meta name="twitter:image" content="http://yoursite.com/2017/03/19/criticalRenderingPath/full-process.png">
+<meta name="twitter:title" content="vue的class与style绑定">
+<meta name="twitter:description" content="请直接前往官网阅读">
 
 
 
@@ -128,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/03/19/criticalRenderingPath/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/04/21/vueClassStyle5/"/>
 
 
 
 
 
-  <title> 关键渲染路径 | 花花的博客 </title>
+  <title> vue的class与style绑定 | 花花的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -263,7 +259,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/19/criticalRenderingPath/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/21/vueClassStyle5/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="frontzhm">
@@ -284,7 +280,7 @@
             
             
               
-                关键渲染路径
+                vue的class与style绑定
               
             
           </h2>
@@ -299,8 +295,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-19T19:04:19+08:00">
-                2017-03-19
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-21T10:55:22+08:00">
+                2017-04-21
               </time>
             
 
@@ -322,8 +318,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/前端综合/" itemprop="url" rel="index">
-                    <span itemprop="name">前端综合</span>
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
                   </a>
                 </span>
 
@@ -340,8 +336,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/03/19/criticalRenderingPath/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/19/criticalRenderingPath/" itemprop="commentCount"></span>
+                <a href="/2017/04/21/vueClassStyle5/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/21/vueClassStyle5/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -367,32 +363,37 @@
       
 
       
-        <p>关键渲染路径是浏览器从收到 HTML、CSS 和 JavaScript 字节到对其进行必需的处理，从而将它们转变成渲染的像素这一过程中的一些中间步骤。<br><a id="more"></a><br>浏览器渲染页面前需要先构建 DOM 和 CSSOM 树。</p>
-<h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
-<li>字节 → 字符 → 令牌 → 节点 → 对象模型。</li>
-<li>HTML 标记转换成文档对象模型 (DOM)；CSS 标记转换成 CSS 对象模型 (CSSOM)。</li>
-<li>DOM 和 CSSOM 是独立的数据结构。</li>
-<li>DOM和CSSOM都构建好之后，浏览器才能建成渲染树，然后开始渲染</li>
-<li>js会影响DOM和CSSOM</li>
-</ul>
-<p>说起来还是第一次知道 <code>TL;DR</code>,全称是<code>too long,didn&#39;t read</code>，可以理解为概要吧，以后就用这个了！</p>
-<h2 id="文档对象模型-DOM"><a href="#文档对象模型-DOM" class="headerlink" title="文档对象模型 (DOM)"></a>文档对象模型 (DOM)</h2><p>先从可能的最简单情况入手：一个包含一些文本和一幅图片的普通 HTML 页面。浏览器如何处理此页面？</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&lt;html&gt;</div><div class="line">  &lt;head&gt;</div><div class="line">    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1&quot;&gt;</div><div class="line">    &lt;link href=&quot;style.css&quot; rel=&quot;stylesheet&quot;&gt;</div><div class="line">    &lt;title&gt;Critical Path&lt;/title&gt;</div><div class="line">  &lt;/head&gt;</div><div class="line">  &lt;body&gt;</div><div class="line">    &lt;p&gt;Hello &lt;span&gt;web performance&lt;/span&gt; students!&lt;/p&gt;</div><div class="line">    &lt;div&gt;&lt;img src=&quot;awesome-photo.jpg&quot;&gt;&lt;/div&gt;</div><div class="line">  &lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
-<p><img src="/2017/03/19/criticalRenderingPath/full-process.png" alt="DOM形成图"></p>
-<p><ol></ol></p>
-<p><li><strong>转换：</strong> 浏览器从磁盘或网络读取 HTML 的原始字节，并根据文件的指定编码（例如 UTF-8）将它们转换成各个字符。</li></p>
-<p><li><strong>令牌化：</strong> 浏览器将字符串转换成 <a class="external" href="http://www.w3.org/TR/html5/" target="_blank" rel="external">W3C HTML5 标准</a>规定的各种令牌，例如，“&lt;html&gt;”、“&lt;body&gt;”，以及其他尖括号内的字符串。每个令牌都具有特殊含义和一组规则。</li></p>
-<p><li><strong>词法分析：</strong> 发出的令牌转换成定义其属性和规则的“对象”。</li></p>
-<p><li><strong>DOM 构建：</strong> 最后，由于 HTML 标记定义不同标记之间的关系（一些标记包含在其他标记内），创建的对象链接在一个树数据结构内，此结构也会捕获原始标记中定义的父项-子项关系：<em>HTML</em> 对象是 <em>body</em> 对象的父项，<em>body</em> 是 <em>paragraph</em> 对象的父项，依此类推。</li><br><br><img src="/2017/03/19/criticalRenderingPath/dom-tree.png" alt="DOM图"></p>
-<p>整个流程的最终输出是我们这个简单页面的文档对象模型 (DOM)，浏览器对页面进行的所有进一步处理都会用到它。<br>DOM 树捕获文档标记的属性和关系，但并未告诉我们元素在渲染后呈现的外观。那是 CSSOM 的责任。</p>
-<h2 id="CSS对象模型（CSSOM）"><a href="#CSS对象模型（CSSOM）" class="headerlink" title="CSS对象模型（CSSOM）"></a>CSS对象模型（CSSOM）</h2><p>当浏览器会将下载到的 css 文件和 html 文件一样的处理方式，字节 -&gt; 字符串 -&gt; 令牌 -&gt; 节点 -&gt; CSSOM</p>
-<p><img src="/2017/03/19/criticalRenderingPath/cssom-tree.png" alt="CSSOM图"><br>注意display：none的元素，依然会在DOM上,只是不被渲染</p>
-<h2 id="渲染树的构建、布局和绘制"><a href="#渲染树的构建、布局和绘制" class="headerlink" title="渲染树的构建、布局和绘制"></a>渲染树的构建、布局和绘制</h2><p>CSSOM和DOM建成之后，浏览器会将其合并成渲染树，再根据渲染树计算每个节点的几何信息然后将各个节点绘制到屏幕上</p>
-<h2 id="阻塞渲染的CSS"><a href="#阻塞渲染的CSS" class="headerlink" title="阻塞渲染的CSS"></a>阻塞渲染的CSS</h2><p>只有当CSSOM和DOM构建完毕的时候，浏览器才能形成渲染树，并开始渲染。<br>两个中任何一个没有构建完毕，其实不会渲染。<br>所以也可以说阻塞渲染的html和阻塞渲染的css。<br>但因为，html是显示的主体，所以一般更多说的是阻塞渲染的css</p>
-<h2 id="js影响关键渲染路径"><a href="#js影响关键渲染路径" class="headerlink" title="js影响关键渲染路径"></a>js影响关键渲染路径</h2><p>js可以读取和修改DOM和CSSOM。<br>浏览器遇到script标记，DOM停止构建，若CSSOM正在下载和构建，则等其下载和构建完毕，执行脚本，执行完之后DOM接着构建。<br>但是script标签有async属性的时候，就可以指示浏览器在等待脚本可用期间不阻止 DOM 构建</p>
-<blockquote>
-<p>参考<a href="http://kiss2.me/2016/02/19/%E6%B7%B1%E5%85%A5%E5%AD%A6%E4%B9%A0%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93%E6%9C%BA%E5%88%B6/" target="_blank" rel="external">kiss2的博客</a><br>谷歌的<a href="https://developers.google.com/web/fundamentals/performance/critical-rendering-path/constructing-the-object-model?hl=zh-cn" target="_blank" rel="external">官方解释</a><br>大漠的<a href="http://www.w3cplus.com/performance/understanding-the-critical-rendering-path.html" target="_blank" rel="external">理解关键的渲染路径</a></p>
+        <blockquote>
+<p>请直接前往<a href="https://cn.vuejs.org/v2/guide/instance.html#实例生命周期" target="_blank" rel="external">官网阅读</a></p>
 </blockquote>
+<a id="more"></a>
+<h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
+<li>class有对象和数组两种语法，其可以和静态类名一起使用，也可以和computed一起使用，对象是知道类名，数组是类名可能自身有所变化。数组里面可以加三目可以加对象<code>v-bind:class=&quot;{active:isActive,&#39;text-danger&#39;:hasError}&quot;  &quot;[isActive,hasError]&quot;</code></li>
+<li>style也是对象和数组两种语法。但是数组是各对象的合并和覆盖<code>v-bind:style=&quot;styleObject&quot;  &quot;[styleObject,styleObject2]&quot;</code></li>
+</ul>
+<h2 id="绑定HTML-class"><a href="#绑定HTML-class" class="headerlink" title="绑定HTML class"></a>绑定HTML class</h2><p>可以用v-bind操作元素的 class 列表和它的内联样式 处理它们。不过，字符串拼接麻烦又易错。为了方便，表达式的结果类型除了字符串之外，还可以是对象或数组。 </p>
+<h3 id="对象语法"><a href="#对象语法" class="headerlink" title="对象语法"></a>对象语法</h3><ul>
+<li>可以传给 v-bind:class 一个对象，以动态地切换 class 。</li>
+<li>也可以在对象中传入更多属性用来动态切换多个 class 。</li>
+<li>此外， v-bind:class 指令可以与普通的 class 属性共存。</li>
+<li>也可以直接绑定数据里的一个对象，v-bind:class=”obj”</li>
+<li><p>在这里绑定返回对象的计算属性，是一个常用且强大的模式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">&lt;div id=&quot;app&quot; v-bind:class=&quot;&#123;active:isActive,&apos;text-danger&apos;:hasError&#125;&quot; v-bind:name=&quot;name&quot; class=&quot;static&quot;&gt;en</div><div class="line">      &lt;div v-bind:class=&quot;classObj&quot;&gt;oo&lt;/div&gt;</div><div class="line">      &lt;div v-bind:class=&quot;classObj2&quot;&gt;oo&lt;/div&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line"></div><div class="line">var app = new Vue(&#123;</div><div class="line">        el:&apos;#app&apos;,</div><div class="line">        data:&#123;</div><div class="line">          isActive:true,</div><div class="line">          hasError:true,</div><div class="line">          name:&quot;看bind&quot;,</div><div class="line">          classObj:&#123;</div><div class="line">            class1:true,</div><div class="line">            class2:true</div><div class="line">          &#125;,</div><div class="line">          class3:true,</div><div class="line">          error:null</div><div class="line">        &#125;,</div><div class="line">        computed:&#123;</div><div class="line">          classObj2:function()&#123;</div><div class="line">            return &#123;</div><div class="line">              class4:this.class3 &amp;&amp; !this.error,</div><div class="line">              &quot;has-error&quot;:this.error &amp;&amp; this.error.type === &apos;fatal&apos;</div><div class="line">            &#125;</div><div class="line">          &#125;</div><div class="line">        &#125;</div><div class="line">      &#125;)</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="数组语法"><a href="#数组语法" class="headerlink" title="数组语法"></a>数组语法</h3><ul>
+<li>把一个数组传给 v-bind:class ，以应用一个 class 列表</li>
+<li>根据条件切换列表中的 class ，可以用三元表达式</li>
+<li><p>当有多个条件 class 时三元表达式有些繁琐。可以在数组语法中使用对象语法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&lt;div v-bind:class=&quot;[activeClass,errorClass,isActive?activeClass1:errorClass,&#123;active3:isActive&#125;]&quot; class=&quot;static&quot;&gt;oo&lt;/div&gt;</div><div class="line"></div><div class="line">data接着加以下属性：</div><div class="line">activeClass:&quot;active&quot;,</div><div class="line">activeClass1:&quot;active1&quot;,</div><div class="line">errorClass:&quot;text-danger1&quot;,</div><div class="line"></div><div class="line">生成：</div><div class="line">&lt;div class=&quot;static active text-danger1 active1 active3&quot;&gt;oo&lt;/div&gt;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="用在组件上"><a href="#用在组件上" class="headerlink" title="用在组件上"></a>用在组件上</h3><p>  当你在一个定制的组件上用到 class 属性的时候，这些类将被添加到根元素上面，这个元素上已经存在的类不会被覆盖。</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">Vue.component(&apos;my-component&apos;, &#123;</div><div class="line">  template: &apos;&lt;p class=&quot;foo bar&quot;&gt;Hi&lt;/p&gt;&apos;</div><div class="line">&#125;)</div><div class="line"></div><div class="line">&lt;my-component class=&quot;baz boo&quot; v-bind:class=&quot;&#123; active: isActive &#125;&quot;&gt;&lt;/my-component&gt;</div><div class="line">生成：</div><div class="line">&lt;p class=&quot;foo bar baz boo active&quot;&gt;Hi&lt;/p&gt;</div></pre></td></tr></table></figure>
+<h2 id="绑定内联样式"><a href="#绑定内联样式" class="headerlink" title="绑定内联样式"></a>绑定内联样式</h2><h3 id="对象语法-1"><a href="#对象语法-1" class="headerlink" title="对象语法"></a>对象语法</h3><p>  v-bind:style 的对象语法十分直观——看着非常像 CSS ，其实它是一个 JavaScript 对象。 CSS 属性名可以用驼峰式（camelCase）或短横分隔命名（kebab-case）。<br>  直接绑定到一个样式对象通常更好，让模板更清晰。<br>  同样，对象语法常常结合返回对象的计算属性使用。</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;div v-bind:style=&quot;&#123; color: activeColor, fontSize: fontSize + &apos;px&apos; &#125;&quot;&gt;&lt;/div&gt;</div><div class="line">&lt;div v-bind:style=&quot;styleObject&quot;&gt;&lt;/div&gt;</div><div class="line">data: &#123;</div><div class="line">  styleObject: &#123;</div><div class="line">    color: &apos;red&apos;,</div><div class="line">    fontSize: &apos;13px&apos;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="数组语法-1"><a href="#数组语法-1" class="headerlink" title="数组语法"></a>数组语法</h3><p>  v-bind:style 的数组语法可以将多个样式对象应用到一个元素上：<br>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;div v-bind:style=&quot;[baseStyles, overridingStyles]&quot;&gt;</div></pre></td></tr></table></figure></p>
+<h3 id="自动添加前缀"><a href="#自动添加前缀" class="headerlink" title="自动添加前缀"></a>自动添加前缀</h3><p>当 v-bind:style 使用需要特定前缀的 CSS 属性时，如 transform ，Vue.js 会自动侦测并添加相应的前缀。</p>
 
       
     </div>
@@ -416,7 +417,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/浏览器渲染/" rel="tag"># 浏览器渲染</a>
+            <a href="/tags/vue/" rel="tag"># vue</a>
           
         </div>
       
@@ -429,8 +430,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/03/18/browserDiffrence/" rel="next" title="主流浏览器内核介绍">
-                <i class="fa fa-chevron-left"></i> 主流浏览器内核介绍
+              <a href="/2017/04/14/DosCommonds/" rel="next" title="常用的DOS命令">
+                <i class="fa fa-chevron-left"></i> 常用的DOS命令
               </a>
             
           </div>
@@ -439,8 +440,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/03/24/bind/" rel="prev" title="深入理解call,apply,bind">
-                深入理解call,apply,bind <i class="fa fa-chevron-right"></i>
+              <a href="/2017/04/21/vueVif6/" rel="prev" title="vue的class与style绑定">
+                vue的class与style绑定 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -467,8 +468,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/03/19/criticalRenderingPath/"
-           data-title="关键渲染路径" data-url="http://yoursite.com/2017/03/19/criticalRenderingPath/">
+      <div class="ds-thread" data-thread-key="2017/04/21/vueClassStyle5/"
+           data-title="vue的class与style绑定" data-url="http://yoursite.com/2017/04/21/vueClassStyle5/">
       </div>
     
   </div>
@@ -574,7 +575,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#TL-DR"><span class="nav-number">1.</span> <span class="nav-text">TL;DR</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文档对象模型-DOM"><span class="nav-number">2.</span> <span class="nav-text">文档对象模型 (DOM)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CSS对象模型（CSSOM）"><span class="nav-number">3.</span> <span class="nav-text">CSS对象模型（CSSOM）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#渲染树的构建、布局和绘制"><span class="nav-number">4.</span> <span class="nav-text">渲染树的构建、布局和绘制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#阻塞渲染的CSS"><span class="nav-number">5.</span> <span class="nav-text">阻塞渲染的CSS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#js影响关键渲染路径"><span class="nav-number">6.</span> <span class="nav-text">js影响关键渲染路径</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#TL-DR"><span class="nav-number">1.</span> <span class="nav-text">TL;DR</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#绑定HTML-class"><span class="nav-number">2.</span> <span class="nav-text">绑定HTML class</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#对象语法"><span class="nav-number">2.1.</span> <span class="nav-text">对象语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数组语法"><span class="nav-number">2.2.</span> <span class="nav-text">数组语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用在组件上"><span class="nav-number">2.3.</span> <span class="nav-text">用在组件上</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#绑定内联样式"><span class="nav-number">3.</span> <span class="nav-text">绑定内联样式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#对象语法-1"><span class="nav-number">3.1.</span> <span class="nav-text">对象语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数组语法-1"><span class="nav-number">3.2.</span> <span class="nav-text">数组语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自动添加前缀"><span class="nav-number">3.3.</span> <span class="nav-text">自动添加前缀</span></a></li></ol></li></ol></div>
             
 
           </div>
