@@ -93,7 +93,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/04/21/vueVif6/index.html">
 <meta property="og:site_name" content="花花的博客">
 <meta property="og:description" content="请直接前往官网阅读">
-<meta property="og:updated_time" content="2017-04-21T08:07:37.265Z">
+<meta property="og:updated_time" content="2017-04-24T01:21:22.958Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="vue的class与style绑定">
 <meta name="twitter:description" content="请直接前往官网阅读">
@@ -375,7 +375,7 @@
 <li>显示和隐藏频繁切换用v-show，状态基本一开始就确定的用v-if</li>
 <li>v-if和v-for同时在一个节点上，先运行v-for,然后逐个v-if，不想这样就用template</li>
 </ul>
-<h2 id="中的-v-if-条件组"><a href="#中的-v-if-条件组" class="headerlink" title="中的 v-if 条件组"></a><template>中的 v-if 条件组</template></h2><p>因为 v-if 是一个指令，需要将它添加到一个元素上。但是如果我们想切换多个元素呢？此时我们可以把一个 <template> 元素当做包装元素，并在上面使用 v-if。最终的渲染结果不会包含 <template> 元素。<br>template单独不能用，只能和<code>v-if</code>配合使用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;template v-if=&quot;ok&quot;&gt;</div><div class="line">  &lt;h1&gt;Title&lt;/h1&gt;</div><div class="line">  &lt;p&gt;Paragraph 1&lt;/p&gt;</div><div class="line">  &lt;p&gt;Paragraph 2&lt;/p&gt;</div><div class="line">&lt;/template&gt;</div></pre></td></tr></table></figure></template></template></p>
+<h2 id="中的-v-if-条件组"><a href="#中的-v-if-条件组" class="headerlink" title="中的 v-if 条件组"></a><template>中的 v-if 条件组</template></h2><p>因为 v-if 是一个指令，需要将它添加到一个元素上。但是如果我们想切换多个元素呢？此时我们可以把一个 <template> 元素当做包装元素，并在上面使用 v-if。最终的渲染结果不会包含 <template> 元素。<br>注意：template单独不能用。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;template v-if=&quot;ok&quot;&gt;</div><div class="line">  &lt;h1&gt;Title&lt;/h1&gt;</div><div class="line">  &lt;p&gt;Paragraph 1&lt;/p&gt;</div><div class="line">  &lt;p&gt;Paragraph 2&lt;/p&gt;</div><div class="line">&lt;/template&gt;</div></pre></td></tr></table></figure></template></template></p>
 <h2 id="v-else"><a href="#v-else" class="headerlink" title="v-else"></a>v-else</h2><p>你可以使用 v-else 指令来表示 v-if 的“else 块”,但v-else 元素必须紧跟在 v-if 或者 v-else-if 元素的后面——否则它将不会被识别：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;div v-if=&quot;Math.random() &gt; 0.5&quot;&gt;</div><div class="line">  Now you see me</div><div class="line">&lt;/div&gt;</div><div class="line">&lt;div v-else&gt;</div><div class="line">  Now you don&apos;t</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure>
 <h2 id="v-else-if"><a href="#v-else-if" class="headerlink" title="v-else-if"></a>v-else-if</h2><p>v-else-if，顾名思义，充当 v-if 的“else-if 块”。可以链式地使用多次：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&lt;div v-if=&quot;type === &apos;A&apos;&quot;&gt;</div><div class="line">  A</div><div class="line">&lt;/div&gt;</div><div class="line">&lt;div v-else-if=&quot;type === &apos;B&apos;&quot;&gt;</div><div class="line">  B</div><div class="line">&lt;/div&gt;</div><div class="line">&lt;div v-else-if=&quot;type === &apos;C&apos;&quot;&gt;</div><div class="line">  C</div><div class="line">&lt;/div&gt;</div><div class="line">&lt;div v-else&gt;</div><div class="line">  Not A/B/C</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure></p>
@@ -438,6 +438,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/04/24/vueVfor7/" rel="prev" title="vue的for">
+                vue的for <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -513,7 +517,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-count">22</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -535,7 +539,7 @@
             
             <div class="site-state-item site-state-tags">
               
-                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-count">16</span>
                 <span class="site-state-item-name">标签</span>
               
             </div>
