@@ -87,22 +87,22 @@
 
 
 
-<meta name="description" content="BEM是什么BEM代表块（Block），元素（Element），修饰符（Modifier）。BEM和OOP是相似的。其是一种用代码和一系列模式来描述现实情况的方法，它只考虑程序实体而无所谓用什么语言我们使用BEM的原则创建了一个前端开发技巧和工具的集合，这样我们就能快速构建一个网站，并且保证他们长久的可维护性。
-统一数据域给页面的每一部分起个名字。
-块（Block）一个块是一个独立的实体，就像应用">
+<meta name="description" content="TL;DR
+bem表示block、element、modifier。
+块是独立的，可以随意挪动和嵌套。每个块有自己的html、css、js以及图片和文档">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用BEM">
 <meta property="og:url" content="http://yoursite.com/2017/05/08/bem/index.html">
 <meta property="og:site_name" content="花花的博客">
-<meta property="og:description" content="BEM是什么BEM代表块（Block），元素（Element），修饰符（Modifier）。BEM和OOP是相似的。其是一种用代码和一系列模式来描述现实情况的方法，它只考虑程序实体而无所谓用什么语言我们使用BEM的原则创建了一个前端开发技巧和工具的集合，这样我们就能快速构建一个网站，并且保证他们长久的可维护性。
-统一数据域给页面的每一部分起个名字。
-块（Block）一个块是一个独立的实体，就像应用">
-<meta property="og:updated_time" content="2017-05-08T01:56:07.607Z">
+<meta property="og:description" content="TL;DR
+bem表示block、element、modifier。
+块是独立的，可以随意挪动和嵌套。每个块有自己的html、css、js以及图片和文档">
+<meta property="og:updated_time" content="2017-05-09T05:55:25.552Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用BEM">
-<meta name="twitter:description" content="BEM是什么BEM代表块（Block），元素（Element），修饰符（Modifier）。BEM和OOP是相似的。其是一种用代码和一系列模式来描述现实情况的方法，它只考虑程序实体而无所谓用什么语言我们使用BEM的原则创建了一个前端开发技巧和工具的集合，这样我们就能快速构建一个网站，并且保证他们长久的可维护性。
-统一数据域给页面的每一部分起个名字。
-块（Block）一个块是一个独立的实体，就像应用">
+<meta name="twitter:description" content="TL;DR
+bem表示block、element、modifier。
+块是独立的，可以随意挪动和嵌套。每个块有自己的html、css、js以及图片和文档">
 
 
 
@@ -369,10 +369,18 @@
       
 
       
-        <h2 id="BEM是什么"><a href="#BEM是什么" class="headerlink" title="BEM是什么"></a>BEM是什么</h2><p>BEM代表块（Block），元素（Element），修饰符（Modifier）。BEM和OOP是相似的。其是一种用代码和一系列模式来描述现实情况的方法，它只考虑程序实体而无所谓用什么语言<br>我们使用BEM的原则创建了一个前端开发技巧和工具的集合，这样我们就能快速构建一个网站，并且保证他们长久的可维护性。</p>
-<h2 id="统一数据域"><a href="#统一数据域" class="headerlink" title="统一数据域"></a>统一数据域</h2><p>给页面的每一部分起个名字。</p>
-<h2 id="块（Block）"><a href="#块（Block）" class="headerlink" title="块（Block）"></a>块（Block）</h2><p>一个块是一个独立的实体，就像应用的一块“积木”。任意放在任何的位置，也能嵌套在其他块里。</p>
-<h2 id="元素（Element）"><a href="#元素（Element）" class="headerlink" title="元素（Element）"></a>元素（Element）</h2><p>一个元素是他们应该属于块的一部分，具有某种功能。元素是依赖上下文的：它们只有处于块的上下文中时才有意义。</p>
+        <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ol>
+<li>bem表示block、element、modifier。</li>
+<li>块是独立的，可以随意挪动和嵌套。每个块有自己的html、css、js以及图片和文档<a id="more"></a></li>
+<li>元素是block的组成部分，不能脱离block的上下文。</li>
+<li>修饰符作为一个块或元素的一种属性，代表这个块或元素在外观或行为上的改变。</li>
+<li>用BEM树描述页面。</li>
+<li>常用的bem命名<code>.blockName__elementName-modifierName {  }</code></li>
+<li>用sass写bem命名<code>.blockName {&amp;__elementName{&amp;-modifierName{...}} }</code></li>
+<li>原子类可以和块配合使用，但不轻易用在元素上</li>
+<li>状态一般可以用通用类名如is-active，<code>.blockName.is-active{display:block}</code></li>
+</ol>
+<h2 id="BEM是什么"><a href="#BEM是什么" class="headerlink" title="BEM是什么"></a>BEM是什么</h2><p>BEM代表块（Block），元素（Element），修饰符（Modifier）。BEM和OOP是相似的。其是一种用代码和一系列模式来描述现实情况的方法，它只考虑程序实体而无所谓用什么语言<br>我们使用BEM的原则创建了一个前端开发技巧和工具的集合，这样我们就能快速构建一个网站，并且保证他们长久的可维护性。<br>一个块是一个独立的实体，就像应用的一块“积木”。任意放在任何的位置，也能嵌套在其他块里。<br>一个元素是他们应该属于块的一部分，具有某种功能。元素是依赖上下文的：它们只有处于块的上下文中时才有意义。</p>
 <h2 id="描述页面和模板的意义"><a href="#描述页面和模板的意义" class="headerlink" title="描述页面和模板的意义"></a>描述页面和模板的意义</h2><p>块和元素构成页面的内容。它们不仅仅是被呈现在一个页面上，它们的排列顺序也同样重要.<br>块（元素）彼此之间可能遵循着某种顺序。</p>
 <p>每个块和元素都应该有一个可以识别的关键字，也就是名字</p>
 <p>一个项目中块名是唯一的。块范围内的一种元素的名字也是唯一的。但可以多次出现。</p>
@@ -397,7 +405,7 @@
 <p>块和元素的CSS类命名约定可能在一段时间内发生改变。如果命名约定改变了，只需要修改那些要访问块和元素，以及可能处理它们的修饰符的方法（function）。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">block(&apos;menu&apos;).elem(&apos;item&apos;).click( … ); block(&apos;menu&apos;).elem(&apos;item&apos;).setMod(&apos;state&apos;, &apos;current&apos;); block(&apos;menu&apos;).toggleMod(&apos;size&apos;, &apos;big&apos;, &apos;small&apos;);</div></pre></td></tr></table></figure>
 <h2 id="BEM的命名"><a href="#BEM的命名" class="headerlink" title="BEM的命名"></a>BEM的命名</h2><p>一个块有其html css js甚至图片和文档。<br>BEM的命名规矩大概就是分清b/e/m,我们只需保留BEM的思想，其命名规范可以任意变通。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">.block-name__element-name--modifier-name&#123;/*...*/&#125;</div><div class="line">.blockName-elementName--modifierName &#123; /* ... */ &#125;</div><div class="line">.blockName__elementName-modifierName &#123; /* ... */ &#125;</div></pre></td></tr></table></figure></p>
-<h3 id="bem命名过长"><a href="#bem命名过长" class="headerlink" title="bem命名过长"></a>bem命名过长</h3><p>对于命名过长的问题，服务器端有gzip且编辑器一般会提示。</p>
+<p>对于命名过长的问题，服务器端有gzip且编辑器一般会提示。</p>
 <h3 id="控制状态"><a href="#控制状态" class="headerlink" title="控制状态"></a>控制状态</h3><p>我们应该统一js控制状态的类名格式，比如is-active、js-active等等，这些类名只用作标识，不予许有默认的公共样式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">.block__element &#123;</div><div class="line">    display: none;</div><div class="line">&#125;</div><div class="line"></div><div class="line">.block__element.is-active &#123;</div><div class="line">    display: block;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <h2 id="原子类和BEM"><a href="#原子类和BEM" class="headerlink" title="原子类和BEM"></a>原子类和BEM</h2><p>在组件开发中其实不推荐使用原子类。<br>原子类更适合应用在实际页面中，这是因为页面变动大而且不可复用。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;div class=&quot;header clearfix&quot;&gt;</div><div class="line">    &lt;div class=&quot;logo pull-left&quot;&gt;&lt;!-- ... --&gt;&lt;/div&gt;</div><div class="line">    &lt;div class=&quot;user-panel pull-left&quot;&gt;&lt;!-- ... --&gt;&lt;/div&gt;</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure>
@@ -446,8 +454,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/04/24/vueVfor7/" rel="next" title="vue的for">
-                <i class="fa fa-chevron-left"></i> vue的for
+              <a href="/2017/04/24/vueVfor7/" rel="next" title="vue的列表渲染">
+                <i class="fa fa-chevron-left"></i> vue的列表渲染
               </a>
             
           </div>
@@ -455,6 +463,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/05/09/vueVon8/" rel="prev" title="vue的事件处理器">
+                vue的事件处理器 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -530,7 +542,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-count">23</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -587,7 +599,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#BEM是什么"><span class="nav-number">1.</span> <span class="nav-text">BEM是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#统一数据域"><span class="nav-number">2.</span> <span class="nav-text">统一数据域</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#块（Block）"><span class="nav-number">3.</span> <span class="nav-text">块（Block）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#元素（Element）"><span class="nav-number">4.</span> <span class="nav-text">元素（Element）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#描述页面和模板的意义"><span class="nav-number">5.</span> <span class="nav-text">描述页面和模板的意义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为独立的css类命名"><span class="nav-number">6.</span> <span class="nav-text">为独立的css类命名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#独立块模板"><span class="nav-number">7.</span> <span class="nav-text">独立块模板</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#块修饰符"><span class="nav-number">8.</span> <span class="nav-text">块修饰符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#从输入数据的角度看修饰符"><span class="nav-number">9.</span> <span class="nav-text">从输入数据的角度看修饰符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#从html和css角度看修饰符"><span class="nav-number">10.</span> <span class="nav-text">从html和css角度看修饰符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#元素修饰符"><span class="nav-number">11.</span> <span class="nav-text">元素修饰符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主题抽象"><span class="nav-number">12.</span> <span class="nav-text">主题抽象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BEM的命名"><span class="nav-number">13.</span> <span class="nav-text">BEM的命名</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#bem命名过长"><span class="nav-number">13.1.</span> <span class="nav-text">bem命名过长</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#控制状态"><span class="nav-number">13.2.</span> <span class="nav-text">控制状态</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原子类和BEM"><span class="nav-number">14.</span> <span class="nav-text">原子类和BEM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实际页面也可以使用BEM命名"><span class="nav-number">15.</span> <span class="nav-text">实际页面也可以使用BEM命名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在sass中写bem用-amp"><span class="nav-number">16.</span> <span class="nav-text">在sass中写bem用&</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#TL-DR"><span class="nav-number">1.</span> <span class="nav-text">TL;DR</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BEM是什么"><span class="nav-number">2.</span> <span class="nav-text">BEM是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#描述页面和模板的意义"><span class="nav-number">3.</span> <span class="nav-text">描述页面和模板的意义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为独立的css类命名"><span class="nav-number">4.</span> <span class="nav-text">为独立的css类命名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#独立块模板"><span class="nav-number">5.</span> <span class="nav-text">独立块模板</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#块修饰符"><span class="nav-number">6.</span> <span class="nav-text">块修饰符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#从输入数据的角度看修饰符"><span class="nav-number">7.</span> <span class="nav-text">从输入数据的角度看修饰符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#从html和css角度看修饰符"><span class="nav-number">8.</span> <span class="nav-text">从html和css角度看修饰符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#元素修饰符"><span class="nav-number">9.</span> <span class="nav-text">元素修饰符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主题抽象"><span class="nav-number">10.</span> <span class="nav-text">主题抽象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BEM的命名"><span class="nav-number">11.</span> <span class="nav-text">BEM的命名</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#控制状态"><span class="nav-number">11.1.</span> <span class="nav-text">控制状态</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原子类和BEM"><span class="nav-number">12.</span> <span class="nav-text">原子类和BEM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实际页面也可以使用BEM命名"><span class="nav-number">13.</span> <span class="nav-text">实际页面也可以使用BEM命名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在sass中写bem用-amp"><span class="nav-number">14.</span> <span class="nav-text">在sass中写bem用&</span></a></li></ol></div>
             
 
           </div>

@@ -87,16 +87,22 @@
 
 
 
-<meta name="description" content="请直接前往官网阅读">
+<meta name="description" content="请直接前往官网阅读
+
+我们用 v-for 指令根据一组数组的选项列表进行渲染。 v-for 指令需要以 item in items 形式的特殊语法， items 是源数据数组并且 item 是数组元素迭代的别名。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="vue的for">
+<meta property="og:title" content="vue的列表渲染">
 <meta property="og:url" content="http://yoursite.com/2017/04/24/vueVfor7/index.html">
 <meta property="og:site_name" content="花花的博客">
-<meta property="og:description" content="请直接前往官网阅读">
-<meta property="og:updated_time" content="2017-05-08T01:51:42.673Z">
+<meta property="og:description" content="请直接前往官网阅读
+
+我们用 v-for 指令根据一组数组的选项列表进行渲染。 v-for 指令需要以 item in items 形式的特殊语法， items 是源数据数组并且 item 是数组元素迭代的别名。">
+<meta property="og:updated_time" content="2017-05-09T08:21:02.812Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="vue的for">
-<meta name="twitter:description" content="请直接前往官网阅读">
+<meta name="twitter:title" content="vue的列表渲染">
+<meta name="twitter:description" content="请直接前往官网阅读
+
+我们用 v-for 指令根据一组数组的选项列表进行渲染。 v-for 指令需要以 item in items 形式的特殊语法， items 是源数据数组并且 item 是数组元素迭代的别名。">
 
 
 
@@ -130,7 +136,7 @@
 
 
 
-  <title> vue的for | 花花的博客 </title>
+  <title> vue的列表渲染 | 花花的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -280,7 +286,7 @@
             
             
               
-                vue的for
+                vue的列表渲染
               
             
           </h2>
@@ -364,11 +370,50 @@
 
       
         <blockquote>
-<p>请直接前往<a href="https://cn.vuejs.org/v2/guide/instance.html#实例生命周期" target="_blank" rel="external">官网阅读</a></p>
+<p>请直接前往<a href="https://cn.vuejs.org/v2/guide/list.html" target="_blank" rel="external">官网阅读</a></p>
 </blockquote>
-<a id="more"></a>
-<h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><p>我们用 v-for 指令根据一组数组的选项列表进行渲染。 v-for 指令需要以 item in items 形式的特殊语法， items 是源数据数组并且 item 是数组元素迭代的别名。</p>
-<h2 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h2>
+<p>我们用 v-for 指令根据一组数组的选项列表进行渲染。 v-for 指令需要以 item in items 形式的特殊语法， items 是源数据数组并且 item 是数组元素迭代的别名。<br><a id="more"></a></p>
+<h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
+<li>用于数组,index是可选项：<code>v-for=&quot;(item,index) in items&quot;</code></li>
+<li>用于对象,key,index是可选项：<code>v-for=&quot;(value,key,index) in obj&quot;</code>,顺序和Object.keys一致</li>
+<li>v-for可以用于整数迭代：<code>v-for = &quot;n in 5&quot;</code></li>
+<li>v-for和v-if同时使用的情况</li>
+<li>数组的变异和重塑</li>
+<li>数组的index设值和length截断数组失效，用splice解决</li>
+<li>重新显示排序后的数组，用computed和methods</li>
+</ul>
+<h2 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h2><p><code>v-for=&quot;item in items&quot;</code><br>其中in可以换成of。<br>v-for 支持一个可选的第二个参数为当前项的索引。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&lt;ul id=&quot;example-1&quot;&gt;</div><div class="line">  &lt;li v-for=&quot;(item,index) in items&quot;&gt;</div><div class="line">    &#123;&#123; item.message &#125;&#125; - &#123;&#123;index&#125;&#125;</div><div class="line">  &lt;/li&gt;</div><div class="line">&lt;/ul&gt;</div><div class="line">var example1 = new Vue(&#123;</div><div class="line">  el: &apos;#example-1&apos;,</div><div class="line">  data: &#123;</div><div class="line">    items: [</div><div class="line">      &#123;message: &apos;Foo&apos; &#125;,</div><div class="line">      &#123;message: &apos;Bar&apos; &#125;</div><div class="line">    ]</div><div class="line">  &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<h2 id="Template-v-for"><a href="#Template-v-for" class="headerlink" title="Template v-for"></a>Template v-for</h2><p>如同 v-if 模板，你也可以用带有 v-for 的 <template> 标签来渲染多个元素块。例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;ul id=&quot;example-1&quot; v-if=&quot;isShow&quot;&gt;</div><div class="line">  &lt;li v-for=&quot;(item,index) in items&quot;&gt;</div><div class="line">    &#123;&#123; item.message &#125;&#125; - &#123;&#123;index&#125;&#125;</div><div class="line">  &lt;/li&gt;</div><div class="line">&lt;/ul&gt;</div></pre></td></tr></table></figure></template></p>
+<h2 id="对象的迭代"><a href="#对象的迭代" class="headerlink" title="对象的迭代"></a>对象的迭代</h2><p>v-for不止可以用于数组还可以用于对象，可选的参数还有key和index。<br>在遍历对象时，是按 Object.keys() 的结果遍历，但是不能保证它的结果在不同的 JavaScript 引擎下是一致的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;div v-for=&quot;(value, key, index) in object&quot;&gt;</div><div class="line">  &#123;&#123; index &#125;&#125;. &#123;&#123; key &#125;&#125; : &#123;&#123; value &#125;&#125;</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure></p>
+<h2 id="整数迭代"><a href="#整数迭代" class="headerlink" title="整数迭代"></a>整数迭代</h2><p>v-for 也可以取整数。在这种情况下，它将重复多次模板。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;span v-for=&quot;n in 10&quot;&gt;&#123;&#123; n &#125;&#125;&lt;/span&gt;</div></pre></td></tr></table></figure></p>
+<h2 id="v-for-和-v-if"><a href="#v-for-和-v-if" class="headerlink" title="v-for 和 v-if"></a>v-for 和 v-if</h2><p>v-for 和 v-if存在于同一个节点时，v-for的优先级更高</p>
+<h2 id="key"><a href="#key" class="headerlink" title="key"></a>key</h2><p>当 Vue.js 用 v-for 正在更新已渲染过的元素列表时，它默认用 “就地复用” 策略。如果数据项的顺序被改变，Vue将不是移动 DOM 元素来匹配数据项的顺序， 而是简单复用此处每个元素，并且确保它在特定索引下显示已被渲染过的每个元素。这个类似 Vue 1.x 的 track-by=”$index” 。<br>这个默认的模式是有效的，但是只适用于不依赖子组件状态或临时 DOM 状态（例如：表单输入值）的列表渲染输出。<br>为了给 Vue 一个提示，以便它能跟踪每个节点的身份，从而重用和重新排序现有元素，你需要为每项提供一个唯一 key 属性。理想的 key 值是每项都有唯一 id。这个特殊的属性相当于 Vue 1.x 的 track-by ，但它的工作方式类似于一个属性，所以你需要用 v-bind 来绑定动态值（在这里使用简写）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;div v-for=&quot;item in items&quot; :key=&quot;item.id&quot;&gt;</div><div class="line">  &lt;!-- 内容 --&gt;</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure></p>
+<p>建议尽可能使用 v-for 来提供 key ，除非迭代 DOM 内容足够简单，或者你是故意要依赖于默认行为来获得性能提升。<br>因为它是 Vue 识别节点的一个通用机制， key 并不特别与 v-for 关联，key 还具有其他用途，我们将在后面的指南中看到其他用途。</p>
+<h2 id="数组更新检测"><a href="#数组更新检测" class="headerlink" title="数组更新检测"></a>数组更新检测</h2><h3 id="变异方法"><a href="#变异方法" class="headerlink" title="变异方法"></a>变异方法</h3><p>Vue 包含一组观察数组的变异方法，所以它们也将会触发视图更新。这些方法如下：</p>
+<ul>
+<li>push()</li>
+<li>pop()</li>
+<li>shift()</li>
+<li>unshift()</li>
+<li>splice()</li>
+<li>sort()</li>
+<li>reverse()<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">example1.items.push(&#123; message: &apos;Baz&apos; &#125;)</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="重塑方法"><a href="#重塑方法" class="headerlink" title="重塑方法"></a>重塑方法</h3><p>变异方法(mutation method)，顾名思义，会改变被这些方法调用的原始数组。相比之下，也有非变异(non-mutating method)方法，例如： filter(), concat(), slice() 。这些不会改变原始数组，但总是返回一个新数组。当使用非变异方法时，可以用新数组替换旧数组：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">example1.items = example1.items.filter(function (item) &#123;</div><div class="line">  return item.message.match(/Foo/)</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+<p>你可能认为这将导致 Vue 丢弃现有 DOM 并重新渲染整个列表。幸运的是，事实并非如此。 Vue 实现了一些智能启发式方法来最大化 DOM 元素重用，所以用一个含有相同元素的数组去替换原来的数组是非常高效的操作。</p>
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><p>由于 JavaScript 的限制， Vue 不能检测以下变动的数组：</p>
+<ul>
+<li>当你利用索引直接设置一个项时，例如： <code>vm.items[indexOfItem] = newValue</code></li>
+<li>当你修改数组的长度时，例如： <code>vm.items.length = newLength</code><br>为了解决第一类问题，以下两种方式都可以实现和 vm.items[indexOfItem] = newValue 相同的效果， 同时也将触发状态更新：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">// Vue.set</div><div class="line">Vue.set(example1.items, indexOfItem, newValue)</div><div class="line">// Array.prototype.splice`</div><div class="line">example1.items.splice(indexOfItem, 1, newValue)</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>为了解决第二类问题，你也同样可以使用 splice：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">example1.items.splice(newLength)</div></pre></td></tr></table></figure></p>
+<h2 id="显示过滤和排序结果"><a href="#显示过滤和排序结果" class="headerlink" title="显示过滤和排序结果"></a>显示过滤和排序结果</h2><h3 id="computed属性"><a href="#computed属性" class="headerlink" title="computed属性"></a>computed属性</h3><p>有时，我们想要显示一个数组的过滤或排序副本，而不实际改变或重置原始数据。在这种情况下，可以创建返回过滤或排序数组的计算属性。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&lt;li v-for=&quot;n in evenNumbers&quot;&gt;&#123;&#123; n &#125;&#125;&lt;/li&gt;</div><div class="line">data: &#123;</div><div class="line">  numbers: [ 1, 2, 3, 4, 5 ]</div><div class="line">&#125;,</div><div class="line">computed: &#123;</div><div class="line">  evenNumbers: function () &#123;</div><div class="line">    return this.numbers.filter(function (number) &#123;</div><div class="line">      return number % 2 === 0</div><div class="line">    &#125;)</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="method属性"><a href="#method属性" class="headerlink" title="method属性"></a>method属性</h3><p>或者，你也可以在计算属性不适用的情况下 (例如，在嵌套 v-for 循环中) 使用 method 方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&lt;li v-for=&quot;n in even(numbers)&quot;&gt;&#123;&#123; n &#125;&#125;&lt;/li&gt;</div><div class="line">data: &#123;</div><div class="line">  numbers: [ 1, 2, 3, 4, 5 ]</div><div class="line">&#125;,</div><div class="line">methods: &#123;</div><div class="line">  even: function (numbers) &#123;</div><div class="line">    return numbers.filter(function (number) &#123;</div><div class="line">      return number % 2 === 0</div><div class="line">    &#125;)</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><a href="https://codepen.io/frontzhm/pen/JNMZyq?editors=1010" target="_blank" rel="external">查看demo</a></p>
+
       
     </div>
 
@@ -443,7 +488,7 @@
   <div class="comments" id="comments">
     
       <div class="ds-thread" data-thread-key="2017/04/24/vueVfor7/"
-           data-title="vue的for" data-url="http://yoursite.com/2017/04/24/vueVfor7/">
+           data-title="vue的列表渲染" data-url="http://yoursite.com/2017/04/24/vueVfor7/">
       </div>
     
   </div>
@@ -492,7 +537,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-count">23</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -549,7 +594,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#TL-DR"><span class="nav-number">1.</span> <span class="nav-text">TL;DR</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本用法"><span class="nav-number">2.</span> <span class="nav-text">基本用法</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#TL-DR"><span class="nav-number">1.</span> <span class="nav-text">TL;DR</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本用法"><span class="nav-number">2.</span> <span class="nav-text">基本用法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Template-v-for"><span class="nav-number">3.</span> <span class="nav-text">Template v-for</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对象的迭代"><span class="nav-number">4.</span> <span class="nav-text">对象的迭代</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#整数迭代"><span class="nav-number">5.</span> <span class="nav-text">整数迭代</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#v-for-和-v-if"><span class="nav-number">6.</span> <span class="nav-text">v-for 和 v-if</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#key"><span class="nav-number">7.</span> <span class="nav-text">key</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数组更新检测"><span class="nav-number">8.</span> <span class="nav-text">数组更新检测</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#变异方法"><span class="nav-number">8.1.</span> <span class="nav-text">变异方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重塑方法"><span class="nav-number">8.2.</span> <span class="nav-text">重塑方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注意事项"><span class="nav-number">9.</span> <span class="nav-text">注意事项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#显示过滤和排序结果"><span class="nav-number">10.</span> <span class="nav-text">显示过滤和排序结果</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#computed属性"><span class="nav-number">10.1.</span> <span class="nav-text">computed属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#method属性"><span class="nav-number">10.2.</span> <span class="nav-text">method属性</span></a></li></ol></li></ol></div>
             
 
           </div>
