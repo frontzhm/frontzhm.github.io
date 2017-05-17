@@ -87,16 +87,28 @@
 
 
 
-<meta name="description" content="请直接前往官网阅读">
+<meta name="description" content="TL;DR
+直接写js代码：v-on:click=”counter += 1”
+方法事件处理器：v-on:click=”greet”
+内联处理器，需要event的时候必须传$event：v-on:click=”greet(param,$event)”，需要注意的是内联处理器必须是appvue实例里声明的方法
+事件修饰符：v-on:click.stop.prevent.once.self.captu">
 <meta property="og:type" content="article">
 <meta property="og:title" content="vue的事件处理器">
 <meta property="og:url" content="http://yoursite.com/2017/05/09/vueVon8/index.html">
 <meta property="og:site_name" content="花花的博客">
-<meta property="og:description" content="请直接前往官网阅读">
-<meta property="og:updated_time" content="2017-05-09T10:14:07.402Z">
+<meta property="og:description" content="TL;DR
+直接写js代码：v-on:click=”counter += 1”
+方法事件处理器：v-on:click=”greet”
+内联处理器，需要event的时候必须传$event：v-on:click=”greet(param,$event)”，需要注意的是内联处理器必须是appvue实例里声明的方法
+事件修饰符：v-on:click.stop.prevent.once.self.captu">
+<meta property="og:updated_time" content="2017-05-17T01:16:28.053Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="vue的事件处理器">
-<meta name="twitter:description" content="请直接前往官网阅读">
+<meta name="twitter:description" content="TL;DR
+直接写js代码：v-on:click=”counter += 1”
+方法事件处理器：v-on:click=”greet”
+内联处理器，需要event的时候必须传$event：v-on:click=”greet(param,$event)”，需要注意的是内联处理器必须是appvue实例里声明的方法
+事件修饰符：v-on:click.stop.prevent.once.self.captu">
 
 
 
@@ -363,18 +375,18 @@
       
 
       
-        <blockquote>
-<p>请直接前往<a href="https://cn.vuejs.org/v2/guide/events.html" target="_blank" rel="external">官网阅读</a></p>
-</blockquote>
-<a id="more"></a>
-<h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
+        <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
 <li>直接写js代码：v-on:click=”counter += 1”</li>
 <li>方法事件处理器：v-on:click=”greet”</li>
 <li>内联处理器，需要event的时候必须传$event：v-on:click=”greet(param,$event)”，需要注意的是内联处理器必须是appvue实例里声明的方法</li>
 <li>事件修饰符：v-on:click.stop.prevent.once.self.capture=”greet”</li>
 <li>按键修饰符：v-on:keyup.enter.left.right=”greet”</li>
-<li>事件处理器的好处：一目了然，不需要找选择器，不需要时会自动销毁</li>
+<li>事件处理器的好处：一目了然，不需要找选择器，不需要时会自动销毁<a id="more"></a>
+</li>
 </ul>
+<blockquote>
+<p>请直接前往<a href="https://cn.vuejs.org/v2/guide/events.html" target="_blank" rel="external">官网阅读</a></p>
+</blockquote>
 <h2 id="监听事件"><a href="#监听事件" class="headerlink" title="监听事件"></a>监听事件</h2><p>可以用 v-on 指令监听 DOM 事件来触发一些 JavaScript 代码。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&lt;div id=&quot;example-1&quot;&gt;</div><div class="line">  &lt;button v-on:click=&quot;counter += 1&quot;&gt;增加 1&lt;/button&gt;</div><div class="line">  &lt;p&gt;这个按钮被点击了 &#123;&#123; counter &#125;&#125; 次。&lt;/p&gt;</div><div class="line">&lt;/div&gt;</div><div class="line">var example1 = new Vue(&#123;</div><div class="line">  el: &apos;#example-1&apos;,</div><div class="line">  data: &#123;</div><div class="line">    counter: 0</div><div class="line">  &#125;</div></pre></td></tr></table></figure></p>
 <h2 id="方法事件处理器"><a href="#方法事件处理器" class="headerlink" title="方法事件处理器"></a>方法事件处理器</h2><p>许多事件处理的逻辑都很复杂，所以直接把 JavaScript 代码写在 v-on 指令中是不可行的。因此 v-on 可以接收一个定义的方法来调用。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">&lt;div id=&quot;example-2&quot;&gt;</div><div class="line">  &lt;!-- `greet` 是在下面定义的方法名 --&gt;</div><div class="line">  &lt;button v-on:click=&quot;greet&quot;&gt;Greet&lt;/button&gt;</div><div class="line">&lt;/div&gt;</div><div class="line">var example2 = new Vue(&#123;</div><div class="line">  el: &apos;#example-2&apos;,</div><div class="line">  data: &#123;</div><div class="line">    name: &apos;Vue.js&apos;</div><div class="line">  &#125;,</div><div class="line">  // 在 `methods` 对象中定义方法</div><div class="line">  methods: &#123;</div><div class="line">    greet: function (event) &#123;</div><div class="line">      // `this` 在方法里指当前 Vue 实例</div><div class="line">      alert(&apos;Hello &apos; + this.name + &apos;!&apos;)</div><div class="line">      // `event` 是原生 DOM 事件</div><div class="line">      alert(event.target.tagName)</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;)</div><div class="line">// 也可以用 JavaScript 直接调用方法</div><div class="line">example2.greet() // -&gt; &apos;Hello Vue.js!&apos;</div></pre></td></tr></table></figure></p>
 <h2 id="内联处理器方法"><a href="#内联处理器方法" class="headerlink" title="内联处理器方法"></a>内联处理器方法</h2><p>除了直接绑定到一个方法，也可以用内联 JavaScript 语句：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&lt;div id=&quot;example-3&quot;&gt;</div><div class="line">  &lt;button v-on:click=&quot;say(&apos;hi&apos;)&quot;&gt;Say hi&lt;/button&gt;</div><div class="line">  &lt;button v-on:click=&quot;say(&apos;what&apos;)&quot;&gt;Say what&lt;/button&gt;</div><div class="line">&lt;/div&gt;</div><div class="line">new Vue(&#123;</div><div class="line">  el: &apos;#example-3&apos;,</div><div class="line">  methods: &#123;</div><div class="line">    say: function (message) &#123;</div><div class="line">      alert(message)</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>

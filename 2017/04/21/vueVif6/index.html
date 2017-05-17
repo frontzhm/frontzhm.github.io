@@ -87,16 +87,34 @@
 
 
 
-<meta name="description" content="请直接前往官网阅读">
+<meta name="description" content="TL;DR
+v-if可以和template配合使用，让一段html移除或者增加
+v-if可以和v-else-if/v-else配合使用，但后者需要紧随其后
+template涉及到复用的问题，不需要的话用key
+v-show表示显示和隐藏，不能和template v-else使用
+显示和隐藏频繁切换用v-show，状态基本一开始就确定的用v-if
+v-if和v-for同时在一个节点上，先运行v-fo">
 <meta property="og:type" content="article">
 <meta property="og:title" content="vue的class与style绑定">
 <meta property="og:url" content="http://yoursite.com/2017/04/21/vueVif6/index.html">
 <meta property="og:site_name" content="花花的博客">
-<meta property="og:description" content="请直接前往官网阅读">
-<meta property="og:updated_time" content="2017-04-24T01:21:22.958Z">
+<meta property="og:description" content="TL;DR
+v-if可以和template配合使用，让一段html移除或者增加
+v-if可以和v-else-if/v-else配合使用，但后者需要紧随其后
+template涉及到复用的问题，不需要的话用key
+v-show表示显示和隐藏，不能和template v-else使用
+显示和隐藏频繁切换用v-show，状态基本一开始就确定的用v-if
+v-if和v-for同时在一个节点上，先运行v-fo">
+<meta property="og:updated_time" content="2017-05-17T01:16:37.258Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="vue的class与style绑定">
-<meta name="twitter:description" content="请直接前往官网阅读">
+<meta name="twitter:description" content="TL;DR
+v-if可以和template配合使用，让一段html移除或者增加
+v-if可以和v-else-if/v-else配合使用，但后者需要紧随其后
+template涉及到复用的问题，不需要的话用key
+v-show表示显示和隐藏，不能和template v-else使用
+显示和隐藏频繁切换用v-show，状态基本一开始就确定的用v-if
+v-if和v-for同时在一个节点上，先运行v-fo">
 
 
 
@@ -363,11 +381,7 @@
       
 
       
-        <blockquote>
-<p>请直接前往<a href="https://cn.vuejs.org/v2/guide/instance.html#实例生命周期" target="_blank" rel="external">官网阅读</a></p>
-</blockquote>
-<a id="more"></a>
-<h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
+        <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
 <li>v-if可以和template配合使用，让一段html移除或者增加</li>
 <li>v-if可以和v-else-if/v-else配合使用，但后者需要紧随其后</li>
 <li>template涉及到复用的问题，不需要的话用key</li>
@@ -375,6 +389,10 @@
 <li>显示和隐藏频繁切换用v-show，状态基本一开始就确定的用v-if</li>
 <li>v-if和v-for同时在一个节点上，先运行v-for,然后逐个v-if，不想这样就用template</li>
 </ul>
+<a id="more"></a>
+<blockquote>
+<p>请直接前往<a href="https://cn.vuejs.org/v2/guide/instance.html#实例生命周期" target="_blank" rel="external">官网阅读</a></p>
+</blockquote>
 <h2 id="中的-v-if-条件组"><a href="#中的-v-if-条件组" class="headerlink" title="中的 v-if 条件组"></a><template>中的 v-if 条件组</template></h2><p>因为 v-if 是一个指令，需要将它添加到一个元素上。但是如果我们想切换多个元素呢？此时我们可以把一个 <template> 元素当做包装元素，并在上面使用 v-if。最终的渲染结果不会包含 <template> 元素。<br>注意：template单独不能用。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;template v-if=&quot;ok&quot;&gt;</div><div class="line">  &lt;h1&gt;Title&lt;/h1&gt;</div><div class="line">  &lt;p&gt;Paragraph 1&lt;/p&gt;</div><div class="line">  &lt;p&gt;Paragraph 2&lt;/p&gt;</div><div class="line">&lt;/template&gt;</div></pre></td></tr></table></figure></template></template></p>
 <h2 id="v-else"><a href="#v-else" class="headerlink" title="v-else"></a>v-else</h2><p>你可以使用 v-else 指令来表示 v-if 的“else 块”,但v-else 元素必须紧跟在 v-if 或者 v-else-if 元素的后面——否则它将不会被识别：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;div v-if=&quot;Math.random() &gt; 0.5&quot;&gt;</div><div class="line">  Now you see me</div><div class="line">&lt;/div&gt;</div><div class="line">&lt;div v-else&gt;</div><div class="line">  Now you don&apos;t</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure>

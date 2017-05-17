@@ -87,22 +87,25 @@
 
 
 
-<meta name="description" content="请直接前往官网阅读
-
-我们用 v-for 指令根据一组数组的选项列表进行渲染。 v-for 指令需要以 item in items 形式的特殊语法， items 是源数据数组并且 item 是数组元素迭代的别名。">
+<meta name="description" content="我们用 v-for 指令根据一组数组的选项列表进行渲染。 v-for 指令需要以 item in items 形式的特殊语法， items 是源数据数组并且 item 是数组元素迭代的别名。
+TL;DR
+用于数组,index是可选项：v-for=&amp;quot;(item,index) in items&amp;quot;
+用于对象,key,index是可选项：v-for=&amp;quot;(value,key,i">
 <meta property="og:type" content="article">
 <meta property="og:title" content="vue的列表渲染">
 <meta property="og:url" content="http://yoursite.com/2017/04/24/vueVfor7/index.html">
 <meta property="og:site_name" content="花花的博客">
-<meta property="og:description" content="请直接前往官网阅读
-
-我们用 v-for 指令根据一组数组的选项列表进行渲染。 v-for 指令需要以 item in items 形式的特殊语法， items 是源数据数组并且 item 是数组元素迭代的别名。">
-<meta property="og:updated_time" content="2017-05-09T08:21:02.812Z">
+<meta property="og:description" content="我们用 v-for 指令根据一组数组的选项列表进行渲染。 v-for 指令需要以 item in items 形式的特殊语法， items 是源数据数组并且 item 是数组元素迭代的别名。
+TL;DR
+用于数组,index是可选项：v-for=&amp;quot;(item,index) in items&amp;quot;
+用于对象,key,index是可选项：v-for=&amp;quot;(value,key,i">
+<meta property="og:updated_time" content="2017-05-17T01:16:13.786Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="vue的列表渲染">
-<meta name="twitter:description" content="请直接前往官网阅读
-
-我们用 v-for 指令根据一组数组的选项列表进行渲染。 v-for 指令需要以 item in items 形式的特殊语法， items 是源数据数组并且 item 是数组元素迭代的别名。">
+<meta name="twitter:description" content="我们用 v-for 指令根据一组数组的选项列表进行渲染。 v-for 指令需要以 item in items 形式的特殊语法， items 是源数据数组并且 item 是数组元素迭代的别名。
+TL;DR
+用于数组,index是可选项：v-for=&amp;quot;(item,index) in items&amp;quot;
+用于对象,key,index是可选项：v-for=&amp;quot;(value,key,i">
 
 
 
@@ -369,10 +372,7 @@
       
 
       
-        <blockquote>
-<p>请直接前往<a href="https://cn.vuejs.org/v2/guide/list.html" target="_blank" rel="external">官网阅读</a></p>
-</blockquote>
-<p>我们用 v-for 指令根据一组数组的选项列表进行渲染。 v-for 指令需要以 item in items 形式的特殊语法， items 是源数据数组并且 item 是数组元素迭代的别名。<br><a id="more"></a></p>
+        <p>我们用 v-for 指令根据一组数组的选项列表进行渲染。 v-for 指令需要以 item in items 形式的特殊语法， items 是源数据数组并且 item 是数组元素迭代的别名。</p>
 <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
 <li>用于数组,index是可选项：<code>v-for=&quot;(item,index) in items&quot;</code></li>
 <li>用于对象,key,index是可选项：<code>v-for=&quot;(value,key,index) in obj&quot;</code>,顺序和Object.keys一致</li>
@@ -382,6 +382,10 @@
 <li>数组的index设值和length截断数组失效，用splice解决</li>
 <li>重新显示排序后的数组，用computed和methods</li>
 </ul>
+<a id="more"></a>
+<blockquote>
+<p>请直接前往<a href="https://cn.vuejs.org/v2/guide/list.html" target="_blank" rel="external">官网阅读</a></p>
+</blockquote>
 <h2 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h2><p><code>v-for=&quot;item in items&quot;</code><br>其中in可以换成of。<br>v-for 支持一个可选的第二个参数为当前项的索引。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&lt;ul id=&quot;example-1&quot;&gt;</div><div class="line">  &lt;li v-for=&quot;(item,index) in items&quot;&gt;</div><div class="line">    &#123;&#123; item.message &#125;&#125; - &#123;&#123;index&#125;&#125;</div><div class="line">  &lt;/li&gt;</div><div class="line">&lt;/ul&gt;</div><div class="line">var example1 = new Vue(&#123;</div><div class="line">  el: &apos;#example-1&apos;,</div><div class="line">  data: &#123;</div><div class="line">    items: [</div><div class="line">      &#123;message: &apos;Foo&apos; &#125;,</div><div class="line">      &#123;message: &apos;Bar&apos; &#125;</div><div class="line">    ]</div><div class="line">  &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
 <h2 id="Template-v-for"><a href="#Template-v-for" class="headerlink" title="Template v-for"></a>Template v-for</h2><p>如同 v-if 模板，你也可以用带有 v-for 的 <template> 标签来渲染多个元素块。例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;ul id=&quot;example-1&quot; v-if=&quot;isShow&quot;&gt;</div><div class="line">  &lt;li v-for=&quot;(item,index) in items&quot;&gt;</div><div class="line">    &#123;&#123; item.message &#125;&#125; - &#123;&#123;index&#125;&#125;</div><div class="line">  &lt;/li&gt;</div><div class="line">&lt;/ul&gt;</div></pre></td></tr></table></figure></template></p>

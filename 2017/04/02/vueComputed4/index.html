@@ -87,16 +87,43 @@
 
 
 
-<meta name="description" content="请直接前往官网阅读">
+<meta name="description" content="TL;DR
+插值的四种用法：
+文本插值 
+html插值v-html=&amp;quot;rawHtml&amp;quot;
+属性插值v-bind:id=&amp;quot;someId&amp;quot;
+js配合Mustache插值17
+
+
+指令（Directives）是带有 v- 前缀的特殊属性职责就是当其表达式的值改变时相应地将某些行为应用到 DOM 上。
+一些指令能接受一个“参数”，在指令后以冒号指明。v-bind:hr">
 <meta property="og:type" content="article">
 <meta property="og:title" content="vue的计算属性">
 <meta property="og:url" content="http://yoursite.com/2017/04/02/vueComputed4/index.html">
 <meta property="og:site_name" content="花花的博客">
-<meta property="og:description" content="请直接前往官网阅读">
-<meta property="og:updated_time" content="2017-04-02T14:02:26.928Z">
+<meta property="og:description" content="TL;DR
+插值的四种用法：
+文本插值 
+html插值v-html=&amp;quot;rawHtml&amp;quot;
+属性插值v-bind:id=&amp;quot;someId&amp;quot;
+js配合Mustache插值17
+
+
+指令（Directives）是带有 v- 前缀的特殊属性职责就是当其表达式的值改变时相应地将某些行为应用到 DOM 上。
+一些指令能接受一个“参数”，在指令后以冒号指明。v-bind:hr">
+<meta property="og:updated_time" content="2017-05-17T01:18:40.829Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="vue的计算属性">
-<meta name="twitter:description" content="请直接前往官网阅读">
+<meta name="twitter:description" content="TL;DR
+插值的四种用法：
+文本插值 
+html插值v-html=&amp;quot;rawHtml&amp;quot;
+属性插值v-bind:id=&amp;quot;someId&amp;quot;
+js配合Mustache插值17
+
+
+指令（Directives）是带有 v- 前缀的特殊属性职责就是当其表达式的值改变时相应地将某些行为应用到 DOM 上。
+一些指令能接受一个“参数”，在指令后以冒号指明。v-bind:hr">
 
 
 
@@ -363,11 +390,7 @@
       
 
       
-        <blockquote>
-<p>请直接前往<a href="https://cn.vuejs.org/v2/guide/instance.html#实例生命周期" target="_blank" rel="external">官网阅读</a></p>
-</blockquote>
-<a id="more"></a>
-<h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
+        <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
 <li>插值的四种用法：<ul>
 <li>文本插值 <code></code></li>
 <li>html插值<code>v-html=&quot;rawHtml&quot;</code></li>
@@ -386,6 +409,10 @@
 </ul>
 </li>
 </ul>
+<a id="more"></a>
+<blockquote>
+<p>请直接前往<a href="https://cn.vuejs.org/v2/guide/instance.html#实例生命周期" target="_blank" rel="external">官网阅读</a></p>
+</blockquote>
 <h2 id="计算属性"><a href="#计算属性" class="headerlink" title="计算属性"></a>计算属性</h2><p>模板内的表达式是非常便利的，但是它们实际上只用于简单的运算。在模板中放入太多的逻辑会让模板不再简单和清晰。如下面的这种，针对这种情况使用计算属性<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;div id=&quot;example&quot;&gt;</div><div class="line">  &#123;&#123; message.split(&apos;&apos;).reverse().join(&apos;&apos;) &#125;&#125;</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure></p>
 <h3 id="基础例子"><a href="#基础例子" class="headerlink" title="基础例子"></a>基础例子</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">var vm = new Vue(&#123;</div><div class="line">  el: &apos;#example&apos;,</div><div class="line">  data: &#123;</div><div class="line">    message: &apos;Hello&apos;</div><div class="line">  &#125;,</div><div class="line">  computed: &#123;</div><div class="line">    // a computed getter</div><div class="line">    reversedMessage: function () &#123;</div><div class="line">      // `this` points to the vm instance</div><div class="line">      return this.message.split(&apos;&apos;).reverse().join(&apos;&apos;)</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
 <p>结果：<br>Original message: “Hello”<br>Computed reversed message: “olleH”<br>也就是说，我们可以像绑定普通属性一样在模板中绑定计算属性。<br>Vue 知道 vm.reversedMessage 依赖于 vm.message ，因此当 vm.message 发生改变时，所有依赖于 vm.reversedMessage 的绑定也会更新。而且最妙的是我们已经以声明的方式创建了这种依赖关系：计算属性的 getter 是没有副作用，这使得它易于测试和推理。</p>

@@ -375,29 +375,6 @@
 <li>用对象代替switch<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">function optionOrDefault(defaultOption,optionObject,switchValue)&#123;</div><div class="line">  // 0 null undefined &quot;&quot; false  注意值是这些的情况</div><div class="line">  return optionsObject[switchValue] || defaultOption;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 </li>
 </ul>
-<h2 id="尝试不用else"><a href="#尝试不用else" class="headerlink" title="尝试不用else"></a>尝试不用else</h2><p>想象下，为科学家研究以太光开发一个网站，我们通过ajax加载每个科学家的通知菜单。一旦数据加载完，我们就需要代码渲染菜单。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">function renderMenu(menuData) &#123;</div><div class="line">    let menuHTML = &apos;&apos;;</div><div class="line">    if ((menuData === null) || (!Array.isArray(menuData)) &#123;</div><div class="line">        menuHTML = &apos;&lt;div class=&quot;menu-error&quot;&gt;Most profuse apologies. Our server seems to have failed in it’s duties&lt;/div&gt;&apos;;</div><div class="line">    &#125; else if (menuData.length === 0) &#123;</div><div class="line">        menuHTML = &apos;&lt;div class=&quot;menu no-notifications&quot;&gt;No new notifications&lt;/div&gt;&apos;;</div><div class="line">    &#125; else &#123;</div><div class="line">        menuHTML = &apos;&lt;ul class=&quot;menu notifications&quot;&gt;&apos;</div><div class="line">            + menuData.map((item) =&gt; `&lt;li&gt;&lt;a href=&quot;$&#123;item.link&#125;&quot;&gt;$&#123;item.content&#125;&lt;/a&gt;&lt;/li&gt;`).join(&apos;&apos;)</div><div class="line">            + &apos;&lt;/ul&gt;&apos;;</div><div class="line">    &#125;</div><div class="line">    return menuHTML;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>上面的这种，其实想想，决定了某种渲染之后直接返回就可以了。重构下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">function renderMenu(menuData) &#123;</div><div class="line">    if ((menuData === null) || (!Array.isArray(menuData)) &#123;</div><div class="line">        return &apos;&lt;div class=&quot;menu-error&quot;&gt;Most profuse apologies. Our server seems to have failed in it’s duties&lt;/div&gt;&apos;;</div><div class="line">    &#125; </div><div class="line">    if (menuData.length === 0) &#123;</div><div class="line">        return &apos;&lt;div class=&quot;menu no-notifications&quot;&gt;No new notifications&lt;/div&gt;&apos;;</div><div class="line">    &#125;</div><div class="line">    return  &apos;&lt;ul class=&quot;menu notifications&quot;&gt;&apos;</div><div class="line">            + menuData.map((item) =&gt; `&lt;li&gt;&lt;a href=&quot;$&#123;item.link&#125;&quot;&gt;$&#123;item.content&#125;&lt;/a&gt;&lt;/li&gt;`).join(&apos;&apos;)</div><div class="line">            + &apos;&lt;/ul&gt;&apos;;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>直接返回有很多好处，逻辑和可读性更强，尤其在循环里面如果找到相应的结果，直接返回，不需要再往下执行。</p>
-<p>不用else的一个常用理论是</p>
-<blockquote>
-<p>Return early. Return often.</p>
-</blockquote>
-<h2 id="试试三元符"><a href="#试试三元符" class="headerlink" title="试试三元符"></a>试试三元符</h2><p>三元符很多人不看好，但是比起嵌套，我觉得三元符更酷些。<br>举个例子:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">let foo;</div><div class="line">if (bar === &apos;some value&apos;) &#123;</div><div class="line">    foo = baz;</div><div class="line">&#125;</div><div class="line">else &#123;</div><div class="line">    foo = bar;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>变成三元：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">let foo = bar === &apos;some value&apos;? baz :bar;</div></pre></td></tr></table></figure></p>
-<p>当然复杂的用不了三元符。复杂的有时候可以用函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">function conditional(condition,returnTrue,returnFalse)&#123;</div><div class="line">  if(condition)&#123;</div><div class="line">    return returnTrue;</div><div class="line">  &#125;</div><div class="line">  return returnFalse;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">let foo = conditional((bar === &apos;some value&apos;),bar,baz)</div></pre></td></tr></table></figure></p>
-<h2 id="如果不用switch呢"><a href="#如果不用switch呢" class="headerlink" title="如果不用switch呢"></a>如果不用switch呢</h2><p>根据通知的类型不一样，通知的模板也不一样。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">let notificationPtrn;</div><div class="line">switch (notification.type) &#123;</div><div class="line">    case &apos;citation&apos;:</div><div class="line">        notificationPtrn = &apos;You received a citation from &#123;&#123;actingUser&#125;&#125;.&apos;;</div><div class="line">        break;</div><div class="line">    case &apos;follow&apos;:</div><div class="line">        notificationPtrn = &apos;&#123;&#123;actingUser&#125;&#125; started following your work&apos;;</div><div class="line">        break;</div><div class="line">    case &apos;mention&apos;:</div><div class="line">        notificationPtrn = &apos;&#123;&#123;actingUser&#125;&#125; mentioned you in a post.&apos;;</div><div class="line">        break;</div><div class="line">    default:</div><div class="line">        // Well, this should never happen</div><div class="line">&#125;</div><div class="line"></div><div class="line">// Do something with notificationPtrn</div></pre></td></tr></table></figure></p>
-<p>用switch一个蛋疼的事就是break，忘记加的话，就会出现bug，不如“Return early,return often”。顺便为了可以写成函数。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">function getNotificationPtrn(n)&#123;</div><div class="line">  switch (n.type) &#123;</div><div class="line">    case &apos;citation&apos;:</div><div class="line">        return &apos;You received a citation from &#123;&#123;actingUser&#125;&#125;.&apos;;</div><div class="line">    case &apos;follow&apos;:</div><div class="line">        return &apos;&#123;&#123;actingUser&#125;&#125; started following your work&apos;;</div><div class="line">    case &apos;mention&apos;:</div><div class="line">        return &apos;&#123;&#123;actingUser&#125;&#125; mentioned you in a post.&apos;;</div><div class="line">    default:</div><div class="line">        // Well, this should never happen</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">let notificationPtrn = getNotificationPtrn(notification);</div></pre></td></tr></table></figure></p>
-<p>其实如果只是这种简单的逻辑的话，可以用下对象</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">function getNotificationPtrn(n)&#123;</div><div class="line">  const textOptions = &#123;</div><div class="line">    citation:&apos;You received a citation from &#123;&#123;actingUser&#125;&#125;.&apos;,</div><div class="line">    follow:&apos;&#123;&#123;actingUser&#125;&#125; started following your work&apos;,</div><div class="line">    mention:&apos;&#123;&#123;actingUser&#125;&#125; mentioned you in a post.&apos;</div><div class="line">  &#125;</div><div class="line">  return textOptions[n.type];</div><div class="line">&#125;</div><div class="line">let notificationPtrn = getNotificationPtrn(notification);</div></pre></td></tr></table></figure>
-<p>继续，其实textOptions可以作为函数的输入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">const textOptions = &#123;</div><div class="line">  citation:&apos;You received a citation from &#123;&#123;actingUser&#125;&#125;.&apos;,</div><div class="line">  follow:&apos;&#123;&#123;actingUser&#125;&#125; started following your work&apos;,</div><div class="line">  mention:&apos;&#123;&#123;actingUser&#125;&#125; mentioned you in a post.&apos;</div><div class="line">&#125;</div><div class="line">function getNotificationPtrn(textOptions,n)&#123;</div><div class="line">  return textOptions[n.type];</div><div class="line">&#125;</div><div class="line">let notificationPtrn = getNotificationPtrn(textOptions,notification);</div></pre></td></tr></table></figure></p>
-<p>这样，我们甚至可以将textOptions放在服务器上，随时更改相应相应信息。</p>
-<p>上面还有个情况没写明，当有一个不知道通知类型时，没做处理。在switch里面可以用default来返回这样的情况。那么在函数里面呢<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">function getNotificationPtrn(textOptions,n)&#123;</div><div class="line">  if (typeof txtOptions[n.type] === &apos;undefined&apos;) &#123;</div><div class="line">    return &apos;You’ve received some sort of notification we don’t know about.&apos;;</div><div class="line">  &#125;</div><div class="line">  return textOptions[n.type];</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>因为JavaScript是弱类型语言，所以可以用下逻辑运算<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">function getNotificationPtrn(textOptions,n)&#123;</div><div class="line">  return textOptions[n.type] ||　&apos;You’ve received some sort of notification we don’t know about.&apos;;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>同样的，默认值可以作为函数的输入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">const dlt = &apos;You’ve received some sort of notification we don’t know about.&apos;</div><div class="line">function getNotificationPtrn(defaultText,textOptions,n)&#123;</div><div class="line">  return textOptions[n.type] ||　defaultText;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>考虑到更通用的话，简单的switch可以试着用下面的函数代替<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">function optionOrDefault(defaultOption,optionObject,switchValue)&#123;</div><div class="line">  // 0 null undefined &quot;&quot; false  注意值是这些的情况</div><div class="line">  return optionsObject[switchValue] || defaultOption;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>上面的通知类型，最终可以酱紫:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">const dflt = &apos;You’ve received some sort of notification we don’t know about.&apos;;</div><div class="line"></div><div class="line">const textOptions = &#123;</div><div class="line">    citation: &apos;You received a citation from &#123;&#123;actingUser&#125;&#125;.&apos;,</div><div class="line">    follow:   &apos;&#123;&#123;actingUser&#125;&#125; started following your work&apos;,</div><div class="line">    mention:  &apos;&#123;&#123;actingUser&#125;&#125; mentioned you in a post.&apos;,</div><div class="line">&#125;</div><div class="line"></div><div class="line">function getNotificationPtrn(notification) &#123;</div><div class="line">    return optionOrDefault(dflt, textOptions, notification.type);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>这样，关注点将更加清晰，输入notification就能得到通知的格式</p>
-<p>当然，具体情况具体分析~，以上仅能适合一部分场景。</p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/05/12/dontUseIf/#more" rel="contents">
@@ -551,7 +528,28 @@
 
       
         
-          <blockquote>
+          <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
+<li>全局注册组件：<code>Vue.component(&#39;my-component&#39;, {template: &#39;&lt;div&gt;A custom component!&lt;/div&gt;&#39;})</code></li>
+<li>局部注册组件：<code>new Vue({components: {&#39;my-component&#39;: {template: &#39;&lt;div&gt;A custom component!&lt;/div&gt;&#39;} } })</code></li>
+<li>组件里面的数据data必须是函数</li>
+<li><p>Props 允许外部环境传递数据给组件，父组件通过自定义属性传递数据，子组件通过props接受数据(属性名)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;my-component message=&quot;en&quot;&gt;&lt;/my-component&gt;</div><div class="line">Vue.component(&apos;my-component&apos;, &#123;</div><div class="line">  template: &apos;&lt;div&gt;&#123;&#123;message&#125;&#125;&lt;/div&gt;&apos;,</div><div class="line">  // 声明 props</div><div class="line">  props: [&apos;message&apos;],</div><div class="line">  // 就像 data 一样，prop 可以用在模板内</div><div class="line">  // 同样也可以在 vm 实例中像 “this.message” 这样使用</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>如果message是变动的也ok，<code>:message=&quot;variable&quot;</code><br>如果子组件需要改变父组件传过来的数据，需要自己自定义变量接收，或者用computed<br>注意，如果数据是引用类型，需要深复制。</p>
+</li>
+<li><p>props验证，父组件的属性可以定义规则，包括类型等等</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">Vue.component(&apos;example&apos;, &#123;</div><div class="line">  props: &#123;</div><div class="line">    // 基础类型检测 （`null` 意思是任何类型都可以）</div><div class="line">    propA: Number,</div><div class="line">    // 多种类型</div><div class="line">    propB: [String, Number],</div><div class="line">  &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+</li>
+<li><p>Events 允许组件触发外部环境的副作用，父组件使用 $on(eventName) 监听事件，子组件使用 $emit(eventName) 触发事件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">Vue.component(&apos;button-counter&apos;, &#123;</div><div class="line">  template: &apos;&lt;button v-on:click=&quot;increment&quot;&gt;&#123;&#123; counter &#125;&#125;&lt;/button&gt;&apos;,</div><div class="line">  data: function () &#123;return &#123;counter: 0 &#125; &#125;, </div><div class="line">  methods: &#123;</div><div class="line">    increment: function () &#123;</div><div class="line">      this.counter += 1</div><div class="line">      this.$emit(&apos;increment&apos;)</div><div class="line">    &#125;</div><div class="line">  &#125;,</div><div class="line">&#125;)</div><div class="line">new Vue(&#123;</div><div class="line">  el: &apos;#counter-event-example&apos;,</div><div class="line">  data: &#123;</div><div class="line">    total: 0</div><div class="line">  &#125;,</div><div class="line">  methods: &#123;</div><div class="line">    incrementTotal: function () &#123;</div><div class="line">      this.total += 1</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+</li>
+<li><p>非父子通信，通过空的 Vue 实例作为中央事件总线：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">var bus = new Vue()</div><div class="line">bus.$emit(&apos;id-selected&apos;, 1)</div><div class="line">bus.$on(&apos;id-selected&apos;, function (id) &#123;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+</li>
+<li><p>Slots 允许外部环境将额外的内容组合在组件中。</p>
+</li>
+<li>子组件索引$ref</li>
+</ul>
+<blockquote>
 <p>请直接前往<a href="https://cn.vuejs.org/v2/guide/components.html">官网阅读</a></p>
 </blockquote>
           <!--noindex-->
@@ -707,9 +705,14 @@
 
       
         
-          <blockquote>
-<p>请直接前往<a href="https://cn.vuejs.org/v2/guide/forms.html">官网阅读</a></p>
-</blockquote>
+          <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
+<li>v-model在表单控件元素上创建双向数据绑定。<code>v-model=&quot;message&quot;</code>双向的意思是，input这边的输入值变化会让message变化，而message变化会让input的值变化。</li>
+<li>v-model在文本框内就是文本框的值</li>
+<li>v-model在复选框里，默认是布尔值，当有多个复选框时，要设置为数组，选中某项则数组中就会出现此项的值</li>
+<li>v-model在选择列表里，放在select标签上，等于选中的option的值</li>
+<li>v-model一般是input事件，修饰符lazy，可以将其变成change事件</li>
+<li>修饰符三种：lazy、number、trim（基本都是文本框）</li>
+</ul>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/05/10/vueForm9/#more" rel="contents">
@@ -863,9 +866,13 @@
 
       
         
-          <blockquote>
-<p>请直接前往<a href="https://cn.vuejs.org/v2/guide/events.html">官网阅读</a></p>
-</blockquote>
+          <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
+<li>直接写js代码：v-on:click=”counter += 1”</li>
+<li>方法事件处理器：v-on:click=”greet”</li>
+<li>内联处理器，需要event的时候必须传$event：v-on:click=”greet(param,$event)”，需要注意的是内联处理器必须是appvue实例里声明的方法</li>
+<li>事件修饰符：v-on:click.stop.prevent.once.self.capture=”greet”</li>
+<li>按键修饰符：v-on:keyup.enter.left.right=”greet”</li>
+<li>事件处理器的好处：一目了然，不需要找选择器，不需要时会自动销毁</li></ul>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/05/09/vueVon8/#more" rel="contents">
@@ -1175,10 +1182,16 @@
 
       
         
-          <blockquote>
-<p>请直接前往<a href="https://cn.vuejs.org/v2/guide/list.html">官网阅读</a></p>
-</blockquote>
-<p>我们用 v-for 指令根据一组数组的选项列表进行渲染。 v-for 指令需要以 item in items 形式的特殊语法， items 是源数据数组并且 item 是数组元素迭代的别名。<br></p>
+          <p>我们用 v-for 指令根据一组数组的选项列表进行渲染。 v-for 指令需要以 item in items 形式的特殊语法， items 是源数据数组并且 item 是数组元素迭代的别名。</p>
+<h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
+<li>用于数组,index是可选项：<code>v-for=&quot;(item,index) in items&quot;</code></li>
+<li>用于对象,key,index是可选项：<code>v-for=&quot;(value,key,index) in obj&quot;</code>,顺序和Object.keys一致</li>
+<li>v-for可以用于整数迭代：<code>v-for = &quot;n in 5&quot;</code></li>
+<li>v-for和v-if同时使用的情况</li>
+<li>数组的变异和重塑</li>
+<li>数组的index设值和length截断数组失效，用splice解决</li>
+<li>重新显示排序后的数组，用computed和methods</li>
+</ul>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/04/24/vueVfor7/#more" rel="contents">
@@ -1332,9 +1345,14 @@
 
       
         
-          <blockquote>
-<p>请直接前往<a href="https://cn.vuejs.org/v2/guide/instance.html#实例生命周期">官网阅读</a></p>
-</blockquote>
+          <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
+<li>v-if可以和template配合使用，让一段html移除或者增加</li>
+<li>v-if可以和v-else-if/v-else配合使用，但后者需要紧随其后</li>
+<li>template涉及到复用的问题，不需要的话用key</li>
+<li>v-show表示显示和隐藏，不能和template v-else使用</li>
+<li>显示和隐藏频繁切换用v-show，状态基本一开始就确定的用v-if</li>
+<li>v-if和v-for同时在一个节点上，先运行v-for,然后逐个v-if，不想这样就用template</li>
+</ul>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/04/21/vueVif6/#more" rel="contents">
@@ -1488,9 +1506,9 @@
 
       
         
-          <blockquote>
-<p>请直接前往<a href="https://cn.vuejs.org/v2/guide/instance.html#实例生命周期">官网阅读</a></p>
-</blockquote>
+          <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
+<li>class有对象和数组两种语法，其可以和静态类名一起使用，也可以和computed一起使用，对象是知道类名，数组是类名可能自身有所变化。数组里面可以加三目可以加对象<code>v-bind:class=&quot;{active:isActive,&#39;text-danger&#39;:hasError}&quot;  &quot;[isActive,hasError]&quot;</code></li>
+<li>style也是对象和数组两种语法。但是数组是各对象的合并和覆盖<code>v-bind:style=&quot;styleObject&quot;  &quot;[styleObject,styleObject2]&quot;</code></li></ul>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/04/21/vueClassStyle5/#more" rel="contents">

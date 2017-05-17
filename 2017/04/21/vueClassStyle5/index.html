@@ -87,16 +87,22 @@
 
 
 
-<meta name="description" content="请直接前往官网阅读">
+<meta name="description" content="TL;DR
+class有对象和数组两种语法，其可以和静态类名一起使用，也可以和computed一起使用，对象是知道类名，数组是类名可能自身有所变化。数组里面可以加三目可以加对象v-bind:class=&amp;quot;{active:isActive,&amp;#39;text-danger&amp;#39;:hasError}&amp;quot;  &amp;quot;[isActive,hasError]&amp;quot;
+style">
 <meta property="og:type" content="article">
 <meta property="og:title" content="vue的class与style绑定">
 <meta property="og:url" content="http://yoursite.com/2017/04/21/vueClassStyle5/index.html">
 <meta property="og:site_name" content="花花的博客">
-<meta property="og:description" content="请直接前往官网阅读">
-<meta property="og:updated_time" content="2017-04-21T07:11:15.190Z">
+<meta property="og:description" content="TL;DR
+class有对象和数组两种语法，其可以和静态类名一起使用，也可以和computed一起使用，对象是知道类名，数组是类名可能自身有所变化。数组里面可以加三目可以加对象v-bind:class=&amp;quot;{active:isActive,&amp;#39;text-danger&amp;#39;:hasError}&amp;quot;  &amp;quot;[isActive,hasError]&amp;quot;
+style">
+<meta property="og:updated_time" content="2017-05-17T01:19:01.170Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="vue的class与style绑定">
-<meta name="twitter:description" content="请直接前往官网阅读">
+<meta name="twitter:description" content="TL;DR
+class有对象和数组两种语法，其可以和静态类名一起使用，也可以和computed一起使用，对象是知道类名，数组是类名可能自身有所变化。数组里面可以加三目可以加对象v-bind:class=&amp;quot;{active:isActive,&amp;#39;text-danger&amp;#39;:hasError}&amp;quot;  &amp;quot;[isActive,hasError]&amp;quot;
+style">
 
 
 
@@ -363,14 +369,14 @@
       
 
       
-        <blockquote>
+        <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
+<li>class有对象和数组两种语法，其可以和静态类名一起使用，也可以和computed一起使用，对象是知道类名，数组是类名可能自身有所变化。数组里面可以加三目可以加对象<code>v-bind:class=&quot;{active:isActive,&#39;text-danger&#39;:hasError}&quot;  &quot;[isActive,hasError]&quot;</code></li>
+<li>style也是对象和数组两种语法。但是数组是各对象的合并和覆盖<code>v-bind:style=&quot;styleObject&quot;  &quot;[styleObject,styleObject2]&quot;</code><a id="more"></a>
+</li>
+</ul>
+<blockquote>
 <p>请直接前往<a href="https://cn.vuejs.org/v2/guide/instance.html#实例生命周期" target="_blank" rel="external">官网阅读</a></p>
 </blockquote>
-<a id="more"></a>
-<h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
-<li>class有对象和数组两种语法，其可以和静态类名一起使用，也可以和computed一起使用，对象是知道类名，数组是类名可能自身有所变化。数组里面可以加三目可以加对象<code>v-bind:class=&quot;{active:isActive,&#39;text-danger&#39;:hasError}&quot;  &quot;[isActive,hasError]&quot;</code></li>
-<li>style也是对象和数组两种语法。但是数组是各对象的合并和覆盖<code>v-bind:style=&quot;styleObject&quot;  &quot;[styleObject,styleObject2]&quot;</code></li>
-</ul>
 <h2 id="绑定HTML-class"><a href="#绑定HTML-class" class="headerlink" title="绑定HTML class"></a>绑定HTML class</h2><p>可以用v-bind操作元素的 class 列表和它的内联样式 处理它们。不过，字符串拼接麻烦又易错。为了方便，表达式的结果类型除了字符串之外，还可以是对象或数组。 </p>
 <h3 id="对象语法"><a href="#对象语法" class="headerlink" title="对象语法"></a>对象语法</h3><ul>
 <li>可以传给 v-bind:class 一个对象，以动态地切换 class 。</li>

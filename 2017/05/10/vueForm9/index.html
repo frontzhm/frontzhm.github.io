@@ -87,16 +87,28 @@
 
 
 
-<meta name="description" content="请直接前往官网阅读">
+<meta name="description" content="TL;DR
+v-model在表单控件元素上创建双向数据绑定。v-model=&amp;quot;message&amp;quot;双向的意思是，input这边的输入值变化会让message变化，而message变化会让input的值变化。
+v-model在文本框内就是文本框的值
+v-model在复选框里，默认是布尔值，当有多个复选框时，要设置为数组，选中某项则数组中就会出现此项的值
+v-model在选择列表里，放">
 <meta property="og:type" content="article">
 <meta property="og:title" content="vue的表单控件绑定">
 <meta property="og:url" content="http://yoursite.com/2017/05/10/vueForm9/index.html">
 <meta property="og:site_name" content="花花的博客">
-<meta property="og:description" content="请直接前往官网阅读">
-<meta property="og:updated_time" content="2017-05-10T05:33:02.234Z">
+<meta property="og:description" content="TL;DR
+v-model在表单控件元素上创建双向数据绑定。v-model=&amp;quot;message&amp;quot;双向的意思是，input这边的输入值变化会让message变化，而message变化会让input的值变化。
+v-model在文本框内就是文本框的值
+v-model在复选框里，默认是布尔值，当有多个复选框时，要设置为数组，选中某项则数组中就会出现此项的值
+v-model在选择列表里，放">
+<meta property="og:updated_time" content="2017-05-17T01:17:34.589Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="vue的表单控件绑定">
-<meta name="twitter:description" content="请直接前往官网阅读">
+<meta name="twitter:description" content="TL;DR
+v-model在表单控件元素上创建双向数据绑定。v-model=&amp;quot;message&amp;quot;双向的意思是，input这边的输入值变化会让message变化，而message变化会让input的值变化。
+v-model在文本框内就是文本框的值
+v-model在复选框里，默认是布尔值，当有多个复选框时，要设置为数组，选中某项则数组中就会出现此项的值
+v-model在选择列表里，放">
 
 
 
@@ -363,11 +375,7 @@
       
 
       
-        <blockquote>
-<p>请直接前往<a href="https://cn.vuejs.org/v2/guide/forms.html" target="_blank" rel="external">官网阅读</a></p>
-</blockquote>
-<a id="more"></a>
-<h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
+        <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
 <li>v-model在表单控件元素上创建双向数据绑定。<code>v-model=&quot;message&quot;</code>双向的意思是，input这边的输入值变化会让message变化，而message变化会让input的值变化。</li>
 <li>v-model在文本框内就是文本框的值</li>
 <li>v-model在复选框里，默认是布尔值，当有多个复选框时，要设置为数组，选中某项则数组中就会出现此项的值</li>
@@ -375,6 +383,10 @@
 <li>v-model一般是input事件，修饰符lazy，可以将其变成change事件</li>
 <li>修饰符三种：lazy、number、trim（基本都是文本框）</li>
 </ul>
+<a id="more"></a>
+<blockquote>
+<p>请直接前往<a href="https://cn.vuejs.org/v2/guide/forms.html" target="_blank" rel="external">官网阅读</a></p>
+</blockquote>
 <h2 id="基础用法"><a href="#基础用法" class="headerlink" title="基础用法"></a>基础用法</h2><p>你可以用 v-model 指令在表单控件元素上创建双向数据绑定。它会根据控件类型<strong>自动选取</strong>正确的方法来更新元素。尽管有些神奇，但 v-model 本质上不过是语法糖，它负责监听用户的输入事件以更新数据，并特别处理一些极端的例子。<br>注意：v-model 并不关心表单控件初始化所生成的值。因为它会选择 Vue 实例数据来作为具体的值。<br>注意：对于要求 IME （如中文、 日语、 韩语等） 的语言，你会发现那v-model不会在 ime 构成中得到更新。如果你也想实现更新，请使用 input事件。</p>
 <p><code>input(type=&quot;text&quot;,v-model=&quot;message&quot;)</code>,双向的意思是，input这边的输入值变化会让message变化，而message变化会让input的值变化。<br>还有个地方，一般我们写表单元素会有name值，但是这边v-model绑定的名字其实相当于name值，所以这边的表单元素没有name值</p>
 <h3 id="文本"><a href="#文本" class="headerlink" title="文本"></a>文本</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;input v-model=&quot;message&quot; placeholder=&quot;edit me&quot;&gt;</div><div class="line">&lt;p&gt;Message is: &#123;&#123; message &#125;&#125;&lt;/p&gt;</div></pre></td></tr></table></figure>

@@ -87,16 +87,43 @@
 
 
 
-<meta name="description" content="请直接前往官网阅读">
+<meta name="description" content="TL;DR
+插值的四种用法：
+文本插值 
+html插值v-html=&amp;quot;rawHtml&amp;quot;
+属性插值v-bind:id=&amp;quot;someId&amp;quot;
+js配合Mustache插值17
+
+
+指令（Directives）是带有 v- 前缀的特殊属性职责就是当其表达式的值改变时相应地将某些行为应用到 DOM 上。
+一些指令能接受一个“参数”，在指令后以冒号指明。v-bind:hr">
 <meta property="og:type" content="article">
 <meta property="og:title" content="vue的模板语法">
 <meta property="og:url" content="http://yoursite.com/2017/04/01/vueTemplate3/index.html">
 <meta property="og:site_name" content="花花的博客">
-<meta property="og:description" content="请直接前往官网阅读">
-<meta property="og:updated_time" content="2017-04-07T05:42:31.048Z">
+<meta property="og:description" content="TL;DR
+插值的四种用法：
+文本插值 
+html插值v-html=&amp;quot;rawHtml&amp;quot;
+属性插值v-bind:id=&amp;quot;someId&amp;quot;
+js配合Mustache插值17
+
+
+指令（Directives）是带有 v- 前缀的特殊属性职责就是当其表达式的值改变时相应地将某些行为应用到 DOM 上。
+一些指令能接受一个“参数”，在指令后以冒号指明。v-bind:hr">
+<meta property="og:updated_time" content="2017-05-17T01:17:14.077Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="vue的模板语法">
-<meta name="twitter:description" content="请直接前往官网阅读">
+<meta name="twitter:description" content="TL;DR
+插值的四种用法：
+文本插值 
+html插值v-html=&amp;quot;rawHtml&amp;quot;
+属性插值v-bind:id=&amp;quot;someId&amp;quot;
+js配合Mustache插值17
+
+
+指令（Directives）是带有 v- 前缀的特殊属性职责就是当其表达式的值改变时相应地将某些行为应用到 DOM 上。
+一些指令能接受一个“参数”，在指令后以冒号指明。v-bind:hr">
 
 
 
@@ -363,11 +390,7 @@
       
 
       
-        <blockquote>
-<p>请直接前往<a href="https://cn.vuejs.org/v2/guide/instance.html#实例生命周期" target="_blank" rel="external">官网阅读</a></p>
-</blockquote>
-<a id="more"></a>
-<h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
+        <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
 <li>插值的四种用法：<ul>
 <li>文本插值 <code></code></li>
 <li>html插值<code>v-html=&quot;rawHtml&quot;</code></li>
@@ -386,6 +409,10 @@
 </ul>
 </li>
 </ul>
+<a id="more"></a>
+<blockquote>
+<p>请直接前往<a href="https://cn.vuejs.org/v2/guide/instance.html#实例生命周期" target="_blank" rel="external">官网阅读</a></p>
+</blockquote>
 <h2 id="插值"><a href="#插值" class="headerlink" title="插值"></a>插值</h2><h3 id="文本"><a href="#文本" class="headerlink" title="文本"></a>文本</h3><p>数据绑定最常见的形式就是使用 “Mustache” 语法（双大括号）的文本插值：<code></code><br>Mustache 标签将会被替代为对应数据对象上 msg 属性的值。无论何时，绑定的数据对象上 msg 属性发生了改变，插值处的内容都会更新。<br><code>v-once</code>指令，你也能执行一次性地插值，当数据改变时，插值处的内容不会更新。但请留心这会影响到该节点上所有的数据绑定：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;span v-once&gt;This will never change: &#123;&#123; msg &#125;&#125;&lt;/span&gt;</div></pre></td></tr></table></figure></p>
 <h3 id="纯html"><a href="#纯html" class="headerlink" title="纯html"></a>纯html</h3><p><code>v-html=&quot;rawHtml&quot;</code> 指令可以输出真正的HTML。双大括号会将数据解释为纯文本，而非 HTML 。<br>被插入的内容都会被当做 HTML —— 数据绑定会被忽略。注意，你不能使用 v-html 来复合局部模板，因为 Vue 不是基于字符串的模板引擎。组件更适合担任 UI 重用与复合的基本单元。<br>你的站点上动态渲染的任意 HTML 可能会非常危险，因为它很容易导致 XSS 攻击。请只对可信内容使用 HTML 插值，绝不要对用户提供的内容插值。</p>
 <h3 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h3><p>Mustache 不能在 HTML 属性中使用，应使用 <code>v-bind:id=&quot;dynamicId&quot;</code> 指令</p>
