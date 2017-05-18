@@ -97,7 +97,7 @@
 <meta property="og:description" content="TL;DR
 全局注册组件：Vue.component(&amp;#39;my-component&amp;#39;, {template: &amp;#39;&amp;lt;div&amp;gt;A custom component!&amp;lt;/div&amp;gt;&amp;#39;})
 局部注册组件：new Vue({components: {&amp;#39;my-component&amp;#39;: {template: &amp;#39;&amp;lt;div&amp;gt;A c">
-<meta property="og:updated_time" content="2017-05-17T07:30:10.641Z">
+<meta property="og:updated_time" content="2017-05-17T07:33:21.031Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="vue的组件">
 <meta name="twitter:description" content="TL;DR
@@ -390,10 +390,10 @@
 </li>
 <li>子组件索引$ref</li>
 </ul>
+<a id="more"></a>
 <blockquote>
 <p>请直接前往<a href="https://cn.vuejs.org/v2/guide/components.html" target="_blank" rel="external">官网阅读</a></p>
 </blockquote>
-<a id="more"></a>
 <h2 id="什么是组件"><a href="#什么是组件" class="headerlink" title="什么是组件"></a>什么是组件</h2><p>组件（Component）是 Vue.js 最强大的功能之一。组件可以扩展 HTML 元素，封装可重用的代码。在较高层面上，组件是自定义元素， Vue.js 的编译器为它添加特殊功能。在有些情况下，组件也可以是原生 HTML 元素的形式，以 is 特性扩展。</p>
 <h2 id="使用组件"><a href="#使用组件" class="headerlink" title="使用组件"></a>使用组件</h2><h3 id="全局注册"><a href="#全局注册" class="headerlink" title="全局注册"></a>全局注册</h3><p>要注册一个全局组件，你可以使用 Vue.component(tagName, options)：</p>
 <p>对于自定义标签名，Vue.js 不强制要求遵循 W3C规则 （小写，并且包含一个短杠），尽管遵循这个规则比较好。<br>组件在注册之后，便可以在父实例的模块中以自定义元素 <my-component></my-component> 的形式使用。要确保在初始化根实例 之前 注册了组件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&lt;div id=&quot;example&quot;&gt;</div><div class="line">  &lt;my-component&gt;&lt;/my-component&gt;</div><div class="line">&lt;/div&gt;</div><div class="line">// 注册</div><div class="line">Vue.component(&apos;my-component&apos;, &#123;</div><div class="line">  template: &apos;&lt;div&gt;A custom component!&lt;/div&gt;&apos;</div><div class="line">&#125;)</div><div class="line">// 创建根实例</div><div class="line">new Vue(&#123;</div><div class="line">  el: &apos;#example&apos;</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
@@ -608,7 +608,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-count">27</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -630,7 +630,7 @@
             
             <div class="site-state-item site-state-tags">
               
-                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-count">18</span>
                 <span class="site-state-item-name">标签</span>
               
             </div>
