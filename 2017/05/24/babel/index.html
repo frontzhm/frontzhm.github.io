@@ -87,16 +87,34 @@
 
 
 
-<meta name="description" content="babel的简单使用。">
+<meta name="description" content="TL;DR
+初始化项目
+babel命令行安装
+babel-preset
+babel单个文件，文件夹的编译
+source-map
+和gulp的合作">
 <meta property="og:type" content="article">
 <meta property="og:title" content="学习babel">
 <meta property="og:url" content="http://yoursite.com/2017/05/24/babel/index.html">
 <meta property="og:site_name" content="花花的博客">
-<meta property="og:description" content="babel的简单使用。">
-<meta property="og:updated_time" content="2017-05-25T02:56:09.053Z">
+<meta property="og:description" content="TL;DR
+初始化项目
+babel命令行安装
+babel-preset
+babel单个文件，文件夹的编译
+source-map
+和gulp的合作">
+<meta property="og:updated_time" content="2017-05-25T03:01:13.515Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="学习babel">
-<meta name="twitter:description" content="babel的简单使用。">
+<meta name="twitter:description" content="TL;DR
+初始化项目
+babel命令行安装
+babel-preset
+babel单个文件，文件夹的编译
+source-map
+和gulp的合作">
 
 
 
@@ -363,7 +381,14 @@
       
 
       
-        <p>babel的简单使用。</p>
+        <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
+<li>初始化项目</li>
+<li>babel命令行安装</li>
+<li>babel-preset</li>
+<li>babel单个文件，文件夹的编译</li>
+<li>source-map</li>
+<li>和gulp的合作</li>
+</ul>
 <a id="more"></a>
 <h2 id="初始化项目"><a href="#初始化项目" class="headerlink" title="初始化项目"></a>初始化项目</h2><ol>
 <li>登录github，在github上新建目录，选择忽略类型是node(才知道，爽到爆)，证书选择ISC</li>
@@ -590,7 +615,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#初始化项目"><span class="nav-number">1.</span> <span class="nav-text">初始化项目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#babel的环境配置和常用命令"><span class="nav-number">2.</span> <span class="nav-text">babel的环境配置和常用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装cli和preset"><span class="nav-number">2.1.</span> <span class="nav-text">安装cli和preset</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#babel-polyfill"><span class="nav-number">2.2.</span> <span class="nav-text">babel-polyfill</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#babel-runtime"><span class="nav-number">2.3.</span> <span class="nav-text">babel-runtime</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编译JSX和Flow"><span class="nav-number">2.4.</span> <span class="nav-text">编译JSX和Flow</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编译单个文件"><span class="nav-number">2.5.</span> <span class="nav-text">编译单个文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#source-map的助力"><span class="nav-number">2.6.</span> <span class="nav-text">source-map的助力</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编译整个文件夹里的js"><span class="nav-number">2.7.</span> <span class="nav-text">编译整个文件夹里的js</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#改造命令"><span class="nav-number">3.</span> <span class="nav-text">改造命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#和gulp的合作"><span class="nav-number">4.</span> <span class="nav-text">和gulp的合作</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#TL-DR"><span class="nav-number">1.</span> <span class="nav-text">TL;DR</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#初始化项目"><span class="nav-number">2.</span> <span class="nav-text">初始化项目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#babel的环境配置和常用命令"><span class="nav-number">3.</span> <span class="nav-text">babel的环境配置和常用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装cli和preset"><span class="nav-number">3.1.</span> <span class="nav-text">安装cli和preset</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#babel-polyfill"><span class="nav-number">3.2.</span> <span class="nav-text">babel-polyfill</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#babel-runtime"><span class="nav-number">3.3.</span> <span class="nav-text">babel-runtime</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编译JSX和Flow"><span class="nav-number">3.4.</span> <span class="nav-text">编译JSX和Flow</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编译单个文件"><span class="nav-number">3.5.</span> <span class="nav-text">编译单个文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#source-map的助力"><span class="nav-number">3.6.</span> <span class="nav-text">source-map的助力</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编译整个文件夹里的js"><span class="nav-number">3.7.</span> <span class="nav-text">编译整个文件夹里的js</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#改造命令"><span class="nav-number">4.</span> <span class="nav-text">改造命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#和gulp的合作"><span class="nav-number">5.</span> <span class="nav-text">和gulp的合作</span></a></li></ol></div>
             
 
           </div>
