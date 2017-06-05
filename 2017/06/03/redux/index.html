@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="vue," />
+  <meta name="keywords" content="react," />
 
 
 
@@ -87,43 +87,16 @@
 
 
 
-<meta name="description" content="TL;DR
-插值的四种用法：
-文本插值 
-html插值v-html=&amp;quot;rawHtml&amp;quot;
-属性插值v-bind:id=&amp;quot;someId&amp;quot;
-js配合Mustache插值17
-
-
-指令（Directives）是带有 v- 前缀的特殊属性职责就是当其表达式的值改变时相应地将某些行为应用到 DOM 上。
-一些指令能接受一个“参数”，在指令后以冒号指明。v-bind:hr">
+<meta name="description" content="TL;DR">
 <meta property="og:type" content="article">
-<meta property="og:title" content="vue的计算属性">
-<meta property="og:url" content="http://yoursite.com/2017/04/02/vueComputed4/index.html">
+<meta property="og:title" content="学习 redux">
+<meta property="og:url" content="http://yoursite.com/2017/06/03/redux/index.html">
 <meta property="og:site_name" content="花花的博客">
-<meta property="og:description" content="TL;DR
-插值的四种用法：
-文本插值 
-html插值v-html=&amp;quot;rawHtml&amp;quot;
-属性插值v-bind:id=&amp;quot;someId&amp;quot;
-js配合Mustache插值17
-
-
-指令（Directives）是带有 v- 前缀的特殊属性职责就是当其表达式的值改变时相应地将某些行为应用到 DOM 上。
-一些指令能接受一个“参数”，在指令后以冒号指明。v-bind:hr">
-<meta property="og:updated_time" content="2017-05-17T01:18:40.829Z">
+<meta property="og:description" content="TL;DR">
+<meta property="og:updated_time" content="2017-06-04T07:07:44.669Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="vue的计算属性">
-<meta name="twitter:description" content="TL;DR
-插值的四种用法：
-文本插值 
-html插值v-html=&amp;quot;rawHtml&amp;quot;
-属性插值v-bind:id=&amp;quot;someId&amp;quot;
-js配合Mustache插值17
-
-
-指令（Directives）是带有 v- 前缀的特殊属性职责就是当其表达式的值改变时相应地将某些行为应用到 DOM 上。
-一些指令能接受一个“参数”，在指令后以冒号指明。v-bind:hr">
+<meta name="twitter:title" content="学习 redux">
+<meta name="twitter:description" content="TL;DR">
 
 
 
@@ -151,13 +124,13 @@ js配合Mustache插值17
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/04/02/vueComputed4/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/06/03/redux/"/>
 
 
 
 
 
-  <title> vue的计算属性 | 花花的博客 </title>
+  <title> 学习 redux | 花花的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -286,7 +259,7 @@ js配合Mustache插值17
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/02/vueComputed4/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/03/redux/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="frontzhm">
@@ -307,7 +280,7 @@ js配合Mustache插值17
             
             
               
-                vue的计算属性
+                学习 redux
               
             
           </h2>
@@ -322,8 +295,8 @@ js配合Mustache插值17
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-02T21:31:27+08:00">
-                2017-04-02
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-03T11:28:50+08:00">
+                2017-06-03
               </time>
             
 
@@ -352,6 +325,17 @@ js配合Mustache插值17
 
                 
                 
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/react/" itemprop="url" rel="index">
+                    <span itemprop="name">react</span>
+                  </a>
+                </span>
+
+                
+                
               
             </span>
           
@@ -363,8 +347,8 @@ js配合Mustache插值17
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/04/02/vueComputed4/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/02/vueComputed4/" itemprop="commentCount"></span>
+                <a href="/2017/06/03/redux/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/06/03/redux/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -390,36 +374,30 @@ js配合Mustache插值17
       
 
       
-        <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
-<li>插值的四种用法：<ul>
-<li>文本插值 <code></code></li>
-<li>html插值<code>v-html=&quot;rawHtml&quot;</code></li>
-<li>属性插值<code>v-bind:id=&quot;someId&quot;</code></li>
-<li>js配合Mustache插值<code>17</code></li>
-</ul>
-</li>
-<li>指令（Directives）是带有 v- 前缀的特殊属性职责就是当其表达式的值改变时相应地将某些行为应用到 DOM 上。</li>
-<li>一些指令能接受一个“参数”，在指令后以冒号指明。<code>v-bind:href=&quot;url</code></li>
-<li>修饰符（Modifiers）用于指出一个指令应该以特殊方式绑定。<code>v-on:submit.prevent=&quot;onSubmit&quot;</code>，一般用于v-on,v-model</li>
-<li>过滤器可以用在两个地方：mustache 插值和 v-bind 表达式。<code></code></li>
-<li>Vue.js 允许你自定义过滤器，可被用作一些常见的文本格式化。</li>
-<li>缩写 :<ul>
-<li>v-bind:href=”url  -&gt;  :href=”url”</li>
-<li>v-on:click=”doSomething” -&gt;  @click=”doSomething”</li>
-</ul>
-</li>
-</ul>
-<a id="more"></a>
-<blockquote>
-<p>请直接前往<a href="https://cn.vuejs.org/v2/guide/instance.html#实例生命周期" target="_blank" rel="external">官网阅读</a></p>
-</blockquote>
-<h2 id="计算属性"><a href="#计算属性" class="headerlink" title="计算属性"></a>计算属性</h2><p>模板内的表达式是非常便利的，但是它们实际上只用于简单的运算。在模板中放入太多的逻辑会让模板不再简单和清晰。如下面的这种，针对这种情况使用计算属性<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;div id=&quot;example&quot;&gt;</div><div class="line">  &#123;&#123; message.split(&apos;&apos;).reverse().join(&apos;&apos;) &#125;&#125;</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure></p>
-<h3 id="基础例子"><a href="#基础例子" class="headerlink" title="基础例子"></a>基础例子</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">var vm = new Vue(&#123;</div><div class="line">  el: &apos;#example&apos;,</div><div class="line">  data: &#123;</div><div class="line">    message: &apos;Hello&apos;</div><div class="line">  &#125;,</div><div class="line">  computed: &#123;</div><div class="line">    // a computed getter</div><div class="line">    reversedMessage: function () &#123;</div><div class="line">      // `this` points to the vm instance</div><div class="line">      return this.message.split(&apos;&apos;).reverse().join(&apos;&apos;)</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-<p>结果：<br>Original message: “Hello”<br>Computed reversed message: “olleH”<br>也就是说，我们可以像绑定普通属性一样在模板中绑定计算属性。<br>Vue 知道 vm.reversedMessage 依赖于 vm.message ，因此当 vm.message 发生改变时，所有依赖于 vm.reversedMessage 的绑定也会更新。而且最妙的是我们已经以声明的方式创建了这种依赖关系：计算属性的 getter 是没有副作用，这使得它易于测试和推理。</p>
-<h3 id="计算缓存-vs-Methods"><a href="#计算缓存-vs-Methods" class="headerlink" title="计算缓存 vs Methods"></a>计算缓存 vs Methods</h3><p>想想，其实好像上面的reverseMessage可以像之前声明方法那样得到<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;p&gt;Reversed message: &quot;&#123;&#123; reversedMessage() &#125;&#125;&quot;&lt;/p&gt;</div><div class="line">// in component</div><div class="line">methods: &#123;</div><div class="line">  reversedMessage: function () &#123;</div><div class="line">    return this.message.split(&apos;&apos;).reverse().join(&apos;&apos;)</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>两种方法得到的结果当然是一样的。但是，不同的是计算属性是基于它们的依赖进行缓存的。计算属性只有在它的相关依赖发生改变时才会重新求值。这就意味着只要 message 还没有发生改变，多次访问 reversedMessage 计算属性会立即返回之前的计算结果，而不必再次执行函数。<br>相比而言，只要发生重新渲染，method 调用总会执行该函数。<br>所以在两种都可以的情况下，需要缓存的用computed，不需要缓存的用method。</p>
-<p>###Computed vs Watched<br>Vue 确实提供了一种更通用的方式来观察和响应 Vue 实例上的数据变动：watch 属性。当你有一些数据需要随着其它数据变动而变动时，你很容易滥用 watch——特别是如果你之前使用过 AngularJS。然而，通常更好的想法是使用 computed 属性而不是命令式的 watch 回调。细想一下这个例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">&lt;div id=&quot;demo&quot;&gt;&#123;&#123; fullName &#125;&#125;&lt;/div&gt;</div><div class="line">var vm = new Vue(&#123;</div><div class="line">  el: &apos;#demo&apos;,</div><div class="line">  data: &#123;</div><div class="line">    firstName: &apos;Foo&apos;,</div><div class="line">    lastName: &apos;Bar&apos;,</div><div class="line">    fullName: &apos;Foo Bar&apos;</div><div class="line">  &#125;,</div><div class="line">  watch: &#123;</div><div class="line">    firstName: function (val) &#123;</div><div class="line">      this.fullName = val + &apos; &apos; + this.lastName</div><div class="line">    &#125;,</div><div class="line">    lastName: function (val) &#123;</div><div class="line">      // 命令式的和重复的</div><div class="line">      this.fullName = this.firstName + &apos; &apos; + val</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
-<p>换成computed<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">var vm = new Vue(&#123;</div><div class="line">  el: &apos;#demo&apos;,</div><div class="line">  data: &#123;</div><div class="line">    firstName: &apos;Foo&apos;,</div><div class="line">    lastName: &apos;Bar&apos;</div><div class="line">  &#125;,</div><div class="line">  computed: &#123;</div><div class="line">    fullName: function () &#123;</div><div class="line">      return this.firstName + &apos; &apos; + this.lastName</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+        <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><a id="more"></a>
+<h2 id="顶层api"><a href="#顶层api" class="headerlink" title="顶层api"></a>顶层api</h2><p>createStore<br>combineReducers<br>bindActionCrreators<br>applyMiddleWare<br>compose</p>
+<p>store数据仓库</p>
+<p>store = {<br>  dispatch<br>  subscribe<br>  getState<br>  replaceReducer<br>  [$$observable]<br>}</p>
+<p>1.action  动作指令，给机器人一个指令<br>2.reducer  具体的事由reducer完成<br>3.store 数据仓库，唯一的数据源 dispatch分发，调度 更新</p>
+<p>仓库里面的数据更新了，怎么反应到view的更新  react-reducer</p>
+<h2 id="理解概念"><a href="#理解概念" class="headerlink" title="理解概念"></a>理解概念</h2><h3 id="Store"><a href="#Store" class="headerlink" title="Store"></a>Store</h3><p>Store 就是用来维持应用所有的 state 树 的一个对象。 改变 store 内 state 的惟一途径是对它 dispatch 一个 action。</p>
+<p>Store 是一个具有以下四个方法的对象：</p>
+<p>getState()<br>dispatch(action)<br>subscribe(listener)<br>replaceReducer(nextReducer)</p>
+<h3 id="getState"><a href="#getState" class="headerlink" title="getState()"></a>getState()</h3><p>返回应用当前的 state 树。 它与 store 的最后一个 reducer 返回值相同。</p>
+<p>返回值：应用当前的 state 树。</p>
+<h3 id="dispatch-action"><a href="#dispatch-action" class="headerlink" title="dispatch(action)"></a>dispatch(action)</h3><p>dispatch 分发 action。这是触发 state 变化的惟一途径。</p>
+<p>会使用当前 getState() 的结果和传入的 action 以同步方式的调用 store 的 reduce 函数。返回值会被作为下一个 state。从现在开始，这就成为了 getState() 的返回值，同时变化监听器(change listener)会被触发。</p>
+<p>在 Redux 里，只会在根 reducer 返回新 state 结束后再会调用事件监听器，因此，你可以在事件监听器里再做 dispatch。惟一使你不能在 reducer 中途 dispatch 的原因是要确保 reducer 没有副作用。如果 action 处理会产生副作用，正确的做法是使用异步 action 创建函数。</p>
+<h3 id="subscribe-listener"><a href="#subscribe-listener" class="headerlink" title="subscribe(listener)"></a>subscribe(listener)</h3><p>添加一个变化监听器。每当 dispatch action 的时候就会执行，state 树中的一部分可能已经变化。这是一个底层<br>API。多数情况下，你不会直接使用它，会使用一些 React（或其它库）的绑定。</p>
+<h2 id="react的顶层数据"><a href="#react的顶层数据" class="headerlink" title="react的顶层数据"></a>react的顶层数据</h2><ol>
+<li>ajax http  setState-&gt;view</li>
+<li>redux管理应用的数据  store数据仓库 组件仓库的来源</li>
+<li>怎么和我们顶层的组件连接，当仓库的数据更新之后自动更新view</li>
+<li>DOM MVVM  单向数据传递 自顶向下</li>
+</ol>
+<h2 id="react-redux"><a href="#react-redux" class="headerlink" title="react-redux"></a>react-redux</h2><p>// 可以看源码</p>
+<p>Provider</p>
+<p>connect</p>
 
       
     </div>
@@ -443,7 +421,7 @@ js配合Mustache插值17
       
         <div class="post-tags">
           
-            <a href="/tags/vue/" rel="tag"># vue</a>
+            <a href="/tags/react/" rel="tag"># react</a>
           
         </div>
       
@@ -456,8 +434,8 @@ js配合Mustache插值17
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/04/01/vueTemplate3/" rel="next" title="vue的模板语法">
-                <i class="fa fa-chevron-left"></i> vue的模板语法
+              <a href="/2017/05/31/react-router/" rel="next" title="学习 react-router">
+                <i class="fa fa-chevron-left"></i> 学习 react-router
               </a>
             
           </div>
@@ -466,8 +444,8 @@ js配合Mustache插值17
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/04/07/scssMain1/" rel="prev" title="scss语法">
-                scss语法 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/06/05/curryAndCompose/" rel="prev" title="用js实现curry和compose">
+                用js实现curry和compose <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -494,8 +472,8 @@ js配合Mustache插值17
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/04/02/vueComputed4/"
-           data-title="vue的计算属性" data-url="http://yoursite.com/2017/04/02/vueComputed4/">
+      <div class="ds-thread" data-thread-key="2017/06/03/redux/"
+           data-title="学习 redux" data-url="http://yoursite.com/2017/06/03/redux/">
       </div>
     
   </div>
@@ -601,7 +579,7 @@ js配合Mustache插值17
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#TL-DR"><span class="nav-number">1.</span> <span class="nav-text">TL;DR</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#计算属性"><span class="nav-number">2.</span> <span class="nav-text">计算属性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础例子"><span class="nav-number">2.1.</span> <span class="nav-text">基础例子</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#计算缓存-vs-Methods"><span class="nav-number">2.2.</span> <span class="nav-text">计算缓存 vs Methods</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#TL-DR"><span class="nav-number">1.</span> <span class="nav-text">TL;DR</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#顶层api"><span class="nav-number">2.</span> <span class="nav-text">顶层api</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#理解概念"><span class="nav-number">3.</span> <span class="nav-text">理解概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Store"><span class="nav-number">3.1.</span> <span class="nav-text">Store</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#getState"><span class="nav-number">3.2.</span> <span class="nav-text">getState()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dispatch-action"><span class="nav-number">3.3.</span> <span class="nav-text">dispatch(action)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#subscribe-listener"><span class="nav-number">3.4.</span> <span class="nav-text">subscribe(listener)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#react的顶层数据"><span class="nav-number">4.</span> <span class="nav-text">react的顶层数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#react-redux"><span class="nav-number">5.</span> <span class="nav-text">react-redux</span></a></li></ol></div>
             
 
           </div>
