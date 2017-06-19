@@ -87,16 +87,28 @@
 
 
 
-<meta name="description" content="TL;DR">
+<meta name="description" content="store：保存数据的地方，你可以把它看成一个容器。整个应用只能有一个 Store。其由createStore生成。
+
+state：某时刻的store快照。store.getState()拿到当前时刻的数据集合。一个 State 对应一个 View。
+
+action：store.dispatch(action) =&amp;gt; 触发reducer(state,action) =&amp;gt; 改变stat">
 <meta property="og:type" content="article">
 <meta property="og:title" content="学习 redux">
 <meta property="og:url" content="http://yoursite.com/2017/06/03/redux/index.html">
 <meta property="og:site_name" content="花花的博客">
-<meta property="og:description" content="TL;DR">
-<meta property="og:updated_time" content="2017-06-04T07:07:44.669Z">
+<meta property="og:description" content="store：保存数据的地方，你可以把它看成一个容器。整个应用只能有一个 Store。其由createStore生成。
+
+state：某时刻的store快照。store.getState()拿到当前时刻的数据集合。一个 State 对应一个 View。
+
+action：store.dispatch(action) =&amp;gt; 触发reducer(state,action) =&amp;gt; 改变stat">
+<meta property="og:updated_time" content="2017-06-06T06:20:32.096Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="学习 redux">
-<meta name="twitter:description" content="TL;DR">
+<meta name="twitter:description" content="store：保存数据的地方，你可以把它看成一个容器。整个应用只能有一个 Store。其由createStore生成。
+
+state：某时刻的store快照。store.getState()拿到当前时刻的数据集合。一个 State 对应一个 View。
+
+action：store.dispatch(action) =&amp;gt; 触发reducer(state,action) =&amp;gt; 改变stat">
 
 
 
@@ -374,30 +386,27 @@
       
 
       
-        <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><a id="more"></a>
-<h2 id="顶层api"><a href="#顶层api" class="headerlink" title="顶层api"></a>顶层api</h2><p>createStore<br>combineReducers<br>bindActionCrreators<br>applyMiddleWare<br>compose</p>
-<p>store数据仓库</p>
-<p>store = {<br>  dispatch<br>  subscribe<br>  getState<br>  replaceReducer<br>  [$$observable]<br>}</p>
-<p>1.action  动作指令，给机器人一个指令<br>2.reducer  具体的事由reducer完成<br>3.store 数据仓库，唯一的数据源 dispatch分发，调度 更新</p>
-<p>仓库里面的数据更新了，怎么反应到view的更新  react-reducer</p>
-<h2 id="理解概念"><a href="#理解概念" class="headerlink" title="理解概念"></a>理解概念</h2><h3 id="Store"><a href="#Store" class="headerlink" title="Store"></a>Store</h3><p>Store 就是用来维持应用所有的 state 树 的一个对象。 改变 store 内 state 的惟一途径是对它 dispatch 一个 action。</p>
-<p>Store 是一个具有以下四个方法的对象：</p>
-<p>getState()<br>dispatch(action)<br>subscribe(listener)<br>replaceReducer(nextReducer)</p>
-<h3 id="getState"><a href="#getState" class="headerlink" title="getState()"></a>getState()</h3><p>返回应用当前的 state 树。 它与 store 的最后一个 reducer 返回值相同。</p>
-<p>返回值：应用当前的 state 树。</p>
-<h3 id="dispatch-action"><a href="#dispatch-action" class="headerlink" title="dispatch(action)"></a>dispatch(action)</h3><p>dispatch 分发 action。这是触发 state 变化的惟一途径。</p>
-<p>会使用当前 getState() 的结果和传入的 action 以同步方式的调用 store 的 reduce 函数。返回值会被作为下一个 state。从现在开始，这就成为了 getState() 的返回值，同时变化监听器(change listener)会被触发。</p>
-<p>在 Redux 里，只会在根 reducer 返回新 state 结束后再会调用事件监听器，因此，你可以在事件监听器里再做 dispatch。惟一使你不能在 reducer 中途 dispatch 的原因是要确保 reducer 没有副作用。如果 action 处理会产生副作用，正确的做法是使用异步 action 创建函数。</p>
-<h3 id="subscribe-listener"><a href="#subscribe-listener" class="headerlink" title="subscribe(listener)"></a>subscribe(listener)</h3><p>添加一个变化监听器。每当 dispatch action 的时候就会执行，state 树中的一部分可能已经变化。这是一个底层<br>API。多数情况下，你不会直接使用它，会使用一些 React（或其它库）的绑定。</p>
-<h2 id="react的顶层数据"><a href="#react的顶层数据" class="headerlink" title="react的顶层数据"></a>react的顶层数据</h2><ol>
-<li>ajax http  setState-&gt;view</li>
-<li>redux管理应用的数据  store数据仓库 组件仓库的来源</li>
-<li>怎么和我们顶层的组件连接，当仓库的数据更新之后自动更新view</li>
-<li>DOM MVVM  单向数据传递 自顶向下</li>
-</ol>
-<h2 id="react-redux"><a href="#react-redux" class="headerlink" title="react-redux"></a>react-redux</h2><p>// 可以看源码</p>
-<p>Provider</p>
-<p>connect</p>
+        <ul>
+<li><p>store：保存数据的地方，你可以把它看成一个容器。整个应用只能有一个 Store。其由createStore生成。</p>
+</li>
+<li><p>state：某时刻的store快照。<code>store.getState()</code>拿到当前时刻的数据集合。一个 State 对应一个 View。</p>
+</li>
+<li><p>action：store.dispatch(action) =&gt; 触发reducer(state,action) =&gt; 改变state让store变化 =&gt;  store.subscribe(fn),store变化自动执行fn</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> action = &#123;</div><div class="line">  <span class="attr">type</span>: <span class="string">'ADD_TODO'</span>,</div><div class="line">  <span class="attr">payload</span>: <span class="string">'Learn Redux'</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+</li>
+<li><p>reducer：接受 Action 和当前 State 作为参数，返回一个新的 State。Store 收到 Action 以后，必须给出一个新的 State，这样 View 才会发生变化。这种 State 的计算过程就叫做 Reducer。<br>Reducer 是纯函数，就可以保证同样的State，必定得到同样的 View。但也正因为这一点，Reducer 函数里面不能改变 State，必须返回一个全新的对象，请参考下面的写法。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">  <span class="comment">// State 是一个对象</span></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">reducer</span>(<span class="params">state, action</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="built_in">Object</span>.assign(&#123;&#125;, state, &#123; thingToChange &#125;);</div><div class="line">    <span class="comment">// 或者</span></div><div class="line">    <span class="keyword">return</span> &#123; ...state, ...newState &#125;;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">// State 是一个数组</span></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">reducer</span>(<span class="params">state, action</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> [...state, newItem];</div><div class="line">  &#125;</div><div class="line">  <span class="string">``</span><span class="string">` </span></div><div class="line"></div><div class="line">* createStore：创建store，且将store和reducer对应，也就是store.dispatch(action)的时候，哪个reducer返回新的state。createStore方法还可以接受第二个参数，表示 State 的最初状态。这通常是服务器给出的。注意，如果提供了这个参数，它会覆盖 Reducer 函数的默认初始值。</div><div class="line"></div><div class="line">* 阮大神写的createStore：</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>const createStore = (reducer) =&gt; {<br>  let state;<br>  let listeners = [];</p>
+<p>  const getState = () =&gt; state;</p>
+<p>  const dispatch = (action) =&gt; {<br>    state = reducer(state, action);<br>    listeners.forEach(listener =&gt; listener());<br>  };</p>
+<p>  const subscribe = (listener) =&gt; {<br>    listeners.push(listener);<br>    // 返回函数，表示取消订阅，也就是删除自己。<br>    return () =&gt; {<br>      listeners = listeners.filter(l =&gt; l !== listener);<br>    }<br>  };</p>
+<p>  // 首次执行，state通过reducer返回，得到初始的state<br>  dispatch({});</p>
+<p>  return { getState, dispatch, subscribe };<br>};<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">* 经典的增加，减少couter的demo</div><div class="line">```js</div><div class="line"></div><div class="line">const Counter = (&#123; value &#125;) =&gt; (</div><div class="line">  &lt;h1&gt;&#123;value&#125;&lt;/h1&gt;</div><div class="line">  &lt;button onClick=&#123;onIncrement&#125;&gt;+&lt;/button&gt;</div><div class="line">  &lt;button onClick=&#123;onDecrement&#125;&gt;-&lt;/button&gt;</div><div class="line">);</div><div class="line"></div><div class="line">const reducer = (state = 0, action) =&gt; &#123;</div><div class="line">  switch (action.type) &#123;</div><div class="line">    case &apos;INCREMENT&apos;: return state + 1;</div><div class="line">    case &apos;DECREMENT&apos;: return state - 1;</div><div class="line">    default: return state;</div><div class="line">  &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">const store = createStore(reducer);</div><div class="line"></div><div class="line">const render = () =&gt; &#123;</div><div class="line">  ReactDOM.render(</div><div class="line">    &lt;Counter</div><div class="line">      value=&#123;store.getState()&#125;</div><div class="line">      onIncrement=&#123;() =&gt; store.dispatch(&#123;type: &apos;INCREMENT&apos;&#125;)&#125;</div><div class="line">      onDecrement=&#123;() =&gt; store.dispatch(&#123;type: &apos;DECREMENT&apos;&#125;)&#125;</div><div class="line">    /&gt;,</div><div class="line">    document.getElementById(&apos;root&apos;)</div><div class="line">  );</div><div class="line">&#125;;</div><div class="line"></div><div class="line">render();</div><div class="line">store.subscribe(render);</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>参考<a href="http://www.ruanyifeng.com/blog/2016/09/redux_tutorial_part_one_basic_usages.html" target="_blank" rel="external">阮大神的博客</a></p>
+</blockquote>
 
       
     </div>
@@ -497,17 +506,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="http://omizt4opc.bkt.clouddn.com/avatar.jpg"
@@ -544,7 +544,7 @@
             
             <div class="site-state-item site-state-tags">
               
-                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-count">22</span>
                 <span class="site-state-item-name">标签</span>
               
             </div>
@@ -569,22 +569,6 @@
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#TL-DR"><span class="nav-number">1.</span> <span class="nav-text">TL;DR</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#顶层api"><span class="nav-number">2.</span> <span class="nav-text">顶层api</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#理解概念"><span class="nav-number">3.</span> <span class="nav-text">理解概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Store"><span class="nav-number">3.1.</span> <span class="nav-text">Store</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#getState"><span class="nav-number">3.2.</span> <span class="nav-text">getState()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dispatch-action"><span class="nav-number">3.3.</span> <span class="nav-text">dispatch(action)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#subscribe-listener"><span class="nav-number">3.4.</span> <span class="nav-text">subscribe(listener)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#react的顶层数据"><span class="nav-number">4.</span> <span class="nav-text">react的顶层数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#react-redux"><span class="nav-number">5.</span> <span class="nav-text">react-redux</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
