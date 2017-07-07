@@ -260,6 +260,166 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/29/mobileCss/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/06/29/mobileCss/" itemprop="url">
+                  css的一些技巧
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-29T15:01:25+08:00">
+                2017-06-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/css/" itemprop="url" rel="index">
+                    <span itemprop="name">css</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/06/29/mobileCss/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/06/29/mobileCss/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><h2 id="inline-block"><a href="#inline-block" class="headerlink" title="inline-block"></a>inline-block</h2><p>图文排版的时候，经常用到这个<br>布局有时也可以用这个</p>
+<ul>
+<li>子元素之间如果需要清除空隙，则父元素<code>font-size:0</code></li>
+<li>子元素 <code>display:inline-block;vertical-align:top;</code>,有时还需要加<code>font-size</code></li>
+</ul>
+<h2 id="device-pixel-radio"><a href="#device-pixel-radio" class="headerlink" title="device-pixel-radio"></a>device-pixel-radio</h2><p>设备像素比，有各种数据的，关于<a href="https://developer.mozilla.org/zh-CN/docs/Web/Guide/CSS/Media_queries" target="_blank" rel="external">具体的media</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">bg-image($url)</div><div class="line">  background-image url($url.png)</div><div class="line">  @media (min-device-pixel-radio:2),(-webkit-min-device-pixel-radio:2),(min-resolution: 2dppx)</div><div class="line">  	background-image url($url+&apos;@2x.png&apos;)</div><div class="line">  @media (min-device-pixel-radio:3),(-webkit-min-device-pixel-radio:3),(min-resolution: 3dppx)</div><div class="line">      background-image url($url+&apos;@3x.png&apos;)</div></pre></td></tr></table></figure></p>
+<h2 id="图片滤镜"><a href="#图片滤镜" class="headerlink" title="图片滤镜"></a>图片滤镜</h2><p><a href="https://www.w3cplus.com/css3/ten-effects-with-css3-filter" target="_blank" rel="external">具体详情</a><br>一般盒子的背景图片喜欢加模糊滤镜的效果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">filter:blur(10px)</div><div class="line">-webkit-filter:blur(10px)</div></pre></td></tr></table></figure></p>
+<h2 id="省略号"><a href="#省略号" class="headerlink" title="省略号"></a>省略号</h2><p>如果知道字数的话，<code>width:10em</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">text-overflow ellipsis</div><div class="line">overflow hidden</div><div class="line">white-space nowrap</div></pre></td></tr></table></figure></p>
+<h2 id="sticky-footer"><a href="#sticky-footer" class="headerlink" title="sticky footer"></a>sticky footer</h2><p>如果文档的高度不足一屏幕，那么footer在页面底部<br>如果文档的高度多余一屏幕，那么footer在文档下面<br>思路：利用flex的特性，和min-height</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">html,body</div><div class="line">  height 100%</div><div class="line"></div><div class="line">section </div><div class="line">  min-height 100%</div><div class="line">  display flex</div><div class="line">  flex-direction column</div><div class="line">div</div><div class="line">  flex 1</div><div class="line">footer </div><div class="line">  height 40px</div></pre></td></tr></table></figure>
+<h2 id="移动端1px"><a href="#移动端1px" class="headerlink" title="移动端1px"></a>移动端1px</h2><p>解决retina屏幕的1px会显示成2px<br>在想要border的元素上，写个伪类，border为1px,然后将其根据dpi来进行缩放<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">border-1px($color)</div><div class="line">    position: relative</div><div class="line">    &amp;:after</div><div class="line">        display: block</div><div class="line">        position: absolute</div><div class="line">        left: 0</div><div class="line">        bottom: 0</div><div class="line">        width: 100%</div><div class="line">        border-top: 1px solid $color</div><div class="line">        content: &apos; &apos;</div><div class="line">        @media (-webkit-min-device-pixel-ratio: 2),(min-device-pixel-ratio: 2)</div><div class="line">            transform scale(0.5)</div><div class="line">        @media (-webkit-min-device-pixel-ratio: 3),(min-device-pixel-ratio: 3)</div><div class="line">            transform scale(0.34)</div><div class="line">border-none()</div><div class="line">    &amp;:after</div><div class="line">        display none</div></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/19/wechatAPI/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -380,6 +540,172 @@
             </a>
           </div>
           <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/19/webpack.entry/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/06/19/webpack.entry/" itemprop="url">
+                  未命名
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-19T13:30:05+08:00">
+                2017-06-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/06/19/webpack.entry/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/06/19/webpack.entry/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><a href="https://doc.webpack-china.org/configuration/" target="_blank" rel="external">webpack中文文档</a><br>四个核心概念：入口(entry)、输出(output)、loader、插件(plugins)。</p>
+<h2 id="起步"><a href="#起步" class="headerlink" title="起步"></a>起步</h2><p><a href="https://doc.webpack-china.org/guides/get-started/" target="_blank" rel="external">官网demo</a></p>
+<h2 id="context"><a href="#context" class="headerlink" title="context"></a>context</h2><p>用于解析entry选项的基础目录(绝对路径), 如果output.pathinfo设置了，就包含了缩短过的目录；（相当于公共目录，下面所有的目录都在这个公共目录下面)，这样可以简化entrty路径。相当于output的path</p>
+<h2 id="entry"><a href="#entry" class="headerlink" title="entry"></a>entry</h2><ul>
+<li>如果传入一个字符串，这个字符串就会被解析为启动时加载的模块。</li>
+<li>如果传入个数组，所有模块都是启动时加载，模块导出到最后一个里面。</li>
+<li>如果传入一个对象，就会创建多个输入包文件，对象键值就chunk(输出生成的文件)的name，值可以是字符串或者是数组。</li>
+</ul>
+<h2 id="output"><a href="#output" class="headerlink" title="output"></a>output</h2><p>output 位于对象最顶级键(key)，包括了一组选项，指示 webpack 如何去输出、以及在哪里输出你的「bundle、asset 和其他你所打包或使用 webpack 载入的任何内容」。</p>
+<h3 id="output-filename"><a href="#output-filename" class="headerlink" title="output.filename"></a>output.filename</h3><p>单一入口的时候，就是输出的文件名<br>多入口的时候，[name]被chunk的名字替换，[hash]被编译器hash替换，[chunkhash] 被chunk的hash替换。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">filename: <span class="string">'bundle.js'</span>,</div><div class="line"><span class="attr">filename</span>: <span class="string">'[name].js'</span>,</div></pre></td></tr></table></figure></p>
+<h3 id="output-path"><a href="#output-path" class="headerlink" title="output.path"></a>output.path</h3><p>输出文件的绝对路径。</p>
+<h3 id="output-publicPath"><a href="#output-publicPath" class="headerlink" title="output.publicPath"></a>output.publicPath</h3><p>publicPath指定了一个在浏览器中被引用的URL地址。<br>对于使用<script> 和 <link>加载器，当文件路径不同于他们的本地磁盘路径（由<br>path指定）时候publicPath被用来作为href或者url指向该文件<br>。这种做法在你需要将静态文件放在不同的域名或者CDN上面的时候是很有用的。 Webpack<br>Dev Server 也是用这个方式来读取文件的。与path搭配使用上[hash<br>就可以做好缓存方案了。</p>
+<h2 id="loader"><a href="#loader" class="headerlink" title="loader"></a>loader</h2><p>loader 用于对模块的源代码进行转换。loader 可以使你在 require() 或”加载”模块时预处理文件。因此，loader 类似于其他构建工具中“任务(task)”，并提供了处理前端构建步骤的强大方法。loader 可以将文件从不同的语言（如 TypeScript）转换为 JavaScript，或将内联图像转换为 data URL。loader 甚至允许你在 JavaScript 中 require（） CSS文件！</p>
+<h2 id="module"><a href="#module" class="headerlink" title="module"></a>module</h2><h3 id="module-rules"><a href="#module-rules" class="headerlink" title="module.rules"></a>module.rules</h3><p>自动引用的加载器的数组。<br>创建模块时，匹配请求的规则数组。这些规则能够修改模块的创建方式。这些规则能够对模块(module)应用 loader，或者修改解析器(parser)。<br>每个规则可以分为三部分 - 条件(condition)，结果(result)和嵌套规则(nested rule)。<br>条件：</p>
+<ul>
+<li>test习惯匹配文件的后缀</li>
+<li>exclude排除的文件路径</li>
+<li>include 匹配的文件路径<br>结果</li>
+<li>use 各个loader的名字数组</li>
+<li>use里面是各个loader,各个loader可以使用options进行配置</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">module</span>: &#123;</div><div class="line">  <span class="attr">rules</span>: [&#123;</div><div class="line">    <span class="attr">test</span>: <span class="string">'/\.json/'</span>,</div><div class="line">    <span class="attr">use</span>: [<span class="string">'json-loader'</span>],</div><div class="line">  &#125;, &#123;</div><div class="line">    <span class="attr">test</span>: <span class="regexp">/\.js$/</span>,</div><div class="line">    <span class="attr">exclude</span>: <span class="regexp">/node_modules/</span>,</div><div class="line">    <span class="attr">use</span>: &#123;</div><div class="line">      <span class="attr">loader</span>: <span class="string">'babel-loader'</span>,</div><div class="line">      <span class="comment">/*options: &#123;</div><div class="line">        presets: ['env', 'react']</div><div class="line">      &#125;*/</span></div><div class="line">      options: &#123;</div><div class="line">        <span class="string">"presets"</span>: [</div><div class="line">          [<span class="string">"env"</span>, &#123; <span class="string">"modules"</span>: <span class="literal">false</span> &#125;],</div><div class="line">          <span class="comment">// webpack 现在已经支持原生的 import 语句了, 并且将其运用在 tree-shaking 特性上</span></div><div class="line"></div><div class="line">          <span class="string">"react"</span></div><div class="line">          <span class="comment">// 转译 React 组件为 JavaScript 代码</span></div><div class="line">        ],</div><div class="line">        <span class="string">"plugins"</span>: [</div><div class="line">          <span class="string">"react-hot-loader/babel"</span></div><div class="line">          <span class="comment">// 开启 React 代码的模块热替换(HMR)</span></div><div class="line">        ]</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;, &#123;</div><div class="line">    <span class="attr">test</span>: <span class="regexp">/\.css$/</span>,</div><div class="line">    <span class="attr">use</span>: [</div><div class="line">      <span class="string">'style-loader'</span>, &#123;</div><div class="line">        <span class="attr">loader</span>: <span class="string">'css-loader'</span>,</div><div class="line">        <span class="attr">options</span>: &#123; <span class="attr">modules</span>: <span class="literal">true</span> &#125;</div><div class="line">      &#125;, &#123;</div><div class="line">        <span class="attr">loader</span>: <span class="string">'postcss-loader'</span>,</div><div class="line">        <span class="attr">options</span>: &#123;</div><div class="line">          <span class="attr">plugins</span>: <span class="function">(<span class="params">loader</span>) =&gt;</span> [</div><div class="line">            <span class="built_in">require</span>(<span class="string">'autoprefixer'</span>)(),</div><div class="line">          ]</div><div class="line"></div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">    ],</div><div class="line">    <span class="attr">exclude</span>: <span class="regexp">/node_modules/</span>,</div><div class="line">  &#125;]</div><div class="line">&#125;,</div></pre></td></tr></table></figure>
+<h2 id="resolve"><a href="#resolve" class="headerlink" title="resolve"></a>resolve</h2><p>这些选项能设置模块如何被解析。webpack提供合理的默认值<br>，但是还是可能会修改一些解析的细节。</p>
+<h3 id="resolve-alias"><a href="#resolve-alias" class="headerlink" title="resolve.alias"></a>resolve.alias</h3><p>创建 import 或 require 的别名，来确保模块引入变得更简单。例如，一些位于 src/ 文件夹下的常用模块：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">alias: &#123;</div><div class="line">  Utilities: path.resolve(__dirname, &apos;src/utilities/&apos;),</div><div class="line">  Templates: path.resolve(__dirname, &apos;src/templates/&apos;)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>那么在使用的时候<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">import Utility from &apos;../../utilities/utility&apos;;</div><div class="line">// 简化成</div><div class="line">import Utility from &apos;Utilities/utility&apos;;</div></pre></td></tr></table></figure></p>
+<p>一般<code>require(&quot;xyz&quot;)</code>，表示<code>/abc/node_modules/xyz/index.js</code><br><code>require(&quot;xyz/file.js&quot;)</code>对应<code>/abc/node_modules/xyz/file.js</code><br>一般引入是文件夹的时候，默认引入index.js</p>
+<h3 id="resolve-extensions"><a href="#resolve-extensions" class="headerlink" title="resolve.extensions"></a>resolve.extensions</h3><p>自动解析确定的扩展。默认值是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">extensions: [&quot;.js&quot;, &quot;.json&quot;]</div><div class="line">// 这样 file.js就不用加.js</div><div class="line">import File from &apos;../path/to/file&apos;</div></pre></td></tr></table></figure></p>
+<h2 id="plugins"><a href="#plugins" class="headerlink" title="plugins"></a>plugins</h2><p>最常用于（但不限于）在打包模块的“compilation”和“chunk<br>”生命周期执行操作和自定义功能<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> webpack = <span class="built_in">require</span>(<span class="string">'webpack'</span>)</div><div class="line"><span class="comment">// 导入非 webpack 默认自带插件</span></div><div class="line"><span class="keyword">var</span> ExtractTextPlugin = <span class="built_in">require</span>(<span class="string">'extract-text-webpack-plugin'</span>);</div><div class="line"><span class="keyword">var</span> DashboardPlugin = <span class="built_in">require</span>(<span class="string">'webpack-dashboard/plugin'</span>);</div><div class="line"></div><div class="line"><span class="comment">// 在配置中添加插件</span></div><div class="line">plugins: [</div><div class="line">  <span class="comment">// 构建优化插件</span></div><div class="line">  <span class="keyword">new</span> webpack.optimize.CommonsChunkPlugin(&#123;</div><div class="line">    <span class="attr">name</span>: <span class="string">'vendor'</span>,</div><div class="line">    <span class="attr">filename</span>: <span class="string">'vendor-[hash].min.js'</span>,</div><div class="line">  &#125;),</div><div class="line">  <span class="keyword">new</span> webpack.optimize.UglifyJsPlugin(&#123;</div><div class="line">    <span class="attr">compress</span>: &#123;</div><div class="line">      <span class="attr">warnings</span>: <span class="literal">false</span>,</div><div class="line">      <span class="attr">drop_console</span>: <span class="literal">false</span>,</div><div class="line">    &#125;</div><div class="line">  &#125;),</div><div class="line">  <span class="keyword">new</span> ExtractTextPlugin(&#123;</div><div class="line">    <span class="attr">filename</span>: <span class="string">'build.min.css'</span>,</div><div class="line">    <span class="attr">allChunks</span>: <span class="literal">true</span>,</div><div class="line">  &#125;),</div><div class="line">  <span class="keyword">new</span> webpack.IgnorePlugin(<span class="regexp">/^\.\/locale$/</span>, /moment$/),</div><div class="line">  <span class="comment">// 编译时(compile time)插件</span></div><div class="line">  <span class="keyword">new</span> webpack.DefinePlugin(&#123;</div><div class="line">    <span class="string">'process.env.NODE_ENV'</span>: <span class="string">'"production"'</span>,</div><div class="line">  &#125;),</div><div class="line">  <span class="comment">// webpack-dev-server 强化插件</span></div><div class="line">  <span class="keyword">new</span> DashboardPlugin(),</div><div class="line">  <span class="keyword">new</span> webpack.HotModuleReplacementPlugin(),</div><div class="line">]</div></pre></td></tr></table></figure></p>
+<h2 id="devServer"><a href="#devServer" class="headerlink" title="devServer"></a>devServer</h2><p>永远不要在生产环境中使用这些工具，永远不要。<br><a href="https://doc.webpack-china.org/guides/development/">文档</a><br>先安装<code>npm install webpack-dev-server --save-dev</code></p>
+<h3 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">devServer: &#123;</div><div class="line">  contentBase: path.join(__dirname, &quot;dist&quot;), // 服务器的根目录</div><div class="line">  compress: true, // 一切服务都启用gzip 压缩：</div><div class="line">  port: 9000</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="devServer-historyApiFallback"><a href="#devServer-historyApiFallback" class="headerlink" title="devServer.historyApiFallback"></a>devServer.historyApiFallback</h2><p>当使用 HTML5 History API 时，任意的 404 响应都可能需要被替代为 index.html。通过传入以下启用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">historyApiFallback: true</div></pre></td></tr></table></figure></p>
+<p>通过传入一个对象，比如使用 rewrites 这个选项，此行为可进一步地控制：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">historyApiFallback: &#123;</div><div class="line">  rewrites: [</div><div class="line">    &#123; from: /^\/$/, to: &apos;/views/landing.html&apos; &#125;,</div><div class="line">    &#123; from: /^\/subpage/, to: &apos;/views/subpage.html&apos; &#125;,</div><div class="line">    &#123; from: /./, to: &apos;/views/404.html&apos; &#125;</div><div class="line">  ]</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="proxy"><a href="#proxy" class="headerlink" title="proxy"></a>proxy</h3><p>配置代理，设置和模拟api相关的</p>
+<p><a href="https://doc.webpack-china.org/guides/hmr-react/">配置热替换</a></p>
+<h2 id="devTools"><a href="#devTools" class="headerlink" title="devTools"></a>devTools</h2><p>当 JavaScript 异常抛出时，你常会想知道这个错误发生在哪个文件的哪一行。然而因为 webpack 将文件输出为一个或多个 bundle，所以 追踪这一错误会很不方便。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">devtool:&apos;cheap-eval-source-map&apos;</div></pre></td></tr></table></figure>
+<blockquote>
+<p><a href="http://stephenzhao.github.io/2016/06/13/webpack-doc-configuration/">别人家的解释</a></p>
+</blockquote>
+</script></p>
+          
         
       
     </div>
@@ -1623,340 +1949,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/12/dontUseIf/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/05/12/dontUseIf/" itemprop="url">
-                  重构条件语句(不用else和switch)
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-12T09:16:09+08:00">
-                2017-05-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/05/12/dontUseIf/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/12/dontUseIf/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><p>具体情况具体分析，以下仅适用部分(maybe mostly)场景。</p>
-<ul>
-<li>return early,return often</li>
-<li>三元符</li>
-<li>用对象代替switch<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">function optionOrDefault(defaultOption,optionObject,switchValue)&#123;</div><div class="line">  // 0 null undefined &quot;&quot; false  注意值是这些的情况</div><div class="line">  return optionsObject[switchValue] || defaultOption;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-</ul>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/05/12/dontUseIf/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/10/vueComponent10/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/05/10/vueComponent10/" itemprop="url">
-                  vue的组件
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-10T13:35:32+08:00">
-                2017-05-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/05/10/vueComponent10/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/10/vueComponent10/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
-<li>全局注册组件：<code>Vue.component(&#39;my-component&#39;, {template: &#39;&lt;div&gt;A custom component!&lt;/div&gt;&#39;})</code></li>
-<li>局部注册组件：<code>new Vue({components: {&#39;my-component&#39;: {template: &#39;&lt;div&gt;A custom component!&lt;/div&gt;&#39;} } })</code></li>
-<li>组件里面的数据data必须是函数</li>
-<li><p>Props 允许外部环境传递数据给组件，父组件通过自定义属性传递数据，子组件通过props接受数据(属性名)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;my-component message=&quot;en&quot;&gt;&lt;/my-component&gt;</div><div class="line">Vue.component(&apos;my-component&apos;, &#123;</div><div class="line">  template: &apos;&lt;div&gt;&#123;&#123;message&#125;&#125;&lt;/div&gt;&apos;,</div><div class="line">  // 声明 props</div><div class="line">  props: [&apos;message&apos;],</div><div class="line">  // 就像 data 一样，prop 可以用在模板内</div><div class="line">  // 同样也可以在 vm 实例中像 “this.message” 这样使用</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-<p>如果message是变动的也ok，<code>:message=&quot;variable&quot;</code><br>如果子组件需要改变父组件传过来的数据，需要自己自定义变量接收，或者用computed<br>注意，如果数据是引用类型，需要深复制。</p>
-</li>
-<li><p>props验证，父组件的属性可以定义规则，包括类型等等</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">Vue.component(&apos;example&apos;, &#123;</div><div class="line">  props: &#123;</div><div class="line">    // 基础类型检测 （`null` 意思是任何类型都可以）</div><div class="line">    propA: Number,</div><div class="line">    // 多种类型</div><div class="line">    propB: [String, Number],</div><div class="line">  &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-</li>
-<li><p>Events 允许组件触发外部环境的副作用，父组件使用 $on(eventName) 监听事件，子组件使用 $emit(eventName) 触发事件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">Vue.component(&apos;button-counter&apos;, &#123;</div><div class="line">  template: &apos;&lt;button v-on:click=&quot;increment&quot;&gt;&#123;&#123; counter &#125;&#125;&lt;/button&gt;&apos;,</div><div class="line">  data: function () &#123;return &#123;counter: 0 &#125; &#125;, </div><div class="line">  methods: &#123;</div><div class="line">    increment: function () &#123;</div><div class="line">      this.counter += 1</div><div class="line">      this.$emit(&apos;increment&apos;)</div><div class="line">    &#125;</div><div class="line">  &#125;,</div><div class="line">&#125;)</div><div class="line">new Vue(&#123;</div><div class="line">  el: &apos;#counter-event-example&apos;,</div><div class="line">  data: &#123;</div><div class="line">    total: 0</div><div class="line">  &#125;,</div><div class="line">  methods: &#123;</div><div class="line">    incrementTotal: function () &#123;</div><div class="line">      this.total += 1</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-</li>
-<li><p>非父子通信，通过空的 Vue 实例作为中央事件总线：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">var bus = new Vue()</div><div class="line">bus.$emit(&apos;id-selected&apos;, 1)</div><div class="line">bus.$on(&apos;id-selected&apos;, function (id) &#123;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-</li>
-<li><p>Slots 允许外部环境将额外的内容组合在组件中。</p>
-</li>
-<li>子组件索引$ref</li>
-</ul>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/05/10/vueComponent10/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2006,7 +1998,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">34</span>
+                <span class="site-state-item-count">36</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2028,7 +2020,7 @@
             
             <div class="site-state-item site-state-tags">
               
-                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-count">23</span>
                 <span class="site-state-item-name">标签</span>
               
             </div>
