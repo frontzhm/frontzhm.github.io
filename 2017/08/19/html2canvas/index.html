@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="前端规范," />
+  <meta name="keywords" content="js," />
 
 
 
@@ -87,16 +87,16 @@
 
 
 
-<meta name="description" content="前言对于IT行业，设备的多样性与信息的多样性需要标准来保证它们之间的沟通与协作。我们可能在手机、打印机、数码相机之间交互数据。如果没有统一的标准，那么现在所有的信息都是孤立的、不可分享、不可重用的；我们需要浪费大量的人力物力重新为新设备建立数据；我们需要为每一次的多系统应用做专门的开发。">
+<meta name="description" content="TL;DR">
 <meta property="og:type" content="article">
-<meta property="og:title" content="web标准">
-<meta property="og:url" content="http://yoursite.com/2017/03/18/webStandard/index.html">
+<meta property="og:title" content="js实现网页截图-html2canvas">
+<meta property="og:url" content="http://yoursite.com/2017/08/19/html2canvas/index.html">
 <meta property="og:site_name" content="花花的博客">
-<meta property="og:description" content="前言对于IT行业，设备的多样性与信息的多样性需要标准来保证它们之间的沟通与协作。我们可能在手机、打印机、数码相机之间交互数据。如果没有统一的标准，那么现在所有的信息都是孤立的、不可分享、不可重用的；我们需要浪费大量的人力物力重新为新设备建立数据；我们需要为每一次的多系统应用做专门的开发。">
-<meta property="og:updated_time" content="2017-03-19T03:43:06.928Z">
+<meta property="og:description" content="TL;DR">
+<meta property="og:updated_time" content="2017-08-22T06:03:31.453Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="web标准">
-<meta name="twitter:description" content="前言对于IT行业，设备的多样性与信息的多样性需要标准来保证它们之间的沟通与协作。我们可能在手机、打印机、数码相机之间交互数据。如果没有统一的标准，那么现在所有的信息都是孤立的、不可分享、不可重用的；我们需要浪费大量的人力物力重新为新设备建立数据；我们需要为每一次的多系统应用做专门的开发。">
+<meta name="twitter:title" content="js实现网页截图-html2canvas">
+<meta name="twitter:description" content="TL;DR">
 
 
 
@@ -124,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/03/18/webStandard/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/08/19/html2canvas/"/>
 
 
 
 
 
-  <title> web标准 | 花花的博客 </title>
+  <title> js实现网页截图-html2canvas | 花花的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -259,7 +259,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/18/webStandard/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/19/html2canvas/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="frontzhm">
@@ -280,7 +280,7 @@
             
             
               
-                web标准
+                js实现网页截图-html2canvas
               
             
           </h2>
@@ -295,8 +295,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-18T19:54:17+08:00">
-                2017-03-18
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-19T14:34:35+08:00">
+                2017-08-19
               </time>
             
 
@@ -318,8 +318,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/前端规范/" itemprop="url" rel="index">
-                    <span itemprop="name">前端规范</span>
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
                   </a>
                 </span>
 
@@ -336,8 +336,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/03/18/webStandard/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/18/webStandard/" itemprop="commentCount"></span>
+                <a href="/2017/08/19/html2canvas/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/08/19/html2canvas/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -363,23 +363,12 @@
       
 
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>对于IT行业，设备的多样性与信息的多样性需要标准来保证它们之间的沟通与协作。我们可能在手机、打印机、数码相机之间交互数据。如果没有统一的标准，那么现在所有的信息都是孤立的、不可分享、不可重用的；我们需要浪费大量的人力物力重新为新设备建立数据；我们需要为每一次的多系统应用做专门的开发。<br><a id="more"></a></p>
-<p>这个统一的标准就是—XML。XML简单说就是一种“有规定格式的文档”，只要我们的设备或系统产生的数据都遵守这种格式，就可以实现互相的数据交换、分享与协作。</p>
-<p>自从1998年国际万维网组织(W3C.org)推出XML 1.0规范以来，已经有大量的XML标准在我们的生活中应用，例如我们用手机订阅的天气预报、股票行情，这些数据都是从相应的系统获得然后通过XML格式转换发送给你的。</p>
-<p>那么，网页(web)是否也应该遵循XML标准呢？答案是肯定的。</p>
-<p>我们有99%的网站是采用HTML制作的，而HTML并不符合XML格式。因此这些网页信息都很难适应未来新设备和数据共享的要求。怎么办呢？国际万维网组织(W3C.org)在HTML基础上，按照XML格式制定了新的规范XHTML1.0，只要通过简单的改变，就能将HTML转为XHTML，从而实现向XML的过渡。同时，为了使你的页面信息更加容易被搜索和重用、XHTML的代码需要结构更加更清晰、标签更加有语义，W3C推荐使用CSS来控制表现，以实现内容与表现的相分离。</p>
-<h2 id="什么是web标准？"><a href="#什么是web标准？" class="headerlink" title="什么是web标准？"></a>什么是web标准？</h2><p>为了实现大量HTML信息向XML标准的过渡，W3C和ECMA制定的一系列的技术规范，目前主要包括XHTML1.0、CSS2.0、DOM1.0和ECMA JavaScrit。web标准不仅仅是一个规范，而是一系列规范的总称。</p>
-<h2 id="W3C是什么？"><a href="#W3C是什么？" class="headerlink" title="W3C是什么？"></a>W3C是什么？</h2><p>W3C是“World Wide Web Consortium”的缩写，中文称万维网组织。是一个专注于“领导和发展web技术”的国际工业行业协会。成立与1994年。W3C已经有超过500家的会员–包括微软、美国在线(Netscape的母公司)、苹果电脑、Adobe、Macromedia、SUN 以及各类主流硬件、软件制造商和电信公司。</p>
-<p>W3C主要工作是研究和制定开放的规范(事实上的标准)，以便提高web相关产品的互用性。W3C的推荐规范的制定都是由来自于会员和特别邀请的专家组成的工作组完成。工作组的草案(Drafts)在通过多数相关公司和组织同意后提交给W3C理事会讨论，正式批准后才成为“推荐规范(Recommendations)”发布。更多的信息您可以访问W3C的网站：<a href="www.w3.org">www.w3.org</a></p>
-<h2 id="针对网页的web标准"><a href="#针对网页的web标准" class="headerlink" title="针对网页的web标准"></a>针对网页的web标准</h2><p>网页主要由三部分组成：结构（Structure）、表现（Presentation）和行为（Behavior）。对应的标准也分三方面：结构化标准语言主要包括XHTML和XML，表现标准语言主要包括CSS，行为标准主要包括对象模型（如W3C DOM）、ECMAScript等。</p>
-<h2 id="推行的原因"><a href="#推行的原因" class="headerlink" title="推行的原因"></a>推行的原因</h2><ol>
-<li>浏览器和访问网页的设备都很多，为了 web 更好地发展，在开发新的应用程序时，浏览器开发商和站点开发商需要共同遵守web标准。</li>
-<li>Web 标准也可以使站点开发更快捷，更令人愉快。开发人员不必为了得到相同的结果，而挣扎于多版本的开发。</li>
-<li>标准的 web 文档更易被搜索引擎访问，更易被转换为其他格式，更易被程序代码访问（比如 JavaScript 和 DOM）。</li>
-</ol>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>web标准是为了将大量HTML信息向XML标准过渡制定的一系列规范。从而方便各设备能准确且统一读取这些信息。</p>
+        <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><a id="more"></a>
+<p>最近突发奇想想网页实现截图，搜索相关资料，发现一个宝贝<a href="https://github.com/niklasvh/html2canvas/" target="_blank" rel="external">html2canvas</a>。<br>但只是一个网页用下，不想用npm之类的。。。<br>于是看到一个简单易行的demo，大快我心也~<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"layout"</span> <span class="attr">content</span>=<span class="string">"main"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"Content-Type"</span> <span class="attr">content</span>=<span class="string">"text/html; charset=utf-8"</span> /&gt;</span>  </div><div class="line">        <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span> <span class="attr">src</span>=<span class="string">"http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span> <span class="attr">src</span>=<span class="string">"http://html2canvas.hertzen.com/build/html2canvas.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">         </div><div class="line">        <span class="tag">&lt;<span class="name">script</span>  <span class="attr">type</span>=<span class="string">"text/javascript"</span> &gt;</span><span class="undefined"></span></div><div class="line">        $(document).ready( function()&#123;</div><div class="line">                $(".example1").on("click", function(event) &#123;</div><div class="line">                        event.preventDefault();</div><div class="line">                        html2canvas(document.getElementById('box'), &#123;</div><div class="line">                        allowTaint: true,</div><div class="line">                        taintTest: false,</div><div class="line">                        onrendered: function(canvas) &#123;</div><div class="line">                            canvas.id = "mycanvas";</div><div class="line">                            //document.body.appendChild(canvas);</div><div class="line">                            //生成base64图片数据</div><div class="line">                            var dataUrl = canvas.toDataURL();</div><div class="line">                            var newImg = document.createElement("img");</div><div class="line">                            newImg.src =  dataUrl;</div><div class="line">                            document.body.appendChild(newImg);</div><div class="line">                        &#125;</div><div class="line">                    &#125;);</div><div class="line">                &#125;); </div><div class="line">             </div><div class="line">        &#125;);</div><div class="line">         </div><div class="line">        <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">         </div><div class="line">        Hello!</div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">""</span> <span class="attr">id</span>=<span class="string">"box"</span> <span class="attr">style</span>=<span class="string">"background-color: #abc;"</span>&gt;</span></div><div class="line">            html5页面截图</div><div class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">textArea</span> <span class="attr">id</span>=<span class="string">"textArea"</span> <span class="attr">col</span>=<span class="string">"20"</span> <span class="attr">rows</span>=<span class="string">"10"</span> &gt;</span><span class="tag">&lt;/<span class="name">textArea</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">input</span> <span class="attr">class</span>=<span class="string">"example1"</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">value</span>=<span class="string">"截图"</span>&gt;</span></div><div class="line">        生成界面如下：</div><div class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>来看看关键的代码，<a href="https://html2canvas.hertzen.com/documentation.html" target="_blank" rel="external">各参数的说明</a>：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">html2canvas(<span class="built_in">document</span>.getElementById(<span class="string">'box'</span>), &#123;</div><div class="line"><span class="attr">allowTaint</span>: <span class="literal">true</span>,</div><div class="line"><span class="attr">taintTest</span>: <span class="literal">false</span>,</div><div class="line"><span class="attr">onrendered</span>: <span class="function"><span class="keyword">function</span>(<span class="params">canvas</span>) </span>&#123;</div><div class="line">    canvas.id = <span class="string">"mycanvas"</span>;</div><div class="line">    <span class="comment">//document.body.appendChild(canvas);</span></div><div class="line">    <span class="comment">//生成base64图片数据</span></div><div class="line">    <span class="keyword">var</span> dataUrl = canvas.toDataURL();</div><div class="line">    <span class="keyword">var</span> newImg = <span class="built_in">document</span>.createElement(<span class="string">"img"</span>);</div><div class="line">    newImg.src =  dataUrl;</div><div class="line">    <span class="built_in">document</span>.body.appendChild(newImg);</div><div class="line">&#125;</div><div class="line">)&#125;</div></pre></td></tr></table></figure></p>
+<p>第一个参数是把哪个DOM节点渲染成图片，整屏截图可以用<code>document.body</code>，<br>其他参数，不太关心，不过有个width和height是可以从图片的左上角开始计算的，这样可以解决某些需求。<br>有个小坑，就是在本地的环境中，图片不能渲染进生成的图片中，需要放在服务器上。<br><a href="frontzhm.github.io/generatePicture/index.html">一个小demo</a></p>
 <blockquote>
-<p>参考<a href="http://www.w3cn.org/article/tips/2007/123.html" target="_blank" rel="external">http://www.w3cn.org/article/tips/2007/123.html</a></p>
+<p><a href="https://segmentfault.com/a/1190000004654846" target="_blank" rel="external">源代码的出处</a></p>
 </blockquote>
 
       
@@ -404,7 +393,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/前端规范/" rel="tag"># 前端规范</a>
+            <a href="/tags/js/" rel="tag"># js</a>
           
         </div>
       
@@ -417,8 +406,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/03/18/sublimeMarkdown/" rel="next" title="sublime3的两个markdown插件">
-                <i class="fa fa-chevron-left"></i> sublime3的两个markdown插件
+              <a href="/2017/07/14/animation/" rel="next" title="初探动画">
+                <i class="fa fa-chevron-left"></i> 初探动画
               </a>
             
           </div>
@@ -426,10 +415,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/03/18/browserDiffrence/" rel="prev" title="主流浏览器内核介绍">
-                主流浏览器内核介绍 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -455,8 +440,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/03/18/webStandard/"
-           data-title="web标准" data-url="http://yoursite.com/2017/03/18/webStandard/">
+      <div class="ds-thread" data-thread-key="2017/08/19/html2canvas/"
+           data-title="js实现网页截图-html2canvas" data-url="http://yoursite.com/2017/08/19/html2canvas/">
       </div>
     
   </div>
@@ -562,7 +547,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是web标准？"><span class="nav-number">2.</span> <span class="nav-text">什么是web标准？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#W3C是什么？"><span class="nav-number">3.</span> <span class="nav-text">W3C是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#针对网页的web标准"><span class="nav-number">4.</span> <span class="nav-text">针对网页的web标准</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#推行的原因"><span class="nav-number">5.</span> <span class="nav-text">推行的原因</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">5.1.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#TL-DR"><span class="nav-number">1.</span> <span class="nav-text">TL;DR</span></a></li></ol></div>
             
 
           </div>
