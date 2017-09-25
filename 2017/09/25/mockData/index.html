@@ -1,0 +1,867 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="js," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="TL;DR
+安装 npm install mockjs
+数据模板定义规范
+属性名和生成规则必须用引号包围, 用|隔开
+属性值类型:number,string,boolean,object,array,function,regexp
+生成规则主要是 &amp;#39;name|min-max&amp;#39;: value和&amp;#39;name|count&amp;#39;: value, 属性值类型决定其含义
+number">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用mockjs模拟数据">
+<meta property="og:url" content="http://yoursite.com/2017/09/25/mockData/index.html">
+<meta property="og:site_name" content="花花的博客">
+<meta property="og:description" content="TL;DR
+安装 npm install mockjs
+数据模板定义规范
+属性名和生成规则必须用引号包围, 用|隔开
+属性值类型:number,string,boolean,object,array,function,regexp
+生成规则主要是 &amp;#39;name|min-max&amp;#39;: value和&amp;#39;name|count&amp;#39;: value, 属性值类型决定其含义
+number">
+<meta property="og:updated_time" content="2017-09-25T08:29:56.809Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="用mockjs模拟数据">
+<meta name="twitter:description" content="TL;DR
+安装 npm install mockjs
+数据模板定义规范
+属性名和生成规则必须用引号包围, 用|隔开
+属性值类型:number,string,boolean,object,array,function,regexp
+生成规则主要是 &amp;#39;name|min-max&amp;#39;: value和&amp;#39;name|count&amp;#39;: value, 属性值类型决定其含义
+number">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/09/25/mockData/"/>
+
+
+
+
+
+  <title> 用mockjs模拟数据 | 花花的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?60f2cb5747a596a24f2a053f1650c30b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">花花的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/25/mockData/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                用mockjs模拟数据
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-25T11:01:52+08:00">
+                2017-09-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/09/25/mockData/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/09/25/mockData/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
+<li>安装 <code>npm install mockjs</code></li>
+<li>数据模板定义规范<ul>
+<li>属性名和生成规则必须用引号包围, 用|隔开</li>
+<li>属性值类型:number,string,boolean,object,array,function,regexp</li>
+<li>生成规则主要是 <code>&#39;name|min-max&#39;: value</code>和<code>&#39;name|count&#39;: value</code>, 属性值类型决定其含义</li>
+<li>number: min-max之间的随机数  无后者不过加了浮点类型</li>
+<li>string: min-max之间的随机重复次数   重复次数count</li>
+<li>boolean: value出现的概率是 min/(min+max)  false和true均为1/2</li>
+<li>object:  随机抽取min-max个属性  抽取count个属性</li>
+<li>array: min-max之间的随机重复次数    1的话表示随机抽取一个值,其他值表示重复count次</li>
+<li>function:  就是执行函数,this是属性所在的对象</li>
+<li>regexp: 用正则生成字符串</li>
+</ul>
+</li>
+<li>数据模板定义规范:用 @ 来标识其后的字符串是占位符 且占位符优先使用数据模板 中的属性</li>
+<li></li>
+</ul>
+<a id="more"></a>
+<h2 id="开始和安装"><a href="#开始和安装" class="headerlink" title="开始和安装"></a>开始和安装</h2><p>参考<a href="http://mockjs.com/examples.html#String" target="_blank" rel="external">官网</a> , <a href="https://github.com/nuysoft/Mock/wiki/Getting-Started" target="_blank" rel="external">Github地址</a>.<br>只介绍我用到的部分.<br>可以建个本地文件夹,运行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install mockjs</div></pre></td></tr></table></figure></p>
+<p>再建一个demo.js文件,写上<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">// 使用 Mock</div><div class="line">var Mock = require(&apos;mockjs&apos;)</div><div class="line">var data = Mock.mock(&#123;</div><div class="line">    // 属性 list 的值是一个数组，其中含有 1 到 10 个元素</div><div class="line">    &apos;list|1-10&apos;: [&#123;</div><div class="line">        // 属性 id 是一个自增数，起始值为 1，每次增 1</div><div class="line">        &apos;id|+1&apos;: 1</div><div class="line">    &#125;]</div><div class="line">&#125;)</div><div class="line">// 输出结果</div><div class="line">console.log(JSON.stringify(data, null, 4))</div></pre></td></tr></table></figure></p>
+<p>运行,即可看到输出结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">node demo.js</div></pre></td></tr></table></figure></p>
+<h2 id="语法规范"><a href="#语法规范" class="headerlink" title="语法规范"></a>语法规范</h2><p>两种:数据模板定义规范和数据占位符定义规范</p>
+<h3 id="数据模板定义规范"><a href="#数据模板定义规范" class="headerlink" title="数据模板定义规范"></a>数据模板定义规范</h3><p>数据模板中的每个属性由 3 部分构成：属性名、生成规则、属性值, 生成规则是可选的 ,属性名和规则需用|分开：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">attrName|rule:attrValue</div></pre></td></tr></table></figure></p>
+<h4 id="生成规则"><a href="#生成规则" class="headerlink" title="生成规则"></a>生成规则</h4><p>生成规则 有 7 种格式：</p>
+<ul>
+<li>‘name|min-max’: value</li>
+<li>‘name|count’: value</li>
+<li>‘name|min-max.dmin-dmax’: value</li>
+<li>‘name|min-max.dcount’: value</li>
+<li>‘name|count.dmin-dmax’: value</li>
+<li>‘name|count.dcount’: value</li>
+<li>‘name|+step’: value</li>
+</ul>
+<p>但是生成规则的具体含义却是由属性值类型确定的, 换言之, 属性值的类型不一样, 同样的生成规则表示的含义不一样.</p>
+<h4 id="属性值"><a href="#属性值" class="headerlink" title="属性值"></a>属性值</h4><ul>
+<li>属性值中可以含有 @占位符。</li>
+<li>属性值还指定了最终值的初始值和类型。</li>
+</ul>
+<h5 id="属性值-String类型"><a href="#属性值-String类型" class="headerlink" title="属性值 String类型"></a>属性值 String类型</h5><ol>
+<li>‘name|min-max’: stringVal</li>
+</ol>
+<p>通过重复 stringVal 生成一个字符串，重复次数大于等于 min，小于等于 max。</p>
+<ol>
+<li>‘name|count’: stringVal</li>
+</ol>
+<p>通过重复 stringVal 生成一个字符串，重复次数等于 count。</p>
+<p>示例demo:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">var data = Mock.mock(&#123;</div><div class="line">  // 属性值是string类型</div><div class="line">  &quot;stringIsConstant&quot;:&quot;2&quot;,</div><div class="line">  &quot;stringIsRepeatRandom|1-4&quot;: &quot;repeated &quot;,</div><div class="line">  &quot;stringIsRepeatFixed|2&quot;:&quot;repeated &quot;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>运行<code>node demo.js</code>, 可以多运行几次,就会发现第二行在1-4中随机重复次数.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    &quot;stringIsConstant&quot;: &quot;2&quot;,</div><div class="line">    &quot;stringIsRepeatRandom&quot;: &quot;repeated &quot;,</div><div class="line">    &quot;stringIsRepeatFixed&quot;: &quot;repeated repeated &quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h5 id="属性值-Number类型"><a href="#属性值-Number类型" class="headerlink" title="属性值 Number类型"></a>属性值 Number类型</h5><ol>
+<li>‘name|+1’: number</li>
+</ol>
+<p>???:属性值自动加 1，初始值为 number。</p>
+<ol>
+<li>‘name|min-max’: number</li>
+</ol>
+<p>生成一个大于等于 min、小于等于 max 的整数，属性值 number 只是用来确定类型。</p>
+<ol>
+<li>‘name|min-max.dmin-dmax’: number</li>
+</ol>
+<p>生成一个浮点数，整数部分大于等于 min、小于等于 max，小数部分保留 dmin 到 dmax 位。</p>
+<p>示例demo:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">var data = Mock.mock(&#123;</div><div class="line">  &quot;number&quot;:2,</div><div class="line">  // 1-4之间的随机数,属性值是任意数字即可</div><div class="line">  &quot;numberIsRandom|1-4&quot;:  0,</div><div class="line">  // 浮点数,整数部分是1-4随机数,小数部分保留3位,属性值是任意数字即可</div><div class="line">  &quot;numberIsFloat|1-4.3&quot;: 0,</div><div class="line">  // 小数部分保留3-5位</div><div class="line">  &quot;numberIsFloat2|1-4.3-5&quot;: 0</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+<p>打印结果:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    &quot;number&quot;: 2,</div><div class="line">    &quot;numberIsRandom&quot;: 3,</div><div class="line">    &quot;numberIsFloat&quot;: 3.174,</div><div class="line">    &quot;numberIsFloat2&quot;: 3.6977</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h5 id="属性值-Boolean类型"><a href="#属性值-Boolean类型" class="headerlink" title="属性值 Boolean类型"></a>属性值 Boolean类型</h5><ol>
+<li>‘name|1’: boolean</li>
+</ol>
+<p>随机生成一个布尔值，值为 true 的概率是 1/2，值为 false 的概率同样是 1/2。</p>
+<ol>
+<li>‘name|min-max’: value</li>
+</ol>
+<p>随机生成一个布尔值，值为 value 的概率是 min / (min + max)，值为 !value 的概率是 max / (min + max)。</p>
+<p>示例demo:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">var data = Mock.mock(&#123;</div><div class="line">  &quot;boolean1&quot;:true,</div><div class="line">  // 随机生成一个布尔值,是true的概率是1/(1+1),false的概率也是1/(1+1),都是1/2</div><div class="line">  &quot;boolean2|1&quot;:true,</div><div class="line">  // 随机生成一个布尔值,是true的概率是1/(1+9),false的概率是9/(1+9)</div><div class="line">  &quot;boolean3|1-9&quot;:true,</div><div class="line"></div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+<p>打印结果:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    &quot;boolean1&quot;: true,</div><div class="line">    &quot;boolean2&quot;: false,</div><div class="line">    &quot;boolean3&quot;: false</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h5 id="属性值-Object类型"><a href="#属性值-Object类型" class="headerlink" title="属性值 Object类型"></a>属性值 Object类型</h5><ol>
+<li>‘name|count’: object</li>
+</ol>
+<p>从属性值 object 中随机选取 count 个属性。</p>
+<ol>
+<li>‘name|min-max’: object</li>
+</ol>
+<p>从属性值 object 中随机选取 min 到 max 个属性。</p>
+<p>示例demo:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">var data = Mock.mock(&#123;</div><div class="line">  &quot;object1&quot;:&#123;name:1,age:23,like:&apos;bum&apos;&#125;,</div><div class="line">  // 随机抽取2个属性</div><div class="line">  &quot;object2|2&quot;:&#123;name:1,age:23,like:&apos;bum&apos;&#125;,</div><div class="line">  // 随机抽取1-3个属性</div><div class="line">  &quot;object3|1-3&quot;:&#123;name:1,age:23,like:&apos;bum&apos;&#125;,</div><div class="line"></div><div class="line">&#125;)</div><div class="line">// 打印结果</div><div class="line">&#123;</div><div class="line">    &quot;object1&quot;: &#123;</div><div class="line">        &quot;name&quot;: 1,</div><div class="line">        &quot;age&quot;: 23,</div><div class="line">        &quot;like&quot;: &quot;bum&quot;</div><div class="line">    &#125;,</div><div class="line">    &quot;object2&quot;: &#123;</div><div class="line">        &quot;like&quot;: &quot;bum&quot;,</div><div class="line">        &quot;age&quot;: 23</div><div class="line">    &#125;,</div><div class="line">    &quot;object3&quot;: &#123;</div><div class="line">        &quot;name&quot;: 1</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h5 id="属性值-Array类型"><a href="#属性值-Array类型" class="headerlink" title="属性值 Array类型"></a>属性值 Array类型</h5><ol>
+<li>‘name|1’: array</li>
+</ol>
+<p>从属性值 array 中随机选取 1 个元素，作为最终值。</p>
+<ol>
+<li>‘name|+1’: array</li>
+</ol>
+<p>从属性值 array 中顺序选取 1 个元素，作为最终值。</p>
+<ol>
+<li>‘name|min-max’: array</li>
+</ol>
+<p>通过重复属性值 array 生成一个新数组，重复次数大于等于 min，小于等于 max。</p>
+<ol>
+<li>‘name|count’: array</li>
+</ol>
+<p>通过重复属性值 array 生成一个新数组，重复次数为 count。</p>
+<p>示例demo:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line">var data = Mock.mock(&#123;</div><div class="line">  &quot;array1&quot;:[1,2,3],</div><div class="line">  // 随机抽取任意一个值,只能是1</div><div class="line">  &quot;array2|1&quot;:[1,2,3],</div><div class="line">  // 将数组值重复2次,必须&gt;1</div><div class="line">  &quot;array3|2&quot;:[1,2,3],</div><div class="line">  // 将数组值重复1-3次</div><div class="line">  &quot;array4|1-3&quot;:[1,2,3],</div><div class="line"></div><div class="line">&#125;)</div><div class="line"></div><div class="line">// 打印结果</div><div class="line">&#123;</div><div class="line">    &quot;array1&quot;: [</div><div class="line">        1,</div><div class="line">        2,</div><div class="line">        3</div><div class="line">    ],</div><div class="line">    &quot;array2&quot;: 3,</div><div class="line">    &quot;array3&quot;: [</div><div class="line">        1,</div><div class="line">        2,</div><div class="line">        3,</div><div class="line">        1,</div><div class="line">        2,</div><div class="line">        3</div><div class="line">    ],</div><div class="line">    &quot;array4&quot;: [</div><div class="line">        1,</div><div class="line">        2,</div><div class="line">        3</div><div class="line">    ]</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h5 id="属性值-Function类型"><a href="#属性值-Function类型" class="headerlink" title="属性值 Function类型"></a>属性值 Function类型</h5><ol>
+<li>‘name’: function</li>
+</ol>
+<p>执行函数 function，取其返回值作为最终的属性值，函数的上下文为属性 ‘name’ 所在的对象。</p>
+<p>示例demo:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">var data = Mock.mock(&#123;</div><div class="line">  // 函数的话会直接执行,返回值就是属性值,函数里this指function所在的对象</div><div class="line">  &quot;function1&quot;:function()&#123;return this.name&#125;,</div><div class="line">  &quot;name&quot;:&quot;huahua&quot;</div><div class="line">&#125;)</div><div class="line">// 打印结果</div><div class="line">&#123;</div><div class="line">    &quot;name&quot;: &quot;huahua&quot;,</div><div class="line">    &quot;function1&quot;: &quot;huahua&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h5 id="属性值-RegExp类型"><a href="#属性值-RegExp类型" class="headerlink" title="属性值 RegExp类型"></a>属性值 RegExp类型</h5><ol>
+<li>‘name’: regexp</li>
+</ol>
+<p>根据正则表达式 regexp 反向生成可以匹配它的字符串。用于生成自定义格式的字符串。</p>
+<p>示例demo:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">var data = Mock.mock(&#123;</div><div class="line">  // 正则生成的字符串</div><div class="line">  &quot;reg1&quot;:/[1-8][a-b]/,</div><div class="line">&#125;)</div><div class="line"></div><div class="line">// 打印结果</div><div class="line">&#123;</div><div class="line">    &quot;reg1&quot;: &quot;4b&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="数据占位符定义规范"><a href="#数据占位符定义规范" class="headerlink" title="数据占位符定义规范"></a>数据占位符定义规范</h3><p>占位符:只是在属性值字符串中占个位置，并不出现在最终的属性值中。<br>占位符 的格式为：</p>
+<ul>
+<li>@占位符</li>
+<li>@占位符(参数 [, 参数])<br>注意:</li>
+<li>用 @ 来标识其后的字符串是 占位符。</li>
+<li>占位符 会优先引用 数据模板 中的属性。</li>
+<li>占位符 引用的是 Mock.Random 中的方法。</li>
+<li>通过 Mock.Random.extend() 来扩展自定义占位符。</li>
+<li>占位符 支持 相对路径 和 绝对路径。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">var data = Mock.mock(&#123;</div><div class="line">  &quot;zhanwei1&quot;:&#123;</div><div class="line">    name: &#123;</div><div class="line">            first: &apos;@FIRST&apos;,</div><div class="line">            middle: &apos;@FIRST&apos;,</div><div class="line">            last: &apos;@LAST&apos;,</div><div class="line">            full: &apos;@first @middle @last&apos;</div><div class="line">        &#125;</div><div class="line">  &#125;,</div><div class="line">&#125;)</div><div class="line">// 打印结果</div><div class="line">&#123;</div><div class="line">    &quot;zhanwei1&quot;: &#123;</div><div class="line">        &quot;name&quot;: &#123;</div><div class="line">            &quot;first&quot;: &quot;Edward&quot;,</div><div class="line">            &quot;middle&quot;: &quot;Karen&quot;,</div><div class="line">            &quot;last&quot;: &quot;Harris&quot;,</div><div class="line">            &quot;full&quot;: &quot;Edward Karen Harris&quot;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="Mock-mock-rurl-rtype-template-function-options"><a href="#Mock-mock-rurl-rtype-template-function-options" class="headerlink" title="Mock.mock( rurl?, rtype?, template|function( options ) )"></a>Mock.mock( rurl?, rtype?, template|function( options ) )</h2><p>根据数据模板生成模拟数据。</p>
+<h3 id="Mock-mock-template"><a href="#Mock-mock-template" class="headerlink" title="Mock.mock( template )"></a>Mock.mock( template )</h3><p>根据数据模板生成模拟数据。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">// Mock.mock( template )</div><div class="line">var template = &#123;</div><div class="line">    &apos;string1|1-10&apos;: &apos;★&apos;,</div><div class="line">&#125;</div><div class="line">var data = Mock.mock(template)</div><div class="line"></div><div class="line">$(&apos;&lt;pre&gt;&apos;).text(JSON.stringify(data, null, 4))</div><div class="line">    .appendTo(&apos;body&apos;)</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/js/" rel="tag"># js</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/09/14/interactionInH5AndApp/" rel="next" title="h5和app交互的一些坑">
+                <i class="fa fa-chevron-left"></i> h5和app交互的一些坑
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/09/25/mockData/"
+           data-title="用mockjs模拟数据" data-url="http://yoursite.com/2017/09/25/mockData/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://omizt4opc.bkt.clouddn.com/avatar.jpg"
+               alt="frontzhm" />
+          <p class="site-author-name" itemprop="name">frontzhm</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">42</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#TL-DR"><span class="nav-number">1.</span> <span class="nav-text">TL;DR</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开始和安装"><span class="nav-number">2.</span> <span class="nav-text">开始和安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#语法规范"><span class="nav-number">3.</span> <span class="nav-text">语法规范</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据模板定义规范"><span class="nav-number">3.1.</span> <span class="nav-text">数据模板定义规范</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#生成规则"><span class="nav-number">3.1.1.</span> <span class="nav-text">生成规则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#属性值"><span class="nav-number">3.1.2.</span> <span class="nav-text">属性值</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#属性值-String类型"><span class="nav-number">3.1.2.1.</span> <span class="nav-text">属性值 String类型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#属性值-Number类型"><span class="nav-number">3.1.2.2.</span> <span class="nav-text">属性值 Number类型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#属性值-Boolean类型"><span class="nav-number">3.1.2.3.</span> <span class="nav-text">属性值 Boolean类型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#属性值-Object类型"><span class="nav-number">3.1.2.4.</span> <span class="nav-text">属性值 Object类型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#属性值-Array类型"><span class="nav-number">3.1.2.5.</span> <span class="nav-text">属性值 Array类型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#属性值-Function类型"><span class="nav-number">3.1.2.6.</span> <span class="nav-text">属性值 Function类型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#属性值-RegExp类型"><span class="nav-number">3.1.2.7.</span> <span class="nav-text">属性值 RegExp类型</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据占位符定义规范"><span class="nav-number">3.2.</span> <span class="nav-text">数据占位符定义规范</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Mock-mock-rurl-rtype-template-function-options"><span class="nav-number">4.</span> <span class="nav-text">Mock.mock( rurl?, rtype?, template|function( options ) )</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Mock-mock-template"><span class="nav-number">4.1.</span> <span class="nav-text">Mock.mock( template )</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">frontzhm</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"frontzhm"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
