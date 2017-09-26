@@ -374,17 +374,18 @@
 <li>属性名和生成规则必须用引号包围, 用|隔开</li>
 <li>属性值类型:number,string,boolean,object,array,function,regexp</li>
 <li>生成规则主要是 <code>&#39;name|min-max&#39;: value</code>和<code>&#39;name|count&#39;: value</code>, 属性值类型决定其含义</li>
-<li>number: min-max之间的随机数  无后者不过加了浮点类型</li>
-<li>string: min-max之间的随机重复次数   重复次数count</li>
-<li>boolean: value出现的概率是 min/(min+max)  false和true均为1/2</li>
-<li>object:  随机抽取min-max个属性  抽取count个属性</li>
-<li>array: min-max之间的随机重复次数    1的话表示随机抽取一个值,其他值表示重复count次</li>
+<li>number: min-max之间的随机数 &nbsp;&nbsp;无后者不过加了浮点类型</li>
+<li>string: min-max之间的随机重复次数&nbsp;&nbsp;   重复次数count</li>
+<li>boolean: value出现的概率是 min/(min+max) &nbsp;&nbsp; false和true均为1/2</li>
+<li>object:  随机抽取min-max个属性&nbsp;&nbsp;  抽取count个属性</li>
+<li>array: min-max之间的随机重复次数 &nbsp;&nbsp;   1的话表示随机抽取一个值,其他值表示重复count次</li>
 <li>function:  就是执行函数,this是属性所在的对象</li>
 <li>regexp: 用正则生成字符串</li>
 </ul>
 </li>
 <li>数据模板定义规范:用 @ 来标识其后的字符串是占位符 且占位符优先使用数据模板 中的属性</li>
-<li></li>
+<li>Mock.mock( rurl?, rtype?, template|function( options ) ) 生成数据</li>
+<li>Mock.random() 占位符 随机生成想要的数据,比如email</li>
 </ul>
           <!--noindex-->
           <div class="post-button text-center">
