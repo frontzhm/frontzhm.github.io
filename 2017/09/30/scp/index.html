@@ -87,31 +87,22 @@
 
 
 
-<meta name="description" content="TL;DR和微信的交互主要分为三种情况：
-
-微信里打开的网页
-pc端的网页需要微信登录
-app里需要调起微信的相关功能
-网页里调用微信接口，注意在微信公众平台点击账号-&amp;gt; 功能设置加上响应的域名，否则接口会调用错误">
+<meta name="description" content="TL;DR
+跨服务器拷贝scp [参数] [原路径] [目标路径]
+免密码登录ssh-keygen -t rsa -P &amp;quot;&amp;quot;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="scp远程服务器和本地的相互拷贝">
 <meta property="og:url" content="http://yoursite.com/2017/09/30/scp/index.html">
 <meta property="og:site_name" content="花花的博客">
-<meta property="og:description" content="TL;DR和微信的交互主要分为三种情况：
-
-微信里打开的网页
-pc端的网页需要微信登录
-app里需要调起微信的相关功能
-网页里调用微信接口，注意在微信公众平台点击账号-&amp;gt; 功能设置加上响应的域名，否则接口会调用错误">
-<meta property="og:updated_time" content="2017-09-30T08:02:58.322Z">
+<meta property="og:description" content="TL;DR
+跨服务器拷贝scp [参数] [原路径] [目标路径]
+免密码登录ssh-keygen -t rsa -P &amp;quot;&amp;quot;">
+<meta property="og:updated_time" content="2017-09-30T09:41:49.588Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="scp远程服务器和本地的相互拷贝">
-<meta name="twitter:description" content="TL;DR和微信的交互主要分为三种情况：
-
-微信里打开的网页
-pc端的网页需要微信登录
-app里需要调起微信的相关功能
-网页里调用微信接口，注意在微信公众平台点击账号-&amp;gt; 功能设置加上响应的域名，否则接口会调用错误">
+<meta name="twitter:description" content="TL;DR
+跨服务器拷贝scp [参数] [原路径] [目标路径]
+免密码登录ssh-keygen -t rsa -P &amp;quot;&amp;quot;">
 
 
 
@@ -378,12 +369,9 @@ app里需要调起微信的相关功能
       
 
       
-        <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><p>和微信的交互主要分为三种情况：</p>
-<ul>
-<li>微信里打开的网页</li>
-<li>pc端的网页需要微信登录</li>
-<li>app里需要调起微信的相关功能</li>
-<li>网页里调用微信接口，注意在微信公众平台点击账号-&gt; 功能设置加上响应的域名，否则接口会调用错误<a id="more"></a>
+        <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
+<li>跨服务器拷贝<code>scp [参数] [原路径] [目标路径]</code></li>
+<li>免密码登录<code>ssh-keygen -t rsa -P &quot;&quot;</code><a id="more"></a>
 </li>
 </ul>
 <p>scp是secure copy的简写，用于在Linux下进行远程拷贝文件的命令，和它类似的命令有cp，不过cp只是在本机进行拷贝不能跨服务器，而且scp传输是加密的。当你服务器硬盘变为只读 read only system时，用scp可以帮你把文件移出来。类似的还有rsync，没研究。</p>
