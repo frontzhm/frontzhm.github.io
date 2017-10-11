@@ -322,8 +322,19 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/node-js/" itemprop="url" rel="index">
-                    <span itemprop="name">node,js</span>
+                  <a href="/categories/node/" itemprop="url" rel="index">
+                    <span itemprop="name">node</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/node/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
                   </a>
                 </span>
 
@@ -684,7 +695,7 @@
         
           <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
 <li>模块暴露<code>module.exports</code>, 引入模块<code>require()</code></li>
-<li>全局对象global, 常用的其属性console和process, 下一次循环用<code>process.nextTick()</code>, 判断是不是浏览器环境<code>typeof window === &#39;undefined&#39;</code></li>
+<li>全局对象global, 常用的其属性console和process, 下一次循环用<code>process.nextTick()</code>,process.argv获得命令行参数, 判断是不是浏览器环境<code>typeof window === &#39;undefined&#39;</code></li>
 <li>fs模块, 同时提供异步和同步方法<ul>
 <li>读文件: <code>fs.readFile(&#39;sample.txt&#39;,&#39;utf-8&#39;,function(err,data){ 一般err为空 })</code>, 二进制文件不用编码</li>
 <li>写文件: <code>fs.writeFile(&#39;sample.txt&#39;,&#39;hi lalala&#39;,function(err){})</code>, 字符串转buffer<code>Buffer.from(&#39;hihi&#39;,&#39;utf-8&#39;)</code>, buffer转字符串  bufferData.toString(‘utf-8’)</li>
@@ -1951,7 +1962,7 @@
             
             <div class="site-state-item site-state-categories">
               
-                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-count">16</span>
                 <span class="site-state-item-name">分类</span>
               
             </div>
