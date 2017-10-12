@@ -705,7 +705,13 @@
 <li>stream是一个对象，有自己的事件：data事件表示流的数据已经可以读取了，end事件表示这个流已经到末尾了，没有数据可以读取了，error事件表示出错了。<ul>
 <li>读文件流：<code>var stream = fs.createReadStream(&#39;sample.txt&#39;,&#39;utf-8&#39;);stream.on(&#39;data&#39;,function(chunk){..});stream.on(&#39;end&#39;,function(){..});stream.on(&#39;error&#39;,function(err){..});</code>，data事件可能会有多次，每次传递的chunk是流的一部分数据</li>
 <li>写文件流：<code>var stream1 = fs.createWriteStream(&#39;sample.txt&#39;,&#39;utf-8&#39;);stream1.write(&#39;lala&#39;,function(){写完之后的回调});stream1.write((new Buffer(&#39;buffer&#39;,&#39;utf-8&#39;)));stream1.end()</code></li>
-<li>pipe：把一个文件流和另一个文件流串起来，这样源文件的所有数据就自动写入到目标文件里了<code>stream.pipe(stream1)</code></li></ul></li></ul>
+<li>pipe：把一个文件流和另一个文件流串起来，这样源文件的所有数据就自动写入到目标文件里了<code>stream.pipe(stream1)</code></li>
+</ul>
+</li>
+<li><code>url.parse(urlStr,true)</code>解析url</li>
+<li><code>path.resolve([...paths])</code>方法会把一个路径或路径片段的序列解析为一个绝对路径。</li>
+<li><code>path.join([...paths])</code> 方法使用平台特定的分隔符把全部给定的 path 片段连接到一起，并规范化生成的路径。</li>
+<li>file_server的练习</li></ul>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/09/28/nodeStudy/#more" rel="contents">
