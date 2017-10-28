@@ -88,39 +88,36 @@
 
 
 <meta name="description" content="TL;DR
-d
+promise 对象最重要的两个属性,状态和值
+async 函数返回promise对象, 函数不出错的话默认就是resolved状态, return的值就是promise的值
+await 必须在async函数中, 后面是promise对象, 返回值是promise对象的值
+await 必须等到promise的状态改变, 才会执行下一条语句
 
 先回忆下promise
-promise对象有两个属性, 状态和值,初始状态和值都是undefined
-一旦建立, 立即执行
-执行遇到resolve,状态就是resolved,值是resolve的第一个参数,reject同理
-
-12345678910function timeout(time,value)&amp;#123;    return new Promise((resolve)=">
+promise对象有">
 <meta property="og:type" content="article">
 <meta property="og:title" content="理解async">
 <meta property="og:url" content="http://yoursite.com/2017/10/28/async_await/index.html">
 <meta property="og:site_name" content="花花的博客">
 <meta property="og:description" content="TL;DR
-d
+promise 对象最重要的两个属性,状态和值
+async 函数返回promise对象, 函数不出错的话默认就是resolved状态, return的值就是promise的值
+await 必须在async函数中, 后面是promise对象, 返回值是promise对象的值
+await 必须等到promise的状态改变, 才会执行下一条语句
 
 先回忆下promise
-promise对象有两个属性, 状态和值,初始状态和值都是undefined
-一旦建立, 立即执行
-执行遇到resolve,状态就是resolved,值是resolve的第一个参数,reject同理
-
-12345678910function timeout(time,value)&amp;#123;    return new Promise((resolve)=">
-<meta property="og:updated_time" content="2017-10-28T11:55:30.341Z">
+promise对象有">
+<meta property="og:updated_time" content="2017-10-28T12:03:43.413Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="理解async">
 <meta name="twitter:description" content="TL;DR
-d
+promise 对象最重要的两个属性,状态和值
+async 函数返回promise对象, 函数不出错的话默认就是resolved状态, return的值就是promise的值
+await 必须在async函数中, 后面是promise对象, 返回值是promise对象的值
+await 必须等到promise的状态改变, 才会执行下一条语句
 
 先回忆下promise
-promise对象有两个属性, 状态和值,初始状态和值都是undefined
-一旦建立, 立即执行
-执行遇到resolve,状态就是resolved,值是resolve的第一个参数,reject同理
-
-12345678910function timeout(time,value)&amp;#123;    return new Promise((resolve)=">
+promise对象有">
 
 
 
@@ -388,7 +385,10 @@ promise对象有两个属性, 状态和值,初始状态和值都是undefined
 
       
         <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
-<li>d</li>
+<li>promise 对象最重要的两个属性,状态和值</li>
+<li>async 函数返回promise对象, 函数不出错的话默认就是resolved状态, return的值就是promise的值</li>
+<li>await 必须在async函数中, 后面是promise对象, 返回值是promise对象的值</li>
+<li>await 必须等到promise的状态改变, 才会执行下一条语句</li>
 </ul>
 <h2 id="先回忆下promise"><a href="#先回忆下promise" class="headerlink" title="先回忆下promise"></a>先回忆下promise</h2><ul>
 <li>promise对象有两个属性, 状态和值,初始状态和值都是undefined</li>
@@ -454,8 +454,8 @@ promise对象有两个属性, 状态和值,初始状态和值都是undefined
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/10/16/componentTerminologyExplain/" rel="next" title="通用组件的一些专业术语">
-                <i class="fa fa-chevron-left"></i> 通用组件的一些专业术语
+              <a href="/2017/10/13/es6Promise/" rel="next" title="深入简出promise">
+                <i class="fa fa-chevron-left"></i> 深入简出promise
               </a>
             
           </div>
@@ -538,7 +538,7 @@ promise对象有两个属性, 状态和值,初始状态和值都是undefined
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">49</span>
+                <span class="site-state-item-count">48</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
