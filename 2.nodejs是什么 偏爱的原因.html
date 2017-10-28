@@ -1,0 +1,599 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="frontzhm, zhm, huahua, hua_hua" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="nodejs是什么nodejs是js runtime使用事件驱动 和  非阻塞I/O 模型
+非阻塞I/O阻塞: I/O时进程等待I/O完成时进行下一步非阻塞: I/O时函数立即返回,进程不等待I/O完成  (异步的感觉)
+事件驱动
+I/O等异步操作结束后的通知(遇到I/O,不等I/O执行完直接执行下面程序,等其执行完发射一个事件,对事件找其相应的处理程序)
+观察者模式
+
+为什么偏爱nodejs
+前">
+<meta property="og:type" content="website">
+<meta property="og:title" content="花花的博客">
+<meta property="og:url" content="http://yoursite.com/2.nodejs是什么 偏爱的原因.html">
+<meta property="og:site_name" content="花花的博客">
+<meta property="og:description" content="nodejs是什么nodejs是js runtime使用事件驱动 和  非阻塞I/O 模型
+非阻塞I/O阻塞: I/O时进程等待I/O完成时进行下一步非阻塞: I/O时函数立即返回,进程不等待I/O完成  (异步的感觉)
+事件驱动
+I/O等异步操作结束后的通知(遇到I/O,不等I/O执行完直接执行下面程序,等其执行完发射一个事件,对事件找其相应的处理程序)
+观察者模式
+
+为什么偏爱nodejs
+前">
+<meta property="og:updated_time" content="2017-10-26T01:55:21.385Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="花花的博客">
+<meta name="twitter:description" content="nodejs是什么nodejs是js runtime使用事件驱动 和  非阻塞I/O 模型
+非阻塞I/O阻塞: I/O时进程等待I/O完成时进行下一步非阻塞: I/O时函数立即返回,进程不等待I/O完成  (异步的感觉)
+事件驱动
+I/O等异步操作结束后的通知(遇到I/O,不等I/O执行完直接执行下面程序,等其执行完发射一个事件,对事件找其相应的处理程序)
+观察者模式
+
+为什么偏爱nodejs
+前">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2.nodejs是什么 偏爱的原因.html"/>
+
+
+
+
+
+  <title>
+  
+
+  
+     | 花花的博客
+  
+</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?60f2cb5747a596a24f2a053f1650c30b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right  ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">花花的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+  <header class="post-header">
+
+	<h2 class="post-title" itemprop="name headline"></h2>
+
+
+
+</header>
+
+    
+    
+      <h2 id="nodejs是什么"><a href="#nodejs是什么" class="headerlink" title="nodejs是什么"></a>nodejs是什么</h2><p>nodejs是js runtime<br>使用事件驱动 和  非阻塞I/O 模型</p>
+<h2 id="非阻塞I-O"><a href="#非阻塞I-O" class="headerlink" title="非阻塞I/O"></a>非阻塞I/O</h2><p>阻塞: I/O时进程等待I/O完成时进行下一步<br>非阻塞: I/O时函数立即返回,进程不等待I/O完成  (异步的感觉)</p>
+<h2 id="事件驱动"><a href="#事件驱动" class="headerlink" title="事件驱动"></a>事件驱动</h2><ul>
+<li>I/O等异步操作结束后的通知(遇到I/O,不等I/O执行完直接执行下面程序,等其执行完发射一个事件,对事件找其相应的处理程序)</li>
+<li>观察者模式</li>
+</ul>
+<h2 id="为什么偏爱nodejs"><a href="#为什么偏爱nodejs" class="headerlink" title="为什么偏爱nodejs"></a>为什么偏爱nodejs</h2><ul>
+<li>前端职责范围变广</li>
+<li>适合I/O密集,高并发</li>
+</ul>
+<p>cpu密集: 压缩,解压,加密,解密<br>I/O密集: 文件操作,网络操作,数据库</p>
+<h2 id="web常用场景"><a href="#web常用场景" class="headerlink" title="web常用场景"></a>web常用场景</h2><ul>
+<li>静态资源读取</li>
+<li>数据库操作</li>
+<li>渲染页面</li>
+</ul>
+<h2 id="高并发应对之道"><a href="#高并发应对之道" class="headerlink" title="高并发应对之道"></a>高并发应对之道</h2><p>高并发: 单位时间访问量很大</p>
+<ul>
+<li>增加机器数</li>
+<li>增加每台机器的cpu数 - 多核</li>
+</ul>
+<h2 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h2><ul>
+<li>进程: 计算中的程序关于某数据集合上的一次运行活动,是系统进行资源分配和调度的基本单位</li>
+<li>多进程: 启动多个进程,多个进程可以一块执行多任务</li>
+</ul>
+<h2 id="nodejs工作模型"><a href="#nodejs工作模型" class="headerlink" title="nodejs工作模型"></a>nodejs工作模型</h2><p>cpu处理 -&gt; I/O<br>cpu处理的速度远远大于I/O的<br>cpu相当于服务员  I/O相当于大厨  一个大厨对应一个服务员<br>这样其实减少服务员  减少到一个 就是开一个进程<br>这样没有占用cpu</p>
+<h2 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h2><p>线程 :进程内一个相对独立的,可调度的执行单元,与同属一个进程的线程共享进程的资源<br>多线程: 启动一个进程,在一个进程内启动多个线程,这样多个线程也可以一块执行多个任务</p>
+<h2 id="nodejs的单线程"><a href="#nodejs的单线程" class="headerlink" title="nodejs的单线程"></a>nodejs的单线程</h2><ul>
+<li>单线程只是针对主进程,I/O操作系统底层多线程调度</li>
+<li>单线程不是单进程</li>
+</ul>
+<h2 id="nodejs常用场景"><a href="#nodejs常用场景" class="headerlink" title="nodejs常用场景"></a>nodejs常用场景</h2><ul>
+<li>web server</li>
+<li>本地代码构建</li>
+<li>实用工具开发(小爬虫,但不是最佳的)</li>
+</ul>
+
+    
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2.nodejs是什么 偏爱的原因.html"
+           data-title="" data-url="http://yoursite.com/2.nodejs是什么 偏爱的原因.html">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://omizt4opc.bkt.clouddn.com/avatar.jpg"
+               alt="frontzhm" />
+          <p class="site-author-name" itemprop="name">frontzhm</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">49</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">27</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">frontzhm</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"frontzhm"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

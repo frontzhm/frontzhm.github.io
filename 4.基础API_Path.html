@@ -1,0 +1,592 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="frontzhm, zhm, huahua, hua_hua" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="基础APIpath中文网
+
+normalize join resolve
+basename extname dirname
+parse format
+sep delimiter win32 posix
+
+path.normalize(path)normalize将不太规范的路径变得规范123456const &amp;#123;normalize&amp;#125; = require(&apos;path&apos;)consol">
+<meta property="og:type" content="website">
+<meta property="og:title" content="花花的博客">
+<meta property="og:url" content="http://yoursite.com/4.基础API_Path.html">
+<meta property="og:site_name" content="花花的博客">
+<meta property="og:description" content="基础APIpath中文网
+
+normalize join resolve
+basename extname dirname
+parse format
+sep delimiter win32 posix
+
+path.normalize(path)normalize将不太规范的路径变得规范123456const &amp;#123;normalize&amp;#125; = require(&apos;path&apos;)consol">
+<meta property="og:updated_time" content="2017-10-26T09:52:19.197Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="花花的博客">
+<meta name="twitter:description" content="基础APIpath中文网
+
+normalize join resolve
+basename extname dirname
+parse format
+sep delimiter win32 posix
+
+path.normalize(path)normalize将不太规范的路径变得规范123456const &amp;#123;normalize&amp;#125; = require(&apos;path&apos;)consol">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/4.基础API_Path.html"/>
+
+
+
+
+
+  <title>
+  
+
+  
+     | 花花的博客
+  
+</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?60f2cb5747a596a24f2a053f1650c30b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right  ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">花花的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+  <header class="post-header">
+
+	<h2 class="post-title" itemprop="name headline"></h2>
+
+
+
+</header>
+
+    
+    
+      <h1 id="基础API"><a href="#基础API" class="headerlink" title="基础API"></a>基础API</h1><h2 id="path"><a href="#path" class="headerlink" title="path"></a>path</h2><p><a href="http://nodejs.cn/api/path.html" target="_blank" rel="external">中文网</a></p>
+<ul>
+<li>normalize join resolve</li>
+<li>basename extname dirname</li>
+<li>parse format</li>
+<li>sep delimiter win32 posix</li>
+</ul>
+<h3 id="path-normalize-path"><a href="#path-normalize-path" class="headerlink" title="path.normalize(path)"></a>path.normalize(path)</h3><p>normalize将不太规范的路径变得规范<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> &#123;normalize&#125; = <span class="built_in">require</span>(<span class="string">'path'</span>)</div><div class="line"><span class="built_in">console</span>.log(normalize(<span class="string">'/user//local'</span>))</div><div class="line"><span class="built_in">console</span>.log(normalize(<span class="string">'/user//local/../bin'</span>))</div><div class="line"></div><div class="line"><span class="comment">// \user\local</span></div><div class="line"><span class="comment">// \user\bin</span></div></pre></td></tr></table></figure></p>
+<h3 id="path-join-…paths"><a href="#path-join-…paths" class="headerlink" title="path.join([…paths])"></a>path.join([…paths])</h3><p>join合并路径,其实结果默认用了normalize<br>也就是多了/没关系</p>
+<h3 id="path-resolve-…paths"><a href="#path-resolve-…paths" class="headerlink" title="path.resolve([…paths])"></a>path.resolve([…paths])</h3><p>resolve把相对路径转化为绝对路径</p>
+<h3 id="dirname-basename-extname"><a href="#dirname-basename-extname" class="headerlink" title="dirname basename extname"></a>dirname basename extname</h3><p>dirname 文件目录的绝对路径<br>basename 最后的文件或者目录<br>extname  文件的后缀<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> &#123;basename,dirname,extname&#125; = <span class="built_in">require</span>(<span class="string">'path'</span>)</div><div class="line"><span class="keyword">const</span> filePath = <span class="string">'/usr/local/bin/no.txt'</span></div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(basename(filePath))</div><div class="line"><span class="built_in">console</span>.log(dirname(filePath))</div><div class="line"><span class="built_in">console</span>.log(extname(filePath))</div><div class="line"></div><div class="line"><span class="comment">// no.txt</span></div><div class="line"><span class="comment">// /usr/local/bin</span></div><div class="line"><span class="comment">// .txt</span></div></pre></td></tr></table></figure></p>
+<h3 id="parse-format"><a href="#parse-format" class="headerlink" title="parse  format"></a>parse  format</h3><p>parse 是将路径解析成dirname basename extname<br>format 是将dirname basename extname拼接成路径<br>format一般用于改文件名,parse.name换成别的值,在format路径就变成别的文件了</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> &#123;parse,format&#125; = <span class="built_in">require</span>(<span class="string">'path'</span>)</div><div class="line"><span class="keyword">const</span> filePath = <span class="string">'/usr/local/node_modules/n/package.json'</span></div><div class="line"><span class="keyword">const</span> ret = parse(filePath)</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(ret)</div><div class="line"></div><div class="line"><span class="comment">/*&#123; </span></div><div class="line">  root: '/',</div><div class="line">  dir: '/usr/local/node_modules/n',</div><div class="line">  base: 'package.json',</div><div class="line">  ext: '.json',</div><div class="line">  name: 'package' &#125;</div><div class="line">*/</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(format(ret))</div><div class="line"><span class="comment">// /usr/local/node_modules/n\package.json</span></div></pre></td></tr></table></figure>
+<p>format注意的是</p>
+<ul>
+<li>dir 优先级高于 root</li>
+<li>base 优先级高于ext和name</li>
+</ul>
+<h3 id="操作系统相关的sep-delimiter-win32-posix"><a href="#操作系统相关的sep-delimiter-win32-posix" class="headerlink" title="操作系统相关的sep delimiter win32 posix"></a>操作系统相关的sep delimiter win32 posix</h3><p>sep是系统文件分隔符<br>delimiter是PATH的分隔符<br>如果看别的系统的分隔符,win32.sep 或者posix.sep</p>
+<h3 id="各个路径的区别"><a href="#各个路径的区别" class="headerlink" title="各个路径的区别"></a>各个路径的区别</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>)</div><div class="line"><span class="keyword">const</span> mod = <span class="built_in">require</span>(<span class="string">'./02_commonjs'</span>)</div><div class="line"><span class="built_in">console</span>.log(mod.testVar)</div><div class="line"><span class="built_in">console</span>.log(<span class="string">'__dirname'</span>,__dirname)</div><div class="line"><span class="built_in">console</span>.log(<span class="string">'process.cwd()'</span>,process.cwd())</div><div class="line"><span class="built_in">console</span>.log(<span class="string">'./    '</span>,path.resolve(<span class="string">'./'</span>))</div><div class="line"></div><div class="line"><span class="comment">// this is a module</span></div><div class="line"><span class="comment">// 100</span></div><div class="line"><span class="comment">// __dirname E:\demo\mukeNode</span></div><div class="line"><span class="comment">// process.cwd() E:\demo\mukeNode</span></div><div class="line"><span class="comment">// ./     E:\demo\mukeNode</span></div></pre></td></tr></table></figure>
+<p>大部分情况是一样的,但是如果这时<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cd ..</div><div class="line">node 23_paths.js</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">Administrator@USER-20161215ZN MINGW64 /e/demo/mukeNode</div><div class="line">$ node 23_paths.js</div><div class="line">this is a module</div><div class="line">100</div><div class="line">__dirname E:\demo\mukeNode</div><div class="line">process.cwd() E:\demo\mukeNode</div><div class="line">./     E:\demo\mukeNode</div><div class="line"></div><div class="line">Administrator@USER-20161215ZN MINGW64 /e/demo/mukeNode</div><div class="line">$ cd ..</div><div class="line"></div><div class="line">Administrator@USER-20161215ZN MINGW64 /e/demo</div><div class="line">$ node mukeNode/23_paths.js</div><div class="line">this is a module</div><div class="line">100</div><div class="line">__dirname E:\demo\mukeNode</div><div class="line">process.cwd() E:\demo</div><div class="line">./     E:\demo</div></pre></td></tr></table></figure>
+<p>这时候__dirname还是不变,但是process.cwd()和./都发生了变化</p>
+<ul>
+<li><strong>dirname,</strong>filename总是返回文件的绝对路径</li>
+<li>process.cwd() 总是返回执行node命令所在的文件夹</li>
+<li>./在require方法中总是相对当前文件所在的文件夹</li>
+<li>在其他地方和process.cwd()一样,相对node启动文件夹</li>
+</ul>
+
+    
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="4.基础API_Path.html"
+           data-title="" data-url="http://yoursite.com/4.基础API_Path.html">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://omizt4opc.bkt.clouddn.com/avatar.jpg"
+               alt="frontzhm" />
+          <p class="site-author-name" itemprop="name">frontzhm</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">49</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">27</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">frontzhm</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"frontzhm"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
