@@ -260,6 +260,178 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/25/mockData/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/09/25/mockData/" itemprop="url">
+                  用mockjs模拟数据
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-25T11:01:52+08:00">
+                2017-09-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/09/25/mockData/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/09/25/mockData/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
+<li>安装 <code>npm install mockjs</code></li>
+<li>数据模板定义规范<ul>
+<li>属性名和生成规则必须用引号包围, 用|隔开</li>
+<li>属性值类型:number,string,boolean,object,array,function,regexp</li>
+<li>生成规则主要是 <code>&#39;name|min-max&#39;: value</code>和<code>&#39;name|count&#39;: value</code>, 属性值类型决定其含义</li>
+<li>number: min-max之间的随机数 &nbsp;&nbsp;无后者不过加了浮点类型</li>
+<li>string: min-max之间的随机重复次数&nbsp;&nbsp;   重复次数count</li>
+<li>boolean: value出现的概率是 min/(min+max) &nbsp;&nbsp; false和true均为1/2</li>
+<li>object:  随机抽取min-max个属性&nbsp;&nbsp;  抽取count个属性</li>
+<li>array: min-max之间的随机重复次数 &nbsp;&nbsp;   1的话表示随机抽取一个值,其他值表示重复count次</li>
+<li>function:  就是执行函数,this是属性所在的对象</li>
+<li>regexp: 用正则生成字符串</li>
+</ul>
+</li>
+<li>数据模板定义规范:用 @ 来标识其后的字符串是占位符 且占位符优先使用数据模板 中的属性</li>
+<li>Mock.mock( rurl?, rtype?, template|function( options ) ) 生成数据</li>
+<li>Mock.random() 占位符 随机生成想要的数据,比如email</li>
+</ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/09/25/mockData/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/14/interactionInH5AndApp/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1407,172 +1579,6 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/19/webpack.entry/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/06/19/webpack.entry/" itemprop="url">
-                  未命名
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-19T13:30:05+08:00">
-                2017-06-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/06/19/webpack.entry/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/06/19/webpack.entry/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><a href="https://doc.webpack-china.org/configuration/" target="_blank" rel="external">webpack中文文档</a><br>四个核心概念：入口(entry)、输出(output)、loader、插件(plugins)。</p>
-<h2 id="起步"><a href="#起步" class="headerlink" title="起步"></a>起步</h2><p><a href="https://doc.webpack-china.org/guides/get-started/" target="_blank" rel="external">官网demo</a></p>
-<h2 id="context"><a href="#context" class="headerlink" title="context"></a>context</h2><p>用于解析entry选项的基础目录(绝对路径), 如果output.pathinfo设置了，就包含了缩短过的目录；（相当于公共目录，下面所有的目录都在这个公共目录下面)，这样可以简化entrty路径。相当于output的path</p>
-<h2 id="entry"><a href="#entry" class="headerlink" title="entry"></a>entry</h2><ul>
-<li>如果传入一个字符串，这个字符串就会被解析为启动时加载的模块。</li>
-<li>如果传入个数组，所有模块都是启动时加载，模块导出到最后一个里面。</li>
-<li>如果传入一个对象，就会创建多个输入包文件，对象键值就chunk(输出生成的文件)的name，值可以是字符串或者是数组。</li>
-</ul>
-<h2 id="output"><a href="#output" class="headerlink" title="output"></a>output</h2><p>output 位于对象最顶级键(key)，包括了一组选项，指示 webpack 如何去输出、以及在哪里输出你的「bundle、asset 和其他你所打包或使用 webpack 载入的任何内容」。</p>
-<h3 id="output-filename"><a href="#output-filename" class="headerlink" title="output.filename"></a>output.filename</h3><p>单一入口的时候，就是输出的文件名<br>多入口的时候，[name]被chunk的名字替换，[hash]被编译器hash替换，[chunkhash] 被chunk的hash替换。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">filename: <span class="string">'bundle.js'</span>,</div><div class="line"><span class="attr">filename</span>: <span class="string">'[name].js'</span>,</div></pre></td></tr></table></figure></p>
-<h3 id="output-path"><a href="#output-path" class="headerlink" title="output.path"></a>output.path</h3><p>输出文件的绝对路径。</p>
-<h3 id="output-publicPath"><a href="#output-publicPath" class="headerlink" title="output.publicPath"></a>output.publicPath</h3><p>publicPath指定了一个在浏览器中被引用的URL地址。<br>对于使用<script> 和 <link>加载器，当文件路径不同于他们的本地磁盘路径（由<br>path指定）时候publicPath被用来作为href或者url指向该文件<br>。这种做法在你需要将静态文件放在不同的域名或者CDN上面的时候是很有用的。 Webpack<br>Dev Server 也是用这个方式来读取文件的。与path搭配使用上[hash<br>就可以做好缓存方案了。</p>
-<h2 id="loader"><a href="#loader" class="headerlink" title="loader"></a>loader</h2><p>loader 用于对模块的源代码进行转换。loader 可以使你在 require() 或”加载”模块时预处理文件。因此，loader 类似于其他构建工具中“任务(task)”，并提供了处理前端构建步骤的强大方法。loader 可以将文件从不同的语言（如 TypeScript）转换为 JavaScript，或将内联图像转换为 data URL。loader 甚至允许你在 JavaScript 中 require（） CSS文件！</p>
-<h2 id="module"><a href="#module" class="headerlink" title="module"></a>module</h2><h3 id="module-rules"><a href="#module-rules" class="headerlink" title="module.rules"></a>module.rules</h3><p>自动引用的加载器的数组。<br>创建模块时，匹配请求的规则数组。这些规则能够修改模块的创建方式。这些规则能够对模块(module)应用 loader，或者修改解析器(parser)。<br>每个规则可以分为三部分 - 条件(condition)，结果(result)和嵌套规则(nested rule)。<br>条件：</p>
-<ul>
-<li>test习惯匹配文件的后缀</li>
-<li>exclude排除的文件路径</li>
-<li>include 匹配的文件路径<br>结果</li>
-<li>use 各个loader的名字数组</li>
-<li>use里面是各个loader,各个loader可以使用options进行配置</li>
-</ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">module</span>: &#123;</div><div class="line">  <span class="attr">rules</span>: [&#123;</div><div class="line">    <span class="attr">test</span>: <span class="string">'/\.json/'</span>,</div><div class="line">    <span class="attr">use</span>: [<span class="string">'json-loader'</span>],</div><div class="line">  &#125;, &#123;</div><div class="line">    <span class="attr">test</span>: <span class="regexp">/\.js$/</span>,</div><div class="line">    <span class="attr">exclude</span>: <span class="regexp">/node_modules/</span>,</div><div class="line">    <span class="attr">use</span>: &#123;</div><div class="line">      <span class="attr">loader</span>: <span class="string">'babel-loader'</span>,</div><div class="line">      <span class="comment">/*options: &#123;</div><div class="line">        presets: ['env', 'react']</div><div class="line">      &#125;*/</span></div><div class="line">      options: &#123;</div><div class="line">        <span class="string">"presets"</span>: [</div><div class="line">          [<span class="string">"env"</span>, &#123; <span class="string">"modules"</span>: <span class="literal">false</span> &#125;],</div><div class="line">          <span class="comment">// webpack 现在已经支持原生的 import 语句了, 并且将其运用在 tree-shaking 特性上</span></div><div class="line"></div><div class="line">          <span class="string">"react"</span></div><div class="line">          <span class="comment">// 转译 React 组件为 JavaScript 代码</span></div><div class="line">        ],</div><div class="line">        <span class="string">"plugins"</span>: [</div><div class="line">          <span class="string">"react-hot-loader/babel"</span></div><div class="line">          <span class="comment">// 开启 React 代码的模块热替换(HMR)</span></div><div class="line">        ]</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;, &#123;</div><div class="line">    <span class="attr">test</span>: <span class="regexp">/\.css$/</span>,</div><div class="line">    <span class="attr">use</span>: [</div><div class="line">      <span class="string">'style-loader'</span>, &#123;</div><div class="line">        <span class="attr">loader</span>: <span class="string">'css-loader'</span>,</div><div class="line">        <span class="attr">options</span>: &#123; <span class="attr">modules</span>: <span class="literal">true</span> &#125;</div><div class="line">      &#125;, &#123;</div><div class="line">        <span class="attr">loader</span>: <span class="string">'postcss-loader'</span>,</div><div class="line">        <span class="attr">options</span>: &#123;</div><div class="line">          <span class="attr">plugins</span>: <span class="function">(<span class="params">loader</span>) =&gt;</span> [</div><div class="line">            <span class="built_in">require</span>(<span class="string">'autoprefixer'</span>)(),</div><div class="line">          ]</div><div class="line"></div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">    ],</div><div class="line">    <span class="attr">exclude</span>: <span class="regexp">/node_modules/</span>,</div><div class="line">  &#125;]</div><div class="line">&#125;,</div></pre></td></tr></table></figure>
-<h2 id="resolve"><a href="#resolve" class="headerlink" title="resolve"></a>resolve</h2><p>这些选项能设置模块如何被解析。webpack提供合理的默认值<br>，但是还是可能会修改一些解析的细节。</p>
-<h3 id="resolve-alias"><a href="#resolve-alias" class="headerlink" title="resolve.alias"></a>resolve.alias</h3><p>创建 import 或 require 的别名，来确保模块引入变得更简单。例如，一些位于 src/ 文件夹下的常用模块：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">alias: &#123;</div><div class="line">  Utilities: path.resolve(__dirname, &apos;src/utilities/&apos;),</div><div class="line">  Templates: path.resolve(__dirname, &apos;src/templates/&apos;)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>那么在使用的时候<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">import Utility from &apos;../../utilities/utility&apos;;</div><div class="line">// 简化成</div><div class="line">import Utility from &apos;Utilities/utility&apos;;</div></pre></td></tr></table></figure></p>
-<p>一般<code>require(&quot;xyz&quot;)</code>，表示<code>/abc/node_modules/xyz/index.js</code><br><code>require(&quot;xyz/file.js&quot;)</code>对应<code>/abc/node_modules/xyz/file.js</code><br>一般引入是文件夹的时候，默认引入index.js</p>
-<h3 id="resolve-extensions"><a href="#resolve-extensions" class="headerlink" title="resolve.extensions"></a>resolve.extensions</h3><p>自动解析确定的扩展。默认值是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">extensions: [&quot;.js&quot;, &quot;.json&quot;]</div><div class="line">// 这样 file.js就不用加.js</div><div class="line">import File from &apos;../path/to/file&apos;</div></pre></td></tr></table></figure></p>
-<h2 id="plugins"><a href="#plugins" class="headerlink" title="plugins"></a>plugins</h2><p>最常用于（但不限于）在打包模块的“compilation”和“chunk<br>”生命周期执行操作和自定义功能<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> webpack = <span class="built_in">require</span>(<span class="string">'webpack'</span>)</div><div class="line"><span class="comment">// 导入非 webpack 默认自带插件</span></div><div class="line"><span class="keyword">var</span> ExtractTextPlugin = <span class="built_in">require</span>(<span class="string">'extract-text-webpack-plugin'</span>);</div><div class="line"><span class="keyword">var</span> DashboardPlugin = <span class="built_in">require</span>(<span class="string">'webpack-dashboard/plugin'</span>);</div><div class="line"></div><div class="line"><span class="comment">// 在配置中添加插件</span></div><div class="line">plugins: [</div><div class="line">  <span class="comment">// 构建优化插件</span></div><div class="line">  <span class="keyword">new</span> webpack.optimize.CommonsChunkPlugin(&#123;</div><div class="line">    <span class="attr">name</span>: <span class="string">'vendor'</span>,</div><div class="line">    <span class="attr">filename</span>: <span class="string">'vendor-[hash].min.js'</span>,</div><div class="line">  &#125;),</div><div class="line">  <span class="keyword">new</span> webpack.optimize.UglifyJsPlugin(&#123;</div><div class="line">    <span class="attr">compress</span>: &#123;</div><div class="line">      <span class="attr">warnings</span>: <span class="literal">false</span>,</div><div class="line">      <span class="attr">drop_console</span>: <span class="literal">false</span>,</div><div class="line">    &#125;</div><div class="line">  &#125;),</div><div class="line">  <span class="keyword">new</span> ExtractTextPlugin(&#123;</div><div class="line">    <span class="attr">filename</span>: <span class="string">'build.min.css'</span>,</div><div class="line">    <span class="attr">allChunks</span>: <span class="literal">true</span>,</div><div class="line">  &#125;),</div><div class="line">  <span class="keyword">new</span> webpack.IgnorePlugin(<span class="regexp">/^\.\/locale$/</span>, /moment$/),</div><div class="line">  <span class="comment">// 编译时(compile time)插件</span></div><div class="line">  <span class="keyword">new</span> webpack.DefinePlugin(&#123;</div><div class="line">    <span class="string">'process.env.NODE_ENV'</span>: <span class="string">'"production"'</span>,</div><div class="line">  &#125;),</div><div class="line">  <span class="comment">// webpack-dev-server 强化插件</span></div><div class="line">  <span class="keyword">new</span> DashboardPlugin(),</div><div class="line">  <span class="keyword">new</span> webpack.HotModuleReplacementPlugin(),</div><div class="line">]</div></pre></td></tr></table></figure></p>
-<h2 id="devServer"><a href="#devServer" class="headerlink" title="devServer"></a>devServer</h2><p>永远不要在生产环境中使用这些工具，永远不要。<br><a href="https://doc.webpack-china.org/guides/development/">文档</a><br>先安装<code>npm install webpack-dev-server --save-dev</code></p>
-<h3 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">devServer: &#123;</div><div class="line">  contentBase: path.join(__dirname, &quot;dist&quot;), // 服务器的根目录</div><div class="line">  compress: true, // 一切服务都启用gzip 压缩：</div><div class="line">  port: 9000</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="devServer-historyApiFallback"><a href="#devServer-historyApiFallback" class="headerlink" title="devServer.historyApiFallback"></a>devServer.historyApiFallback</h2><p>当使用 HTML5 History API 时，任意的 404 响应都可能需要被替代为 index.html。通过传入以下启用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">historyApiFallback: true</div></pre></td></tr></table></figure></p>
-<p>通过传入一个对象，比如使用 rewrites 这个选项，此行为可进一步地控制：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">historyApiFallback: &#123;</div><div class="line">  rewrites: [</div><div class="line">    &#123; from: /^\/$/, to: &apos;/views/landing.html&apos; &#125;,</div><div class="line">    &#123; from: /^\/subpage/, to: &apos;/views/subpage.html&apos; &#125;,</div><div class="line">    &#123; from: /./, to: &apos;/views/404.html&apos; &#125;</div><div class="line">  ]</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h3 id="proxy"><a href="#proxy" class="headerlink" title="proxy"></a>proxy</h3><p>配置代理，设置和模拟api相关的</p>
-<p><a href="https://doc.webpack-china.org/guides/hmr-react/">配置热替换</a></p>
-<h2 id="devTools"><a href="#devTools" class="headerlink" title="devTools"></a>devTools</h2><p>当 JavaScript 异常抛出时，你常会想知道这个错误发生在哪个文件的哪一行。然而因为 webpack 将文件输出为一个或多个 bundle，所以 追踪这一错误会很不方便。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">devtool:&apos;cheap-eval-source-map&apos;</div></pre></td></tr></table></figure>
-<blockquote>
-<p><a href="http://stephenzhao.github.io/2016/06/13/webpack-doc-configuration/">别人家的解释</a></p>
-</blockquote>
-</script></p>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/05/curryAndCompose/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1961,7 +1967,7 @@
             
             <div class="site-state-item site-state-categories">
               
-                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">分类</span>
               
             </div>
@@ -1972,7 +1978,7 @@
             
             <div class="site-state-item site-state-tags">
               
-                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-count">29</span>
                 <span class="site-state-item-name">标签</span>
               
             </div>
