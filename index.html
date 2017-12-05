@@ -260,160 +260,6 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/01/webpackCodeParse/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/12/01/webpackCodeParse/" itemprop="url">
-                  理解webpack的代码分隔
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-01T14:41:25+08:00">
-                2017-12-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/构建工具/" itemprop="url" rel="index">
-                    <span itemprop="name">构建工具</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/12/01/webpackCodeParse/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/12/01/webpackCodeParse/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <!-- ## TL;DR -->
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/12/01/webpackCodeParse/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/23/webpack/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -576,19 +422,65 @@
 <li>防止重复：使用 webpack内置的CommonsChunkPlugin 去重和分离 chunk。</li>
 <li>动态导入：通过模块的内联函数调用来分离代码。</li>
 </ul>
-<h3 id="防止重复"><a href="#防止重复" class="headerlink" title="防止重复"></a>防止重复</h3><p><a href="https://doc.webpack-china.org/plugins/commons-chunk-plugin" target="_blank" rel="external"><code>CommonsChunkPlugin</code></a> 插件可以将公共的依赖模块提取到已有的入口 chunk 中，或者提取到一个新生成的 chunk。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">new</span> webpack.optimize.CommonsChunkPlugin(&#123;</div><div class="line">    <span class="attr">name</span>: <span class="string">'common'</span> <span class="comment">// chunk的名称，如果这个chunk已经在entry中定义，该chunk会被直接提取；如果没有定义，则生成一个空的chunk来提取其他所有chunk的公共代码。</span></div><div class="line">    <span class="comment">// chunks: [] // 如果被忽略，所有的，所有的 入口chunk (entry chunk) 都会被选择。</span></div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-<p><a href="http://foio.github.io/wepack-code-spliting/" target="_blank" rel="external">webpack代码分割技巧</a>讲解的很酷.<br><a href="https://github.com/ShowJoy-com/showjoy-blog/issues/7" target="_blank" rel="external">看懂前端脚手架你需要这篇webpack</a><br>简单的感受下:</p>
-<ul>
-<li>chunk: webpack将多个模块打包之后的代码集合</li>
-<li>Runtime: 非源码部分的引导模块代码，都属于 webpack 运行时。</li>
+<h3 id="防止重复"><a href="#防止重复" class="headerlink" title="防止重复"></a>防止重复</h3><p><a href="http://foio.github.io/wepack-code-spliting/" target="_blank" rel="external">webpack代码分割技巧</a>讲解的很酷.<br><a href="https://github.com/ShowJoy-com/showjoy-blog/issues/7" target="_blank" rel="external">看懂前端脚手架你需要这篇webpack</a></p>
+<p><a href="https://doc.webpack-china.org/plugins/commons-chunk-plugin" target="_blank" rel="external"><code>CommonsChunkPlugin</code></a> 插件可以将公共的依赖模块提取到已有的入口 chunk 中，或者提取到一个新生成的 chunk。</p>
+<h4 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h4><ul>
+<li>chunk: webpack将多个模块打包之后的代码集合,<code>entry:{index:&#39;index.js&#39;,math:&#39;math.js&#39;}</code>index和math就是chunk</li>
+<li>Runtime: 非源码部分的引导模块代码，都属于 webpack 运行时。(用了CommonsChunkPlugin,可以简单看下源码,就明白了)</li>
 <li>normal chunk: 普通块不包含运行时runtime，只包含一系列模块。但是在应用运行时，普通块可以动态的进行加载。通常会以jsonp的包装方式进行加载。而code splitting主要使用的就是普通块。</li>
 <li>initial chunk: 官方对initial chunk的定义非常简单，初始块就是普通块，跟普通块相同的是同样不包含运行时runtime，不同的是初始块是计算在初始加载过程时间内的。在介绍入口块entry chunk的时候也介绍过，一旦入口块失去了运行时，就会变成初始块。这个转变经常由CommonsChunkPlugin插件实现。</li>
 <li>Entry Chunk: 包含一系列模块代码，以及webpack的运行时(Runtime)代码，一个页面只能有一个Entry Chunk，并且需要先于Normal Chunk载入</li>
 <li>CommonsChunkPlugin的本质: 将多个入口中的公有代码和Runtime(运行时)抽取到父节点, 如果是单入口文件则会将Runtime(运行时)抽取出来</li>
 </ul>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  name: string, // or</div><div class="line">  names: string[],</div><div class="line">  // 这是 common chunk 的名称。已经存在的 chunk 可以通过传入一个已存在的 chunk 名称而被选择。</div><div class="line">  // 如果一个字符串数组被传入，这相当于插件针对每个 chunk 名被多次调用</div><div class="line">  // 如果该选项被忽略，同时 `options.async` 或者 `options.children` 被设置，所有的 chunk 都会被使用，</div><div class="line">  // 否则 `options.filename` 会用于作为 chunk 名。</div><div class="line">  // When using `options.async` to create common chunks from other async chunks you must specify an entry-point</div><div class="line">  // chunk name here instead of omitting the `option.name`.</div><div class="line"></div><div class="line">  filename: string,</div><div class="line">  // common chunk 的文件名模板。可以包含与 `output.filename` 相同的占位符。</div><div class="line">  // 如果被忽略，原本的文件名不会被修改(通常是 `output.filename` 或者 `output.chunkFilename`)。</div><div class="line">  // This option is not permitted if you're using `options.async` as well, see below for more details.</div><div class="line"></div><div class="line">  minChunks: number|Infinity|function(module, count) -&gt; boolean,</div><div class="line">  // 在传入  公共chunk(commons chunk) 之前所需要包含的最少数量的 chunks 。</div><div class="line">  // 数量必须大于等于2，或者少于等于 chunks的数量</div><div class="line">  // 传入 `Infinity` 会马上生成 公共chunk，但里面没有模块。</div><div class="line">  // 你可以传入一个 `function` ，以添加定制的逻辑（默认是 chunk 的数量）</div><div class="line"></div><div class="line">  chunks: string[],</div><div class="line">  // 通过 chunk name 去选择 chunks 的来源。chunk 必须是  公共chunk 的子模块。</div><div class="line">  // 如果被忽略，所有的，所有的 入口chunk (entry chunk) 都会被选择。</div><div class="line"></div><div class="line"></div><div class="line">  children: boolean,</div><div class="line">  // 如果设置为 `true`，所有  公共chunk 的子模块都会被选择</div><div class="line"></div><div class="line">  deepChildren: boolean,</div><div class="line">  // If `true` all descendants of the commons chunk are selected</div><div class="line"></div><div class="line">  async: boolean|string,</div><div class="line">  // 如果设置为 `true`，一个异步的  公共chunk 会作为 `options.name` 的子模块，和 `options.chunks` 的兄弟模块被创建。</div><div class="line">  // 它会与 `options.chunks` 并行被加载。</div><div class="line">  // Instead of using `option.filename`, it is possible to change the name of the output file by providing</div><div class="line">  // the desired string here instead of `true`.</div><div class="line"></div><div class="line">  minSize: number,</div><div class="line">  // 在 公共chunk 被创建立之前，所有 公共模块 (common module) 的最少大小。</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
+<p>可以这样理解,没有CommonsChunkPlugin,各入口生成的文件互不相干<br>有了CommonsChunkPlugin,将各入口(chunks的配置项的,没有chunks默认是所有)生成的文件Runtime和共同部分扔出来了,扔到哪个文件,就看配置了,有可能放在哪个入口文件里,有可能新建一个文件</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">new</span> webpack.optimize.CommonsChunkPlugin(&#123;</div><div class="line">    <span class="attr">name</span>: <span class="string">'common'</span> <span class="comment">// chunk的名称，如果这个chunk已经在entry中定义，该chunk会被直接提取；如果没有定义，则生成一个空的chunk来提取其他所有chunk的公共代码。</span></div><div class="line">    <span class="comment">// chunks: [] // 如果被忽略，所有的，所有的 入口chunk (entry chunk) 都会被选择。</span></div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">entry: &#123;</div><div class="line">    <span class="attr">index</span>: <span class="string">'./src/index.js'</span></div><div class="line">&#125;,</div><div class="line"><span class="keyword">new</span> webpack.optimize.CommonsChunkPlugin(&#123;</div><div class="line">    <span class="attr">name</span>: <span class="string">'common'</span> <span class="comment">// 指定公共 bundle 的名称。</span></div><div class="line">&#125;)</div><div class="line"><span class="comment">// 生成 common.bundle.js(包括Runtime)和index.bundle.js</span></div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">entry: &#123;</div><div class="line">    <span class="attr">index</span>: <span class="string">'./src/index.js'</span></div><div class="line">&#125;,</div><div class="line"><span class="keyword">new</span> webpack.optimize.CommonsChunkPlugin(&#123;</div><div class="line">    <span class="attr">name</span>: <span class="string">'index'</span> <span class="comment">// 指定公共 bundle 的名称。</span></div><div class="line">&#125;)</div><div class="line"><span class="comment">// 生成 index.bundle.js(包括Runtime)</span></div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">entry: &#123;</div><div class="line">    <span class="attr">index</span>: <span class="string">'./src/index.js'</span>,</div><div class="line">    <span class="attr">math</span>: <span class="string">'./src/math.js'</span>,</div><div class="line">&#125;,</div><div class="line"><span class="keyword">new</span> webpack.optimize.CommonsChunkPlugin(&#123;</div><div class="line">    <span class="attr">name</span>: <span class="string">'common'</span> <span class="comment">// 指定公共 bundle 的名称。</span></div><div class="line">&#125;)</div><div class="line"><span class="comment">// 生成 common.bundle.js(包括Runtime和index,math的共同部分)和indx.bundle.js ,math.bundle.js</span></div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">entry: &#123;</div><div class="line">    <span class="attr">index</span>: <span class="string">'./src/index.js'</span>,</div><div class="line">    <span class="attr">math</span>: <span class="string">'./src/math.js'</span>,</div><div class="line">&#125;,</div><div class="line"><span class="keyword">new</span> webpack.optimize.CommonsChunkPlugin(&#123;</div><div class="line">    <span class="attr">name</span>: <span class="string">'math'</span> <span class="comment">// 指定公共 bundle 的名称。</span></div><div class="line">&#125;)</div><div class="line"><span class="comment">// 生成 math.bundle.js(包括Runtime和index的共同部分)和indx.bundle.js</span></div></pre></td></tr></table></figure>
+<h4 id="用途"><a href="#用途" class="headerlink" title="用途"></a>用途</h4><ol>
+<li>将很少变化的常用库（react、lodash、redux）等与业务代码分割：</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">entry: &#123;</div><div class="line">    <span class="attr">app</span>: <span class="string">"./app.js"</span>,</div><div class="line">    <span class="attr">vendor</span>: [<span class="string">"lodash"</span>,<span class="string">"jquery"</span>],</div><div class="line">&#125;,</div><div class="line"><span class="keyword">new</span> webpack.optimize.CommonsChunkPlugin(&#123;<span class="attr">name</span>: <span class="string">"vendor"</span>&#125;)</div><div class="line"></div><div class="line"><span class="comment">// 生成vendor.bundle.js(包括Runtime+ 共同部分()+ vendor)  app.bundle.js</span></div></pre></td></tr></table></figure>
+<ol>
+<li>提取共有代码</li>
+</ol>
+<p>提取math和print的公共代码</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">entry:&#123;</div><div class="line">    <span class="attr">math</span>: <span class="string">'./math.js'</span>,</div><div class="line">    <span class="attr">print</span>: <span class="string">'./print.js'</span>,</div><div class="line">    <span class="attr">index</span>: <span class="string">'./index.js'</span></div><div class="line">&#125;</div><div class="line"><span class="keyword">new</span> webpack.optimize.CommonsChunkPlugin(&#123;<span class="attr">name</span>: <span class="string">"common"</span>,<span class="attr">chunks</span>:[<span class="string">'math'</span>,<span class="string">'print'</span>]&#125;)</div><div class="line"><span class="comment">// index.bundle.js(自己的Runtime normal)   common.bundle.js(后两者的Runtime和公共代码)  math.bundle.js print.bundle.js</span></div></pre></td></tr></table></figure>
+<ol>
+<li>提取Runtime的代码</li>
+</ol>
+<p>这种情况下，当业务代码发生变化，而库代码没有改动时，vendor的chunkhash不会变<br>当names是数组的时候,数组的最后一项默认就是Runtime</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">entry: &#123;</div><div class="line">    <span class="attr">app</span>: <span class="string">"./app.js"</span>,</div><div class="line">    <span class="attr">vendor</span>: [<span class="string">"lodash"</span>,<span class="string">"jquery"</span>],</div><div class="line">&#125;,</div><div class="line"><span class="attr">output</span>: &#123;</div><div class="line">    <span class="attr">filename</span>: <span class="string">'[name].[chunkhash].js'</span>,</div><div class="line">    <span class="attr">path</span>: <span class="string">'build/'</span>,</div><div class="line">&#125;,</div><div class="line"><span class="keyword">new</span> webpack.optimize.CommonsChunkPlugin(&#123;<span class="attr">names</span>: [<span class="string">"vendor"</span>,<span class="string">"runtime"</span>]&#125;)</div><div class="line"></div><div class="line"><span class="comment">// runtime.bundle.js vendor.bundle.js app.bundle.js</span></div></pre></td></tr></table></figure>
+<h3 id="动态导入"><a href="#动态导入" class="headerlink" title="动态导入"></a>动态导入</h3><p>当涉及到动态代码拆分时，webpack 提供了两个类似的技术。对于动态导入，第一种，也是优先选择的方式是，使用符合 ECMAScript 提案 的 import() 语法。第二种，则是使用 webpack 特定的 require.ensure。让我们先尝试使用第一种……</p>
+<h4 id="import-语法"><a href="#import-语法" class="headerlink" title="import 语法"></a>import 语法</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">output: &#123;</div><div class="line">    <span class="attr">filename</span>: <span class="string">'[name].bundle.js'</span>,</div><div class="line">    <span class="comment">// 这里使用了 chunkFilename，它决定非入口 chunk 的名称。</span></div><div class="line">    chunkFilename: <span class="string">'[name].bundle.js'</span>,</div><div class="line">    <span class="attr">path</span>: path.resolve(__dirname, <span class="string">'dist'</span>)</div><div class="line">  &#125;,</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getComponent</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="comment">// 在注释中使用了 webpackChunkName。这样做会导致我们的 bundle 被命名为 lodash.bundle.js ，而不是 [id].bundle.js</span></div><div class="line">  <span class="keyword">return</span> <span class="keyword">import</span>(<span class="comment">/* webpackChunkName: "lodash" */</span><span class="string">'lodash'</span>).then(<span class="function"><span class="params">_</span>=&gt;</span>&#123;</div><div class="line">    <span class="keyword">var</span> element = <span class="built_in">document</span>.createElement(<span class="string">'div'</span>)</div><div class="line">    element.innerHTML = _.join([<span class="string">'hello'</span>, <span class="string">'webpack'</span>], <span class="string">''</span>)</div><div class="line">    <span class="keyword">return</span> element</div><div class="line">  &#125;).catch(<span class="function"><span class="params">error</span>=&gt;</span>&#123;</div><div class="line">    <span class="string">'An error occurred while loading the component'</span></div><div class="line">  &#125;)</div><div class="line">&#125;</div><div class="line">getComponent().then(<span class="function"><span class="params">component</span>=&gt;</span><span class="built_in">document</span>.body.appendChild(component))</div></pre></td></tr></table></figure>
+<p>import() 语句恰好会返回 promises,可以用类似 babel 的预处理器(pre-processor)启用 async 函数</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// async 返回的promise对象的状态默认是resolved, 值是函数的返回值</span></div><div class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">getComponent</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="comment">// 在注释中使用了 webpackChunkName。这样做会导致我们的 bundle 被命名为 lodash.bundle.js ，而不是 [id].bundle.js </span></div><div class="line">    <span class="keyword">const</span> _ = <span class="keyword">await</span> <span class="keyword">import</span>(<span class="comment">/* webpackChunkName: "lodash" */</span><span class="string">'lodash'</span>)</div><div class="line">    <span class="keyword">var</span> element = <span class="built_in">document</span>.createElement(<span class="string">'div'</span>)</div><div class="line">    element.innerHTML = _.join([<span class="string">'hello'</span>, <span class="string">'webpack'</span>], <span class="string">''</span>)</div><div class="line">    <span class="keyword">return</span> element</div><div class="line"></div><div class="line">&#125;</div><div class="line">getComponent().then(<span class="function"><span class="params">component</span>=&gt;</span><span class="built_in">document</span>.body.appendChild(component))</div></pre></td></tr></table></figure>
+<h2 id="懒加载"><a href="#懒加载" class="headerlink" title="懒加载"></a>懒加载</h2><p>懒加载或者按需加载，需要的时候加载相应代码. </p>
+<p>其实就是上面的import,但是一般不用库,比如点击按钮的时候,打印文字.这里的打印是另外的js,只有用户点击的时候才需要</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// index.js</span></div><div class="line"><span class="keyword">var</span> btn = <span class="built_in">document</span>.createElement(<span class="string">'button'</span>)</div><div class="line">btn.innerHTML = <span class="string">'click view control'</span></div><div class="line">btn.onclick = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">  <span class="keyword">import</span>(<span class="comment">/* webpackChunkName:print */</span><span class="string">'./print'</span>).then(<span class="function"><span class="params">module</span> =&gt;</span> &#123;</div><div class="line">    <span class="built_in">module</span>.default()</div><div class="line">  &#125;)</div><div class="line">&#125;</div><div class="line"><span class="built_in">document</span>.body.appendChild(btn)</div><div class="line"></div><div class="line"><span class="comment">// print.js</span></div><div class="line"><span class="built_in">console</span>.log(<span class="string">'The print.js module has loaded! See the network tab in dev tools...'</span>)</div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> () =&gt; &#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'Button Clicked: Here\'s "some text"!'</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面会先生成print.bundle.js,但是页面不会加载.再点击的时候才会加载此文件</p>
+<p>懒加载的两个条件,才能生成[name].bundle.js</p>
+<ul>
+<li>chunkFilename: ‘[name].bundle.js’</li>
+<li>import(/<em> webpackChunkName: “lodash” </em>/‘lodash’)</li>
+</ul>
+<h2 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h2><p>通过必要的配置，以确保 webpack 编译生成的文件能够被客户端缓存，而在文件内容变化后，能够请求到新的文件。<br>其实就是每次生成文件的时候加一个随机码</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">output: &#123;</div><div class="line">    <span class="comment">// filename: '[name].bundle.js'  没错加了个chunkhash</span></div><div class="line">    filename: <span class="string">'[name].[chunkhash].js'</span>,</div><div class="line">    <span class="attr">path</span>: path.resolve(__dirname, <span class="string">'dist'</span>)</div><div class="line">  &#125;,</div></pre></td></tr></table></figure>
+<p>可以看到，bundle 的名称是它内容（通过 hash）的映射。如果我们不做修改，然后再次运行构建，我们的文件名按照期望，依然保持不变。然而，如果我们再次运行，可能会发现情况并非如此.这也是因为 webpack 在入口 chunk 中，包含了某些样板(boilerplate)，特别是 runtime 和 manifest。（译注：样板(boilerplate)指 webpack 运行时的引导代码）,于是需要提取模板</p>
+<h3 id="提取模板"><a href="#提取模板" class="headerlink" title="提取模板"></a>提取模板</h3><p>CommonsChunkPlugin 可以用于将模块分离到单独的文件中。然而 CommonsChunkPlugin 有一个较少有人知道的功能是，能够在每次修改后的构建结果中，将 webpack 的样板(boilerplate)和 manifest 提取出来。通过指定 entry 配置中未用到的名称，此插件会自动将我们需要的内容提取到单独的包中：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">entry: &#123;</div><div class="line">    <span class="attr">index</span>: <span class="string">'./src/index.js'</span></div><div class="line">&#125;,</div><div class="line"><span class="attr">plugins</span>: [</div><div class="line">    <span class="keyword">new</span> CleanWebpackPlugin([<span class="string">'dist'</span>]),</div><div class="line">    <span class="keyword">new</span> HtmlWebpackPlugin(&#123;</div><div class="line">      <span class="attr">title</span>: <span class="string">'Caching'</span></div><div class="line">    &#125;),</div><div class="line">    <span class="comment">// 重点在这里</span></div><div class="line">    <span class="keyword">new</span> webpack.optimize.CommonsChunkPlugin(&#123;</div><div class="line">      <span class="attr">name</span>: <span class="string">'runtime'</span></div><div class="line">    &#125;)</div><div class="line">  ],</div><div class="line">  <span class="comment">// 生成runtime.eeqw83821.js 和index.h32jik32.js</span></div></pre></td></tr></table></figure>
+<p>将第三方库拧出来,这样只要库代码不动,其chunkhash就不会变化</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">entry: &#123;</div><div class="line">    <span class="attr">index</span>: <span class="string">'./src/index.js'</span>,</div><div class="line">    <span class="attr">vendor</span>: [<span class="string">'lodash'</span>]</div><div class="line">&#125;,</div><div class="line"><span class="attr">plugins</span>: [</div><div class="line">    <span class="keyword">new</span> CleanWebpackPlugin([<span class="string">'dist'</span>]),</div><div class="line">    <span class="keyword">new</span> HtmlWebpackPlugin(&#123;</div><div class="line">      <span class="attr">title</span>: <span class="string">'Caching'</span></div><div class="line">    &#125;),</div><div class="line">    <span class="comment">// 重点在这里 注意，引入顺序在这里很重要。CommonsChunkPlugin 的 'vendor' 实例，必须在 'runtime' 实例之前引入。</span></div><div class="line">    <span class="keyword">new</span> webpack.optimize.CommonsChunkPlugin(&#123;</div><div class="line">      <span class="attr">name</span>: <span class="string">'vendor'</span></div><div class="line">    &#125;),</div><div class="line">    <span class="keyword">new</span> webpack.optimize.CommonsChunkPlugin(&#123;</div><div class="line">      <span class="attr">name</span>: <span class="string">'runtime'</span></div><div class="line">    &#125;)</div><div class="line">  ],</div><div class="line">  <span class="comment">// 生成runtime.eeqw83821.js 和index.h32jik32.js vendor.fda788fa.js</span></div><div class="line">  <span class="comment">// 等同于new webpack.optimize.CommonsChunkPlugin(&#123; names: ['vendor','runtime'] &#125;)</span></div></pre></td></tr></table></figure>
+<p>然后,其实是不对的,当index.js再引入别的文件的时候,vendor的hash还是会变化.这是因为每个 module.id 会基于默认的解析顺序(resolve order)进行增量。也就是说，当解析顺序发生变化，ID 也会随之改变。因此，简要概括：</p>
+<ul>
+<li>index bundle 会随着自身的新增内容的修改，而发生变化。</li>
+<li>vendor bundle 会随着自身的 module.id 的修改，而发生变化。</li>
+<li>runtime bundle 会因为当前包含一个新模块的引用，而发生变化。</li>
+</ul>
+<p>第一个和最后一个都是符合预期的行为 – 而 vendor 的 hash 发生变化是我们要修复的。幸运的是，可以使用两个插件来解决这个问题。第一个插件是 NamedModulesPlugin，将使用模块的路径，而不是数字标识符。虽然此插件有助于在开发过程中输出结果的可读性，然而执行时间会长一些。第二个选择是使用 HashedModuleIdsPlugin，推荐用于生产环境构建：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">plugins: [</div><div class="line">    <span class="keyword">new</span> CleanWebpackPlugin([<span class="string">'dist'</span>]),</div><div class="line">    <span class="keyword">new</span> HtmlWebpackPlugin(&#123;</div><div class="line">      <span class="attr">title</span>: <span class="string">'Caching'</span></div><div class="line">    &#125;),</div><div class="line">    <span class="comment">// 该插件会根据模块的相对路径生成一个四位数的hash作为模块id, 建议用于生产环境。</span></div><div class="line">    <span class="comment">// 就是这个插件 现在，不管再添加任何新的本地依赖，对于每次构建，vendor hash 都应该保持一致：</span></div><div class="line">    <span class="keyword">new</span> webpack.HashedModuleIdsPlugin(),</div><div class="line">    <span class="comment">// 重点在这里 注意，引入顺序在这里很重要。CommonsChunkPlugin 的 'vendor' 实例，必须在 'runtime' 实例之前引入。</span></div><div class="line">    <span class="keyword">new</span> webpack.optimize.CommonsChunkPlugin(&#123;</div><div class="line">      <span class="attr">name</span>: <span class="string">'vendor'</span></div><div class="line">    &#125;),</div><div class="line">    <span class="keyword">new</span> webpack.optimize.CommonsChunkPlugin(&#123;</div><div class="line">      <span class="attr">name</span>: <span class="string">'runtime'</span></div><div class="line">    &#125;)</div><div class="line">  ],</div></pre></td></tr></table></figure>
           
         
       
@@ -1979,6 +1871,189 @@
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/28/nodeStudy/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/09/28/nodeStudy/" itemprop="url">
+                  学习node
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-28T10:08:31+08:00">
+                2017-09-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/node/" itemprop="url" rel="index">
+                    <span itemprop="name">node</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/09/28/nodeStudy/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/09/28/nodeStudy/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
+<li>模块暴露<code>module.exports</code>, 引入模块<code>require()</code></li>
+<li>全局对象global, 常用的其属性console和process, 下一次循环用<code>process.nextTick()</code>,process.argv获得命令行参数, 判断是不是浏览器环境<code>typeof window === &#39;undefined&#39;</code></li>
+<li>fs模块, 同时提供异步和同步方法<ul>
+<li>读文件: <code>fs.readFile(&#39;sample.txt&#39;,&#39;utf-8&#39;,function(err,data){ 一般err为空 })</code>, 二进制文件不用编码</li>
+<li>写文件: <code>fs.writeFile(&#39;sample.txt&#39;,&#39;hi lalala&#39;,function(err){})</code>, 字符串转buffer<code>Buffer.from(&#39;hihi&#39;,&#39;utf-8&#39;)</code>, buffer转字符串  bufferData.toString(‘utf-8’)</li>
+<li>得到文件的详细信息：<code>fs.stat(&#39;sample.txt&#39;,function(err,data){data.isFile(),data.isDirectory(),data.size,data.birthtime,data.mtime})</code></li>
+</ul>
+</li>
+<li>stream是一个对象，有自己的事件：data事件表示流的数据已经可以读取了，end事件表示这个流已经到末尾了，没有数据可以读取了，error事件表示出错了。<ul>
+<li>读文件流：<code>var stream = fs.createReadStream(&#39;sample.txt&#39;,&#39;utf-8&#39;);stream.on(&#39;data&#39;,function(chunk){..});stream.on(&#39;end&#39;,function(){..});stream.on(&#39;error&#39;,function(err){..});</code>，data事件可能会有多次，每次传递的chunk是流的一部分数据</li>
+<li>写文件流：<code>var stream1 = fs.createWriteStream(&#39;sample.txt&#39;,&#39;utf-8&#39;);stream1.write(&#39;lala&#39;,function(){写完之后的回调});stream1.write((new Buffer(&#39;buffer&#39;,&#39;utf-8&#39;)));stream1.end()</code></li>
+<li>pipe：把一个文件流和另一个文件流串起来，这样源文件的所有数据就自动写入到目标文件里了<code>stream.pipe(stream1)</code></li>
+</ul>
+</li>
+<li><code>url.parse(urlStr,true)</code>解析url</li>
+<li><code>path.resolve([...paths])</code>方法会把一个路径或路径片段的序列解析为一个绝对路径。</li>
+<li><code>path.join([...paths])</code> 方法使用平台特定的分隔符把全部给定的 path 片段连接到一起，并规范化生成的路径。</li>
+<li>file_server的练习</li></ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/09/28/nodeStudy/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
   </section>
 
   
@@ -2028,7 +2103,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">52</span>
+                <span class="site-state-item-count">51</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
