@@ -1,0 +1,778 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="wechat," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="TL;DR
+必须配置微信参数,且在jsApiList配置你要的功能
+微信拍照的官方文档
+wx.chooseImage 得到localid的数组
+wx.getLocalImgData 将localid的图片转化得到其base64,但不同系统的手机转化成的base64略有不同,需要处理才能使用
+wx.uploadImage 上传图片(locaiid)到微信服务器 返回其serverid,也就是medi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="微信的图像开发接口">
+<meta property="og:url" content="http://yoursite.com/2017/12/07/wechatCamera/index.html">
+<meta property="og:site_name" content="花花的博客">
+<meta property="og:description" content="TL;DR
+必须配置微信参数,且在jsApiList配置你要的功能
+微信拍照的官方文档
+wx.chooseImage 得到localid的数组
+wx.getLocalImgData 将localid的图片转化得到其base64,但不同系统的手机转化成的base64略有不同,需要处理才能使用
+wx.uploadImage 上传图片(locaiid)到微信服务器 返回其serverid,也就是medi">
+<meta property="og:updated_time" content="2017-12-07T10:18:46.932Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="微信的图像开发接口">
+<meta name="twitter:description" content="TL;DR
+必须配置微信参数,且在jsApiList配置你要的功能
+微信拍照的官方文档
+wx.chooseImage 得到localid的数组
+wx.getLocalImgData 将localid的图片转化得到其base64,但不同系统的手机转化成的base64略有不同,需要处理才能使用
+wx.uploadImage 上传图片(locaiid)到微信服务器 返回其serverid,也就是medi">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/12/07/wechatCamera/"/>
+
+
+
+
+
+  <title> 微信的图像开发接口 | 花花的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?60f2cb5747a596a24f2a053f1650c30b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">花花的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/07/wechatCamera/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                微信的图像开发接口
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-07T10:08:04+08:00">
+                2017-12-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/12/07/wechatCamera/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/12/07/wechatCamera/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
+<li>必须配置微信参数,且在jsApiList配置你要的功能</li>
+<li><a href="https://mp.weixin.qq.com/wiki?t=resource/res_main&amp;id=mp1421141115" target="_blank" rel="external">微信拍照的官方文档</a></li>
+<li>wx.chooseImage 得到localid的数组</li>
+<li>wx.getLocalImgData 将localid的图片转化得到其base64,但不同系统的手机转化成的base64略有不同,需要处理才能使用</li>
+<li>wx.uploadImage 上传图片(locaiid)到微信服务器 返回其serverid,也就是media_id, 三天之后失效, 可以通过get请求<code>http://file.api.weixin.qq.com/cgi-bin/media/get?access_token=ACCESS_TOKEN&amp;media_id=MEDIA_ID</code> 下载图片(地址栏输入也可以直接下载)</li>
+<li>wx.downloadImage下载微信服务器的图片(serverid)到本地,返回其本地的localid</li>
+<li>wx.previewImage 预览图片,需要http链接或者本地图片的localid(图片必须在本地)</li>
+<li>使用微信拍照和服务器两种交互的方法</li>
+</ul>
+<a id="more"></a>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p><a href="https://github.com/Tencent/vConsole" target="_blank" rel="external">手机里面的控制台</a><br>腾讯开发的类似谷歌控制台, 在手机里测试网页的时候很方便. 用法很简单, 引入文件然后初始化即可</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"vconsole.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></div><div class="line">  // init vConsole</div><div class="line">  let vConsole = new VConsole();</div><div class="line">  console.log(document.body);</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 或者npm install vconsole</span></div><div class="line"><span class="keyword">import</span> VConsole <span class="keyword">from</span> <span class="string">'vconsole'</span></div><div class="line"><span class="comment">// eslint-disable-next-line</span></div><div class="line"><span class="keyword">let</span> vConsole = <span class="keyword">new</span> VConsole()</div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">document</span>.body);</div></pre></td></tr></table></figure>
+<p><a href="http://omixp29af.bkt.clouddn.com/vconsole.html" target="_blank" rel="external">demo</a></p>
+<h2 id="基础工作-配置微信参数"><a href="#基础工作-配置微信参数" class="headerlink" title="基础工作, 配置微信参数"></a>基础工作, 配置微信参数</h2><p>页面引入最新版微信js : <code>&lt;script src=&quot;http://res.wx.qq.com/open/js/jweixin-1.2.0.js&quot;&gt;&lt;/script&gt;</code><br>旧版的有兼容问题,这里不展开描述.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 参数请求服务器接口拿到</span></div><div class="line"><span class="keyword">let</span> config = &#123;</div><div class="line">    <span class="attr">debug</span>: <span class="literal">false</span>,</div><div class="line">    <span class="attr">appId</span>: wxInfo.appId,</div><div class="line">    <span class="attr">timestamp</span>: wxInfo.timestamp,</div><div class="line">    <span class="attr">nonceStr</span>: wxInfo.nonceStr,</div><div class="line">    <span class="attr">signature</span>: wxInfo.signature,</div><div class="line">    <span class="attr">jsApiList</span>: [</div><div class="line">        <span class="comment">// 所有要调用的 API 都要加到这个列表中</span></div><div class="line">        <span class="string">'checkJsApi'</span>,</div><div class="line">        <span class="comment">// 选择图片</span></div><div class="line">        <span class="string">'chooseImage'</span>,</div><div class="line">        <span class="comment">// localid转化base64</span></div><div class="line">        <span class="string">'getLocalImgData'</span>,</div><div class="line">        <span class="comment">// 上传图片到微信服务器 返回其serverid</span></div><div class="line">        <span class="string">'uploadImage'</span>,</div><div class="line">        <span class="comment">// 下载微信服务器的图片到本地,返回本地的localid</span></div><div class="line">        <span class="string">'downloadImage'</span>,</div><div class="line">        <span class="comment">// 预览图片,需要http链接或者本地图片的localid,必须在本地</span></div><div class="line">        <span class="string">'previewImage'</span></div><div class="line">    ]</div><div class="line">&#125;</div><div class="line">wx.config(config)</div></pre></td></tr></table></figure>
+<h2 id="接口返回数据格式的统一说明"><a href="#接口返回数据格式的统一说明" class="headerlink" title="接口返回数据格式的统一说明"></a>接口返回数据格式的统一说明</h2><p>调用chooseImage,返回的数据格式</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">wx.chooseImage(&#123;</div><div class="line">    <span class="attr">count</span>: <span class="number">1</span>, <span class="comment">// 默认9</span></div><div class="line">    sizeType: [<span class="string">'original'</span>, <span class="string">'compressed'</span>], <span class="comment">// 可以指定是原图还是压缩图，默认二者都有</span></div><div class="line">    sourceType: [<span class="string">'album'</span>, <span class="string">'camera'</span>], <span class="comment">// 可以指定来源是相册还是相机，默认二者都有</span></div><div class="line">    success: <span class="function"><span class="keyword">function</span> (<span class="params">res</span>) </span>&#123;</div><div class="line">      <span class="comment">// 成功</span></div><div class="line">      <span class="comment">// &#123;</span></div><div class="line">      <span class="comment">//   errMsg: 'chooseImage:ok',</span></div><div class="line">      <span class="comment">//   localIds:[</span></div><div class="line">      <span class="comment">//     'wxLocalResource://32432432'</span></div><div class="line">      <span class="comment">//   ],</span></div><div class="line">      <span class="comment">//   sourceType:'camera'</span></div><div class="line">      <span class="comment">// &#125;</span></div><div class="line">    &#125;,</div><div class="line">    <span class="attr">fail</span>: <span class="function"><span class="keyword">function</span>(<span class="params">err</span>)</span>&#123;</div><div class="line">      <span class="comment">// 失败</span></div><div class="line">      <span class="comment">// &#123;</span></div><div class="line">      <span class="comment">//   errMsg: 'chooseImage:missing arguments'</span></div><div class="line">      <span class="comment">// &#125;</span></div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>其他也基本类似,不管成功或失败都会有errMsg,然后是其他数据</p>
+<h2 id="拍照或从手机相册中选图接口-wx-chooseImage"><a href="#拍照或从手机相册中选图接口-wx-chooseImage" class="headerlink" title="拍照或从手机相册中选图接口 wx.chooseImage"></a>拍照或从手机相册中选图接口 wx.chooseImage</h2><p>此接口返回图片的localId</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line">wx.chooseImage(&#123;</div><div class="line">    <span class="attr">count</span>: <span class="number">1</span>, <span class="comment">// 默认9</span></div><div class="line">    sizeType: [<span class="string">'original'</span>, <span class="string">'compressed'</span>], <span class="comment">// 可以指定是原图还是压缩图，默认二者都有</span></div><div class="line">    sourceType: [<span class="string">'album'</span>, <span class="string">'camera'</span>], <span class="comment">// 可以指定来源是相册还是相机，默认二者都有</span></div><div class="line">    success: <span class="function"><span class="keyword">function</span> (<span class="params">res</span>) </span>&#123;</div><div class="line">        <span class="keyword">var</span> localIds = res.localIds; <span class="comment">// 返回选定照片的本地ID列表(数组)，localId可以作为img标签的src属性显示图片</span></div><div class="line">    &#125;,</div><div class="line">    <span class="attr">fail</span>: <span class="function"><span class="keyword">function</span>(<span class="params">err</span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(err)</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">// ios</span></div><div class="line"><span class="comment">/*</span></div><div class="line">&#123;</div><div class="line">  errMsg: 'chooseImage:ok',</div><div class="line">  localIds:[</div><div class="line">    'wxLocalResource://32432432'</div><div class="line">  ],</div><div class="line">  sourceType:'camera'</div><div class="line">&#125;</div><div class="line">*/</div><div class="line"></div><div class="line"><span class="comment">// android// meizu //vivo</span></div><div class="line"><span class="comment">/*</span></div><div class="line">&#123;</div><div class="line">  errMsg: 'chooseImage:ok',</div><div class="line">  localIds:[</div><div class="line">    'weixin://resourceid/rtewf9fdas9f32432432'</div><div class="line">  ],</div><div class="line">  sourceType:'album'</div><div class="line">&#125;</div><div class="line">*/</div></pre></td></tr></table></figure>
+<h2 id="获取本地图片接口-wx-getLocalImgData"><a href="#获取本地图片接口-wx-getLocalImgData" class="headerlink" title="获取本地图片接口 wx.getLocalImgData"></a>获取本地图片接口 wx.getLocalImgData</h2><p>此接口可以接受图片的localId返回图片的base64,必须一张张传</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">wx.getLocalImgData(&#123;</div><div class="line">    <span class="attr">localId</span>: <span class="string">''</span>, <span class="comment">// 图片的localID,字符串,非数组</span></div><div class="line">    success: <span class="function"><span class="keyword">function</span> (<span class="params">res</span>) </span>&#123;</div><div class="line">        <span class="keyword">var</span> localData = res.localData; <span class="comment">// localData是图片的base64数据，也可以用img标签显示</span></div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">/*</span></div><div class="line">//ios</div><div class="line">&#123;</div><div class="line">  errMsg: 'getLocalImgData:ok',</div><div class="line">  localData: 'data:image/jgp;base64,/9j/4A.......'</div><div class="line">&#125;</div><div class="line"></div><div class="line">// android</div><div class="line">&#123;</div><div class="line">  errMsg: 'getLocalImgData:ok',</div><div class="line">  localData: '/9j/4AA.......'</div><div class="line">&#125;</div><div class="line">*/</div></pre></td></tr></table></figure>
+<h2 id="上传图片接口-wx-uploadImage"><a href="#上传图片接口-wx-uploadImage" class="headerlink" title="上传图片接口 wx.uploadImage"></a>上传图片接口 wx.uploadImage</h2><p>此接口可以接受图片的localId返回图片在微信服务器的serverId ,上传图片有效期3天,然后可以用微信多媒体接口下载图片到自己的服务器,serverId 即 media_id。但是好像有丢失的情况, 所以有时候不选用此方案<br>下载图片http请求方式: GET, 请求地址<code>http://file.api.weixin.qq.com/cgi-bin/media/get?access_token=ACCESS_TOKEN&amp;media_id=MEDIA_ID</code><br>也必须一张张传,这里有个坑,如果出现”uploadImage:fail”,出现这种localId.toString()</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 上传图片有效期3天，可用微信多媒体接口下载图片到自己的服务器，此处获得的 serverId 即 media_id。</span></div><div class="line">wx.uploadImage(&#123;</div><div class="line">    <span class="attr">localId</span>: <span class="string">''</span>, <span class="comment">// 需要上传的图片的本地ID，由chooseImage接口获得</span></div><div class="line">    isShowProgressTips: <span class="number">1</span>, <span class="comment">// 默认为1，显示进度提示</span></div><div class="line">    success: <span class="function"><span class="keyword">function</span> (<span class="params">res</span>) </span>&#123;</div><div class="line">        <span class="keyword">var</span> serverId = res.serverId; <span class="comment">// 返回图片的服务器端ID</span></div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">// ios</span></div><div class="line"><span class="comment">/*</span></div><div class="line">&#123;</div><div class="line">  errMsg: 'uploadImage:ok',</div><div class="line">  localIds: 'wxLocalResource://32432432',</div><div class="line">  serverId: 'dcdfdsafdaferewrtwtrwtrwrewtrw-rewttrew-trewtrewtw'</div><div class="line">&#125;</div><div class="line">*/</div><div class="line"></div><div class="line"><span class="comment">// android</span></div><div class="line"><span class="comment">/*</span></div><div class="line">&#123;</div><div class="line">  errMsg: 'uploadImage:ok',</div><div class="line">  mediaUrl: '',</div><div class="line">  serverId: 'Pjdsdcdfdsafdaferewrtwtrwtrwrewtrw-rewttrew-trewtrewtw'</div><div class="line">&#125;</div><div class="line">*/</div></pre></td></tr></table></figure>
+<h2 id="下载图片接口-wx-downloadImage"><a href="#下载图片接口-wx-downloadImage" class="headerlink" title="下载图片接口 wx.downloadImage"></a>下载图片接口 wx.downloadImage</h2><p>此接口可以接受图片的serverId返回图片下载后的本地的localId</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">wx.downloadImage(&#123;</div><div class="line">    <span class="attr">serverId</span>: <span class="string">''</span>, <span class="comment">// 需要下载的图片的服务器端ID，由uploadImage接口获得</span></div><div class="line">    isShowProgressTips: <span class="number">1</span>, <span class="comment">// 默认为1，显示进度提示</span></div><div class="line">    success: <span class="function"><span class="keyword">function</span> (<span class="params">res</span>) </span>&#123;</div><div class="line">        <span class="keyword">var</span> localId = res.localId; <span class="comment">// 返回图片下载后的本地ID</span></div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h2 id="预览图片-wx-previewImage"><a href="#预览图片-wx-previewImage" class="headerlink" title="预览图片 wx.previewImage"></a>预览图片 wx.previewImage</h2><p>背景黑色,图片宽度或者高度100%, current为空的时候默认是urls的第一个<br>url的格式可以是http的绝对链接,也可以是本地图片的localid,ios还可以支持base64但是安卓不支持</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">wx.previewImage(&#123;</div><div class="line">    <span class="attr">current</span>: <span class="string">''</span>, <span class="comment">// 当前显示图片的http链接</span></div><div class="line">    urls: [] <span class="comment">// 需要预览的图片http链接列表</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h2 id="和服务器的配合"><a href="#和服务器的配合" class="headerlink" title="和服务器的配合"></a>和服务器的配合</h2><h3 id="直接将图片传到微信服务器"><a href="#直接将图片传到微信服务器" class="headerlink" title="直接将图片传到微信服务器"></a>直接将图片传到微信服务器</h3><p>先调用“拍照或从手机相册选择图片接口”—&gt;选择成功图片后—&gt;调用“上传图片接口”—&gt;上传成功后(也就是图片上传到了微信服务器上)-&gt;拿到serverId,然后把serverId传给服务器 (服务器调用“下载图片接口”—&gt;将图片下载到服务器存储。)</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 请求服务器接口拿到微信的配置参数</span></div><div class="line"><span class="keyword">var</span> config = &#123;</div><div class="line">  <span class="attr">debug</span>: <span class="literal">false</span>,</div><div class="line">  <span class="attr">appId</span>: wxInfo.appId,</div><div class="line">  <span class="attr">timestamp</span>: wxInfo.timestamp,</div><div class="line">  <span class="attr">nonceStr</span>: wxInfo.nonceStr,</div><div class="line">  <span class="attr">signature</span>: wxInfo.signature,</div><div class="line">  <span class="attr">jsApiList</span>: [</div><div class="line">    <span class="comment">// 所有要调用的 API 都要加到这个列表中</span></div><div class="line">    <span class="string">'checkJsApi'</span>,</div><div class="line">    <span class="string">'chooseImage'</span>,</div><div class="line">    <span class="string">'uploadImage'</span></div><div class="line">  ]</div><div class="line">&#125;</div><div class="line"></div><div class="line">wx.config(config)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getPhotoServerId</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">const</span> isIos = !!navigator.userAgent.match(<span class="regexp">/\(i[^;]+;( U;)? CPU.+Mac OS X/</span>)</div><div class="line">  <span class="keyword">const</span> isAndroid = navigator.userAgent.indexOf(<span class="string">'Android'</span>) &gt; <span class="number">-1</span> || navigator.userAgent.indexOf(<span class="string">'Adr'</span>) &gt; <span class="number">-1</span></div><div class="line">  <span class="keyword">const</span> base64Prefix = <span class="string">'data:image/jpeg;base64,'</span></div><div class="line">  <span class="keyword">const</span> base64PrefixIosWx = <span class="string">'data:image/jgp;base64,'</span></div><div class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">    <span class="comment">// 返回localid</span></div><div class="line">    wx.chooseImage(&#123;</div><div class="line">      <span class="attr">count</span>: <span class="number">1</span>, <span class="comment">// 默认9</span></div><div class="line">      sizeType: [<span class="string">'compressed'</span>], <span class="comment">// 可以指定是原图还是压缩图，默认二者都有</span></div><div class="line">      sourceType: [<span class="string">'camera'</span>], <span class="comment">// 可以指定来源是相册还是相机，默认二者都有</span></div><div class="line">      success: <span class="function"><span class="params">res</span> =&gt;</span> resolve(res),</div><div class="line">      <span class="attr">fail</span>: <span class="function"><span class="params">res</span> =&gt;</span> reject(res)</div><div class="line">    &#125;)</div><div class="line">  &#125;)</div><div class="line">  .then(<span class="function"><span class="params">res</span> =&gt;</span> &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">      wx.uploadImage(&#123;</div><div class="line">        <span class="attr">localId</span>: res.localIds.toString(), <span class="comment">// 需要上传的图片的本地ID，由chooseImage接口获得</span></div><div class="line">        isShowProgressTips: <span class="number">0</span>, <span class="comment">// 默认为1，显示进度提示</span></div><div class="line">        success: <span class="function"><span class="params">res</span> =&gt;</span> resolve(res.serverId),</div><div class="line">        <span class="attr">fail</span>: <span class="function"><span class="params">res</span> =&gt;</span> reject(res)</div><div class="line">      &#125;)</div><div class="line">    &#125;)</div><div class="line">  &#125;)</div><div class="line">  .catch(<span class="function"><span class="params">err</span> =&gt;</span> &#123;</div><div class="line">    <span class="built_in">console</span>.log(err)</div><div class="line">  &#125;)</div><div class="line">&#125;</div><div class="line"><span class="comment">// 调用</span></div><div class="line">$(<span class="string">'#uploadBtn'</span>).click(<span class="function"><span class="params">()</span>=&gt;</span>&#123;</div><div class="line">  uploadPhotoToWxServer().then(<span class="function"><span class="params">serverid</span> =&gt;</span> ajax传给服务器或者其他事)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<h3 id="直接将图片base64传给服务器"><a href="#直接将图片base64传给服务器" class="headerlink" title="直接将图片base64传给服务器"></a>直接将图片base64传给服务器</h3><p>先调用“拍照或从手机相册选择图片接口”—&gt;选择成功图片后—&gt;调用“获取本地图片接口”—&gt;拿到图片的base64之后,将其传给服务器。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 前面依旧config</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getPhotoBase64</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">const</span> isIos = !!navigator.userAgent.match(<span class="regexp">/\(i[^;]+;( U;)? CPU.+Mac OS X/</span>)</div><div class="line">  <span class="keyword">const</span> isAndroid = navigator.userAgent.indexOf(<span class="string">'Android'</span>) &gt; <span class="number">-1</span> || navigator.userAgent.indexOf(<span class="string">'Adr'</span>) &gt; <span class="number">-1</span></div><div class="line">  <span class="keyword">const</span> base64Prefix = <span class="string">'data:image/jpeg;base64,'</span></div><div class="line">  <span class="keyword">const</span> base64PrefixIosWx = <span class="string">'data:image/jgp;base64,'</span></div><div class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">    <span class="comment">// 返回localid</span></div><div class="line">    wx.chooseImage(&#123;</div><div class="line">      <span class="attr">count</span>: <span class="number">1</span>, <span class="comment">// 默认9</span></div><div class="line">      sizeType: [<span class="string">'compressed'</span>], <span class="comment">// 可以指定是原图还是压缩图，默认二者都有</span></div><div class="line">      sourceType: [<span class="string">'camera'</span>], <span class="comment">// 可以指定来源是相册还是相机，默认二者都有</span></div><div class="line">      success: <span class="function"><span class="params">res</span> =&gt;</span> resolve(res),</div><div class="line">      <span class="attr">fail</span>: <span class="function"><span class="params">res</span> =&gt;</span> reject(res)</div><div class="line">    &#125;)</div><div class="line">  &#125;)</div><div class="line">  .then(<span class="function"><span class="params">res</span> =&gt;</span> &#123;</div><div class="line">    <span class="comment">// 将localid变成base64</span></div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">      wx.getLocalImgData(&#123;</div><div class="line">        <span class="attr">localId</span>: res.localIds[<span class="number">0</span>], <span class="comment">// 图片的localID</span></div><div class="line">        success: <span class="function"><span class="params">res</span> =&gt;</span> resolve(res),</div><div class="line">        <span class="attr">fail</span>: <span class="function"><span class="params">res</span> =&gt;</span> reject(res)</div><div class="line">      &#125;)</div><div class="line">    &#125;)</div><div class="line">  &#125;)</div><div class="line">  .then(<span class="function"><span class="params">res</span> =&gt;</span> &#123;</div><div class="line">    <span class="comment">// 格式化base64</span></div><div class="line">    <span class="keyword">let</span> pre = <span class="string">''</span></div><div class="line">    <span class="comment">// 安卓下,wx得到的base64没有前缀,需要添加</span></div><div class="line">    isAndroid &amp;&amp; (pre = base64Prefix)</div><div class="line">    <span class="comment">// ios下,wx得到的base64前缀需要修改</span></div><div class="line">    isIos &amp;&amp; res.localData.replace(base64PrefixIosWx, base64Prefix)</div><div class="line">    <span class="comment">// localData是图片的base64数据，可以用img标签显示</span></div><div class="line">    <span class="keyword">let</span> base64 = pre + res.localData</div><div class="line">    <span class="keyword">return</span> base64</div><div class="line">  &#125;)</div><div class="line">  .catch(<span class="function"><span class="params">err</span> =&gt;</span> &#123;</div><div class="line">    <span class="built_in">console</span>.log(err)</div><div class="line">  &#125;)</div><div class="line">&#125;</div><div class="line"><span class="comment">// 调用</span></div><div class="line">$(<span class="string">'#uploadBtn'</span>).click(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">  getPhotoBase64().then(<span class="function"><span class="params">base64</span> =&gt;</span> 用ajax传给服务器或者其他的事)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<blockquote>
+<p><a href="http://www.cnblogs.com/it-cen/p/4587812.html" target="_blank" rel="external">微信JS-SDK之图像接口开发详解</a><br><a href="https://segmentfault.com/a/1190000005856326" target="_blank" rel="external">微信JSSDK一次性上传多张图片卡死解决方案</a></p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/wechat/" rel="tag"># wechat</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/23/webpack/" rel="next" title="webpack且学且用">
+                <i class="fa fa-chevron-left"></i> webpack且学且用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/12/07/wechatCamera/"
+           data-title="微信的图像开发接口" data-url="http://yoursite.com/2017/12/07/wechatCamera/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://omizt4opc.bkt.clouddn.com/avatar.jpg"
+               alt="frontzhm" />
+          <p class="site-author-name" itemprop="name">frontzhm</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">52</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#TL-DR"><span class="nav-number">1.</span> <span class="nav-text">TL;DR</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#准备工作"><span class="nav-number">2.</span> <span class="nav-text">准备工作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基础工作-配置微信参数"><span class="nav-number">3.</span> <span class="nav-text">基础工作, 配置微信参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#接口返回数据格式的统一说明"><span class="nav-number">4.</span> <span class="nav-text">接口返回数据格式的统一说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拍照或从手机相册中选图接口-wx-chooseImage"><span class="nav-number">5.</span> <span class="nav-text">拍照或从手机相册中选图接口 wx.chooseImage</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取本地图片接口-wx-getLocalImgData"><span class="nav-number">6.</span> <span class="nav-text">获取本地图片接口 wx.getLocalImgData</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#上传图片接口-wx-uploadImage"><span class="nav-number">7.</span> <span class="nav-text">上传图片接口 wx.uploadImage</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#下载图片接口-wx-downloadImage"><span class="nav-number">8.</span> <span class="nav-text">下载图片接口 wx.downloadImage</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#预览图片-wx-previewImage"><span class="nav-number">9.</span> <span class="nav-text">预览图片 wx.previewImage</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#和服务器的配合"><span class="nav-number">10.</span> <span class="nav-text">和服务器的配合</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#直接将图片传到微信服务器"><span class="nav-number">10.1.</span> <span class="nav-text">直接将图片传到微信服务器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#直接将图片base64传给服务器"><span class="nav-number">10.2.</span> <span class="nav-text">直接将图片base64传给服务器</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">frontzhm</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"frontzhm"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
