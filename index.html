@@ -371,6 +371,7 @@
           <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
 <li>必须配置微信参数,且在jsApiList配置你要的功能</li>
 <li><a href="https://mp.weixin.qq.com/wiki?t=resource/res_main&amp;id=mp1421141115">微信拍照的官方文档</a></li>
+<li>出错优先查看官方文档,附录5-常见错误及解决方法</li>
 <li>wx.chooseImage 得到localid的数组</li>
 <li>wx.getLocalImgData 将localid的图片转化得到其base64,但不同系统的手机转化成的base64略有不同,需要处理才能使用</li>
 <li>wx.uploadImage 上传图片(locaiid)到微信服务器 返回其serverid,也就是media_id, 三天之后失效, 可以通过get请求<code>http://file.api.weixin.qq.com/cgi-bin/media/get?access_token=ACCESS_TOKEN&amp;media_id=MEDIA_ID</code> 下载图片(地址栏输入也可以直接下载)</li>
