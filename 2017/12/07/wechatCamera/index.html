@@ -89,32 +89,35 @@
 
 <meta name="description" content="TL;DR
 必须配置微信参数,且在jsApiList配置你要的功能
+vue历史模式下微信配置的坑
 微信拍照的官方文档
 出错优先查看官方文档,附录5-常见错误及解决方法
 wx.chooseImage 得到localid的数组
 wx.getLocalImgData 将localid的图片转化得到其base64,但不同系统的手机转化成的base64略有不同,需要处理才能使用
-wx.uploadImage 上传图片(locaiid)到">
+wx.uploadImage">
 <meta property="og:type" content="article">
 <meta property="og:title" content="微信的图像开发接口">
 <meta property="og:url" content="http://yoursite.com/2017/12/07/wechatCamera/index.html">
 <meta property="og:site_name" content="花花的博客">
 <meta property="og:description" content="TL;DR
 必须配置微信参数,且在jsApiList配置你要的功能
+vue历史模式下微信配置的坑
 微信拍照的官方文档
 出错优先查看官方文档,附录5-常见错误及解决方法
 wx.chooseImage 得到localid的数组
 wx.getLocalImgData 将localid的图片转化得到其base64,但不同系统的手机转化成的base64略有不同,需要处理才能使用
-wx.uploadImage 上传图片(locaiid)到">
-<meta property="og:updated_time" content="2017-12-11T02:47:18.940Z">
+wx.uploadImage">
+<meta property="og:updated_time" content="2017-12-25T06:08:35.503Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="微信的图像开发接口">
 <meta name="twitter:description" content="TL;DR
 必须配置微信参数,且在jsApiList配置你要的功能
+vue历史模式下微信配置的坑
 微信拍照的官方文档
 出错优先查看官方文档,附录5-常见错误及解决方法
 wx.chooseImage 得到localid的数组
 wx.getLocalImgData 将localid的图片转化得到其base64,但不同系统的手机转化成的base64略有不同,需要处理才能使用
-wx.uploadImage 上传图片(locaiid)到">
+wx.uploadImage">
 
 
 
@@ -383,6 +386,7 @@ wx.uploadImage 上传图片(locaiid)到">
       
         <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
 <li>必须配置微信参数,且在jsApiList配置你要的功能</li>
+<li>vue历史模式下微信配置的坑</li>
 <li><a href="https://mp.weixin.qq.com/wiki?t=resource/res_main&amp;id=mp1421141115" target="_blank" rel="external">微信拍照的官方文档</a></li>
 <li>出错优先查看官方文档,附录5-常见错误及解决方法</li>
 <li>wx.chooseImage 得到localid的数组</li>
@@ -398,7 +402,8 @@ wx.uploadImage 上传图片(locaiid)到">
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 或者npm install vconsole</span></div><div class="line"><span class="keyword">import</span> VConsole <span class="keyword">from</span> <span class="string">'vconsole'</span></div><div class="line"><span class="comment">// eslint-disable-next-line</span></div><div class="line"><span class="keyword">let</span> vConsole = <span class="keyword">new</span> VConsole()</div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">document</span>.body);</div></pre></td></tr></table></figure>
 <p><a href="http://omixp29af.bkt.clouddn.com/vconsole.html" target="_blank" rel="external">demo</a></p>
 <h2 id="基础工作-配置微信参数"><a href="#基础工作-配置微信参数" class="headerlink" title="基础工作, 配置微信参数"></a>基础工作, 配置微信参数</h2><p>页面引入最新版微信js : <code>&lt;script src=&quot;http://res.wx.qq.com/open/js/jweixin-1.2.0.js&quot;&gt;&lt;/script&gt;</code><br>旧版的有兼容问题,这里不展开描述.</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 参数请求服务器接口拿到</span></div><div class="line"><span class="keyword">let</span> config = &#123;</div><div class="line">    <span class="attr">debug</span>: <span class="literal">false</span>,</div><div class="line">    <span class="attr">appId</span>: wxInfo.appId,</div><div class="line">    <span class="attr">timestamp</span>: wxInfo.timestamp,</div><div class="line">    <span class="attr">nonceStr</span>: wxInfo.nonceStr,</div><div class="line">    <span class="attr">signature</span>: wxInfo.signature,</div><div class="line">    <span class="attr">jsApiList</span>: [</div><div class="line">        <span class="comment">// 所有要调用的 API 都要加到这个列表中</span></div><div class="line">        <span class="string">'checkJsApi'</span>,</div><div class="line">        <span class="comment">// 选择图片</span></div><div class="line">        <span class="string">'chooseImage'</span>,</div><div class="line">        <span class="comment">// localid转化base64</span></div><div class="line">        <span class="string">'getLocalImgData'</span>,</div><div class="line">        <span class="comment">// 上传图片到微信服务器 返回其serverid</span></div><div class="line">        <span class="string">'uploadImage'</span>,</div><div class="line">        <span class="comment">// 下载微信服务器的图片到本地,返回本地的localid</span></div><div class="line">        <span class="string">'downloadImage'</span>,</div><div class="line">        <span class="comment">// 预览图片,需要http链接或者本地图片的localid,必须在本地</span></div><div class="line">        <span class="string">'previewImage'</span></div><div class="line">    ]</div><div class="line">&#125;</div><div class="line">wx.config(config)</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 参数请求服务器接口拿到,一般服务器接口需要当前页面的url window.location.href.split('#')[0]</span></div><div class="line"><span class="keyword">let</span> config = &#123;</div><div class="line">    <span class="attr">debug</span>: <span class="literal">false</span>,</div><div class="line">    <span class="attr">appId</span>: wxInfo.appId,</div><div class="line">    <span class="attr">timestamp</span>: wxInfo.timestamp,</div><div class="line">    <span class="attr">nonceStr</span>: wxInfo.nonceStr,</div><div class="line">    <span class="attr">signature</span>: wxInfo.signature,</div><div class="line">    <span class="attr">jsApiList</span>: [</div><div class="line">        <span class="comment">// 所有要调用的 API 都要加到这个列表中</span></div><div class="line">        <span class="string">'checkJsApi'</span>,</div><div class="line">        <span class="comment">// 选择图片</span></div><div class="line">        <span class="string">'chooseImage'</span>,</div><div class="line">        <span class="comment">// localid转化base64</span></div><div class="line">        <span class="string">'getLocalImgData'</span>,</div><div class="line">        <span class="comment">// 上传图片到微信服务器 返回其serverid</span></div><div class="line">        <span class="string">'uploadImage'</span>,</div><div class="line">        <span class="comment">// 下载微信服务器的图片到本地,返回本地的localid</span></div><div class="line">        <span class="string">'downloadImage'</span>,</div><div class="line">        <span class="comment">// 预览图片,需要http链接或者本地图片的localid,必须在本地</span></div><div class="line">        <span class="string">'previewImage'</span></div><div class="line">    ]</div><div class="line">&#125;</div><div class="line">wx.config(config)</div></pre></td></tr></table></figure>
+<p>注意在vue的历史模式下,有个坑,ios请求服务端的接口必须是首次进入页面的url,如<code>http://demo.com/index</code>,安卓的依然是<code>window.location.href.split(&#39;#&#39;)[0]</code>,微信的文档也有解释,还有这个<a href="https://github.com/vuejs/vue-router/issues/481" target="_blank" rel="external">vue的issue</a></p>
 <h2 id="接口返回数据格式的统一说明"><a href="#接口返回数据格式的统一说明" class="headerlink" title="接口返回数据格式的统一说明"></a>接口返回数据格式的统一说明</h2><p>调用chooseImage,返回的数据格式</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">wx.chooseImage(&#123;</div><div class="line">    <span class="attr">count</span>: <span class="number">1</span>, <span class="comment">// 默认9</span></div><div class="line">    sizeType: [<span class="string">'original'</span>, <span class="string">'compressed'</span>], <span class="comment">// 可以指定是原图还是压缩图，默认二者都有</span></div><div class="line">    sourceType: [<span class="string">'album'</span>, <span class="string">'camera'</span>], <span class="comment">// 可以指定来源是相册还是相机，默认二者都有</span></div><div class="line">    success: <span class="function"><span class="keyword">function</span> (<span class="params">res</span>) </span>&#123;</div><div class="line">      <span class="comment">// 成功</span></div><div class="line">      <span class="comment">// &#123;</span></div><div class="line">      <span class="comment">//   errMsg: 'chooseImage:ok',</span></div><div class="line">      <span class="comment">//   localIds:[</span></div><div class="line">      <span class="comment">//     'wxLocalResource://32432432'</span></div><div class="line">      <span class="comment">//   ],</span></div><div class="line">      <span class="comment">//   sourceType:'camera'</span></div><div class="line">      <span class="comment">// &#125;</span></div><div class="line">    &#125;,</div><div class="line">    <span class="attr">fail</span>: <span class="function"><span class="keyword">function</span>(<span class="params">err</span>)</span>&#123;</div><div class="line">      <span class="comment">// 失败</span></div><div class="line">      <span class="comment">// &#123;</span></div><div class="line">      <span class="comment">//   errMsg: 'chooseImage:missing arguments'</span></div><div class="line">      <span class="comment">// &#125;</span></div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
 <p>其他也基本类似,不管成功或失败都会有errMsg,然后是其他数据</p>
