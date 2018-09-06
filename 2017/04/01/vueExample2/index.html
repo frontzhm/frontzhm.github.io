@@ -87,28 +87,21 @@
 
 
 
-<meta name="description" content="TL;DR
-每个 Vue.js 应用都是通过构造函数 Vue 创建一个 Vue 的根实例 启动的。
-每个 Vue 实例都会代理其 data 对象里所有的属性。
-每个 Vue 实例在被创建之前都要经过一系列的初始化过程。">
+<meta name="description" content="TL;DR 每个 Vue.js 应用都是通过构造函数 Vue 创建一个 Vue 的根实例 启动的。 每个 Vue 实例都会代理其 data 对象里所有的属性。 每个 Vue 实例在被创建之前都要经过一系列的初始化过程。">
+<meta name="keywords" content="vue">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Vue实例">
 <meta property="og:url" content="http://yoursite.com/2017/04/01/vueExample2/index.html">
 <meta property="og:site_name" content="花花的博客">
-<meta property="og:description" content="TL;DR
-每个 Vue.js 应用都是通过构造函数 Vue 创建一个 Vue 的根实例 启动的。
-每个 Vue 实例都会代理其 data 对象里所有的属性。
-每个 Vue 实例在被创建之前都要经过一系列的初始化过程。">
-<meta property="og:image" content="http://yoursite.com/2017/04/01/vueExample2/lifecycle.png">
-<meta property="og:image" content="http://yoursite.com/2017/04/01/vueExample2/full-process.png">
+<meta property="og:description" content="TL;DR 每个 Vue.js 应用都是通过构造函数 Vue 创建一个 Vue 的根实例 启动的。 每个 Vue 实例都会代理其 data 对象里所有的属性。 每个 Vue 实例在被创建之前都要经过一系列的初始化过程。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2017/04/01/vueExample2/vueExample2/lifecycle.png">
+<meta property="og:image" content="http://yoursite.com/2017/04/01/vueExample2/criticalRenderingPath/full-process.png">
 <meta property="og:updated_time" content="2017-05-17T01:18:16.171Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Vue实例">
-<meta name="twitter:description" content="TL;DR
-每个 Vue.js 应用都是通过构造函数 Vue 创建一个 Vue 的根实例 启动的。
-每个 Vue 实例都会代理其 data 对象里所有的属性。
-每个 Vue 实例在被创建之前都要经过一系列的初始化过程。">
-<meta name="twitter:image" content="http://yoursite.com/2017/04/01/vueExample2/lifecycle.png">
+<meta name="twitter:description" content="TL;DR 每个 Vue.js 应用都是通过构造函数 Vue 创建一个 Vue 的根实例 启动的。 每个 Vue 实例都会代理其 data 对象里所有的属性。 每个 Vue 实例在被创建之前都要经过一系列的初始化过程。">
+<meta name="twitter:image" content="http://yoursite.com/2017/04/01/vueExample2/vueExample2/lifecycle.png">
 
 
 
@@ -382,15 +375,15 @@
 </li>
 </ul>
 <blockquote>
-<p>请直接前往<a href="https://cn.vuejs.org/v2/guide/instance.html#实例生命周期" target="_blank" rel="external">官网阅读</a></p>
+<p>请直接前往<a href="https://cn.vuejs.org/v2/guide/instance.html#实例生命周期" target="_blank" rel="noopener">官网阅读</a></p>
 </blockquote>
-<h2 id="构造器"><a href="#构造器" class="headerlink" title="构造器"></a>构造器</h2><p>每个 Vue.js 应用都是通过构造函数 Vue 创建一个 Vue 的根实例 启动的。<br>在实例化 Vue 时，需要传入一个<em>选项对象</em>，它可以包含数据、模板、挂载元素、方法、生命周期钩子等选项。全部的选项可以在 <a href="https://cn.vuejs.org/v2/api/" target="_blank" rel="external">API 文档</a>中查看。<br>可以扩展 Vue 构造器，从而用预定义选项创建可复用的组件构造器：<br>尽管可以命令式地创建扩展实例，不过在多数情况下建议将组件构造器注册为一个自定义元素，然后声明式地用在模板中。我们将在后面详细说明组件系统。现在你只需知道所有的 Vue.js 组件其实都是被扩展的 Vue 实例。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var MyComponent = Vue.extend(&#123;</div><div class="line">  // 扩展选项</div><div class="line">&#125;)</div><div class="line">// 所有的 `MyComponent` 实例都将以预定义的扩展选项被创建</div><div class="line">var myComponentInstance = new MyComponent()</div></pre></td></tr></table></figure></p>
+<h2 id="构造器"><a href="#构造器" class="headerlink" title="构造器"></a>构造器</h2><p>每个 Vue.js 应用都是通过构造函数 Vue 创建一个 Vue 的根实例 启动的。<br>在实例化 Vue 时，需要传入一个<em>选项对象</em>，它可以包含数据、模板、挂载元素、方法、生命周期钩子等选项。全部的选项可以在 <a href="https://cn.vuejs.org/v2/api/" target="_blank" rel="noopener">API 文档</a>中查看。<br>可以扩展 Vue 构造器，从而用预定义选项创建可复用的组件构造器：<br>尽管可以命令式地创建扩展实例，不过在多数情况下建议将组件构造器注册为一个自定义元素，然后声明式地用在模板中。我们将在后面详细说明组件系统。现在你只需知道所有的 Vue.js 组件其实都是被扩展的 Vue 实例。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var MyComponent = Vue.extend(&#123;</span><br><span class="line">  // 扩展选项</span><br><span class="line">&#125;)</span><br><span class="line">// 所有的 `MyComponent` 实例都将以预定义的扩展选项被创建</span><br><span class="line">var myComponentInstance = new MyComponent()</span><br></pre></td></tr></table></figure></p>
 <h2 id="属性和方法"><a href="#属性和方法" class="headerlink" title="属性和方法"></a>属性和方法</h2><p>每个 Vue 实例都会代理其 data 对象里所有的属性：</p>
-<p>注意只有这些被代理的属性是响应的。如果在实例创建之后添加新的属性到实例上，它不会触发视图更新。<br>除了 data 属性， Vue 实例暴露了一些有用的实例属性与方法。这些属性与方法都有前缀 $，以便与代理的 data 属性区分。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">var data = &#123; a: 1 &#125;</div><div class="line">var vm = new Vue(&#123;</div><div class="line">  el: &apos;#example&apos;,</div><div class="line">  data: data</div><div class="line">&#125;)</div><div class="line">vm.a === data.a // -&gt; true</div><div class="line">// 设置属性也会影响到原始数据</div><div class="line">vm.a = 2</div><div class="line">data.a // -&gt; 2</div><div class="line">vm.$data === data // -&gt; true</div><div class="line">vm.$el === document.getElementById(&apos;example&apos;) // -&gt; true</div><div class="line">// $watch 是一个实例方法</div><div class="line">vm.$watch(&apos;a&apos;, function (newVal, oldVal) &#123;</div><div class="line">  // 这个回调将在 `vm.a`  改变后调用</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+<p>注意只有这些被代理的属性是响应的。如果在实例创建之后添加新的属性到实例上，它不会触发视图更新。<br>除了 data 属性， Vue 实例暴露了一些有用的实例属性与方法。这些属性与方法都有前缀 $，以便与代理的 data 属性区分。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">var data = &#123; a: 1 &#125;</span><br><span class="line">var vm = new Vue(&#123;</span><br><span class="line">  el: &apos;#example&apos;,</span><br><span class="line">  data: data</span><br><span class="line">&#125;)</span><br><span class="line">vm.a === data.a // -&gt; true</span><br><span class="line">// 设置属性也会影响到原始数据</span><br><span class="line">vm.a = 2</span><br><span class="line">data.a // -&gt; 2</span><br><span class="line">vm.$data === data // -&gt; true</span><br><span class="line">vm.$el === document.getElementById(&apos;example&apos;) // -&gt; true</span><br><span class="line">// $watch 是一个实例方法</span><br><span class="line">vm.$watch(&apos;a&apos;, function (newVal, oldVal) &#123;</span><br><span class="line">  // 这个回调将在 `vm.a`  改变后调用</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
 <p>注意，不要在实例属性或者回调函数中（如 vm.$watch(‘a’, newVal =&gt; this.myMethod())）使用箭头函数。因为箭头函数绑定父上下文，所以 this 不会像预想的一样是 Vue 实例，而是 this.myMethod 未被定义。</p>
-<p>实例属性和方法的完整列表中查阅 <a href="https://cn.vuejs.org/v2/api/" target="_blank" rel="external">API 参考</a>。</p>
-<h2 id="实例生命周期"><a href="#实例生命周期" class="headerlink" title="实例生命周期"></a>实例生命周期</h2><p>每个 Vue 实例在被创建之前都要经过一系列的初始化过程。<br>例如，实例需要配置数据观测(data observer)、编译模版、挂载实例到 DOM ，然后在数据变化时更新 DOM 。在这个过程中，实例也会调用一些 生命周期钩子 ，这就给我们提供了执行自定义逻辑的机会。<br>也有一些其它的钩子，在实例生命周期的不同阶段调用，如 mounted、 updated 、destroyed 。钩子的 this 指向调用它的 Vue 实例。组件的自定义逻辑可以分布在这些钩子中。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">var vm = new Vue(&#123;</div><div class="line">  data: &#123;</div><div class="line">    a: 1</div><div class="line">  &#125;,</div><div class="line">  created: function () &#123;</div><div class="line">    // `this` 指向 vm 实例</div><div class="line">    console.log(&apos;a is: &apos; + this.a)</div><div class="line">  &#125;</div><div class="line">&#125;)</div><div class="line">// -&gt; &quot;a is: 1&quot;</div></pre></td></tr></table></figure></p>
-<h2 id="生命周期图示"><a href="#生命周期图示" class="headerlink" title="生命周期图示"></a>生命周期图示</h2><p><img src="/2017/04/01/vueExample2/lifecycle.png" alt="生命周期图"><br><img src="/2017/04/01/vueExample2/full-process.png" alt="DOM形成图"></p>
+<p>实例属性和方法的完整列表中查阅 <a href="https://cn.vuejs.org/v2/api/" target="_blank" rel="noopener">API 参考</a>。</p>
+<h2 id="实例生命周期"><a href="#实例生命周期" class="headerlink" title="实例生命周期"></a>实例生命周期</h2><p>每个 Vue 实例在被创建之前都要经过一系列的初始化过程。<br>例如，实例需要配置数据观测(data observer)、编译模版、挂载实例到 DOM ，然后在数据变化时更新 DOM 。在这个过程中，实例也会调用一些 生命周期钩子 ，这就给我们提供了执行自定义逻辑的机会。<br>也有一些其它的钩子，在实例生命周期的不同阶段调用，如 mounted、 updated 、destroyed 。钩子的 this 指向调用它的 Vue 实例。组件的自定义逻辑可以分布在这些钩子中。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">var vm = new Vue(&#123;</span><br><span class="line">  data: &#123;</span><br><span class="line">    a: 1</span><br><span class="line">  &#125;,</span><br><span class="line">  created: function () &#123;</span><br><span class="line">    // `this` 指向 vm 实例</span><br><span class="line">    console.log(&apos;a is: &apos; + this.a)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line">// -&gt; &quot;a is: 1&quot;</span><br></pre></td></tr></table></figure></p>
+<h2 id="生命周期图示"><a href="#生命周期图示" class="headerlink" title="生命周期图示"></a>生命周期图示</h2><p><img src="vueExample2/lifecycle.png" alt="生命周期图"><br><img src="criticalRenderingPath/full-process.png" alt="DOM形成图"></p>
 
       
     </div>
@@ -427,8 +420,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/03/24/bind/" rel="next" title="深入理解call,apply,bind">
-                <i class="fa fa-chevron-left"></i> 深入理解call,apply,bind
+              <a href="/2017/04/01/vueIntroduction1/" rel="next" title="Vue的介绍">
+                <i class="fa fa-chevron-left"></i> Vue的介绍
               </a>
             
           </div>
@@ -437,8 +430,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/04/01/vueTemplate3/" rel="prev" title="vue的模板语法">
-                vue的模板语法 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/04/07/scssMain1/" rel="prev" title="scss语法">
+                scss语法 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>

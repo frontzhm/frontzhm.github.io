@@ -93,6 +93,7 @@
 <meta property="og:url" content="http://yoursite.com/page/2/index.html">
 <meta property="og:site_name" content="花花的博客">
 <meta property="og:description" content="hello world">
+<meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="花花的博客">
 <meta name="twitter:description" content="hello world">
@@ -299,7 +300,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-20T17:18:43+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-20T17:37:53+08:00">
                 2017-11-20
               </time>
             
@@ -369,7 +370,7 @@
       
         
           
-            <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p><a href="http://editorconfig.org/" target="_blank" rel="external">官网网址</a><br>EditorConfig让编辑器读取配置文件并依此格式化代码。<br>比如保存的时候,编辑器会自动在文件末尾添加新的一行.<br>有些编辑器会默认支持, 有些需要安装响应的插件, 官网有说明.</p>
+            <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p><a href="http://editorconfig.org/" target="_blank" rel="noopener">官网网址</a><br>EditorConfig让编辑器读取配置文件并依此格式化代码。<br>比如保存的时候,编辑器会自动在文件末尾添加新的一行.<br>有些编辑器会默认支持, 有些需要安装响应的插件, 官网有说明.</p>
 <h2 id="就近原则"><a href="#就近原则" class="headerlink" title="就近原则"></a>就近原则</h2><p>当打开一个文件时，EditorConfig插件会在打开文件的目录和其每一级父目录查找.editorconfig文件，直到有一个配置文件root=true。<br>EditorConfig配置文件从上往下读取，并且路径最近的文件最后被读取。匹配的配置属性按照属性应用在代码上，所以最接近代码文件的属性优先级最高。一般放在项目根目录。</p>
 <p>配置文件的名字是<code>.editorconfig</code></p>
 <h2 id="支持的属性"><a href="#支持的属性" class="headerlink" title="支持的属性"></a>支持的属性</h2><ul>
@@ -382,7 +383,7 @@
 <li>insert_final_newline：设为true表明使文件以一个空白行结尾，false反之。</li>
 <li>root：表明是最顶层的配置文件，发现设为true时，才会停止查找.editorconfig文件。</li>
 </ul>
-<h2 id="常用的配置"><a href="#常用的配置" class="headerlink" title="常用的配置"></a>常用的配置</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># EditorConfig is awesome: http://EditorConfig.org</span></div><div class="line"></div><div class="line"><span class="comment"># top-most EditorConfig file</span></div><div class="line">root = <span class="literal">true</span></div><div class="line"></div><div class="line">[*]</div><div class="line">indent_style = space</div><div class="line">indent_size = 2</div><div class="line">end_of_line = lf</div><div class="line">charset = utf-8</div><div class="line">trim_trailing_whitespace = <span class="literal">true</span></div><div class="line">insert_final_newline = <span class="literal">true</span></div><div class="line"></div><div class="line">[*.&#123;txt,md&#125;]</div><div class="line">trim_trailing_whitespace = <span class="literal">false</span></div></pre></td></tr></table></figure>
+<h2 id="常用的配置"><a href="#常用的配置" class="headerlink" title="常用的配置"></a>常用的配置</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># EditorConfig is awesome: http://EditorConfig.org</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># top-most EditorConfig file</span></span><br><span class="line">root = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">[*]</span><br><span class="line">indent_style = space</span><br><span class="line">indent_size = 2</span><br><span class="line">end_of_line = lf</span><br><span class="line">charset = utf-8</span><br><span class="line">trim_trailing_whitespace = <span class="literal">true</span></span><br><span class="line">insert_final_newline = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">[*.&#123;txt,md&#125;]</span><br><span class="line">trim_trailing_whitespace = <span class="literal">false</span></span><br></pre></td></tr></table></figure>
 <h2 id="文件匹配规则"><a href="#文件匹配规则" class="headerlink" title="文件匹配规则"></a>文件匹配规则</h2><table>
 <thead>
 <tr>
@@ -419,160 +420,6 @@
 </table>
 
           
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/14/iconfont/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/11/14/iconfont/" itemprop="url">
-                  iconfont的使用
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-14T11:29:00+08:00">
-                2017-11-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/css/" itemprop="url" rel="index">
-                    <span itemprop="name">css</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/11/14/iconfont/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/11/14/iconfont/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <!-- ## TL;DR -->
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/11/14/iconfont/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
         
       
     </div>
@@ -650,7 +497,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-28T16:23:04+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-28T20:03:43+08:00">
                 2017-10-28
               </time>
             
@@ -731,14 +578,14 @@
 <li>一旦建立, 立即执行</li>
 <li>执行遇到resolve,状态就是resolved,值是resolve的第一个参数,reject同理</li>
 </ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">timeout</span>(<span class="params">time,value</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve</span>)=&gt;</span>&#123;</div><div class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">        resolve(value)</div><div class="line">    &#125;,time)</div><div class="line">    &#125;)</div><div class="line">&#125;</div><div class="line">timeout(<span class="number">500</span>,<span class="string">'hello'</span>).then(<span class="function">(<span class="params">value</span>)=&gt;</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(value)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">timeout</span>(<span class="params">time,value</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve</span>)=&gt;</span>&#123;</span><br><span class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        resolve(value)</span><br><span class="line">    &#125;,time)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line">timeout(<span class="number">500</span>,<span class="string">'hello'</span>).then(<span class="function">(<span class="params">value</span>)=&gt;</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(value)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 <p>上例中,<code>timeout(500,&#39;hello&#39;)</code>就表示此promise对象的状态是resolved, 值是hello</p>
 <h2 id="async函数"><a href="#async函数" class="headerlink" title="async函数"></a>async函数</h2><ul>
 <li>async函数返回一个 Promise 对象。</li>
 <li>返回的promise对象的状态默认是resolved, 值是函数的返回值</li>
 <li>特殊: async函数只有内部抛出错误的时候, 这个Promise对象的状态是rejected,值是错误对象</li>
 </ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params">value</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> value</div><div class="line">&#125;</div><div class="line"><span class="keyword">const</span> t = test(<span class="string">'我就是值'</span>)</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params">value</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> value</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> t = test(<span class="string">'我就是值'</span>)</span><br></pre></td></tr></table></figure>
 <p>上例中, t就是promise对象, 状态是resolved, 值是 <code>我就是值</code></p>
 <h2 id="await语句"><a href="#await语句" class="headerlink" title="await语句"></a>await语句</h2><ul>
 <li>await 命令只能用在 async 函数内部，如果用在普通函数，就会报错</li>
@@ -746,14 +593,14 @@
 <li>await的返回值是promise对象的值</li>
 <li>特殊情况下, 如果await后面的promise对象的状态是rejected, 那么会报错, 所以通常async函数执行放在try,catch里, 一旦报错就会走catch</li>
 </ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">timePrint</span>(<span class="params">time,value</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">await</span> timeout(time,value)</div><div class="line">&#125;</div><div class="line"><span class="keyword">try</span>&#123;</div><div class="line">    <span class="keyword">const</span> x = timePrint(<span class="number">1000</span>, <span class="string">'asyncAndPromise'</span>)</div><div class="line">    <span class="built_in">console</span>.log(x)</div><div class="line">&#125;<span class="keyword">catch</span>(error)&#123;</div><div class="line">    <span class="built_in">console</span>.log(error)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">timePrint</span>(<span class="params">time,value</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">await</span> timeout(time,value)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">try</span>&#123;</span><br><span class="line">    <span class="keyword">const</span> x = timePrint(<span class="number">1000</span>, <span class="string">'asyncAndPromise'</span>)</span><br><span class="line">    <span class="built_in">console</span>.log(x)</span><br><span class="line">&#125;<span class="keyword">catch</span>(error)&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(error)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>上例中await后面的promise对象状态是resolved,值是<code>asyncAndPromise</code><br>那么x这个promise对象状态是resolved, 值也是<code>asyncAndPromise</code></p>
 <h2 id="顺手理解下promisify"><a href="#顺手理解下promisify" class="headerlink" title="顺手理解下promisify"></a>顺手理解下promisify</h2><p>promisify让一个遵循通常的 Node.js 回调风格的函数， 即 (err, value) =&gt; … 回调函数是最后一个参数, 返回一个返回值是一个 promise 版本的函数。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> util = <span class="built_in">require</span>(<span class="string">'util'</span>);</div><div class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</div><div class="line"></div><div class="line"><span class="keyword">const</span> stat = util.promisify(fs.stat);</div><div class="line">stat(<span class="string">'.'</span>).then(<span class="function">(<span class="params">stats</span>) =&gt;</span> &#123;</div><div class="line">  <span class="comment">// Do something with `stats`</span></div><div class="line">&#125;).catch(<span class="function">(<span class="params">error</span>) =&gt;</span> &#123;</div><div class="line">  <span class="comment">// Handle the error.</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> util = <span class="built_in">require</span>(<span class="string">'util'</span>);</span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> stat = util.promisify(fs.stat);</span><br><span class="line">stat(<span class="string">'.'</span>).then(<span class="function">(<span class="params">stats</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// Do something with `stats`</span></span><br><span class="line">&#125;).catch(<span class="function">(<span class="params">error</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// Handle the error.</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 <p>相当于这样改写promisify:</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> stat = <span class="function"><span class="keyword">function</span>(<span class="params">path</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>) =&gt;</span> &#123;</div><div class="line">        fs.stat(path,(err,stats)=&gt;&#123;</div><div class="line">            <span class="keyword">if</span>(err)&#123;</div><div class="line">                <span class="keyword">return</span> reject(err)</div><div class="line">            &#125;</div><div class="line">            resolve(stats)</div><div class="line">        &#125;)</div><div class="line">    &#125;)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> stat = <span class="function"><span class="keyword">function</span>(<span class="params">path</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>) =&gt;</span> &#123;</span><br><span class="line">        fs.stat(path,(err,stats)=&gt;&#123;</span><br><span class="line">            <span class="keyword">if</span>(err)&#123;</span><br><span class="line">                <span class="keyword">return</span> reject(err)</span><br><span class="line">            &#125;</span><br><span class="line">            resolve(stats)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>那么<code>await stat(filePath)</code>如果filePath存在的话, stat(filePath)这个promise对象的值就是<code>stats</code>, 如果不存在的话, 就会报错需要用catch捕捉</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params">filePath</span>) </span>&#123;</div><div class="line">    <span class="keyword">try</span>&#123;</div><div class="line">        <span class="keyword">const</span> stats = <span class="keyword">await</span> stat(filePath)</div><div class="line">        <span class="built_in">console</span>.log(stats)</div><div class="line">    &#125;<span class="keyword">catch</span>(error)&#123;</div><div class="line">        <span class="built_in">console</span>.log(error)</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params">filePath</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">        <span class="keyword">const</span> stats = <span class="keyword">await</span> stat(filePath)</span><br><span class="line">        <span class="built_in">console</span>.log(stats)</span><br><span class="line">    &#125;<span class="keyword">catch</span>(error)&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(error)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
           
         
@@ -794,7 +641,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/13/es6Promise/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/16/es6Promise/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="frontzhm">
@@ -816,7 +663,7 @@
             
               
                 
-                <a class="post-title-link" href="/2017/10/13/es6Promise/" itemprop="url">
+                <a class="post-title-link" href="/2017/10/16/es6Promise/" itemprop="url">
                   深入简出promise
                 </a>
               
@@ -833,8 +680,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-13T10:38:21+08:00">
-                2017-10-13
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-16T10:16:47+08:00">
+                2017-10-16
               </time>
             
 
@@ -874,8 +721,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/10/13/es6Promise/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/10/13/es6Promise/" itemprop="commentCount"></span>
+                <a href="/2017/10/16/es6Promise/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/10/16/es6Promise/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -905,7 +752,7 @@
           <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/10/13/es6Promise/#more" rel="contents">
+            <a class="btn" href="/2017/10/16/es6Promise/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -987,7 +834,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-12T10:20:02+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-12T15:47:06+08:00">
                 2017-10-12
               </time>
             
@@ -1113,6 +960,189 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/12/nodeStudy/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/10/12/nodeStudy/" itemprop="url">
+                  学习node
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-12T10:06:18+08:00">
+                2017-10-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/node/" itemprop="url" rel="index">
+                    <span itemprop="name">node</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/10/12/nodeStudy/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/10/12/nodeStudy/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
+<li>模块暴露<code>module.exports</code>, 引入模块<code>require()</code></li>
+<li>全局对象global, 常用的其属性console和process, 下一次循环用<code>process.nextTick()</code>,process.argv获得命令行参数, 判断是不是浏览器环境<code>typeof window === &#39;undefined&#39;</code></li>
+<li>fs模块, 同时提供异步和同步方法<ul>
+<li>读文件: <code>fs.readFile(&#39;sample.txt&#39;,&#39;utf-8&#39;,function(err,data){ 一般err为空 })</code>, 二进制文件不用编码</li>
+<li>写文件: <code>fs.writeFile(&#39;sample.txt&#39;,&#39;hi lalala&#39;,function(err){})</code>, 字符串转buffer<code>Buffer.from(&#39;hihi&#39;,&#39;utf-8&#39;)</code>, buffer转字符串  bufferData.toString(‘utf-8’)</li>
+<li>得到文件的详细信息：<code>fs.stat(&#39;sample.txt&#39;,function(err,data){data.isFile(),data.isDirectory(),data.size,data.birthtime,data.mtime})</code></li>
+</ul>
+</li>
+<li>stream是一个对象，有自己的事件：data事件表示流的数据已经可以读取了，end事件表示这个流已经到末尾了，没有数据可以读取了，error事件表示出错了。<ul>
+<li>读文件流：<code>var stream = fs.createReadStream(&#39;sample.txt&#39;,&#39;utf-8&#39;);stream.on(&#39;data&#39;,function(chunk){..});stream.on(&#39;end&#39;,function(){..});stream.on(&#39;error&#39;,function(err){..});</code>，data事件可能会有多次，每次传递的chunk是流的一部分数据</li>
+<li>写文件流：<code>var stream1 = fs.createWriteStream(&#39;sample.txt&#39;,&#39;utf-8&#39;);stream1.write(&#39;lala&#39;,function(){写完之后的回调});stream1.write((new Buffer(&#39;buffer&#39;,&#39;utf-8&#39;)));stream1.end()</code></li>
+<li>pipe：把一个文件流和另一个文件流串起来，这样源文件的所有数据就自动写入到目标文件里了<code>stream.pipe(stream1)</code></li>
+</ul>
+</li>
+<li><code>url.parse(urlStr,true)</code>解析url</li>
+<li><code>path.resolve([...paths])</code>方法会把一个路径或路径片段的序列解析为一个绝对路径。</li>
+<li><code>path.join([...paths])</code> 方法使用平台特定的分隔符把全部给定的 path 片段连接到一起，并规范化生成的路径。</li>
+<li>file_server的练习
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/10/12/nodeStudy/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/11/urlParse/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1152,7 +1182,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-11T10:20:01+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-11T14:41:47+08:00">
                 2017-10-11
               </time>
             
@@ -1236,7 +1266,7 @@
 <li>url = origin + pathname + search + hash</li>
 <li>js中解析url主要利用a标签，常用的是query</li>
 <li>node有url模块</li>
-<li>querystring模块</li></ul>
+<li>querystring模块
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/10/11/urlParse/#more" rel="contents">
@@ -1321,7 +1351,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-30T14:20:32+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-30T17:41:49+08:00">
                 2017-09-30
               </time>
             
@@ -1392,7 +1422,7 @@
         
           <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
 <li>跨服务器拷贝<code>scp [参数] [原路径] [目标路径]</code></li>
-<li>免密码登录<code>ssh-keygen -t rsa -P &quot;&quot;</code></li></ul>
+<li>免密码登录<code>ssh-keygen -t rsa -P &quot;&quot;</code>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/09/30/scp/#more" rel="contents">
@@ -1438,7 +1468,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/28/nodeStudy/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/26/mockData/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="frontzhm">
@@ -1460,190 +1490,7 @@
             
               
                 
-                <a class="post-title-link" href="/2017/09/28/nodeStudy/" itemprop="url">
-                  学习node
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-28T10:08:31+08:00">
-                2017-09-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/node/" itemprop="url" rel="index">
-                    <span itemprop="name">node</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/09/28/nodeStudy/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/09/28/nodeStudy/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
-<li>模块暴露<code>module.exports</code>, 引入模块<code>require()</code></li>
-<li>全局对象global, 常用的其属性console和process, 下一次循环用<code>process.nextTick()</code>,process.argv获得命令行参数, 判断是不是浏览器环境<code>typeof window === &#39;undefined&#39;</code></li>
-<li>fs模块, 同时提供异步和同步方法<ul>
-<li>读文件: <code>fs.readFile(&#39;sample.txt&#39;,&#39;utf-8&#39;,function(err,data){ 一般err为空 })</code>, 二进制文件不用编码</li>
-<li>写文件: <code>fs.writeFile(&#39;sample.txt&#39;,&#39;hi lalala&#39;,function(err){})</code>, 字符串转buffer<code>Buffer.from(&#39;hihi&#39;,&#39;utf-8&#39;)</code>, buffer转字符串  bufferData.toString(‘utf-8’)</li>
-<li>得到文件的详细信息：<code>fs.stat(&#39;sample.txt&#39;,function(err,data){data.isFile(),data.isDirectory(),data.size,data.birthtime,data.mtime})</code></li>
-</ul>
-</li>
-<li>stream是一个对象，有自己的事件：data事件表示流的数据已经可以读取了，end事件表示这个流已经到末尾了，没有数据可以读取了，error事件表示出错了。<ul>
-<li>读文件流：<code>var stream = fs.createReadStream(&#39;sample.txt&#39;,&#39;utf-8&#39;);stream.on(&#39;data&#39;,function(chunk){..});stream.on(&#39;end&#39;,function(){..});stream.on(&#39;error&#39;,function(err){..});</code>，data事件可能会有多次，每次传递的chunk是流的一部分数据</li>
-<li>写文件流：<code>var stream1 = fs.createWriteStream(&#39;sample.txt&#39;,&#39;utf-8&#39;);stream1.write(&#39;lala&#39;,function(){写完之后的回调});stream1.write((new Buffer(&#39;buffer&#39;,&#39;utf-8&#39;)));stream1.end()</code></li>
-<li>pipe：把一个文件流和另一个文件流串起来，这样源文件的所有数据就自动写入到目标文件里了<code>stream.pipe(stream1)</code></li>
-</ul>
-</li>
-<li><code>url.parse(urlStr,true)</code>解析url</li>
-<li><code>path.resolve([...paths])</code>方法会把一个路径或路径片段的序列解析为一个绝对路径。</li>
-<li><code>path.join([...paths])</code> 方法使用平台特定的分隔符把全部给定的 path 片段连接到一起，并规范化生成的路径。</li>
-<li>file_server的练习</li></ul>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/09/28/nodeStudy/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/25/mockData/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/09/25/mockData/" itemprop="url">
+                <a class="post-title-link" href="/2017/09/26/mockData/" itemprop="url">
                   用mockjs模拟数据
                 </a>
               
@@ -1660,8 +1507,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-25T11:01:52+08:00">
-                2017-09-25
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-26T15:05:35+08:00">
+                2017-09-26
               </time>
             
 
@@ -1701,8 +1548,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/09/25/mockData/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/09/25/mockData/" itemprop="commentCount"></span>
+                <a href="/2017/09/26/mockData/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/09/26/mockData/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1750,7 +1597,7 @@
 </ul>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/09/25/mockData/#more" rel="contents">
+            <a class="btn" href="/2017/09/26/mockData/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1832,7 +1679,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-14T16:55:37+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-14T17:09:06+08:00">
                 2017-09-14
               </time>
             
@@ -1909,6 +1756,165 @@
 <h2 id="脑洞各种意外的坑"><a href="#脑洞各种意外的坑" class="headerlink" title="脑洞各种意外的坑"></a>脑洞各种意外的坑</h2><p>如果别的安卓机都没问题，部分安卓机有问题，请发挥脑洞。<br>好像遇到过，魅族部分机型对于长字符串发送不了请求。。。</p>
 
           
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/14/wechatAPI/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/09/14/wechatAPI/" itemprop="url">
+                  微信的一些相关功能实现
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-14T16:55:26+08:00">
+                2017-09-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/09/14/wechatAPI/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/09/14/wechatAPI/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><p>和微信的交互主要分为三种情况：</p>
+<ul>
+<li>微信里打开的网页</li>
+<li>pc端的网页需要微信登录</li>
+<li>app里需要调起微信的相关功能</li>
+<li>网页里调用微信接口，注意在微信公众平台点击账号-&gt; 功能设置加上响应的域名，否则接口会调用错误
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/09/14/wechatAPI/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>

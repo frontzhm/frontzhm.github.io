@@ -93,6 +93,7 @@
 <meta property="og:url" content="http://yoursite.com/index.html">
 <meta property="og:site_name" content="花花的博客">
 <meta property="og:description" content="hello world">
+<meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="花花的博客">
 <meta name="twitter:description" content="hello world">
@@ -260,174 +261,6 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/17/cnzz/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2018/07/17/cnzz/" itemprop="url">
-                  网站加cnzz
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-17T16:55:48+08:00">
-                2018-07-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/07/17/cnzz/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/07/17/cnzz/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="cnzz"><a href="#cnzz" class="headerlink" title="cnzz"></a>cnzz</h1><p>cnzz就是统计数据用的，统计pv，uv，甚至某个按钮的点击次数。</p>
-<h2 id="网站的添加步骤"><a href="#网站的添加步骤" class="headerlink" title="网站的添加步骤"></a>网站的添加步骤</h2><ol>
-<li><a href="https://web.umeng.com" target="_blank" rel="external">去网站注册账号</a>，然后添加网站</li>
-<li><p>获取代码，在body前添加脚本，注意一个域名对应一个id，也就是一个域名对应一个脚本</p>
- <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"//s22.cnzz.com/z_stat.php?id=你的id&amp;web_id=你的id"</span> <span class="attr">language</span>=<span class="string">"JavaScript"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-</li>
-<li><p>网站上会显示站长统计四个字或者图标，嫌不好看的话</p>
- <figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">a</span><span class="selector-attr">[title=站长统计]</span> &#123;</div><div class="line">    <span class="attribute">position</span>: absolute;</div><div class="line">    <span class="attribute">visibility</span>: hidden;</div><div class="line">    <span class="attribute">bottom</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">z-index</span>: -<span class="number">1</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<h2 id="事件的统计"><a href="#事件的统计" class="headerlink" title="事件的统计"></a>事件的统计</h2><ol>
-<li><p><a href="http://open.cnzz.com/a/new/trackevent/" target="_blank" rel="external">某个按钮的点击次数统计的话</a>，先上面的步骤，然后</p>
- <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 记得添加id</span></div><div class="line">someElement.onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    _czc.push([<span class="string">'_trackEvent'</span>, <span class="string">'今日头条里点击下载app次数'</span>, <span class="string">'下载'</span>, <span class="string">'app'</span>,<span class="string">'5'</span>,<span class="string">'wx-share'</span>]);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p> 具体介绍:<br> 各参数含义如下：<br> category：事件类别，必填项，表示事件发生在谁身上，如“视频”、“小说”、“轮显层”等等。<br> action：事件操作，必填项，表示访客跟元素交互的行为动作，如”播放”、”收藏”、”翻层”等等。<br> label：事件标签，选填项，用于更详细的描述事件，从各个方面都可以，比如具体是哪个视频，哪部小说，翻到了第几层等等。<br> value：事件值，选填项，整数型，用于填写打分型事件的分值，加载时间型事件的时长，订单型事件的价格等等。<br> nodeid：div元素id，选填项，填写网页中的div元素id值，用于在“用户视点”功能上重绘元素的事件发生情况。<br> 查看API详细说明</p>
- <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">_czc.push([<span class="string">"_trackEvent"</span>,category,action,label,value,nodeid]);</div></pre></td></tr></table></figure>
-</li>
-<li><p>记得左上角下拉箭头切换不同域名，以及左侧菜单栏的受访页面可以进行搜索，也可以右上角站点设置里排除某些页面和ip</p>
-</li>
-</ol>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/09/regExp1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -467,7 +300,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-09T10:35:43+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-09T15:39:11+08:00">
                 2018-02-09
               </time>
             
@@ -537,22 +370,11 @@
       
         
           
-            <p>正则开始比较发怵的一个东西，但突然间想玩好。搜了下相关文章，觉得<a href="https://github.com/GingerBear/IS-Job-Hunting/issues/8" target="_blank" rel="external">快速攻陷正则表达式</a>这篇写的能有耐心看下去。。。。</p>
+            <p>正则开始比较发怵的一个东西，但突然间想玩好。搜了下相关文章，觉得<a href="https://github.com/GingerBear/IS-Job-Hunting/issues/8" target="_blank" rel="noopener">快速攻陷正则表达式</a>这篇写的能有耐心看下去。。。。</p>
 <h2 id="正则干嘛的"><a href="#正则干嘛的" class="headerlink" title="正则干嘛的"></a>正则干嘛的</h2><p>首先，我们会经常用自然语言描述一类字符串，如 以 “010 开头的电话号码”、“含有 hello 的字符串”、“IP地址”等等。</p>
-<p>正则表达式就是一种描述性的语言，用来概括一类字符串 (或者说一个字符串集合)。 如 正则表达式<code>/hello/</code>就用来概括“含有 hello 的字符串”</p>
-<p>上面的定义请读三遍。简言之，用一个表达式, 去描述一类字符串(或者说, 一个字符串集合)。</p>
-<h2 id="最基本的正则表达式"><a href="#最基本的正则表达式" class="headerlink" title="最基本的正则表达式"></a>最基本的正则表达式</h2><ol>
-<li>一个字符串就是一个表达式。比如 aaa，就是一个正则表达式，它描述了一个字符串集合, 这个字符串集合里面只有 aaa 这一个元素。</li>
-<li>两个表达式可以串起来。比如 aaa和bbb可以串成aaabbb</li>
-<li>两个表达式用<code>|</code>连起来，表示这两个表达式的并集。比如<code>aaa|bbb</code>表示aaa和bbb，也就是 aaa和bbb各自集合的并集（别跟我说你不知道什么是并集）</li>
-</ol>
-<h2 id="拓展"><a href="#拓展" class="headerlink" title="拓展"></a>拓展</h2><p>最基本的正则表达式只能表示有限的字符串集合，也就是你用<code>|</code>一直连接。。。。。。这是不行滴，不够用滴。于是加上一些新的记号来表示无限的集合。</p>
-<ol>
-<li><code>\*</code>: 一个字符串 X 可以加上一个 *， 用来描述任意多个原来 X 描述的字符串拼起来的字符串。定义看的好定义。。。比如 <code>a*</code> 这个正则表达式, 我们知道 a 描述了一个字符串集合，这个集合里面只有a这一个元素 ，加上<code>*</code>之后，就表示这个集合里面有 a、aa、aaa、aaaa等等也就是任意数量的a拼起来的集合。其实还有还有特殊情况，因为是任意数量，所以可以是0个a也就是空字符串也在这个集合里。</li>
-<li><code>()</code>：整体。先说 <code>a|b*</code>表示集合 a、’’、b、bb、bbb等等，如果引入括号，<code>(a|b)*</code>，那么 <code>a|b</code>就变成一个整体，描述了a或者b，表示只有a和b组成的字符串</li>
-</ol>
+<p>正则表达式就是一种描述性的语言，用来概括一类字符串 (或者说一个字符串集合)。 如 正则表达式<code>/hello/</code>就表示“含有 hello 的字符串”</p>
 <blockquote>
-<p>参考<a href="https://github.com/GingerBear/IS-Job-Hunting/issues/8" target="_blank" rel="external">快速攻陷正则表达式</a></p>
+<p>参考<a href="https://github.com/GingerBear/IS-Job-Hunting/issues/8" target="_blank" rel="noopener">快速攻陷正则表达式</a></p>
 </blockquote>
 
           
@@ -633,7 +455,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-26T11:06:54+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-26T18:38:13+08:00">
                 2018-01-26
               </time>
             
@@ -710,20 +532,20 @@
 <li>用户可以上传图片到这里,从而节约自己服务器的存储空间</li>
 </ol>
 <h2 id="oss的简单使用流程"><a href="#oss的简单使用流程" class="headerlink" title="oss的简单使用流程"></a>oss的简单使用流程</h2><ol>
-<li><a href="https://www.aliyun.com/?spm=5176.8466032.0.0.1547dd226xaauo" target="_blank" rel="external">阿里云的官网</a>注册账号</li>
-<li>点击这里<a href="http://omizt4opc.bkt.clouddn.com/ossSavePath.png" target="_blank" rel="external">开通对象存储</a></li>
-<li><a href="http://omizt4opc.bkt.clouddn.com/newBucket.png" target="_blank" rel="external">新建bucket</a></li>
-<li><a href="https://help.aliyun.com/document_detail/31925.html?spm=5176.doc31923.6.635.Vkezrm" target="_blank" rel="external">js直传的介绍</a>和<a href="https://docs-aliyun.cn-hangzhou.oss.aliyun-inc.com/internal/oss/0.0.4/assets/sample/oss-h5-upload-js-direct.zip?spm=5176.doc31925.2.6.VaGr7O&amp;file=oss-h5-upload-js-direct.zip" target="_blank" rel="external">下载源码</a></li>
-<li><a href="http://omizt4opc.bkt.clouddn.com/ossKeys.png" target="_blank" rel="external">得到accessKeys</a></li>
-<li><a href="http://omizt4opc.bkt.clouddn.com/osssCross.png" target="_blank" rel="external">设置可跨域</a></li>
-<li><a href="http://omizt4opc.bkt.clouddn.com/ossLink.png" target="_blank" rel="external">可以直接在控制台上传文件</a>，在右边的设置里就可以看到链接如<code>http://hanfiles.oss-cn-beijing.aliyuncs.com/3.jpg</code></li>
+<li><a href="https://www.aliyun.com/?spm=5176.8466032.0.0.1547dd226xaauo" target="_blank" rel="noopener">阿里云的官网</a>注册账号</li>
+<li>点击这里<a href="http://omizt4opc.bkt.clouddn.com/ossSavePath.png" target="_blank" rel="noopener">开通对象存储</a></li>
+<li><a href="http://omizt4opc.bkt.clouddn.com/newBucket.png" target="_blank" rel="noopener">新建bucket</a></li>
+<li><a href="https://help.aliyun.com/document_detail/31925.html?spm=5176.doc31923.6.635.Vkezrm" target="_blank" rel="noopener">js直传的介绍</a>和<a href="https://docs-aliyun.cn-hangzhou.oss.aliyun-inc.com/internal/oss/0.0.4/assets/sample/oss-h5-upload-js-direct.zip?spm=5176.doc31925.2.6.VaGr7O&amp;file=oss-h5-upload-js-direct.zip" target="_blank" rel="noopener">下载源码</a></li>
+<li><a href="http://omizt4opc.bkt.clouddn.com/ossKeys.png" target="_blank" rel="noopener">得到accessKeys</a></li>
+<li><a href="http://omizt4opc.bkt.clouddn.com/osssCross.png" target="_blank" rel="noopener">设置可跨域</a></li>
+<li><a href="http://omizt4opc.bkt.clouddn.com/ossLink.png" target="_blank" rel="noopener">可以直接在控制台上传文件</a>，在右边的设置里就可以看到链接如<code>http://hanfiles.oss-cn-beijing.aliyuncs.com/3.jpg</code></li>
 <li>打开刚下载的源码，打开<code>upload.js</code>，设置成自己的，比如我的host就是<code>http://hanfiles.oss-cn-beijing.aliyuncs.com</code>，然后在浏览器中打开<code>index.html</code>，点击选择图片 =》 上传图片，然后在控制台里看，就发现图片上传上去了~实际生产情况，一般是前端不公开accessId和key，又后端处理，具体参照官网。</li>
 </ol>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">accessid= <span class="string">'6MKOqxGiGU4AUk44'</span>;</div><div class="line">accesskey= <span class="string">'ufu7nS8kS59awNihtjSonMETLI0KLy'</span>;</div><div class="line">host = <span class="string">'http://post-test.oss-cn-hangzhou.aliyuncs.com'</span>;</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">accessid= <span class="string">'6MKOqxGiGU4AUk44'</span>;</span><br><span class="line">accesskey= <span class="string">'ufu7nS8kS59awNihtjSonMETLI0KLy'</span>;</span><br><span class="line">host = <span class="string">'http://post-test.oss-cn-hangzhou.aliyuncs.com'</span>;</span><br></pre></td></tr></table></figure>
 <p>付费情况我没具体细究，但好像看到如果每小时访问量低于万次应该是不收费的，估摸着我的也不会超过十次=。=</p>
-<h2 id="使用ossUpload"><a href="#使用ossUpload" class="headerlink" title="使用ossUpload"></a>使用ossUpload</h2><p><a href="https://github.com/aliyun-UED/oss-js-upload" target="_blank" rel="external">官方demo</a>，<a href="https://github.com/frontzhm/ossUpload" target="_blank" rel="external">我自己的demo</a></p>
+<h2 id="使用ossUpload"><a href="#使用ossUpload" class="headerlink" title="使用ossUpload"></a>使用ossUpload</h2><p><a href="https://github.com/aliyun-UED/oss-js-upload" target="_blank" rel="noopener">官方demo</a>，<a href="https://github.com/frontzhm/ossUpload" target="_blank" rel="noopener">我自己的demo</a></p>
 <ul>
-<li><a href="https://ram.console.aliyun.com/#/notActive" target="_blank" rel="external">开通RAM</a></li>
+<li><a href="https://ram.console.aliyun.com/#/notActive" target="_blank" rel="noopener">开通RAM</a></li>
 <li>打开 RAM 控制台</li>
 <li>新建一个用户</li>
 <li>为用户添加 AliyunSTSAssumeRoleAccess 权限</li>
@@ -732,7 +554,7 @@
 <li>为角色添加 AliyunOSSFullAccess 权限, 记录下角色 ARN</li>
 </ul>
 <blockquote>
-<p><a href="http://blog.csdn.net/qq_38125123/article/details/73870667" target="_blank" rel="external">小程序图片上传阿里OSS使用方法</a><br><a href="https://ask.dcloud.net.cn/article/983" target="_blank" rel="external">使用plus.uploader上传图片到阿里云OSS</a><br><a href="https://github.com/aliyun-UED/oss-js-upload" target="_blank" rel="external">官方demo</a></p>
+<p><a href="http://blog.csdn.net/qq_38125123/article/details/73870667" target="_blank" rel="noopener">小程序图片上传阿里OSS使用方法</a><br><a href="https://ask.dcloud.net.cn/article/983" target="_blank" rel="noopener">使用plus.uploader上传图片到阿里云OSS</a><br><a href="https://github.com/aliyun-UED/oss-js-upload" target="_blank" rel="noopener">官方demo</a></p>
 </blockquote>
 
           
@@ -813,7 +635,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-22T15:12:43+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-22T16:37:07+08:00">
                 2018-01-22
               </time>
             
@@ -884,7 +706,7 @@
         
           
             <h1 id="安装和配置zip"><a href="#安装和配置zip" class="headerlink" title="安装和配置zip"></a>安装和配置zip</h1><ol>
-<li>zip命令原作者告知需要<a href="http://gnuwin32.sourceforge.net/downlinks/zip.php" target="_blank" rel="external">安装zip命令</a>,点击链接下载安装</li>
+<li>zip命令原作者告知需要<a href="http://gnuwin32.sourceforge.net/downlinks/zip.php" target="_blank" rel="noopener">安装zip命令</a>,点击链接下载安装</li>
 <li>记得安装路径,win7默认是<code>C:\Program Files\GnuWin32</code></li>
 <li>在<code>我的电脑右键属性-》高级-》环境变量-》系统变量-》选择Path -》编辑</code>,尾部增加<code>;C:\Program Files\GnuWin32\bin;</code>即可</li>
 <li>最后别忘了重启电脑</li>
@@ -928,7 +750,7 @@
 </table>
 <h2 id="unzip的命令"><a href="#unzip的命令" class="headerlink" title="unzip的命令"></a>unzip的命令</h2><p>我觉得常用的<code>unzip x.zip</code>解压到当前文件夹,<code>unzip x.zip -d 新的目录</code> 解压到指定目录</p>
 <blockquote>
-<p><a href="https://www.zhihu.com/question/39964192" target="_blank" rel="external">知乎上的回答</a><br><a href="http://blog.csdn.net/jlnhyd/article/details/3956407" target="_blank" rel="external">zip压缩命令</a></p>
+<p><a href="https://www.zhihu.com/question/39964192" target="_blank" rel="noopener">知乎上的回答</a><br><a href="http://blog.csdn.net/jlnhyd/article/details/3956407" target="_blank" rel="noopener">zip压缩命令</a></p>
 </blockquote>
 
           
@@ -1009,7 +831,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-02T14:52:30+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-02T15:35:53+08:00">
                 2018-01-02
               </time>
             
@@ -1078,7 +900,7 @@
 
       
         
-          <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><p><a href="https://tencent.github.io/wepy/document.html#/">wepy文档</a></p>
+          <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><p><a href="https://tencent.github.io/wepy/document.html#/" target="_blank" rel="noopener">wepy文档</a></p>
 <ul>
 <li>js文件的优化,分开了data,methods,周期函数</li>
 <li>支持组件化开发,组件里面添加新特性:computed,watcher,mixins,通信等</li>
@@ -1170,7 +992,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-26T09:49:19+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-26T13:45:31+08:00">
                 2017-12-26
               </time>
             
@@ -1239,7 +1061,7 @@
 
       
         
-          <p>经常踩到一些移动端css的坑,发现是一些特殊属性,遂记录一下<br><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/-webkit-tap-highlight-color">mdn文档</a></p>
+          <p>经常踩到一些移动端css的坑,发现是一些特殊属性,遂记录一下<br><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/-webkit-tap-highlight-color" target="_blank" rel="noopener">mdn文档</a></p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/12/26/mobileSpecialCss/#more" rel="contents">
@@ -1285,7 +1107,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/15/baiduMap/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/25/baiduMap/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="frontzhm">
@@ -1307,7 +1129,7 @@
             
               
                 
-                <a class="post-title-link" href="/2017/12/15/baiduMap/" itemprop="url">
+                <a class="post-title-link" href="/2017/12/25/baiduMap/" itemprop="url">
                   百度地图api的使用
                 </a>
               
@@ -1324,8 +1146,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-15T17:25:14+08:00">
-                2017-12-15
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-25T17:21:38+08:00">
+                2017-12-25
               </time>
             
 
@@ -1365,8 +1187,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/12/15/baiduMap/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/12/15/baiduMap/" itemprop="commentCount"></span>
+                <a href="/2017/12/25/baiduMap/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/12/25/baiduMap/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1393,10 +1215,10 @@
 
       
         
-          <p>百度地图api简单的使用<br></p>
+          <p>百度地图api简单的使用<br>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/12/15/baiduMap/#more" rel="contents">
+            <a class="btn" href="/2017/12/25/baiduMap/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1439,7 +1261,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/07/wechatCamera/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/25/wechatCamera/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="frontzhm">
@@ -1461,7 +1283,7 @@
             
               
                 
-                <a class="post-title-link" href="/2017/12/07/wechatCamera/" itemprop="url">
+                <a class="post-title-link" href="/2017/12/25/wechatCamera/" itemprop="url">
                   微信的图像开发接口
                 </a>
               
@@ -1478,8 +1300,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-07T10:08:04+08:00">
-                2017-12-07
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-25T14:08:35+08:00">
+                2017-12-25
               </time>
             
 
@@ -1519,8 +1341,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/12/07/wechatCamera/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/12/07/wechatCamera/" itemprop="commentCount"></span>
+                <a href="/2017/12/25/wechatCamera/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/12/25/wechatCamera/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1550,7 +1372,7 @@
           <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
 <li>必须配置微信参数,且在jsApiList配置你要的功能</li>
 <li>vue历史模式下微信配置的坑</li>
-<li><a href="https://mp.weixin.qq.com/wiki?t=resource/res_main&amp;id=mp1421141115">微信拍照的官方文档</a></li>
+<li><a href="https://mp.weixin.qq.com/wiki?t=resource/res_main&amp;id=mp1421141115" target="_blank" rel="noopener">微信拍照的官方文档</a></li>
 <li>出错优先查看官方文档,附录5-常见错误及解决方法</li>
 <li>wx.chooseImage 得到localid的数组</li>
 <li>wx.getLocalImgData 将localid的图片转化得到其base64,但不同系统的手机转化成的base64略有不同,需要处理才能使用</li>
@@ -1561,7 +1383,7 @@
 </ul>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/12/07/wechatCamera/#more" rel="contents">
+            <a class="btn" href="/2017/12/25/wechatCamera/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1604,7 +1426,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/23/webpack/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/05/webpack/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="frontzhm">
@@ -1626,7 +1448,7 @@
             
               
                 
-                <a class="post-title-link" href="/2017/11/23/webpack/" itemprop="url">
+                <a class="post-title-link" href="/2017/12/05/webpack/" itemprop="url">
                   webpack且学且用
                 </a>
               
@@ -1643,8 +1465,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-23T10:56:49+08:00">
-                2017-11-23
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-05T17:10:55+08:00">
+                2017-12-05
               </time>
             
 
@@ -1684,8 +1506,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/11/23/webpack/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/11/23/webpack/" itemprop="commentCount"></span>
+                <a href="/2017/12/05/webpack/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/12/05/webpack/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1713,13 +1535,13 @@
       
         
           
-            <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p><a href="https://doc.webpack-china.org/guides/getting-started" target="_blank" rel="external">官网网址</a><br>webpack 通俗的说, 能让html文件只需加载一个js文件, 这个js文件可以引入这个页面需要其他的文件,包括css,字体等等, 能极好的控制资源.</p>
+            <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p><a href="https://doc.webpack-china.org/guides/getting-started" target="_blank" rel="noopener">官网网址</a><br>webpack 通俗的说, 能让html文件只需加载一个js文件, 这个js文件可以引入这个页面需要其他的文件,包括css,字体等等, 能极好的控制资源.</p>
 <h2 id="安装和配置"><a href="#安装和配置" class="headerlink" title="安装和配置"></a>安装和配置</h2><ul>
 <li>全局安装<code>npm install webpack -g</code></li>
 <li>推荐本地项目安装<code>npm install webpack --save-dev</code>，在运行此命令之前， 项目必须有<code>package.json</code>文件，可以用<code>npm init --y</code>快速生成</li>
 <li>配置文件 webpack.config.js, 运行<code>webapck</code>相当于运行<code>webapck --config webpack.config.js</code>,也就是如果配置文件名字更换的话,相应的改命令,顺手</li>
 </ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="string">"scripts"</span>: &#123;</div><div class="line">    <span class="string">"start"</span>: <span class="string">"webpack --config webpack.config.js"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"scripts"</span>: &#123;</span><br><span class="line">    <span class="string">"start"</span>: <span class="string">"webpack --config webpack.config.js"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
 <li>懒得配置环境的时候, 可以用全局的<code>webpack entry文件 output文件</code></li>
 </ul>
@@ -1728,15 +1550,15 @@
 <li>单入口文件: 就是entry只有一个文件, eg:<code>entry:&#39;./index.js&#39;</code>或者<code>entry:[&#39;./index.js&#39;,&#39;index2.js&#39;]</code>或者<code>entry:{main:&#39;./main.js&#39;}</code> 特别注意的是数组的情况,其实<code>[&#39;./index.js&#39;,&#39;index2.js&#39;]</code>还是合并成一个入口文件,对象的时候key值就是output里的[name]</li>
 <li>多入口文件: 就是entry多个文件 ,eg:<code>entry:{main1:&#39;./index.js&#39;,main2:&#39;index2.js&#39;}</code>其实除了这种情况就是单入口文件</li>
 </ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">entry: &#123;</div><div class="line">    <span class="attr">app</span>: <span class="string">'./src/index.js'</span>,</div><div class="line">    <span class="attr">print</span>: <span class="string">'./src/print.js'</span></div><div class="line">&#125;,</div><div class="line"><span class="attr">output</span>: &#123;</div><div class="line">    <span class="attr">filename</span>: <span class="string">'[name].bundle.js'</span>,</div><div class="line">    <span class="attr">path</span>: path.resolve(__dirname, <span class="string">'dist'</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">entry: &#123;</span><br><span class="line">    app: <span class="string">'./src/index.js'</span>,</span><br><span class="line">    print: <span class="string">'./src/print.js'</span></span><br><span class="line">&#125;,</span><br><span class="line">output: &#123;</span><br><span class="line">    filename: <span class="string">'[name].bundle.js'</span>,</span><br><span class="line">    path: path.resolve(__dirname, <span class="string">'dist'</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="处理css"><a href="#处理css" class="headerlink" title="处理css"></a>处理css</h2><p>js文件中引入css文件,<code>import &#39;./index.css&#39;</code>,处理这样的情况:<br>对css文件进行<code>npm install --save-dev style-loader css-loader</code>, 后者可以在html的head插入style标签, 前者可以将css代码转换到js中, 除此之外还能自动热替换(前提是开启了热替换)和自动引用<code>file-loader</code>处理图片和字体后的地址</p>
 <h2 id="处理图片"><a href="#处理图片" class="headerlink" title="处理图片"></a>处理图片</h2><p>js文件中引入图片,<code>import myImg from &#39;./icon.png&#39;</code>, 处理这样的情况:<br>对图片文件进行<code>npm install --save-dev file-loader</code>,可以将import的图片自动生成到output的path,且css-loader能自动获取到生成后的地址<br>对于字体的处理也是一样的</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"> <span class="built_in">module</span>: &#123;</div><div class="line">    <span class="attr">rules</span>: [</div><div class="line">        &#123;</div><div class="line">            <span class="attr">test</span>: <span class="regexp">/\.css$/</span>,</div><div class="line">            <span class="attr">use</span>: [</div><div class="line">                <span class="string">'style-loader'</span>,</div><div class="line">                <span class="string">'css-loader'</span></div><div class="line">            ]</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            <span class="attr">test</span>: <span class="regexp">/\.(png|svg|jpg|gif)$/</span>,</div><div class="line">            <span class="attr">use</span>: [</div><div class="line">                <span class="string">'file-loader'</span></div><div class="line">            ]</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            <span class="attr">test</span>: <span class="regexp">/\.(woff|woff2|eot|ttf|otf)$/</span>,</div><div class="line">            <span class="attr">use</span>: [</div><div class="line">                <span class="string">'file-loader'</span></div><div class="line">            ]</div><div class="line">        &#125;</div><div class="line">    ]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"> <span class="built_in">module</span>: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">        &#123;</span><br><span class="line">            test: <span class="regexp">/\.css$/</span>,</span><br><span class="line">            use: [</span><br><span class="line">                <span class="string">'style-loader'</span>,</span><br><span class="line">                <span class="string">'css-loader'</span></span><br><span class="line">            ]</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            test: <span class="regexp">/\.(png|svg|jpg|gif)$/</span>,</span><br><span class="line">            use: [</span><br><span class="line">                <span class="string">'file-loader'</span></span><br><span class="line">            ]</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            test: <span class="regexp">/\.(woff|woff2|eot|ttf|otf)$/</span>,</span><br><span class="line">            use: [</span><br><span class="line">                <span class="string">'file-loader'</span></span><br><span class="line">            ]</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="自动生成html文件"><a href="#自动生成html文件" class="headerlink" title="自动生成html文件"></a>自动生成html文件</h2><p><code>npm install --save-dev html-webpack-plugin</code>默认会生成output.path/index.html,里面自动插入output.filname的js文件.<br>好处是,如果修改output.filename则不需要手动修改output.path/index.html</p>
 <h2 id="自动清除dist"><a href="#自动清除dist" class="headerlink" title="自动清除dist"></a>自动清除dist</h2><p><code>npm install clean-webpack-plugin --save-dev</code>会每次清除dist文件夹, 这样dist不会一直残留以前的文件</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">plugins: [</div><div class="line">    <span class="keyword">new</span> CleanWebpackPlugin([<span class="string">'dist'</span>]),</div><div class="line">    <span class="keyword">new</span> HtmlWebpackPlugin(&#123;</div><div class="line">        <span class="attr">title</span>: <span class="string">'Output Management'</span></div><div class="line">    &#125;)</div><div class="line">],</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">plugins: [</span><br><span class="line">    <span class="keyword">new</span> CleanWebpackPlugin([<span class="string">'dist'</span>]),</span><br><span class="line">    <span class="keyword">new</span> HtmlWebpackPlugin(&#123;</span><br><span class="line">        title: <span class="string">'Output Management'</span></span><br><span class="line">    &#125;)</span><br><span class="line">],</span><br></pre></td></tr></table></figure>
 <h2 id="增加source-map"><a href="#增加source-map" class="headerlink" title="增加source-map"></a>增加source-map</h2><p>让代码出bug的时候找到原始的文件以及出错的行数</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">devtool: <span class="string">'inline-source-map'</span></div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">devtool: <span class="string">'inline-source-map'</span></span><br></pre></td></tr></table></figure>
 <h2 id="代码变动自动编译"><a href="#代码变动自动编译" class="headerlink" title="代码变动自动编译"></a>代码变动自动编译</h2><p>这里有三种方式,</p>
 <ul>
 <li>直接使用命令<code>webpack --watch</code>,当entry的文件及依赖的文件发生变化时自动编译. 依旧生成dist文件</li>
@@ -1744,21 +1566,21 @@
 <li><code>npm i --save-dev webpack-dev-middleware</code>是一个中间件容器(wrapper)，它将通过 webpack 处理后的文件发布到一个服务器(server)。在内部它使用 webpack-dev-server ，然而，它可以作为一个单独的包来提供，可以进行更多的自定义设置来实现更多需求。</li>
 </ul>
 <p>主要说下<code>webpack-dev-server</code></p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 设置服务器的根目录</span></div><div class="line">devServer: &#123;</div><div class="line">    <span class="attr">contentBase</span>: <span class="string">'./dist'</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 设置脚本</span></div><div class="line"><span class="string">"start"</span>: <span class="string">"webpack-dev-server --open"</span>,</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 设置服务器的根目录</span></span><br><span class="line">devServer: &#123;</span><br><span class="line">    contentBase: <span class="string">'./dist'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 设置脚本</span></span><br><span class="line"><span class="string">"start"</span>: <span class="string">"webpack-dev-server --open"</span>,</span><br></pre></td></tr></table></figure>
 <h2 id="模块热替换-HMR"><a href="#模块热替换-HMR" class="headerlink" title="模块热替换(HMR)"></a>模块热替换(HMR)</h2><p>上面的是代码变动,自动重新编译,但还需要刷新页面. 而热替换是,自动编译之后自动更新相应的地方,不需要手动刷新.不是百分之百的准,可以看官网.<br>启用此功能实际上相当简单。就是更新 webpack-dev-server 的配置，和使用 webpack 内置的 HMR 插件。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">devServer: &#123;</div><div class="line">    <span class="attr">contentBase</span>: <span class="string">'./dist'</span>,</div><div class="line">    <span class="attr">hot</span>: <span class="literal">true</span></div><div class="line">&#125;,</div><div class="line"><span class="attr">plugins</span>: [</div><div class="line">    <span class="keyword">new</span> webpack.NamedModulesPlugin(),</div><div class="line">    <span class="keyword">new</span> webpack.HotModuleReplacementPlugin()</div><div class="line">],</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">devServer: &#123;</span><br><span class="line">    contentBase: <span class="string">'./dist'</span>,</span><br><span class="line">    hot: <span class="literal">true</span></span><br><span class="line">&#125;,</span><br><span class="line">plugins: [</span><br><span class="line">    <span class="keyword">new</span> webpack.NamedModulesPlugin(),</span><br><span class="line">    <span class="keyword">new</span> webpack.HotModuleReplacementPlugin()</span><br><span class="line">],</span><br></pre></td></tr></table></figure>
 <h2 id="tree-shaking"><a href="#tree-shaking" class="headerlink" title="tree shaking"></a>tree shaking</h2><p>摇晃大树,这样死去的叶子就掉了.<br>代码里就是:打包的时候不打包未被引用的代码.前提是必须使用 ES2015 模块语法（即 import 和 export）。<br>用到的插件是<code>npm i --save-dev uglifyjs-webpack-plugin</code></p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">plugins: [</div><div class="line">  <span class="keyword">new</span> UglifyJSPlugin()</div><div class="line">]</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">plugins: [</span><br><span class="line">  <span class="keyword">new</span> UglifyJSPlugin()</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
 <h2 id="分离生产环境和开发环境配置"><a href="#分离生产环境和开发环境配置" class="headerlink" title="分离生产环境和开发环境配置"></a>分离生产环境和开发环境配置</h2><p>开发环境(development)和生产环境(production)的构建目标差异很大。在开发环境中，我们需要具有强大的、具有实时重新加载(live reloading)或热模块替换(hot module replacement)能力的 source map 和 localhost server。而在生产环境中，我们的目标则转向于关注更小的 bundle，更轻量的 source map，以及更优化的资源，以改善加载时间。由于要遵循逻辑分离，我们通常建议为每个环境编写彼此独立的 webpack 配置。</p>
 <p>用到的插件<code>npm install --save-dev webpack-merge</code></p>
 <p>webpack.config.js =&gt;  webpack.common.js + webpack.dev.js + webpack.prod.js</p>
 <p>更换脚本</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// package.json</span></div><div class="line"><span class="string">"dev"</span>: <span class="string">"webpack-dev-server --open --config webpack.dev.js"</span>,</div><div class="line"><span class="string">"build"</span>: <span class="string">"webpack --config webpack.prod.js"</span>,</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// package.json</span></span><br><span class="line"><span class="string">"dev"</span>: <span class="string">"webpack-dev-server --open --config webpack.dev.js"</span>,</span><br><span class="line"><span class="string">"build"</span>: <span class="string">"webpack --config webpack.prod.js"</span>,</span><br></pre></td></tr></table></figure>
 <h3 id="指定环境"><a href="#指定环境" class="headerlink" title="指定环境"></a>指定环境</h3><p>许多 library 将通过与 <code>process.env.NODE_ENV</code> 环境变量关联，以决定 library 中应该引用哪些内容。例如，当不处于生产环境中时，某些 library 为了使调试变得容易，可能会添加额外的日志记录(log)和测试(test)。其实，当使用 <code>process.env.NODE_ENV === &#39;production&#39;</code> 时，一些 library 可能针对具体用户的环境进行代码优化，从而删除或添加一些重要代码。<br>使用 webpack 内置的 <code>DefinePlugin</code> 为所有的依赖定义这个变量：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">plugins: [</div><div class="line">    <span class="comment">// 设置之后在src的js文件里,打印`process.env.NODE_ENV`就是设置的`production`.</span></div><div class="line">    <span class="keyword">new</span> webpack.DefinePlugin(&#123;</div><div class="line">        <span class="string">'process.env'</span>: &#123;</div><div class="line">            <span class="string">'NODE_ENV'</span>: <span class="built_in">JSON</span>.stringify(<span class="string">'production'</span>)</div><div class="line">        &#125;</div><div class="line">    &#125;)</div><div class="line">]</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">plugins: [</span><br><span class="line">    <span class="comment">// 设置之后在src的js文件里,打印`process.env.NODE_ENV`就是设置的`production`.</span></span><br><span class="line">    <span class="keyword">new</span> webpack.DefinePlugin(&#123;</span><br><span class="line">        <span class="string">'process.env'</span>: &#123;</span><br><span class="line">            <span class="string">'NODE_ENV'</span>: <span class="built_in">JSON</span>.stringify(<span class="string">'production'</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
 <p>一般在生产环境中配置,代码中<code>process.env.NODE_ENV!== &#39;production&#39;</code> 就表示在开发环境中<br>配置分离的示例</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// webpack.common.js</span></div><div class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>)</div><div class="line"><span class="keyword">const</span> CleanWebpackPlugin = <span class="built_in">require</span>(<span class="string">'clean-webpack-plugin'</span>)</div><div class="line"><span class="keyword">const</span> HtmlWebpackPlugin = <span class="built_in">require</span>(<span class="string">'html-webpack-plugin'</span>)</div><div class="line"></div><div class="line"><span class="built_in">module</span>.exports = &#123;</div><div class="line">  <span class="attr">entry</span>: &#123;</div><div class="line">    <span class="attr">app</span>: <span class="string">'./src/index.js'</span></div><div class="line">  &#125;,</div><div class="line">  <span class="attr">output</span>: &#123;</div><div class="line">    <span class="attr">path</span>: path.resolve(__dirname, <span class="string">'./dist'</span>),</div><div class="line">    <span class="attr">filename</span>: <span class="string">'[name].bundle.js'</span></div><div class="line">  &#125;,</div><div class="line">  <span class="attr">plugins</span>: [</div><div class="line">    <span class="keyword">new</span> CleanWebpackPlugin([<span class="string">'dist'</span>]),</div><div class="line">    <span class="keyword">new</span> HtmlWebpackPlugin(&#123;</div><div class="line">      <span class="attr">title</span>: <span class="string">'Production'</span></div><div class="line">    &#125;)</div><div class="line">  ]</div><div class="line"></div><div class="line"><span class="comment">// webpack.dev.js</span></div><div class="line"><span class="keyword">const</span> merge = <span class="built_in">require</span>(<span class="string">'webpack-merge'</span>)</div><div class="line"><span class="keyword">const</span> common = <span class="built_in">require</span>(<span class="string">'./webpack.common'</span>)</div><div class="line"><span class="keyword">const</span> webpack = <span class="built_in">require</span>(<span class="string">'webpack'</span>)</div><div class="line"></div><div class="line"><span class="built_in">module</span>.exports = merge(common, &#123;</div><div class="line">  <span class="attr">plugins</span>: [</div><div class="line">    <span class="keyword">new</span> webpack.NamedModulesPlugin(),</div><div class="line">    <span class="keyword">new</span> webpack.HotModuleReplacementPlugin()</div><div class="line">  ],</div><div class="line">  <span class="attr">devServer</span>: &#123;</div><div class="line">    <span class="attr">contentBase</span>: <span class="string">'./dist'</span>,</div><div class="line">    <span class="attr">hot</span>: <span class="literal">true</span></div><div class="line">  &#125;,</div><div class="line">  <span class="attr">devtool</span>: <span class="string">'inline-source-map'</span></div><div class="line">&#125;)</div><div class="line"></div><div class="line"><span class="comment">// webpack.prod.js</span></div><div class="line"><span class="keyword">const</span> webpack = <span class="built_in">require</span>(<span class="string">'webpack'</span>)</div><div class="line"><span class="keyword">const</span> merge = <span class="built_in">require</span>(<span class="string">'webpack-merge'</span>)</div><div class="line"><span class="keyword">const</span> common = <span class="built_in">require</span>(<span class="string">'./webpack.common'</span>)</div><div class="line"><span class="keyword">const</span> UglifyJSPlugin = <span class="built_in">require</span>(<span class="string">'uglifyjs-webpack-plugin'</span>)</div><div class="line"><span class="built_in">module</span>.exports = merge(common, &#123;</div><div class="line">  <span class="comment">// 生产环境下推荐使用map, 有利于调试源码</span></div><div class="line">  devtool: <span class="string">'source-map'</span>,</div><div class="line">  <span class="attr">plugins</span>: [</div><div class="line">    <span class="keyword">new</span> UglifyJSPlugin(&#123;</div><div class="line">      <span class="attr">sourceMap</span>: <span class="literal">true</span></div><div class="line">    &#125;),</div><div class="line">    <span class="keyword">new</span> webpack.DefinePlugin(&#123;</div><div class="line">      <span class="string">'process.env'</span>: &#123;</div><div class="line">        <span class="string">'NODE_ENV'</span>: <span class="built_in">JSON</span>.stringify(<span class="string">'production'</span>)</div><div class="line">      &#125;</div><div class="line">    &#125;)</div><div class="line">  ]</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// webpack.common.js</span></span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>)</span><br><span class="line"><span class="keyword">const</span> CleanWebpackPlugin = <span class="built_in">require</span>(<span class="string">'clean-webpack-plugin'</span>)</span><br><span class="line"><span class="keyword">const</span> HtmlWebpackPlugin = <span class="built_in">require</span>(<span class="string">'html-webpack-plugin'</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  entry: &#123;</span><br><span class="line">    app: <span class="string">'./src/index.js'</span></span><br><span class="line">  &#125;,</span><br><span class="line">  output: &#123;</span><br><span class="line">    path: path.resolve(__dirname, <span class="string">'./dist'</span>),</span><br><span class="line">    filename: <span class="string">'[name].bundle.js'</span></span><br><span class="line">  &#125;,</span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="keyword">new</span> CleanWebpackPlugin([<span class="string">'dist'</span>]),</span><br><span class="line">    <span class="keyword">new</span> HtmlWebpackPlugin(&#123;</span><br><span class="line">      title: <span class="string">'Production'</span></span><br><span class="line">    &#125;)</span><br><span class="line">  ]</span><br><span class="line"></span><br><span class="line"><span class="comment">// webpack.dev.js</span></span><br><span class="line"><span class="keyword">const</span> merge = <span class="built_in">require</span>(<span class="string">'webpack-merge'</span>)</span><br><span class="line"><span class="keyword">const</span> common = <span class="built_in">require</span>(<span class="string">'./webpack.common'</span>)</span><br><span class="line"><span class="keyword">const</span> webpack = <span class="built_in">require</span>(<span class="string">'webpack'</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = merge(common, &#123;</span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="keyword">new</span> webpack.NamedModulesPlugin(),</span><br><span class="line">    <span class="keyword">new</span> webpack.HotModuleReplacementPlugin()</span><br><span class="line">  ],</span><br><span class="line">  devServer: &#123;</span><br><span class="line">    contentBase: <span class="string">'./dist'</span>,</span><br><span class="line">    hot: <span class="literal">true</span></span><br><span class="line">  &#125;,</span><br><span class="line">  devtool: <span class="string">'inline-source-map'</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// webpack.prod.js</span></span><br><span class="line"><span class="keyword">const</span> webpack = <span class="built_in">require</span>(<span class="string">'webpack'</span>)</span><br><span class="line"><span class="keyword">const</span> merge = <span class="built_in">require</span>(<span class="string">'webpack-merge'</span>)</span><br><span class="line"><span class="keyword">const</span> common = <span class="built_in">require</span>(<span class="string">'./webpack.common'</span>)</span><br><span class="line"><span class="keyword">const</span> UglifyJSPlugin = <span class="built_in">require</span>(<span class="string">'uglifyjs-webpack-plugin'</span>)</span><br><span class="line"><span class="built_in">module</span>.exports = merge(common, &#123;</span><br><span class="line">  <span class="comment">// 生产环境下推荐使用map, 有利于调试源码</span></span><br><span class="line">  devtool: <span class="string">'source-map'</span>,</span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="keyword">new</span> UglifyJSPlugin(&#123;</span><br><span class="line">      sourceMap: <span class="literal">true</span></span><br><span class="line">    &#125;),</span><br><span class="line">    <span class="keyword">new</span> webpack.DefinePlugin(&#123;</span><br><span class="line">      <span class="string">'process.env'</span>: &#123;</span><br><span class="line">        <span class="string">'NODE_ENV'</span>: <span class="built_in">JSON</span>.stringify(<span class="string">'production'</span>)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">  ]</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 <h2 id="代码分离"><a href="#代码分离" class="headerlink" title="代码分离"></a>代码分离</h2><p>代码分离是 webpack 中最引人注目的特性之一。此特性能够把代码分离到不同的 bundle 中，然后可以按需加载或并行加载这些文件。代码分离可以用于获取更小的 bundle，以及控制资源加载优先级，如果使用合理，会极大影响加载时间。</p>
 <p>有三种常用的代码分离方法：</p>
 <ul>
@@ -1766,8 +1588,8 @@
 <li>防止重复：使用 webpack内置的CommonsChunkPlugin 去重和分离 chunk。</li>
 <li>动态导入：通过模块的内联函数调用来分离代码。</li>
 </ul>
-<h3 id="防止重复"><a href="#防止重复" class="headerlink" title="防止重复"></a>防止重复</h3><p><a href="http://foio.github.io/wepack-code-spliting/" target="_blank" rel="external">webpack代码分割技巧</a>讲解的很酷.<br><a href="https://github.com/ShowJoy-com/showjoy-blog/issues/7" target="_blank" rel="external">看懂前端脚手架你需要这篇webpack</a></p>
-<p><a href="https://doc.webpack-china.org/plugins/commons-chunk-plugin" target="_blank" rel="external"><code>CommonsChunkPlugin</code></a> 插件可以将公共的依赖模块提取到已有的入口 chunk 中，或者提取到一个新生成的 chunk。</p>
+<h3 id="防止重复"><a href="#防止重复" class="headerlink" title="防止重复"></a>防止重复</h3><p><a href="http://foio.github.io/wepack-code-spliting/" target="_blank" rel="noopener">webpack代码分割技巧</a>讲解的很酷.<br><a href="https://github.com/ShowJoy-com/showjoy-blog/issues/7" target="_blank" rel="noopener">看懂前端脚手架你需要这篇webpack</a></p>
+<p><a href="https://doc.webpack-china.org/plugins/commons-chunk-plugin" target="_blank" rel="noopener"><code>CommonsChunkPlugin</code></a> 插件可以将公共的依赖模块提取到已有的入口 chunk 中，或者提取到一个新生成的 chunk。</p>
 <h4 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h4><ul>
 <li>chunk: webpack将多个模块打包之后的代码集合,<code>entry:{index:&#39;index.js&#39;,math:&#39;math.js&#39;}</code>index和math就是chunk</li>
 <li>Runtime: 非源码部分的引导模块代码，都属于 webpack 运行时。(用了CommonsChunkPlugin,可以简单看下源码,就明白了)</li>
@@ -1777,33 +1599,33 @@
 <li>CommonsChunkPlugin的本质: 将多个入口中的公有代码和Runtime(运行时)抽取到父节点, 如果是单入口文件则会将Runtime(运行时)抽取出来</li>
 </ul>
 <p>可以这样理解,没有CommonsChunkPlugin,各入口生成的文件互不相干<br>有了CommonsChunkPlugin,将各入口(chunks的配置项的,没有chunks默认是所有)生成的文件Runtime和共同部分扔出来了,扔到哪个文件,就看配置了,有可能放在哪个入口文件里,有可能新建一个文件</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">new</span> webpack.optimize.CommonsChunkPlugin(&#123;</div><div class="line">    <span class="attr">name</span>: <span class="string">'common'</span> <span class="comment">// chunk的名称，如果这个chunk已经在entry中定义，该chunk会被直接提取；如果没有定义，则生成一个空的chunk来提取其他所有chunk的公共代码。</span></div><div class="line">    <span class="comment">// chunks: [] // 如果被忽略，所有的，所有的 入口chunk (entry chunk) 都会被选择。</span></div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">entry: &#123;</div><div class="line">    <span class="attr">index</span>: <span class="string">'./src/index.js'</span></div><div class="line">&#125;,</div><div class="line"><span class="keyword">new</span> webpack.optimize.CommonsChunkPlugin(&#123;</div><div class="line">    <span class="attr">name</span>: <span class="string">'common'</span> <span class="comment">// 指定公共 bundle 的名称。</span></div><div class="line">&#125;)</div><div class="line"><span class="comment">// 生成 common.bundle.js(包括Runtime)和index.bundle.js</span></div></pre></td></tr></table></figure>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">entry: &#123;</div><div class="line">    <span class="attr">index</span>: <span class="string">'./src/index.js'</span></div><div class="line">&#125;,</div><div class="line"><span class="keyword">new</span> webpack.optimize.CommonsChunkPlugin(&#123;</div><div class="line">    <span class="attr">name</span>: <span class="string">'index'</span> <span class="comment">// 指定公共 bundle 的名称。</span></div><div class="line">&#125;)</div><div class="line"><span class="comment">// 生成 index.bundle.js(包括Runtime)</span></div></pre></td></tr></table></figure>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">entry: &#123;</div><div class="line">    <span class="attr">index</span>: <span class="string">'./src/index.js'</span>,</div><div class="line">    <span class="attr">math</span>: <span class="string">'./src/math.js'</span>,</div><div class="line">&#125;,</div><div class="line"><span class="keyword">new</span> webpack.optimize.CommonsChunkPlugin(&#123;</div><div class="line">    <span class="attr">name</span>: <span class="string">'common'</span> <span class="comment">// 指定公共 bundle 的名称。</span></div><div class="line">&#125;)</div><div class="line"><span class="comment">// 生成 common.bundle.js(包括Runtime和index,math的共同部分)和indx.bundle.js ,math.bundle.js</span></div></pre></td></tr></table></figure>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">entry: &#123;</div><div class="line">    <span class="attr">index</span>: <span class="string">'./src/index.js'</span>,</div><div class="line">    <span class="attr">math</span>: <span class="string">'./src/math.js'</span>,</div><div class="line">&#125;,</div><div class="line"><span class="keyword">new</span> webpack.optimize.CommonsChunkPlugin(&#123;</div><div class="line">    <span class="attr">name</span>: <span class="string">'math'</span> <span class="comment">// 指定公共 bundle 的名称。</span></div><div class="line">&#125;)</div><div class="line"><span class="comment">// 生成 math.bundle.js(包括Runtime和index的共同部分)和indx.bundle.js</span></div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> webpack.optimize.CommonsChunkPlugin(&#123;</span><br><span class="line">    name: <span class="string">'common'</span> <span class="comment">// chunk的名称，如果这个chunk已经在entry中定义，该chunk会被直接提取；如果没有定义，则生成一个空的chunk来提取其他所有chunk的公共代码。</span></span><br><span class="line">    <span class="comment">// chunks: [] // 如果被忽略，所有的，所有的 入口chunk (entry chunk) 都会被选择。</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">entry: &#123;</span><br><span class="line">    index: <span class="string">'./src/index.js'</span></span><br><span class="line">&#125;,</span><br><span class="line"><span class="keyword">new</span> webpack.optimize.CommonsChunkPlugin(&#123;</span><br><span class="line">    name: <span class="string">'common'</span> <span class="comment">// 指定公共 bundle 的名称。</span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// 生成 common.bundle.js(包括Runtime)和index.bundle.js</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">entry: &#123;</span><br><span class="line">    index: <span class="string">'./src/index.js'</span></span><br><span class="line">&#125;,</span><br><span class="line"><span class="keyword">new</span> webpack.optimize.CommonsChunkPlugin(&#123;</span><br><span class="line">    name: <span class="string">'index'</span> <span class="comment">// 指定公共 bundle 的名称。</span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// 生成 index.bundle.js(包括Runtime)</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">entry: &#123;</span><br><span class="line">    index: <span class="string">'./src/index.js'</span>,</span><br><span class="line">    math: <span class="string">'./src/math.js'</span>,</span><br><span class="line">&#125;,</span><br><span class="line"><span class="keyword">new</span> webpack.optimize.CommonsChunkPlugin(&#123;</span><br><span class="line">    name: <span class="string">'common'</span> <span class="comment">// 指定公共 bundle 的名称。</span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// 生成 common.bundle.js(包括Runtime和index,math的共同部分)和indx.bundle.js ,math.bundle.js</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">entry: &#123;</span><br><span class="line">    index: <span class="string">'./src/index.js'</span>,</span><br><span class="line">    math: <span class="string">'./src/math.js'</span>,</span><br><span class="line">&#125;,</span><br><span class="line"><span class="keyword">new</span> webpack.optimize.CommonsChunkPlugin(&#123;</span><br><span class="line">    name: <span class="string">'math'</span> <span class="comment">// 指定公共 bundle 的名称。</span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// 生成 math.bundle.js(包括Runtime和index的共同部分)和indx.bundle.js</span></span><br></pre></td></tr></table></figure>
 <h4 id="用途"><a href="#用途" class="headerlink" title="用途"></a>用途</h4><ol>
 <li>将很少变化的常用库（react、lodash、redux）等与业务代码分割：</li>
 </ol>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">entry: &#123;</div><div class="line">    <span class="attr">app</span>: <span class="string">"./app.js"</span>,</div><div class="line">    <span class="attr">vendor</span>: [<span class="string">"lodash"</span>,<span class="string">"jquery"</span>],</div><div class="line">&#125;,</div><div class="line"><span class="keyword">new</span> webpack.optimize.CommonsChunkPlugin(&#123;<span class="attr">name</span>: <span class="string">"vendor"</span>&#125;)</div><div class="line"></div><div class="line"><span class="comment">// 生成vendor.bundle.js(包括Runtime+ 共同部分()+ vendor)  app.bundle.js</span></div></pre></td></tr></table></figure>
-<ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">entry: &#123;</span><br><span class="line">    app: <span class="string">"./app.js"</span>,</span><br><span class="line">    vendor: [<span class="string">"lodash"</span>,<span class="string">"jquery"</span>],</span><br><span class="line">&#125;,</span><br><span class="line"><span class="keyword">new</span> webpack.optimize.CommonsChunkPlugin(&#123;<span class="attr">name</span>: <span class="string">"vendor"</span>&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 生成vendor.bundle.js(包括Runtime+ 共同部分()+ vendor)  app.bundle.js</span></span><br></pre></td></tr></table></figure>
+<ol start="2">
 <li>提取共有代码</li>
 </ol>
 <p>提取math和print的公共代码</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">entry:&#123;</div><div class="line">    <span class="attr">math</span>: <span class="string">'./math.js'</span>,</div><div class="line">    <span class="attr">print</span>: <span class="string">'./print.js'</span>,</div><div class="line">    <span class="attr">index</span>: <span class="string">'./index.js'</span></div><div class="line">&#125;</div><div class="line"><span class="keyword">new</span> webpack.optimize.CommonsChunkPlugin(&#123;<span class="attr">name</span>: <span class="string">"common"</span>,<span class="attr">chunks</span>:[<span class="string">'math'</span>,<span class="string">'print'</span>]&#125;)</div><div class="line"><span class="comment">// index.bundle.js(自己的Runtime normal)   common.bundle.js(后两者的Runtime和公共代码)  math.bundle.js print.bundle.js</span></div></pre></td></tr></table></figure>
-<ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">entry:&#123;</span><br><span class="line">    math: <span class="string">'./math.js'</span>,</span><br><span class="line">    print: <span class="string">'./print.js'</span>,</span><br><span class="line">    index: <span class="string">'./index.js'</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">new</span> webpack.optimize.CommonsChunkPlugin(&#123;<span class="attr">name</span>: <span class="string">"common"</span>,<span class="attr">chunks</span>:[<span class="string">'math'</span>,<span class="string">'print'</span>]&#125;)</span><br><span class="line"><span class="comment">// index.bundle.js(自己的Runtime normal)   common.bundle.js(后两者的Runtime和公共代码)  math.bundle.js print.bundle.js</span></span><br></pre></td></tr></table></figure>
+<ol start="3">
 <li>提取Runtime的代码</li>
 </ol>
 <p>这种情况下，当业务代码发生变化，而库代码没有改动时，vendor的chunkhash不会变<br>当names是数组的时候,数组的最后一项默认就是Runtime</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">entry: &#123;</div><div class="line">    <span class="attr">app</span>: <span class="string">"./app.js"</span>,</div><div class="line">    <span class="attr">vendor</span>: [<span class="string">"lodash"</span>,<span class="string">"jquery"</span>],</div><div class="line">&#125;,</div><div class="line"><span class="attr">output</span>: &#123;</div><div class="line">    <span class="attr">filename</span>: <span class="string">'[name].[chunkhash].js'</span>,</div><div class="line">    <span class="attr">path</span>: <span class="string">'build/'</span>,</div><div class="line">&#125;,</div><div class="line"><span class="keyword">new</span> webpack.optimize.CommonsChunkPlugin(&#123;<span class="attr">names</span>: [<span class="string">"vendor"</span>,<span class="string">"runtime"</span>]&#125;)</div><div class="line"></div><div class="line"><span class="comment">// runtime.bundle.js vendor.bundle.js app.bundle.js</span></div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">entry: &#123;</span><br><span class="line">    app: <span class="string">"./app.js"</span>,</span><br><span class="line">    vendor: [<span class="string">"lodash"</span>,<span class="string">"jquery"</span>],</span><br><span class="line">&#125;,</span><br><span class="line">output: &#123;</span><br><span class="line">    filename: <span class="string">'[name].[chunkhash].js'</span>,</span><br><span class="line">    path: <span class="string">'build/'</span>,</span><br><span class="line">&#125;,</span><br><span class="line"><span class="keyword">new</span> webpack.optimize.CommonsChunkPlugin(&#123;<span class="attr">names</span>: [<span class="string">"vendor"</span>,<span class="string">"runtime"</span>]&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// runtime.bundle.js vendor.bundle.js app.bundle.js</span></span><br></pre></td></tr></table></figure>
 <h3 id="动态导入"><a href="#动态导入" class="headerlink" title="动态导入"></a>动态导入</h3><p>当涉及到动态代码拆分时，webpack 提供了两个类似的技术。对于动态导入，第一种，也是优先选择的方式是，使用符合 ECMAScript 提案 的 import() 语法。第二种，则是使用 webpack 特定的 require.ensure。让我们先尝试使用第一种……</p>
-<h4 id="import-语法"><a href="#import-语法" class="headerlink" title="import 语法"></a>import 语法</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">output: &#123;</div><div class="line">    <span class="attr">filename</span>: <span class="string">'[name].bundle.js'</span>,</div><div class="line">    <span class="comment">// 这里使用了 chunkFilename，它决定非入口 chunk 的名称。</span></div><div class="line">    chunkFilename: <span class="string">'[name].bundle.js'</span>,</div><div class="line">    <span class="attr">path</span>: path.resolve(__dirname, <span class="string">'dist'</span>)</div><div class="line">  &#125;,</div></pre></td></tr></table></figure>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getComponent</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="comment">// 在注释中使用了 webpackChunkName。这样做会导致我们的 bundle 被命名为 lodash.bundle.js ，而不是 [id].bundle.js</span></div><div class="line">  <span class="keyword">return</span> <span class="keyword">import</span>(<span class="comment">/* webpackChunkName: "lodash" */</span><span class="string">'lodash'</span>).then(<span class="function"><span class="params">_</span>=&gt;</span>&#123;</div><div class="line">    <span class="keyword">var</span> element = <span class="built_in">document</span>.createElement(<span class="string">'div'</span>)</div><div class="line">    element.innerHTML = _.join([<span class="string">'hello'</span>, <span class="string">'webpack'</span>], <span class="string">''</span>)</div><div class="line">    <span class="keyword">return</span> element</div><div class="line">  &#125;).catch(<span class="function"><span class="params">error</span>=&gt;</span>&#123;</div><div class="line">    <span class="string">'An error occurred while loading the component'</span></div><div class="line">  &#125;)</div><div class="line">&#125;</div><div class="line">getComponent().then(<span class="function"><span class="params">component</span>=&gt;</span><span class="built_in">document</span>.body.appendChild(component))</div></pre></td></tr></table></figure>
+<h4 id="import-语法"><a href="#import-语法" class="headerlink" title="import 语法"></a>import 语法</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">output: &#123;</span><br><span class="line">    filename: <span class="string">'[name].bundle.js'</span>,</span><br><span class="line">    <span class="comment">// 这里使用了 chunkFilename，它决定非入口 chunk 的名称。</span></span><br><span class="line">    chunkFilename: <span class="string">'[name].bundle.js'</span>,</span><br><span class="line">    path: path.resolve(__dirname, <span class="string">'dist'</span>)</span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getComponent</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 在注释中使用了 webpackChunkName。这样做会导致我们的 bundle 被命名为 lodash.bundle.js ，而不是 [id].bundle.js</span></span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">import</span>(<span class="comment">/* webpackChunkName: "lodash" */</span><span class="string">'lodash'</span>).then(<span class="function"><span class="params">_</span>=&gt;</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> element = <span class="built_in">document</span>.createElement(<span class="string">'div'</span>)</span><br><span class="line">    element.innerHTML = _.join([<span class="string">'hello'</span>, <span class="string">'webpack'</span>], <span class="string">''</span>)</span><br><span class="line">    <span class="keyword">return</span> element</span><br><span class="line">  &#125;).catch(<span class="function"><span class="params">error</span>=&gt;</span>&#123;</span><br><span class="line">    <span class="string">'An error occurred while loading the component'</span></span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line">getComponent().then(<span class="function"><span class="params">component</span>=&gt;</span><span class="built_in">document</span>.body.appendChild(component))</span><br></pre></td></tr></table></figure>
 <p>import() 语句恰好会返回 promises,可以用类似 babel 的预处理器(pre-processor)启用 async 函数</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// async 返回的promise对象的状态默认是resolved, 值是函数的返回值</span></div><div class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">getComponent</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="comment">// 在注释中使用了 webpackChunkName。这样做会导致我们的 bundle 被命名为 lodash.bundle.js ，而不是 [id].bundle.js </span></div><div class="line">    <span class="keyword">const</span> _ = <span class="keyword">await</span> <span class="keyword">import</span>(<span class="comment">/* webpackChunkName: "lodash" */</span><span class="string">'lodash'</span>)</div><div class="line">    <span class="keyword">var</span> element = <span class="built_in">document</span>.createElement(<span class="string">'div'</span>)</div><div class="line">    element.innerHTML = _.join([<span class="string">'hello'</span>, <span class="string">'webpack'</span>], <span class="string">''</span>)</div><div class="line">    <span class="keyword">return</span> element</div><div class="line"></div><div class="line">&#125;</div><div class="line">getComponent().then(<span class="function"><span class="params">component</span>=&gt;</span><span class="built_in">document</span>.body.appendChild(component))</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// async 返回的promise对象的状态默认是resolved, 值是函数的返回值</span></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">getComponent</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 在注释中使用了 webpackChunkName。这样做会导致我们的 bundle 被命名为 lodash.bundle.js ，而不是 [id].bundle.js </span></span><br><span class="line">    <span class="keyword">const</span> _ = <span class="keyword">await</span> <span class="keyword">import</span>(<span class="comment">/* webpackChunkName: "lodash" */</span><span class="string">'lodash'</span>)</span><br><span class="line">    <span class="keyword">var</span> element = <span class="built_in">document</span>.createElement(<span class="string">'div'</span>)</span><br><span class="line">    element.innerHTML = _.join([<span class="string">'hello'</span>, <span class="string">'webpack'</span>], <span class="string">''</span>)</span><br><span class="line">    <span class="keyword">return</span> element</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">getComponent().then(<span class="function"><span class="params">component</span>=&gt;</span><span class="built_in">document</span>.body.appendChild(component))</span><br></pre></td></tr></table></figure>
 <h2 id="懒加载"><a href="#懒加载" class="headerlink" title="懒加载"></a>懒加载</h2><p>懒加载或者按需加载，需要的时候加载相应代码. </p>
 <p>其实就是上面的import,但是一般不用库,比如点击按钮的时候,打印文字.这里的打印是另外的js,只有用户点击的时候才需要</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// index.js</span></div><div class="line"><span class="keyword">var</span> btn = <span class="built_in">document</span>.createElement(<span class="string">'button'</span>)</div><div class="line">btn.innerHTML = <span class="string">'click view control'</span></div><div class="line">btn.onclick = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">  <span class="keyword">import</span>(<span class="comment">/* webpackChunkName:print */</span><span class="string">'./print'</span>).then(<span class="function"><span class="params">module</span> =&gt;</span> &#123;</div><div class="line">    <span class="built_in">module</span>.default()</div><div class="line">  &#125;)</div><div class="line">&#125;</div><div class="line"><span class="built_in">document</span>.body.appendChild(btn)</div><div class="line"></div><div class="line"><span class="comment">// print.js</span></div><div class="line"><span class="built_in">console</span>.log(<span class="string">'The print.js module has loaded! See the network tab in dev tools...'</span>)</div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> () =&gt; &#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'Button Clicked: Here\'s "some text"!'</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// index.js</span></span><br><span class="line"><span class="keyword">var</span> btn = <span class="built_in">document</span>.createElement(<span class="string">'button'</span>)</span><br><span class="line">btn.innerHTML = <span class="string">'click view control'</span></span><br><span class="line">btn.onclick = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">import</span>(<span class="comment">/* webpackChunkName:print */</span><span class="string">'./print'</span>).then(<span class="function"><span class="params">module</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">module</span>.default()</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">document</span>.body.appendChild(btn)</span><br><span class="line"></span><br><span class="line"><span class="comment">// print.js</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'The print.js module has loaded! See the network tab in dev tools...'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> () =&gt; &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'Button Clicked: Here\'s "some text"!'</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>上面会先生成print.bundle.js,但是页面不会加载.再点击的时候才会加载此文件</p>
 <p>懒加载的两个条件,才能生成[name].bundle.js</p>
 <ul>
@@ -1811,12 +1633,12 @@
 <li>import(/<em> webpackChunkName: “lodash” </em>/‘lodash’)</li>
 </ul>
 <h2 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h2><p>通过必要的配置，以确保 webpack 编译生成的文件能够被客户端缓存，而在文件内容变化后，能够请求到新的文件。<br>其实就是每次生成文件的时候加一个随机码</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">output: &#123;</div><div class="line">    <span class="comment">// filename: '[name].bundle.js'  没错加了个chunkhash</span></div><div class="line">    filename: <span class="string">'[name].[chunkhash].js'</span>,</div><div class="line">    <span class="attr">path</span>: path.resolve(__dirname, <span class="string">'dist'</span>)</div><div class="line">  &#125;,</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">output: &#123;</span><br><span class="line">    <span class="comment">// filename: '[name].bundle.js'  没错加了个chunkhash</span></span><br><span class="line">    filename: <span class="string">'[name].[chunkhash].js'</span>,</span><br><span class="line">    path: path.resolve(__dirname, <span class="string">'dist'</span>)</span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
 <p>可以看到，bundle 的名称是它内容（通过 hash）的映射。如果我们不做修改，然后再次运行构建，我们的文件名按照期望，依然保持不变。然而，如果我们再次运行，可能会发现情况并非如此.这也是因为 webpack 在入口 chunk 中，包含了某些样板(boilerplate)，特别是 runtime 和 manifest。（译注：样板(boilerplate)指 webpack 运行时的引导代码）,于是需要提取模板</p>
 <h3 id="提取模板"><a href="#提取模板" class="headerlink" title="提取模板"></a>提取模板</h3><p>CommonsChunkPlugin 可以用于将模块分离到单独的文件中。然而 CommonsChunkPlugin 有一个较少有人知道的功能是，能够在每次修改后的构建结果中，将 webpack 的样板(boilerplate)和 manifest 提取出来。通过指定 entry 配置中未用到的名称，此插件会自动将我们需要的内容提取到单独的包中：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">entry: &#123;</div><div class="line">    <span class="attr">index</span>: <span class="string">'./src/index.js'</span></div><div class="line">&#125;,</div><div class="line"><span class="attr">plugins</span>: [</div><div class="line">    <span class="keyword">new</span> CleanWebpackPlugin([<span class="string">'dist'</span>]),</div><div class="line">    <span class="keyword">new</span> HtmlWebpackPlugin(&#123;</div><div class="line">      <span class="attr">title</span>: <span class="string">'Caching'</span></div><div class="line">    &#125;),</div><div class="line">    <span class="comment">// 重点在这里</span></div><div class="line">    <span class="keyword">new</span> webpack.optimize.CommonsChunkPlugin(&#123;</div><div class="line">      <span class="attr">name</span>: <span class="string">'runtime'</span></div><div class="line">    &#125;)</div><div class="line">  ],</div><div class="line">  <span class="comment">// 生成runtime.eeqw83821.js 和index.h32jik32.js</span></div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">entry: &#123;</span><br><span class="line">    index: <span class="string">'./src/index.js'</span></span><br><span class="line">&#125;,</span><br><span class="line">plugins: [</span><br><span class="line">    <span class="keyword">new</span> CleanWebpackPlugin([<span class="string">'dist'</span>]),</span><br><span class="line">    <span class="keyword">new</span> HtmlWebpackPlugin(&#123;</span><br><span class="line">      title: <span class="string">'Caching'</span></span><br><span class="line">    &#125;),</span><br><span class="line">    <span class="comment">// 重点在这里</span></span><br><span class="line">    <span class="keyword">new</span> webpack.optimize.CommonsChunkPlugin(&#123;</span><br><span class="line">      name: <span class="string">'runtime'</span></span><br><span class="line">    &#125;)</span><br><span class="line">  ],</span><br><span class="line">  <span class="comment">// 生成runtime.eeqw83821.js 和index.h32jik32.js</span></span><br></pre></td></tr></table></figure>
 <p>将第三方库拧出来,这样只要库代码不动,其chunkhash就不会变化</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">entry: &#123;</div><div class="line">    <span class="attr">index</span>: <span class="string">'./src/index.js'</span>,</div><div class="line">    <span class="attr">vendor</span>: [<span class="string">'lodash'</span>]</div><div class="line">&#125;,</div><div class="line"><span class="attr">plugins</span>: [</div><div class="line">    <span class="keyword">new</span> CleanWebpackPlugin([<span class="string">'dist'</span>]),</div><div class="line">    <span class="keyword">new</span> HtmlWebpackPlugin(&#123;</div><div class="line">      <span class="attr">title</span>: <span class="string">'Caching'</span></div><div class="line">    &#125;),</div><div class="line">    <span class="comment">// 重点在这里 注意，引入顺序在这里很重要。CommonsChunkPlugin 的 'vendor' 实例，必须在 'runtime' 实例之前引入。</span></div><div class="line">    <span class="keyword">new</span> webpack.optimize.CommonsChunkPlugin(&#123;</div><div class="line">      <span class="attr">name</span>: <span class="string">'vendor'</span></div><div class="line">    &#125;),</div><div class="line">    <span class="keyword">new</span> webpack.optimize.CommonsChunkPlugin(&#123;</div><div class="line">      <span class="attr">name</span>: <span class="string">'runtime'</span></div><div class="line">    &#125;)</div><div class="line">  ],</div><div class="line">  <span class="comment">// 生成runtime.eeqw83821.js 和index.h32jik32.js vendor.fda788fa.js</span></div><div class="line">  <span class="comment">// 等同于new webpack.optimize.CommonsChunkPlugin(&#123; names: ['vendor','runtime'] &#125;)</span></div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">entry: &#123;</span><br><span class="line">    index: <span class="string">'./src/index.js'</span>,</span><br><span class="line">    vendor: [<span class="string">'lodash'</span>]</span><br><span class="line">&#125;,</span><br><span class="line">plugins: [</span><br><span class="line">    <span class="keyword">new</span> CleanWebpackPlugin([<span class="string">'dist'</span>]),</span><br><span class="line">    <span class="keyword">new</span> HtmlWebpackPlugin(&#123;</span><br><span class="line">      title: <span class="string">'Caching'</span></span><br><span class="line">    &#125;),</span><br><span class="line">    <span class="comment">// 重点在这里 注意，引入顺序在这里很重要。CommonsChunkPlugin 的 'vendor' 实例，必须在 'runtime' 实例之前引入。</span></span><br><span class="line">    <span class="keyword">new</span> webpack.optimize.CommonsChunkPlugin(&#123;</span><br><span class="line">      name: <span class="string">'vendor'</span></span><br><span class="line">    &#125;),</span><br><span class="line">    <span class="keyword">new</span> webpack.optimize.CommonsChunkPlugin(&#123;</span><br><span class="line">      name: <span class="string">'runtime'</span></span><br><span class="line">    &#125;)</span><br><span class="line">  ],</span><br><span class="line">  <span class="comment">// 生成runtime.eeqw83821.js 和index.h32jik32.js vendor.fda788fa.js</span></span><br><span class="line">  <span class="comment">// 等同于new webpack.optimize.CommonsChunkPlugin(&#123; names: ['vendor','runtime'] &#125;)</span></span><br></pre></td></tr></table></figure>
 <p>然后,其实是不对的,当index.js再引入别的文件的时候,vendor的hash还是会变化.这是因为每个 module.id 会基于默认的解析顺序(resolve order)进行增量。也就是说，当解析顺序发生变化，ID 也会随之改变。因此，简要概括：</p>
 <ul>
 <li>index bundle 会随着自身的新增内容的修改，而发生变化。</li>
@@ -1824,8 +1646,162 @@
 <li>runtime bundle 会因为当前包含一个新模块的引用，而发生变化。</li>
 </ul>
 <p>第一个和最后一个都是符合预期的行为 – 而 vendor 的 hash 发生变化是我们要修复的。幸运的是，可以使用两个插件来解决这个问题。第一个插件是 NamedModulesPlugin，将使用模块的路径，而不是数字标识符。虽然此插件有助于在开发过程中输出结果的可读性，然而执行时间会长一些。第二个选择是使用 HashedModuleIdsPlugin，推荐用于生产环境构建：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">plugins: [</div><div class="line">    <span class="keyword">new</span> CleanWebpackPlugin([<span class="string">'dist'</span>]),</div><div class="line">    <span class="keyword">new</span> HtmlWebpackPlugin(&#123;</div><div class="line">      <span class="attr">title</span>: <span class="string">'Caching'</span></div><div class="line">    &#125;),</div><div class="line">    <span class="comment">// 该插件会根据模块的相对路径生成一个四位数的hash作为模块id, 建议用于生产环境。</span></div><div class="line">    <span class="comment">// 就是这个插件 现在，不管再添加任何新的本地依赖，对于每次构建，vendor hash 都应该保持一致：</span></div><div class="line">    <span class="keyword">new</span> webpack.HashedModuleIdsPlugin(),</div><div class="line">    <span class="comment">// 重点在这里 注意，引入顺序在这里很重要。CommonsChunkPlugin 的 'vendor' 实例，必须在 'runtime' 实例之前引入。</span></div><div class="line">    <span class="keyword">new</span> webpack.optimize.CommonsChunkPlugin(&#123;</div><div class="line">      <span class="attr">name</span>: <span class="string">'vendor'</span></div><div class="line">    &#125;),</div><div class="line">    <span class="keyword">new</span> webpack.optimize.CommonsChunkPlugin(&#123;</div><div class="line">      <span class="attr">name</span>: <span class="string">'runtime'</span></div><div class="line">    &#125;)</div><div class="line">  ],</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">plugins: [</span><br><span class="line">    <span class="keyword">new</span> CleanWebpackPlugin([<span class="string">'dist'</span>]),</span><br><span class="line">    <span class="keyword">new</span> HtmlWebpackPlugin(&#123;</span><br><span class="line">      title: <span class="string">'Caching'</span></span><br><span class="line">    &#125;),</span><br><span class="line">    <span class="comment">// 该插件会根据模块的相对路径生成一个四位数的hash作为模块id, 建议用于生产环境。</span></span><br><span class="line">    <span class="comment">// 就是这个插件 现在，不管再添加任何新的本地依赖，对于每次构建，vendor hash 都应该保持一致：</span></span><br><span class="line">    <span class="keyword">new</span> webpack.HashedModuleIdsPlugin(),</span><br><span class="line">    <span class="comment">// 重点在这里 注意，引入顺序在这里很重要。CommonsChunkPlugin 的 'vendor' 实例，必须在 'runtime' 实例之前引入。</span></span><br><span class="line">    <span class="keyword">new</span> webpack.optimize.CommonsChunkPlugin(&#123;</span><br><span class="line">      name: <span class="string">'vendor'</span></span><br><span class="line">    &#125;),</span><br><span class="line">    <span class="keyword">new</span> webpack.optimize.CommonsChunkPlugin(&#123;</span><br><span class="line">      name: <span class="string">'runtime'</span></span><br><span class="line">    &#125;)</span><br><span class="line">  ],</span><br></pre></td></tr></table></figure>
           
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/28/iconfont/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/11/28/iconfont/" itemprop="url">
+                  iconfont的使用
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-28T11:05:28+08:00">
+                2017-11-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/css/" itemprop="url" rel="index">
+                    <span itemprop="name">css</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/11/28/iconfont/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/11/28/iconfont/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <!-- ## TL;DR -->
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/11/28/iconfont/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1903,7 +1879,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-21T09:38:56+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-21T15:05:51+08:00">
                 2017-11-21
               </time>
             
@@ -1973,7 +1949,7 @@
       
         
           
-            <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p><a href="https://cn.eslint.org/docs/user-guide/getting-started" target="_blank" rel="external">官网网址</a><br>项目的js规范可能各有千秋， 而eslint可以自定义规范.更重要的是， 我想要编辑器根据此规范自动格式化js代码。</p>
+            <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p><a href="https://cn.eslint.org/docs/user-guide/getting-started" target="_blank" rel="noopener">官网网址</a><br>项目的js规范可能各有千秋， 而eslint可以自定义规范.更重要的是， 我想要编辑器根据此规范自动格式化js代码。</p>
 <h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><ul>
 <li>全局安装<code>npm install eslint -g</code></li>
 <li>推荐本地项目安装<code>npm install eslint --save-dev</code>，在运行此命令之前， 项目必须有<code>package.json</code>文件，可以用<code>npm init --y</code>快速生成(以下按照本地安装)</li>
@@ -1982,7 +1958,7 @@
 </ul>
 <h2 id="配置vscode"><a href="#配置vscode" class="headerlink" title="配置vscode"></a>配置vscode</h2><p>我用的是vscode，所以说下vscode配置eslint，保存的时候自动按照配置文件格式化。</p>
 <p>1.vscode下载插件<code>eslint</code><br>2.文件 -&gt; 首选项 -&gt; 设置 -&gt; 搜索eslint， 右侧配置</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="string">"eslint.options"</span>: &#123;</div><div class="line">    <span class="comment">// 配置文件的地址</span></div><div class="line">    <span class="string">"configFile"</span>: <span class="string">"E:/mygithub/formatCodeTestToDE/.eslintrc.js"</span></div><div class="line">&#125;,</div><div class="line"><span class="comment">// 保存的时候自动格式化</span></div><div class="line"><span class="string">"eslint.autoFixOnSave"</span>: <span class="literal">true</span>,</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"eslint.options"</span>: &#123;</span><br><span class="line">    <span class="comment">// 配置文件的地址</span></span><br><span class="line">    <span class="string">"configFile"</span>: <span class="string">"E:/mygithub/formatCodeTestToDE/.eslintrc.js"</span></span><br><span class="line">&#125;,</span><br><span class="line"><span class="comment">// 保存的时候自动格式化</span></span><br><span class="line"><span class="string">"eslint.autoFixOnSave"</span>: <span class="literal">true</span>,</span><br></pre></td></tr></table></figure>
 <h2 id="具体配置参数"><a href="#具体配置参数" class="headerlink" title="具体配置参数"></a>具体配置参数</h2><p>常用:</p>
 <ul>
 <li>Environments - 指定脚本的运行环境。每种环境都有一组特定的预定义全局变量。</li>
@@ -2005,7 +1981,7 @@
 <li>parserOptions - 属性设置解析器选项</li>
 <li>plugins - ESLint 支持使用第三方插件。在使用插件之前，你必须使用 npm 安装它。</li>
 </ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="comment">//extends用于引入某配置作为基础配置，然后再在后续的rules中对其进行扩展</span></div><div class="line">    <span class="string">"extends"</span>: <span class="string">"eslint:recommended"</span>,</div><div class="line">    <span class="comment">//如果你想使用插件中的环境变量，请先把插件名写入"plugins"数组中，然后再在"env":&#123;&#125;中以"插件名/插件中的需引入的环境名"的方式进行指定。</span></div><div class="line">    <span class="string">"plugins"</span>: [<span class="string">"example"</span>],</div><div class="line">    <span class="string">"env"</span>: &#123;</div><div class="line">        <span class="comment">//An environment defines global variables that are predefined.</span></div><div class="line">        <span class="comment">//定义env会带进来一些全局变量</span></div><div class="line">        <span class="string">"browser"</span>: <span class="literal">true</span>,</div><div class="line">        <span class="string">"node"</span>: <span class="literal">true</span>,</div><div class="line">        <span class="string">"es6"</span>:<span class="literal">true</span>,</div><div class="line">        <span class="string">"mocha"</span>:<span class="string">"true"</span>,</div><div class="line">        <span class="string">"qunit"</span>:<span class="literal">true</span>,</div><div class="line">        <span class="string">"jquery"</span>:<span class="literal">true</span>,</div><div class="line">        <span class="string">"mongo"</span>:<span class="literal">true</span>,</div><div class="line">        <span class="comment">//通过插件名命名空间引入插件中的环境</span></div><div class="line">        <span class="string">"example/custom"</span>: <span class="literal">true</span></div><div class="line">    &#125;,</div><div class="line">    <span class="string">"globals"</span>: &#123;</div><div class="line">        <span class="comment">// globals are the additional global variables your script accesses during execution.</span></div><div class="line">        <span class="comment">// 即插件在执行过程中用到的其它全局变量</span></div><div class="line">        <span class="string">"angular"</span>: <span class="literal">true</span>,</div><div class="line">    &#125;,</div><div class="line">    <span class="string">"rules"</span>: &#123;</div><div class="line">        <span class="comment">//which rules are enabled and at what error level.</span></div><div class="line">        <span class="comment">//这里指定用哪些规则进行eslint检查以及每个规则的错误级别：0或者off表示规则关闭，出错也被忽略；1或者warn表示如果出错会给出警告；2或者error表示如果出错会报出错误</span></div><div class="line">        <span class="string">"semi"</span>: [<span class="string">"error"</span>, <span class="string">"always"</span>],</div><div class="line">        <span class="string">"quotes"</span>: [<span class="string">"error"</span>, <span class="string">"double"</span>]</div><div class="line">    &#125;,</div><div class="line">    <span class="comment">//parser指定解析器，默认的为espree，可选的还有Esprima、Babel-ESLint。</span></div><div class="line">    <span class="comment">//babel-eslint is a wrapper around the Babel parser that makes it compatible with ESLint.</span></div><div class="line">        <span class="comment">//babel-eslint是一个Babel parser的包装器，这个包装器使得Babel parser可以和ESLint协调工作</span></div><div class="line">    <span class="string">"parser"</span>: <span class="string">"babel-eslint"</span>,</div><div class="line">    <span class="string">"parserOptions"</span>: &#123;</div><div class="line">        <span class="comment">//ecmaVersion指定ECMAScript的版本，可选值有3\5\6\7，默认是5</span></div><div class="line">       <span class="string">"ecmaVersion"</span>: <span class="number">6</span>,</div><div class="line">       <span class="comment">//sourceType指定被检查的文件是什么扩展名的，可选项"script"和"module"，默认是"script"。"module"是ES6的。</span></div><div class="line">       <span class="string">"sourceType"</span>: <span class="string">"module"</span>,</div><div class="line">       <span class="comment">//ecmaFeatures指定你想使用哪些额外的语言特性</span></div><div class="line">       <span class="string">"ecmaFeatures"</span>: &#123;</div><div class="line">           <span class="string">"jsx"</span>: <span class="literal">true</span></div><div class="line">       &#125;</div><div class="line">    &#125;,</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="comment">//extends用于引入某配置作为基础配置，然后再在后续的rules中对其进行扩展</span></span><br><span class="line">    <span class="string">"extends"</span>: <span class="string">"eslint:recommended"</span>,</span><br><span class="line">    <span class="comment">//如果你想使用插件中的环境变量，请先把插件名写入"plugins"数组中，然后再在"env":&#123;&#125;中以"插件名/插件中的需引入的环境名"的方式进行指定。</span></span><br><span class="line">    <span class="string">"plugins"</span>: [<span class="string">"example"</span>],</span><br><span class="line">    <span class="string">"env"</span>: &#123;</span><br><span class="line">        <span class="comment">//An environment defines global variables that are predefined.</span></span><br><span class="line">        <span class="comment">//定义env会带进来一些全局变量</span></span><br><span class="line">        <span class="string">"browser"</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="string">"node"</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="string">"es6"</span>:<span class="literal">true</span>,</span><br><span class="line">        <span class="string">"mocha"</span>:<span class="string">"true"</span>,</span><br><span class="line">        <span class="string">"qunit"</span>:<span class="literal">true</span>,</span><br><span class="line">        <span class="string">"jquery"</span>:<span class="literal">true</span>,</span><br><span class="line">        <span class="string">"mongo"</span>:<span class="literal">true</span>,</span><br><span class="line">        <span class="comment">//通过插件名命名空间引入插件中的环境</span></span><br><span class="line">        <span class="string">"example/custom"</span>: <span class="literal">true</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">"globals"</span>: &#123;</span><br><span class="line">        <span class="comment">// globals are the additional global variables your script accesses during execution.</span></span><br><span class="line">        <span class="comment">// 即插件在执行过程中用到的其它全局变量</span></span><br><span class="line">        <span class="string">"angular"</span>: <span class="literal">true</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">"rules"</span>: &#123;</span><br><span class="line">        <span class="comment">//which rules are enabled and at what error level.</span></span><br><span class="line">        <span class="comment">//这里指定用哪些规则进行eslint检查以及每个规则的错误级别：0或者off表示规则关闭，出错也被忽略；1或者warn表示如果出错会给出警告；2或者error表示如果出错会报出错误</span></span><br><span class="line">        <span class="string">"semi"</span>: [<span class="string">"error"</span>, <span class="string">"always"</span>],</span><br><span class="line">        <span class="string">"quotes"</span>: [<span class="string">"error"</span>, <span class="string">"double"</span>]</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">//parser指定解析器，默认的为espree，可选的还有Esprima、Babel-ESLint。</span></span><br><span class="line">    <span class="comment">//babel-eslint is a wrapper around the Babel parser that makes it compatible with ESLint.</span></span><br><span class="line">        <span class="comment">//babel-eslint是一个Babel parser的包装器，这个包装器使得Babel parser可以和ESLint协调工作</span></span><br><span class="line">    <span class="string">"parser"</span>: <span class="string">"babel-eslint"</span>,</span><br><span class="line">    <span class="string">"parserOptions"</span>: &#123;</span><br><span class="line">        <span class="comment">//ecmaVersion指定ECMAScript的版本，可选值有3\5\6\7，默认是5</span></span><br><span class="line">       <span class="string">"ecmaVersion"</span>: <span class="number">6</span>,</span><br><span class="line">       <span class="comment">//sourceType指定被检查的文件是什么扩展名的，可选项"script"和"module"，默认是"script"。"module"是ES6的。</span></span><br><span class="line">       <span class="string">"sourceType"</span>: <span class="string">"module"</span>,</span><br><span class="line">       <span class="comment">//ecmaFeatures指定你想使用哪些额外的语言特性</span></span><br><span class="line">       <span class="string">"ecmaFeatures"</span>: &#123;</span><br><span class="line">           <span class="string">"jsx"</span>: <span class="literal">true</span></span><br><span class="line">       &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
           
         
