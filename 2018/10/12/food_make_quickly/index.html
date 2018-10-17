@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="app," />
+  <meta name="keywords" content="food," />
 
 
 
@@ -87,18 +87,43 @@
 
 
 
-<meta name="description" content="安卓不兼容js最新的方法这个特别注意，一不小心就犯了这个错。果子一般都支持。所以如果果子可以，安卓不可以，优先考虑这个问题 window对象延迟的问题安卓一般情况下，会注入一个对象，这个在页面一开始加载就有了，比如安卓在window上注册了某个方法，基本可以直接使用。不过偶尔安卓工程师可能会手动改这个注入顺序，这个需要沟通。 但是苹果，肯定是延迟注入的，是等页面加载完之后的不定时注入对象，自测了下">
-<meta name="keywords" content="app">
+<meta name="description" content="TL;DR   * 早饭的四要素: 水分 主食 蛋白质 蔬果 * 准备一些库存, 这样如果时间不够的话,直接拿库存 * 时间借用法: 早做准备,将一些食物处理密封保存在冰箱里 * 多任务进行法:">
+<meta name="keywords" content="food">
 <meta property="og:type" content="article">
-<meta property="og:title" content="h5和app交互的一些坑">
-<meta property="og:url" content="http://yoursite.com/2017/09/14/interactionInH5AndApp/index.html">
+<meta property="og:title" content="快手做辅食">
+<meta property="og:url" content="http://yoursite.com/2018/10/12/food_make_quickly/index.html">
 <meta property="og:site_name" content="花花的博客">
-<meta property="og:description" content="安卓不兼容js最新的方法这个特别注意，一不小心就犯了这个错。果子一般都支持。所以如果果子可以，安卓不可以，优先考虑这个问题 window对象延迟的问题安卓一般情况下，会注入一个对象，这个在页面一开始加载就有了，比如安卓在window上注册了某个方法，基本可以直接使用。不过偶尔安卓工程师可能会手动改这个注入顺序，这个需要沟通。 但是苹果，肯定是延迟注入的，是等页面加载完之后的不定时注入对象，自测了下">
+<meta property="og:description" content="TL;DR   * 早饭的四要素: 水分 主食 蛋白质 蔬果 * 准备一些库存, 这样如果时间不够的话,直接拿库存 * 时间借用法: 早做准备,将一些食物处理密封保存在冰箱里 * 多任务进行法:">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-09-14T09:09:06.595Z">
+<meta property="og:image" content="http://pgh912t5c.bkt.clouddn.com/breakfast1.png">
+<meta property="og:image" content="http://pgh912t5c.bkt.clouddn.com/breakfast2.png">
+<meta property="og:image" content="http://pgh912t5c.bkt.clouddn.com/kucun1.png">
+<meta property="og:image" content="http://pgh912t5c.bkt.clouddn.com/egg_bing.png">
+<meta property="og:image" content="http://pgh912t5c.bkt.clouddn.com/huafu.png">
+<meta property="og:image" content="http://pgh912t5c.bkt.clouddn.com/haomian.png">
+<meta property="og:image" content="http://pgh912t5c.bkt.clouddn.com/fish_handle.png">
+<meta property="og:image" content="http://pgh912t5c.bkt.clouddn.com/cai_handle.png">
+<meta property="og:image" content="http://pgh912t5c.bkt.clouddn.com/yumi_handle.png">
+<meta property="og:image" content="http://pgh912t5c.bkt.clouddn.com/duntang_handle.png">
+<meta property="og:image" content="http://pgh912t5c.bkt.clouddn.com/egg_handle.png">
+<meta property="og:image" content="http://pgh912t5c.bkt.clouddn.com/machine_food.png">
+<meta property="og:image" content="http://pgh912t5c.bkt.clouddn.com/machine_food_eg.png">
+<meta property="og:image" content="http://pgh912t5c.bkt.clouddn.com/fenli.png">
+<meta property="og:image" content="http://pgh912t5c.bkt.clouddn.com/baby_in_chufang.png">
+<meta property="og:image" content="http://pgh912t5c.bkt.clouddn.com/baby_do.png">
+<meta property="og:image" content="http://pgh912t5c.bkt.clouddn.com/danger.png">
+<meta property="og:image" content="http://pgh912t5c.bkt.clouddn.com/danger2.png">
+<meta property="og:image" content="http://pgh912t5c.bkt.clouddn.com/food_hebing.png">
+<meta property="og:image" content="http://pgh912t5c.bkt.clouddn.com/food_hebing2.png">
+<meta property="og:image" content="http://pgh912t5c.bkt.clouddn.com/food_hebing3.png">
+<meta property="og:image" content="http://pgh912t5c.bkt.clouddn.com/food_hebing4.png">
+<meta property="og:image" content="http://pgh912t5c.bkt.clouddn.com/guannian.png">
+<meta property="og:image" content="http://pgh912t5c.bkt.clouddn.com/food_list.png">
+<meta property="og:updated_time" content="2018-10-17T07:30:49.910Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="h5和app交互的一些坑">
-<meta name="twitter:description" content="安卓不兼容js最新的方法这个特别注意，一不小心就犯了这个错。果子一般都支持。所以如果果子可以，安卓不可以，优先考虑这个问题 window对象延迟的问题安卓一般情况下，会注入一个对象，这个在页面一开始加载就有了，比如安卓在window上注册了某个方法，基本可以直接使用。不过偶尔安卓工程师可能会手动改这个注入顺序，这个需要沟通。 但是苹果，肯定是延迟注入的，是等页面加载完之后的不定时注入对象，自测了下">
+<meta name="twitter:title" content="快手做辅食">
+<meta name="twitter:description" content="TL;DR   * 早饭的四要素: 水分 主食 蛋白质 蔬果 * 准备一些库存, 这样如果时间不够的话,直接拿库存 * 时间借用法: 早做准备,将一些食物处理密封保存在冰箱里 * 多任务进行法:">
+<meta name="twitter:image" content="http://pgh912t5c.bkt.clouddn.com/breakfast1.png">
 
 
 
@@ -126,13 +151,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/09/14/interactionInH5AndApp/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/10/12/food_make_quickly/"/>
 
 
 
 
 
-  <title> h5和app交互的一些坑 | 花花的博客 </title>
+  <title> 快手做辅食 | 花花的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -261,7 +286,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/14/interactionInH5AndApp/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/12/food_make_quickly/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="frontzhm">
@@ -282,7 +307,7 @@
             
             
               
-                h5和app交互的一些坑
+                快手做辅食
               
             
           </h2>
@@ -297,8 +322,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-14T17:09:06+08:00">
-                2017-09-14
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-12T09:46:45+08:00">
+                2018-10-12
               </time>
             
 
@@ -320,8 +345,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
+                  <a href="/categories/baby/" itemprop="url" rel="index">
+                    <span itemprop="name">baby</span>
                   </a>
                 </span>
 
@@ -338,8 +363,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/09/14/interactionInH5AndApp/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/09/14/interactionInH5AndApp/" itemprop="commentCount"></span>
+                <a href="/2018/10/12/food_make_quickly/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/10/12/food_make_quickly/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -365,11 +390,74 @@
       
 
       
-        <h2 id="安卓不兼容js最新的方法"><a href="#安卓不兼容js最新的方法" class="headerlink" title="安卓不兼容js最新的方法"></a>安卓不兼容js最新的方法</h2><p>这个特别注意，一不小心就犯了这个错。果子一般都支持。所以如果果子可以，安卓不可以，优先考虑这个问题</p>
-<h2 id="window对象延迟的问题"><a href="#window对象延迟的问题" class="headerlink" title="window对象延迟的问题"></a>window对象延迟的问题</h2><p>安卓一般情况下，会注入一个对象，这个在页面一开始加载就有了，比如安卓在window上注册了某个方法，基本可以直接使用。<br>不过偶尔安卓工程师可能会手动改这个注入顺序，这个需要沟通。</p>
-<p>但是苹果，肯定是延迟注入的，是等页面加载完之后的不定时注入对象，自测了下不太准，50ms左右吧。<br>比如苹果提供某个方法，不能一开始就直接使用，需要延迟使用，一般监测到这个方法存在了，才能使用。</p>
-<h2 id="参数不对的问题"><a href="#参数不对的问题" class="headerlink" title="参数不对的问题"></a>参数不对的问题</h2><p>有时候h5如果传给app的参数不对的话，会出现各种问题。所以一定再三确认，参数没问题。<br>说起来，安卓不接受对象形式，所以一般用<code>JSON。stringify</code>转换对象传过去，但是果子可以。</p>
-<h2 id="脑洞各种意外的坑"><a href="#脑洞各种意外的坑" class="headerlink" title="脑洞各种意外的坑"></a>脑洞各种意外的坑</h2><p>如果别的安卓机都没问题，部分安卓机有问题，请发挥脑洞。<br>好像遇到过，魅族部分机型对于长字符串发送不了请求。。。</p>
+        <p>TL;DR  </p>
+<pre><code>* 早饭的四要素: 水分 主食 蛋白质 蔬果
+* 准备一些库存, 这样如果时间不够的话,直接拿库存
+* 时间借用法: 早做准备,将一些食物处理密封保存在冰箱里
+* 多任务进行法: 
+</code></pre><a id="more"></a>
+<h1 id="宝宝需要怎么样的早餐"><a href="#宝宝需要怎么样的早餐" class="headerlink" title="宝宝需要怎么样的早餐"></a>宝宝需要怎么样的早餐</h1><p>早饭的好处:  </p>
+<pre><code>* 获得能力补充
+* 吃饱之后情绪愉悦
+* 降低对零食的欲望
+* 健康的生活习惯
+</code></pre><p>安排早餐的开始时间: 9.5个月左右可以安排早饭,最迟不能超过12个月</p>
+<p>早餐四要素:  </p>
+<pre><code>* 水分(粥 汤 糊 奶)
+* 主食(饼 面 包子 薯类)
+* 蛋白质(蛋 奶 肉 鱼)
+* 蔬果(有啥吃啥)
+</code></pre><p><img src="http://pgh912t5c.bkt.clouddn.com/breakfast1.png" alt="早餐示例图片1"><br><img src="http://pgh912t5c.bkt.clouddn.com/breakfast2.png" alt="早餐示例图片1"></p>
+<h1 id="有库存心不慌"><a href="#有库存心不慌" class="headerlink" title="有库存心不慌"></a>有库存心不慌</h1><p>快的前提就是有库存啦!<br><img src="http://pgh912t5c.bkt.clouddn.com/kucun1.png" alt="库存示例"></p>
+<p>主食类库存(冷冻): 馒头 包子 小馄饨 睡觉 发糕 (九州丰源 有机儿童馒头 即食的玉米 板栗 燕麦片 麦圈)<br>蛋白质类: 鱼丸 肉丸 虾丸 肉饼 肉肠 肉片 干贝 羊肉卷 肉末 肉丝 鸡翅 虾仁 三文鱼 (禾泱泱的猪肉酥 亨氏牛肉胡萝卜泥 你真棒)<br>蔬果类: 胡萝卜 洋葱 茄子 (速冻蔬菜系列)</p>
+<h1 id="时间借用法"><a href="#时间借用法" class="headerlink" title="时间借用法"></a>时间借用法</h1><p>处理食材尽量在空余的时间: 比如晚上宝宝睡着之后去厨房准备早饭的食材,比如白天宝宝睡觉准备食材,比如出去玩的时候准备炖盅等等</p>
+<ul>
+<li>粥 - 晚上清洗粮食 炖盅预约 气温高的时候 米浸泡时间不超过2小时(23点插电 1点开始煮 4点煮好保温 只要不打开盖子就ok的)</li>
+<li>蛋饼的预处理:<img src="http://pgh912t5c.bkt.clouddn.com/egg_bing.png" alt="蛋饼的预处理"></li>
+<li>华夫饼的预处理:<img src="http://pgh912t5c.bkt.clouddn.com/huafu.png" alt="华夫饼预处理"></li>
+<li>炒面的预处理:<img src="http://pgh912t5c.bkt.clouddn.com/haomian.png" alt="炒面预处理"></li>
+<li>煎鱼和鸡翅的预处理:<img src="http://pgh912t5c.bkt.clouddn.com/fish_handle.png" alt="煎鱼和鸡翅预处理"></li>
+<li>炒菜的预处理:<img src="http://pgh912t5c.bkt.clouddn.com/cai_handle.png" alt="炒菜的预处理"></li>
+<li>玉米等杂粮的预处理:<img src="http://pgh912t5c.bkt.clouddn.com/yumi_handle.png" alt="玉米等杂粮的预处理"></li>
+<li>炖汤的预处理:<img src="http://pgh912t5c.bkt.clouddn.com/duntang_handle.png" alt="炖汤的预处理"></li>
+<li>蛋羹的预处理:<img src="http://pgh912t5c.bkt.clouddn.com/egg_handle.png" alt="蛋羹的预处理"></li>
+</ul>
+<p>时间借用法的总结:  </p>
+<pre><code>* 先处理难熟的
+* 先处理洗 切步骤
+* 先处理解冻
+* 先处理发酵过程
+</code></pre><p>时间借用法的问题: </p>
+<pre><code>* 营养会有部分流失,但比起时间来,这个没有那么重要
+* 隔夜菜必须密封低温保存 容器消毒 
+</code></pre><h1 id="多任务进行法"><a href="#多任务进行法" class="headerlink" title="多任务进行法"></a>多任务进行法</h1><ul>
+<li><p>盘点武器:<img src="http://pgh912t5c.bkt.clouddn.com/machine_food.png" alt="盘点武器"><br>比如<img src="http://pgh912t5c.bkt.clouddn.com/machine_food_eg.png" alt="machine_food_eg"></p>
+</li>
+<li><p>尽量多用无人值守/几个厨具同时进行/减少单个重复使用</p>
+</li>
+<li>提前规划(辅食照片1800例 下周吃什么)</li>
+<li>模仿学习(知识星球 视频示例)</li>
+<li>熟能生巧(只要用心 人人就能食神~)</li>
+</ul>
+<h1 id="“抱大腿”的宝宝们"><a href="#“抱大腿”的宝宝们" class="headerlink" title="“抱大腿”的宝宝们"></a>“抱大腿”的宝宝们</h1><p>13个月的时候,只要离开视野,就会抱着大腿<img src="http://pgh912t5c.bkt.clouddn.com/fenli.png" alt="fenli"><br>这时候怎么处理呢?</p>
+<ul>
+<li>可以让宝宝待在厨房里,然后假装分配事情给她(事实上基本不会帮正忙)<img src="http://pgh912t5c.bkt.clouddn.com/baby_in_chufang.png" alt="baby_in_chufang"><img src="http://pgh912t5c.bkt.clouddn.com/baby_do.png" alt="baby_do"></li>
+<li>必要安全措施(任何时候锅把手不要向外 灶台设置安全线 防止意外窒息 安全锁 看清楚障碍物)<img src="http://pgh912t5c.bkt.clouddn.com/danger.png" alt="danger"><img src="http://pgh912t5c.bkt.clouddn.com/danger2.png" alt="danger2"></li>
+<li>如果不行让她坐在哪里 给她玩贴纸 玩餐具 玩手指食物 家人陪玩 </li>
+<li>尽量缩减做饭时间</li>
+</ul>
+<h1 id="融入家庭饮食-8-6"><a href="#融入家庭饮食-8-6" class="headerlink" title="融入家庭饮食[8-6]"></a>融入家庭饮食[8-6]</h1><ul>
+<li>不建议过早同桌吃饭(咀嚼能力差 自控能力差 消化能力不完善),1岁以后再考虑</li>
+<li>食材上的融入<img src="http://pgh912t5c.bkt.clouddn.com/food_hebing.png" alt="food_hebing"><img src="http://pgh912t5c.bkt.clouddn.com/food_hebing2.png" alt="food_hebing2"><img src="http://pgh912t5c.bkt.clouddn.com/food_hebing3.png" alt="food_hebing3"><img src="http://pgh912t5c.bkt.clouddn.com/food_hebing4.png" alt="food_hebing4"></li>
+<li>宝宝的更软 更淡 宝宝分餐 [餐盘] </li>
+<li>避免: 红烧 糖醋 酸辣 油炸 碳酸 酒精 加工肉 甜点</li>
+<li>适合:蒸 炖 煮 炒 焖 烩</li>
+</ul>
+<h1 id="班妈和家人的配合"><a href="#班妈和家人的配合" class="headerlink" title="班妈和家人的配合"></a>班妈和家人的配合</h1><ul>
+<li>观念冲突: 中国居民膳食指南/喂养锦囊/公众号<img src="http://pgh912t5c.bkt.clouddn.com/guannian.png" alt="guannian"></li>
+<li>提高参与度(采购清单 辅食安排 写下来)<img src="http://pgh912t5c.bkt.clouddn.com/food_list.png" alt="food_list"></li>
+<li>分工合作!老人保姆版的资料<a href="http://pgh912t5c.bkt.clouddn.com/food_hezuo.png" target="_blank" rel="noopener">food_hezuo</a></li>
+</ul>
 
       
     </div>
@@ -393,7 +481,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/app/" rel="tag"># app</a>
+            <a href="/tags/food/" rel="tag"># food</a>
           
         </div>
       
@@ -406,8 +494,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/09/14/wechatAPI/" rel="next" title="微信的一些相关功能实现">
-                <i class="fa fa-chevron-left"></i> 微信的一些相关功能实现
+              <a href="/2018/10/12/7_8_9_food_make/" rel="next" title="7.8.9月辅食的制作">
+                <i class="fa fa-chevron-left"></i> 7.8.9月辅食的制作
               </a>
             
           </div>
@@ -415,10 +503,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/09/26/mockData/" rel="prev" title="用mockjs模拟数据">
-                用mockjs模拟数据 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -444,8 +528,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/09/14/interactionInH5AndApp/"
-           data-title="h5和app交互的一些坑" data-url="http://yoursite.com/2017/09/14/interactionInH5AndApp/">
+      <div class="ds-thread" data-thread-key="2018/10/12/food_make_quickly/"
+           data-title="快手做辅食" data-url="http://yoursite.com/2018/10/12/food_make_quickly/">
       </div>
     
   </div>
@@ -551,7 +635,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安卓不兼容js最新的方法"><span class="nav-number">1.</span> <span class="nav-text">安卓不兼容js最新的方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#window对象延迟的问题"><span class="nav-number">2.</span> <span class="nav-text">window对象延迟的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参数不对的问题"><span class="nav-number">3.</span> <span class="nav-text">参数不对的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#脑洞各种意外的坑"><span class="nav-number">4.</span> <span class="nav-text">脑洞各种意外的坑</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#宝宝需要怎么样的早餐"><span class="nav-number">1.</span> <span class="nav-text">宝宝需要怎么样的早餐</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#有库存心不慌"><span class="nav-number">2.</span> <span class="nav-text">有库存心不慌</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#时间借用法"><span class="nav-number">3.</span> <span class="nav-text">时间借用法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#多任务进行法"><span class="nav-number">4.</span> <span class="nav-text">多任务进行法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#“抱大腿”的宝宝们"><span class="nav-number">5.</span> <span class="nav-text">“抱大腿”的宝宝们</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#融入家庭饮食-8-6"><span class="nav-number">6.</span> <span class="nav-text">融入家庭饮食[8-6]</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#班妈和家人的配合"><span class="nav-number">7.</span> <span class="nav-text">班妈和家人的配合</span></a></li></ol></div>
             
 
           </div>
