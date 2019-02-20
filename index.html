@@ -866,7 +866,7 @@ function readFile(filename) {
               
                 
                 <a class="post-title-link" href="/2019/02/15/async_history/" itemprop="url">
-                  异步的发展1/4---回调函数callback，顺手学会怎么处理并发请求
+                  异步的发展，顺手学会怎么处理并发请求
                 </a>
               
             
@@ -952,9 +952,11 @@ function readFile(filename) {
       
         
           <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
-<li>异步：先干一件事 中间去干其他的事，最终在回来干这件事</li>
+<li>异步：先干一件事，中间去干其他的事，最终再回来干这件事</li>
 <li>高阶函数是函数作为参数或者函数作为返回值 ，作用是批量生成函数和预置函数做为参数（可以缓存函数，当达到条件时执行该函数）</li>
 <li>异步的发展流程：callback -&gt;  promise -&gt; generator + co -&gt; async+await(语法糖)</li>
+<li>回调函数金字塔处理多请求 -&gt; 哨兵函数处理多请求 -&gt; promise处理多请求 -&gt; co处理多请求 -&gt; async处理多请求</li>
+<li>手写实现co、bluebird的promisify和promisifyAll</li>
 </ul>
           <!--noindex-->
           <div class="post-button text-center">
