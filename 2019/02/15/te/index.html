@@ -94,7 +94,7 @@
 <meta property="og:site_name" content="花花的博客">
 <meta property="og:description" content="const PENDING = &quot;pending&quot;; const FULFILLED = &quot;fulfilled&quot;; const REJECTED = &quot;rejected&quot;; // 实现Promise的类 function Promise(executor) {   // 缓存当前Promise实例   let self = this;   // 设置状态   self.status = PENDI">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-02-18T08:41:47.817Z">
+<meta property="og:updated_time" content="2019-02-19T08:36:44.168Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="花花的博客">
 <meta name="twitter:description" content="const PENDING = &quot;pending&quot;; const FULFILLED = &quot;fulfilled&quot;; const REJECTED = &quot;rejected&quot;; // 实现Promise的类 function Promise(executor) {   // 缓存当前Promise实例   let self = this;   // 设置状态   self.status = PENDI">
@@ -536,120 +536,112 @@ function gen(times, cb) {
   };
 }
 
-Promise.all = function(promises){
-    return new Promise((resolve,reject)=>{
-        const len = promises.length
-        let done = gen(len,resolve)
-        for (let i = 0; i < len; i++) {
-            // const cur = promises[i];
-            promises[i].then(function(data){
-                done(i,data)
-            },reject)
-            // promises[i].then(done.bind(null,i,data))
-    
-            
-        }
-    })
-    
-    
-}
-Promise.race = function(promises){
-    return new Promise((resolve,reject)=>{
-        const len = promises.length
-        let done = gen(len,resolve)
-        for (let i = 0; i < len; i++) {
-            // const cur = promises[i];
-            promises[i].then(resolve,reject)
-            // promises[i].then(done.bind(null,i,data))
-    
-            
-        }
-    })
-    
-    
-}
-
+Promise.all = function(promises) {
+  return new Promise((resolve, reject) => {
+    const len = promises.length;
+    let done = gen(len, resolve);
+    for (let i = 0; i < len; i++) {
+      // const cur = promises[i];
+      promises[i].then(function(data) {
+        done(i, data);
+      }, reject);
+      // promises[i].then(done.bind(null,i,data))
+    }
+  });
+};
+Promise.race = function(promises) {
+  return new Promise((resolve, reject) => {
+    const len = promises.length;
+    let done = gen(len, resolve);
+    for (let i = 0; i < len; i++) {
+      // const cur = promises[i];
+      promises[i].then(resolve, reject);
+      // promises[i].then(done.bind(null,i,data))
+    }
+  });
+};
 
 // let Q = require('q') // npm i q
 // 分析下Q
 let Q = {
-    defer(){
-        let success,error
-        return {
-            reject(err){error(err)},
-        resolve(data){success(data)},
-        promise:{
-            then(onFulfilled,onRejected){
-                success = onFulfilled
-                error = onRejected
-            }
+  defer() {
+    let success, error;
+    return {
+      reject(err) {
+        error(err);
+      },
+      resolve(data) {
+        success(data);
+      },
+      promise: {
+        then(onFulfilled, onRejected) {
+          success = onFulfilled;
+          error = onRejected;
         }
-        }
-    }
-}
-let fs = require('fs')
+      }
+    };
+  }
+};
+let fs = require("fs");
 function readFile(filename) {
-    let defer = Q.defer()
-    fs.readFile(filename,'utf8',function(err,data){
-        if(err){
-            defer.reject(err)
-        }else{
-            defer.resolve(data)
-        }
-    })
-    return defer.promise
+  let defer = Q.defer();
+  fs.readFile(filename, "utf8", function(err, data) {
+    if (err) {
+      defer.reject(err);
+    } else {
+      defer.resolve(data);
+    }
+  });
+  return defer.promise;
 }
-readFile('./1.txt').then(data=>{
-    console.log(data)
-})
-
+readFile("./1.txt").then(data => {
+  console.log(data);
+});
 
 // bluebird是世界上最快的库
 // 它能把任意通过回调函数实现的异步API换成promiseApi
-let Promise = require('bluebird')
-let fs = require('fs')
+let Promise = require("bluebird");
+let fs = require("fs");
 // 遍历对象上所有的方法 然后对每个方法添加一个新的方法 Async
-fs.readFileAsync('./1.txt','utf8').then(data=>{
-    console.log(data)
-}) 
-Promise.promisifyAll(fs)
-let readFile = require('fs').readFile
-let readFileSync = Promise.promisify(readFile)
-function promisify(fn){
-    return function(...args){
-         return new Promise((resolve,reject)=>{
-             fn.apply(null,[...args,function(err,data){
-                err?reject(err):resolve(data)
-             }])
-         }) 
-    }
-}
-function promisifyAll(object){
-    for (const key in object) {
-        if (object.hasOwnProperty(key)) {
-            // const element = object[key];
-            if(typeof key === 'function'){
-
-                object[key+'Aynsc'] = promisify(object[key])
-            }
-            
+fs.readFileAsync("./1.txt", "utf8").then(data => {
+  console.log(data);
+});
+Promise.promisifyAll(fs);
+let readFile = require("fs").readFile;
+let readFileSync = Promise.promisify(readFile);
+function promisify(fn) {
+  return function(...args) {
+    return new Promise((resolve, reject) => {
+      fn.apply(null, [
+        ...args,
+        function(err, data) {
+          err ? reject(err) : resolve(data);
         }
+      ]);
+    });
+  };
+}
+function promisifyAll(object) {
+  for (const key in object) {
+    if (object.hasOwnProperty(key)) {
+      // const element = object[key];
+      if (typeof key === "function") {
+        object[key + "Aynsc"] = promisify(object[key]);
+      }
     }
-    
+  }
 }
-readFileSync('./1.txt','utf8').then(data=>{
-    console.log(data)
-})
+readFileSync("./1.txt", "utf8").then(data => {
+  console.log(data);
+});
 
-
-function readFile(filename){
-    return new Promise(function(resolve,reject){
-        fs.readFile(filename,'utf8',function(err,data){
-            err?reject(err):resolve(data)
-        })
-    })
+function readFile(filename) {
+  return new Promise(function(resolve, reject) {
+    fs.readFile(filename, "utf8", function(err, data) {
+      err ? reject(err) : resolve(data);
+    });
+  });
 }
-
 
       
     </div>
@@ -689,6 +681,10 @@ function readFile(filename){
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/02/19/async_history2/" rel="prev" title="异步的发展2/4---生成器generator，顺手学会怎么处理多个请求">
+                异步的发展2/4---生成器generator，顺手学会怎么处理多个请求 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -755,7 +751,7 @@ function readFile(filename){
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">65</span>
+                <span class="site-state-item-count">66</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
