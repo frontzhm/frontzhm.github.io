@@ -1330,433 +1330,6 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/15/promise/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2019/02/15/promise/" itemprop="url">
-                  未命名
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-15T16:05:11+08:00">
-                2019-02-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/02/15/promise/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/02/15/promise/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            const PENDING = "pending";
-const FULFILLED = "fulfilled";
-const REJECTED = "rejected";
-// 实现Promise的类
-function Promise(executor) {
-  // 缓存当前Promise实例
-  let self = this;
-  // 设置状态
-  self.status = PENDING;
-  // 定义存放成功的回调数组
-  self.onResolvedCallbacks = [];
-  // 定义存放失败的回调数组
-  self.onRejectedCallbacks = [];
-  // 调用此方法的时候，状态是pending的时候转成fulfilled，否则不执行
-  function resolve(value) {
-    if (value instanceof Promise) {
-      return value.then(resolve, reject);
-    }
-    if (self.status === PENDING) {
-      self.status = FULFILLED;
-      // 成功后会得到一个值不能修改
-      self.value = value;
-      // 调用所有成功的回调
-      self.onResolvedCallbacks.forEach(cb => cb(self.value));
-    }
-  }
-  // 调用此方法的时候，状态是pending的时候转成rejected，否则不执行
-  function reject(reason) {
-    if (self.status === PENDING) {
-      self.status = REJECTED;
-      // 成功后会得到一个值不能修改
-      self.value = reason;
-      // 调用所有成功的回调
-      self.onRejectedCallbacks.forEach(cb => cb(self.reason));
-    }
-  }
-  try {
-    // 函数执行可能会出错，所以需要捕获
-    executor(resolve, reject);
-  } catch (e) {
-    reject(e);
-  }
-}
-// 值的穿透 then(function(data){..},function(e){..})
-Promise.prototype.then = function(onFulfilled, onReject) {
-  onFulfilled =
-    typeof onFulfilled === "function" ? onFulfilled : value => value;
-  onRejected =
-    typeof onRejected === "function"
-      ? onRejected
-      : reason => {
-          throw reason;
-        };
-  let self = this;
-  let promise2;
-  if (self.status === FULFILLED) {
-    return new Promise(function(resolve, reject) {
-      setTimeout(function() {
-        try {
-          let x = onFulfilled(self.value);
-          // 如果获取到了返回值 会走解析promise的过程
-          resolvePromise(promise2, x, resolve, reject);
-        } catch (e) {
-          reject(e);
-        }
-      });
-    });
-  }
-  if (self.status === REJECTED) {
-    setTimeout(function() {
-      try {
-        let x = onRejected(self.value);
-        resolvePromise(promise2, x, resolve, reject);
-      } catch (e) {
-        reject(e);
-      }
-    });
-  }
-  if (self.status === PENDING) {
-    setTimeout(function() {
-      try {
-        self.onResolvedCallbacks.push(function() {
-          let x = onFulfilled(self.value);
-          resolvePromise(promise2, x, resolve, reject);
-        });
-      } catch (e) {
-        reject(e);
-      }
-    });
-
-    setTimeout(function() {
-      try {
-        self.onRejectedCallbacks.push(function() {
-          let x = onRejected(self.value);
-          resolvePromise(promise2, x, resolve, reject);
-        });
-      } catch (e) {
-        reject(e);
-      }
-    });
-  }
-};
-
-function resolvePromise(promise2, x, resolve, reject) {
-  /**
-   * let p2 = p1.then(data=>{return p2})
-   */
-  if (promise2 === x) {
-    return reject(new TypeError("循环引用"));
-  }
-  let called = false; // promise2是否被pended
-  // if(x instanceof Promise){
-  //     if(x.status === PENDING){
-  //         x.then(function(y){
-  //             resolvePromise(promise2,y,resolve,reject)
-  //         },reject)
-  //     }else{
-  //         x.then(resolve,reject)
-  //     }
-  //     // x是thenable对象
-  // }else
-  if (x !== null && (typeof x === "object" || typeof x === "function")) {
-    try {
-      let then = x.then;
-      // 有些promise会同时执行resolve reject 所以加个called
-      if (typeof then === "function") {
-        if (called) {
-          return;
-        }
-        called = true;
-        then.call(
-          x,
-          function(y) {
-            resolvePromise(promise2, y, resolve, reject);
-          },
-          function(err) {
-            reject(err);
-          }
-        );
-      }
-    } catch (e) {
-      reject(e);
-    }
-  } else {
-    // x是普通值
-    resolve(x);
-  }
-}
-Promise.prototype.catch = function(onRejected) {
-  this.then(null, onRejected);
-};
-Promise.prototype.deferred = Promise.defer = function(onRejected) {
-  let defer = {};
-  defer.promise = new Promise(function(resolve, reject) {
-    defer.resolve = resolve;
-    defer.reject = reject;
-  });
-  return defer;
-};
-// console.time('cost') console.timeEnd('cost')
-// promise数组，全部成功才会执行下一步
-// 同时异步请求多个数据的时候
-Promise.all = function(arr) {
-  let n = [];
-  let len = arr.length;
-  let result;
-  arr.forEach(item => {
-    item
-      .then(() => {
-        n.push(true);
-        if (n.length === len) {
-        }
-      })
-      .catch(() => {
-        n.push(false);
-      });
-  });
-  return new Promise(function(resolve, reject) {
-    promises.forEach(promise => {
-      promise.then();
-    });
-  });
-};
-function gen(times, cb) {
-  let result = [],
-    count = 0;
-  return function(i, data) {
-    result[i] = data;
-    if (count++ === times) {
-      cb(result);
-    }
-  };
-}
-
-Promise.all = function(promises) {
-  return new Promise((resolve, reject) => {
-    const len = promises.length;
-    let done = gen(len, resolve);
-    for (let i = 0; i < len; i++) {
-      // const cur = promises[i];
-      promises[i].then(function(data) {
-        done(i, data);
-      }, reject);
-      // promises[i].then(done.bind(null,i,data))
-    }
-  });
-};
-Promise.race = function(promises) {
-  return new Promise((resolve, reject) => {
-    const len = promises.length;
-    let done = gen(len, resolve);
-    for (let i = 0; i < len; i++) {
-      // const cur = promises[i];
-      promises[i].then(resolve, reject);
-      // promises[i].then(done.bind(null,i,data))
-    }
-  });
-};
-
-// let Q = require('q') // npm i q
-// 分析下Q
-let Q = {
-  defer() {
-    let success, error;
-    return {
-      reject(err) {
-        error(err);
-      },
-      resolve(data) {
-        success(data);
-      },
-      promise: {
-        then(onFulfilled, onRejected) {
-          success = onFulfilled;
-          error = onRejected;
-        }
-      }
-    };
-  }
-};
-let fs = require("fs");
-function readFile(filename) {
-  let defer = Q.defer();
-  fs.readFile(filename, "utf8", function(err, data) {
-    if (err) {
-      defer.reject(err);
-    } else {
-      defer.resolve(data);
-    }
-  });
-  return defer.promise;
-}
-readFile("./1.txt").then(data => {
-  console.log(data);
-});
-
-// bluebird是世界上最快的库
-// 它能把任意通过回调函数实现的异步API换成promiseApi
-let Promise = require("bluebird");
-let fs = require("fs");
-// 遍历对象上所有的方法 然后对每个方法添加一个新的方法 Async
-fs.readFileAsync("./1.txt", "utf8").then(data => {
-  console.log(data);
-});
-Promise.promisifyAll(fs);
-let readFile = require("fs").readFile;
-let readFileSync = Promise.promisify(readFile);
-function promisify(fn) {
-  return function(...args) {
-    return new Promise((resolve, reject) => {
-      fn.apply(null, [
-        ...args,
-        function(err, data) {
-          err ? reject(err) : resolve(data);
-        }
-      ]);
-    });
-  };
-}
-function promisifyAll(object) {
-  for (const key in object) {
-    if (object.hasOwnProperty(key)) {
-      // const element = object[key];
-      if (typeof key === "function") {
-        object[key + "Aynsc"] = promisify(object[key]);
-      }
-    }
-  }
-}
-readFileSync("./1.txt", "utf8").then(data => {
-  console.log(data);
-});
-
-function readFile(filename) {
-  return new Promise(function(resolve, reject) {
-    fs.readFile(filename, "utf8", function(err, data) {
-      err ? reject(err) : resolve(data);
-    });
-  });
-}
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/15/1_async_history/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2262,6 +1835,186 @@ function readFile(filename) {
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/26/ossGuide/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/01/26/ossGuide/" itemprop="url">
+                  oss的初接触
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-26T18:38:13+08:00">
+                2018-01-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/01/26/ossGuide/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/01/26/ossGuide/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="oss的好处"><a href="#oss的好处" class="headerlink" title="oss的好处"></a>oss的好处</h1><p>刚接触的oss，很多东西不清楚，这篇仅为了记录以及加强理解，如有不对之处，欢迎指正。</p>
+<p>oss我目前知道的好处有两个:</p>
+<ol>
+<li>静态资源生成链接，静态网站可以进行托管</li>
+<li>用户可以上传图片到这里,从而节约自己服务器的存储空间</li>
+</ol>
+<h2 id="oss的简单使用流程"><a href="#oss的简单使用流程" class="headerlink" title="oss的简单使用流程"></a>oss的简单使用流程</h2><ol>
+<li><a href="https://www.aliyun.com/?spm=5176.8466032.0.0.1547dd226xaauo" target="_blank" rel="noopener">阿里云的官网</a>注册账号</li>
+<li>点击这里<a href="http://omizt4opc.bkt.clouddn.com/ossSavePath.png" target="_blank" rel="noopener">开通对象存储</a></li>
+<li><a href="http://omizt4opc.bkt.clouddn.com/newBucket.png" target="_blank" rel="noopener">新建bucket</a></li>
+<li><a href="https://help.aliyun.com/document_detail/31925.html?spm=5176.doc31923.6.635.Vkezrm" target="_blank" rel="noopener">js直传的介绍</a>和<a href="https://docs-aliyun.cn-hangzhou.oss.aliyun-inc.com/internal/oss/0.0.4/assets/sample/oss-h5-upload-js-direct.zip?spm=5176.doc31925.2.6.VaGr7O&amp;file=oss-h5-upload-js-direct.zip" target="_blank" rel="noopener">下载源码</a></li>
+<li><a href="http://omizt4opc.bkt.clouddn.com/ossKeys.png" target="_blank" rel="noopener">得到accessKeys</a></li>
+<li><a href="http://omizt4opc.bkt.clouddn.com/osssCross.png" target="_blank" rel="noopener">设置可跨域</a></li>
+<li><a href="http://omizt4opc.bkt.clouddn.com/ossLink.png" target="_blank" rel="noopener">可以直接在控制台上传文件</a>，在右边的设置里就可以看到链接如<code>http://hanfiles.oss-cn-beijing.aliyuncs.com/3.jpg</code></li>
+<li>打开刚下载的源码，打开<code>upload.js</code>，设置成自己的，比如我的host就是<code>http://hanfiles.oss-cn-beijing.aliyuncs.com</code>，然后在浏览器中打开<code>index.html</code>，点击选择图片 =》 上传图片，然后在控制台里看，就发现图片上传上去了~实际生产情况，一般是前端不公开accessId和key，又后端处理，具体参照官网。</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">accessid= <span class="string">'6MKOqxGiGU4AUk44'</span>;</span><br><span class="line">accesskey= <span class="string">'ufu7nS8kS59awNihtjSonMETLI0KLy'</span>;</span><br><span class="line">host = <span class="string">'http://post-test.oss-cn-hangzhou.aliyuncs.com'</span>;</span><br></pre></td></tr></table></figure>
+<p>付费情况我没具体细究，但好像看到如果每小时访问量低于万次应该是不收费的，估摸着我的也不会超过十次=。=</p>
+<h2 id="使用ossUpload"><a href="#使用ossUpload" class="headerlink" title="使用ossUpload"></a>使用ossUpload</h2><p><a href="https://github.com/aliyun-UED/oss-js-upload" target="_blank" rel="noopener">官方demo</a>，<a href="https://github.com/frontzhm/ossUpload" target="_blank" rel="noopener">我自己的demo</a></p>
+<ul>
+<li><a href="https://ram.console.aliyun.com/#/notActive" target="_blank" rel="noopener">开通RAM</a></li>
+<li>打开 RAM 控制台</li>
+<li>新建一个用户</li>
+<li>为用户添加 AliyunSTSAssumeRoleAccess 权限</li>
+<li>为用户创建一对 AK, 记录下这个 AK, 控制台不会为你保存</li>
+<li>新建一个角色</li>
+<li>为角色添加 AliyunOSSFullAccess 权限, 记录下角色 ARN</li>
+</ul>
+<blockquote>
+<p><a href="http://blog.csdn.net/qq_38125123/article/details/73870667" target="_blank" rel="noopener">小程序图片上传阿里OSS使用方法</a><br><a href="https://ask.dcloud.net.cn/article/983" target="_blank" rel="noopener">使用plus.uploader上传图片到阿里云OSS</a><br><a href="https://github.com/aliyun-UED/oss-js-upload" target="_blank" rel="noopener">官方demo</a></p>
+</blockquote>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
   </section>
 
   
@@ -2311,7 +2064,7 @@ function readFile(filename) {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">70</span>
+                <span class="site-state-item-count">69</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
