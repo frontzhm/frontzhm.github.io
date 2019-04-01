@@ -261,6 +261,367 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/06/cnzz/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/09/06/cnzz/" itemprop="url">
+                  网站加cnzz
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-06T09:58:54+08:00">
+                2018-09-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/统计/" itemprop="url" rel="index">
+                    <span itemprop="name">统计</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/09/06/cnzz/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/09/06/cnzz/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="cnzz"><a href="#cnzz" class="headerlink" title="cnzz"></a>cnzz</h1><p>cnzz就是统计数据用的，统计pv，uv，甚至某个按钮的点击次数。</p>
+<h2 id="网站的添加步骤"><a href="#网站的添加步骤" class="headerlink" title="网站的添加步骤"></a>网站的添加步骤</h2><ol>
+<li><a href="https://web.umeng.com" target="_blank" rel="noopener">去网站注册账号</a>，然后添加网站</li>
+<li>获取代码，在body前添加脚本，注意一个域名对应一个id，也就是一个域名对应一个脚本</li>
+</ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"//s22.cnzz.com/z_stat.php?id=你的id&amp;web_id=你的id"</span> <span class="attr">language</span>=<span class="string">"JavaScript"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li>网站上会显示站长统计四个字或者图标，嫌不好看的话,我用的是字</li>
+</ol>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">a</span><span class="selector-attr">[title=站长统计]</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: absolute;</span><br><span class="line">    <span class="attribute">visibility</span>: hidden;</span><br><span class="line">    <span class="attribute">bottom</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">z-index</span>: -<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="事件的统计"><a href="#事件的统计" class="headerlink" title="事件的统计"></a>事件的统计</h2><ol>
+<li><p><a href="http://open.cnzz.com/a/new/trackevent/" target="_blank" rel="noopener">某个按钮的点击次数统计的话</a>，先上面的步骤，然后</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 记得添加id</span></span><br><span class="line">someElement.onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    _czc.push([<span class="string">'_trackEvent'</span>, <span class="string">'今日头条里点击下载app次数'</span>, <span class="string">'下载'</span>, <span class="string">'app'</span>,<span class="string">'5'</span>,<span class="string">'wx-share'</span>]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p> 具体介绍:<br> 各参数含义如下：<br> category：事件类别，必填项，表示事件发生在谁身上，如“视频”、“小说”、“轮显层”等等。<br> action：事件操作，必填项，表示访客跟元素交互的行为动作，如”播放”、”收藏”、”翻层”等等。<br> label：事件标签，选填项，用于更详细的描述事件，从各个方面都可以，比如具体是哪个视频，哪部小说，翻到了第几层等等。<br> value：事件值，选填项，整数型，用于填写打分型事件的分值，加载时间型事件的时长，订单型事件的价格等等。<br> nodeid：div元素id，选填项，填写网页中的div元素id值，用于在“用户视点”功能上重绘元素的事件发生情况。<br> 查看API详细说明</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">_czc.push([<span class="string">"_trackEvent"</span>,category,action,label,value,nodeid]);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>记得左上角下拉箭头切换不同域名，以及左侧菜单栏的受访页面可以进行搜索，也可以右上角站点设置里排除某些页面和ip</p>
+</li>
+</ol>
+<h2 id="改进的代码"><a href="#改进的代码" class="headerlink" title="改进的代码"></a>改进的代码</h2><p>因为经常在测试和正式环境切换,而且每次加css样式隐藏图标也是神烦. 稍微改进一丢丢.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * cnzz数据统计</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">var</span> isProduction = <span class="regexp">/正式域名/</span>.test(<span class="built_in">window</span>.location.href)</span><br><span class="line"><span class="comment">// !!!域名和脚本id必须一一对应</span></span><br><span class="line"><span class="keyword">var</span> productionCnzzId = <span class="string">'12899668'</span></span><br><span class="line"><span class="keyword">var</span> testCnzzId = <span class="string">'126326337'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> statScript = <span class="built_in">document</span>.body.appendChild(<span class="built_in">document</span>.createElement(<span class="string">'script'</span>))</span><br><span class="line">statScript.src = isProduction ? (<span class="string">'//s22.cnzz.com/z_stat.php?id='</span>+productionCnzzId+<span class="string">'&amp;web_id='</span>+productionCnzzId) : (<span class="string">'//s22.cnzz.com/z_stat.php?id='</span>+testCnzzId+<span class="string">'&amp;web_id='</span>+testCnzzId)</span><br><span class="line">setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 用延时是因为cnzz脚本插入需要时间</span></span><br><span class="line">    statScript.onload = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="comment">// 隐藏统计字</span></span><br><span class="line">        <span class="built_in">document</span>.querySelector(<span class="string">'a[title="站长统计"]'</span>).style.cssText = <span class="string">'position: absolute; visibility: hidden; bottom: 0; z-index: -1;'</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;, <span class="number">1000</span>)</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/26/ossGuide/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/01/26/ossGuide/" itemprop="url">
+                  oss的初接触
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-26T18:38:13+08:00">
+                2018-01-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/01/26/ossGuide/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/01/26/ossGuide/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="oss的好处"><a href="#oss的好处" class="headerlink" title="oss的好处"></a>oss的好处</h1><p>刚接触的oss，很多东西不清楚，这篇仅为了记录以及加强理解，如有不对之处，欢迎指正。</p>
+<p>oss我目前知道的好处有两个:</p>
+<ol>
+<li>静态资源生成链接，静态网站可以进行托管</li>
+<li>用户可以上传图片到这里,从而节约自己服务器的存储空间</li>
+</ol>
+<h2 id="oss的简单使用流程"><a href="#oss的简单使用流程" class="headerlink" title="oss的简单使用流程"></a>oss的简单使用流程</h2><ol>
+<li><a href="https://www.aliyun.com/?spm=5176.8466032.0.0.1547dd226xaauo" target="_blank" rel="noopener">阿里云的官网</a>注册账号</li>
+<li>点击这里<a href="http://omizt4opc.bkt.clouddn.com/ossSavePath.png" target="_blank" rel="noopener">开通对象存储</a></li>
+<li><a href="http://omizt4opc.bkt.clouddn.com/newBucket.png" target="_blank" rel="noopener">新建bucket</a></li>
+<li><a href="https://help.aliyun.com/document_detail/31925.html?spm=5176.doc31923.6.635.Vkezrm" target="_blank" rel="noopener">js直传的介绍</a>和<a href="https://docs-aliyun.cn-hangzhou.oss.aliyun-inc.com/internal/oss/0.0.4/assets/sample/oss-h5-upload-js-direct.zip?spm=5176.doc31925.2.6.VaGr7O&amp;file=oss-h5-upload-js-direct.zip" target="_blank" rel="noopener">下载源码</a></li>
+<li><a href="http://omizt4opc.bkt.clouddn.com/ossKeys.png" target="_blank" rel="noopener">得到accessKeys</a></li>
+<li><a href="http://omizt4opc.bkt.clouddn.com/osssCross.png" target="_blank" rel="noopener">设置可跨域</a></li>
+<li><a href="http://omizt4opc.bkt.clouddn.com/ossLink.png" target="_blank" rel="noopener">可以直接在控制台上传文件</a>，在右边的设置里就可以看到链接如<code>http://hanfiles.oss-cn-beijing.aliyuncs.com/3.jpg</code></li>
+<li>打开刚下载的源码，打开<code>upload.js</code>，设置成自己的，比如我的host就是<code>http://hanfiles.oss-cn-beijing.aliyuncs.com</code>，然后在浏览器中打开<code>index.html</code>，点击选择图片 =》 上传图片，然后在控制台里看，就发现图片上传上去了~实际生产情况，一般是前端不公开accessId和key，又后端处理，具体参照官网。</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">accessid= <span class="string">'6MKOqxGiGU4AUk44'</span>;</span><br><span class="line">accesskey= <span class="string">'ufu7nS8kS59awNihtjSonMETLI0KLy'</span>;</span><br><span class="line">host = <span class="string">'http://post-test.oss-cn-hangzhou.aliyuncs.com'</span>;</span><br></pre></td></tr></table></figure>
+<p>付费情况我没具体细究，但好像看到如果每小时访问量低于万次应该是不收费的，估摸着我的也不会超过十次=。=</p>
+<h2 id="使用ossUpload"><a href="#使用ossUpload" class="headerlink" title="使用ossUpload"></a>使用ossUpload</h2><p><a href="https://github.com/aliyun-UED/oss-js-upload" target="_blank" rel="noopener">官方demo</a>，<a href="https://github.com/frontzhm/ossUpload" target="_blank" rel="noopener">我自己的demo</a></p>
+<ul>
+<li><a href="https://ram.console.aliyun.com/#/notActive" target="_blank" rel="noopener">开通RAM</a></li>
+<li>打开 RAM 控制台</li>
+<li>新建一个用户</li>
+<li>为用户添加 AliyunSTSAssumeRoleAccess 权限</li>
+<li>为用户创建一对 AK, 记录下这个 AK, 控制台不会为你保存</li>
+<li>新建一个角色</li>
+<li>为角色添加 AliyunOSSFullAccess 权限, 记录下角色 ARN</li>
+</ul>
+<blockquote>
+<p><a href="http://blog.csdn.net/qq_38125123/article/details/73870667" target="_blank" rel="noopener">小程序图片上传阿里OSS使用方法</a><br><a href="https://ask.dcloud.net.cn/article/983" target="_blank" rel="noopener">使用plus.uploader上传图片到阿里云OSS</a><br><a href="https://github.com/aliyun-UED/oss-js-upload" target="_blank" rel="noopener">官方demo</a></p>
+</blockquote>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/22/useZipInWindow/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1678,391 +2039,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/20/editorConfig/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/11/20/editorConfig/" itemprop="url">
-                  editorconfig让代码美化更加省心
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-20T17:37:53+08:00">
-                2017-11-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/编辑器/" itemprop="url" rel="index">
-                    <span itemprop="name">编辑器</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/11/20/editorConfig/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/11/20/editorConfig/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p><a href="http://editorconfig.org/" target="_blank" rel="noopener">官网网址</a><br>EditorConfig让编辑器读取配置文件并依此格式化代码。<br>比如保存的时候,编辑器会自动在文件末尾添加新的一行.<br>有些编辑器会默认支持, 有些需要安装响应的插件, 官网有说明.</p>
-<h2 id="就近原则"><a href="#就近原则" class="headerlink" title="就近原则"></a>就近原则</h2><p>当打开一个文件时，EditorConfig插件会在打开文件的目录和其每一级父目录查找.editorconfig文件，直到有一个配置文件root=true。<br>EditorConfig配置文件从上往下读取，并且路径最近的文件最后被读取。匹配的配置属性按照属性应用在代码上，所以最接近代码文件的属性优先级最高。一般放在项目根目录。</p>
-<p>配置文件的名字是<code>.editorconfig</code></p>
-<h2 id="支持的属性"><a href="#支持的属性" class="headerlink" title="支持的属性"></a>支持的属性</h2><ul>
-<li>indent_style：tab为hard-tabs，space为soft-tabs。</li>
-<li>indent_size：设置整数表示规定每级缩进的列数和soft-tabs的宽度（译注：空格数）。如果设定为tab，则会使用tab_width的值（如果已指定）。</li>
-<li>tab_width：设置整数用于指定替代tab的列数。默认值就是indent_size的值，一般无需指定。</li>
-<li>end_of_line：定义换行符，支持lf、cr和crlf。</li>
-<li>charset：编码格式，支持latin1、utf-8、utf-8-bom、utf-16be和utf-16le，不建议使用uft-8-bom。</li>
-<li>trim_trailing_whitespace：设为true表示会除去换行行首的任意空白字符，false反之。</li>
-<li>insert_final_newline：设为true表明使文件以一个空白行结尾，false反之。</li>
-<li>root：表明是最顶层的配置文件，发现设为true时，才会停止查找.editorconfig文件。</li>
-</ul>
-<h2 id="常用的配置"><a href="#常用的配置" class="headerlink" title="常用的配置"></a>常用的配置</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># EditorConfig is awesome: http://EditorConfig.org</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># top-most EditorConfig file</span></span><br><span class="line">root = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">[*]</span><br><span class="line">indent_style = space</span><br><span class="line">indent_size = 2</span><br><span class="line">end_of_line = lf</span><br><span class="line">charset = utf-8</span><br><span class="line">trim_trailing_whitespace = <span class="literal">true</span></span><br><span class="line">insert_final_newline = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">[*.&#123;txt,md&#125;]</span><br><span class="line">trim_trailing_whitespace = <span class="literal">false</span></span><br></pre></td></tr></table></figure>
-<h2 id="文件匹配规则"><a href="#文件匹配规则" class="headerlink" title="文件匹配规则"></a>文件匹配规则</h2><table>
-<thead>
-<tr>
-<th>通配符</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>*</td>
-<td>匹配除/之外的任意字符串</td>
-</tr>
-<tr>
-<td>**</td>
-<td>匹配任意字符串</td>
-</tr>
-<tr>
-<td>?</td>
-<td>匹配任意单个字符</td>
-</tr>
-<tr>
-<td>[name]</td>
-<td>匹配name字符</td>
-</tr>
-<tr>
-<td>[!name]</td>
-<td>匹配非name字符</td>
-</tr>
-<tr>
-<td>{s1,s3,s3}</td>
-<td>匹配任意给定的字符串（0.11.0起支持）</td>
-</tr>
-</tbody>
-</table>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/28/async_await/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/10/28/async_await/" itemprop="url">
-                  理解async
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-28T20:03:43+08:00">
-                2017-10-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/10/28/async_await/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/10/28/async_await/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
-<li>promise 对象最重要的两个属性,状态和值</li>
-<li>async 函数返回promise对象, 函数不出错的话默认就是resolved状态, return的值就是promise的值</li>
-<li>await 必须在async函数中, 后面是promise对象, 返回值是promise对象的值</li>
-<li>await 必须等到promise的状态改变, 才会执行下一条语句</li>
-</ul>
-<h2 id="先回忆下promise"><a href="#先回忆下promise" class="headerlink" title="先回忆下promise"></a>先回忆下promise</h2><ul>
-<li>promise对象有两个属性, 状态和值,初始状态和值都是undefined</li>
-<li>一旦建立, 立即执行</li>
-<li>执行遇到resolve,状态就是resolved,值是resolve的第一个参数,reject同理</li>
-</ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">timeout</span>(<span class="params">time,value</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve</span>)=&gt;</span>&#123;</span><br><span class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        resolve(value)</span><br><span class="line">    &#125;,time)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line">timeout(<span class="number">500</span>,<span class="string">'hello'</span>).then(<span class="function">(<span class="params">value</span>)=&gt;</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(value)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<p>上例中,<code>timeout(500,&#39;hello&#39;)</code>就表示此promise对象的状态是resolved, 值是hello</p>
-<h2 id="async函数"><a href="#async函数" class="headerlink" title="async函数"></a>async函数</h2><ul>
-<li>async函数返回一个 Promise 对象。</li>
-<li>返回的promise对象的状态默认是resolved, 值是函数的返回值</li>
-<li>特殊: async函数只有内部抛出错误的时候, 这个Promise对象的状态是rejected,值是错误对象</li>
-</ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params">value</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> value</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> t = test(<span class="string">'我就是值'</span>)</span><br></pre></td></tr></table></figure>
-<p>上例中, t就是promise对象, 状态是resolved, 值是 <code>我就是值</code></p>
-<h2 id="await语句"><a href="#await语句" class="headerlink" title="await语句"></a>await语句</h2><ul>
-<li>await 命令只能用在 async 函数内部，如果用在普通函数，就会报错</li>
-<li>正常情况下，await命令后面是一个 Promise 对象。如果不是，会被转成一个立即resolve的 Promise 对象。类似执行了Promise.resolve()</li>
-<li>await的返回值是promise对象的值</li>
-<li>特殊情况下, 如果await后面的promise对象的状态是rejected, 那么会报错, 所以通常async函数执行放在try,catch里, 一旦报错就会走catch</li>
-</ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">timePrint</span>(<span class="params">time,value</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">await</span> timeout(time,value)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">try</span>&#123;</span><br><span class="line">    <span class="keyword">const</span> x = timePrint(<span class="number">1000</span>, <span class="string">'asyncAndPromise'</span>)</span><br><span class="line">    <span class="built_in">console</span>.log(x)</span><br><span class="line">&#125;<span class="keyword">catch</span>(error)&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(error)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>上例中await后面的promise对象状态是resolved,值是<code>asyncAndPromise</code><br>那么x这个promise对象状态是resolved, 值也是<code>asyncAndPromise</code></p>
-<h2 id="顺手理解下promisify"><a href="#顺手理解下promisify" class="headerlink" title="顺手理解下promisify"></a>顺手理解下promisify</h2><p>promisify让一个遵循通常的 Node.js 回调风格的函数， 即 (err, value) =&gt; … 回调函数是最后一个参数, 返回一个返回值是一个 promise 版本的函数。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> util = <span class="built_in">require</span>(<span class="string">'util'</span>);</span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> stat = util.promisify(fs.stat);</span><br><span class="line">stat(<span class="string">'.'</span>).then(<span class="function">(<span class="params">stats</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// Do something with `stats`</span></span><br><span class="line">&#125;).catch(<span class="function">(<span class="params">error</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// Handle the error.</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>相当于这样改写promisify:</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> stat = <span class="function"><span class="keyword">function</span>(<span class="params">path</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>) =&gt;</span> &#123;</span><br><span class="line">        fs.stat(path,(err,stats)=&gt;&#123;</span><br><span class="line">            <span class="keyword">if</span>(err)&#123;</span><br><span class="line">                <span class="keyword">return</span> reject(err)</span><br><span class="line">            &#125;</span><br><span class="line">            resolve(stats)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>那么<code>await stat(filePath)</code>如果filePath存在的话, stat(filePath)这个promise对象的值就是<code>stats</code>, 如果不存在的话, 就会报错需要用catch捕捉</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params">filePath</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">        <span class="keyword">const</span> stats = <span class="keyword">await</span> stat(filePath)</span><br><span class="line">        <span class="built_in">console</span>.log(stats)</span><br><span class="line">    &#125;<span class="keyword">catch</span>(error)&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(error)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -2107,7 +2088,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">69</span>
+                <span class="site-state-item-count">71</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

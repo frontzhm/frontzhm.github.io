@@ -261,6 +261,316 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/01/todo_vue/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2019/04/01/todo_vue/" itemprop="url">
+                  未命名
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-01T14:23:39+08:00">
+                2019-04-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/04/01/todo_vue/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/04/01/todo_vue/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="vue"><a href="#vue" class="headerlink" title="vue"></a>vue</h1><p>构建用户界面的渐进式框架。</p>
+<p>递增：vue + components + vue-router + vuex + vue-cli</p>
+<h2 id="库和框架"><a href="#库和框架" class="headerlink" title="库和框架"></a>库和框架</h2><p>我们调用库，实现某个功能。框架是打好架子，我们装东西。</p>
+<h2 id="安装vue"><a href="#安装vue" class="headerlink" title="安装vue"></a>安装vue</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm init -y</span><br><span class="line">npm i vue</span><br></pre></td></tr></table></figure>
+<p>开始启动</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=<span class="string">"app"</span>&gt;&#123;&#123;msg&#125;&#125;&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">&lt;script src="node_modules/</span>vue/dist/vue.js<span class="string">"&gt;&lt;/script&gt;</span></span><br><span class="line"><span class="string">&lt;script&gt;</span></span><br><span class="line"><span class="string">let vm = new Vue(&#123;</span></span><br><span class="line"><span class="string">    el:'#app',</span></span><br><span class="line"><span class="string">    // template加上之后会替换掉#app这个标签</span></span><br><span class="line"><span class="string">    // template:'&lt;h1&gt;en&lt;/h1&gt;',</span></span><br><span class="line"><span class="string">    data:&#123;msg:'msg'&#125;</span></span><br><span class="line"><span class="string">&#125;)</span></span><br><span class="line"><span class="string">vm.msg = 'msg'</span></span><br><span class="line"><span class="string">&lt;/script&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="mvvm-mvc"><a href="#mvvm-mvc" class="headerlink" title="mvvm mvc"></a>mvvm mvc</h2><p>model view Model 传统所有逻辑在controller,难以维护。用户输入=》控制器 =》数据变了在渲染到视图上。数据会驱动视图，紧密联系。<br>model view viewModel 视图和数据并不会紧密联系。数据变化驱动视图。</p>
+<p>命令式：自己写for循环，for(var i=0)。命令其按照自己的方式得到结果<br>声明式：forEach 声明式，我们想要的是循环，内部帮我们做</p>
+<p>vue把数据代理给了vm。</p>
+<p>只要模板中使用了数据，就必须在实例上声明。也就是想用<code>msg</code>，就必须在data里有这个属性。因为数据劫持的原因。</p>
+<h2 id="observer"><a href="#observer" class="headerlink" title="observer"></a>observer</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">        name:<span class="string">'jw'</span>,</span><br><span class="line">        age:<span class="number">18</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// vue 数据劫持 Object.defineProperty</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">observer</span>(<span class="params">obj</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">typeof</span> obj === <span class="string">'object'</span>)&#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">const</span> key <span class="keyword">in</span> obj) &#123;</span><br><span class="line">                defineReactive(obj,key,obj[key])</span><br><span class="line">        &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// getter value不能同时使用</span></span><br><span class="line">    <span class="comment">// get的return的值才是最终你取得值。所以设的值是为读取准备的。</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">defineReactive</span>(<span class="params">obj,key,value</span>)</span>&#123;</span><br><span class="line">        <span class="built_in">Object</span>.defineProperty(obj,key,&#123;</span><br><span class="line">            get:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">                <span class="keyword">return</span> value+<span class="number">1</span></span><br><span class="line">            &#125;,</span><br><span class="line">            <span class="comment">// obj.name = 1,</span></span><br><span class="line">            set:<span class="function"><span class="keyword">function</span>(<span class="params">newVal</span>)</span>&#123;</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">'数据更新了'</span>)</span><br><span class="line">                value = newVal</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">    observer(obj)</span><br><span class="line">    obj.age = <span class="number">2</span></span><br><span class="line">    <span class="comment">// 3</span></span><br><span class="line">    <span class="built_in">console</span>.log(obj.age)</span><br></pre></td></tr></table></figure>
+<p>但是当age也是一个对象的话，需要将age也同样数据劫持。所以需要在defineReactive的第一行加上<code>observer(value)</code>。设置值的时候如果是对象的话，也需要将这个对象数据劫持。所以set那边也需要加这行。</p>
+<ul>
+<li>因为是一开始就数据劫持了。所以后来如果新绑定属性，是没有数据劫持的。</li>
+<li><p>当属性值是数组，数组变化的时候，跟踪不到变化。因为数组虽然是对象，但是Object.defineProperty不支持数组，所以vue改写了数组的所有方法，当调用数组方法的时候，就调动变动事件。但是不能通过属性或者索引控制数组，比如length。</p>
+</li>
+<li><p>总结：对象必须是开始就有某属性。如果是数组，只能通过数组方法修改数组。</p>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">        name:<span class="string">'jw'</span>,</span><br><span class="line">        age:&#123;</span><br><span class="line">            name:<span class="string">'kk'</span>,</span><br><span class="line">            age:<span class="number">3</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">   <span class="function"><span class="keyword">function</span> <span class="title">defineReactive</span>(<span class="params">obj,key,value</span>)</span>&#123;</span><br><span class="line">       <span class="comment">// 注意这里！！！！！！！</span></span><br><span class="line">       observer(value)</span><br><span class="line">        <span class="built_in">Object</span>.defineProperty(obj,key,&#123;</span><br><span class="line">            get:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">                <span class="keyword">return</span> value</span><br><span class="line">            &#125;,</span><br><span class="line">            <span class="comment">// obj.name = 1,</span></span><br><span class="line">            set:<span class="function"><span class="keyword">function</span>(<span class="params">newVal</span>)</span>&#123;</span><br><span class="line">                <span class="comment">// 注意这里！！！！！！！</span></span><br><span class="line">                observer(newVal)</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">'数据更新了'</span>)</span><br><span class="line">                value = newVal</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    observer(obj)</span><br><span class="line">    <span class="comment">// 未加observer(value)的时候是没有 跟踪到数据变化的</span></span><br><span class="line">    obj.age.age = <span class="number">32</span></span><br><span class="line">    obj.age = &#123;</span><br><span class="line">        name:<span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 将age值设置成一个对象之后，没有加后一个observer(value)的时候是没有 跟踪到数据变化的</span></span><br><span class="line">    obj.age.name = <span class="number">2</span></span><br><span class="line"></span><br><span class="line">    obj.age = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line">    <span class="comment">// 这会是捕捉不到数据变化的</span></span><br><span class="line">    obj.age.push(<span class="number">4</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// vue把数组上所有的方法重写了。但是如果你 [1,2].length--这是捕捉不到的</span></span><br><span class="line">    <span class="keyword">let</span> arr = [<span class="string">'push'</span>,<span class="string">'slice'</span>,<span class="string">'split'</span>]</span><br><span class="line">    arr.forEach(<span class="function"><span class="params">method</span>=&gt;</span>&#123;</span><br><span class="line">        <span class="keyword">let</span> oldPush = <span class="built_in">Array</span>.property[method]</span><br><span class="line">        <span class="built_in">Array</span>.property[method] = <span class="function"><span class="keyword">function</span>(<span class="params">value</span>)</span>&#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">'数据更新'</span>)</span><br><span class="line">            oldPush.call(<span class="keyword">this</span>,value)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/30/todo-async-design/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2019/03/30/todo-async-design/" itemprop="url">
+                  异步编程特有的代码设计模式
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-30T11:42:43+08:00">
+                2019-03-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/03/30/todo-async-design/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/03/30/todo-async-design/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>异步编程有很多特有的代码设计模式，为了实现同样的功能，使用同步方式和异步方式编写的代码会有很大差异。以下分别介绍一些常见的模式。</p>
+<h2 id="函数返回值"><a href="#函数返回值" class="headerlink" title="函数返回值"></a>函数返回值</h2><p>使用一个函数的输出作为另一个函数的输入是很常见的需求，在同步方式下一般按以下方式编写代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> output = fn1(fn2(<span class="string">'input'</span>));</span><br><span class="line"><span class="comment">// Do something.</span></span><br></pre></td></tr></table></figure>
+<p>而在异步方式下，由于函数执行结果不是通过返回值，而是通过回调函数传递，因此一般按以下方式编写代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">fn2(<span class="string">'input'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">output2</span>) </span>&#123;</span><br><span class="line">    fn1(output2, <span class="function"><span class="keyword">function</span> (<span class="params">output1</span>) </span>&#123;</span><br><span class="line">        <span class="comment">// Do something.</span></span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>可以看到，这种方式就是一个回调函数套一个回调函多，套得太多了很容易写出<code>&gt;</code>形状的代码。</p>
+<p>举个🌰：</p>
+<p>我需要先对一个数加10然后再*10</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addTen</span>(<span class="params">num</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> num+<span class="number">10</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">multifyTen</span>(<span class="params">num</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> num*<span class="number">10</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> num = <span class="number">10</span></span><br><span class="line"><span class="keyword">let</span> result = addTen(<span class="number">10</span>)</span><br><span class="line">result = mutifyTen(result)</span><br><span class="line"><span class="comment">// 相当于 result = mutifyTen(addTen(10))</span></span><br></pre></td></tr></table></figure>
+<h2 id="遍历数组"><a href="#遍历数组" class="headerlink" title="遍历数组"></a>遍历数组</h2><p>在遍历数组时，使用某个函数依次对数据成员做一些处理也是常见的需求。</p>
+<p>同步代码</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> len = arr.length,</span><br><span class="line">    i = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (; i &lt; len; ++i) &#123;</span><br><span class="line">    arr[i] = doSomething(arr[i]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// map forEach...</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'以上执行完了'</span>)</span><br><span class="line"><span class="comment">// All array items have processed.</span></span><br></pre></td></tr></table></figure>
+<p>异步代码：先说串行的情况</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span> <span class="title">next</span>(<span class="params">i, len, callback</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (i &lt; len) &#123;</span><br><span class="line">        <span class="keyword">async</span>(arr[i], <span class="function"><span class="keyword">function</span> (<span class="params">value</span>) </span>&#123;</span><br><span class="line">            arr[i] = value;</span><br><span class="line">            next(i + <span class="number">1</span>, len, callback);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        callback();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;(<span class="number">0</span>, arr.length, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// All array items have processed.</span></span><br><span class="line">&#125;));</span><br></pre></td></tr></table></figure>
+<h2 id="异常处理"><a href="#异常处理" class="headerlink" title="异常处理"></a>异常处理</h2>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/29/observer-code/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -855,6 +1165,11 @@
         
           
             <h2 id="配置node环境"><a href="#配置node环境" class="headerlink" title="配置node环境"></a>配置node环境</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> ssh登录服务器</span><br><span class="line">ssh m@124.4.5.4</span><br><span class="line">输入密码</span><br><span class="line">cd /home/zhm/software</span><br><span class="line"><span class="meta">#</span> 下载  [wget命令是下载](http://www.cnblogs.com/peida/archive/2013/03/18/2965369.html)</span><br><span class="line"><span class="meta">#</span> 不要这个源码 编译太费劲 wget https://nodejs.org/dist/v10.15.3/node-v10.15.3.tar.gz</span><br><span class="line">wget https://nodejs.org/dist/v10.15.3/node-v10.15.3-linux-x64.tar.xz</span><br><span class="line"><span class="meta">#</span> 解压 node-v10.15.3.tar.gz被解压到当前目录，文件夹node-v10.15.3</span><br><span class="line">xz -d node-v10.15.3-linux-x64.tar.xz</span><br><span class="line"><span class="meta">#</span> 再次解压</span><br><span class="line">tar -xvf node-v10.15.3-linux-x64.tar</span><br><span class="line"><span class="meta">#</span> 拿到目录</span><br><span class="line">cd node-v10.15.3-linux-x64</span><br><span class="line"><span class="meta">#</span> 这个路径等下要用，假设这个路径是AAA  其实可以看下 ls bin就可以看到 `npm node npx`这也是为什么能用命令的原因</span><br><span class="line">pwd</span><br><span class="line"><span class="meta">#</span> npm node设置到全局 两种方式 </span><br><span class="line"><span class="meta">#</span> 软链接</span><br><span class="line"><span class="meta">#</span># 先获取PATH变量 会打印类似于 /usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin 一般会有/usr/local/bin，假设这个路径是BBB。</span><br><span class="line">echo $PATH</span><br><span class="line"><span class="meta">#</span># 我们将node和npm链接到PATH下，这样就可以执行  其实就是建立软链接。</span><br><span class="line">ln -s AAA/bin/node BBB/node</span><br><span class="line">ln -s AAA/bin/npm BBB/npm</span><br><span class="line">ln -s AAA/bin/npx BBB/npx</span><br><span class="line"><span class="meta">#</span> 永久设置（没试了）</span><br><span class="line"><span class="meta">#</span> 首先在 root 目录下找到 .bash_profile 文件，编辑，vi ~/.bash_profile 找到 PATH=$PATH:$HOME/bin，在后面添加路径为：PATH=$PATH:$HOME/bin:/usr/local/nodejs/bin保存修改，然后重载一下，source ~/.bash_profile</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 在任意目录下</span><br><span class="line">npm -v</span><br><span class="line">node -v</span><br><span class="line">npx -v</span><br></pre></td></tr></table></figure>
+<h2 id="特别之处"><a href="#特别之处" class="headerlink" title="特别之处"></a>特别之处</h2><p>在Linux系统下，使用NodeJS监听80或443端口提供HTTP(S)服务时需要root权限。<br>有两种方式可以做到。</p>
+<p>一种方式是使用sudo命令运行NodeJS。例如通过以下命令运行的server.js中有权限使用80和443端口。一般推荐这种方式，可以保证仅为有需要的JS脚本提供root权限。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo node server.js</span><br></pre></td></tr></table></figure>
+<p>另一种方式是使用chmod +s命令让NodeJS总是以root权限运行，具体做法如下。因为这种方式让任何JS脚本都有了root权限，不太安全，因此在需要很考虑安全的系统下不推荐使用。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo chown root /usr/local/bin/node</span><br><span class="line">sudo chmod +s /usr/local/bin/node</span><br></pre></td></tr></table></figure>
 <h2 id="项目运行"><a href="#项目运行" class="headerlink" title="项目运行"></a>项目运行</h2><p>将项目放进来。 <code>nohup</code>加在一个命令的最前面，表示不挂断的运行命令。<code>&amp;</code>加载一个命令的最后面，表示这个命令放在后台执行。查看运行的命令，有两个命令可以来查看，ps 和 jobs。区别在于 jobs 只能查看当前终端后台执行的任务，换了终端就看不见了。而ps命令适用于查看瞬时进程的动态，可以看到别的终端的任务。杀掉程序 <code>kill pid号</code></p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 让程序在后台运行</span><br><span class="line">nohup node app.js &amp;</span><br><span class="line"><span class="meta">#</span> 看下任务号 node的那个</span><br><span class="line">ps</span><br><span class="line"><span class="meta">#</span> 如果需要终止的话</span><br><span class="line">kill 21455</span><br></pre></td></tr></table></figure>
 <h2 id="公钥"><a href="#公钥" class="headerlink" title="公钥"></a>公钥</h2><p>检查有没有安装ssh：<code>ssh -v</code>，安装的命令<code>ssh-keygen -t rsa -C &quot;youremail@example.com&quot;</code>一路回车确定下就安装好了。生成在当前用户名下会有一个.sh文件。<br>检查有没有共钥： <code>ls -a ~/.ssh</code><br>生成公钥：<code>ssh-keygen</code>它先要求你确认保存公钥的位置（.ssh/id_rsa）,然后它会让你重复一个密码两次，如果不想在使用公钥的时候输入密码，可以留空。<br>打印公钥复制发给管理人员：<code>cat ~/.ssh/id_rsa.pub</code></p>
@@ -1490,187 +1805,6 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/06/cnzz/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2018/09/06/cnzz/" itemprop="url">
-                  网站加cnzz
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-06T09:58:54+08:00">
-                2018-09-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/统计/" itemprop="url" rel="index">
-                    <span itemprop="name">统计</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/09/06/cnzz/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/09/06/cnzz/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="cnzz"><a href="#cnzz" class="headerlink" title="cnzz"></a>cnzz</h1><p>cnzz就是统计数据用的，统计pv，uv，甚至某个按钮的点击次数。</p>
-<h2 id="网站的添加步骤"><a href="#网站的添加步骤" class="headerlink" title="网站的添加步骤"></a>网站的添加步骤</h2><ol>
-<li><a href="https://web.umeng.com" target="_blank" rel="noopener">去网站注册账号</a>，然后添加网站</li>
-<li>获取代码，在body前添加脚本，注意一个域名对应一个id，也就是一个域名对应一个脚本</li>
-</ol>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"//s22.cnzz.com/z_stat.php?id=你的id&amp;web_id=你的id"</span> <span class="attr">language</span>=<span class="string">"JavaScript"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<ol>
-<li>网站上会显示站长统计四个字或者图标，嫌不好看的话,我用的是字</li>
-</ol>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">a</span><span class="selector-attr">[title=站长统计]</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: absolute;</span><br><span class="line">    <span class="attribute">visibility</span>: hidden;</span><br><span class="line">    <span class="attribute">bottom</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">z-index</span>: -<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="事件的统计"><a href="#事件的统计" class="headerlink" title="事件的统计"></a>事件的统计</h2><ol>
-<li><p><a href="http://open.cnzz.com/a/new/trackevent/" target="_blank" rel="noopener">某个按钮的点击次数统计的话</a>，先上面的步骤，然后</p>
- <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 记得添加id</span></span><br><span class="line">someElement.onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    _czc.push([<span class="string">'_trackEvent'</span>, <span class="string">'今日头条里点击下载app次数'</span>, <span class="string">'下载'</span>, <span class="string">'app'</span>,<span class="string">'5'</span>,<span class="string">'wx-share'</span>]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p> 具体介绍:<br> 各参数含义如下：<br> category：事件类别，必填项，表示事件发生在谁身上，如“视频”、“小说”、“轮显层”等等。<br> action：事件操作，必填项，表示访客跟元素交互的行为动作，如”播放”、”收藏”、”翻层”等等。<br> label：事件标签，选填项，用于更详细的描述事件，从各个方面都可以，比如具体是哪个视频，哪部小说，翻到了第几层等等。<br> value：事件值，选填项，整数型，用于填写打分型事件的分值，加载时间型事件的时长，订单型事件的价格等等。<br> nodeid：div元素id，选填项，填写网页中的div元素id值，用于在“用户视点”功能上重绘元素的事件发生情况。<br> 查看API详细说明</p>
- <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">_czc.push([<span class="string">"_trackEvent"</span>,category,action,label,value,nodeid]);</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>记得左上角下拉箭头切换不同域名，以及左侧菜单栏的受访页面可以进行搜索，也可以右上角站点设置里排除某些页面和ip</p>
-</li>
-</ol>
-<h2 id="改进的代码"><a href="#改进的代码" class="headerlink" title="改进的代码"></a>改进的代码</h2><p>因为经常在测试和正式环境切换,而且每次加css样式隐藏图标也是神烦. 稍微改进一丢丢.</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * cnzz数据统计</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">var</span> isProduction = <span class="regexp">/正式域名/</span>.test(<span class="built_in">window</span>.location.href)</span><br><span class="line"><span class="comment">// !!!域名和脚本id必须一一对应</span></span><br><span class="line"><span class="keyword">var</span> productionCnzzId = <span class="string">'12899668'</span></span><br><span class="line"><span class="keyword">var</span> testCnzzId = <span class="string">'126326337'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> statScript = <span class="built_in">document</span>.body.appendChild(<span class="built_in">document</span>.createElement(<span class="string">'script'</span>))</span><br><span class="line">statScript.src = isProduction ? (<span class="string">'//s22.cnzz.com/z_stat.php?id='</span>+productionCnzzId+<span class="string">'&amp;web_id='</span>+productionCnzzId) : (<span class="string">'//s22.cnzz.com/z_stat.php?id='</span>+testCnzzId+<span class="string">'&amp;web_id='</span>+testCnzzId)</span><br><span class="line">setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 用延时是因为cnzz脚本插入需要时间</span></span><br><span class="line">    statScript.onload = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="comment">// 隐藏统计字</span></span><br><span class="line">        <span class="built_in">document</span>.querySelector(<span class="string">'a[title="站长统计"]'</span>).style.cssText = <span class="string">'position: absolute; visibility: hidden; bottom: 0; z-index: -1;'</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;, <span class="number">1000</span>)</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/06/promise2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1835,191 +1969,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/26/ossGuide/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2018/01/26/ossGuide/" itemprop="url">
-                  oss的初接触
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-26T18:38:13+08:00">
-                2018-01-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/01/26/ossGuide/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/01/26/ossGuide/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="oss的好处"><a href="#oss的好处" class="headerlink" title="oss的好处"></a>oss的好处</h1><p>刚接触的oss，很多东西不清楚，这篇仅为了记录以及加强理解，如有不对之处，欢迎指正。</p>
-<p>oss我目前知道的好处有两个:</p>
-<ol>
-<li>静态资源生成链接，静态网站可以进行托管</li>
-<li>用户可以上传图片到这里,从而节约自己服务器的存储空间</li>
-</ol>
-<h2 id="oss的简单使用流程"><a href="#oss的简单使用流程" class="headerlink" title="oss的简单使用流程"></a>oss的简单使用流程</h2><ol>
-<li><a href="https://www.aliyun.com/?spm=5176.8466032.0.0.1547dd226xaauo" target="_blank" rel="noopener">阿里云的官网</a>注册账号</li>
-<li>点击这里<a href="http://omizt4opc.bkt.clouddn.com/ossSavePath.png" target="_blank" rel="noopener">开通对象存储</a></li>
-<li><a href="http://omizt4opc.bkt.clouddn.com/newBucket.png" target="_blank" rel="noopener">新建bucket</a></li>
-<li><a href="https://help.aliyun.com/document_detail/31925.html?spm=5176.doc31923.6.635.Vkezrm" target="_blank" rel="noopener">js直传的介绍</a>和<a href="https://docs-aliyun.cn-hangzhou.oss.aliyun-inc.com/internal/oss/0.0.4/assets/sample/oss-h5-upload-js-direct.zip?spm=5176.doc31925.2.6.VaGr7O&amp;file=oss-h5-upload-js-direct.zip" target="_blank" rel="noopener">下载源码</a></li>
-<li><a href="http://omizt4opc.bkt.clouddn.com/ossKeys.png" target="_blank" rel="noopener">得到accessKeys</a></li>
-<li><a href="http://omizt4opc.bkt.clouddn.com/osssCross.png" target="_blank" rel="noopener">设置可跨域</a></li>
-<li><a href="http://omizt4opc.bkt.clouddn.com/ossLink.png" target="_blank" rel="noopener">可以直接在控制台上传文件</a>，在右边的设置里就可以看到链接如<code>http://hanfiles.oss-cn-beijing.aliyuncs.com/3.jpg</code></li>
-<li>打开刚下载的源码，打开<code>upload.js</code>，设置成自己的，比如我的host就是<code>http://hanfiles.oss-cn-beijing.aliyuncs.com</code>，然后在浏览器中打开<code>index.html</code>，点击选择图片 =》 上传图片，然后在控制台里看，就发现图片上传上去了~实际生产情况，一般是前端不公开accessId和key，又后端处理，具体参照官网。</li>
-</ol>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">accessid= <span class="string">'6MKOqxGiGU4AUk44'</span>;</span><br><span class="line">accesskey= <span class="string">'ufu7nS8kS59awNihtjSonMETLI0KLy'</span>;</span><br><span class="line">host = <span class="string">'http://post-test.oss-cn-hangzhou.aliyuncs.com'</span>;</span><br></pre></td></tr></table></figure>
-<p>付费情况我没具体细究，但好像看到如果每小时访问量低于万次应该是不收费的，估摸着我的也不会超过十次=。=</p>
-<h2 id="使用ossUpload"><a href="#使用ossUpload" class="headerlink" title="使用ossUpload"></a>使用ossUpload</h2><p><a href="https://github.com/aliyun-UED/oss-js-upload" target="_blank" rel="noopener">官方demo</a>，<a href="https://github.com/frontzhm/ossUpload" target="_blank" rel="noopener">我自己的demo</a></p>
-<ul>
-<li><a href="https://ram.console.aliyun.com/#/notActive" target="_blank" rel="noopener">开通RAM</a></li>
-<li>打开 RAM 控制台</li>
-<li>新建一个用户</li>
-<li>为用户添加 AliyunSTSAssumeRoleAccess 权限</li>
-<li>为用户创建一对 AK, 记录下这个 AK, 控制台不会为你保存</li>
-<li>新建一个角色</li>
-<li>为角色添加 AliyunOSSFullAccess 权限, 记录下角色 ARN</li>
-</ul>
-<blockquote>
-<p><a href="http://blog.csdn.net/qq_38125123/article/details/73870667" target="_blank" rel="noopener">小程序图片上传阿里OSS使用方法</a><br><a href="https://ask.dcloud.net.cn/article/983" target="_blank" rel="noopener">使用plus.uploader上传图片到阿里云OSS</a><br><a href="https://github.com/aliyun-UED/oss-js-upload" target="_blank" rel="noopener">官方demo</a></p>
-</blockquote>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -2064,7 +2018,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">69</span>
+                <span class="site-state-item-count">71</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
