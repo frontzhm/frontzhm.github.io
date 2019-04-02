@@ -261,169 +261,6 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/30/todo-async-design/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2019/03/30/todo-async-design/" itemprop="url">
-                  异步编程特有的代码设计模式
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-30T11:42:43+08:00">
-                2019-03-30
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/03/30/todo-async-design/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/03/30/todo-async-design/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>异步编程有很多特有的代码设计模式，为了实现同样的功能，使用同步方式和异步方式编写的代码会有很大差异。以下分别介绍一些常见的模式。</p>
-<h2 id="函数返回值"><a href="#函数返回值" class="headerlink" title="函数返回值"></a>函数返回值</h2><p>使用一个函数的输出作为另一个函数的输入是很常见的需求，在同步方式下一般按以下方式编写代码：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> output = fn1(fn2(<span class="string">'input'</span>));</span><br><span class="line"><span class="comment">// Do something.</span></span><br></pre></td></tr></table></figure>
-<p>而在异步方式下，由于函数执行结果不是通过返回值，而是通过回调函数传递，因此一般按以下方式编写代码：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">fn2(<span class="string">'input'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">output2</span>) </span>&#123;</span><br><span class="line">    fn1(output2, <span class="function"><span class="keyword">function</span> (<span class="params">output1</span>) </span>&#123;</span><br><span class="line">        <span class="comment">// Do something.</span></span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>可以看到，这种方式就是一个回调函数套一个回调函多，套得太多了很容易写出<code>&gt;</code>形状的代码。</p>
-<p>举个🌰：</p>
-<p>我需要先对一个数加10然后再*10</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addTen</span>(<span class="params">num</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> num+<span class="number">10</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">multifyTen</span>(<span class="params">num</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> num*<span class="number">10</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> num = <span class="number">10</span></span><br><span class="line"><span class="keyword">let</span> result = addTen(<span class="number">10</span>)</span><br><span class="line">result = mutifyTen(result)</span><br><span class="line"><span class="comment">// 相当于 result = mutifyTen(addTen(10))</span></span><br></pre></td></tr></table></figure>
-<h2 id="遍历数组"><a href="#遍历数组" class="headerlink" title="遍历数组"></a>遍历数组</h2><p>在遍历数组时，使用某个函数依次对数据成员做一些处理也是常见的需求。</p>
-<p>同步代码</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> len = arr.length,</span><br><span class="line">    i = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (; i &lt; len; ++i) &#123;</span><br><span class="line">    arr[i] = doSomething(arr[i]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// map forEach...</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'以上执行完了'</span>)</span><br><span class="line"><span class="comment">// All array items have processed.</span></span><br></pre></td></tr></table></figure>
-<p>异步代码：先说串行的情况</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span> <span class="title">next</span>(<span class="params">i, len, callback</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (i &lt; len) &#123;</span><br><span class="line">        <span class="keyword">async</span>(arr[i], <span class="function"><span class="keyword">function</span> (<span class="params">value</span>) </span>&#123;</span><br><span class="line">            arr[i] = value;</span><br><span class="line">            next(i + <span class="number">1</span>, len, callback);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        callback();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;(<span class="number">0</span>, arr.length, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// All array items have processed.</span></span><br><span class="line">&#125;));</span><br></pre></td></tr></table></figure>
-<h2 id="异常处理"><a href="#异常处理" class="headerlink" title="异常处理"></a>异常处理</h2>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/29/observer-code/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1483,6 +1320,179 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/06/promise2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/09/06/promise2/" itemprop="url">
+                  promise再总结总结
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-06T09:58:54+08:00">
+                2018-09-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/09/06/promise2/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/09/06/promise2/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="promise"><a href="#promise" class="headerlink" title="promise"></a>promise</h1><p>语法:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve, reject</span>) </span>&#123;&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="请求"><a href="#请求" class="headerlink" title="请求"></a>请求</h2><p>对XHPHttpRequest的封装<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">get</span>(<span class="params">url</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// Return a new promise.</span></span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve, reject</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// Do the usual XHR stuff</span></span><br><span class="line">    <span class="keyword">var</span> req = <span class="keyword">new</span> XMLHttpRequest();</span><br><span class="line">    req.open(<span class="string">'GET'</span>, url);</span><br><span class="line"></span><br><span class="line">    req.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="comment">// This is called even on 404 etc</span></span><br><span class="line">      <span class="comment">// so check the status</span></span><br><span class="line">      <span class="keyword">if</span> (req.status == <span class="number">200</span>) &#123;</span><br><span class="line">        <span class="comment">// Resolve the promise with the response text</span></span><br><span class="line">        resolve(req.response);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// Otherwise reject with the status text</span></span><br><span class="line">        <span class="comment">// which will hopefully be a meaningful error</span></span><br><span class="line">        reject(<span class="built_in">Error</span>(req.statusText));</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Handle network errors</span></span><br><span class="line">    req.onerror = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      reject(<span class="built_in">Error</span>(<span class="string">"Network Error"</span>));</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Make the request</span></span><br><span class="line">    req.send();</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>改良版:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">get</span>(<span class="params">url</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> fetch(url)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getJSON</span>(<span class="params">url</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> get(url).then(<span class="function"><span class="keyword">function</span>(<span class="params">response</span>)</span>&#123;response.json()&#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="回调函数单参数的处理"><a href="#回调函数单参数的处理" class="headerlink" title="回调函数单参数的处理"></a>回调函数单参数的处理</h2><p>比如:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">oneParam</span>(<span class="params">data</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> data.toString()</span><br><span class="line">&#125;</span><br><span class="line">getJSON(url1).then(<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> oneParam(data)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// 简化为,接下去的值就是oneParam(data)</span></span><br><span class="line">getJSON(url1).then(oneParam)</span><br></pre></td></tr></table></figure></p>
+<h2 id="扩充下回调函数参数个数的问题"><a href="#扩充下回调函数参数个数的问题" class="headerlink" title="扩充下回调函数参数个数的问题"></a>扩充下回调函数参数个数的问题</h2><p>其实遇到回调函数有时候自带参数,有时候不带参数,有时候有一个参数,有时候有多个参数</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params">fn</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> fn()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>仔细看上面的,其实 <code>a(fn)</code>等价于<code>fn()</code></p>
+<p>常用在数组里</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line">arr.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">item</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(item)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">log</span>(<span class="params">item</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> item ++</span><br><span class="line">&#125;</span><br><span class="line">arr.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">item</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> log(item)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// 简化为</span></span><br><span class="line">arr.forEach(log)</span><br><span class="line"><span class="comment">// 同理</span></span><br><span class="line">arr.map(log)</span><br></pre></td></tr></table></figure>
+<h2 id="并发请求的处理"><a href="#并发请求的处理" class="headerlink" title="并发请求的处理"></a>并发请求的处理</h2><p>假设story.json的内容是<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">"heading"</span>: <span class="string">"&lt;h1&gt;A story about something&lt;/h1&gt;"</span>,</span><br><span class="line">  <span class="string">"chapterUrls"</span>: [</span><br><span class="line">    <span class="string">"chapter-1.json"</span>,</span><br><span class="line">    <span class="string">"chapter-2.json"</span>,</span><br><span class="line">    <span class="string">"chapter-3.json"</span>,</span><br><span class="line">    <span class="string">"chapter-4.json"</span>,</span><br><span class="line">    <span class="string">"chapter-5.json"</span></span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="forEach的坑"><a href="#forEach的坑" class="headerlink" title="forEach的坑"></a>forEach的坑</h3><p>首先想到forEach</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">getJSON(<span class="string">'story.json'</span>)</span><br><span class="line">.then(<span class="function"><span class="keyword">function</span>(<span class="params">res</span>)</span>&#123;</span><br><span class="line">    <span class="comment">// return res.chapterUrls.forEach(url=&gt;getJSON(url).then(content=&gt;addToHtml(content)))</span></span><br><span class="line">    <span class="comment">// 还记得单参数的事吧</span></span><br><span class="line">    <span class="keyword">return</span> res.chapterUrls.forEach(<span class="function"><span class="params">url</span>=&gt;</span>getJSON(url).then(addToHtml))</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>这里的坑在于发出请求了,但是因为响应时间不一定,所以插入的时候可能章节2在章节1前面</p>
+<h3 id="用用map和Promise-all"><a href="#用用map和Promise-all" class="headerlink" title="用用map和Promise.all"></a>用用map和Promise.all</h3><p>组成一个promise的数组,等到都下载都完成了再添加到html中.<br>Promise.all就是所有promise都变成fulfilled状态了才继续.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">getJSON(<span class="string">'story.json'</span>)</span><br><span class="line">.then(<span class="function"><span class="keyword">function</span>(<span class="params">res</span>)</span>&#123;</span><br><span class="line">    <span class="comment">// return res.chapterUrls.forEach(url=&gt;getJSON(url).then(content=&gt;addToHtml(content)))</span></span><br><span class="line">    <span class="comment">// 还记得单参数的事吧</span></span><br><span class="line">    <span class="comment">// return Promise.all(res.chapterUrls.map(url=&gt;getJSON(url)))</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Promise</span>.all(res.chapterUrls.map(getJSON))</span><br><span class="line">&#125;)</span><br><span class="line">.then(<span class="function"><span class="keyword">function</span>(<span class="params">resArr</span>)</span>&#123;</span><br><span class="line">    <span class="comment">// resArr.forEach(charter=&gt;addToHtml(charter))</span></span><br><span class="line">    resArr.forEach(addToHtml)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>但这里还有个不尽如人意的地方,就是虽然并发请求,但是等到所有请求结果了才继续下一步,理想情况是章节1结果来了直接显示,章节2结果来了只要章节1来了就可以显示,以此类推</p>
+<h3 id="用用迭代"><a href="#用用迭代" class="headerlink" title="用用迭代"></a>用用迭代</h3><p>先说说简单的迭代<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>]</span><br><span class="line"><span class="keyword">var</span> sum</span><br><span class="line">arr.forEach(<span class="function"><span class="params">item</span>=&gt;</span>sum+=item)</span><br><span class="line"><span class="comment">// 每经过一项就进行加,变成新的sum</span></span><br><span class="line">arr.reduce(<span class="function">(<span class="params">sum,item</span>)=&gt;</span>(sum+item),sum)</span><br></pre></td></tr></table></figure></p>
+<p>这里针对请求可以这样</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> sequence = <span class="built_in">Promise</span>.resolve()</span><br><span class="line">getJSON(<span class="string">'story.json'</span>)</span><br><span class="line">.then(<span class="function"><span class="keyword">function</span>(<span class="params">res</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> res.chapterUrls.map(getJSON).then(<span class="function"><span class="keyword">function</span>(<span class="params">promiseArr</span>)</span>&#123;</span><br><span class="line">        promiseArr.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">promise</span>)</span>&#123;</span><br><span class="line">            <span class="comment">// 第一个promise变成fulfilled之后就添加到html</span></span><br><span class="line">            <span class="comment">// 此时sequence变成以下,只有then的状态完成了才能继续下一个addToHtml</span></span><br><span class="line">            sequence = sequence.then(<span class="function"><span class="keyword">function</span>(<span class="params">promise</span>)</span>&#123;</span><br><span class="line">                <span class="keyword">return</span> promise</span><br><span class="line">            &#125;).then(addToHtml)</span><br><span class="line">        &#125;)</span><br><span class="line">        </span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>用reduce改写下<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">getJSON(<span class="string">'story.json'</span>)</span><br><span class="line">.then(<span class="function"><span class="keyword">function</span>(<span class="params">res</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> res.chapterUrls.map(getJSON).then(<span class="function"><span class="keyword">function</span>(<span class="params">promiseArr</span>)</span>&#123;</span><br><span class="line">        promiseArr.reduce(<span class="function"><span class="keyword">function</span>(<span class="params">sequence,promise</span>)</span>&#123;</span><br><span class="line">            <span class="comment">// 第一个promise变成fulfilled之后就添加到html</span></span><br><span class="line">            <span class="comment">// 此时sequence变成以下,只有then的状态完成了才能继续下一个addToHtml</span></span><br><span class="line">            <span class="keyword">return</span> sequence.then(<span class="function"><span class="keyword">function</span>(<span class="params">promise</span>)</span>&#123;</span><br><span class="line">                <span class="keyword">return</span> promise</span><br><span class="line">            &#125;).then(addToHtml)</span><br><span class="line">        &#125;,<span class="built_in">Promise</span>.resolve())</span><br><span class="line">        </span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<h2 id="以上来源于google的文档"><a href="#以上来源于google的文档" class="headerlink" title="以上来源于google的文档"></a>以上来源于google的文档</h2><p>可以看<a href="https://developers.google.cn/web/fundamentals/primers/promises#xmlhttprequest_promise" target="_blank" rel="noopener">google的文档</a>.<br><a href="https://github.com/googlesamples/web-fundamentals/tree/gh-pages/fundamentals/primers" target="_blank" rel="noopener">例子在github</a></p>
+<p>说下小白的步步操作</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/googlesamples/web-fundamentals</span><br><span class="line">cd web-fundamentals</span><br><span class="line">npm install anywhere -g</span><br><span class="line">anywhere</span><br><span class="line"><span class="meta">#</span> 点击具体的文件就可以看到效果了如async-best-example.html</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/06/cnzz/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1624,179 +1634,6 @@
 </ol>
 <h2 id="改进的代码"><a href="#改进的代码" class="headerlink" title="改进的代码"></a>改进的代码</h2><p>因为经常在测试和正式环境切换,而且每次加css样式隐藏图标也是神烦. 稍微改进一丢丢.</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * cnzz数据统计</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">var</span> isProduction = <span class="regexp">/正式域名/</span>.test(<span class="built_in">window</span>.location.href)</span><br><span class="line"><span class="comment">// !!!域名和脚本id必须一一对应</span></span><br><span class="line"><span class="keyword">var</span> productionCnzzId = <span class="string">'12899668'</span></span><br><span class="line"><span class="keyword">var</span> testCnzzId = <span class="string">'126326337'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> statScript = <span class="built_in">document</span>.body.appendChild(<span class="built_in">document</span>.createElement(<span class="string">'script'</span>))</span><br><span class="line">statScript.src = isProduction ? (<span class="string">'//s22.cnzz.com/z_stat.php?id='</span>+productionCnzzId+<span class="string">'&amp;web_id='</span>+productionCnzzId) : (<span class="string">'//s22.cnzz.com/z_stat.php?id='</span>+testCnzzId+<span class="string">'&amp;web_id='</span>+testCnzzId)</span><br><span class="line">setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 用延时是因为cnzz脚本插入需要时间</span></span><br><span class="line">    statScript.onload = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="comment">// 隐藏统计字</span></span><br><span class="line">        <span class="built_in">document</span>.querySelector(<span class="string">'a[title="站长统计"]'</span>).style.cssText = <span class="string">'position: absolute; visibility: hidden; bottom: 0; z-index: -1;'</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;, <span class="number">1000</span>)</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/06/promise2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2018/09/06/promise2/" itemprop="url">
-                  promise再总结总结
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-06T09:58:54+08:00">
-                2018-09-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/09/06/promise2/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/09/06/promise2/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="promise"><a href="#promise" class="headerlink" title="promise"></a>promise</h1><p>语法:</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve, reject</span>) </span>&#123;&#125;);</span><br></pre></td></tr></table></figure>
-<h2 id="请求"><a href="#请求" class="headerlink" title="请求"></a>请求</h2><p>对XHPHttpRequest的封装<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">get</span>(<span class="params">url</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// Return a new promise.</span></span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve, reject</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// Do the usual XHR stuff</span></span><br><span class="line">    <span class="keyword">var</span> req = <span class="keyword">new</span> XMLHttpRequest();</span><br><span class="line">    req.open(<span class="string">'GET'</span>, url);</span><br><span class="line"></span><br><span class="line">    req.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="comment">// This is called even on 404 etc</span></span><br><span class="line">      <span class="comment">// so check the status</span></span><br><span class="line">      <span class="keyword">if</span> (req.status == <span class="number">200</span>) &#123;</span><br><span class="line">        <span class="comment">// Resolve the promise with the response text</span></span><br><span class="line">        resolve(req.response);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// Otherwise reject with the status text</span></span><br><span class="line">        <span class="comment">// which will hopefully be a meaningful error</span></span><br><span class="line">        reject(<span class="built_in">Error</span>(req.statusText));</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Handle network errors</span></span><br><span class="line">    req.onerror = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      reject(<span class="built_in">Error</span>(<span class="string">"Network Error"</span>));</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Make the request</span></span><br><span class="line">    req.send();</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>改良版:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">get</span>(<span class="params">url</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> fetch(url)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getJSON</span>(<span class="params">url</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> get(url).then(<span class="function"><span class="keyword">function</span>(<span class="params">response</span>)</span>&#123;response.json()&#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h2 id="回调函数单参数的处理"><a href="#回调函数单参数的处理" class="headerlink" title="回调函数单参数的处理"></a>回调函数单参数的处理</h2><p>比如:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">oneParam</span>(<span class="params">data</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> data.toString()</span><br><span class="line">&#125;</span><br><span class="line">getJSON(url1).then(<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> oneParam(data)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// 简化为,接下去的值就是oneParam(data)</span></span><br><span class="line">getJSON(url1).then(oneParam)</span><br></pre></td></tr></table></figure></p>
-<h2 id="扩充下回调函数参数个数的问题"><a href="#扩充下回调函数参数个数的问题" class="headerlink" title="扩充下回调函数参数个数的问题"></a>扩充下回调函数参数个数的问题</h2><p>其实遇到回调函数有时候自带参数,有时候不带参数,有时候有一个参数,有时候有多个参数</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params">fn</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> fn()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>仔细看上面的,其实 <code>a(fn)</code>等价于<code>fn()</code></p>
-<p>常用在数组里</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line">arr.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">item</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(item)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">log</span>(<span class="params">item</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> item ++</span><br><span class="line">&#125;</span><br><span class="line">arr.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">item</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> log(item)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// 简化为</span></span><br><span class="line">arr.forEach(log)</span><br><span class="line"><span class="comment">// 同理</span></span><br><span class="line">arr.map(log)</span><br></pre></td></tr></table></figure>
-<h2 id="并发请求的处理"><a href="#并发请求的处理" class="headerlink" title="并发请求的处理"></a>并发请求的处理</h2><p>假设story.json的内容是<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">"heading"</span>: <span class="string">"&lt;h1&gt;A story about something&lt;/h1&gt;"</span>,</span><br><span class="line">  <span class="string">"chapterUrls"</span>: [</span><br><span class="line">    <span class="string">"chapter-1.json"</span>,</span><br><span class="line">    <span class="string">"chapter-2.json"</span>,</span><br><span class="line">    <span class="string">"chapter-3.json"</span>,</span><br><span class="line">    <span class="string">"chapter-4.json"</span>,</span><br><span class="line">    <span class="string">"chapter-5.json"</span></span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h3 id="forEach的坑"><a href="#forEach的坑" class="headerlink" title="forEach的坑"></a>forEach的坑</h3><p>首先想到forEach</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">getJSON(<span class="string">'story.json'</span>)</span><br><span class="line">.then(<span class="function"><span class="keyword">function</span>(<span class="params">res</span>)</span>&#123;</span><br><span class="line">    <span class="comment">// return res.chapterUrls.forEach(url=&gt;getJSON(url).then(content=&gt;addToHtml(content)))</span></span><br><span class="line">    <span class="comment">// 还记得单参数的事吧</span></span><br><span class="line">    <span class="keyword">return</span> res.chapterUrls.forEach(<span class="function"><span class="params">url</span>=&gt;</span>getJSON(url).then(addToHtml))</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<p>这里的坑在于发出请求了,但是因为响应时间不一定,所以插入的时候可能章节2在章节1前面</p>
-<h3 id="用用map和Promise-all"><a href="#用用map和Promise-all" class="headerlink" title="用用map和Promise.all"></a>用用map和Promise.all</h3><p>组成一个promise的数组,等到都下载都完成了再添加到html中.<br>Promise.all就是所有promise都变成fulfilled状态了才继续.</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">getJSON(<span class="string">'story.json'</span>)</span><br><span class="line">.then(<span class="function"><span class="keyword">function</span>(<span class="params">res</span>)</span>&#123;</span><br><span class="line">    <span class="comment">// return res.chapterUrls.forEach(url=&gt;getJSON(url).then(content=&gt;addToHtml(content)))</span></span><br><span class="line">    <span class="comment">// 还记得单参数的事吧</span></span><br><span class="line">    <span class="comment">// return Promise.all(res.chapterUrls.map(url=&gt;getJSON(url)))</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Promise</span>.all(res.chapterUrls.map(getJSON))</span><br><span class="line">&#125;)</span><br><span class="line">.then(<span class="function"><span class="keyword">function</span>(<span class="params">resArr</span>)</span>&#123;</span><br><span class="line">    <span class="comment">// resArr.forEach(charter=&gt;addToHtml(charter))</span></span><br><span class="line">    resArr.forEach(addToHtml)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<p>但这里还有个不尽如人意的地方,就是虽然并发请求,但是等到所有请求结果了才继续下一步,理想情况是章节1结果来了直接显示,章节2结果来了只要章节1来了就可以显示,以此类推</p>
-<h3 id="用用迭代"><a href="#用用迭代" class="headerlink" title="用用迭代"></a>用用迭代</h3><p>先说说简单的迭代<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>]</span><br><span class="line"><span class="keyword">var</span> sum</span><br><span class="line">arr.forEach(<span class="function"><span class="params">item</span>=&gt;</span>sum+=item)</span><br><span class="line"><span class="comment">// 每经过一项就进行加,变成新的sum</span></span><br><span class="line">arr.reduce(<span class="function">(<span class="params">sum,item</span>)=&gt;</span>(sum+item),sum)</span><br></pre></td></tr></table></figure></p>
-<p>这里针对请求可以这样</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> sequence = <span class="built_in">Promise</span>.resolve()</span><br><span class="line">getJSON(<span class="string">'story.json'</span>)</span><br><span class="line">.then(<span class="function"><span class="keyword">function</span>(<span class="params">res</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> res.chapterUrls.map(getJSON).then(<span class="function"><span class="keyword">function</span>(<span class="params">promiseArr</span>)</span>&#123;</span><br><span class="line">        promiseArr.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">promise</span>)</span>&#123;</span><br><span class="line">            <span class="comment">// 第一个promise变成fulfilled之后就添加到html</span></span><br><span class="line">            <span class="comment">// 此时sequence变成以下,只有then的状态完成了才能继续下一个addToHtml</span></span><br><span class="line">            sequence = sequence.then(<span class="function"><span class="keyword">function</span>(<span class="params">promise</span>)</span>&#123;</span><br><span class="line">                <span class="keyword">return</span> promise</span><br><span class="line">            &#125;).then(addToHtml)</span><br><span class="line">        &#125;)</span><br><span class="line">        </span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<p>用reduce改写下<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">getJSON(<span class="string">'story.json'</span>)</span><br><span class="line">.then(<span class="function"><span class="keyword">function</span>(<span class="params">res</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> res.chapterUrls.map(getJSON).then(<span class="function"><span class="keyword">function</span>(<span class="params">promiseArr</span>)</span>&#123;</span><br><span class="line">        promiseArr.reduce(<span class="function"><span class="keyword">function</span>(<span class="params">sequence,promise</span>)</span>&#123;</span><br><span class="line">            <span class="comment">// 第一个promise变成fulfilled之后就添加到html</span></span><br><span class="line">            <span class="comment">// 此时sequence变成以下,只有then的状态完成了才能继续下一个addToHtml</span></span><br><span class="line">            <span class="keyword">return</span> sequence.then(<span class="function"><span class="keyword">function</span>(<span class="params">promise</span>)</span>&#123;</span><br><span class="line">                <span class="keyword">return</span> promise</span><br><span class="line">            &#125;).then(addToHtml)</span><br><span class="line">        &#125;,<span class="built_in">Promise</span>.resolve())</span><br><span class="line">        </span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
-<h2 id="以上来源于google的文档"><a href="#以上来源于google的文档" class="headerlink" title="以上来源于google的文档"></a>以上来源于google的文档</h2><p>可以看<a href="https://developers.google.cn/web/fundamentals/primers/promises#xmlhttprequest_promise" target="_blank" rel="noopener">google的文档</a>.<br><a href="https://github.com/googlesamples/web-fundamentals/tree/gh-pages/fundamentals/primers" target="_blank" rel="noopener">例子在github</a></p>
-<p>说下小白的步步操作</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/googlesamples/web-fundamentals</span><br><span class="line">cd web-fundamentals</span><br><span class="line">npm install anywhere -g</span><br><span class="line">anywhere</span><br><span class="line"><span class="meta">#</span> 点击具体的文件就可以看到效果了如async-best-example.html</span><br></pre></td></tr></table></figure>
 
           
         
@@ -2008,6 +1845,202 @@
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/22/useZipInWindow/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/01/22/useZipInWindow/" itemprop="url">
+                  window中使用zip命令
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-22T16:37:07+08:00">
+                2018-01-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux命令/" itemprop="url" rel="index">
+                    <span itemprop="name">linux命令</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/01/22/useZipInWindow/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/01/22/useZipInWindow/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="安装和配置zip"><a href="#安装和配置zip" class="headerlink" title="安装和配置zip"></a>安装和配置zip</h1><ol>
+<li>zip命令原作者告知需要<a href="http://gnuwin32.sourceforge.net/downlinks/zip.php" target="_blank" rel="noopener">安装zip命令</a>,点击链接下载安装</li>
+<li>记得安装路径,win7默认是<code>C:\Program Files\GnuWin32</code></li>
+<li>在<code>我的电脑右键属性-》高级-》环境变量-》系统变量-》选择Path -》编辑</code>,尾部增加<code>;C:\Program Files\GnuWin32\bin;</code>即可</li>
+<li>最后别忘了重启电脑</li>
+</ol>
+<h2 id="zip的命令"><a href="#zip的命令" class="headerlink" title="zip的命令"></a>zip的命令</h2><p>打包并压缩成文件名为 .zip 的文件<code>zip [-选项] [文件名.zip] [文件名]</code></p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>demo</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>无参数</td>
+<td><code>zip new1.zip my1\*.doc</code></td>
+<td>把所有 my1*.doc 的文件打包成一个 new1.zip文件。new1.zip 可以省略扩展名简写成 new1，它会自行默认 .zip 的扩展名。</td>
+</tr>
+<tr>
+<td>-d</td>
+<td><code>zip -d new1.zip my18.doc</code></td>
+<td>如果当初my18.doc 是压缩在 new1.zip 中的一个文件，现在这条命令把它从压缩文件中抽走并删掉。-d 是删除的意思。</td>
+</tr>
+<tr>
+<td>-g</td>
+<td><code>zip -g new1.zip my32.doc</code></td>
+<td>如果当初并没有把 my32.doc 压在 new1.zip 里面，现在把它加进去。-g 选项是增加而不要重新产生的意思（grow，长大，这个字母用得比较特别一点）。</td>
+</tr>
+<tr>
+<td>-u</td>
+<td><code>zip -u new1.zip my2*.doc</code></td>
+<td>如果当初 my2*.doc都已经压缩进 new1.zip 里面了，但是后来 my2*.doc中有几个文件有更改，又不想去找出到底是哪些文件更改了，这条命令请系统自行帮助检查，更改过的才更新到压缩，否则就不必动。-u 是更新的意思。</td>
+</tr>
+<tr>
+<td>-r</td>
+<td><code>zip -r new2.zip mydir</code></td>
+<td>如果 mydir 是一个目录名称，它会把整个目录的所有文件压缩成一个 new2.zip 文件。-r 选项是压缩子目录的意思。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="unzip的命令"><a href="#unzip的命令" class="headerlink" title="unzip的命令"></a>unzip的命令</h2><p>我觉得常用的<code>unzip x.zip</code>解压到当前文件夹,<code>unzip x.zip -d 新的目录</code> 解压到指定目录</p>
+<blockquote>
+<p><a href="https://www.zhihu.com/question/39964192" target="_blank" rel="noopener">知乎上的回答</a><br><a href="http://blog.csdn.net/jlnhyd/article/details/3956407" target="_blank" rel="noopener">zip压缩命令</a></p>
+</blockquote>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
   </section>
 
   
@@ -2057,7 +2090,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">69</span>
+                <span class="site-state-item-count">68</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
