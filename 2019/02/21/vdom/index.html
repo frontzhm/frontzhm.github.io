@@ -95,7 +95,7 @@
 <meta property="og:site_name" content="花花的博客">
 <meta property="og:description" content="TL;DR vdom就是用js虚拟真实的dom，以此尽量减少不必要的dom操作，提高效率 用库使用vdom，拿snabbdom库举例说，核心api是h和patch，h(&amp;#39;div#container.two.classes&amp;#39;, {on: {click: someFn}},[h(&amp;#39;span&amp;#39;, {style: {fontWeight: &amp;#39;bold&amp;#39;}},">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-02-21T07:04:40.014Z">
+<meta property="og:updated_time" content="2019-04-28T08:47:20.519Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="入门理解虚拟DOM以及diff算法的核心">
 <meta name="twitter:description" content="TL;DR vdom就是用js虚拟真实的dom，以此尽量减少不必要的dom操作，提高效率 用库使用vdom，拿snabbdom库举例说，核心api是h和patch，h(&amp;#39;div#container.two.classes&amp;#39;, {on: {click: someFn}},[h(&amp;#39;span&amp;#39;, {style: {fontWeight: &amp;#39;bold&amp;#39;}},">
@@ -368,9 +368,10 @@
         <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
 <li>vdom就是用js虚拟真实的dom，以此尽量减少不必要的dom操作，提高效率</li>
 <li>用库使用vdom，拿snabbdom库举例说，核心api是h和patch，<code>h(&#39;div#container.two.classes&#39;, {on: {click: someFn}},[h(&#39;span&#39;, {style: {fontWeight: &#39;bold&#39;}}, &#39;This is bold&#39;)])</code>和<code>patch(container,vnode)</code></li>
-<li>diff算法就是vdom找到需要更新节点的过程</li>
+<li>diff算法就是vdom找到需要更新节点的过程<a id="more"></a>
+<h2 id="废话"><a href="#废话" class="headerlink" title="废话"></a>废话</h2></li>
 </ul>
-<h2 id="废话"><a href="#废话" class="headerlink" title="废话"></a>废话</h2><p>开始接触虚拟dom的时候，觉得，我[略]，什么玩意，很天书啊，=。=<br>其实真正接触的时候，哦，马马虎虎，还能接受吧，反正我只是简单理解核心概念，哈哈哈，源码依旧是天书~<br>嗯呐，这边，我也是说下核心的一些概念吧，不追究细节哈，主要是为（wo）你(ye)们(bu)节(qing)省(chu)时(xi)间(jie)~<br>此文也是我接触不深的情况下写的，仅仅为了促进入门~  </p>
+<p>开始接触虚拟dom的时候，觉得，我[略]，什么玩意，很天书啊，=。=<br>其实真正接触的时候，哦，马马虎虎，还能接受吧，反正我只是简单理解核心概念，哈哈哈，源码依旧是天书~<br>嗯呐，这边，我也是说下核心的一些概念吧，不追究细节哈，主要是为（wo）你(ye)们(bu)节(qing)省(chu)时(xi)间(jie)~<br>此文也是我接触不深的情况下写的，仅仅为了促进入门~  </p>
 <h2 id="vdom是什么？为什么会存在vdom"><a href="#vdom是什么？为什么会存在vdom" class="headerlink" title="vdom是什么？为什么会存在vdom"></a>vdom是什么？为什么会存在vdom</h2><p>dom都知道是啥哈，虚拟dom字面理解那就是虚的嘛，英文virtual dom，简称vdom，嗯，定义介绍完了~  </p>
 <p>你说好好的dom，干嘛弄个虚拟的，主要是因为真实的dom节点属性很多，而且dom操作很昂贵（就是耗性能），所以一般尽量能减少dom操作就减少，于是用js模拟真实dom，找出真正需要操作的部分然后再进行操作比较高效。  </p>
 <p>vdom比较独立哈，独立到它自己就是一个库，用它就是模拟真实dom，减少不必要的dom操作的，后面会介绍怎么使用~  </p>
@@ -545,7 +546,7 @@
             
             <div class="site-state-item site-state-categories">
               
-                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-count">23</span>
                 <span class="site-state-item-name">分类</span>
               
             </div>
@@ -556,7 +557,7 @@
             
             <div class="site-state-item site-state-tags">
               
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">标签</span>
               
             </div>
