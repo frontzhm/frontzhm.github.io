@@ -95,7 +95,7 @@
 <meta property="og:site_name" content="花花的博客">
 <meta property="og:description" content="末尾watch的例子很有意义 class常用的处理方式 列表渲染的时候注意key 事件处理的时候，可以有修饰符 表单输入绑定，语法糖的区别 组件的基本使用">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-05-05T03:44:36.565Z">
+<meta property="og:updated_time" content="2019-05-05T03:45:14.293Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="vue基础篇">
 <meta name="twitter:description" content="末尾watch的例子很有意义 class常用的处理方式 列表渲染的时候注意key 事件处理的时候，可以有修饰符 表单输入绑定，语法糖的区别 组件的基本使用">
@@ -409,7 +409,13 @@
 <li>修饰符：参数后面用<code>.</code>指明的特殊后缀<code>&lt;form v-on:submit.prevent=&quot;onSubmit&quot;&gt;</code></li>
 <li>缩写：<code>&lt;a :href=&quot;url&quot; @click=&quot;fn&quot;&gt;</code></li>
 </ul>
-<h2 id="计算属性和侦听器"><a href="#计算属性和侦听器" class="headerlink" title="计算属性和侦听器"></a>计算属性和侦听器</h2><h2 id="class和style的绑定"><a href="#class和style的绑定" class="headerlink" title="class和style的绑定"></a>class和style的绑定</h2><p>class和style是属性，通过<code>v-bind</code>动态修改，另一方面，vue做了增强，表达式除了是字符串还可以是<code>数组或对象</code></p>
+<h2 id="计算属性和侦听器"><a href="#计算属性和侦听器" class="headerlink" title="计算属性和侦听器"></a>计算属性和侦听器</h2><ul>
+<li>computed以声明的方式创建依赖关系，基于依赖关系进行缓存，只有依赖发生变化才会重新求值，如果单纯的方法的话，只要出现就会执行函数。如果没有依赖关系，直接用<code>method</code>比如</li>
+<li>computed默认只有getter，但可以设置setter，当<code>vm.fullName=&#39;zhang huahua&#39;</code>被赋值的时候，setter就会调用</li>
+<li>watch侦听器：根据数据变动而变动，同步的情况尽量用<code>computed</code>，但是异步或者开销大的操作可以用watch</li>
+<li>官网很棒的一个watch的例子，<a href="https://cn.vuejs.org/v2/guide/computed.html#%E4%BE%A6%E5%90%AC%E5%99%A8" target="_blank" rel="noopener">附在文尾</a></li>
+</ul>
+<h2 id="class和style的绑定"><a href="#class和style的绑定" class="headerlink" title="class和style的绑定"></a>class和style的绑定</h2><p>class和style是属性，通过<code>v-bind</code>动态修改，另一方面，vue做了增强，表达式除了是字符串还可以是<code>数组或对象</code></p>
 <ul>
 <li>class对象的时候：<code>:class=&quot;{ active: isActive,&#39;text-danger&#39;: hasError }&quot;</code>，isActive为true则类名存在，当然也可以<code>classObj:{ active: true,&#39;text-danger&#39;: false }</code>定义在data里，但是常用的是定义在computed里！</li>
 </ul>
