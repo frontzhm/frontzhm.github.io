@@ -95,7 +95,7 @@
 <meta property="og:site_name" content="花花的博客">
 <meta property="og:description" content="末尾watch的例子很有意义 class常用的处理方式 列表渲染的时候注意key 事件处理的时候，可以有修饰符 表单输入绑定，语法糖的区别 组件的基本使用">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-05-05T03:39:09.346Z">
+<meta property="og:updated_time" content="2019-05-05T03:39:32.911Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="vue基础篇">
 <meta name="twitter:description" content="末尾watch的例子很有意义 class常用的处理方式 列表渲染的时候注意key 事件处理的时候，可以有修饰符 表单输入绑定，语法糖的区别 组件的基本使用">
@@ -374,6 +374,21 @@
 <li>组件的基本使用<a id="more"></a>
 </li>
 </ul>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><ul>
+<li>vue兼容版本 大于等于 ie9</li>
+<li>最新稳定版2.6.6（2019-05-05）</li>
+<li>调试工具：浏览器安装<a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">Vue devtools</a>，控制台跟console同tab</li>
+<li>最新版本<code>&lt;script src=&quot;https://cdn.jsdelivr.net/npm/vue&quot;&gt;&lt;/script&gt;</code></li>
+<li>声明版本<code>&lt;script src=&quot;https://cdn.jsdelivr.net/npm/vue@2.6.6/dist/vue.js&quot;&gt;&lt;/script&gt;</code>，生产加<code>min.js</code></li>
+<li>编译器就是template字符串变成js的render函数的代码</li>
+<li>wepack4.0可以配置<code>mode:&#39;production&#39;</code></li>
+</ul>
+<h2 id="介绍-vue核心也是最基本的功能"><a href="#介绍-vue核心也是最基本的功能" class="headerlink" title="介绍-vue核心也是最基本的功能"></a>介绍-vue核心也是最基本的功能</h2><ul>
+<li>声明式渲染：采用简洁的模板语法来声明式地将数据渲染进 DOM 的系统。（<code></code>）,数据也可以绑定在属性上，<code>&lt;span v-bind:title=&quot;message&quot;&gt;</code></li>
+<li>条件和循环：数据除了能绑定到DOM文本或者属性，还能绑定到DOM结构，<code>v-if、v-for</code>，可以添加过渡效果</li>
+<li>处理用户输入：<code>v-on、v-model</code></li>
+<li>组件化应用构建：将应用想象成组件树</li>
+</ul>
 
       
     </div>
@@ -469,8 +484,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="http://omizt4opc.bkt.clouddn.com/avatar.jpg"
@@ -532,6 +556,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#介绍-vue核心也是最基本的功能"><span class="nav-number">2.</span> <span class="nav-text">介绍-vue核心也是最基本的功能</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
