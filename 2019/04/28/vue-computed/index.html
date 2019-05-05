@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="js," />
+  <meta name="keywords" content="vue," />
 
 
 
@@ -87,18 +87,18 @@
 
 
 
-<meta name="description" content="oss的好处刚接触的oss，很多东西不清楚，这篇仅为了记录以及加强理解，如有不对之处，欢迎指正。 oss我目前知道的好处有两个:  静态资源生成链接，静态网站可以进行托管 用户可以上传图片到这里,从而节约自己服务器的存储空间  oss的简单使用流程 阿里云的官网注册账号 点击这里开通对象存储 新建bucket js直传的介绍和下载源码 得到accessKeys 设置可跨域 可以直接在控制台上传文件">
-<meta name="keywords" content="js">
+<meta name="description" content="TL;DR watch的优势在异步 computed的get的触发，是在页面有属性(fullName)且依赖的属性值(firstName)变化的时候。常常的应用场景是，某值是随着某某值变化而变化，特别像函数的y与x computed的set的触发，是在属性(fullName)直接发生变化的时候。常常的应用场景就是表单元素绑定属性(fullName)，用户交互变化属性值的时候，进而也影响到其依赖的属">
+<meta name="keywords" content="vue">
 <meta property="og:type" content="article">
-<meta property="og:title" content="oss的初接触">
-<meta property="og:url" content="http://yoursite.com/2018/01/26/ossGuide/index.html">
+<meta property="og:title" content="computed的get和set用法">
+<meta property="og:url" content="http://yoursite.com/2019/04/28/vue-computed/index.html">
 <meta property="og:site_name" content="花花的博客">
-<meta property="og:description" content="oss的好处刚接触的oss，很多东西不清楚，这篇仅为了记录以及加强理解，如有不对之处，欢迎指正。 oss我目前知道的好处有两个:  静态资源生成链接，静态网站可以进行托管 用户可以上传图片到这里,从而节约自己服务器的存储空间  oss的简单使用流程 阿里云的官网注册账号 点击这里开通对象存储 新建bucket js直传的介绍和下载源码 得到accessKeys 设置可跨域 可以直接在控制台上传文件">
+<meta property="og:description" content="TL;DR watch的优势在异步 computed的get的触发，是在页面有属性(fullName)且依赖的属性值(firstName)变化的时候。常常的应用场景是，某值是随着某某值变化而变化，特别像函数的y与x computed的set的触发，是在属性(fullName)直接发生变化的时候。常常的应用场景就是表单元素绑定属性(fullName)，用户交互变化属性值的时候，进而也影响到其依赖的属">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-26T10:38:13.642Z">
+<meta property="og:updated_time" content="2019-05-05T03:46:31.882Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="oss的初接触">
-<meta name="twitter:description" content="oss的好处刚接触的oss，很多东西不清楚，这篇仅为了记录以及加强理解，如有不对之处，欢迎指正。 oss我目前知道的好处有两个:  静态资源生成链接，静态网站可以进行托管 用户可以上传图片到这里,从而节约自己服务器的存储空间  oss的简单使用流程 阿里云的官网注册账号 点击这里开通对象存储 新建bucket js直传的介绍和下载源码 得到accessKeys 设置可跨域 可以直接在控制台上传文件">
+<meta name="twitter:title" content="computed的get和set用法">
+<meta name="twitter:description" content="TL;DR watch的优势在异步 computed的get的触发，是在页面有属性(fullName)且依赖的属性值(firstName)变化的时候。常常的应用场景是，某值是随着某某值变化而变化，特别像函数的y与x computed的set的触发，是在属性(fullName)直接发生变化的时候。常常的应用场景就是表单元素绑定属性(fullName)，用户交互变化属性值的时候，进而也影响到其依赖的属">
 
 
 
@@ -126,13 +126,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/01/26/ossGuide/"/>
+  <link rel="canonical" href="http://yoursite.com/2019/04/28/vue-computed/"/>
 
 
 
 
 
-  <title> oss的初接触 | 花花的博客 </title>
+  <title> computed的get和set用法 | 花花的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -261,7 +261,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/26/ossGuide/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/28/vue-computed/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="frontzhm">
@@ -282,7 +282,7 @@
             
             
               
-                oss的初接触
+                computed的get和set用法
               
             
           </h2>
@@ -297,8 +297,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-26T18:38:13+08:00">
-                2018-01-26
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-28T17:26:13+08:00">
+                2019-04-28
               </time>
             
 
@@ -320,8 +320,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
+                  <a href="/categories/vue/" itemprop="url" rel="index">
+                    <span itemprop="name">vue</span>
                   </a>
                 </span>
 
@@ -338,8 +338,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/01/26/ossGuide/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/01/26/ossGuide/" itemprop="commentCount"></span>
+                <a href="/2019/04/28/vue-computed/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/04/28/vue-computed/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -365,36 +365,33 @@
       
 
       
-        <h1 id="oss的好处"><a href="#oss的好处" class="headerlink" title="oss的好处"></a>oss的好处</h1><p>刚接触的oss，很多东西不清楚，这篇仅为了记录以及加强理解，如有不对之处，欢迎指正。</p>
-<p>oss我目前知道的好处有两个:</p>
-<ol>
-<li>静态资源生成链接，静态网站可以进行托管</li>
-<li>用户可以上传图片到这里,从而节约自己服务器的存储空间</li>
-</ol>
-<h2 id="oss的简单使用流程"><a href="#oss的简单使用流程" class="headerlink" title="oss的简单使用流程"></a>oss的简单使用流程</h2><ol>
-<li><a href="https://www.aliyun.com/?spm=5176.8466032.0.0.1547dd226xaauo" target="_blank" rel="noopener">阿里云的官网</a>注册账号</li>
-<li>点击这里<a href="http://omizt4opc.bkt.clouddn.com/ossSavePath.png" target="_blank" rel="noopener">开通对象存储</a></li>
-<li><a href="http://omizt4opc.bkt.clouddn.com/newBucket.png" target="_blank" rel="noopener">新建bucket</a></li>
-<li><a href="https://help.aliyun.com/document_detail/31925.html?spm=5176.doc31923.6.635.Vkezrm" target="_blank" rel="noopener">js直传的介绍</a>和<a href="https://docs-aliyun.cn-hangzhou.oss.aliyun-inc.com/internal/oss/0.0.4/assets/sample/oss-h5-upload-js-direct.zip?spm=5176.doc31925.2.6.VaGr7O&amp;file=oss-h5-upload-js-direct.zip" target="_blank" rel="noopener">下载源码</a></li>
-<li><a href="http://omizt4opc.bkt.clouddn.com/ossKeys.png" target="_blank" rel="noopener">得到accessKeys</a></li>
-<li><a href="http://omizt4opc.bkt.clouddn.com/osssCross.png" target="_blank" rel="noopener">设置可跨域</a></li>
-<li><a href="http://omizt4opc.bkt.clouddn.com/ossLink.png" target="_blank" rel="noopener">可以直接在控制台上传文件</a>，在右边的设置里就可以看到链接如<code>http://hanfiles.oss-cn-beijing.aliyuncs.com/3.jpg</code></li>
-<li>打开刚下载的源码，打开<code>upload.js</code>，设置成自己的，比如我的host就是<code>http://hanfiles.oss-cn-beijing.aliyuncs.com</code>，然后在浏览器中打开<code>index.html</code>，点击选择图片 =》 上传图片，然后在控制台里看，就发现图片上传上去了~实际生产情况，一般是前端不公开accessId和key，又后端处理，具体参照官网。</li>
-</ol>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">accessid= <span class="string">'6MKOqxGiGU4AUk44'</span>;</span><br><span class="line">accesskey= <span class="string">'ufu7nS8kS59awNihtjSonMETLI0KLy'</span>;</span><br><span class="line">host = <span class="string">'http://post-test.oss-cn-hangzhou.aliyuncs.com'</span>;</span><br></pre></td></tr></table></figure>
-<p>付费情况我没具体细究，但好像看到如果每小时访问量低于万次应该是不收费的，估摸着我的也不会超过十次=。=</p>
-<h2 id="使用ossUpload"><a href="#使用ossUpload" class="headerlink" title="使用ossUpload"></a>使用ossUpload</h2><p><a href="https://github.com/aliyun-UED/oss-js-upload" target="_blank" rel="noopener">官方demo</a>，<a href="https://github.com/frontzhm/ossUpload" target="_blank" rel="noopener">我自己的demo</a></p>
-<ul>
-<li><a href="https://ram.console.aliyun.com/#/notActive" target="_blank" rel="noopener">开通RAM</a></li>
-<li>打开 RAM 控制台</li>
-<li>新建一个用户</li>
-<li>为用户添加 AliyunSTSAssumeRoleAccess 权限</li>
-<li>为用户创建一对 AK, 记录下这个 AK, 控制台不会为你保存</li>
-<li>新建一个角色</li>
-<li>为角色添加 AliyunOSSFullAccess 权限, 记录下角色 ARN</li>
+        <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
+<li>watch的优势在异步</li>
+<li>computed的get的触发，是在页面有属性(<code>fullName</code>)且依赖的属性值(<code>firstName</code>)变化的时候。常常的应用场景是，某值是随着某某值变化而变化，特别像函数的y与x</li>
+<li>computed的set的触发，是在属性(<code>fullName</code>)直接发生变化的时候。常常的应用场景就是表单元素绑定属性(<code>fullName</code>)，用户交互变化属性值的时候，进而也影响到其依赖的属性(<code>firstName</code>)。简言之，相互影响。<a id="more"></a>
+</li>
 </ul>
+<h2 id="methods，computed，watched的简单区别"><a href="#methods，computed，watched的简单区别" class="headerlink" title="methods，computed，watched的简单区别"></a>methods，computed，watched的简单区别</h2><p>试想一个需求，一个姓，一个名，想要得到姓名的话，并且姓或者名发生变动，姓名自动变化，怎么实现。</p>
+<ul>
+<li>劣：methods那边定义一个方法，getFullName()，然后在页面里需要姓名的地方写上<code>getFullName()</code>，虽然可以实现，但是页面上用的任意属性的修改，都会导致方法重新执行</li>
+<li>良：watch里面写上<code>firstName(){this.getFullName()} 和 lastName(){this.getFullName()}</code>，当然这里methods还需要定义，之后，因为watched是根据属性变化而执行方法的，初次执行需要再mounted里触发 <code>this.getFulName()</code>。虽然可以实现，委实麻烦了点</li>
+<li>优：computed直接定义<code>fullName()</code>。其根据<code>Object.defineProperty</code>实现。其 get 方法有缓存，如果值没有修改会从缓存中取值。</li>
+</ul>
+<p>区别：</p>
+<ul>
+<li>computed 和 methods 区别，computed 只有firstname和lastname变化才会调用方法。methods 则是页面上有的属性变化都会调用函数。</li>
+<li>computed 和 watch 区别：computed 只能写同步。watch 可以写异步。大部分情况下，computed 可以替换。但异步只能用watch。比如修改firstname之后一秒钟才显示出fullname，<code>firstName(newValue){ setTimeout(()=&gt;this.getFulName(),1000) }</code></li>
+</ul>
+<h2 id="computed的get和set方法"><a href="#computed的get和set方法" class="headerlink" title="computed的get和set方法"></a>computed的get和set方法</h2><p>再仔细叨叨下computed：</p>
+<ul>
+<li>当页面里没有fullName的时候，即便firstName值变化了也不会执行方法。</li>
+<li>computed每个属性都是有get和set方法的，默认我们写的就是get方法</li>
+<li>get方法的触发：页面有属性，且当依赖的属性值变化的时候，get方法就会执行，也就是firstName或者fullName的值发生变化</li>
+<li>set方法的触发，当fullName属性绑定给表单属性，或者vm.fullName变化的时候，就会触发</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">v-model</span>=<span class="string">"fullName"</span>&gt;</span></span><br><span class="line">      &#123;&#123;firstName&#125;&#125;<span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">      &#123;&#123;lastName&#125;&#125;</span><br><span class="line">      &#123;&#123;fullName&#125;&#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"../node_modules/vue/dist/vue.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">      let vm = new Vue(&#123;</span></span><br><span class="line"><span class="undefined">        el: "#app",</span></span><br><span class="line"><span class="undefined">        data: &#123;</span></span><br><span class="line"><span class="undefined">          firstName:'zhang',</span></span><br><span class="line"><span class="undefined">          lastName:'san'</span></span><br><span class="line"><span class="undefined">        &#125;,</span></span><br><span class="line"><span class="undefined">        computed:&#123;</span></span><br><span class="line"><span class="undefined">          fullName:&#123;</span></span><br><span class="line"><span class="undefined">            get()&#123;</span></span><br><span class="line"><span class="undefined">              return this.firstName + '-' + this.lastName</span></span><br><span class="line"><span class="undefined">            &#125;,</span></span><br><span class="line"><span class="undefined">            set(newValue)&#123;</span></span><br><span class="line"><span class="undefined">              newValue.includes('-') || (newValue += '-')</span></span><br><span class="line"><span class="undefined">              const arr = newValue.split('-')</span></span><br><span class="line"><span class="undefined">              this.firstName = arr[0]</span></span><br><span class="line"><span class="undefined">              this.lastName = arr[1]</span></span><br><span class="line"><span class="undefined">            &#125;</span></span><br><span class="line"><span class="undefined">          &#125;</span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="undefined">      &#125;);</span></span><br><span class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <blockquote>
-<p><a href="http://blog.csdn.net/qq_38125123/article/details/73870667" target="_blank" rel="noopener">小程序图片上传阿里OSS使用方法</a><br><a href="https://ask.dcloud.net.cn/article/983" target="_blank" rel="noopener">使用plus.uploader上传图片到阿里云OSS</a><br><a href="https://github.com/aliyun-UED/oss-js-upload" target="_blank" rel="noopener">官方demo</a></p>
+<p><a href="https://www.jianshu.com/p/56f337688d6b" target="_blank" rel="noopener">vue的computed的get,set</a></p>
 </blockquote>
 
       
@@ -419,7 +416,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/js/" rel="tag"># js</a>
+            <a href="/tags/vue/" rel="tag"># vue</a>
           
         </div>
       
@@ -432,8 +429,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/01/22/useZipInWindow/" rel="next" title="window中使用zip命令">
-                <i class="fa fa-chevron-left"></i> window中使用zip命令
+              <a href="/2019/04/28/vue-$-directives-checkbox-all/" rel="next" title="简单总结vm的方法、指令以及复选框全选的实现">
+                <i class="fa fa-chevron-left"></i> 简单总结vm的方法、指令以及复选框全选的实现
               </a>
             
           </div>
@@ -442,8 +439,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/09/06/promise2/" rel="prev" title="promise再总结总结">
-                promise再总结总结 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/05/05/vue-basic/" rel="prev" title="vue基础篇">
+                vue基础篇 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -470,8 +467,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2018/01/26/ossGuide/"
-           data-title="oss的初接触" data-url="http://yoursite.com/2018/01/26/ossGuide/">
+      <div class="ds-thread" data-thread-key="2019/04/28/vue-computed/"
+           data-title="computed的get和set用法" data-url="http://yoursite.com/2019/04/28/vue-computed/">
       </div>
     
   </div>
@@ -577,7 +574,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#oss的好处"><span class="nav-number">1.</span> <span class="nav-text">oss的好处</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#oss的简单使用流程"><span class="nav-number">1.1.</span> <span class="nav-text">oss的简单使用流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用ossUpload"><span class="nav-number">1.2.</span> <span class="nav-text">使用ossUpload</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#TL-DR"><span class="nav-number">1.</span> <span class="nav-text">TL;DR</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#methods，computed，watched的简单区别"><span class="nav-number">2.</span> <span class="nav-text">methods，computed，watched的简单区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#computed的get和set方法"><span class="nav-number">3.</span> <span class="nav-text">computed的get和set方法</span></a></li></ol></div>
             
 
           </div>
