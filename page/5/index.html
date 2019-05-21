@@ -261,6 +261,699 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/10/bezier/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/07/10/bezier/" itemprop="url">
+                  贝塞尔曲线的理解
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-10T15:07:15+08:00">
+                2017-07-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/07/10/bezier/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/07/10/bezier/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><h2 id="Bezier曲线的由来"><a href="#Bezier曲线的由来" class="headerlink" title="Bezier曲线的由来"></a>Bezier曲线的由来</h2><p>1962年，法国工程师贝塞尔发表，他运用贝塞尔曲线来为汽车的主体进行设计</p>
+<h2 id="Bezier曲线的作用"><a href="#Bezier曲线的作用" class="headerlink" title="Bezier曲线的作用"></a>Bezier曲线的作用</h2><p>Bezier曲线是用一系列点控制曲线状态的。主要分为</p>
+<ul>
+<li>数据点：确定曲线的起始和结束位置</li>
+<li>控制点：确定曲线的弯曲程度</li>
+</ul>
+<p>举例理解：想在AC（起始点和结束点）之间画一个曲线，用B点（控制点）控制这个曲线的弯曲程度<br><img src="bezier/bezier-quadratic-start.png" alt=""><br><img src="bezier/bezier-quadratic-end.png" alt=""></p>
+<p>但是控制点是可以多个的，比如两个控制点。以此类推，可以有很多个。<br><img src="bezier/bezier-cubic-end.png" alt=""></p>
+<blockquote>
+<p><strong>起点和终点都只有一个，但是控制点可以多个，甚至是0，0的时候就是直线啦！</strong></p>
+</blockquote>
+<h2 id="Bezier曲线的原理"><a href="#Bezier曲线的原理" class="headerlink" title="Bezier曲线的原理"></a>Bezier曲线的原理</h2><p>为什么几个点就可以得到一个曲线？<br>先说一个控制点的情况，如图所示：<br><img src="bezier/bezier-quadratic-end.png" alt=""></p>
+<ol>
+<li>A/B/C三点是确定的</li>
+<li>在AB上任取一点D，得到ratio = AD/AB</li>
+<li>再由BE/BC = ratio 得到E点</li>
+<li>连接DE，同理DF/DE = ratio得到F</li>
+<li>而F点就是曲线上的一点，当然凭着这一点是无法得到整条曲线的</li>
+<li>于是，再来一遍，重新取D点得到新的F点，以此类推，如图<br><img src="bezier/bezier-quadratic-animation.gif" alt=""><br>那么两个控制点呢？<br>道理是一样的，在AB上任取一点E，得到曲线上的J点。<br>AE/AB = BF/BC = CG/CD = EH/EF = FI/FG = HJ/HI<br><img src="bezier/bezier-cubic-points.png" alt=""><br><img src="bezier/bezier-cubic-end.png" alt=""><br><img src="bezier/cubic.gif" alt=""></li>
+</ol>
+<p>最后来个炫酷的四个控制点：<br><img src="bezier/complex-bezier-curve.gif" alt=""></p>
+<h2 id="理解Bezier曲线的公式"><a href="#理解Bezier曲线的公式" class="headerlink" title="理解Bezier曲线的公式"></a>理解Bezier曲线的公式</h2><h3 id="一次贝塞尔曲线"><a href="#一次贝塞尔曲线" class="headerlink" title="一次贝塞尔曲线"></a>一次贝塞尔曲线</h3><p><img src="bezier/linear.gif" alt=""><br>一次贝塞尔曲线（也是线性贝塞尔曲线）公式：B(t) = (1 - t) * P<sub>0</sub> + tP<sub>1</sub></p>
+<ul>
+<li>t表示在 P<sub>0</sub>P<sub>1</sub>/P<sub>0</sub>P<sub>1</sub>之间任取一点P<sub>2</sub>，t = P<sub>0</sub>P<sub>2</sub>/P<sub>0</sub>P<sub>1</sub>，也就是比例，公式里的P<sub>0</sub>和P<sub>1</sub>同步表示其x轴坐标或者y轴坐标。</li>
+<li>已知P<sub>0</sub>的坐标是（a,b），P<sub>1</sub>的坐标是（c,d），那么假设P<sub>2</sub>的坐标是（x,y）</li>
+<li>(1-t)/(c-x) = t/(x-a) =&gt; x = (1-t)c + ta</li>
+<li>同理 y = (1-t)d + tb</li>
+<li>于是简写成 B(t) = (1 - t) * P<sub>0</sub> + tP<sub>1</sub></li>
+</ul>
+<h3 id="二次贝塞尔曲线"><a href="#二次贝塞尔曲线" class="headerlink" title="二次贝塞尔曲线"></a>二次贝塞尔曲线</h3><p><img src="bezier/bezier-quadratic-animation.gif" alt=""><br>二次贝塞尔曲线（也是线性贝塞尔曲线）公式：<img src="bezier/two.jpg" alt=""></p>
+<ul>
+<li>t同上</li>
+<li>在P<sub>0</sub>P<sub>1</sub>上的点是A，在P<sub>1</sub>P<sub>2</sub>上的点是B，在AB上的点是C，C也就是曲线上的一点。</li>
+<li>A ： tP<sub>1</sub> + (1-t)P<sub>0</sub></li>
+<li>B ： tP<sub>2</sub> + (1-t)P<sub>1</sub></li>
+<li>C ： tB + (1-t)A 将A、B换成上式，进行合并同类项</li>
+<li>最后得到<img src="bezier/two.jpg" alt=""></li>
+</ul>
+<p>同理可得三次贝塞尔曲线：<img src="bezier/three.png" alt=""></p>
+<p><br><br><br><br><br><br><br></p>
+<blockquote>
+<p><a href="http://blog.csdn.net/venshine/article/details/51758841" target="_blank" rel="noopener"> Android 绘制N阶Bezier曲线</a><br><a href="http://www.html-js.com/article/1628" target="_blank" rel="noopener">贝塞尔曲线扫盲</a><br><a href="https://www.wuchengkai.com/svg-curve/" target="_blank" rel="noopener">理解 SVG 当中的贝塞尔曲线</a></p>
+</blockquote>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/07/mobileCss/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/07/07/mobileCss/" itemprop="url">
+                  css的一些技巧
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-07T09:41:30+08:00">
+                2017-07-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/css/" itemprop="url" rel="index">
+                    <span itemprop="name">css</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/07/07/mobileCss/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/07/07/mobileCss/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><h2 id="inline-block"><a href="#inline-block" class="headerlink" title="inline-block"></a>inline-block</h2><p>图文排版的时候，经常用到这个<br>布局有时也可以用这个</p>
+<ul>
+<li>子元素之间如果需要清除空隙，则父元素<code>font-size:0</code></li>
+<li>子元素 <code>display:inline-block;vertical-align:top;</code>,有时还需要加<code>font-size</code></li>
+</ul>
+<h2 id="device-pixel-radio"><a href="#device-pixel-radio" class="headerlink" title="device-pixel-radio"></a>device-pixel-radio</h2><p>设备像素比，有各种数据的，关于<a href="https://developer.mozilla.org/zh-CN/docs/Web/Guide/CSS/Media_queries" target="_blank" rel="noopener">具体的media</a></p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">bg-image(<span class="variable">$url</span>)</span><br><span class="line">  <span class="attribute">background-image</span> url(<span class="variable">$url</span><span class="selector-class">.png</span>)</span><br><span class="line">  @<span class="keyword">media</span> (min-device-pixel-radio:<span class="number">2</span>),(-webkit-min-device-pixel-radio:<span class="number">2</span>),(min-resolution: 2dppx)</span><br><span class="line">  	background-image url(<span class="variable">$url</span>+<span class="string">'@2x.png'</span>)</span><br><span class="line">  @<span class="keyword">media</span> (min-device-pixel-radio:<span class="number">3</span>),(-webkit-min-device-pixel-radio:<span class="number">3</span>),(min-resolution: 3dppx)</span><br><span class="line">      background-image url(<span class="variable">$url</span>+<span class="string">'@3x.png'</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="图片滤镜"><a href="#图片滤镜" class="headerlink" title="图片滤镜"></a>图片滤镜</h2><p><a href="https://www.w3cplus.com/css3/ten-effects-with-css3-filter" target="_blank" rel="noopener">具体详情</a><br>一般盒子的背景图片喜欢加模糊滤镜的效果</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">filter</span>:blur(<span class="number">10px</span>)</span><br><span class="line">-webkit-filter:blur(<span class="number">10px</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="省略号"><a href="#省略号" class="headerlink" title="省略号"></a>省略号</h2><p>如果知道字数的话，<code>width:10em</code></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">text-overflow</span> <span class="selector-tag">ellipsis</span></span><br><span class="line"><span class="selector-tag">overflow</span> <span class="selector-tag">hidden</span></span><br><span class="line"><span class="selector-tag">white-space</span> <span class="selector-tag">nowrap</span></span><br></pre></td></tr></table></figure>
+<h2 id="sticky-footer"><a href="#sticky-footer" class="headerlink" title="sticky footer"></a>sticky footer</h2><p>如果文档的高度不足一屏幕，那么footer在页面底部<br>如果文档的高度多余一屏幕，那么footer在文档下面<br>思路：利用flex的特性，和min-height</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">html</span>,<span class="selector-tag">body</span></span><br><span class="line">  <span class="selector-tag">height</span> 100%</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">section</span></span><br><span class="line">  <span class="selector-tag">min-height</span> 100%</span><br><span class="line">  <span class="selector-tag">display</span> <span class="selector-tag">flex</span></span><br><span class="line">  <span class="selector-tag">flex-direction</span> <span class="selector-tag">column</span></span><br><span class="line"><span class="selector-tag">div</span></span><br><span class="line">  <span class="selector-tag">flex</span> 1</span><br><span class="line"><span class="selector-tag">footer</span></span><br><span class="line">  <span class="selector-tag">height</span> 40<span class="selector-tag">px</span></span><br></pre></td></tr></table></figure>
+<h2 id="移动端1px"><a href="#移动端1px" class="headerlink" title="移动端1px"></a>移动端1px</h2><p>解决retina屏幕的1px会显示成2px<br>在想要border的元素上，写个伪类，border为1px,然后将其根据dpi来进行缩放</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">border-1px($color)</span><br><span class="line">    <span class="selector-tag">position</span>: <span class="selector-tag">relative</span></span><br><span class="line">    &amp;<span class="selector-pseudo">:after</span></span><br><span class="line">        <span class="selector-tag">display</span>: <span class="selector-tag">block</span></span><br><span class="line">        <span class="selector-tag">position</span>: <span class="selector-tag">absolute</span></span><br><span class="line">        <span class="selector-tag">left</span>: 0</span><br><span class="line">        <span class="selector-tag">bottom</span>: 0</span><br><span class="line">        <span class="selector-tag">width</span>: 100%</span><br><span class="line">        border-top: 1px solid $color</span><br><span class="line">        content: ' '</span><br><span class="line">        @<span class="keyword">media</span> (-webkit-min-device-pixel-ratio: <span class="number">2</span>),(min-device-pixel-ratio: <span class="number">2</span>)</span><br><span class="line">            transform scale(<span class="number">0.5</span>)</span><br><span class="line">        @media (-webkit-min-device-pixel-ratio: <span class="number">3</span>),(min-device-pixel-ratio: <span class="number">3</span>)</span><br><span class="line">            transform scale(<span class="number">0.34</span>)</span><br><span class="line">border-none()</span><br><span class="line">    &amp;:after</span><br><span class="line">        display none</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/06/redux/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/06/06/redux/" itemprop="url">
+                  学习 redux
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-06T14:20:32+08:00">
+                2017-06-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/react/" itemprop="url" rel="index">
+                    <span itemprop="name">react</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/06/06/redux/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/06/06/redux/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ul>
+<li><p>store：保存数据的地方，你可以把它看成一个容器。整个应用只能有一个 Store。其由createStore生成。</p>
+</li>
+<li><p>state：某时刻的store快照。<code>store.getState()</code>拿到当前时刻的数据集合。一个 State 对应一个 View。</p>
+</li>
+<li><p>action：store.dispatch(action) =&gt; 触发reducer(state,action) =&gt; 改变state让store变化 =&gt;  store.subscribe(fn),store变化自动执行fn</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> action = &#123;</span><br><span class="line">  type: <span class="string">'ADD_TODO'</span>,</span><br><span class="line">  payload: <span class="string">'Learn Redux'</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>reducer：接受 Action 和当前 State 作为参数，返回一个新的 State。Store 收到 Action 以后，必须给出一个新的 State，这样 View 才会发生变化。这种 State 的计算过程就叫做 Reducer。<br>Reducer 是纯函数，就可以保证同样的State，必定得到同样的 View。但也正因为这一点，Reducer 函数里面不能改变 State，必须返回一个全新的对象，请参考下面的写法。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">  <span class="comment">// State 是一个对象</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">reducer</span>(<span class="params">state, action</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Object</span>.assign(&#123;&#125;, state, &#123; thingToChange &#125;);</span><br><span class="line">    <span class="comment">// 或者</span></span><br><span class="line">    <span class="keyword">return</span> &#123; ...state, ...newState &#125;;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// State 是一个数组</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">reducer</span>(<span class="params">state, action</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> [...state, newItem];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="string">``</span><span class="string">` </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">* createStore：创建store，且将store和reducer对应，也就是store.dispatch(action)的时候，哪个reducer返回新的state。createStore方法还可以接受第二个参数，表示 State 的最初状态。这通常是服务器给出的。注意，如果提供了这个参数，它会覆盖 Reducer 函数的默认初始值。</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">* 阮大神写的createStore：</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>const createStore = (reducer) =&gt; {<br>  let state;<br>  let listeners = [];</p>
+<p>  const getState = () =&gt; state;</p>
+<p>  const dispatch = (action) =&gt; {<br>    state = reducer(state, action);<br>    listeners.forEach(listener =&gt; listener());<br>  };</p>
+<p>  const subscribe = (listener) =&gt; {<br>    listeners.push(listener);<br>    // 返回函数，表示取消订阅，也就是删除自己。<br>    return () =&gt; {<br>      listeners = listeners.filter(l =&gt; l !== listener);<br>    }<br>  };</p>
+<p>  // 首次执行，state通过reducer返回，得到初始的state<br>  dispatch({});</p>
+<p>  return { getState, dispatch, subscribe };<br>};<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">* 经典的增加，减少couter的demo</span><br><span class="line">```js</span><br><span class="line"></span><br><span class="line">const Counter = (&#123; value &#125;) =&gt; (</span><br><span class="line">  &lt;h1&gt;&#123;value&#125;&lt;/h1&gt;</span><br><span class="line">  &lt;button onClick=&#123;onIncrement&#125;&gt;+&lt;/button&gt;</span><br><span class="line">  &lt;button onClick=&#123;onDecrement&#125;&gt;-&lt;/button&gt;</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">const reducer = (state = 0, action) =&gt; &#123;</span><br><span class="line">  switch (action.type) &#123;</span><br><span class="line">    case &apos;INCREMENT&apos;: return state + 1;</span><br><span class="line">    case &apos;DECREMENT&apos;: return state - 1;</span><br><span class="line">    default: return state;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">const store = createStore(reducer);</span><br><span class="line"></span><br><span class="line">const render = () =&gt; &#123;</span><br><span class="line">  ReactDOM.render(</span><br><span class="line">    &lt;Counter</span><br><span class="line">      value=&#123;store.getState()&#125;</span><br><span class="line">      onIncrement=&#123;() =&gt; store.dispatch(&#123;type: &apos;INCREMENT&apos;&#125;)&#125;</span><br><span class="line">      onDecrement=&#123;() =&gt; store.dispatch(&#123;type: &apos;DECREMENT&apos;&#125;)&#125;</span><br><span class="line">    /&gt;,</span><br><span class="line">    document.getElementById(&apos;root&apos;)</span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">render();</span><br><span class="line">store.subscribe(render);</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>参考<a href="http://www.ruanyifeng.com/blog/2016/09/redux_tutorial_part_one_basic_usages.html" target="_blank" rel="noopener">阮大神的博客</a></p>
+</blockquote>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/05/curryAndCompose/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/06/05/curryAndCompose/" itemprop="url">
+                  用js实现curry和compose
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-05T22:15:58+08:00">
+                2017-06-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/06/05/curryAndCompose/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/06/05/curryAndCompose/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
+<li>curry</li>
+<li>compose
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/06/05/curryAndCompose/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/02/react1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -811,6 +1504,162 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/25/vuex/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/05/25/vuex/" itemprop="url">
+                  vuex的理解
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-25T14:09:39+08:00">
+                2017-05-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/05/25/vuex/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/25/vuex/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
+<li>块级作用域</li>
+</ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/05/25/vuex/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/25/es6-memory/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -935,162 +1784,6 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/05/25/es6-memory/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/25/vuex/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/05/25/vuex/" itemprop="url">
-                  vuex的理解
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-25T14:09:39+08:00">
-                2017-05-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/05/25/vuex/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/25/vuex/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
-<li>块级作用域</li>
-</ul>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/05/25/vuex/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1278,669 +1971,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/25/babel/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/05/25/babel/" itemprop="url">
-                  学习babel
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-25T11:01:13+08:00">
-                2017-05-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/05/25/babel/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/25/babel/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
-<li>初始化项目</li>
-<li>babel命令行安装</li>
-<li>babel-preset</li>
-<li>babel单个文件，文件夹的编译</li>
-<li>source-map</li>
-<li>和gulp的合作</li>
-</ul>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/05/25/babel/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/17/vueComponent10/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/05/17/vueComponent10/" itemprop="url">
-                  vue的组件
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-17T15:33:21+08:00">
-                2017-05-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/05/17/vueComponent10/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/17/vueComponent10/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
-<li>全局注册组件：<code>Vue.component(&#39;my-component&#39;, {template: &#39;&lt;div&gt;A custom component!&lt;/div&gt;&#39;})</code></li>
-<li>局部注册组件：<code>new Vue({components: {&#39;my-component&#39;: {template: &#39;&lt;div&gt;A custom component!&lt;/div&gt;&#39;} } })</code></li>
-<li>组件里面的数据data必须是函数</li>
-<li><p>Props 允许外部环境传递数据给组件，父组件通过自定义属性传递数据，子组件通过props接受数据(属性名)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;my-component message=&quot;en&quot;&gt;&lt;/my-component&gt;</span><br><span class="line">Vue.component(&apos;my-component&apos;, &#123;</span><br><span class="line">  template: &apos;&lt;div&gt;&#123;&#123;message&#125;&#125;&lt;/div&gt;&apos;,</span><br><span class="line">  // 声明 props</span><br><span class="line">  props: [&apos;message&apos;],</span><br><span class="line">  // 就像 data 一样，prop 可以用在模板内</span><br><span class="line">  // 同样也可以在 vm 实例中像 “this.message” 这样使用</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<p>如果message是变动的也ok，<code>:message=&quot;variable&quot;</code><br>如果子组件需要改变父组件传过来的数据，需要自己自定义变量接收，或者用computed<br>注意，如果数据是引用类型，需要深复制。</p>
-</li>
-<li><p>props验证，父组件的属性可以定义规则，包括类型等等</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Vue.component(&apos;example&apos;, &#123;</span><br><span class="line">  props: &#123;</span><br><span class="line">    // 基础类型检测 （`null` 意思是任何类型都可以）</span><br><span class="line">    propA: Number,</span><br><span class="line">    // 多种类型</span><br><span class="line">    propB: [String, Number],</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Events 允许组件触发外部环境的副作用，父组件使用 $on(eventName) 监听事件，子组件使用 $emit(eventName) 触发事件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">Vue.component(&apos;button-counter&apos;, &#123;</span><br><span class="line">  template: &apos;&lt;button v-on:click=&quot;increment&quot;&gt;&#123;&#123; counter &#125;&#125;&lt;/button&gt;&apos;,</span><br><span class="line">  data: function () &#123;return &#123;counter: 0 &#125; &#125;, </span><br><span class="line">  methods: &#123;</span><br><span class="line">    increment: function () &#123;</span><br><span class="line">      this.counter += 1</span><br><span class="line">      this.$emit(&apos;increment&apos;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;)</span><br><span class="line">new Vue(&#123;</span><br><span class="line">  el: &apos;#counter-event-example&apos;,</span><br><span class="line">  data: &#123;</span><br><span class="line">    total: 0</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    incrementTotal: function () &#123;</span><br><span class="line">      this.total += 1</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>非父子通信，通过空的 Vue 实例作为中央事件总线：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var bus = new Vue()</span><br><span class="line">bus.$emit(&apos;id-selected&apos;, 1)</span><br><span class="line">bus.$on(&apos;id-selected&apos;, function (id) &#123;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Slots 允许外部环境将额外的内容组合在组件中。</p>
-</li>
-<li>子组件索引$ref</li>
-</ul>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/05/17/vueComponent10/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/17/vueClassStyle5/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/05/17/vueClassStyle5/" itemprop="url">
-                  vue的class与style绑定
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-17T09:19:01+08:00">
-                2017-05-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/05/17/vueClassStyle5/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/17/vueClassStyle5/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
-<li>class有对象和数组两种语法，其可以和静态类名一起使用，也可以和computed一起使用，对象是知道类名，数组是类名可能自身有所变化。数组里面可以加三目可以加对象<code>v-bind:class=&quot;{active:isActive,&#39;text-danger&#39;:hasError}&quot;  &quot;[isActive,hasError]&quot;</code></li>
-<li>style也是对象和数组两种语法。但是数组是各对象的合并和覆盖<code>v-bind:style=&quot;styleObject&quot;  &quot;[styleObject,styleObject2]&quot;</code>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/05/17/vueClassStyle5/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/17/vueComputed4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/05/17/vueComputed4/" itemprop="url">
-                  vue的计算属性
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-17T09:18:40+08:00">
-                2017-05-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/05/17/vueComputed4/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/17/vueComputed4/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
-<li>插值的四种用法：<ul>
-<li>文本插值 <code></code></li>
-<li>html插值<code>v-html=&quot;rawHtml&quot;</code></li>
-<li>属性插值<code>v-bind:id=&quot;someId&quot;</code></li>
-<li>js配合Mustache插值<code>17</code></li>
-</ul>
-</li>
-<li>指令（Directives）是带有 v- 前缀的特殊属性职责就是当其表达式的值改变时相应地将某些行为应用到 DOM 上。</li>
-<li>一些指令能接受一个“参数”，在指令后以冒号指明。<code>v-bind:href=&quot;url</code></li>
-<li>修饰符（Modifiers）用于指出一个指令应该以特殊方式绑定。<code>v-on:submit.prevent=&quot;onSubmit&quot;</code>，一般用于v-on,v-model</li>
-<li>过滤器可以用在两个地方：mustache 插值和 v-bind 表达式。<code></code></li>
-<li>Vue.js 允许你自定义过滤器，可被用作一些常见的文本格式化。</li>
-<li>缩写 :<ul>
-<li>v-bind:href=”url  -&gt;  :href=”url”</li>
-<li>v-on:click=”doSomething” -&gt;  @click=”doSomething”</li>
-</ul>
-</li>
-</ul>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/05/17/vueComputed4/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1990,7 +2020,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">74</span>
+                <span class="site-state-item-count">78</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2001,7 +2031,7 @@
             
             <div class="site-state-item site-state-categories">
               
-                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-count">25</span>
                 <span class="site-state-item-name">分类</span>
               
             </div>
@@ -2012,7 +2042,7 @@
             
             <div class="site-state-item site-state-tags">
               
-                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-count">38</span>
                 <span class="site-state-item-name">标签</span>
               
             </div>
