@@ -90,14 +90,14 @@
 <meta name="description" content="TL;DR 本地登录服务器 ssh user@remote -p port，端口是22的话ssh user@remote，退出登录exit 本地免密码登录 ssh-copy-id user@remote -p port，这在写脚本服务器控制时特别有用 给服务器配置别名 code ~/.ssh/config追加一些内容，就可以ssh selfname登录，不再需要记服务器ip地址了 执行命令ssh">
 <meta name="keywords" content="server">
 <meta property="og:type" content="article">
-<meta property="og:title" content="ssh的使用">
+<meta property="og:title" content="ssh免密登录服务器和scp的使用">
 <meta property="og:url" content="http://yoursite.com/2019/05/21/ssh_use/index.html">
 <meta property="og:site_name" content="花花的博客">
 <meta property="og:description" content="TL;DR 本地登录服务器 ssh user@remote -p port，端口是22的话ssh user@remote，退出登录exit 本地免密码登录 ssh-copy-id user@remote -p port，这在写脚本服务器控制时特别有用 给服务器配置别名 code ~/.ssh/config追加一些内容，就可以ssh selfname登录，不再需要记服务器ip地址了 执行命令ssh">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-05-21T08:59:58.658Z">
+<meta property="og:updated_time" content="2019-05-23T03:14:28.125Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ssh的使用">
+<meta name="twitter:title" content="ssh免密登录服务器和scp的使用">
 <meta name="twitter:description" content="TL;DR 本地登录服务器 ssh user@remote -p port，端口是22的话ssh user@remote，退出登录exit 本地免密码登录 ssh-copy-id user@remote -p port，这在写脚本服务器控制时特别有用 给服务器配置别名 code ~/.ssh/config追加一些内容，就可以ssh selfname登录，不再需要记服务器ip地址了 执行命令ssh">
 
 
@@ -132,7 +132,7 @@
 
 
 
-  <title> ssh的使用 | 花花的博客 </title>
+  <title> ssh免密登录服务器和scp的使用 | 花花的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -282,7 +282,7 @@
             
             
               
-                ssh的使用
+                ssh免密登录服务器和scp的使用
               
             
           </h2>
@@ -369,12 +369,13 @@
 <li>本地登录服务器 <code>ssh user@remote -p port</code>，端口是22的话<code>ssh user@remote</code>，退出登录<code>exit</code></li>
 <li>本地免密码登录 <code>ssh-copy-id user@remote -p port</code>，这在写脚本服务器控制时特别有用</li>
 <li>给服务器配置别名 <code>code ~/.ssh/config</code>追加一些内容，就可以<code>ssh selfname</code>登录，不再需要记服务器ip地址了</li>
-<li>执行命令<code>ssh selfname &quot;cd ~;ls&quot;</code>，执行完命令自动关闭远程服务</li>
+<li>执行命令<code>ssh selfname &quot;cd ~;ls&quot;</code>，将会在服务器上执行引号里的命令，执行之后其自动关闭远程服务</li>
 <li>将a电脑文件(夹)复制到b电脑上哪个文件夹下面：<code>scp username@a电脑ip:文件路径 username@b电脑ip:文件夹路径</code>，是文件夹的话加上<code>-r</code>，这里也可以用别名，通常本机的话省略<code>username@a电脑ip:</code></li>
 </ul>
 <!-- * 想要任意电脑都能访问本地的`localhost:8000`，需要在本机执行 `autossh -NfR 10022:localhost:8000 公网电脑的ip地址或者别名`，在服务器上执行`ssh user@localhost -p 10022`
 * 想要任意电脑都能访问本地的`localhost:8000`，需要在本机执行 `autossh -NfR 0.0.0.0:18000:localhost:8000 公网电脑的ip地址或者别名`
 autossh -NR 0.0.0.0:18000:10.73.33.84:8000 han -->
+<a id="more"></a>
 <h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2><p>SSH是一种网络协议，用于计算机之间的加密登录。原理：</p>
 <ul>
 <li>远程主机收到用户的登录请求，把自己的公钥发给用户。</li>
@@ -471,6 +472,10 @@ autossh -NR 0.0.0.0:18000:10.73.33.84:8000 han -->
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2019/05/22/git/" rel="prev" title="git各命令的原理和初级使用，顺手玩下git钩子">
+                git各命令的原理和初级使用，顺手玩下git钩子 <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -496,7 +501,7 @@ autossh -NR 0.0.0.0:18000:10.73.33.84:8000 han -->
   <div class="comments" id="comments">
     
       <div class="ds-thread" data-thread-key="2019/05/21/ssh_use/"
-           data-title="ssh的使用" data-url="http://yoursite.com/2019/05/21/ssh_use/">
+           data-title="ssh免密登录服务器和scp的使用" data-url="http://yoursite.com/2019/05/21/ssh_use/">
       </div>
     
   </div>
@@ -545,7 +550,7 @@ autossh -NR 0.0.0.0:18000:10.73.33.84:8000 han -->
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">78</span>
+                <span class="site-state-item-count">79</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -556,7 +561,7 @@ autossh -NR 0.0.0.0:18000:10.73.33.84:8000 han -->
             
             <div class="site-state-item site-state-categories">
               
-                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-count">26</span>
                 <span class="site-state-item-name">分类</span>
               
             </div>
@@ -567,7 +572,7 @@ autossh -NR 0.0.0.0:18000:10.73.33.84:8000 han -->
             
             <div class="site-state-item site-state-tags">
               
-                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-count">39</span>
                 <span class="site-state-item-name">标签</span>
               
             </div>
