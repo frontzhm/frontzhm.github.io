@@ -261,7 +261,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/22/git/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/25/window_use_ssh_scp/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="frontzhm">
@@ -283,8 +283,8 @@
             
               
                 
-                <a class="post-title-link" href="/2019/05/22/git/" itemprop="url">
-                  git各命令的原理和初级使用，顺手玩下git钩子
+                <a class="post-title-link" href="/2019/06/25/window_use_ssh_scp/" itemprop="url">
+                  window服务器使用ssh和scp
                 </a>
               
             
@@ -300,8 +300,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-22T09:26:03+08:00">
-                2019-05-22
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-25T16:45:00+08:00">
+                2019-06-25
               </time>
             
 
@@ -323,8 +323,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/git/" itemprop="url" rel="index">
-                    <span itemprop="name">git</span>
+                  <a href="/categories/工具/" itemprop="url" rel="index">
+                    <span itemprop="name">工具</span>
                   </a>
                 </span>
 
@@ -341,8 +341,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/05/22/git/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/05/22/git/" itemprop="commentCount"></span>
+                <a href="/2019/06/25/window_use_ssh_scp/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/06/25/window_use_ssh_scp/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -369,1451 +369,1485 @@
 
       
         
-          <p>该文章是在阅读<a href="https://backlog.com/git-tutorial/cn/intro/intro1_1.html" target="_blank" rel="noopener">猴子也懂的git入门</a>和<a href="https://juejin.im/book/5a124b29f265da431d3c472e/section/5a124c446fb9a0451463a3a9" target="_blank" rel="noopener">抛物线大神的git原理和使用小册子，额，需要一点点零花钱</a>之后总结的，估摸着不适合新手…</p>
+          
+            <p>最近接触window服务器，各种尴尬，想用ssh，想用scp，踩了很多坑，大约配置出来了。仅供参考，没研究具体原理。</p>
+<h2 id="window使用ssh"><a href="#window使用ssh" class="headerlink" title="window使用ssh"></a>window使用ssh</h2><ul>
+<li>去下载<a href="https://www.mls-software.com/opensshd.html" target="_blank" rel="noopener">openssh for windows</a>，鼠标滚动页面（开始没滚动居然没找到），看到<img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/opensshd.png" alt="图片">  </li>
+<li>打开小黑框，用下ssh</li>
+<li>使用<code>ssh-keygen -t rsa</code>生成公私钥，这里的公钥很重要，可以免登陆其他服务器。<a href="https://blog.csdn.net/qq_34638161/article/details/80614566" target="_blank" rel="noopener">参考文档</a></li>
+</ul>
+<h2 id="window使用scp"><a href="#window使用scp" class="headerlink" title="window使用scp"></a>window使用scp</h2><ul>
+<li>去下载<a href="https://www.chiark.greenend.org.uk/~sgtatham/putty/" target="_blank" rel="noopener">putty</a></li>
+<li>安装完之后，去安装目录看<img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/pscp.png" alt="pscp的路径"></li>
+<li>在c盘根目录下新建两个文件，如下，写完之后，双击aliaskey.reg 文件，导入到注册表。<a href="https://www.cnblogs.com/onelikeone/p/10783497.html" target="_blank" rel="noopener">参考文档</a></li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 文件1  alias_key.bat</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 别名scp</span></span><br><span class="line">@doskey scp=pscp -scp $*</span><br><span class="line"><span class="meta">#</span><span class="bash"> 下面的就是辅助，可以不看</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 等号左边是右边的别名 $*表示这个命令还可能有其他参数 @表示执行这条命令时不显示这条命令本身</span></span><br><span class="line">@doskey ls=dir /b $*</span><br><span class="line">@doskey l=dir /od/p/q/tw $*</span><br><span class="line"></span><br><span class="line">@REM notepad++工具设置别名为：npp</span><br><span class="line">@doskey npp="C:\Program Files1\Notepad++\notepad++.exe" $*</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 文件2 同目录下新建 aliaskey.reg</span></span><br><span class="line">Windows Registry Editor Version 5.00</span><br><span class="line"></span><br><span class="line">[HKEY_CURRENT_USER\Software\Microsoft\Command Processor]</span><br><span class="line">"AutoRun"="%SystemDrive%\\alias_key.bat"</span><br></pre></td></tr></table></figure>
+<ul>
+<li>打开小黑框，用下scp</li>
+</ul>
+<h2 id="window服务器开通ssh端口"><a href="#window服务器开通ssh端口" class="headerlink" title="window服务器开通ssh端口"></a>window服务器开通ssh端口</h2><ul>
+<li><a href="http://www.freesshd.com/index.php?ctt=download" target="_blank" rel="noopener">下载freeSSHD</a>，选择<code>freeSSHD.exe</code></li>
+<li>一路点是安装，但到对话框的地方注意，这里选择否<code>Do you want to run freesshd as a system service</code>。如果不小心选择是，就去服务里面关掉freeSSHd Server服务即可</li>
+<li>右击桌面上 freeSSHD 小图标，以管理员身份运行，点击之后注意右下角，地主栏上多一个小图标，如果没有注意点开上拉箭头看有没有，然后右击这里的小图标，选择<code>settings</code></li>
+<li>然后 <a href="https://blog.csdn.net/u014296316/article/details/88616023" target="_blank" rel="noopener">按照此文超详细教程</a></li>
+<li>注意配置<code>SFTP</code>这里的地址，其实这里是开通之后小黑框的默认路径</li>
+</ul>
+<h2 id="linux系统ssh连接window服务器"><a href="#linux系统ssh连接window服务器" class="headerlink" title="linux系统ssh连接window服务器"></a>linux系统ssh连接window服务器</h2><p><a href="https://juejin.im/post/5ce4a082e51d4577583ddc24" target="_blank" rel="noopener">配置别名和简单的基础知识</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 后面的window特别奇葩，需要这样cmd 具体的目录 ，才能执行命令</span></span><br><span class="line">ssh 服务器别名 "cmd /c ls"</span><br><span class="line">ssh xytest "cmd /c ls"</span><br></pre></td></tr></table></figure>
+<h2 id="linux系统scp连接window服务器"><a href="#linux系统scp连接window服务器" class="headerlink" title="linux系统scp连接window服务器"></a>linux系统scp连接window服务器</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 传文件还算正常，文件夹的话 是不识别的，如果想传文件夹下所有文件，需要加*</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 注意这里就是刚刚配置的`SFTP`的地址</span></span><br><span class="line">scp -r /Users/zhm/dist/css/* 服务器别名:./spoc/css</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/25/current_monday/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2019/06/25/current_monday/" itemprop="url">
+                  获取当前周的周一
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-25T16:26:16+08:00">
+                2019-06-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/06/25/current_monday/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/06/25/current_monday/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ul>
+<li>得到当前周的 这个时间点的 周一的时间戳  就是今天是周三，现在是10点，那么这个周的周一的10点的时间戳是多少</li>
+<li>计算逻辑就是，看看当前时间和周一差几天，将天数变成毫秒，再当前时间戳减掉这个毫秒，就得到周一这个点的时间戳了</li>
+<li>感觉会对其他的有感应就先存储着</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">      </span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getTimestampOfCurrentMonday</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 当前时间</span></span><br><span class="line">  <span class="keyword">var</span> currentDate = <span class="keyword">new</span> <span class="built_in">Date</span>()</span><br><span class="line">  <span class="comment">// 当前时间戳</span></span><br><span class="line">  <span class="keyword">var</span> currentTimestamp = currentDate.getTime()</span><br><span class="line">  <span class="comment">// 当前是周几 0表示星期天 1-6表示周一到周六</span></span><br><span class="line">  <span class="keyword">var</span> currenWeekday = currentDate.getDay()</span><br><span class="line">  <span class="comment">// 感觉0不符合心理预期吖，就当前情境，周日变成7，比较接地气~</span></span><br><span class="line">  currenWeekday = currenWeekday === <span class="number">0</span> ? <span class="number">7</span> : currenWeekday</span><br><span class="line">  <span class="comment">// 当前时间离当前周一的天数 周一的话就是0 ，周二就是1</span></span><br><span class="line">  <span class="keyword">let</span> gapDaysFromMondayToCurrenWeekday = currenWeekday - <span class="number">1</span></span><br><span class="line">  <span class="comment">// 一天换算成毫秒 ms表示milliscond 毫秒</span></span><br><span class="line">  <span class="keyword">const</span> dayToMs = <span class="number">24</span> * <span class="number">60</span> * <span class="number">60</span> * <span class="number">1000</span></span><br><span class="line">  <span class="comment">// 离周一这个时间点的毫秒数</span></span><br><span class="line">  <span class="keyword">let</span> gapMsFromMondayToCurrenWeekday = gapDaysFromMondayToCurrenWeekday * dayToMs</span><br><span class="line">  <span class="comment">// 周一这个点的时间戳</span></span><br><span class="line">  <span class="keyword">let</span> timestampOfMonday = currentTimestamp - gapMsFromMondayToCurrenWeekday</span><br><span class="line">  <span class="keyword">return</span> timestampOfMonday</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/25/start-vue-app/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2019/06/25/start-vue-app/" itemprop="url">
+                  vuecli建立项目，碰到的问题汇总
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-25T16:15:47+08:00">
+                2019-06-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/06/25/start-vue-app/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/06/25/start-vue-app/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>如果需要<a href="https://cli.vuejs.org/config/" target="_blank" rel="noopener">自定义配置</a>.</p>
+<h2 id="打包去掉console-log"><a href="#打包去掉console-log" class="headerlink" title="打包去掉console.log"></a>打包去掉console.log</h2><p>注意一般在process.env.NODE_ENV === ‘production’的时候才会压缩，所以如果这个值不是的话不一定会压缩。</p>
+<p><a href="https://github.com/vuejs/vue-cli/issues/3088" target="_blank" rel="noopener">参考文档</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i terser-webpack-plugin -D</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// vue.config.js</span></span><br><span class="line"><span class="keyword">const</span> TerserPlugin = <span class="built_in">require</span>(<span class="string">'terser-webpack-plugin'</span>)</span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  configureWebpack(&#123;</span><br><span class="line">    optimization: &#123;</span><br><span class="line">      minimizer: [<span class="keyword">new</span> TerserPlugin(&#123; <span class="attr">terserOptions</span>: &#123; <span class="attr">compress</span>: &#123; <span class="attr">drop_console</span>: <span class="literal">true</span> &#125; &#125; &#125;)]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="本地开启伪接口服务，防止测试接口挂掉"><a href="#本地开启伪接口服务，防止测试接口挂掉" class="headerlink" title="本地开启伪接口服务，防止测试接口挂掉"></a>本地开启伪接口服务，防止测试接口挂掉</h2><ul>
+<li>新建<code>.env.local</code>，写上<code>NODE_ENV = &#39;local&#39;</code></li>
+<li>package.json配置<code>&quot;local&quot;: &quot;vue-cli-service serve --mode local&quot;</code></li>
+<li>根目录写个server.js</li>
+<li>相应的在<code>ajax.js</code>那边，配置<code>if (process.env.NODE_ENV === &#39;local&#39;) { return &#39;//localhost:3000&#39; }</code></li>
+<li>然后如果想要开始本地接口，开启两个小窗口，一个执行<code>node server.js</code>，另一个执行<code>npm run local</code></li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// server.js</span></span><br><span class="line"><span class="comment">// 模拟接口</span></span><br><span class="line"><span class="keyword">let</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>)</span><br><span class="line"><span class="keyword">let</span> bodyParser = <span class="built_in">require</span>(<span class="string">'body-parser'</span>)</span><br><span class="line"><span class="keyword">let</span> app = express()</span><br><span class="line">app.use(bodyParser.json())</span><br><span class="line">app.use(bodyParser.urlencoded(&#123; <span class="attr">extended</span>: <span class="literal">true</span> &#125;))</span><br><span class="line"><span class="comment">// 设置跨域 网上搜 express跨域头</span></span><br><span class="line">app.use(<span class="function">(<span class="params">req, res, next</span>) =&gt;</span> &#123;</span><br><span class="line">  res.header(<span class="string">'Access-Control-Allow-Origin'</span>, <span class="string">'*'</span>)</span><br><span class="line">  res.header(<span class="string">'Access-Control-Allow-Headers'</span>, <span class="string">'Content-Type,Content-Length, Authorization, Accept,X-Requested-With'</span>)</span><br><span class="line">  res.header(<span class="string">'Access-Control-Allow-Methods'</span>, <span class="string">'PUT,POST,GET,DELETE,OPTIONS'</span>)</span><br><span class="line">  <span class="comment">// 让options请求快速返回</span></span><br><span class="line">  req.method === <span class="string">'OPTIONS'</span> ? res.sendStatus(<span class="number">200</span>) : next()</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// let &#123;username&#125; = req.body</span></span><br><span class="line">app.get(<span class="string">'/user'</span>, (req, res) =&gt; &#123;</span><br><span class="line">  res.json(&#123; <span class="attr">name</span>: <span class="string">'huahua'</span> &#125;)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">app.post(<span class="string">'/VideoStatistic/Index'</span>, (req, res) =&gt; &#123;</span><br><span class="line">  <span class="keyword">let</span> &#123; method &#125; = req.body</span><br><span class="line">  <span class="built_in">console</span>.log(method)</span><br><span class="line">  res.json(&#123; <span class="attr">name</span>: <span class="string">'huahua'</span> &#125;)</span><br><span class="line">&#125;)</span><br><span class="line">app.listen(<span class="number">3000</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="设置process-env-NODE-ENV"><a href="#设置process-env-NODE-ENV" class="headerlink" title="设置process.env.NODE_ENV"></a>设置process.env.NODE_ENV</h2><p><a href="https://blog.csdn.net/dj_fairy/article/details/88928432" target="_blank" rel="noopener">参考文档</a></p>
+<ul>
+<li>根目录新建<code>.env.test</code>，里面写上<code>NODE_ENV = &#39;test&#39;</code></li>
+<li>package.json里面配置<code>&quot;test&quot;: &quot;vue-cli-service serve --mode test&quot;,</code>，重点是mode为test，命令可以是build</li>
+<li>这时候项目里的<code>process.env.NODE_ENV</code>就是test了</li>
+</ul>
+<h2 id="配置build的时候js或者css的前缀，默认是"><a href="#配置build的时候js或者css的前缀，默认是" class="headerlink" title="配置build的时候js或者css的前缀，默认是/"></a>配置build的时候js或者css的前缀，默认是/</h2><p><a href="https://cli.vuejs.org/zh/config/#publicpath" target="_blank" rel="noopener">官方文档</a></p>
+<p>这边的修改，因为服务器那边就是静态资源，需要生成dist的时候，js前缀是<code>./</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// vue.config.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  publicPath: <span class="string">'./'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="vue-后缀文件保存自动格式化的配置"><a href="#vue-后缀文件保存自动格式化的配置" class="headerlink" title="vue 后缀文件保存自动格式化的配置"></a>vue 后缀文件保存自动格式化的配置</h2><p>当<code>ctrl+s</code>的时候就自动格式化且保存了~~~</p>
+<p><a href="https://juejin.im/post/5aeddf14f265da0b736d8a66" target="_blank" rel="noopener">参考文档</a></p>
+<p>首先，vscode 安装 eslint 和 vetur 插件。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">"eslint.options": &#123;</span><br><span class="line">    "plugins": ["vue"]</span><br><span class="line">  &#125;,</span><br><span class="line">  // 保存自动化  当只是js文件的时候，最好注释这行 不明所以</span><br><span class="line">//   "editor.formatOnSave": true,</span><br><span class="line">  // 保存时自动fix</span><br><span class="line">  "eslint.autoFixOnSave": true,</span><br><span class="line">  // 添加 vue 支持</span><br><span class="line">  "eslint.validate": [</span><br><span class="line">    "javascript",</span><br><span class="line">    "javascriptreact",</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"language"</span>: <span class="string">"vue"</span>,</span><br><span class="line">      <span class="attr">"autoFix"</span>: <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  // 使用插件格式化 html</span><br><span class="line">  "vetur.format.defaultFormatter.html": "js-beautify-html",</span><br><span class="line">  // 屏蔽vetur的js格式化</span><br><span class="line">  "vetur.format.defaultFormatter.js": "none",</span><br></pre></td></tr></table></figure>
+<h3 id="添加-pug"><a href="#添加-pug" class="headerlink" title="添加 pug"></a>添加 pug</h3><p>实在烦死了对称标签，果断换 pug!!!</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install pug pug-cli pug-plain-loader --save-dev</span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- vue文件注意这里的pug --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">template</span> <span class="attr">lang</span>=<span class="string">"pug"</span>&gt;</span>.container(@click="aaa") Hello<span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>原来有的页面可以<a href="https://html2jade.org/" target="_blank" rel="noopener">去这个网站简单换下</a>，注意以下几点：</p>
+<ul>
+<li>根元素为div的情况，可能手动加div</li>
+<li>转换的时候，属性统一变成小写了，所以如果组件没注意的话，注意原来属性的驼峰改成羊肉串</li>
+<li><a href="https://pugjs.org/zh-cn/language/attributes.html" target="_blank" rel="noopener">pug的玩法</a></li>
+</ul>
+<h2 id="element"><a href="#element" class="headerlink" title="element"></a>element</h2><p><a href="https://element.eleme.cn/#/zh-CN/component/quickstart" target="_blank" rel="noopener">参考文档</a></p>
+<h3 id="修改主题"><a href="#修改主题" class="headerlink" title="修改主题"></a>修改主题</h3><p>src 下添加 element-variables.scss，然后再<code>main.js</code>里引入此路径即可，友好！</p>
+<h3 id="table组件的优化"><a href="#table组件的优化" class="headerlink" title="table组件的优化"></a>table组件的优化</h3><ul>
+<li><a href="https://juejin.im/post/5a100d09f265da4324800807#heading-2" target="_blank" rel="noopener">思路</a></li>
+<li><a href="https://codesandbox.io/s/klpzy7l1o" target="_blank" rel="noopener">demo</a></li>
+<li><p>组件如果coloumn缓存的话，在column上加key</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">enhanced-table</span> <span class="attr">:tableData</span>=<span class="string">"tableData"</span> <span class="attr">:col-configs</span>=<span class="string">"colConfigs"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">el-table-column</span> <span class="attr">slot</span>=<span class="string">"options"</span> <span class="attr">label</span>=<span class="string">"操作"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">el-button</span> <span class="attr">size</span>=<span class="string">"mini"</span> <span class="attr">slot-scope</span>=<span class="string">"&#123; row &#125;"</span>&gt;</span>查看&#123;&#123;row.date&#125;&#125;<span class="tag">&lt;/<span class="name">el-button</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">el-table-column</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">enhanced-table</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">data () &#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    colConfigs: [</span><br><span class="line">      &#123; <span class="attr">prop</span>: <span class="string">'date'</span>, <span class="attr">label</span>: <span class="string">'日期'</span> &#125;,</span><br><span class="line">      &#123; <span class="attr">prop</span>: <span class="string">'name'</span>, <span class="attr">label</span>: <span class="string">'姓名'</span> &#125;,</span><br><span class="line">      &#123; <span class="attr">prop</span>: <span class="string">'address'</span>, <span class="attr">label</span>: <span class="string">'地址'</span> &#125;,</span><br><span class="line">      &#123; <span class="attr">prop</span>: <span class="string">'change'</span>, <span class="attr">label</span>: <span class="string">'变化'</span>, <span class="attr">component</span>: PrefixPlusText &#125;,</span><br><span class="line">      &#123; <span class="attr">prop</span>: <span class="string">'trend'</span>, <span class="attr">label</span>: <span class="string">'趋势'</span> &#125;,</span><br><span class="line">      &#123; <span class="attr">slot</span>: <span class="string">'options'</span>, <span class="attr">message</span>: <span class="string">'message'</span> &#125;</span><br><span class="line">    ],</span><br><span class="line">    tableData: [&#123;</span><br><span class="line">      id: <span class="string">'1'</span>,</span><br><span class="line">      date: <span class="string">'2016-05-02'</span>,</span><br><span class="line">      name: <span class="string">'王小虎'</span>,</span><br><span class="line">      address: <span class="string">'上海市普陀区金沙江路 1518 弄'</span>,</span><br><span class="line">      change: <span class="string">'12%'</span>,</span><br><span class="line">      trend: <span class="string">'10%'</span></span><br><span class="line">    &#125;]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="ajax"><a href="#ajax" class="headerlink" title="ajax"></a>ajax</h2><p>ajax 此处采用的 axios 简单封装，api 地址写死在 ajax.js 中</p>
+<p>组件引入 ajax.js</p>
+<p>然后 ajax(params) 即可</p>
+<h2 id="cc播放"><a href="#cc播放" class="headerlink" title="cc播放"></a>cc播放</h2><p>iframe 遇到的问题 用appendChild 插入第三方script 执行没问题，但插入的flash不播放。暂时没找到原因，所以最后用<br>      idocument.open()<br>      idocument.write(’拼接好的要插入的第三方script标签‘)<br>      idocument.close()</p>
+<p>这里遇到的问题是 第三方将div插入到了head中 所以在onload时将div移动到body中,然后500ms执行一下定时器去尝试获取object<br>如果获取到更改宽高，从而实现100%契合iframe大小</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/25/export-excel/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2019/06/25/export-excel/" itemprop="url">
+                  未命名
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-25T16:00:29+08:00">
+                2019-06-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/06/25/export-excel/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/06/25/export-excel/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/25/loading/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2019/06/25/loading/" itemprop="url">
+                  loading组件的编写
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-25T15:55:00+08:00">
+                2019-06-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/vue/" itemprop="url" rel="index">
+                    <span itemprop="name">vue</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/06/25/loading/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/06/25/loading/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>普通小圆圈的加载小图标。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">svg</span> <span class="attr">class</span>=<span class="string">"load"</span> <span class="attr">:width</span>=<span class="string">"cx*2"</span> <span class="attr">:height</span>=<span class="string">"cx*2"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">circle</span> <span class="attr">class</span>=<span class="string">"loading"</span> <span class="attr">:cx</span>=<span class="string">"cx"</span> <span class="attr">:cy</span>=<span class="string">"cx"</span> <span class="attr">:r</span>=<span class="string">"r"</span> <span class="attr">:stroke-width</span>=<span class="string">"strokewidth"</span> <span class="attr">:stroke</span>=<span class="string">"stroke"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">svg</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">Vue.component(<span class="string">"load-icon"</span>, &#123;</span><br><span class="line">  template: loadIconTemplate,</span><br><span class="line">  props: &#123;</span><br><span class="line">    r: &#123;</span><br><span class="line">      <span class="keyword">default</span>: <span class="number">20</span>,</span><br><span class="line">      type: <span class="built_in">Number</span></span><br><span class="line">    &#125;,</span><br><span class="line">    strokewidth: &#123;</span><br><span class="line">      <span class="keyword">default</span>: <span class="number">5</span>,</span><br><span class="line">      type: <span class="built_in">Number</span></span><br><span class="line">    &#125;,</span><br><span class="line">    stroke: &#123;</span><br><span class="line">      <span class="keyword">default</span>: <span class="string">"rgba(102,187,153)"</span>,</span><br><span class="line">      <span class="comment">//   default: "rgba(255,255,255,.5)",</span></span><br><span class="line">      type: <span class="built_in">String</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  computed: &#123;</span><br><span class="line">    cx() &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">this</span>.r + <span class="keyword">this</span>.strokewidth;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/25/bug/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2019/06/25/bug/" itemprop="url">
+                  pc端遇到坑的总结
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-25T13:38:27+08:00">
+                2019-06-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/css/" itemprop="url" rel="index">
+                    <span itemprop="name">css</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/06/25/bug/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/06/25/bug/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ul>
+<li>下载文件的api，注意传输的数据不能有 %，空格 还有其他特殊符号，特别注意传送表格数据的时候，百分号</li>
+<li>safari里单纯的cover可能有空白，需要<code>background: url(bg.jpg) no-repeat fixed;</code>，对，一定写fixed</li>
+<li>safari对普通日期不兼容比如，<code>new Date(&#39;2019-09-09 06::09:09&#39;)</code>两种方式，一：<code>new Date(&#39;2019-09-09T06::09:09Z&#39;)</code>，二：<code>new Date(&#39;2019/09/09 06::09:09&#39;)</code>推荐第二种<a href="http://landcareweb.com/questions/3249/safarizhong-de-ri-qi-wu-xiao" target="_blank" rel="noopener">参考</a></li>
+<li>vue开始显示<code></code>，可以包上template，这样解析完之后再显示</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/28/vue_ball_animation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2019/05/28/vue_ball_animation/" itemprop="url">
+                  未命名
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-28T15:34:15+08:00">
+                2019-05-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/05/28/vue_ball_animation/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/05/28/vue_ball_animation/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span> <span class="attr">lang</span>=<span class="string">"pug"</span>&gt;</span></span><br><span class="line">    //- npm i pug-plain-loader pug -D</span><br><span class="line">    div#app</span><br><span class="line">        div.ball(:style="ballStyle")</span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript"><span class="comment">// import HelloWorld from './components/HelloWorld.vue'</span></span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line"><span class="javascript">  name: <span class="string">'app'</span>,</span></span><br><span class="line"><span class="undefined">  components: &#123;</span></span><br><span class="line"><span class="javascript">    <span class="comment">// HelloWorld</span></span></span><br><span class="line"><span class="undefined">  &#125;,</span></span><br><span class="line"><span class="undefined">  data()&#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">return</span>&#123;</span></span><br><span class="line"><span class="undefined">      left:0,</span></span><br><span class="line"><span class="undefined">      target:200</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">  &#125;,</span></span><br><span class="line"><span class="undefined">  methods:&#123;</span></span><br><span class="line"><span class="undefined">  animationFn() &#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> queueID;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">const</span>  _animation = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">if</span> (<span class="keyword">this</span>.left &gt;= <span class="keyword">this</span>.target) &#123;</span></span><br><span class="line"><span class="undefined">        cancelAnimationFrame(queueID);</span></span><br><span class="line"><span class="javascript">        <span class="keyword">return</span>;</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">this</span>.left++;</span></span><br><span class="line"><span class="javascript">      <span class="comment">// ！！！！！这里的属性必须写在行内样式里，这里写死了，注意</span></span></span><br><span class="line"><span class="javascript">      <span class="comment">// computed自动计算</span></span></span><br><span class="line"><span class="undefined">      cancelAnimationFrame(queueID);</span></span><br><span class="line"><span class="undefined">      queueID = requestAnimationFrame(_animation);</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="javascript">    <span class="comment">// 首次渲染</span></span></span><br><span class="line"><span class="undefined">    requestAnimationFrame(_animation);</span></span><br><span class="line"><span class="undefined">&#125;</span></span><br><span class="line"><span class="undefined">  &#125;,</span></span><br><span class="line"><span class="undefined">  computed:&#123;</span></span><br><span class="line"><span class="undefined">    ballStyle()&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> <span class="string">`transform:translate(<span class="subst">$&#123;<span class="keyword">this</span>.left&#125;</span>px)`</span></span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">  &#125;,</span></span><br><span class="line"><span class="undefined">  mounted()&#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">this</span>.animationFn()</span></span><br><span class="line"><span class="undefined">  &#125;</span></span><br><span class="line"><span class="undefined">&#125;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">#app &#123;</span></span><br><span class="line"><span class="undefined">  font-family: 'Avenir', Helvetica, Arial, sans-serif;</span></span><br><span class="line"><span class="undefined">  -webkit-font-smoothing: antialiased;</span></span><br><span class="line"><span class="undefined">  -moz-osx-font-smoothing: grayscale;</span></span><br><span class="line"><span class="undefined">  text-align: center;</span></span><br><span class="line"><span class="undefined">  color: #2c3e50;</span></span><br><span class="line"><span class="undefined">  margin-top: 60px;</span></span><br><span class="line"><span class="undefined">&#125;</span></span><br><span class="line"><span class="undefined">.ball&#123;</span></span><br><span class="line"><span class="undefined">  width:100px;</span></span><br><span class="line"><span class="undefined">  height:100px;</span></span><br><span class="line"><span class="undefined">  border-radius:100px;</span></span><br><span class="line"><span class="undefined">  background-color:#f69;</span></span><br><span class="line"><span class="undefined">&#125;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>然后将ball相关的移到ball.vue，</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- app.vue --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">template</span> <span class="attr">lang</span>=<span class="string">"pug"</span>&gt;</span></span><br><span class="line">    //- npm i pug-plain-loader pug -D</span><br><span class="line">    div#app</span><br><span class="line">        ball</span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript"><span class="keyword">import</span> Ball <span class="keyword">from</span> <span class="string">'./Ball.vue'</span></span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line"><span class="javascript">  name: <span class="string">'app'</span>,</span></span><br><span class="line"><span class="undefined">  components: &#123;</span></span><br><span class="line"><span class="undefined">    Ball</span></span><br><span class="line"><span class="undefined">  &#125;,</span></span><br><span class="line"><span class="undefined">  data()&#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">return</span>&#123;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">  &#125;,</span></span><br><span class="line"><span class="undefined">  methods:&#123;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">  &#125;</span></span><br><span class="line"><span class="undefined">&#125;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">#app &#123;</span></span><br><span class="line"><span class="undefined">  font-family: 'Avenir', Helvetica, Arial, sans-serif;</span></span><br><span class="line"><span class="undefined">  -webkit-font-smoothing: antialiased;</span></span><br><span class="line"><span class="undefined">  -moz-osx-font-smoothing: grayscale;</span></span><br><span class="line"><span class="undefined">  text-align: center;</span></span><br><span class="line"><span class="undefined">  color: #2c3e50;</span></span><br><span class="line"><span class="undefined">  margin-top: 60px;</span></span><br><span class="line"><span class="undefined">&#125;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- ball.vue --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">template</span> <span class="attr">lang</span>=<span class="string">"pug"</span>&gt;</span></span><br><span class="line">    div.ball(:style="ballStyle")</span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line"><span class="javascript">  name: <span class="string">'Ball'</span>,</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">  data()&#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">return</span>&#123;</span></span><br><span class="line"><span class="undefined">      left:0,</span></span><br><span class="line"><span class="undefined">      target:200</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">  &#125;,</span></span><br><span class="line"><span class="undefined">  methods:&#123;</span></span><br><span class="line"><span class="undefined">  animationFn() &#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> queueID;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">const</span>  _animation = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">if</span> (<span class="keyword">this</span>.left &gt;= <span class="keyword">this</span>.target) &#123;</span></span><br><span class="line"><span class="undefined">        cancelAnimationFrame(queueID);</span></span><br><span class="line"><span class="javascript">        <span class="keyword">return</span>;</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">this</span>.left++;</span></span><br><span class="line"><span class="javascript">      <span class="comment">// ！！！！！这里的属性必须写在行内样式里，这里写死了，注意</span></span></span><br><span class="line"><span class="javascript">      <span class="comment">// computed自动计算</span></span></span><br><span class="line"><span class="undefined">      cancelAnimationFrame(queueID);</span></span><br><span class="line"><span class="undefined">      queueID = requestAnimationFrame(_animation);</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="javascript">    <span class="comment">// 首次渲染</span></span></span><br><span class="line"><span class="undefined">    requestAnimationFrame(_animation);</span></span><br><span class="line"><span class="undefined">&#125;</span></span><br><span class="line"><span class="undefined">  &#125;,</span></span><br><span class="line"><span class="undefined">  computed:&#123;</span></span><br><span class="line"><span class="undefined">    ballStyle()&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> <span class="string">`transform:translate(<span class="subst">$&#123;<span class="keyword">this</span>.left&#125;</span>px)`</span></span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">  &#125;,</span></span><br><span class="line"><span class="undefined">  mounted()&#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">this</span>.animationFn()</span></span><br><span class="line"><span class="undefined">  &#125;</span></span><br><span class="line"><span class="undefined">&#125;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">.ball&#123;</span></span><br><span class="line"><span class="undefined">  width:100px;</span></span><br><span class="line"><span class="undefined">  height:100px;</span></span><br><span class="line"><span class="undefined">  border-radius:100px;</span></span><br><span class="line"><span class="undefined">  background-color:#f69;</span></span><br><span class="line"><span class="undefined">&#125;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/27/link_preload/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2019/05/27/link_preload/" itemprop="url">
+                  preload让加载和解析解耦
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-27T14:34:51+08:00">
+                2019-05-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/css/" itemprop="url" rel="index">
+                    <span itemprop="name">css</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/05/27/link_preload/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/05/27/link_preload/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
+<li>preload本质：preload 是声明式的 fetch，可以改变浏览器加载资源的优先级，强制浏览器请求资源，同时不阻塞文档 onload 事件，也因此可以将 load 事件与脚本解析过程解耦</li>
+<li>prefetch本质：让浏览器空闲的时候加载下一页可能需要的资源，同样的load和解析解耦</li>
+<li>dns-fetch，让浏览器提前做dns预解析，当静态资源和html不在同一个域的时候，特别好用</li>
+<li>async，defer是script的属性，其让html解析与下载并行，但是async下载完之后立即执行，而defer是html解析完之后再执行，一般按照顺序执行，但据说不是百分百靠谱</li>
+</ul>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>一般写html页面，script写在body结束标签前，这样只有当遇到script标签的时候，才会加载执行，费加载时间不科学吖！尽管大多数基于标记语言的资源能被浏览器的预加载器<a href="https://link.jianshu.com/?t=http://calendar.perfplanet.com/2013/big-bad-preloader/" target="_blank" rel="noopener">（Preloader）</a>提前加载，但还是不尽如人意！  </p>
+<p>理想情况是，先从文档需要的资源，根据优先级，下载到本地，等到需要的时候，就可以直接使用或者解析执行！<br>然后！对！preload就可以干这个事！可随时关注<a href="https://w3c.github.io/preload/" target="_blank" rel="noopener">preload的动态</a>，就目前很多现代浏览器已经支持！  </p>
+<p>preload大白话的意思是，”嗨，浏览器！这个资源在这个页面后面会用到，现在先加载它吧。“</p>
+<h2 id="好处"><a href="#好处" class="headerlink" title="好处"></a>好处</h2><p>好处远不止上面的：</p>
+<ul>
+<li>本质！preload 是声明式的 fetch，可以改变浏览器加载资源的优先级，强制浏览器请求资源，同时不阻塞文档 onload 事件，也因此可以将 load 事件与脚本解析过程解耦</li>
+<li>资源的提前加载。<code>&lt;link rel=&quot;preload&quot; href=&quot;late_discovered_thing.js&quot; as=&quot;script&quot;&gt;</code></li>
+<li>字体的提前加载。<code>&lt;link rel=&quot;preload&quot; href=&quot;font.woff2&quot; as=&quot;font&quot; type=&quot;font/woff2&quot; crossorigin&gt;</code></li>
+<li>动态加载，但不执行。加载某一资源但却不想立即执行它，而是想在特定的时机执行。后面细说代码。</li>
+<li>基于标记语言的异步加载。<code>&lt;link rel=&quot;preload&quot; as=&quot;style&quot; href=&quot;asyncstyle.css&quot; onload=&quot;this.rel=&#39;stylesheet&#39;&quot;&gt;</code>，加载完之后就可以应用到文档里了，script也同理，这里的onload是指window的onload事件，在加一些统计脚本的时候挺合适，不影响页面的onload，<code>&lt;link rel=&quot;preload&quot; as=&quot;script&quot; href=&quot;async_script.js&quot; onload=&quot;var script = document.createElement(&#39;script&#39;); script.src = this.href; document.body.appendChild(script);&quot;&gt;</code></li>
+<li>响应式加载。preload是在link标签上，也就是还可以配合media属性，能让浏览器加载自己需要的资源。<code>&lt;link rel=&quot;preload&quot; as=&quot;image&quot; href=&quot;map.png&quot; media=&quot;(max-width: 600px)&quot;&gt; &lt;link rel=&quot;preload&quot; as=&quot;script&quot; href=&quot;map.js&quot; media=&quot;(min-width: 601px)&quot;&gt;</code></li>
+<li>检测浏览器是不是支持preload，<code>var isSupportPreload = document.createElement(&quot;link&quot;).relList &amp;&amp; document.createElement(&quot;link&quot;).relList.supports(&#39;preload&#39;)</code></li>
+</ul>
+<h2 id="怎么使用preload"><a href="#怎么使用preload" class="headerlink" title="怎么使用preload"></a>怎么使用preload</h2><h3 id="先说说link标签"><a href="#先说说link标签" class="headerlink" title="先说说link标签"></a>先说说link标签</h3><p>先说下link标签的使用。</p>
+<ul>
+<li><a href="(https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/link">link</a>)规定了外部资源与当前文档的关系！</li>
+<li>于是link有不可或缺的两个属性，<code>href</code>外部资源的路径，<code>rel</code>外部资源与当前文档的关系，rel其实relation的缩写，但因为多数用于css，所以rel是<code>stylesheet</code>的时候，是可以省略的</li>
+<li>link标签只能出现在<code>head</code>里</li>
+<li>有全局属性和onload事件，onload事件是指文档所有资源加载完之后</li>
+<li>media：这个属性规定了外部资源适用的<a href="https://developer.mozilla.org/zh-CN/docs/Web/Guide/CSS/Media_queries" target="_blank" rel="noopener">媒体类型</a>。它的值必须是”媒体查询”。这个属性使得用户代理能选择最适合设备运行的媒体类型。<code>&lt;link rel=&quot;stylesheet&quot; media=&quot;(max-width: 800px)&quot; href=&quot;example.css&quot; /&gt;</code></li>
+<li>type这个属性被用于定义链接的内容的类型。这个属性的值应该是像text/html，text/css等MIME类型。这个属性常用的用法是定义链接的样式表，最常用的值是表明了CSS的text/css。</li>
+</ul>
+<h3 id="preload是在link上的"><a href="#preload是在link上的" class="headerlink" title="preload是在link上的"></a>preload是在link上的</h3><ul>
+<li>使用preload很简单，就是link的<code>rel=&quot;preload&quot;</code>，href是仍然是资源路径，然后加上as来说明加载的内容的类型就可以了，常用的<code>&quot;script&quot; &quot;style&quot; &quot;image&quot; &quot;media&quot; &quot;document&quot;</code>。</li>
+<li>preload加载字体的时候，crossorigin 属性是必须的，即便是字体资源在自家服务器上，因为用户代理必须采用匿名模式来获取字体资源。type 属性可以确保浏览器只获取自己支持的资源。比如Chrome 支持 WOFF2，看到这个就下载了，遇到不识别的类型就忽略</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- js --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"preload"</span> <span class="attr">href</span>=<span class="string">"static.js"</span> <span class="attr">as</span>=<span class="string">"script"</span> <span class="attr">onload</span>=<span class="string">"preloadFinished()"</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- css --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"preload"</span> <span class="attr">href</span>=<span class="string">"static.css"</span> <span class="attr">as</span>=<span class="string">"style"</span> <span class="attr">onload</span>=<span class="string">"preloadFinished()"</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 字体，注意crossorigin和type的增加 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"preload"</span> <span class="attr">href</span>=<span class="string">"font.woff2"</span> <span class="attr">as</span>=<span class="string">"font"</span> <span class="attr">type</span>=<span class="string">"font/woff2"</span> <span class="attr">crossorigin</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="细说，动态加载，但不执行"><a href="#细说，动态加载，但不执行" class="headerlink" title="细说，动态加载，但不执行"></a>细说，动态加载，但不执行</h2><p>其实动态加载就是插入带preload的link，执行的时候，动态的创建script。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">loadScript</span>(<span class="params">url</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> link = <span class="built_in">document</span>.createElement(<span class="string">"link"</span>);</span><br><span class="line">    link.href = url</span><br><span class="line">    link.rel = <span class="string">"preload"</span>;</span><br><span class="line">    link.as = <span class="string">"script"</span>;</span><br><span class="line">    <span class="built_in">document</span>.head.appendChild(link);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">execScript</span>(<span class="params">url</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> script = <span class="built_in">document</span>.createElement(<span class="string">"script"</span>);</span><br><span class="line">    script.src = url;</span><br><span class="line">    <span class="built_in">document</span>.body.appendChild(script);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 加载这个js，但不执行</span></span><br><span class="line">loadScript(<span class="string">"myscript.js"</span>)</span><br><span class="line"><span class="comment">// 某个时机执行</span></span><br><span class="line">setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    execScript(<span class="string">"myscript.js"</span>)</span><br><span class="line">&#125;,<span class="number">1000</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="preload的坑"><a href="#preload的坑" class="headerlink" title="preload的坑"></a>preload的坑</h2><p>注意吖，不是说加载了就是执行！！！！！<br>也就是preload只管加载！！！<br>换句话说，你买东西，preload相当于快递到你家门口了，但是你只有拆了包裹才算是使用！！！<br>代码的体现就是，以前的<code>&lt;link href=&quot;xx.css&quot;&gt;</code>和<code>&lt;script src=&quot;xxx.js&quot;&gt;</code>还是要写在相应的位置的！<br>然后<strong>再</strong>在head头里加上<code>&lt;link rel=&quot;preload&quot; href=&quot;xx.css&quot; as=&quot;style&quot;&gt;&lt;link rel=&quot;preload&quot; href=&quot;xxx.js&quot; as=&quot;script&quot;&gt;</code>，preload是锦上添花的！</p>
+<h2 id="浏览器加载机制"><a href="#浏览器加载机制" class="headerlink" title="浏览器加载机制"></a>浏览器加载机制</h2><p>我觉得吧，先去知道<a href="https://juejin.im/post/5a4ed917f265da3e317df515" target="_blank" rel="noopener">浏览器加载机制</a>之后，才能更加体会到preload的美!  </p>
+<p>这边简单的总结下，浏览器的加载机制：</p>
+<ul>
+<li>资源分类。html，css，js…</li>
+<li>安全策略检查。是否加载某处的资源</li>
+<li>资源优先级计算。html、css、font资源 =&gt; preload资源、script、xhr请求 =&gt; 图片、语音、视频 =&gt; <a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Link_prefetching_FAQ" target="_blank" rel="noopener">prefetch</a>预读取的资源(多用于dns)</li>
+<li>综合安全策略和优先级，开始下载资源</li>
+<li>谷歌控制台查看资源优先级的方法：打开开发者工具 -&gt; 点击network -&gt; 刷新页面 -&gt; 在出现的表格的表头那行右击（就是Name,type,size…）选择<code>Priority</code></li>
+</ul>
+<h2 id="prefetch与preload"><a href="#prefetch与preload" class="headerlink" title="prefetch与preload"></a>prefetch与preload</h2><p>prefetch相当于说，“嗨，浏览器，下个页面可能要用到这个资源，你闲着无聊就帮我加载下呗~”。<br>用法跟preload差不离，link的<code>rel=&quot;prefetch&quot;</code></p>
+<p>和preload区别：</p>
+<ul>
+<li>preload是让浏览器提前加载当前页面比较重要的资源，，prefetch是让浏览器没活的时候加载下个页面可能用到的资源  </li>
+<li>prefetch并没有同域的限制，但preload有  </li>
+<li>都不会影响onload事件，准备说有点load事件和解析解耦的感觉  </li>
+<li>当页面上使用到这个资源时候 preload   资源还没下载完，这时候不会造成二次下载，会等待第一次下载并执行脚本。prefetch差不多吧。</li>
+<li>对于 preload 来说，一旦页面关闭了，它就会立即停止 preload 获取资源，而对于 prefetch 资源，即使页面关闭，prefetch 发起的请求仍会进行不会中断。</li>
+</ul>
+<h2 id="随手说下dns-prefetch"><a href="#随手说下dns-prefetch" class="headerlink" title="随手说下dns-prefetch"></a>随手说下dns-prefetch</h2><p>先说域名只是服务器ip地址的美化，也就是虽然请求域名，但实际是先请求dns服务器，dns服务器返回域名所代表的真正的服务器ip，浏览器再向服务器发送请求。<br>dns-prefetch就是让浏览器先将域名发给dns服务器，让浏览器知道，域名所指的真正的服务器，之后在发送请求的时候，就直接发给服务器了。<br>简单的一行就能让支持的浏览器提前解析DNS。也就是说在浏览器请求资源时，DNS查询就已经准备好了。  </p>
+<p>使用方式<code>&lt;link rel=&quot;dns-prefetch&quot; href=&quot;//example.com&quot;&gt;</code></p>
+<p>使用场景：</p>
+<ul>
+<li>项目的静态资源和html不在同一个域上</li>
+<li>有重定向的域名</li>
+</ul>
+<h2 id="还有async，defer"><a href="#还有async，defer" class="headerlink" title="还有async，defer"></a>还有async，defer</h2><p>直接引用<a href="https://segmentfault.com/q/1010000000640869" target="_blank" rel="noopener">这个回答</a><br>，当浏览器碰到 script 脚本的时候：</p>
+<ul>
+<li>没有 defer 或 async，浏览器会立即加载并执行指定的脚本，“立即”指的是在渲染该 script 标签之下的文档元素之前，也就是说不等待后续载入的文档元素，读到就加载并执行。<code>&lt;script src=&quot;script.js&quot;&gt;&lt;/script&gt;</code></li>
+<li>有 async，加载和渲染后续文档元素的过程将和 script.js 的加载与执行并行进行（异步）。<code>&lt;script async src=&quot;script.js&quot;&gt;&lt;/script&gt;</code></li>
+<li>有 defer，加载后续文档元素的过程将和 script.js 的加载并行进行（异步），但是 script.js 的执行要在所有元素解析完成之后，DOMContentLoaded 事件触发之前完成。<code>&lt;script defer src=&quot;myscript.js&quot;&gt;&lt;/script&gt;</code></li>
+</ul>
+<p><img src="https://user-gold-cdn.xitu.io/2019/5/27/16af8d85864e120e?w=787&amp;h=800&amp;f=png&amp;s=126594" alt="不知道是谁的图片"></p>
+<blockquote>
+<p><a href="https://www.jianshu.com/p/24ffa6d45087" target="_blank" rel="noopener">preload的好处</a><br><a href="https://w3c.github.io/preload/" target="_blank" rel="noopener">w3c的preload，一眼可以看到支持</a><br><a href="https://juejin.im/post/5a4ed917f265da3e317df515" target="_blank" rel="noopener">浏览器加载机制</a><br><a href="https://juejin.im/post/58e8acf10ce46300585a7a42" target="_blank" rel="noopener">prefetch和preload</a><br><a href="http://www.alloyteam.com/2015/10/prefetching-preloading-prebrowsing/" target="_blank" rel="noopener">一箩筐的预取技术</a></p>
+</blockquote>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/27/vue_cli/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2019/05/27/vue_cli/" itemprop="url">
+                  vue的cli使用
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-27T10:50:28+08:00">
+                2019-05-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/05/27/vue_cli/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/05/27/vue_cli/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
+<li><code>sudo npm install @vue/cli @vue/cli-service-global -g</code>安装vue的命令</li>
+<li><code>vue serve  xx.vue</code>或者<code>vue build</code>能对单个 *.vue 文件进行快速原型开发</li>
+<li>但是用<code>vue create xx</code>建成的项目，一般用<code>npm run serve</code>或者<code>npm run build</code></li>
+<li>目录结构的配置</li>
+<li>在遇到问题去<a href="https://cli.vuejs.org/zh/guide/installation.html" target="_blank" rel="noopener">vue CLI</a>官网查询即可</li>
+</ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/05/27/vue_cli/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/27/vue_reduce_menu/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2019/05/27/vue_reduce_menu/" itemprop="url">
+                  vue实现递归子菜单
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-27T09:36:11+08:00">
+                2019-05-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/05/27/vue_reduce_menu/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/05/27/vue_reduce_menu/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>经常看到的菜单，可能一层嵌着一层，然后点击展开或者收起。假设现在的菜单是后端的数据，前端根据数据显示菜单。</p>
 <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
-<li>核心概念：暂存区(索引)，数据库(repository)是每个commit组成的，HEAD/branch/tag都指向某个commit</li>
-<li>远程仓库实际上和本地仓库没啥不同，纯粹为了7x24小时开机并交换大家的修改。</li>
-<li>没事常常<code>git status</code>和<code>git lg</code>，没写错，配置<code>git config --global alias.lg &quot;log --color --graph --pretty=format:&#39;%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&lt;%an&gt;%Creset&#39; --abbrev-commit&quot;</code>，炒鸡炫酷</li>
-<li>需要在git执行某条命令的时候执行脚本，就用到钩子</li>
-<li>搭建远程仓库
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/05/22/git/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/21/ssh_use/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2019/05/21/ssh_use/" itemprop="url">
-                  ssh免密登录服务器和scp的使用
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-21T16:54:47+08:00">
-                2019-05-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/server/" itemprop="url" rel="index">
-                    <span itemprop="name">server</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/05/21/ssh_use/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/05/21/ssh_use/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
-<li>本地登录服务器 <code>ssh user@remote -p port</code>，端口是22的话<code>ssh user@remote</code>，退出登录<code>exit</code></li>
-<li>本地免密码登录 <code>ssh-copy-id user@remote -p port</code>，这在写脚本服务器控制时特别有用</li>
-<li>给服务器配置别名 <code>code ~/.ssh/config</code>追加一些内容，就可以<code>ssh selfname</code>登录，不再需要记服务器ip地址了</li>
-<li>执行命令<code>ssh selfname &quot;cd ~;ls&quot;</code>，将会在服务器上执行引号里的命令，执行之后其自动关闭远程服务</li>
-<li>将a电脑文件(夹)复制到b电脑上哪个文件夹下面：<code>scp username@a电脑ip:文件路径 username@b电脑ip:文件夹路径</code>，是文件夹的话加上<code>-r</code>，这里也可以用别名，通常本机的话省略<code>username@a电脑ip:</code></li>
-</ul>
-<!-- * 想要任意电脑都能访问本地的`localhost:8000`，需要在本机执行 `autossh -NfR 10022:localhost:8000 公网电脑的ip地址或者别名`，在服务器上执行`ssh user@localhost -p 10022`
-* 想要任意电脑都能访问本地的`localhost:8000`，需要在本机执行 `autossh -NfR 0.0.0.0:18000:localhost:8000 公网电脑的ip地址或者别名`
-autossh -NR 0.0.0.0:18000:10.73.33.84:8000 han -->
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/05/21/ssh_use/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/16/seajs/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2019/05/16/seajs/" itemprop="url">
-                  seajs的理解
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-16T09:08:13+08:00">
-                2019-05-16
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/vscode/" itemprop="url" rel="index">
-                    <span itemprop="name">vscode</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/05/16/seajs/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/05/16/seajs/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
-<li>define/module.exports</li>
-<li>define(‘xx’) define(function(require,exports,module){})
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/05/16/seajs/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/13/down-export-excel/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2019/05/13/down-export-excel/" itemprop="url">
-                  前端下载文件以及上传图片预览，顺便了解arrayBuffer和blob
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-13T13:31:24+08:00">
-                2019-05-13
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/05/13/down-export-excel/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/05/13/down-export-excel/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
-<li>前端下载的关键靠<code>&lt;a href=&quot;demo.jpg&quot; download&gt;下载图片&lt;/a&gt;</code></li>
-<li>后端传blob，前端处理blob，然后下载文件</li>
-<li>二进制数组arrayBuffer、typedArray、dataView相关内容</li>
-<li>blob、file相关内容</li>
-<li>上传图片预览的两种方式：blobURL和dataURL</li>
+<li><code>sudo npm install @vue/cli @vue/cli-service-global -g</code>安装vue的命令</li>
+<li>preload的使用，<code>&lt;link href=/js/app.0949a67c.js rel=preload as=script&gt;</code>，as当然也可以是style</li>
+<li>将递归的部分单独提取出去，然后递归自己，也就是在普通的情况下增加一个组件。</li>
 </ul>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/05/13/down-export-excel/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/10/echarts-apply/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2019/05/10/echarts-apply/" itemprop="url">
-                  echarts的简单运用以及配置
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-10T09:08:38+08:00">
-                2019-05-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/05/10/echarts-apply/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/05/10/echarts-apply/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
-<li><code>&lt;script src=&quot;https://cdn.bootcss.com/echarts/4.2.1/echarts.min.js&quot;&gt;&lt;/script&gt;</code></li>
-<li><code>var myEcharts = echarts.init(dom容器);var option = {};myChart.setOption(option)</code></li>
-<li>option起码的选项，<code>{xAxis:{data:[]},yAxis:{},series:[{type:&#39;line&#39;,data:[]}]}</code></li>
-<li>遇见困难<a href="https://www.echartsjs.com/option.html#title" target="_blank" rel="noopener">看文档</a>，没事敲敲<a href="https://echarts.baidu.com/examples/" target="_blank" rel="noopener">实例</a>快速增加对属性的理解</li>
-<li><a href="https://github.com/frontzhm/echarts-apply" target="_blank" rel="noopener">自己的玩的代码</a></li>
-</ul>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/05/10/echarts-apply/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/05/vue-collapse/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2019/05/05/vue-collapse/" itemprop="url">
-                  vue手风琴的练习
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-05T17:44:41+08:00">
-                2019-05-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/vue/" itemprop="url" rel="index">
-                    <span itemprop="name">vue</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/05/05/vue-collapse/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/05/05/vue-collapse/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <ul>
-<li>$parent children的练习</li>
-<li>$on $emit的练习</li>
-<li>不牵涉多余的部分，考虑parent模式</li>
-<li>vuex的情况下，就可以很方便的用on了
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/05/05/vue-collapse/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/05/vue-components/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2019/05/05/vue-components/" itemprop="url">
-                  vue深入了解组件篇
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-05T11:49:48+08:00">
-                2019-05-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/vue/" itemprop="url" rel="index">
-                    <span itemprop="name">vue</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/05/05/vue-components/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/05/05/vue-components/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <ul>
-<li>组件注册的时候，js那边驼峰式，html羊肉串</li>
-<li>prop特性</li>
-<li>非prop特性，$attr接受</li>
-<li>自定义事件，$listeners</li>
-<li>slot</li>
-<li>keep-alive
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/05/05/vue-components/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/05/vue-basic/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2019/05/05/vue-basic/" itemprop="url">
-                  vue基础篇
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-05T11:22:30+08:00">
-                2019-05-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/vue/" itemprop="url" rel="index">
-                    <span itemprop="name">vue</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/05/05/vue-basic/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/05/05/vue-basic/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <ul>
-<li>末尾watch的例子很有意义</li>
-<li>class常用的处理方式</li>
-<li>列表渲染的时候注意key</li>
-<li>事件处理的时候，可以有修饰符</li>
-<li>表单输入绑定，语法糖的区别</li>
-<li>组件的基本使用</li>
-</ul>
-<p>此文是vue文档的缩略版。<br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/05/05/vue-basic/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/28/vue-computed/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2019/04/28/vue-computed/" itemprop="url">
-                  computed的get和set用法
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-28T17:26:13+08:00">
-                2019-04-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/vue/" itemprop="url" rel="index">
-                    <span itemprop="name">vue</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/04/28/vue-computed/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/04/28/vue-computed/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
-<li>watch的优势在异步</li>
-<li>computed的get的触发，是在页面有属性(<code>fullName</code>)且依赖的属性值(<code>firstName</code>)变化的时候。常常的应用场景是，某值是随着某某值变化而变化，特别像函数的y与x</li>
-<li>computed的set的触发，是在属性(<code>fullName</code>)直接发生变化的时候。常常的应用场景就是表单元素绑定属性(<code>fullName</code>)，用户交互变化属性值的时候，进而也影响到其依赖的属性(<code>firstName</code>)。简言之，相互影响。
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/04/28/vue-computed/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/28/vue-$-directives-checkbox-all/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2019/04/28/vue-$-directives-checkbox-all/" itemprop="url">
-                  简单总结vm的方法、指令以及复选框全选的实现
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-28T16:05:53+08:00">
-                2019-04-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/vue/" itemprop="url" rel="index">
-                    <span itemprop="name">vue</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/04/28/vue-$-directives-checkbox-all/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/04/28/vue-$-directives-checkbox-all/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
-<li>vm的实例方法<code>el,options,nextTick,watch,mount</code></li>
-<li>vue的指令，<code>once,html,if,for,model,bind,on</code>，留意for的key和model的语法糖</li>
-<li>model与<code>select,radio,checkbox</code>，select的首项可以用disabled，默认选中都是value值，复选框单个布尔，多个数组</li>
-<li>复选框全选的功能，事件监听的正常版和computed的优雅升级版</li>
-<li><p>没什么特别干货的，半小手册，自己查阅</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/04/28/vue-$-directives-checkbox-all/#more" rel="contents">
+            <a class="btn" href="/2019/05/27/vue_reduce_menu/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1851,7 +1885,7 @@ autossh -NR 0.0.0.0:18000:10.73.33.84:8000 han -->
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1896,7 +1930,7 @@ autossh -NR 0.0.0.0:18000:10.73.33.84:8000 han -->
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">79</span>
+                <span class="site-state-item-count">91</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1907,7 +1941,7 @@ autossh -NR 0.0.0.0:18000:10.73.33.84:8000 han -->
             
             <div class="site-state-item site-state-categories">
               
-                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-count">27</span>
                 <span class="site-state-item-name">分类</span>
               
             </div>
@@ -1918,7 +1952,7 @@ autossh -NR 0.0.0.0:18000:10.73.33.84:8000 han -->
             
             <div class="site-state-item site-state-tags">
               
-                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-count">41</span>
                 <span class="site-state-item-name">标签</span>
               
             </div>
