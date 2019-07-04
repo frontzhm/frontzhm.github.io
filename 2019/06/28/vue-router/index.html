@@ -1,0 +1,807 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="vue," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="TL;DR router其实就是让路径和组件一一对应 即便不使用vue-router也可以实现跳转 vue-router的使用好处：历史记录、参数处理、路由钩子、权限控制、记录滚动条位置 vue-router指南和vue-router的API 坑：历史模式懒加载的时候注意名字、子路由一般不用/  router到底是什么router，路由，我理解的其实就是，让不同的路径对应的不同的视图。在vue里，">
+<meta name="keywords" content="vue">
+<meta property="og:type" content="article">
+<meta property="og:title" content="大白话理解和初步使用vue-router">
+<meta property="og:url" content="http://yoursite.com/2019/06/28/vue-router/index.html">
+<meta property="og:site_name" content="花花的博客">
+<meta property="og:description" content="TL;DR router其实就是让路径和组件一一对应 即便不使用vue-router也可以实现跳转 vue-router的使用好处：历史记录、参数处理、路由钩子、权限控制、记录滚动条位置 vue-router指南和vue-router的API 坑：历史模式懒加载的时候注意名字、子路由一般不用/  router到底是什么router，路由，我理解的其实就是，让不同的路径对应的不同的视图。在vue里，">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-06-28T08:25:46.311Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="大白话理解和初步使用vue-router">
+<meta name="twitter:description" content="TL;DR router其实就是让路径和组件一一对应 即便不使用vue-router也可以实现跳转 vue-router的使用好处：历史记录、参数处理、路由钩子、权限控制、记录滚动条位置 vue-router指南和vue-router的API 坑：历史模式懒加载的时候注意名字、子路由一般不用/  router到底是什么router，路由，我理解的其实就是，让不同的路径对应的不同的视图。在vue里，">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/06/28/vue-router/"/>
+
+
+
+
+
+  <title> 大白话理解和初步使用vue-router | 花花的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?60f2cb5747a596a24f2a053f1650c30b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">花花的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/28/vue-router/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                大白话理解和初步使用vue-router
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-28T16:15:15+08:00">
+                2019-06-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/06/28/vue-router/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/06/28/vue-router/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
+<li>router其实就是让路径和组件一一对应</li>
+<li>即便不使用vue-router也可以实现跳转</li>
+<li>vue-router的使用好处：历史记录、参数处理、路由钩子、权限控制、记录滚动条位置</li>
+<li><a href="https://router.vuejs.org/zh/" target="_blank" rel="noopener">vue-router指南</a>和<a href="https://router.vuejs.org/zh/api/" target="_blank" rel="noopener">vue-router的API</a></li>
+<li>坑：历史模式懒加载的时候注意名字、子路由一般不用<code>/</code></li>
+</ul>
+<h2 id="router到底是什么"><a href="#router到底是什么" class="headerlink" title="router到底是什么"></a>router到底是什么</h2><p>router，路由，我理解的其实就是，让不同的路径对应的不同的视图。在vue里，其实视图就相当于组件。也就是让不同的路径对应不同的组件。换言之，router就是规定了路径和组件一一对应。这句可能是理解vue-touter的核心。</p>
+<h2 id="先说说render，为下个标题铺垫"><a href="#先说说render，为下个标题铺垫" class="headerlink" title="先说说render，为下个标题铺垫"></a>先说说render，为下个标题铺垫</h2><p><a href="https://cn.vuejs.org/v2/guide/render-function.html" target="_blank" rel="noopener">vue官网对render解释的很清楚</a>，这边我简单的说下。<br>一般我们写vue组件的时候，会写template，但任何template都可以用render函数代替，事实上，vue就是把template转换为render函数的，之所以我们用template，是因为其易读易写。  </p>
+<p>怎么用render函数替换template呢？<br>简单的举个例子，你的template是<code>&lt;h1 :title=&quot;blogTitle&quot;&gt;&lt;/h1&gt;</code>，对应的render函数如下</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">render: <span class="function"><span class="keyword">function</span> (<span class="params">createElement</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// `createElement`的参数一般有三个，第一个必填就是标签名或者组件名，第二个是这个标签的属性，第三个就是子节点。</span></span><br><span class="line">  <span class="keyword">return</span> createElement(<span class="string">'h1'</span>, &#123;<span class="attr">attrs</span>:&#123;<span class="attr">title</span>:<span class="keyword">this</span>.blogTitle&#125;&#125;, [<span class="keyword">this</span>.blogTitle])</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>createElement</code>其实更准确的名字是<code>createNodeDescription</code>，因为它所包含的信息会告诉 Vue 页面上需要渲染什么样的节点，包括及其子节点的描述信息。也就是“虚拟节点 (virtual node)”，简写为“VNode”。“虚拟 DOM”是对由 Vue 组件树建立起来的整个 VNode 树的称呼。  </p>
+<h2 id="即便不用vue-router，也可以实现单页面跳转的"><a href="#即便不用vue-router，也可以实现单页面跳转的" class="headerlink" title="即便不用vue-router，也可以实现单页面跳转的"></a>即便不用vue-router，也可以实现单页面跳转的</h2><p>开始总以为，要想不同路径就必须要<code>vue-router</code>，其实不必。<a href="https://cn.vuejs.org/v2/guide/routing.html" target="_blank" rel="noopener">vue官方文档有个很好的demo</a>，这边挪用下逻辑。如果你只是需要简单的路由，也是可以直接这么用的。  </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// &lt;div id="app"&gt;&lt;div&gt;</span></span><br><span class="line"><span class="keyword">const</span> Home = &#123; <span class="attr">template</span>: <span class="string">"&lt;p&gt;home page&lt;/p&gt;"</span> &#125;;</span><br><span class="line"><span class="keyword">const</span> About = &#123; <span class="attr">template</span>: <span class="string">"&lt;p&gt;about page&lt;/p&gt;"</span> &#125;;</span><br><span class="line"><span class="keyword">const</span> NotFound = &#123; <span class="attr">template</span>: <span class="string">"&lt;p&gt;Page not found&lt;/p&gt;"</span> &#125;;</span><br><span class="line"><span class="comment">// 路由 路径和组件一一对应</span></span><br><span class="line"><span class="keyword">const</span> routes = &#123;<span class="string">'/'</span>:Home,<span class="string">'about'</span>:About&#125;</span><br><span class="line"><span class="keyword">var</span> app = <span class="keyword">new</span> Vue(&#123;</span><br><span class="line">el: <span class="string">"#app"</span>,</span><br><span class="line">data: &#123;</span><br><span class="line">    <span class="comment">// 拿到地址栏路径</span></span><br><span class="line">    currentRoute: <span class="built_in">window</span>.location.pathname</span><br><span class="line">&#125;,</span><br><span class="line">computed: &#123;</span><br><span class="line">    <span class="comment">// 由routes得到路径对应的组件</span></span><br><span class="line">    ViewComponent() &#123;</span><br><span class="line">      <span class="keyword">return</span> routes[<span class="keyword">this</span>.currentRoute] || NotFound;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;,</span><br><span class="line"><span class="comment">// 这边用render了</span></span><br><span class="line">render(h) &#123;</span><br><span class="line">    <span class="keyword">return</span> h(<span class="keyword">this</span>.ViewComponent);</span><br><span class="line">&#125;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// 历史记录的处理</span></span><br><span class="line"><span class="built_in">window</span>.addEventListener(<span class="string">'popstate'</span>, () =&gt; &#123;</span><br><span class="line">  app.currentRoute = <span class="built_in">window</span>.location.pathname</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="用vue-router有什么好处"><a href="#用vue-router有什么好处" class="headerlink" title="用vue-router有什么好处"></a>用vue-router有什么好处</h2><ul>
+<li>自己写上面一套繁琐哇</li>
+<li>不同路径很轻易对应不同组件，而且人家处理好了历史记录</li>
+<li>轻易解决传参数问题</li>
+<li>有路由钩子，控制什么情况去什么路径，比如不登录的话就去登录页面</li>
+<li>甚至可以记住滚动条的位置</li>
+</ul>
+<h2 id="官网就是很好的学习路径"><a href="#官网就是很好的学习路径" class="headerlink" title="官网就是很好的学习路径"></a>官网就是很好的学习路径</h2><p><a href="https://router.vuejs.org/zh/" target="_blank" rel="noopener">vue-router官网</a>，以下我简单的总结下。代码示例统一在末尾。  </p>
+<ul>
+<li><code>vue-router</code>分两种模式，<code>history</code>模式和<code>hash</code>模式(地址栏有#)，<code>hash</code>模式利用#不会跳转，<code>history</code>模式利用<code>pushState</code>和<code>popState</code>。</li>
+<li>vue-router增加两个组件<code>router-link</code>和<code>router-view</code>，<code>&lt;router-link to=&quot;/foo&quot;&gt;Go to Foo&lt;/router-link&gt;</code>相当于<code>&lt;a href=&quot;/foo&quot;&gt;Go to Foo&lt;/a&gt;</code>，事实上也的确会被渲染成a标签。<code>router-view</code>是占位符的感觉，会将路径匹配的组件显示在这里。</li>
+<li>任何组件内都可以通过<code>this.$router</code>访问所有路由，访问当前路由<code>this.$route</code>，多个r就是多的意思，这么记着吧，打印可以看看这两个</li>
+<li><a href="https://router.vuejs.org/zh/guide/essentials/dynamic-matching.html#%E6%8D%95%E8%8E%B7%E6%89%80%E6%9C%89%E8%B7%AF%E7%94%B1%E6%88%96-404-not-found-%E8%B7%AF%E7%94%B1" target="_blank" rel="noopener">动态路由也就是不同的路径对应同一个视图</a>。<code>path: &#39;*&#39;</code>匹配所有路由，通常放在最后匹配404（感觉像express）。使用通配符的时候，<code>this.$route.params.pathMatch = *所表示的部分</code></li>
+<li><a href="https://router.vuejs.org/zh/guide/essentials/nested-routes.html" target="_blank" rel="noopener">嵌套路由其实就是<code>/user/create /user/list</code>这种</a>。注意的坑是，以 <code>/</code>开头的嵌套路径会被当作根路径，所以一般嵌套的路由是不要<code>/</code></li>
+<li><a href="https://router.vuejs.org/zh/guide/essentials/navigation.html" target="_blank" rel="noopener">js里跳转到不同的路径的话</a>，<code>router.push(location, onComplete?, onAbort?)</code>相当于<code>&lt;router-link to=&quot;/foo&quot;&gt;</code>，replace会替换掉当前的历史记录，go(n)表示前进或者后退。如果 history 记录不够用，那就默默地失败呗。</li>
+<li><a href="https://router.vuejs.org/zh/guide/essentials/named-views.html#%E5%91%BD%E5%90%8D%E8%A7%86%E5%9B%BE" target="_blank" rel="noopener">如果同个组件里有多个router-view，怎么显示</a>，<code>router-view</code>跟slot相似，不写name的话，默认name是default，对应的router文件里，components变成对象，<code>{name:组件}</code></li>
+<li><a href="https://router.vuejs.org/zh/guide/essentials/redirect-and-alias.html#%E9%87%8D%E5%AE%9A%E5%90%91" target="_blank" rel="noopener">别名也就是a路径的时候想要显示b路径的视图，换言之a路径也是b路径的别名</a>，<code>{ path: &#39;/b&#39;, component: B, alias: &#39;/a&#39; }</code></li>
+<li><a href="https://router.vuejs.org/zh/guide/essentials/redirect-and-alias.html#%E9%87%8D%E5%AE%9A%E5%90%91" target="_blank" rel="noopener">重定向也就是a路径的时候想要跳转到b路径，从而显示b路径的视图</a>，<code>{ path: &#39;/a&#39;, redirect: &#39;/b&#39; }</code></li>
+<li><a href="https://router.vuejs.org/zh/guide/essentials/history-mode.html" target="_blank" rel="noopener">history模式下前进后退是需要服务器作支持的</a></li>
+<li><a href="https://router.vuejs.org/zh/guide/advanced/navigation-guards.html#%E5%85%A8%E5%B1%80%E5%89%8D%E7%BD%AE%E5%AE%88%E5%8D%AB" target="_blank" rel="noopener">导航守卫就是希望去某个路径的时候能做些什么事，路由钩子的感觉</a>，注意的是，参数或查询的改变并不会触发进入/离开的导航守卫，可以通过<code>watch $route</code> 对象来应对这些变化，或在组件内使用 <code>beforeRouteUpdate</code>。一旦用钩子，请一定确保要调用 <code>next</code> 方法，否则钩子就不会被 <code>resolved</code>。想要去每一个路径都要判断时用<code>router.beforeEach(to,from,next)</code>，<code>next(&#39;/user&#39;)</code>可以直接中断去另外的路径，<code>next(false)</code>中断跳转。如果只是想在去某个路径的时候做些事，可以在对应的路径下，写<code>beforeEnter(to,from,next)</code>。如果想要禁止用户在还未保存修改前突然离开，可以在组件内设置<code>beforeRouteLeave (to, from , next)</code>，这里注意next的路径最好不是to.path不然会死循环=。=。</li>
+<li><a href="https://router.vuejs.org/zh/guide/advanced/meta.html" target="_blank" rel="noopener">有些路径是需要登录才能进去的就需要配置meta了</a>，routes 配置中的每个路由对象为 路由记录，路由记录可以是嵌套的(有children的时候)，因此，当一个路由匹配成功后，他可能匹配多个路由记录。<code>/foo/bar</code> 这个 URL 将会匹配父路由记录以及子路由记录。meta取的方式 遍历$route.matched 来检查路由记录中的 meta 字段</li>
+<li><a href="https://router.vuejs.org/zh/guide/advanced/transitions.html#%E5%8D%95%E4%B8%AA%E8%B7%AF%E7%94%B1%E7%9A%84%E8%BF%87%E6%B8%A1" target="_blank" rel="noopener">去不同路径的时候想要切换的特效</a>，能用<code>&lt;transition name=&quot;slide&quot;&gt;</code>解决的就用这个吧</li>
+<li><a href="https://router.vuejs.org/zh/guide/advanced/data-fetching.html#%E5%AF%BC%E8%88%AA%E5%AE%8C%E6%88%90%E5%90%8E%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE" target="_blank" rel="noopener">跳转路径的时候，希望用路径上面的id请求数据，这个可以在跳转前完成也可以在跳转后完成</a>，如果请求很快的话，可以在跳转前，请求慢的话可以在跳转后，根据需要来。</li>
+<li><a href="https://router.vuejs.org/zh/guide/advanced/scroll-behavior.html#%E6%BB%9A%E5%8A%A8%E8%A1%8C%E4%B8%BA" target="_blank" rel="noopener">控制滚动条的位置</a>，<code>scrollBehavior (to, from, savedPosition) { // return 期望滚动到哪个的位置 }</code></li>
+</ul>
+<h2 id="怎么根据路径显示不同组件的的"><a href="#怎么根据路径显示不同组件的的" class="headerlink" title="怎么根据路径显示不同组件的的"></a>怎么根据路径显示不同组件的的</h2><ul>
+<li>vue拿到 地址栏的路径（如<code>/user/user-list</code>） </li>
+<li>=&gt; 找routes 那边的配置，从上到下找 (如<code>path:&#39;/user&#39;</code>)，拿到components，（如找到<code>{default:Foo,a:Bar}</code>）</li>
+<li>=&gt; 因为/user就是第一级路径，所以直接将app.vue里面的<code>&lt;router-view/&gt;</code>替换成<code>Foo组件</code>，<code>&lt;router-view name=&quot;a&quot;/&gt;</code>替换成<code>Bar组件</code></li>
+<li>=&gt; 再继续，找<code>path:&#39;/user&#39;</code>下面的children，发现目标<code>path:&#39;user-list&#39;</code>，拿到components，找到<code>{default:Second,a:Zoo}</code></li>
+<li>=&gt; 因为<code>user-list</code>是user的children，所以将user.vue里面的<code>&lt;router-view/&gt;</code>替换成<code>Second组件</code>，<code>&lt;router-view name=&quot;a&quot;/&gt;</code>替换成<code>Zoo组件</code></li>
+<li>找不到的话会报错，当然一般都会配置404</li>
+</ul>
+<h2 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 示例1 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://unpkg.com/vue/dist/vue.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://unpkg.com/vue-router/dist/vue-router.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">h1</span>&gt;</span>Hello App!<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 使用 router-link 组件来导航. --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 通过传入 `to` 属性指定链接. --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- &lt;router-link&gt; 默认会被渲染成一个 `&lt;a&gt;` 标签 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">router-link</span> <span class="attr">to</span>=<span class="string">"/foo"</span>&gt;</span>Go to Foo<span class="tag">&lt;/<span class="name">router-link</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">router-link</span> <span class="attr">to</span>=<span class="string">"/bar"</span>&gt;</span>Go to Bar<span class="tag">&lt;/<span class="name">router-link</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 路由出口 --&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 路由匹配到的组件将渲染在这里 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">router-view</span>&gt;</span><span class="tag">&lt;/<span class="name">router-view</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript"><span class="comment">// 0. 如果使用模块化机制编程，导入Vue和VueRouter，要调用 Vue.use(VueRouter)</span></span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript"><span class="comment">// 1. 定义 (路由) 组件。也就是视图！！！！</span></span></span><br><span class="line"><span class="javascript"><span class="comment">// 可以从其他文件 import 进来</span></span></span><br><span class="line"><span class="javascript"><span class="keyword">const</span> Foo = &#123; <span class="attr">template</span>: <span class="string">'&lt;div&gt;foo&lt;/div&gt;'</span> &#125;</span></span><br><span class="line"><span class="javascript"><span class="keyword">const</span> Bar = &#123; <span class="attr">template</span>: <span class="string">'&lt;div&gt;bar&lt;/div&gt;'</span> &#125;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript"><span class="comment">// 2. 定义路由。也就是什么路径显示什么视图(组件)！！！</span></span></span><br><span class="line"><span class="javascript"><span class="comment">// 每个路由应该映射一个组件。 其中"component" 可以是</span></span></span><br><span class="line"><span class="javascript"><span class="comment">// 通过 Vue.extend() 创建的组件构造器，</span></span></span><br><span class="line"><span class="javascript"><span class="comment">// 或者，只是一个组件配置对象。</span></span></span><br><span class="line"><span class="javascript"><span class="comment">// 我们晚点再讨论嵌套路由。</span></span></span><br><span class="line"><span class="javascript"><span class="keyword">const</span> routes = [</span></span><br><span class="line"><span class="javascript">  &#123; <span class="attr">path</span>: <span class="string">'/foo'</span>, <span class="attr">component</span>: Foo &#125;,</span></span><br><span class="line"><span class="javascript">  <span class="comment">// 懒加载模式，会在合适的时机加载 bar.js，webpackChunkName就是将此组件的代码命名为bar.js 看控制台的network</span></span></span><br><span class="line"><span class="javascript">  &#123; <span class="attr">path</span>: <span class="string">'/bar'</span>, <span class="attr">component</span>: <span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">import</span>(<span class="comment">/* webpackChunkName: "bar" */</span> <span class="string">'./views/Bar.vue'</span>), &#125;,</span></span><br><span class="line"><span class="javascript">  <span class="comment">// 注意 404</span></span></span><br><span class="line"><span class="javascript">  &#123; <span class="attr">path</span>: <span class="string">'*'</span>, <span class="attr">component</span>: <span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">import</span>(<span class="comment">/* webpackChunkName: "404" */</span> <span class="string">'./views/404.vue'</span>), &#125;,</span></span><br><span class="line"><span class="undefined">]</span></span><br><span class="line"><span class="undefined">]</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript"><span class="comment">// 3. 创建 router 实例，然后传 `routes` 配置。</span></span></span><br><span class="line"><span class="javascript"><span class="comment">// 你还可以传别的配置参数, 不过先这么简单着吧。</span></span></span><br><span class="line"><span class="javascript"><span class="keyword">const</span> router = <span class="keyword">new</span> VueRouter(&#123;</span></span><br><span class="line"><span class="javascript">  routes <span class="comment">// (缩写) 相当于 routes: routes</span></span></span><br><span class="line"><span class="undefined">&#125;)</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript"><span class="comment">// 4. 创建和挂载根实例。！！！挂载在根实例下，也就是任何组件内都可以通过this.$router知道内容</span></span></span><br><span class="line"><span class="javascript"><span class="comment">// 记得要通过 router 配置参数注入路由，</span></span></span><br><span class="line"><span class="javascript"><span class="comment">// 从而让整个应用都有路由功能</span></span></span><br><span class="line"><span class="javascript"><span class="keyword">const</span> app = <span class="keyword">new</span> Vue(&#123;</span></span><br><span class="line"><span class="undefined">  router</span></span><br><span class="line"><span class="javascript">&#125;).$mount(<span class="string">'#app'</span>)</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript"><span class="comment">// 现在，应用已经启动了！</span></span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 示例1 js</span></span><br><span class="line"><span class="comment">// Home.vue</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  computed: &#123;</span><br><span class="line">    username () &#123;</span><br><span class="line">      <span class="comment">// 我们很快就会看到 `params` 是什么</span></span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">this</span>.$route.params.username</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    goBack () &#123;</span><br><span class="line">      <span class="built_in">window</span>.history.length &gt; <span class="number">1</span></span><br><span class="line">        ? <span class="keyword">this</span>.$router.go(<span class="number">-1</span>)</span><br><span class="line">        : <span class="keyword">this</span>.$router.push(<span class="string">'/'</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 示例2：有嵌套路由的话 */</span></span><br><span class="line"></span><br><span class="line">  routes: [</span><br><span class="line">    &#123; <span class="attr">path</span>: <span class="string">'/user/:id'</span>, <span class="attr">component</span>: User,</span><br><span class="line">      children: [</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="comment">// 当 /user/:id/profile 匹配成功，</span></span><br><span class="line">          <span class="comment">// UserProfile 会被渲染在 User 的 &lt;router-view&gt; 中</span></span><br><span class="line">          path: <span class="string">'profile'</span>,</span><br><span class="line">          component: UserProfile</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="comment">// 当 /user/:id/posts 匹配成功</span></span><br><span class="line">          <span class="comment">// UserPosts 会被渲染在 User 的 &lt;router-view&gt; 中</span></span><br><span class="line">          path: <span class="string">'posts'</span>,</span><br><span class="line">          component: UserPosts</span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 示例3：router.push使用 */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// push的两种参数情况，尽量用路径的形式，用name的话有时候子路由可能不太方便</span></span><br><span class="line"><span class="comment">// -&gt; /user/123</span></span><br><span class="line">router.push(&#123; <span class="attr">path</span>: <span class="string">`/user/<span class="subst">$&#123;userId&#125;</span>`</span> &#125;)</span><br><span class="line"><span class="comment">// 带查询参数，变成 /register?plan=private</span></span><br><span class="line">router.push(&#123; <span class="attr">path</span>: <span class="string">'register'</span>, <span class="attr">query</span>: &#123; userId &#125;&#125;)</span><br><span class="line"><span class="comment">// replace</span></span><br><span class="line">router.replace(&#123; <span class="attr">path</span>: <span class="string">'register'</span>, <span class="attr">query</span>: &#123; userId &#125;&#125;)</span><br><span class="line">router.go(<span class="number">1</span>)</span><br><span class="line">router.go(<span class="number">-1</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/* 示例4：router-view多个的情况 */</span></span><br><span class="line">&lt;router-view <span class="class"><span class="keyword">class</span></span>=<span class="string">"view one"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">router-view</span>&gt;</span></span></span><br><span class="line">&lt;router-view class="view two" name="a"&gt;&lt;/router-view&gt;</span><br><span class="line">&lt;router-view class="view three" name="b"&gt;&lt;/router-view&gt;</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  path: '/',</span><br><span class="line">  components: &#123;</span><br><span class="line">    default: Foo,</span><br><span class="line">    a: Bar,</span><br><span class="line">    b: Baz</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/* 示例5：重定向和别名 */</span><br><span class="line"></span><br><span class="line">const router = new VueRouter(&#123;</span><br><span class="line">  routes: [</span><br><span class="line">    &#123; path: '/a', redirect: '/b' &#125;</span><br><span class="line">    // &#123; path: '/b', component: B, alias: '/a' &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/* 示例6：导航守卫 */</span><br><span class="line"></span><br><span class="line">const router = new VueRouter(&#123; ... &#125;)</span><br><span class="line">// router上面的钩子</span><br><span class="line">router.beforeEach((to, from, next) =&gt; &#123;</span><br><span class="line">  next()</span><br><span class="line">//   next(false)</span><br><span class="line">//   next('/')</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">router.afterEach((to, from) =&gt; &#123;</span><br><span class="line">  // ...</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">const router = new VueRouter(&#123;</span><br><span class="line">  routes: [</span><br><span class="line">    &#123;</span><br><span class="line">      path: '/foo',</span><br><span class="line">      component: Foo,</span><br><span class="line">      // route上的钩子</span><br><span class="line">      beforeEnter: (to, from, next) =&gt; &#123;</span><br><span class="line">        // ...</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;)</span><br><span class="line">// 组件内的钩子</span><br><span class="line">const Foo = &#123;</span><br><span class="line">  template: `...`,</span><br><span class="line">  beforeRouteEnter (to, from, next) &#123;</span><br><span class="line">    // 在渲染该组件的对应路由被 confirm 前调用</span><br><span class="line">    // 不！能！获取组件实例 `this`</span><br><span class="line">    // 因为当守卫执行前，组件实例还没被创建</span><br><span class="line">  &#125;,</span><br><span class="line">  beforeRouteUpdate (to, from, next) &#123;</span><br><span class="line">    // 在当前路由改变，但是该组件被复用时调用</span><br><span class="line">    // 举例来说，对于一个带有动态参数的路径 /foo/:id，在 /foo/1 和 /foo/2 之间跳转的时候，</span><br><span class="line">    // 由于会渲染同样的 Foo 组件，因此组件实例会被复用。而这个钩子就会在这个情况下被调用。</span><br><span class="line">    // 可以访问组件实例 `this`</span><br><span class="line">  &#125;,</span><br><span class="line">  beforeRouteLeave (to, from, next) &#123;</span><br><span class="line">    // 导航离开该组件的对应路由时调用</span><br><span class="line">    // 可以访问组件实例 `this`</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/* 示例7：meta的使用 */</span><br><span class="line"></span><br><span class="line">const router = new VueRouter(&#123;</span><br><span class="line">  routes: [</span><br><span class="line">    &#123;</span><br><span class="line">      path: '/foo',</span><br><span class="line">      component: Foo,</span><br><span class="line">      children: [</span><br><span class="line">        &#123;</span><br><span class="line">          path: 'bar',</span><br><span class="line">          component: Bar,</span><br><span class="line">          // a meta field</span><br><span class="line">          meta: &#123; requiresAuth: true &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;)</span><br><span class="line">router.beforeEach((to, from, next) =&gt; &#123;</span><br><span class="line">  if (to.matched.some(record =&gt; record.meta.requiresAuth)) &#123;</span><br><span class="line">    // this route requires auth, check if logged in</span><br><span class="line">    // if not, redirect to login page.</span><br><span class="line">    if (!auth.loggedIn()) &#123;</span><br><span class="line">      next(&#123;</span><br><span class="line">        path: '/login',</span><br><span class="line">        query: &#123; redirect: to.fullPath &#125;</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      next()</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    next() // 确保一定要调用 next()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">/* 示例8：跳转路径的特效 */</span><br><span class="line"></span><br><span class="line">&lt;transition&gt;</span><br><span class="line">  &lt;router-view&gt;&lt;/router-view&gt;</span><br><span class="line">&lt;/transition&gt;</span><br><span class="line"></span><br><span class="line">const Foo = &#123;</span><br><span class="line">  template: `</span><br><span class="line">    &lt;transition name="slide"&gt;</span><br><span class="line">      &lt;div class="foo"&gt;...&lt;/div&gt;</span><br><span class="line">    &lt;/transition&gt;</span><br><span class="line">  `</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/* 示例9：根据路径的参数去请求数据 这边显示跳转之后请求数据 */</span><br><span class="line">export default &#123;</span><br><span class="line">  data () &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      loading: false,</span><br><span class="line">      post: null,</span><br><span class="line">      error: null</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  created () &#123;</span><br><span class="line">    // 组件创建完后获取数据，</span><br><span class="line">    // 此时 data 已经被 observed 了</span><br><span class="line">    this.fetchData()</span><br><span class="line">  &#125;,</span><br><span class="line">  watch: &#123;</span><br><span class="line">    // 如果路由有变化，会再次执行该方法</span><br><span class="line">    '$route': 'fetchData'</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    fetchData () &#123;</span><br><span class="line">      this.error = this.post = null</span><br><span class="line">      this.loading = true</span><br><span class="line">      // replace getPost with your data fetching util / API wrapper</span><br><span class="line">      getPost(this.$route.params.id, (err, post) =&gt; &#123;</span><br><span class="line">        this.loading = false</span><br><span class="line">        if (err) &#123;</span><br><span class="line">          this.error = err.toString()</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">          this.post = post</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/* 示例10：控制滚动条的位置 */</span><br><span class="line">scrollBehavior (to, from, savedPosition) &#123;</span><br><span class="line">  if (savedPosition) &#123;</span><br><span class="line">    return savedPosition</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    return &#123; x: 0, y: 0 &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="写例子来实践"><a href="#写例子来实践" class="headerlink" title="写例子来实践"></a>写例子来实践</h2><p><a href="http://120.79.52.223:3334/" target="_blank" rel="noopener">这里直接查看</a><br><a href="https://github.com/frontzhm/vue-router-demo" target="_blank" rel="noopener">github地址</a></p>
+<p>需求：</p>
+<ul>
+<li>现在总共有四个页面 home profile user login，profile是个人中心的意思</li>
+<li>然后 user下面有 create-user user-list</li>
+<li>然后设置 只有登录之后 才能去 profile user 否则就跳转到 login</li>
+<li>每个页面都有导航条</li>
+</ul>
+<h3 id="1-加四个视图和对应的路由"><a href="#1-加四个视图和对应的路由" class="headerlink" title="1.加四个视图和对应的路由"></a>1.加四个视图和对应的路由</h3><ul>
+<li><code>vue create router-apply</code>，先选择history模式好了</li>
+<li>views增加 每个页面的视图</li>
+<li>router那边配置路径</li>
+<li>app那边就可以写导航条了 <code>router-link router-view</code></li>
+<li>坑：发现懒加载的情况下，路径不能写成变量，但是可以别名</li>
+</ul>
+<h3 id="2-user那边增加子页面"><a href="#2-user那边增加子页面" class="headerlink" title="2.user那边增加子页面"></a>2.user那边增加子页面</h3><ul>
+<li>views增加 create-user user-list</li>
+<li>router那边配置路径</li>
+<li>user.vue那边增加router-view</li>
+</ul>
+<h3 id="3-user子页面能相互跳转，增加的用户跳转的时候传递到user-list"><a href="#3-user子页面能相互跳转，增加的用户跳转的时候传递到user-list" class="headerlink" title="3.user子页面能相互跳转，增加的用户跳转的时候传递到user-list"></a>3.user子页面能相互跳转，增加的用户跳转的时候传递到user-list</h3><ul>
+<li>create-user 有input框和跳转按钮，跳转的时候，带着值，用query的方式</li>
+<li>顺便还可以设置<code>/user</code>路径的时候跳转到<code>/user/create-user</code></li>
+</ul>
+<h3 id="4-设置只有登录才能去profile和user"><a href="#4-设置只有登录才能去profile和user" class="headerlink" title="4.设置只有登录才能去profile和user"></a>4.设置只有登录才能去profile和user</h3><ul>
+<li>profile和user路径设置meta</li>
+<li>在router那边增加<code>beforeEach</code>钩子</li>
+</ul>
+<h3 id="核心代码展示"><a href="#核心代码展示" class="headerlink" title="核心代码展示"></a>核心代码展示</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// main.js</span></span><br><span class="line">router.beforeEach(<span class="function">(<span class="params">to, <span class="keyword">from</span>, next</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (to.matched.some(<span class="function"><span class="params">record</span> =&gt;</span> record.meta.needLogin)) &#123;</span><br><span class="line">    <span class="comment">// this route requires auth, check if logged in</span></span><br><span class="line">    <span class="comment">// if not, redirect to login page.</span></span><br><span class="line">    <span class="keyword">if</span> (!isLogin) &#123;</span><br><span class="line">      next(&#123;</span><br><span class="line">        path: <span class="string">'/login'</span>,</span><br><span class="line">        <span class="comment">// 方便登录之后返回来</span></span><br><span class="line">        query: &#123; <span class="attr">redirect</span>: to.fullPath &#125;</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      next()</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    next() <span class="comment">// 确保一定要调用 next()</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// router.js</span></span><br><span class="line"> &#123;</span><br><span class="line">  path: <span class="string">'/user'</span>,</span><br><span class="line">  name: <span class="string">'user'</span>,</span><br><span class="line">  component: <span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">import</span>(<span class="comment">/* webpackChunkName: "user" */</span> <span class="string">'./views/User.vue'</span>),</span><br><span class="line">  children: [</span><br><span class="line">    &#123;</span><br><span class="line">      path: <span class="string">'create-user'</span>,</span><br><span class="line">      alias: <span class="string">''</span>,</span><br><span class="line">      component: <span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">import</span>(<span class="comment">/* webpackChunkName: "createUser" */</span> <span class="string">'./views/CreateUser.vue'</span>)</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      path: <span class="string">'user-list'</span>,</span><br><span class="line">      component: <span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">import</span>(<span class="comment">/* webpackChunkName: "userList" */</span> <span class="string">'./views/UserList.vue'</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  meta: &#123;</span><br><span class="line">    needLogin: <span class="literal">true</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/vue/" rel="tag"># vue</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/26/vue-ball/" rel="next" title="">
+                <i class="fa fa-chevron-left"></i> 
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2019/06/28/vue-router/"
+           data-title="大白话理解和初步使用vue-router" data-url="http://yoursite.com/2019/06/28/vue-router/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://omizt4opc.bkt.clouddn.com/avatar.jpg"
+               alt="frontzhm" />
+          <p class="site-author-name" itemprop="name">frontzhm</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">93</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">27</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#TL-DR"><span class="nav-number">1.</span> <span class="nav-text">TL;DR</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#router到底是什么"><span class="nav-number">2.</span> <span class="nav-text">router到底是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#先说说render，为下个标题铺垫"><span class="nav-number">3.</span> <span class="nav-text">先说说render，为下个标题铺垫</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#即便不用vue-router，也可以实现单页面跳转的"><span class="nav-number">4.</span> <span class="nav-text">即便不用vue-router，也可以实现单页面跳转的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用vue-router有什么好处"><span class="nav-number">5.</span> <span class="nav-text">用vue-router有什么好处</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#官网就是很好的学习路径"><span class="nav-number">6.</span> <span class="nav-text">官网就是很好的学习路径</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#怎么根据路径显示不同组件的的"><span class="nav-number">7.</span> <span class="nav-text">怎么根据路径显示不同组件的的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#示例代码"><span class="nav-number">8.</span> <span class="nav-text">示例代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#写例子来实践"><span class="nav-number">9.</span> <span class="nav-text">写例子来实践</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-加四个视图和对应的路由"><span class="nav-number">9.1.</span> <span class="nav-text">1.加四个视图和对应的路由</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-user那边增加子页面"><span class="nav-number">9.2.</span> <span class="nav-text">2.user那边增加子页面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-user子页面能相互跳转，增加的用户跳转的时候传递到user-list"><span class="nav-number">9.3.</span> <span class="nav-text">3.user子页面能相互跳转，增加的用户跳转的时候传递到user-list</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-设置只有登录才能去profile和user"><span class="nav-number">9.4.</span> <span class="nav-text">4.设置只有登录才能去profile和user</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#核心代码展示"><span class="nav-number">9.5.</span> <span class="nav-text">核心代码展示</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">frontzhm</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"frontzhm"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

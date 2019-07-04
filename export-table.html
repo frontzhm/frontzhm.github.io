@@ -1,0 +1,556 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="frontzhm, zhm, huahua, hua_hua" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="纯前端用XLSX库导出excel，可含多个sheet实现的demo   如果有更多需要参考xlsx库的github，部分参考大神的研究 导出excel的逻辑：  excel整个表格专业名词是workbook，里面每张表格是sheet 页面引入xlsx的库，https://unpkg.com/xlsx/dist/xlsx.core.min.js 把数据生成sheet，var sheet = XLSX">
+<meta property="og:type" content="website">
+<meta property="og:title" content="花花的博客">
+<meta property="og:url" content="http://yoursite.com/export-table.html">
+<meta property="og:site_name" content="花花的博客">
+<meta property="og:description" content="纯前端用XLSX库导出excel，可含多个sheet实现的demo   如果有更多需要参考xlsx库的github，部分参考大神的研究 导出excel的逻辑：  excel整个表格专业名词是workbook，里面每张表格是sheet 页面引入xlsx的库，https://unpkg.com/xlsx/dist/xlsx.core.min.js 把数据生成sheet，var sheet = XLSX">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-07-04T09:33:55.630Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="花花的博客">
+<meta name="twitter:description" content="纯前端用XLSX库导出excel，可含多个sheet实现的demo   如果有更多需要参考xlsx库的github，部分参考大神的研究 导出excel的逻辑：  excel整个表格专业名词是workbook，里面每张表格是sheet 页面引入xlsx的库，https://unpkg.com/xlsx/dist/xlsx.core.min.js 把数据生成sheet，var sheet = XLSX">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/export-table.html"/>
+
+
+
+
+
+  <title>
+  
+
+  
+     | 花花的博客
+  
+</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?60f2cb5747a596a24f2a053f1650c30b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right  ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">花花的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+  <header class="post-header">
+
+	<h2 class="post-title" itemprop="name headline"></h2>
+
+
+
+</header>
+
+    
+    
+      <h1 id="纯前端用XLSX库导出excel，可含多个sheet"><a href="#纯前端用XLSX库导出excel，可含多个sheet" class="headerlink" title="纯前端用XLSX库导出excel，可含多个sheet"></a>纯前端用XLSX库导出excel，可含多个sheet</h1><p><a href="https://frontzhm.github.io/web-demo/export-excel/" target="_blank" rel="noopener">实现的demo</a>  </p>
+<p>如果有更多需要参考<a href="https://github.com/SheetJS/js-xlsx" target="_blank" rel="noopener">xlsx库的github</a>，部分参考<a href="http://blog.haoji.me/js-excel.html#dao-chu-excel" target="_blank" rel="noopener">大神的研究</a></p>
+<p>导出excel的逻辑：</p>
+<ul>
+<li>excel整个表格专业名词是<code>workbook</code>，里面每张表格是<code>sheet</code></li>
+<li>页面引入xlsx的库，<code>https://unpkg.com/xlsx/dist/xlsx.core.min.js</code></li>
+<li>把数据生成sheet，<code>var sheet = XLSX.utils.json_to_sheet(jsonData)</code>，json_to_sheet是将由对象组成的数组转化成sheet，当然还有 aoa_to_sheet将一个二维数组转成sheet 和 table_to_sheet将table的dom直接转成sheet</li>
+<li>创建虚拟的workbook，<code>var wb = XLSX.utils.book_new()</code></li>
+<li>把sheet添加到workbook里，<code>XLSX.utils.book_append_sheet(wb, sheet, &quot;这里是sheetName&quot;);</code></li>
+<li>把workbook转成blob，<code>var blob = workbook2blob(wb)</code>，这里workbook2blob需要手动写啦，下面会贴代码</li>
+<li>利用a标签和createObjectURL实现下载功能，<code>openDownloadDialog(blob, &#39;excel的标题.xlsx&#39;);</code>，这里openDownloadDialog也会在下面放上代码</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">// 将workbook装化成blob对象</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">workbook2blob</span>(<span class="params">workbook</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 生成excel的配置项</span></span><br><span class="line">    <span class="keyword">var</span> wopts = &#123;</span><br><span class="line">        <span class="comment">// 要生成的文件类型</span></span><br><span class="line">        bookType: <span class="string">"xlsx"</span>,</span><br><span class="line">        <span class="comment">// // 是否生成Shared String Table，官方解释是，如果开启生成速度会下降，但在低版本IOS设备上有更好的兼容性</span></span><br><span class="line">        bookSST: <span class="literal">false</span>,</span><br><span class="line">        type: <span class="string">"binary"</span></span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">var</span> wbout = XLSX.write(workbook, wopts);</span><br><span class="line">    <span class="comment">// 将字符串转ArrayBuffer</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">s2ab</span>(<span class="params">s</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> buf = <span class="keyword">new</span> <span class="built_in">ArrayBuffer</span>(s.length);</span><br><span class="line">        <span class="keyword">var</span> view = <span class="keyword">new</span> <span class="built_in">Uint8Array</span>(buf);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i != s.length; ++i) view[i] = s.charCodeAt(i) &amp; <span class="number">0xff</span>;</span><br><span class="line">        <span class="keyword">return</span> buf;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> blob = <span class="keyword">new</span> Blob([s2ab(wbout)], &#123;</span><br><span class="line">        type: <span class="string">"application/octet-stream"</span></span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">return</span> blob;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 将blob对象创建bloburl，然后用a标签实现弹出下载框</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">openDownloadDialog</span>(<span class="params">blob, fileName</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> blob == <span class="string">"object"</span> &amp;&amp; blob <span class="keyword">instanceof</span> Blob) &#123;</span><br><span class="line">        blob = URL.createObjectURL(blob); <span class="comment">// 创建blob地址</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> aLink = <span class="built_in">document</span>.createElement(<span class="string">"a"</span>);</span><br><span class="line">    aLink.href = blob;</span><br><span class="line">    <span class="comment">// HTML5新增的属性，指定保存文件名，可以不要后缀，注意，有时候 file:///模式下不会生效</span></span><br><span class="line">    aLink.download = fileName || <span class="string">""</span>;</span><br><span class="line">    <span class="keyword">var</span> event;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">window</span>.MouseEvent) event = <span class="keyword">new</span> MouseEvent(<span class="string">"click"</span>);</span><br><span class="line">    <span class="comment">//   移动端</span></span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        event = <span class="built_in">document</span>.createEvent(<span class="string">"MouseEvents"</span>);</span><br><span class="line">        event.initMouseEvent( <span class="string">"click"</span>, <span class="literal">true</span>, <span class="literal">false</span>, <span class="built_in">window</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="number">0</span>, <span class="literal">null</span> );</span><br><span class="line">    &#125;</span><br><span class="line">    aLink.dispatchEvent(event);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 用的例子</span></span><br><span class="line"><span class="keyword">let</span> sheet1data = [ &#123; <span class="attr">department</span>: <span class="string">"行政部"</span>, <span class="attr">count</span>: <span class="number">2</span> &#125;, &#123; <span class="attr">department</span>: <span class="string">"前端部"</span>, <span class="attr">count</span>: <span class="number">2</span> &#125; ];</span><br><span class="line"><span class="keyword">let</span> sheet2data = [ &#123; <span class="attr">name</span>: <span class="string">"张三"</span>, <span class="attr">do</span>: <span class="string">"整理文件"</span> &#125;, &#123; <span class="attr">name</span>: <span class="string">"李四"</span>, <span class="attr">do</span>: <span class="string">"打印"</span> &#125; ];</span><br><span class="line"><span class="keyword">let</span> sheet3data = [ &#123; <span class="attr">name</span>: <span class="string">"张大人"</span>, <span class="attr">do</span>: <span class="string">"vue"</span> &#125;, &#123; <span class="attr">name</span>: <span class="string">"李大人"</span>, <span class="attr">do</span>: <span class="string">"react"</span> &#125; ];</span><br><span class="line"><span class="keyword">var</span> sheet1 = XLSX.utils.json_to_sheet(sheet1data);</span><br><span class="line"><span class="keyword">var</span> sheet2 = XLSX.utils.json_to_sheet(sheet2data);</span><br><span class="line"><span class="keyword">var</span> sheet3 = XLSX.utils.json_to_sheet(sheet3data);</span><br><span class="line"></span><br><span class="line"><span class="comment">/* create a new blank workbook */</span></span><br><span class="line"><span class="keyword">var</span> wb = XLSX.utils.book_new();</span><br><span class="line">XLSX.utils.book_append_sheet(wb, sheet1, <span class="string">"部门统计"</span>);</span><br><span class="line">XLSX.utils.book_append_sheet(wb, sheet2, <span class="string">"行政部"</span>);</span><br><span class="line">XLSX.utils.book_append_sheet(wb, sheet3, <span class="string">"前端部"</span>);</span><br><span class="line"><span class="keyword">const</span> workbookBlob = workbook2blob(wb);</span><br><span class="line">openDownloadDialog(workbookBlob, <span class="string">`部门统计.xlsx`</span>);</span><br></pre></td></tr></table></figure>
+
+    
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="export-table.html"
+           data-title="" data-url="http://yoursite.com/export-table.html">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://omizt4opc.bkt.clouddn.com/avatar.jpg"
+               alt="frontzhm" />
+          <p class="site-author-name" itemprop="name">frontzhm</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">93</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">27</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">frontzhm</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"frontzhm"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
