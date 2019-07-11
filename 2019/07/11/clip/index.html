@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="vscode," />
+  <meta name="keywords" content="css," />
 
 
 
@@ -87,18 +87,21 @@
 
 
 
-<meta name="description" content="新近，在看一个大型项目，vscode打开之后，❗️，一眼看不到边，(╯﹏╰)。于是搜索，vscode隐藏不显示某些文件或文件夹。找到了！毕竟项目里，不是每个文件都需要修改和阅读，有时候不常用的也可以暂时隐藏。然后，视觉清净啊！ 其实挺简单，在配置文件里配置相应字段即可。">
-<meta name="keywords" content="vscode">
+<meta name="description" content="TL;DRclip其实就是将原盒子想象成一个坐标系，原点在左上角，然后计算出想要显示的矩形左上角和右下角的坐标，如（x1,y1）和（x2,y2）,这样clip的四个值就是（y1,x2,y2,x1），注意不要负号。position: absolute;clip: rect(30px,60px,50px,10px) 细细解释clip属性，就是跟截图很相似，拿个框截取想要的部分，其他的都不要。日常用法">
+<meta name="keywords" content="css">
 <meta property="og:type" content="article">
-<meta property="og:title" content="vscode隐藏文件（夹）">
-<meta property="og:url" content="http://yoursite.com/2019/04/28/vscode-hide-file/index.html">
+<meta property="og:title" content="简单粗暴理解clip">
+<meta property="og:url" content="http://yoursite.com/2019/07/11/clip/index.html">
 <meta property="og:site_name" content="花花的博客">
-<meta property="og:description" content="新近，在看一个大型项目，vscode打开之后，❗️，一眼看不到边，(╯﹏╰)。于是搜索，vscode隐藏不显示某些文件或文件夹。找到了！毕竟项目里，不是每个文件都需要修改和阅读，有时候不常用的也可以暂时隐藏。然后，视觉清净啊！ 其实挺简单，在配置文件里配置相应字段即可。">
+<meta property="og:description" content="TL;DRclip其实就是将原盒子想象成一个坐标系，原点在左上角，然后计算出想要显示的矩形左上角和右下角的坐标，如（x1,y1）和（x2,y2）,这样clip的四个值就是（y1,x2,y2,x1），注意不要负号。position: absolute;clip: rect(30px,60px,50px,10px) 细细解释clip属性，就是跟截图很相似，拿个框截取想要的部分，其他的都不要。日常用法">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-04-28T08:09:54.607Z">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/7/11/16be080077b25173?w=944&h=740&f=png&s=312498">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/7/11/16be07e613cc4ef8?w=99&h=60&f=png&s=3075">
+<meta property="og:updated_time" content="2019-07-11T10:20:51.755Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="vscode隐藏文件（夹）">
-<meta name="twitter:description" content="新近，在看一个大型项目，vscode打开之后，❗️，一眼看不到边，(╯﹏╰)。于是搜索，vscode隐藏不显示某些文件或文件夹。找到了！毕竟项目里，不是每个文件都需要修改和阅读，有时候不常用的也可以暂时隐藏。然后，视觉清净啊！ 其实挺简单，在配置文件里配置相应字段即可。">
+<meta name="twitter:title" content="简单粗暴理解clip">
+<meta name="twitter:description" content="TL;DRclip其实就是将原盒子想象成一个坐标系，原点在左上角，然后计算出想要显示的矩形左上角和右下角的坐标，如（x1,y1）和（x2,y2）,这样clip的四个值就是（y1,x2,y2,x1），注意不要负号。position: absolute;clip: rect(30px,60px,50px,10px) 细细解释clip属性，就是跟截图很相似，拿个框截取想要的部分，其他的都不要。日常用法">
+<meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2019/7/11/16be080077b25173?w=944&h=740&f=png&s=312498">
 
 
 
@@ -126,13 +129,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/04/28/vscode-hide-file/"/>
+  <link rel="canonical" href="http://yoursite.com/2019/07/11/clip/"/>
 
 
 
 
 
-  <title> vscode隐藏文件（夹） | 花花的博客 </title>
+  <title> 简单粗暴理解clip | 花花的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -261,7 +264,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/28/vscode-hide-file/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/11/clip/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="frontzhm">
@@ -282,7 +285,7 @@
             
             
               
-                vscode隐藏文件（夹）
+                简单粗暴理解clip
               
             
           </h2>
@@ -297,8 +300,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-28T16:01:02+08:00">
-                2019-04-28
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-11T18:20:51+08:00">
+                2019-07-11
               </time>
             
 
@@ -320,8 +323,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/vscode/" itemprop="url" rel="index">
-                    <span itemprop="name">vscode</span>
+                  <a href="/categories/css/" itemprop="url" rel="index">
+                    <span itemprop="name">css</span>
                   </a>
                 </span>
 
@@ -338,8 +341,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/04/28/vscode-hide-file/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/04/28/vscode-hide-file/" itemprop="commentCount"></span>
+                <a href="/2019/07/11/clip/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/07/11/clip/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -365,21 +368,20 @@
       
 
       
-        <p>新近，在看一个大型项目，vscode打开之后，❗️，一眼看不到边，(╯﹏╰)。于是搜索，vscode隐藏不显示某些文件或文件夹。找到了！毕竟项目里，不是每个文件都需要修改和阅读，有时候不常用的也可以暂时隐藏。然后，视觉清净啊！</p>
-<p>其实挺简单，在配置文件里配置相应字段即可。<br><a id="more"></a></p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">// 不想显示的文件，vscode默认也有.git .svn之类。</span></span><br><span class="line"><span class="string">"files.exclude"</span>: &#123;</span><br><span class="line">    <span class="comment">// 不能单纯用绝对路径，会失效</span></span><br><span class="line">    <span class="string">"**/project-name/package-lock.json"</span>:<span class="literal">true</span></span><br><span class="line">    <span class="string">"**/project-name/**/.tmp"</span>:<span class="literal">true</span></span><br><span class="line">&#125;</span><br><span class="line"> <span class="comment">// 搜索的时候，希望不搜某些文件</span></span><br><span class="line"><span class="string">"search.exclude"</span>: &#123;</span><br><span class="line">    <span class="comment">// 不能单纯用绝对路径，会失效</span></span><br><span class="line">    <span class="string">"**/node_modules"</span>:<span class="literal">true</span></span><br><span class="line">    <span class="string">"**/project-name/**/dist"</span>:<span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>需要注意的就是，左边是<code>glob</code>语法</p>
+        <a id="more"></a>
+<h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><p>clip其实就是将原盒子想象成一个坐标系，原点在左上角，然后计算出想要显示的矩形左上角和右下角的坐标，如（x1,y1）和（x2,y2）,这样clip的四个值就是（y1,x2,y2,x1），注意不要负号。<code>position: absolute;clip: rect(30px,60px,50px,10px)</code></p>
+<h2 id="细细解释"><a href="#细细解释" class="headerlink" title="细细解释"></a>细细解释</h2><p>clip属性，就是跟截图很相似，拿个框截取想要的部分，其他的都不要。<br>日常用法，截取（即只显示）某个盒子的一部分出来。代码<code>clip:rect(1 2 3 4)</code>，重点就是这四个数字的意思。<br>首先，做个初中数学题目。<br>如图，已知：矩形ABCD，长100，宽60，现在另外一个矩形EFGH，长50，宽20，EFGH在ABCD内部，EF距离AB是30，EH距离AC是10，现在求E和G的坐标。<br><img src="https://user-gold-cdn.xitu.io/2019/7/11/16be080077b25173?w=944&amp;h=740&amp;f=png&amp;s=312498" alt="题目图片"><br>思考~<br>思考~<br>思考~<br>答案揭晓，<code>E(10,-30)，G(10+50,-(30+20))</code>，不带负号的话，<code>E(10,30)，G(10+50,30+20)</code></p>
+<p>现在，在看下clip，你要在哪个盒子上截取，就在哪个盒子上写这个属性，盒子相当于ABCD，想要截取多大的矩形就是EFGH，那四个值怎么得到呢，<code>E(10,30)，G(10+50,30+20) =&gt; (10,30,10+50,30+20)</code>，还差点，将第一个值放在最后就可以了<code>E(10,30)，G(10+50,30+20) =&gt; (10,30,10+50,30+20) =&gt; (30,10+50,30+20,10)</code>，这就可以了！</p>
+<p>注意的坑：</p>
 <ul>
-<li>* 匹配任意数量的字符，但不匹配/</li>
-<li>? 匹配单个字符，但不匹配/</li>
-<li>** 匹配任意数量的字符，包括/，只要它是路径中唯一的一部分</li>
-<li>{} 允许使用一个逗号分割的列表或者表达式</li>
-<li>! 在模式的开头用于否定一个匹配模式(即排除与模式匹配的信息)</li>
-<li>ps：这里只是列了js版本的glob模式的一些常用语法。</li>
+<li>clip的盒子必须有<code>position:absolute</code></li>
+<li>必须带单位，如<code>px em rem</code>等</li>
+<li>所谓截取出来，就是你看到的部分，其余部分看不见但是仍然占位</li>
+<li>坐标出来以后，去掉负号，并且将第一个放在最后一个</li>
 </ul>
-<blockquote>
-<p><a href="https://blog.csdn.net/larrywangsun/article/details/28515481" target="_blank" rel="noopener">路径模式匹配glob</a></p>
-</blockquote>
+<p>上面的demo，变成代码试试。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span></span></span><br><span class="line"><span class="tag">  <span class="attr">style</span>=<span class="string">"width: 100px;height: 60px;background: #f69;position: absolute;clip: rect(30px,60px,50px,10px)"</span></span></span><br><span class="line"><span class="tag">&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>蓝色背景是盒子的实际占位，真实看到的是红色区域。<br><img src="https://user-gold-cdn.xitu.io/2019/7/11/16be07e613cc4ef8?w=99&amp;h=60&amp;f=png&amp;s=3075" alt="示例图片"></p>
 
       
     </div>
@@ -403,7 +405,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/vscode/" rel="tag"># vscode</a>
+            <a href="/tags/css/" rel="tag"># css</a>
           
         </div>
       
@@ -416,8 +418,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/03/28/usr-of-linux/" rel="next" title="linux的目录结构">
-                <i class="fa fa-chevron-left"></i> linux的目录结构
+              <a href="/2019/07/04/export-excel/" rel="next" title="纯前端用XLSX库导出excel，可含多个sheet">
+                <i class="fa fa-chevron-left"></i> 纯前端用XLSX库导出excel，可含多个sheet
               </a>
             
           </div>
@@ -425,10 +427,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/04/28/vue-data-arr/" rel="prev" title="vue的数据劫持以及操作数组的坑">
-                vue的数据劫持以及操作数组的坑 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -454,8 +452,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2019/04/28/vscode-hide-file/"
-           data-title="vscode隐藏文件（夹）" data-url="http://yoursite.com/2019/04/28/vscode-hide-file/">
+      <div class="ds-thread" data-thread-key="2019/07/11/clip/"
+           data-title="简单粗暴理解clip" data-url="http://yoursite.com/2019/07/11/clip/">
       </div>
     
   </div>
@@ -479,8 +477,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="http://omizt4opc.bkt.clouddn.com/avatar.jpg"
@@ -542,6 +549,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#TL-DR"><span class="nav-number">1.</span> <span class="nav-text">TL;DR</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#细细解释"><span class="nav-number">2.</span> <span class="nav-text">细细解释</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
