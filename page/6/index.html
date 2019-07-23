@@ -261,6 +261,189 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/12/nodeStudy/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/10/12/nodeStudy/" itemprop="url">
+                  学习node
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-12T10:06:18+08:00">
+                2017-10-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/node/" itemprop="url" rel="index">
+                    <span itemprop="name">node</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/10/12/nodeStudy/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/10/12/nodeStudy/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
+<li>模块暴露<code>module.exports</code>, 引入模块<code>require()</code></li>
+<li>全局对象global, 常用的其属性console和process, 下一次循环用<code>process.nextTick()</code>,process.argv获得命令行参数, 判断是不是浏览器环境<code>typeof window === &#39;undefined&#39;</code></li>
+<li>fs模块, 同时提供异步和同步方法<ul>
+<li>读文件: <code>fs.readFile(&#39;sample.txt&#39;,&#39;utf-8&#39;,function(err,data){ 一般err为空 })</code>, 二进制文件不用编码</li>
+<li>写文件: <code>fs.writeFile(&#39;sample.txt&#39;,&#39;hi lalala&#39;,function(err){})</code>, 字符串转buffer<code>Buffer.from(&#39;hihi&#39;,&#39;utf-8&#39;)</code>, buffer转字符串  bufferData.toString(‘utf-8’)</li>
+<li>得到文件的详细信息：<code>fs.stat(&#39;sample.txt&#39;,function(err,data){data.isFile(),data.isDirectory(),data.size,data.birthtime,data.mtime})</code></li>
+</ul>
+</li>
+<li>stream是一个对象，有自己的事件：data事件表示流的数据已经可以读取了，end事件表示这个流已经到末尾了，没有数据可以读取了，error事件表示出错了。<ul>
+<li>读文件流：<code>var stream = fs.createReadStream(&#39;sample.txt&#39;,&#39;utf-8&#39;);stream.on(&#39;data&#39;,function(chunk){..});stream.on(&#39;end&#39;,function(){..});stream.on(&#39;error&#39;,function(err){..});</code>，data事件可能会有多次，每次传递的chunk是流的一部分数据</li>
+<li>写文件流：<code>var stream1 = fs.createWriteStream(&#39;sample.txt&#39;,&#39;utf-8&#39;);stream1.write(&#39;lala&#39;,function(){写完之后的回调});stream1.write((new Buffer(&#39;buffer&#39;,&#39;utf-8&#39;)));stream1.end()</code></li>
+<li>pipe：把一个文件流和另一个文件流串起来，这样源文件的所有数据就自动写入到目标文件里了<code>stream.pipe(stream1)</code></li>
+</ul>
+</li>
+<li><code>url.parse(urlStr,true)</code>解析url</li>
+<li><code>path.resolve([...paths])</code>方法会把一个路径或路径片段的序列解析为一个绝对路径。</li>
+<li><code>path.join([...paths])</code> 方法使用平台特定的分隔符把全部给定的 path 片段连接到一起，并规范化生成的路径。</li>
+<li>file_server的练习
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/10/12/nodeStudy/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/11/urlParse/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1738,170 +1921,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/07/mobileCss/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/07/07/mobileCss/" itemprop="url">
-                  css的一些技巧
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-07T09:41:30+08:00">
-                2017-07-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/css/" itemprop="url" rel="index">
-                    <span itemprop="name">css</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/07/07/mobileCss/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/07/07/mobileCss/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><h2 id="inline-block"><a href="#inline-block" class="headerlink" title="inline-block"></a>inline-block</h2><p>图文排版的时候，经常用到这个<br>布局有时也可以用这个</p>
-<ul>
-<li>子元素之间如果需要清除空隙，则父元素<code>font-size:0</code></li>
-<li>子元素 <code>display:inline-block;vertical-align:top;</code>,有时还需要加<code>font-size</code></li>
-</ul>
-<h2 id="device-pixel-radio"><a href="#device-pixel-radio" class="headerlink" title="device-pixel-radio"></a>device-pixel-radio</h2><p>设备像素比，有各种数据的，关于<a href="https://developer.mozilla.org/zh-CN/docs/Web/Guide/CSS/Media_queries" target="_blank" rel="noopener">具体的media</a></p>
-<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">bg-image(<span class="variable">$url</span>)</span><br><span class="line">  <span class="attribute">background-image</span> url(<span class="variable">$url</span><span class="selector-class">.png</span>)</span><br><span class="line">  @<span class="keyword">media</span> (min-device-pixel-radio:<span class="number">2</span>),(-webkit-min-device-pixel-radio:<span class="number">2</span>),(min-resolution: 2dppx)</span><br><span class="line">  	background-image url(<span class="variable">$url</span>+<span class="string">'@2x.png'</span>)</span><br><span class="line">  @<span class="keyword">media</span> (min-device-pixel-radio:<span class="number">3</span>),(-webkit-min-device-pixel-radio:<span class="number">3</span>),(min-resolution: 3dppx)</span><br><span class="line">      background-image url(<span class="variable">$url</span>+<span class="string">'@3x.png'</span>)</span><br></pre></td></tr></table></figure>
-<h2 id="图片滤镜"><a href="#图片滤镜" class="headerlink" title="图片滤镜"></a>图片滤镜</h2><p><a href="https://www.w3cplus.com/css3/ten-effects-with-css3-filter" target="_blank" rel="noopener">具体详情</a><br>一般盒子的背景图片喜欢加模糊滤镜的效果</p>
-<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">filter</span>:blur(<span class="number">10px</span>)</span><br><span class="line">-webkit-filter:blur(<span class="number">10px</span>)</span><br></pre></td></tr></table></figure>
-<h2 id="省略号"><a href="#省略号" class="headerlink" title="省略号"></a>省略号</h2><p>如果知道字数的话，<code>width:10em</code></p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">text-overflow</span> <span class="selector-tag">ellipsis</span></span><br><span class="line"><span class="selector-tag">overflow</span> <span class="selector-tag">hidden</span></span><br><span class="line"><span class="selector-tag">white-space</span> <span class="selector-tag">nowrap</span></span><br></pre></td></tr></table></figure>
-<h2 id="sticky-footer"><a href="#sticky-footer" class="headerlink" title="sticky footer"></a>sticky footer</h2><p>如果文档的高度不足一屏幕，那么footer在页面底部<br>如果文档的高度多余一屏幕，那么footer在文档下面<br>思路：利用flex的特性，和min-height</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">html</span>,<span class="selector-tag">body</span></span><br><span class="line">  <span class="selector-tag">height</span> 100%</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">section</span></span><br><span class="line">  <span class="selector-tag">min-height</span> 100%</span><br><span class="line">  <span class="selector-tag">display</span> <span class="selector-tag">flex</span></span><br><span class="line">  <span class="selector-tag">flex-direction</span> <span class="selector-tag">column</span></span><br><span class="line"><span class="selector-tag">div</span></span><br><span class="line">  <span class="selector-tag">flex</span> 1</span><br><span class="line"><span class="selector-tag">footer</span></span><br><span class="line">  <span class="selector-tag">height</span> 40<span class="selector-tag">px</span></span><br></pre></td></tr></table></figure>
-<h2 id="移动端1px"><a href="#移动端1px" class="headerlink" title="移动端1px"></a>移动端1px</h2><p>解决retina屏幕的1px会显示成2px<br>在想要border的元素上，写个伪类，border为1px,然后将其根据dpi来进行缩放</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">border-1px($color)</span><br><span class="line">    <span class="selector-tag">position</span>: <span class="selector-tag">relative</span></span><br><span class="line">    &amp;<span class="selector-pseudo">:after</span></span><br><span class="line">        <span class="selector-tag">display</span>: <span class="selector-tag">block</span></span><br><span class="line">        <span class="selector-tag">position</span>: <span class="selector-tag">absolute</span></span><br><span class="line">        <span class="selector-tag">left</span>: 0</span><br><span class="line">        <span class="selector-tag">bottom</span>: 0</span><br><span class="line">        <span class="selector-tag">width</span>: 100%</span><br><span class="line">        border-top: 1px solid $color</span><br><span class="line">        content: ' '</span><br><span class="line">        @<span class="keyword">media</span> (-webkit-min-device-pixel-ratio: <span class="number">2</span>),(min-device-pixel-ratio: <span class="number">2</span>)</span><br><span class="line">            transform scale(<span class="number">0.5</span>)</span><br><span class="line">        @media (-webkit-min-device-pixel-ratio: <span class="number">3</span>),(min-device-pixel-ratio: <span class="number">3</span>)</span><br><span class="line">            transform scale(<span class="number">0.34</span>)</span><br><span class="line">border-none()</span><br><span class="line">    &amp;:after</span><br><span class="line">        display none</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1951,7 +1970,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">96</span>
+                <span class="site-state-item-count">97</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
