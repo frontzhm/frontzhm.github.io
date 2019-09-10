@@ -261,6 +261,170 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/07/mobileCss/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/07/07/mobileCss/" itemprop="url">
+                  css的一些技巧
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-07T09:41:30+08:00">
+                2017-07-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/css/" itemprop="url" rel="index">
+                    <span itemprop="name">css</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/07/07/mobileCss/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/07/07/mobileCss/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><h2 id="inline-block"><a href="#inline-block" class="headerlink" title="inline-block"></a>inline-block</h2><p>图文排版的时候，经常用到这个<br>布局有时也可以用这个</p>
+<ul>
+<li>子元素之间如果需要清除空隙，则父元素<code>font-size:0</code></li>
+<li>子元素 <code>display:inline-block;vertical-align:top;</code>,有时还需要加<code>font-size</code></li>
+</ul>
+<h2 id="device-pixel-radio"><a href="#device-pixel-radio" class="headerlink" title="device-pixel-radio"></a>device-pixel-radio</h2><p>设备像素比，有各种数据的，关于<a href="https://developer.mozilla.org/zh-CN/docs/Web/Guide/CSS/Media_queries" target="_blank" rel="noopener">具体的media</a></p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">bg-image(<span class="variable">$url</span>)</span><br><span class="line">  <span class="attribute">background-image</span> url(<span class="variable">$url</span><span class="selector-class">.png</span>)</span><br><span class="line">  @<span class="keyword">media</span> (min-device-pixel-radio:<span class="number">2</span>),(-webkit-min-device-pixel-radio:<span class="number">2</span>),(min-resolution: 2dppx)</span><br><span class="line">  	background-image url(<span class="variable">$url</span>+<span class="string">'@2x.png'</span>)</span><br><span class="line">  @<span class="keyword">media</span> (min-device-pixel-radio:<span class="number">3</span>),(-webkit-min-device-pixel-radio:<span class="number">3</span>),(min-resolution: 3dppx)</span><br><span class="line">      background-image url(<span class="variable">$url</span>+<span class="string">'@3x.png'</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="图片滤镜"><a href="#图片滤镜" class="headerlink" title="图片滤镜"></a>图片滤镜</h2><p><a href="https://www.w3cplus.com/css3/ten-effects-with-css3-filter" target="_blank" rel="noopener">具体详情</a><br>一般盒子的背景图片喜欢加模糊滤镜的效果</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">filter</span>:blur(<span class="number">10px</span>)</span><br><span class="line">-webkit-filter:blur(<span class="number">10px</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="省略号"><a href="#省略号" class="headerlink" title="省略号"></a>省略号</h2><p>如果知道字数的话，<code>width:10em</code></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">text-overflow</span> <span class="selector-tag">ellipsis</span></span><br><span class="line"><span class="selector-tag">overflow</span> <span class="selector-tag">hidden</span></span><br><span class="line"><span class="selector-tag">white-space</span> <span class="selector-tag">nowrap</span></span><br></pre></td></tr></table></figure>
+<h2 id="sticky-footer"><a href="#sticky-footer" class="headerlink" title="sticky footer"></a>sticky footer</h2><p>如果文档的高度不足一屏幕，那么footer在页面底部<br>如果文档的高度多余一屏幕，那么footer在文档下面<br>思路：利用flex的特性，和min-height</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">html</span>,<span class="selector-tag">body</span></span><br><span class="line">  <span class="selector-tag">height</span> 100%</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">section</span></span><br><span class="line">  <span class="selector-tag">min-height</span> 100%</span><br><span class="line">  <span class="selector-tag">display</span> <span class="selector-tag">flex</span></span><br><span class="line">  <span class="selector-tag">flex-direction</span> <span class="selector-tag">column</span></span><br><span class="line"><span class="selector-tag">div</span></span><br><span class="line">  <span class="selector-tag">flex</span> 1</span><br><span class="line"><span class="selector-tag">footer</span></span><br><span class="line">  <span class="selector-tag">height</span> 40<span class="selector-tag">px</span></span><br></pre></td></tr></table></figure>
+<h2 id="移动端1px"><a href="#移动端1px" class="headerlink" title="移动端1px"></a>移动端1px</h2><p>解决retina屏幕的1px会显示成2px<br>在想要border的元素上，写个伪类，border为1px,然后将其根据dpi来进行缩放</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">border-1px($color)</span><br><span class="line">    <span class="selector-tag">position</span>: <span class="selector-tag">relative</span></span><br><span class="line">    &amp;<span class="selector-pseudo">:after</span></span><br><span class="line">        <span class="selector-tag">display</span>: <span class="selector-tag">block</span></span><br><span class="line">        <span class="selector-tag">position</span>: <span class="selector-tag">absolute</span></span><br><span class="line">        <span class="selector-tag">left</span>: 0</span><br><span class="line">        <span class="selector-tag">bottom</span>: 0</span><br><span class="line">        <span class="selector-tag">width</span>: 100%</span><br><span class="line">        border-top: 1px solid $color</span><br><span class="line">        content: ' '</span><br><span class="line">        @<span class="keyword">media</span> (-webkit-min-device-pixel-ratio: <span class="number">2</span>),(min-device-pixel-ratio: <span class="number">2</span>)</span><br><span class="line">            transform scale(<span class="number">0.5</span>)</span><br><span class="line">        @media (-webkit-min-device-pixel-ratio: <span class="number">3</span>),(min-device-pixel-ratio: <span class="number">3</span>)</span><br><span class="line">            transform scale(<span class="number">0.34</span>)</span><br><span class="line">border-none()</span><br><span class="line">    &amp;:after</span><br><span class="line">        display none</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/06/redux/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1148,6 +1312,162 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/25/vuex/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/05/25/vuex/" itemprop="url">
+                  vuex的理解
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-25T14:09:39+08:00">
+                2017-05-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/05/25/vuex/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/25/vuex/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
+<li>块级作用域</li>
+</ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/05/25/vuex/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/25/es6-memory/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1272,162 +1592,6 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/05/25/es6-memory/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/25/vuex/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/05/25/vuex/" itemprop="url">
-                  vuex的理解
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-25T14:09:39+08:00">
-                2017-05-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/05/25/vuex/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/25/vuex/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
-<li>块级作用域</li>
-</ul>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/05/25/vuex/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1776,180 +1940,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/17/vueComponent10/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/05/17/vueComponent10/" itemprop="url">
-                  vue的组件
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-17T15:33:21+08:00">
-                2017-05-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/05/17/vueComponent10/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/17/vueComponent10/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
-<li>全局注册组件：<code>Vue.component(&#39;my-component&#39;, {template: &#39;&lt;div&gt;A custom component!&lt;/div&gt;&#39;})</code></li>
-<li>局部注册组件：<code>new Vue({components: {&#39;my-component&#39;: {template: &#39;&lt;div&gt;A custom component!&lt;/div&gt;&#39;} } })</code></li>
-<li>组件里面的数据data必须是函数</li>
-<li><p>Props 允许外部环境传递数据给组件，父组件通过自定义属性传递数据，子组件通过props接受数据(属性名)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;my-component message=&quot;en&quot;&gt;&lt;/my-component&gt;</span><br><span class="line">Vue.component(&apos;my-component&apos;, &#123;</span><br><span class="line">  template: &apos;&lt;div&gt;&#123;&#123;message&#125;&#125;&lt;/div&gt;&apos;,</span><br><span class="line">  // 声明 props</span><br><span class="line">  props: [&apos;message&apos;],</span><br><span class="line">  // 就像 data 一样，prop 可以用在模板内</span><br><span class="line">  // 同样也可以在 vm 实例中像 “this.message” 这样使用</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<p>如果message是变动的也ok，<code>:message=&quot;variable&quot;</code><br>如果子组件需要改变父组件传过来的数据，需要自己自定义变量接收，或者用computed<br>注意，如果数据是引用类型，需要深复制。</p>
-</li>
-<li><p>props验证，父组件的属性可以定义规则，包括类型等等</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Vue.component(&apos;example&apos;, &#123;</span><br><span class="line">  props: &#123;</span><br><span class="line">    // 基础类型检测 （`null` 意思是任何类型都可以）</span><br><span class="line">    propA: Number,</span><br><span class="line">    // 多种类型</span><br><span class="line">    propB: [String, Number],</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Events 允许组件触发外部环境的副作用，父组件使用 $on(eventName) 监听事件，子组件使用 $emit(eventName) 触发事件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">Vue.component(&apos;button-counter&apos;, &#123;</span><br><span class="line">  template: &apos;&lt;button v-on:click=&quot;increment&quot;&gt;&#123;&#123; counter &#125;&#125;&lt;/button&gt;&apos;,</span><br><span class="line">  data: function () &#123;return &#123;counter: 0 &#125; &#125;, </span><br><span class="line">  methods: &#123;</span><br><span class="line">    increment: function () &#123;</span><br><span class="line">      this.counter += 1</span><br><span class="line">      this.$emit(&apos;increment&apos;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;)</span><br><span class="line">new Vue(&#123;</span><br><span class="line">  el: &apos;#counter-event-example&apos;,</span><br><span class="line">  data: &#123;</span><br><span class="line">    total: 0</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    incrementTotal: function () &#123;</span><br><span class="line">      this.total += 1</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>非父子通信，通过空的 Vue 实例作为中央事件总线：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var bus = new Vue()</span><br><span class="line">bus.$emit(&apos;id-selected&apos;, 1)</span><br><span class="line">bus.$on(&apos;id-selected&apos;, function (id) &#123;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Slots 允许外部环境将额外的内容组合在组件中。</p>
-</li>
-<li>子组件索引$ref</li>
-</ul>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/05/17/vueComponent10/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1999,7 +1989,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">106</span>
+                <span class="site-state-item-count">107</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
