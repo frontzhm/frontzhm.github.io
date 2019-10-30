@@ -261,6 +261,179 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/06/promise2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/09/06/promise2/" itemprop="url">
+                  promise再总结总结
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-06T09:58:54+08:00">
+                2018-09-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/09/06/promise2/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/09/06/promise2/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="promise"><a href="#promise" class="headerlink" title="promise"></a>promise</h1><p>语法:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve, reject</span>) </span>&#123;&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="请求"><a href="#请求" class="headerlink" title="请求"></a>请求</h2><p>对XHPHttpRequest的封装<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">get</span>(<span class="params">url</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// Return a new promise.</span></span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve, reject</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// Do the usual XHR stuff</span></span><br><span class="line">    <span class="keyword">var</span> req = <span class="keyword">new</span> XMLHttpRequest();</span><br><span class="line">    req.open(<span class="string">'GET'</span>, url);</span><br><span class="line"></span><br><span class="line">    req.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="comment">// This is called even on 404 etc</span></span><br><span class="line">      <span class="comment">// so check the status</span></span><br><span class="line">      <span class="keyword">if</span> (req.status == <span class="number">200</span>) &#123;</span><br><span class="line">        <span class="comment">// Resolve the promise with the response text</span></span><br><span class="line">        resolve(req.response);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// Otherwise reject with the status text</span></span><br><span class="line">        <span class="comment">// which will hopefully be a meaningful error</span></span><br><span class="line">        reject(<span class="built_in">Error</span>(req.statusText));</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Handle network errors</span></span><br><span class="line">    req.onerror = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      reject(<span class="built_in">Error</span>(<span class="string">"Network Error"</span>));</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Make the request</span></span><br><span class="line">    req.send();</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>改良版:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">get</span>(<span class="params">url</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> fetch(url)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getJSON</span>(<span class="params">url</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> get(url).then(<span class="function"><span class="keyword">function</span>(<span class="params">response</span>)</span>&#123;response.json()&#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="回调函数单参数的处理"><a href="#回调函数单参数的处理" class="headerlink" title="回调函数单参数的处理"></a>回调函数单参数的处理</h2><p>比如:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">oneParam</span>(<span class="params">data</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> data.toString()</span><br><span class="line">&#125;</span><br><span class="line">getJSON(url1).then(<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> oneParam(data)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// 简化为,接下去的值就是oneParam(data)</span></span><br><span class="line">getJSON(url1).then(oneParam)</span><br></pre></td></tr></table></figure></p>
+<h2 id="扩充下回调函数参数个数的问题"><a href="#扩充下回调函数参数个数的问题" class="headerlink" title="扩充下回调函数参数个数的问题"></a>扩充下回调函数参数个数的问题</h2><p>其实遇到回调函数有时候自带参数,有时候不带参数,有时候有一个参数,有时候有多个参数</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params">fn</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> fn()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>仔细看上面的,其实 <code>a(fn)</code>等价于<code>fn()</code></p>
+<p>常用在数组里</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line">arr.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">item</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(item)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">log</span>(<span class="params">item</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> item ++</span><br><span class="line">&#125;</span><br><span class="line">arr.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">item</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> log(item)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// 简化为</span></span><br><span class="line">arr.forEach(log)</span><br><span class="line"><span class="comment">// 同理</span></span><br><span class="line">arr.map(log)</span><br></pre></td></tr></table></figure>
+<h2 id="并发请求的处理"><a href="#并发请求的处理" class="headerlink" title="并发请求的处理"></a>并发请求的处理</h2><p>假设story.json的内容是<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">"heading"</span>: <span class="string">"&lt;h1&gt;A story about something&lt;/h1&gt;"</span>,</span><br><span class="line">  <span class="string">"chapterUrls"</span>: [</span><br><span class="line">    <span class="string">"chapter-1.json"</span>,</span><br><span class="line">    <span class="string">"chapter-2.json"</span>,</span><br><span class="line">    <span class="string">"chapter-3.json"</span>,</span><br><span class="line">    <span class="string">"chapter-4.json"</span>,</span><br><span class="line">    <span class="string">"chapter-5.json"</span></span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="forEach的坑"><a href="#forEach的坑" class="headerlink" title="forEach的坑"></a>forEach的坑</h3><p>首先想到forEach</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">getJSON(<span class="string">'story.json'</span>)</span><br><span class="line">.then(<span class="function"><span class="keyword">function</span>(<span class="params">res</span>)</span>&#123;</span><br><span class="line">    <span class="comment">// return res.chapterUrls.forEach(url=&gt;getJSON(url).then(content=&gt;addToHtml(content)))</span></span><br><span class="line">    <span class="comment">// 还记得单参数的事吧</span></span><br><span class="line">    <span class="keyword">return</span> res.chapterUrls.forEach(<span class="function"><span class="params">url</span>=&gt;</span>getJSON(url).then(addToHtml))</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>这里的坑在于发出请求了,但是因为响应时间不一定,所以插入的时候可能章节2在章节1前面</p>
+<h3 id="用用map和Promise-all"><a href="#用用map和Promise-all" class="headerlink" title="用用map和Promise.all"></a>用用map和Promise.all</h3><p>组成一个promise的数组,等到都下载都完成了再添加到html中.<br>Promise.all就是所有promise都变成fulfilled状态了才继续.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">getJSON(<span class="string">'story.json'</span>)</span><br><span class="line">.then(<span class="function"><span class="keyword">function</span>(<span class="params">res</span>)</span>&#123;</span><br><span class="line">    <span class="comment">// return res.chapterUrls.forEach(url=&gt;getJSON(url).then(content=&gt;addToHtml(content)))</span></span><br><span class="line">    <span class="comment">// 还记得单参数的事吧</span></span><br><span class="line">    <span class="comment">// return Promise.all(res.chapterUrls.map(url=&gt;getJSON(url)))</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Promise</span>.all(res.chapterUrls.map(getJSON))</span><br><span class="line">&#125;)</span><br><span class="line">.then(<span class="function"><span class="keyword">function</span>(<span class="params">resArr</span>)</span>&#123;</span><br><span class="line">    <span class="comment">// resArr.forEach(charter=&gt;addToHtml(charter))</span></span><br><span class="line">    resArr.forEach(addToHtml)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>但这里还有个不尽如人意的地方,就是虽然并发请求,但是等到所有请求结果了才继续下一步,理想情况是章节1结果来了直接显示,章节2结果来了只要章节1来了就可以显示,以此类推</p>
+<h3 id="用用迭代"><a href="#用用迭代" class="headerlink" title="用用迭代"></a>用用迭代</h3><p>先说说简单的迭代<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>]</span><br><span class="line"><span class="keyword">var</span> sum</span><br><span class="line">arr.forEach(<span class="function"><span class="params">item</span>=&gt;</span>sum+=item)</span><br><span class="line"><span class="comment">// 每经过一项就进行加,变成新的sum</span></span><br><span class="line">arr.reduce(<span class="function">(<span class="params">sum,item</span>)=&gt;</span>(sum+item),sum)</span><br></pre></td></tr></table></figure></p>
+<p>这里针对请求可以这样</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> sequence = <span class="built_in">Promise</span>.resolve()</span><br><span class="line">getJSON(<span class="string">'story.json'</span>)</span><br><span class="line">.then(<span class="function"><span class="keyword">function</span>(<span class="params">res</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> res.chapterUrls.map(getJSON).then(<span class="function"><span class="keyword">function</span>(<span class="params">promiseArr</span>)</span>&#123;</span><br><span class="line">        promiseArr.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">promise</span>)</span>&#123;</span><br><span class="line">            <span class="comment">// 第一个promise变成fulfilled之后就添加到html</span></span><br><span class="line">            <span class="comment">// 此时sequence变成以下,只有then的状态完成了才能继续下一个addToHtml</span></span><br><span class="line">            sequence = sequence.then(<span class="function"><span class="keyword">function</span>(<span class="params">promise</span>)</span>&#123;</span><br><span class="line">                <span class="keyword">return</span> promise</span><br><span class="line">            &#125;).then(addToHtml)</span><br><span class="line">        &#125;)</span><br><span class="line">        </span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>用reduce改写下<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">getJSON(<span class="string">'story.json'</span>)</span><br><span class="line">.then(<span class="function"><span class="keyword">function</span>(<span class="params">res</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> res.chapterUrls.map(getJSON).then(<span class="function"><span class="keyword">function</span>(<span class="params">promiseArr</span>)</span>&#123;</span><br><span class="line">        promiseArr.reduce(<span class="function"><span class="keyword">function</span>(<span class="params">sequence,promise</span>)</span>&#123;</span><br><span class="line">            <span class="comment">// 第一个promise变成fulfilled之后就添加到html</span></span><br><span class="line">            <span class="comment">// 此时sequence变成以下,只有then的状态完成了才能继续下一个addToHtml</span></span><br><span class="line">            <span class="keyword">return</span> sequence.then(<span class="function"><span class="keyword">function</span>(<span class="params">promise</span>)</span>&#123;</span><br><span class="line">                <span class="keyword">return</span> promise</span><br><span class="line">            &#125;).then(addToHtml)</span><br><span class="line">        &#125;,<span class="built_in">Promise</span>.resolve())</span><br><span class="line">        </span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<h2 id="以上来源于google的文档"><a href="#以上来源于google的文档" class="headerlink" title="以上来源于google的文档"></a>以上来源于google的文档</h2><p>可以看<a href="https://developers.google.cn/web/fundamentals/primers/promises#xmlhttprequest_promise" target="_blank" rel="noopener">google的文档</a>.<br><a href="https://github.com/googlesamples/web-fundamentals/tree/gh-pages/fundamentals/primers" target="_blank" rel="noopener">例子在github</a></p>
+<p>说下小白的步步操作</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/googlesamples/web-fundamentals</span><br><span class="line">cd web-fundamentals</span><br><span class="line">npm install anywhere -g</span><br><span class="line">anywhere</span><br><span class="line"><span class="meta">#</span> 点击具体的文件就可以看到效果了如async-best-example.html</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/06/cnzz/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1857,188 +2030,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/21/eslint/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/11/21/eslint/" itemprop="url">
-                  eslint根据需要格式化js代码
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-21T15:05:51+08:00">
-                2017-11-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/编辑器/" itemprop="url" rel="index">
-                    <span itemprop="name">编辑器</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/11/21/eslint/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/11/21/eslint/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p><a href="https://cn.eslint.org/docs/user-guide/getting-started" target="_blank" rel="noopener">官网网址</a><br>项目的js规范可能各有千秋， 而eslint可以自定义规范.更重要的是， 我想要编辑器根据此规范自动格式化js代码。</p>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><ul>
-<li>全局安装<code>npm install eslint -g</code></li>
-<li>推荐本地项目安装<code>npm install eslint --save-dev</code>，在运行此命令之前， 项目必须有<code>package.json</code>文件，可以用<code>npm init --y</code>快速生成(以下按照本地安装)</li>
-<li>生成配置文件 <code>./node_modules/.bin/eslint --init</code>，一般在第一个问题的时候选择<code>use a popular style guide</code>，然后选择<code>standard</code>，这样配置文件<code>.eslintrc.js</code>就生成了</li>
-<li>检测并格式化某js文件 <code>./node_modules/.bin/eslint youfile.js --fix</code> 不加fix只是显示错误并不纠正</li>
-</ul>
-<h2 id="配置vscode"><a href="#配置vscode" class="headerlink" title="配置vscode"></a>配置vscode</h2><p>我用的是vscode，所以说下vscode配置eslint，保存的时候自动按照配置文件格式化。</p>
-<p>1.vscode下载插件<code>eslint</code><br>2.文件 -&gt; 首选项 -&gt; 设置 -&gt; 搜索eslint， 右侧配置</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"eslint.options"</span>: &#123;</span><br><span class="line">    <span class="comment">// 配置文件的地址</span></span><br><span class="line">    <span class="string">"configFile"</span>: <span class="string">"E:/mygithub/formatCodeTestToDE/.eslintrc.js"</span></span><br><span class="line">&#125;,</span><br><span class="line"><span class="comment">// 保存的时候自动格式化</span></span><br><span class="line"><span class="string">"eslint.autoFixOnSave"</span>: <span class="literal">true</span>,</span><br></pre></td></tr></table></figure>
-<h2 id="具体配置参数"><a href="#具体配置参数" class="headerlink" title="具体配置参数"></a>具体配置参数</h2><p>常用:</p>
-<ul>
-<li>Environments - 指定脚本的运行环境。每种环境都有一组特定的预定义全局变量。</li>
-<li>Globals - 脚本在执行期间访问的额外的全局变量</li>
-<li>Rules - 启用的规则及各自的错误级别.<ul>
-<li>“off” 或 0 - 关闭规则</li>
-<li>“warn” 或 1 - 开启规则，使用警告级别的错误：warn (不会导致程序退出)</li>
-<li>“error” 或 2 - 开启规则，使用错误级别的错误：error (当被触发的时候，程序会退出)</li>
-</ul>
-</li>
-<li>“eslint:recommended” 的 extends 属性启用一系列核心规则</li>
-<li>特殊禁止规则<ul>
-<li><code>/* eslint-disable */ area code /* eslint-enable */</code></li>
-<li><code>// eslint-disable-next-line</code></li>
-</ul>
-</li>
-</ul>
-<p>不常用:</p>
-<ul>
-<li>parserOptions - 属性设置解析器选项</li>
-<li>plugins - ESLint 支持使用第三方插件。在使用插件之前，你必须使用 npm 安装它。</li>
-</ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="comment">//extends用于引入某配置作为基础配置，然后再在后续的rules中对其进行扩展</span></span><br><span class="line">    <span class="string">"extends"</span>: <span class="string">"eslint:recommended"</span>,</span><br><span class="line">    <span class="comment">//如果你想使用插件中的环境变量，请先把插件名写入"plugins"数组中，然后再在"env":&#123;&#125;中以"插件名/插件中的需引入的环境名"的方式进行指定。</span></span><br><span class="line">    <span class="string">"plugins"</span>: [<span class="string">"example"</span>],</span><br><span class="line">    <span class="string">"env"</span>: &#123;</span><br><span class="line">        <span class="comment">//An environment defines global variables that are predefined.</span></span><br><span class="line">        <span class="comment">//定义env会带进来一些全局变量</span></span><br><span class="line">        <span class="string">"browser"</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="string">"node"</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="string">"es6"</span>:<span class="literal">true</span>,</span><br><span class="line">        <span class="string">"mocha"</span>:<span class="string">"true"</span>,</span><br><span class="line">        <span class="string">"qunit"</span>:<span class="literal">true</span>,</span><br><span class="line">        <span class="string">"jquery"</span>:<span class="literal">true</span>,</span><br><span class="line">        <span class="string">"mongo"</span>:<span class="literal">true</span>,</span><br><span class="line">        <span class="comment">//通过插件名命名空间引入插件中的环境</span></span><br><span class="line">        <span class="string">"example/custom"</span>: <span class="literal">true</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">"globals"</span>: &#123;</span><br><span class="line">        <span class="comment">// globals are the additional global variables your script accesses during execution.</span></span><br><span class="line">        <span class="comment">// 即插件在执行过程中用到的其它全局变量</span></span><br><span class="line">        <span class="string">"angular"</span>: <span class="literal">true</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">"rules"</span>: &#123;</span><br><span class="line">        <span class="comment">//which rules are enabled and at what error level.</span></span><br><span class="line">        <span class="comment">//这里指定用哪些规则进行eslint检查以及每个规则的错误级别：0或者off表示规则关闭，出错也被忽略；1或者warn表示如果出错会给出警告；2或者error表示如果出错会报出错误</span></span><br><span class="line">        <span class="string">"semi"</span>: [<span class="string">"error"</span>, <span class="string">"always"</span>],</span><br><span class="line">        <span class="string">"quotes"</span>: [<span class="string">"error"</span>, <span class="string">"double"</span>]</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">//parser指定解析器，默认的为espree，可选的还有Esprima、Babel-ESLint。</span></span><br><span class="line">    <span class="comment">//babel-eslint is a wrapper around the Babel parser that makes it compatible with ESLint.</span></span><br><span class="line">        <span class="comment">//babel-eslint是一个Babel parser的包装器，这个包装器使得Babel parser可以和ESLint协调工作</span></span><br><span class="line">    <span class="string">"parser"</span>: <span class="string">"babel-eslint"</span>,</span><br><span class="line">    <span class="string">"parserOptions"</span>: &#123;</span><br><span class="line">        <span class="comment">//ecmaVersion指定ECMAScript的版本，可选值有3\5\6\7，默认是5</span></span><br><span class="line">       <span class="string">"ecmaVersion"</span>: <span class="number">6</span>,</span><br><span class="line">       <span class="comment">//sourceType指定被检查的文件是什么扩展名的，可选项"script"和"module"，默认是"script"。"module"是ES6的。</span></span><br><span class="line">       <span class="string">"sourceType"</span>: <span class="string">"module"</span>,</span><br><span class="line">       <span class="comment">//ecmaFeatures指定你想使用哪些额外的语言特性</span></span><br><span class="line">       <span class="string">"ecmaFeatures"</span>: &#123;</span><br><span class="line">           <span class="string">"jsx"</span>: <span class="literal">true</span></span><br><span class="line">       &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2088,7 +2079,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">121</span>
+                <span class="site-state-item-count">122</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
