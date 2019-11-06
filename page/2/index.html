@@ -261,6 +261,180 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/23/redis/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2019/09/23/redis/" itemprop="url">
+                  redis键值对内存数据库
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-23T15:35:08+08:00">
+                2019-09-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/database/" itemprop="url" rel="index">
+                    <span itemprop="name">database</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/09/23/redis/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/09/23/redis/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>redis四开源免费的，遵守BSD协议，是一个高性能的key-value数据库<br><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/license.jpeg" alt="开源协议"></p>
+<p>Redis是一个使用ANSI C编写的开源、支持网络、基于内存、可选持久性的键值对存储数据库。最流行的键值对存储数据库。</p>
+<h2 id="redis优势"><a href="#redis优势" class="headerlink" title="redis优势"></a>redis优势</h2><ul>
+<li>性能极高 读速度11万次/s 写8.1万次/s</li>
+<li>丰富的数据类型，字符串 列表 哈希 集合 有序集合</li>
+<li>原子性  成功、失败、不执行三种状态</li>
+<li>单个操作原子性，多个操作也支持事务，MULTI EXEC</li>
+<li>丰富的特性 支持发布订阅 key过期</li>
+<li>缺点是只能 key-value。内存性数据库。</li>
+</ul>
+<h2 id="用的背景"><a href="#用的背景" class="headerlink" title="用的背景"></a>用的背景</h2><p>一般在数据库前面一层。</p>
+<p>现在redis找，没有再去mongo。一般将请求结果存一拨到redis.</p>
+<p>缓存数据。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p><a href="https://github.com/ServiceStack/redis-windows" target="_blank" rel="noopener">redis-window</a></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">brew uninstall redis</span><br><span class="line"><span class="comment"># 不自动更新brew</span></span><br><span class="line"><span class="built_in">export</span> HOMEBREW_NO_AUTO_UPDATE=<span class="literal">true</span></span><br><span class="line">brew install redis</span><br><span class="line"><span class="comment"># 启动的话 这样 后面是配置文件</span></span><br><span class="line"><span class="comment"># redis-server /usr/local/etc/redis.conf</span></span><br><span class="line"><span class="comment">## 可以看看</span></span><br><span class="line">cat /usr/<span class="built_in">local</span>/etc/redis.conf</span><br></pre></td></tr></table></figure>
+<p>数据库都分为：服务端和客户端。这里的redis默认端口 6379</p>
+<p>服务端<code>redis-server</code><br>客户端<code>redis-cli</code></p>
+<h2 id="客户端的命令"><a href="#客户端的命令" class="headerlink" title="客户端的命令"></a>客户端的命令</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br></pre></td><td class="code"><pre><span class="line">redis-cli</span><br><span class="line"><span class="comment">#  看所有的keys</span></span><br><span class="line">keys *</span><br><span class="line"><span class="comment"># 设置key</span></span><br><span class="line"><span class="built_in">set</span> a 1</span><br><span class="line"><span class="comment"># 获取key</span></span><br><span class="line">get a</span><br><span class="line">keys *</span><br><span class="line"><span class="comment"># key的value值+1</span></span><br><span class="line">incr a</span><br><span class="line">incr a</span><br><span class="line"><span class="comment"># key的value值-1</span></span><br><span class="line">decr a</span><br><span class="line">decr a</span><br><span class="line"><span class="comment"># 看类型</span></span><br><span class="line"><span class="built_in">type</span> a</span><br><span class="line"><span class="built_in">set</span> name hua</span><br><span class="line">del a</span><br><span class="line"><span class="comment"># 取字符串的部分 0 1表示两个字符串</span></span><br><span class="line">getrange name 0 1</span><br><span class="line"><span class="comment"># 5s过期</span></span><br><span class="line">expire name 5</span><br><span class="line"><span class="comment"># 看下某些属性还有多久过期</span></span><br><span class="line">ttl name</span><br><span class="line"><span class="comment"># 过期的key get不到的</span></span><br><span class="line">get name</span><br><span class="line"></span><br><span class="line"><span class="comment">###############</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># hash</span></span><br><span class="line"><span class="comment"># 设置 person这个对象的name值是hua</span></span><br><span class="line">hset person name hua</span><br><span class="line">hset person age 1</span><br><span class="line"><span class="comment"># 读取</span></span><br><span class="line">hget person name</span><br><span class="line">hget person age</span><br><span class="line"><span class="comment"># 读取多个属性</span></span><br><span class="line">hmget person name age</span><br><span class="line"><span class="comment"># 读取所有属性</span></span><br><span class="line">hgetall person</span><br><span class="line"><span class="comment"># 删除某个属性</span></span><br><span class="line">hdel person name</span><br><span class="line"><span class="comment"># 删除对象</span></span><br><span class="line">del person</span><br><span class="line"></span><br><span class="line"><span class="comment">########</span></span><br><span class="line"><span class="comment"># list</span></span><br><span class="line"><span class="comment"># 设置</span></span><br><span class="line">lpush arr 1 2 3 4 5</span><br><span class="line"><span class="comment"># 看部分项</span></span><br><span class="line">lrange arr 0 -1</span><br><span class="line"><span class="comment"># 右边插入</span></span><br><span class="line">rpush arr 6 7 8 9</span><br><span class="line">lrange arr 0 -1</span><br><span class="line"><span class="comment"># 左边删</span></span><br><span class="line">lpop arr</span><br><span class="line"><span class="comment"># 右边删</span></span><br><span class="line">rpop arr</span><br><span class="line"><span class="comment"># 所有把数组左边的7个里=1的都删掉</span></span><br><span class="line">lrem arr 7 1</span><br><span class="line"><span class="comment"># 取某一个</span></span><br><span class="line">lindex arr 1</span><br><span class="line"><span class="comment">############</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># set</span></span><br><span class="line"><span class="comment"># 设置</span></span><br><span class="line">sadd myset 1  1 1 2 3 2</span><br><span class="line"><span class="comment"># 读取</span></span><br><span class="line">smembers myset</span><br><span class="line">sadd mysel 1 2 3 4 5</span><br><span class="line"><span class="comment"># 删除</span></span><br><span class="line">del mysel</span><br><span class="line"><span class="comment"># 删除某项</span></span><br><span class="line">srem myset 1</span><br><span class="line">sadd myset 123 3</span><br><span class="line">sadd myset1 123 3</span><br><span class="line"><span class="comment"># 并集</span></span><br><span class="line">sunion myset1 myset</span><br><span class="line"><span class="comment"># 交集</span></span><br><span class="line">sinter myset1 myset</span><br><span class="line"><span class="comment"># 差集 (myset里有的 myset1没有的)</span></span><br><span class="line">sdiff myset myset1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">########</span></span><br><span class="line"><span class="comment"># 有序 先索引 然后索引内在自行排序</span></span><br><span class="line">zadd my 1 222</span><br><span class="line">zadd my 1 224</span><br><span class="line">zadd my 1 2</span><br><span class="line">zadd my 8 555</span><br><span class="line">zrange my 0 -1</span><br><span class="line">zadd my 5 9</span><br><span class="line">zadd my 3 232131</span><br><span class="line"></span><br><span class="line">(<span class="built_in">integer</span>) 1</span><br><span class="line">127.0.0.1:6379&gt; zadd orderedset 1 78</span><br><span class="line">(<span class="built_in">integer</span>) 1</span><br><span class="line">127.0.0.1:6379&gt; zadd orderedset 1 7</span><br><span class="line">(<span class="built_in">integer</span>) 1</span><br><span class="line">127.0.0.1:6379&gt; zrange orderedset 0 -1</span><br><span class="line">1) <span class="string">"7"</span></span><br><span class="line">2) <span class="string">"77"</span></span><br><span class="line">3) <span class="string">"78"</span></span><br><span class="line">127.0.0.1:6379&gt; zadd orderedset 2 7</span><br><span class="line">(<span class="built_in">integer</span>) 0</span><br><span class="line">127.0.0.1:6379&gt; zadd orderedset 2 733</span><br><span class="line">(<span class="built_in">integer</span>) 1</span><br><span class="line">127.0.0.1:6379&gt; zadd orderedset 2 73</span><br><span class="line">(<span class="built_in">integer</span>) 1</span><br><span class="line">127.0.0.1:6379&gt; zrange orderedset 0 -1</span><br><span class="line">1) <span class="string">"77"</span></span><br><span class="line">2) <span class="string">"78"</span></span><br><span class="line">3) <span class="string">"7"</span></span><br><span class="line">4) <span class="string">"73"</span></span><br><span class="line">5) <span class="string">"733"</span></span><br><span class="line">127.0.0.1:6379&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="redis的数据类型-5类"><a href="#redis的数据类型-5类" class="headerlink" title="redis的数据类型 5类"></a>redis的数据类型 5类</h2><ul>
+<li>string 方法有 get set del getrange incr decr</li>
+<li>hash 方法有 hset hget hmget hgetall hdel</li>
+<li>列表 数组 链表 lpush lpop lrem lindex lrange</li>
+<li>集合 set 方法 sadd smembers srem sdiff sunion sinter</li>
+<li>有些集合 set 方法 zadd zrange withscores</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/20/request/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1883,133 +2057,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/01/baby_small_food/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2019/08/01/baby_small_food/" itemprop="url">
-                  未命名
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-01T14:54:49+08:00">
-                2019-08-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/08/01/baby_small_food/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/08/01/baby_small_food/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2059,7 +2106,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">123</span>
+                <span class="site-state-item-count">124</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
