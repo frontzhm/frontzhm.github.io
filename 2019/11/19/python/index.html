@@ -1,0 +1,783 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="python," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="mac本终端输入idle，会打开一个软件，然后新建一个xx.py输入以下，然后f5，就能看到图像 1234567891011121314151617181920212223242526272829303132import turtleturtle.bgcolor(&apos;black&apos;) # 改变画布背景颜色为黑色# 多边形def draw_polygon(sides,width):  t = turtl">
+<meta name="keywords" content="python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python的简单入门">
+<meta property="og:url" content="http://yoursite.com/2019/11/19/python/index.html">
+<meta property="og:site_name" content="花花的博客">
+<meta property="og:description" content="mac本终端输入idle，会打开一个软件，然后新建一个xx.py输入以下，然后f5，就能看到图像 1234567891011121314151617181920212223242526272829303132import turtleturtle.bgcolor(&apos;black&apos;) # 改变画布背景颜色为黑色# 多边形def draw_polygon(sides,width):  t = turtl">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/python1.png">
+<meta property="og:image" content="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/python2.png">
+<meta property="og:image" content="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/python3.png">
+<meta property="og:image" content="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/turtle.png">
+<meta property="og:updated_time" content="2019-11-19T08:36:23.766Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="python的简单入门">
+<meta name="twitter:description" content="mac本终端输入idle，会打开一个软件，然后新建一个xx.py输入以下，然后f5，就能看到图像 1234567891011121314151617181920212223242526272829303132import turtleturtle.bgcolor(&apos;black&apos;) # 改变画布背景颜色为黑色# 多边形def draw_polygon(sides,width):  t = turtl">
+<meta name="twitter:image" content="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/python1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/11/19/python/"/>
+
+
+
+
+
+  <title> python的简单入门 | 花花的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?60f2cb5747a596a24f2a053f1650c30b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">花花的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/19/python/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                python的简单入门
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-19T16:36:23+08:00">
+                2019-11-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/11/19/python/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/11/19/python/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>mac本终端输入<code>idle</code>，会打开一个软件，然后新建一个<code>xx.py</code>输入以下，然后f5，就能看到图像</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> turtle</span><br><span class="line">turtle.bgcolor(<span class="string">'black'</span>) <span class="comment"># 改变画布背景颜色为黑色</span></span><br><span class="line"><span class="comment"># 多边形</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">draw_polygon</span><span class="params">(sides,width)</span>:</span></span><br><span class="line">  t = turtle.Turtle()</span><br><span class="line">  t.color(<span class="string">"yellow"</span>)</span><br><span class="line">  <span class="keyword">for</span> side <span class="keyword">in</span> range(sides):</span><br><span class="line">    george.forward(width)</span><br><span class="line">    george.right(<span class="number">360</span>/sides)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 五角星</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">star</span><span class="params">(width)</span>:</span></span><br><span class="line">  t = turtle.Turtle()</span><br><span class="line">  t.color(<span class="string">"yellow"</span>)</span><br><span class="line">  <span class="keyword">for</span> side <span class="keyword">in</span> range(<span class="number">5</span>):</span><br><span class="line">    george.forward(width)</span><br><span class="line">    george.right(<span class="number">144</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 螺旋</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">helix</span><span class="params">(sides,gap)</span>:</span></span><br><span class="line">  t = turtle.Turtle()</span><br><span class="line">  t.color(<span class="string">"yellow"</span>)</span><br><span class="line">  <span class="keyword">for</span> side <span class="keyword">in</span> range(sides):</span><br><span class="line">    george.forward(side+gap)</span><br><span class="line">    george.right(<span class="number">90</span>)</span><br><span class="line"></span><br><span class="line">def in_boundary(t)&#123;</span><br><span class="line">  x,y = t.coord()</span><br><span class="line">  <span class="keyword">return</span> <span class="number">-175</span>&lt;x&lt;<span class="number">175</span>  <span class="keyword">and</span> <span class="number">-175</span>&lt;y&lt;<span class="number">175</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment"># %</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/python1.png" alt="turtle"><br><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/python2.png" alt="turtle"><br><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/python3.png" alt="turtle"><br><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/turtle.png" alt="turtle"></p>
+<h2 id="命令行开启交互模式"><a href="#命令行开启交互模式" class="headerlink" title="命令行开启交互模式"></a>命令行开启交互模式</h2><p>交互模式通常称为“解析器”，常用来实验很短的代码。符合语句，需要手动缩进。<br>交互模式会显示函数的返回值。</p>
+<ul>
+<li>建一个<code>chance.py</code></li>
+<li>cd 其所在的文件夹</li>
+<li>python3</li>
+<li>import chance</li>
+<li>chance.coin_flip()</li>
+<li>exit()终止</li>
+</ul>
+<p>注意必须同个文件夹，import的时候没有后缀，调用的时候需要加模块名</p>
+<h2 id="命令行运行文件"><a href="#命令行运行文件" class="headerlink" title="命令行运行文件"></a>命令行运行文件</h2><p>命令行直接运行文件，不能直接显示返回值，需要通过<code>print</code>。，返回值和输出值有区别</p>
+<ul>
+<li>建一个<code>chance.py</code></li>
+<li>python3 xxxxx/chance.py</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">name = input(<span class="string">"What's your name?"</span>)</span><br><span class="line">print(<span class="string">"Hello,"</span>, name, <span class="string">"!"</span>)</span><br></pre></td></tr></table></figure>
+<p>函数没有返回值就是<code>None</code></p>
+<h2 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h2><p>print打印字符串的时候，单引号、双引号。<br>字符串中有单引号和双引号的话就使用<code>\</code>， <code>&#39;i\&#39;m hi&#39;</code>。<br>如果很多换行的话可以<code>print(&quot;&quot;&quot; ...xx ...xx ...xxx &quot;&quot;&quot;)</code>。</p>
+<p>表情字符串</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> unicodedata</span><br><span class="line">unicodedata.lookup(<span class="string">"snake"</span>)</span><br><span class="line"><span class="comment"># 🐍</span></span><br></pre></td></tr></table></figure>
+<p>字符串和数组:</p>
+<ul>
+<li>可以使用<code>len(&quot;xx&quot;) len([13,2])</code>计算长度，其他类型会报错。</li>
+<li>可以使用for循环</li>
+<li>可以通过索引拿到各项值，<code>&quot;xx&quot;[0] [12,3][0]</code>。-1表示最后一个字符串，-2表示最后第二个字符串。</li>
+<li>可以 <code>123[0:2] [1,2,3][0:2]</code>相当slice，切片操作永远不会导致 IndexError，多的话就是最后一个。如果 word 是一个字符串，<code>word[:]</code> 将是 word 的副本。</li>
+<li><code>+</code>的两边要不都是字符串，要不都是数字，不然就会报错</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">hello</span><br><span class="line">hell</span><br><span class="line">hel</span><br><span class="line">he</span><br><span class="line">h</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">word</span><span class="params">(str)</span>:</span></span><br><span class="line">  length = len(str)</span><br><span class="line">  <span class="keyword">for</span> index <span class="keyword">in</span> range(length):</span><br><span class="line">    end_pos = length -index</span><br><span class="line">    print(word[<span class="number">0</span>:end_pos])</span><br></pre></td></tr></table></figure>
+<h2 id="字符串的其他操作"><a href="#字符串的其他操作" class="headerlink" title="字符串的其他操作"></a>字符串的其他操作</h2><ul>
+<li>字符串拼接<code>f</code>跟es6类似的操作</li>
+<li>==、&lt; 和 &gt; 等比较运算符在字符串上的效果和数字一样。A是65，a是97。</li>
+<li>字符串可以转换为数字<code>int(&#39;1&#39;) float(&#39;1.23&#39;)</code>，数字可以转化为字符串<code>str(1)</code></li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">c=<span class="number">1</span></span><br><span class="line"><span class="comment"># f就是格式化的意思，将&#123;&#125;的c转换成变量</span></span><br><span class="line"><span class="string">f"who is <span class="subst">&#123;c&#125;</span>"</span></span><br><span class="line"><span class="keyword">import</span> math</span><br><span class="line"><span class="string">f"pi is <span class="subst">&#123;math.pi:<span class="number">.6</span>&#125;</span>"</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 返回中间字符串</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">middle</span><span class="params">(a, b, c)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> b &gt;= a &gt;= c <span class="keyword">or</span> c &gt;= a &gt;= b:</span><br><span class="line">       <span class="keyword">return</span> a</span><br><span class="line">    <span class="keyword">if</span> a &gt;= b &gt;= c <span class="keyword">or</span> c &gt;= b &gt;= a:</span><br><span class="line">       <span class="keyword">return</span> b</span><br><span class="line">    <span class="keyword">if</span> a &gt;= c &gt;= b <span class="keyword">or</span> b &gt;= c &gt;= a:</span><br><span class="line">       <span class="keyword">return</span> c</span><br></pre></td></tr></table></figure>
+<h2 id="布尔运算"><a href="#布尔运算" class="headerlink" title="布尔运算"></a>布尔运算</h2><p>布尔值 True和False<br>布尔运算 and or not</p>
+<p>这些规则的有趣现象是 not (x and y) 和 (not x) or (not y) 一样，同样，not (x or y) 和 (not x) and (not y) 一样。</p>
+<ul>
+<li>对于数字，零值被视为 false，所有非零值都被视为 true。</li>
+<li>对于字符串，空字符串被视为 false，所有非空字符串都被视为 true。</li>
+<li>对于列表，空列表被视为 false，所有非空列表都被视为 true。</li>
+</ul>
+<h2 id="序列"><a href="#序列" class="headerlink" title="序列"></a>序列</h2><p>字符串和列表是序列<br>在 Python 中，列表和字符串具有一些共同点。它们都是序列类型 — 它们表示一系列值，而不是单个值。字符串中的项目是字符；列表中的项目可以是任何类型。</p>
+<p>你见过的三种字符串操作实际上适用于所有序列类型：索引操作、切片操作和 len 函数。因为它们都适用于序列，因此也适用于列表：</p>
+<h2 id="子字符串"><a href="#子字符串" class="headerlink" title="子字符串"></a>子字符串</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">longstr = <span class="string">'asdadadad'</span></span><br><span class="line">shortstr = <span class="string">'as'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 有没有出现</span></span><br><span class="line">shortstr <span class="keyword">in</span> longstr</span><br><span class="line"><span class="comment"># 第一次出现在哪</span></span><br><span class="line">longstr.find(shortstr)</span><br><span class="line"><span class="comment"># 出现几次</span></span><br><span class="line">longstr.counts(shortstr)</span><br><span class="line"></span><br><span class="line">join很神奇</span><br><span class="line"></span><br><span class="line"><span class="comment"># a-s</span></span><br><span class="line"><span class="string">'-'</span>.join(shortstr)</span><br><span class="line"><span class="comment"># a-s</span></span><br><span class="line"><span class="string">'-'</span>.join([<span class="string">'a'</span>,<span class="string">'s'</span>])</span><br></pre></td></tr></table></figure>
+<h2 id="编程造句"><a href="#编程造句" class="headerlink" title="编程造句"></a>编程造句</h2><h2 id="os"><a href="#os" class="headerlink" title="os"></a>os</h2><p>d</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="comment"># 显示文件夹里所有文件</span></span><br><span class="line">os.listdir(path=<span class="string">''</span>)</span><br><span class="line">os.createdir(path)</span><br><span class="line">os.rename(src,dst)</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python/" rel="tag"># python</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/14/mod/" rel="next" title="取余运算的使用">
+                <i class="fa fa-chevron-left"></i> 取余运算的使用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2019/11/19/python/"
+           data-title="python的简单入门" data-url="http://yoursite.com/2019/11/19/python/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://omizt4opc.bkt.clouddn.com/avatar.jpg"
+               alt="frontzhm" />
+          <p class="site-author-name" itemprop="name">frontzhm</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">132</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">48</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#命令行开启交互模式"><span class="nav-number">1.</span> <span class="nav-text">命令行开启交互模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#命令行运行文件"><span class="nav-number">2.</span> <span class="nav-text">命令行运行文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字符串"><span class="nav-number">3.</span> <span class="nav-text">字符串</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字符串的其他操作"><span class="nav-number">4.</span> <span class="nav-text">字符串的其他操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#布尔运算"><span class="nav-number">5.</span> <span class="nav-text">布尔运算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#序列"><span class="nav-number">6.</span> <span class="nav-text">序列</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#子字符串"><span class="nav-number">7.</span> <span class="nav-text">子字符串</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编程造句"><span class="nav-number">8.</span> <span class="nav-text">编程造句</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#os"><span class="nav-number">9.</span> <span class="nav-text">os</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">frontzhm</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"frontzhm"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

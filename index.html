@@ -261,6 +261,205 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/19/python/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2019/11/19/python/" itemprop="url">
+                  python的简单入门
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-19T16:36:23+08:00">
+                2019-11-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/11/19/python/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/11/19/python/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>mac本终端输入<code>idle</code>，会打开一个软件，然后新建一个<code>xx.py</code>输入以下，然后f5，就能看到图像</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> turtle</span><br><span class="line">turtle.bgcolor(<span class="string">'black'</span>) <span class="comment"># 改变画布背景颜色为黑色</span></span><br><span class="line"><span class="comment"># 多边形</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">draw_polygon</span><span class="params">(sides,width)</span>:</span></span><br><span class="line">  t = turtle.Turtle()</span><br><span class="line">  t.color(<span class="string">"yellow"</span>)</span><br><span class="line">  <span class="keyword">for</span> side <span class="keyword">in</span> range(sides):</span><br><span class="line">    george.forward(width)</span><br><span class="line">    george.right(<span class="number">360</span>/sides)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 五角星</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">star</span><span class="params">(width)</span>:</span></span><br><span class="line">  t = turtle.Turtle()</span><br><span class="line">  t.color(<span class="string">"yellow"</span>)</span><br><span class="line">  <span class="keyword">for</span> side <span class="keyword">in</span> range(<span class="number">5</span>):</span><br><span class="line">    george.forward(width)</span><br><span class="line">    george.right(<span class="number">144</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 螺旋</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">helix</span><span class="params">(sides,gap)</span>:</span></span><br><span class="line">  t = turtle.Turtle()</span><br><span class="line">  t.color(<span class="string">"yellow"</span>)</span><br><span class="line">  <span class="keyword">for</span> side <span class="keyword">in</span> range(sides):</span><br><span class="line">    george.forward(side+gap)</span><br><span class="line">    george.right(<span class="number">90</span>)</span><br><span class="line"></span><br><span class="line">def in_boundary(t)&#123;</span><br><span class="line">  x,y = t.coord()</span><br><span class="line">  <span class="keyword">return</span> <span class="number">-175</span>&lt;x&lt;<span class="number">175</span>  <span class="keyword">and</span> <span class="number">-175</span>&lt;y&lt;<span class="number">175</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment"># %</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/python1.png" alt="turtle"><br><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/python2.png" alt="turtle"><br><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/python3.png" alt="turtle"><br><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/turtle.png" alt="turtle"></p>
+<h2 id="命令行开启交互模式"><a href="#命令行开启交互模式" class="headerlink" title="命令行开启交互模式"></a>命令行开启交互模式</h2><p>交互模式通常称为“解析器”，常用来实验很短的代码。符合语句，需要手动缩进。<br>交互模式会显示函数的返回值。</p>
+<ul>
+<li>建一个<code>chance.py</code></li>
+<li>cd 其所在的文件夹</li>
+<li>python3</li>
+<li>import chance</li>
+<li>chance.coin_flip()</li>
+<li>exit()终止</li>
+</ul>
+<p>注意必须同个文件夹，import的时候没有后缀，调用的时候需要加模块名</p>
+<h2 id="命令行运行文件"><a href="#命令行运行文件" class="headerlink" title="命令行运行文件"></a>命令行运行文件</h2><p>命令行直接运行文件，不能直接显示返回值，需要通过<code>print</code>。，返回值和输出值有区别</p>
+<ul>
+<li>建一个<code>chance.py</code></li>
+<li>python3 xxxxx/chance.py</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">name = input(<span class="string">"What's your name?"</span>)</span><br><span class="line">print(<span class="string">"Hello,"</span>, name, <span class="string">"!"</span>)</span><br></pre></td></tr></table></figure>
+<p>函数没有返回值就是<code>None</code></p>
+<h2 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h2><p>print打印字符串的时候，单引号、双引号。<br>字符串中有单引号和双引号的话就使用<code>\</code>， <code>&#39;i\&#39;m hi&#39;</code>。<br>如果很多换行的话可以<code>print(&quot;&quot;&quot; ...xx ...xx ...xxx &quot;&quot;&quot;)</code>。</p>
+<p>表情字符串</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> unicodedata</span><br><span class="line">unicodedata.lookup(<span class="string">"snake"</span>)</span><br><span class="line"><span class="comment"># 🐍</span></span><br></pre></td></tr></table></figure>
+<p>字符串和数组:</p>
+<ul>
+<li>可以使用<code>len(&quot;xx&quot;) len([13,2])</code>计算长度，其他类型会报错。</li>
+<li>可以使用for循环</li>
+<li>可以通过索引拿到各项值，<code>&quot;xx&quot;[0] [12,3][0]</code>。-1表示最后一个字符串，-2表示最后第二个字符串。</li>
+<li>可以 <code>123[0:2] [1,2,3][0:2]</code>相当slice，切片操作永远不会导致 IndexError，多的话就是最后一个。如果 word 是一个字符串，<code>word[:]</code> 将是 word 的副本。</li>
+<li><code>+</code>的两边要不都是字符串，要不都是数字，不然就会报错</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">hello</span><br><span class="line">hell</span><br><span class="line">hel</span><br><span class="line">he</span><br><span class="line">h</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">word</span><span class="params">(str)</span>:</span></span><br><span class="line">  length = len(str)</span><br><span class="line">  <span class="keyword">for</span> index <span class="keyword">in</span> range(length):</span><br><span class="line">    end_pos = length -index</span><br><span class="line">    print(word[<span class="number">0</span>:end_pos])</span><br></pre></td></tr></table></figure>
+<h2 id="字符串的其他操作"><a href="#字符串的其他操作" class="headerlink" title="字符串的其他操作"></a>字符串的其他操作</h2><ul>
+<li>字符串拼接<code>f</code>跟es6类似的操作</li>
+<li>==、&lt; 和 &gt; 等比较运算符在字符串上的效果和数字一样。A是65，a是97。</li>
+<li>字符串可以转换为数字<code>int(&#39;1&#39;) float(&#39;1.23&#39;)</code>，数字可以转化为字符串<code>str(1)</code></li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">c=<span class="number">1</span></span><br><span class="line"><span class="comment"># f就是格式化的意思，将&#123;&#125;的c转换成变量</span></span><br><span class="line"><span class="string">f"who is <span class="subst">&#123;c&#125;</span>"</span></span><br><span class="line"><span class="keyword">import</span> math</span><br><span class="line"><span class="string">f"pi is <span class="subst">&#123;math.pi:<span class="number">.6</span>&#125;</span>"</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 返回中间字符串</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">middle</span><span class="params">(a, b, c)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> b &gt;= a &gt;= c <span class="keyword">or</span> c &gt;= a &gt;= b:</span><br><span class="line">       <span class="keyword">return</span> a</span><br><span class="line">    <span class="keyword">if</span> a &gt;= b &gt;= c <span class="keyword">or</span> c &gt;= b &gt;= a:</span><br><span class="line">       <span class="keyword">return</span> b</span><br><span class="line">    <span class="keyword">if</span> a &gt;= c &gt;= b <span class="keyword">or</span> b &gt;= c &gt;= a:</span><br><span class="line">       <span class="keyword">return</span> c</span><br></pre></td></tr></table></figure>
+<h2 id="布尔运算"><a href="#布尔运算" class="headerlink" title="布尔运算"></a>布尔运算</h2><p>布尔值 True和False<br>布尔运算 and or not</p>
+<p>这些规则的有趣现象是 not (x and y) 和 (not x) or (not y) 一样，同样，not (x or y) 和 (not x) and (not y) 一样。</p>
+<ul>
+<li>对于数字，零值被视为 false，所有非零值都被视为 true。</li>
+<li>对于字符串，空字符串被视为 false，所有非空字符串都被视为 true。</li>
+<li>对于列表，空列表被视为 false，所有非空列表都被视为 true。</li>
+</ul>
+<h2 id="序列"><a href="#序列" class="headerlink" title="序列"></a>序列</h2><p>字符串和列表是序列<br>在 Python 中，列表和字符串具有一些共同点。它们都是序列类型 — 它们表示一系列值，而不是单个值。字符串中的项目是字符；列表中的项目可以是任何类型。</p>
+<p>你见过的三种字符串操作实际上适用于所有序列类型：索引操作、切片操作和 len 函数。因为它们都适用于序列，因此也适用于列表：</p>
+<h2 id="子字符串"><a href="#子字符串" class="headerlink" title="子字符串"></a>子字符串</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">longstr = <span class="string">'asdadadad'</span></span><br><span class="line">shortstr = <span class="string">'as'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 有没有出现</span></span><br><span class="line">shortstr <span class="keyword">in</span> longstr</span><br><span class="line"><span class="comment"># 第一次出现在哪</span></span><br><span class="line">longstr.find(shortstr)</span><br><span class="line"><span class="comment"># 出现几次</span></span><br><span class="line">longstr.counts(shortstr)</span><br><span class="line"></span><br><span class="line">join很神奇</span><br><span class="line"></span><br><span class="line"><span class="comment"># a-s</span></span><br><span class="line"><span class="string">'-'</span>.join(shortstr)</span><br><span class="line"><span class="comment"># a-s</span></span><br><span class="line"><span class="string">'-'</span>.join([<span class="string">'a'</span>,<span class="string">'s'</span>])</span><br></pre></td></tr></table></figure>
+<h2 id="编程造句"><a href="#编程造句" class="headerlink" title="编程造句"></a>编程造句</h2><h2 id="os"><a href="#os" class="headerlink" title="os"></a>os</h2><p>d</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="comment"># 显示文件夹里所有文件</span></span><br><span class="line">os.listdir(path=<span class="string">''</span>)</span><br><span class="line">os.createdir(path)</span><br><span class="line">os.rename(src,dst)</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/14/mod/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1767,196 +1966,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/30/test-api/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2019/10/30/test-api/" itemprop="url">
-                  怎么测试一个接口，postman？form？axios？
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-30T16:23:59+08:00">
-                2019-10-30
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/10/30/test-api/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/10/30/test-api/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>接口写出来之后，想要测试其正确性。最快速的方法莫过于postman，能脱离代码。当然前端还可以form表单提交或者利用axios。这里想说，当一个接口出来以后，根据其不同的<code>content-type</code>，三种测试方式也有很大不同。</p>
-<h2 id="先说说content-type"><a href="#先说说content-type" class="headerlink" title="先说说content-type"></a>先说说content-type</h2><p>请求头和响应头总会有<code>content-type</code>，正如翻译<code>内容类型</code>，请求的时候表示body里的内容类型，响应的时候表示返回体里的内容类型。  </p>
-<p>get请求的时候没有body，参数是拼接在接口地址后面的，所以get请求的时候，没有<code>content-type</code>。</p>
-<p>post请求的时候，如果有body，接口肯定有<code>content-type</code>的值，而前端必须将请求头设置成相应的值，这样接口拿到正确的数据，不同的<code>content-type</code>，前后端处理的方法很多时候也是不同的。</p>
-<p><code>content-type</code>有很多类型，但是接口常用的是三种类型如下(如果有上传文件则只能用<code>multipart/form-data</code>)：</p>
-<ul>
-<li><code>application/json</code>，此时前端传的body格式是<code>{&quot;a&quot;:1,&quot;b&quot;:2}</code></li>
-<li><code>application/x-www-form-urlencoded</code>，此时前端传的body格式是<code>a=1&amp;b=2</code></li>
-<li><code>multipart/form-data</code>，此时前端传的body格式如下，每个表单项使用 <code>--[boundary]</code> 分割开来，最后一行使用 <code>--[boundary]--</code> 结尾，下面对应的就是<code>{name:&#39;huahua&#39;,file:文件流,}</code></li>
-</ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">------WebKitFormBoundary6VWyGefevm60vjtn</span><br><span class="line">Content-Disposition: form-data; name=<span class="string">"name"</span></span><br><span class="line"></span><br><span class="line">huahua</span><br><span class="line">------WebKitFormBoundary6VWyGefevm60vjtn</span><br><span class="line">Content-Disposition: form-data; name=<span class="string">"file"</span>; filename=<span class="string">"study.md"</span></span><br><span class="line">Content-Type: text/markdown</span><br><span class="line"></span><br><span class="line">------WebKitFormBoundary6VWyGefevm60vjtn--</span><br></pre></td></tr></table></figure>
-<h2 id="application-json"><a href="#application-json" class="headerlink" title="application/json"></a>application/json</h2><p>当接口规定需要的<code>content-type</code>为<code>application/json</code>时</p>
-<ul>
-<li>代码里可以<code>axios.post(&#39;/api/user&#39;,{a:1,b:2})</code>，axios会将对象自动变成json对象之后，发送出去，content-type也会因为第二个参数是对象，而自动变成<code>application/json</code>，无需额外设置。如果用的别的库，根据库看看是否需要设置请求头<code>Content-Type = application/json</code></li>
-<li>postman里，使用的时候，如下图：<img src="https://user-gold-cdn.xitu.io/2019/10/30/16e1bb88a76eccf1?w=1564&amp;h=318&amp;f=png&amp;s=70853" alt="postman">，这里postman也会因为你选择<code>JSON</code>，而自动设置<code>Content-Type = application/json</code></li>
-</ul>
-<p>这里弱弱的说下后台<code>app.use(bodyParser.json())</code>然后拿到的<code>let {a,b} = req.body</code></p>
-<h2 id="application-x-www-form-urlencoded"><a href="#application-x-www-form-urlencoded" class="headerlink" title="application/x-www-form-urlencoded"></a>application/x-www-form-urlencoded</h2><p>当接口规定需要的<code>content-type</code>为<code>application/x-www-form-urlencoded</code>时</p>
-<ul>
-<li>代码里可以<code>axios.post(&#39;/api/user&#39;,Qs.stringify({a:1,b:2}))</code>，stringify会将其变成<code>a=1&amp;b=2</code>,content-type也会因为第二个参数是字符串，而自动变成<code>application/application/x-www-form-urlencoded</code>，无需额外设置。如果用的别的库，根据库看看是否需要设置请求头<code>Content-Type = application/x-www-form-urlencoded</code>，备注axios还可以在transformRequest处理，不细说了</li>
-<li>代码里还可以form元素自动提交<code>&lt;form method=&quot;post&quot; action=&quot;/api/user&quot;&gt;&lt;input type=&quot;text&quot; name=&quot;a&quot;&gt;&lt;input type=&quot;text&quot; name=&quot;b&quot;&gt;&lt;button type=&quot;submit&quot;&gt;提交&lt;/button&gt;&lt;/form&gt;</code>，这里不需要设置enctype，因为其默认值就是<code>application/application/x-www-form-urlencoded</code></li>
-<li>postman里，使用的时候，如下图：<img src="https://user-gold-cdn.xitu.io/2019/10/30/16e1bb88a792bbb1?w=1484&amp;h=404&amp;f=png&amp;s=49836" alt="postman">，这里postman也会因为你选择<code>x-www-form-urlencoded</code>，而自动设置<code>Content-Type = application/x-www-form-urlencoded</code></li>
-</ul>
-<p>这里弱弱的说下后台<code>app.use(bodyParser.urlencoded({ extended: false }))</code>然后拿到的<code>let {a,b} = req.body</code>。</p>
-<h2 id="multipart-form-data"><a href="#multipart-form-data" class="headerlink" title="multipart/form-data"></a>multipart/form-data</h2><p>当接口规定需要的<code>content-type</code>为<code>multipart/form-data</code>时，分为两种情况：没有上传文件和有上传文件</p>
-<h3 id="没有上传文件的时候"><a href="#没有上传文件的时候" class="headerlink" title="没有上传文件的时候"></a>没有上传文件的时候</h3><ul>
-<li>代码里可以<code>let formData = new FormData();formData.append(&#39;a&#39;,1);formData.append(&#39;b&#39;,2);axios.post(&#39;/api/user&#39;,formData)</code>，axios会自动将其变成加边界的形式,content-type也会因为第二个参数是formData，而自动变成<code>application/multipart/form-data</code>，无需额外设置。如果用的别的库，根据库看看是否需要设置请求头<code>Content-Type = multipart/form-data</code>，备注axios还可以在transformRequest处理，不细说了</li>
-<li>代码里还可以form元素自动提交<code>&lt;form method=&quot;post&quot; action=&quot;/api/user&quot; enctype=&quot;multipart/form-data&quot;&gt;&lt;input type=&quot;text&quot; name=&quot;a&quot;&gt;&lt;input type=&quot;text&quot; name=&quot;b&quot;&gt;&lt;button type=&quot;submit&quot;&gt;提交&lt;/button&gt;&lt;/form&gt;</code>，这里必须设置enctype</li>
-<li>postman里，使用的时候，如下图：<img src="https://user-gold-cdn.xitu.io/2019/10/30/16e1bb88a792bbb1?w=1484&amp;h=404&amp;f=png&amp;s=49836" alt="postman">，这里postman也会因为你选择<code>multipart/form-data</code>，而自动设置<code>Content-Type = application/multipart/form-data</code></li>
-</ul>
-<p>这里弱弱的说下后台<code>let upload = multer();app.post(&#39;/formdata&#39;, upload.none(), (req, res)=&gt; { let {a,b} = req.body;... })</code>，没有文件加上<code>upload.none()</code></p>
-<h2 id="有上传文件的时候"><a href="#有上传文件的时候" class="headerlink" title="有上传文件的时候"></a>有上传文件的时候</h2><ul>
-<li>代码里可以<code>let formData = new FormData();formData.append(&#39;a&#39;,1);formData.append(&#39;avatar&#39;,xx.files[0]);axios.post(&#39;/api/user&#39;,formData)</code>，axios会自动将其变成加边界的形式,content-type也会因为第二个参数是formData，而自动变成<code>application/multipart/form-data</code>，无需额外设置。如果用的别的库，根据库看看是否需要设置请求头<code>Content-Type = multipart/form-data</code>，备注axios还可以在transformRequest处理，不细说了</li>
-<li>代码里还可以form元素自动提交<code>&lt;form method=&quot;post&quot; action=&quot;/api/user&quot; enctype=&quot;multipart/form-data&quot;&gt;&lt;input type=&quot;text&quot; name=&quot;a&quot;&gt;&lt;input type=&quot;file&quot; name=&quot;avatar&quot;&gt;&lt;button type=&quot;submit&quot;&gt;提交&lt;/button&gt;&lt;/form&gt;</code>，这里必须设置enctype</li>
-<li>postman里，使用的时候，如下图：<img src="https://user-gold-cdn.xitu.io/2019/10/30/16e1bb88a7a5fda1?w=2122&amp;h=386&amp;f=png&amp;s=98372" alt="postman">，这里postman也会因为你选择<code>multipart/form-data</code>，而自动设置<code>Content-Type = application/multipart/form-data</code></li>
-</ul>
-<p>这里弱弱的说下后台<code>let upload = multer({ dest: &#39;uploads/&#39; });app.post(&#39;/formdata&#39;, upload.single(&#39;avatar&#39;), (req, res)=&gt; { let file= req.avatar;let {a,b} = req.body;... })</code>，文件暂存在<code>uploads/</code>，<a href="https://github.com/expressjs/multer" target="_blank" rel="noopener">multer的具体用法</a></p>
-<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ul>
-<li><a href="https://www.jianshu.com/p/29e38bcc8a1d" target="_blank" rel="noopener">深入解析 multipart/form-data</a></li>
-<li><a href="https://medium.com/cubemail88/node-js-express-js-body-parser-%E8%99%95%E7%90%86multipart-form-data%E7%9A%84%E8%A7%A3%E6%B1%BA%E6%96%B9%E6%A1%88-d89d2699b9f" target="_blank" rel="noopener">express.js + body-parser 處理multipart/form-data的解決方案</a></li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2006,7 +2015,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">131</span>
+                <span class="site-state-item-count">132</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2017,7 +2026,7 @@
             
             <div class="site-state-item site-state-categories">
               
-                <span class="site-state-item-count">32</span>
+                <span class="site-state-item-count">33</span>
                 <span class="site-state-item-name">分类</span>
               
             </div>
@@ -2028,7 +2037,7 @@
             
             <div class="site-state-item site-state-tags">
               
-                <span class="site-state-item-count">47</span>
+                <span class="site-state-item-count">48</span>
                 <span class="site-state-item-name">标签</span>
               
             </div>
