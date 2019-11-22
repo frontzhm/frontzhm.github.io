@@ -261,6 +261,169 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/28/usr-of-linux/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2019/03/28/usr-of-linux/" itemprop="url">
+                  linux的目录结构
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-28T14:54:13+08:00">
+                2019-03-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/系统/" itemprop="url" rel="index">
+                    <span itemprop="name">系统</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/03/28/usr-of-linux/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/03/28/usr-of-linux/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
+<li>/usr 只专门存放各种程序和数据</li>
+<li>/var中包括了一些数据文件，如系统日志等。/var的存放使得/usr被只读挂载成为可能。</li>
+<li>/usr/local<br>新装的系统中这个文件夹是空的，可以用于存放个人安装的软件。安装了本地软件的/usr/local里的目录结构与/usr相似</li>
+</ul>
+<h2 id="误会"><a href="#误会" class="headerlink" title="误会"></a>误会</h2><p>说起来，我也以为<code>/usr</code>就是<code>user</code>的意思，然后就觉得<code>/home/xx</code>好奇怪。<br>好奇心的谷歌了下。<code>usr</code>是<code>unix system resources</code>。<br>所以，用处不是某个用户。<br>现代的 /usr 只专门存放各种程序和数据。<code>/usr</code> 是系统核心所在，包含了所有的共享文件。它是 unix 系统中最重要的目录之一，涵盖了二进制文件，各种文档，各种头文件，还有各种库文件；还有诸多程序，例如 <code>ftp，telnet</code> 等等。</p>
+<h2 id="根文件系统"><a href="#根文件系统" class="headerlink" title="根文件系统"></a>根文件系统</h2><p>/bin<br>其中bin是binary的缩写，表示二进制文件，通常为可执行文件。一些常用的系统命令，如cp、ls等保存在该目录中。这一目录中存放了供所有用户使用的完成基本维护任务的命令。<br>/boot<br>这里存放的是启动Linux时使用的一些核心文件。如操作系统内核、引导程序Grub等。<br>/dev<br>在此目录中包含所有的系统设备文件。从此目录可以访问各种系统设备。如CD-ROM，磁盘驱动器，调制解调器和内存等。在该目录中还包含有各种实用功能，如用于创建设备文件的MAKEDEV。<br>/etc<br>该目录中包含系统和应用软件的配置文件。<br>/etc/passwd<br>该目录中包含了系统中的用户描述信息，每行记录一个用户的信息。<br>/home<br>存储普通用户的个人文件。每个用户的主目录均在/home下以自己的用户名命名。<br>/lib<br>这个目录里存放着系统最基本的共享链接库和内核模块。共享链接库在功能上类似于Windows里的.dll文件。<br>/lib64<br>64位系统有这个文件夹，64位程序的库。<br>/lost+found<br>这并不是Linux目录结构的组成部分，而是ext3文件系统用于保存丢失文件的地方。不恰当的关机操作和磁盘错误均会导致文件丢失，这意味着这些被标注为“在使用”，但却并未列于磁盘上的数据结构上。正常情况下，引导进程会运行fsck程序，该程序能发现这些文件。除了“/”分区上的这个目录外，在每个分区上均有一个lost+found目录。<br>/media<br>可移动设备的挂载点，当前的操作系统通常会把U盘等设备自动挂载到该文件夹下。<br>/mnt<br>临时用于挂载文件系统的地方。一般情况下这个目录是空的，而在我们将要挂载分区时在这个目录下建立目录，再将我们将要访问的设备挂载在这个目录上，这样我们就可访问文件了。（注意在GNOME中，只有挂载到/media的文件夹才会显示在“计算机”中，挂载到/mnt不会做为特殊设备显示，详见自动挂载分区）<br>/opt<br>多数第三方软件默认安装到此位置，如Adobe Reader、google-earth等。并不是每个系统都会创建这个目录。<br>/proc<br>它是存在于内存中的虚拟文件系统。里面保存了内核和进程的状态信息。多为文本文件，可以直接查看。如/proc/cpuinfo保存了有关CPU的信息。<br>/root<br>这是根用户的主目录。与保留给个人用户的/home下的目录很相似，该目录中还包含仅与根用户有关的条目。<br>/sbin<br>供超级用户使用的可执行文件，里面多是系统管理命令，如fsck, reboot, shutdown, ifconfig等。<br>/tmp<br>该目录用以保存临时文件。该目录具有Sticky特殊权限，所有用户都可以在这个目录中创建、编辑文件。但只有文件拥有者才能删除文件。为了加快临时文件的访问速度，有的实现把/tmp放在内存中。<br>/usr<br>静态的用户级应用程序等，见下。<br>/var<br>动态的程序数据等，见下文。<br>/usr目录结构<br>/usr通常是一个庞大的文件夹，其下的目录结构与根目录相似，但根目录中的文件多是系统级的文件，而/usr中是用户级的文件，一般与具体的系统无关。</p>
+<h2 id="usr"><a href="#usr" class="headerlink" title="usr"></a>usr</h2><p>应注意，程序的配置文件、动态的数据文件等都不会存放到/usr，所以除了安装、卸载软件外，一般无需修改/usr中的内容。说在系统正常运行时，/usr甚至可以被只读挂载。由于这一特性，/usr常被划分在单独的分区，甚至有时多台计算机可以共享一个/usr。</p>
+<p>/usr/bin<br>多数日常应用程序存放的位置。如果/usr被放在单独的分区中，Linux的单用户模式不能访问/usr/bin，所以对系统至关重要的程序不应放在此文件夹中。<br>/usr/include<br>存放C/C++头文件的目录<br>/usr/lib<br>系统的库文件<br>/usr/local<br>新装的系统中这个文件夹是空的，可以用于存放个人安装的软件。安装了本地软件的/usr/local里的目录结构与/usr相似<br>/usr/sbin<br>在单用户模式中不用的系统管理程序，如apache2等。<br>/usr/share<br>与架构无关的数据。多数软件安装在此。<br>/usr/X11R6<br>该目录用于保存运行X-Window所需的所有文件。该目录中还包含用于运行GUI要的配置文件和二进制文件。<br>/usr/src<br>源代码</p>
+<h2 id="var"><a href="#var" class="headerlink" title="var"></a>var</h2><p>/var中包括了一些数据文件，如系统日志等。/var的存放使得/usr被只读挂载成为可能。</p>
+<p>/var/cache<br>应用程序的缓存文件<br>/var/lib<br>应用程序的信息、数据。如数据库的数据等都存放在此文件夹。<br>/var/local<br>/usr/local中程序的信息、数据<br>/var/lock<br>锁文件<br>/var/log<br>日志文件<br>/var/opt<br>/opt中程序的信息、数据<br>/var/run<br>正在执行着的程序的信息，如PID文件应存放于此<br>/var/spool<br>存放程序的假脱机数据（即spool data）<br>/var/tmp<br>临时文件</p>
+<blockquote>
+<p>参考<a href="https://blog.csdn.net/zsg88/article/details/75209319" target="_blank" rel="noopener">linux中的/usr,/var,/opt目录详解</a><br>参考<a href="http://linux-wiki.cn/wiki/zh-hans/Linux%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84" target="_blank" rel="noopener">Linux目录结构</a></p>
+</blockquote>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/28/set-node-server/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -968,7 +1131,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/12/baby_7_8_9_food_make/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/12/baby_food_material/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="frontzhm">
@@ -990,8 +1153,8 @@
             
               
                 
-                <a class="post-title-link" href="/2018/10/12/baby_7_8_9_food_make/" itemprop="url">
-                  7.8.9月辅食的制作
+                <a class="post-title-link" href="/2018/10/12/baby_food_material/" itemprop="url">
+                  食材多样化搭配
                 </a>
               
             
@@ -1048,606 +1211,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/10/12/baby_7_8_9_food_make/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/10/12/baby_7_8_9_food_make/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="7月辅食制作公式"><a href="#7月辅食制作公式" class="headerlink" title="7月辅食制作公式"></a>7月辅食制作公式</h1><h2 id="辅食泥的做法"><a href="#辅食泥的做法" class="headerlink" title="辅食泥的做法"></a>辅食泥的做法</h2><p>辅食泥制作步骤:  </p>
-<pre><code>原料烹熟 =&gt;    
-    1. 勺子背压泥  
-    1. 研磨碗捣鼓成泥  
-    1. 压蒜器挤成泥状,特别适合叶类肉类  
-</code></pre><p>辅食泥做好后可以放冰格存起来,要的时候拿出来加热即可.<br>下面的面和粥就是,主食煮好之后,从冰箱拿出泥搅拌即可,很方便.</p>
-<h2 id="颗粒面的做法"><a href="#颗粒面的做法" class="headerlink" title="颗粒面的做法"></a>颗粒面的做法</h2><p>颗粒面的制作步骤:  </p>
-<pre><code>面煮熟 =&gt; 加入配菜搅拌
-</code></pre><p>原料: 面 + 液体 + 配料  </p>
-<pre><code>1. 颗粒面(GB10769 含铁)  
-1. 液体(水,牛奶,高汤)
-1. 配料(菜 蛋 肉 鱼 虾 坚果粉末))
-</code></pre><p>比如: 南瓜青菜虾泥颗粒面的制作</p>
-<pre><code>1. 放颗粒面
-2. 用水煮熟
-3. 加入南瓜青菜虾泥搅拌
-</code></pre><p>比如: 红薯油菜三文鱼鸡汤面</p>
-<pre><code>1. 放颗粒面
-2. 放鸡汤煮熟
-3. 加入红薯油菜三文鱼搅拌
-</code></pre><h2 id="十倍粥的做法"><a href="#十倍粥的做法" class="headerlink" title="十倍粥的做法"></a>十倍粥的做法</h2><p>十倍粥: 10g粥 + 100g水 (水是粥的十倍)  </p>
-<p>制作步骤: </p>
-<pre><code>粥煮熟 =&gt; 加入配菜  
-</code></pre><p>原料: 主食 + 液体 + 配料  </p>
-<pre><code>1. 粮食主食: 大米,小米,玉米,高粱米,红豆,绿豆,红薯
-2. 液体: 水 奶 高汤
-3. 配料: 菜 肉 蛋 水果 果干
-</code></pre><p>比如: 西蓝花三文鱼大小米粥  </p>
-<pre><code>1. 大米小米加水煮熟
-2. 然后加入西蓝花三文鱼煮一煮 也可以搅拌
-</code></pre><p>比如: 苹果南瓜蛋黄米粥(生病的时候宝宝也会喜欢吃 甜甜的细腻的)  </p>
-<pre><code>1. 大米加水和一点奶粉煮熟
-2. 然后苹果南瓜蛋黄煮一煮 或者搅拌
-</code></pre><p>常用的配料: 土豆胡萝卜泥 青菜泥 火龙果 三文鱼 紫甘蓝泥 土豆鸡肉泥 肝粉   </p>
-<h1 id="6-7月辅食和奶的安排"><a href="#6-7月辅食和奶的安排" class="headerlink" title="6-7月辅食和奶的安排"></a>6-7月辅食和奶的安排</h1><h2 id="什么时候吃辅食"><a href="#什么时候吃辅食" class="headerlink" title="什么时候吃辅食"></a>什么时候吃辅食</h2><p>和奶一起喝<br>也可以和家人一起进餐,这样做饭时间短.</p>
-<p>比如:<br>    7.30喝奶<br>    11.30辅食+喝奶<br>    3.30辅食+喝奶<br>    6喝奶<br>    8喝奶</p>
-<h2 id="先吃辅食还是先喝奶"><a href="#先吃辅食还是先喝奶" class="headerlink" title="先吃辅食还是先喝奶"></a>先吃辅食还是先喝奶</h2><pre><code>原则: 
-1. 6-7月的辅食原则是不影响喝奶量,只是简单的尝味道以及补充部分营养,所以这阶段的辅食是很少量的
-2. 辅食之后立即喝奶,因为如果分开,进食就会变成多次,会让宝宝的饥饿感不明显,这样降低宝宝对食物的兴趣,会觉得吃不吃无所谓,长期以往是不利于宝宝成长的
-</code></pre>  <div style="display: none"><br>    遇到问题的话参照的原则:<br>    1. 如果吃辅食的时候情绪很差不愿意吃,可以先吃点点奶缓解宝宝的情绪(这里的量不多 仅仅为了缓解情绪),然后吃辅食,然后在吃奶吃到饱<br>    2. 如果只想吃辅食不喝奶的话,那就调换顺序.<br>   </div>
-
-<pre><code>大原则就是: 6-7月龄的必须保证奶量.
-</code></pre><h2 id="辅食和奶需要多少"><a href="#辅食和奶需要多少" class="headerlink" title="辅食和奶需要多少"></a>辅食和奶需要多少</h2><p>辅食一天1-2次即可.<br><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/7m_food_mount.jpg" alt="7月辅食量"><br><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/7m_food_example.jpg" alt="7月进餐示例"><br>进餐安排图片在微信</p>
-<h2 id="喝奶变少"><a href="#喝奶变少" class="headerlink" title="喝奶变少"></a>喝奶变少</h2><p>6-7月龄如果因为辅食量影响奶量,就会影响宝宝的生长发育,所以奶量必须保证.<br>喝奶变少的话 就必须减少辅食量</p>
-<h1 id="8月龄辅食制作公式"><a href="#8月龄辅食制作公式" class="headerlink" title="8月龄辅食制作公式"></a>8月龄辅食制作公式</h1><h2 id="8月龄食物的制作-辅食碎末-促进宝宝咀嚼"><a href="#8月龄食物的制作-辅食碎末-促进宝宝咀嚼" class="headerlink" title="8月龄食物的制作 - 辅食碎末(促进宝宝咀嚼)"></a>8月龄食物的制作 - 辅食碎末(促进宝宝咀嚼)</h2><p>碎末制作方法:  </p>
-<pre><code>1. 厨房搅馅器搅碎 (生的肉 菜 胡萝卜等) 再蒸或者煮熟
-2. 弄熟之后 勺子戳碎 (土豆 胡萝卜 红薯类)
-3. 菜刀剁碎
-4. 辅食剪剪碎(面条 肉)
-</code></pre><h2 id="细面"><a href="#细面" class="headerlink" title="细面"></a>细面</h2><p>汤面的一般步骤:  </p>
-<pre><code>面煮熟 - 加入配菜 - 剪成颗粒状  
-</code></pre><p>炒面的一般步骤:  </p>
-<pre><code>面煮熟 - 配菜炒熟 - 加入面条炒匀 - 剪成颗粒状
-</code></pre><p>原料: 面(GB10769) + 液体(水 奶 汤) + 配料())   </p>
-<p>比如: 胡萝卜生菜虾肉面  </p>
-<pre><code>面(细面) + 液体(虾汤) + 配料(胡萝卜 生菜 虾肉))  
-</code></pre><p>比如: 番茄油麦菜肉末面  </p>
-<pre><code>面(细面) + 液体(水) + 配料(油麦菜 番茄 肉末)
-</code></pre><h2 id="面疙瘩"><a href="#面疙瘩" class="headerlink" title="面疙瘩"></a>面疙瘩</h2><p>面疙瘩的三种制作方法:  </p>
-<pre><code>1. 漏勺法: 搅好面糊(放进有孔的漏勺里,用东西压下,这样面糊就顺着孔进锅里) - 煮熟疙瘩 - 加入配菜
-1. 挖块法: 搅好面糊(面糊就是面和水搅拌,稍微干燥些,用小勺子挖进锅里) - 煮熟疙瘩 - 加入配菜
-1. 滴水法: 滴水(打开水龙头 滴水到面粉里 一边滴一边摇匀)摇匀成疙瘩 - 煮熟疙瘩 - 加入配菜
-</code></pre><p>原料: 粉 - 调糊 - 配料</p>
-<pre><code>1. 粉(面粉 可以加点全麦粉 玉米面 米粉 坚果粉之类)
-2. 调糊 (水 奶 高汤 鸡蛋液 辅食汁[汁可以上色]  )
-3. 配料(一堆)
-</code></pre><p>比如: 南瓜泥青菜面疙瘩</p>
-<p>原料: 粉(面粉 玉米面) + 调糊(南瓜泥 水) + 配料(青菜)  </p>
-<p>比如: 香菇巴沙鱼西蓝花鸡蛋面疙瘩 </p>
-<p>原料: 粉(面粉 婴儿米粉) + 调糊(紫甘蓝泥 水) + 配料(香菇巴沙鱼西蓝花鸡蛋)</p>
-<h2 id="肉丸"><a href="#肉丸" class="headerlink" title="肉丸"></a>肉丸</h2><p>肉丸做好之后放入冰箱冷冻起来,需要的话拿出来蒸熟/煮熟即可.</p>
-<p>一般步骤:  </p>
-<pre><code>肉打成泥 - 加入配料 - 塑性(圆形 片状 肉肠状) - 蒸熟/煮熟
-</code></pre><p>其中圆形: 手搓即可<br>片状: 放在方形的容器蒸熟 拿出来切片即可<br>肉肠状:  肉肠状模具 蒸熟</p>
-<p>原料: 肉 + 调糊 + 配料</p>
-<pre><code>1. 肉像(猪肉 牛肉 鸡肉  鸡肉 虾肉等)打成泥
-2. 调糊(淀粉[玉米淀粉 马铃薯淀粉] 蛋液 奶 水 ),肉的粘性差加入前面那些增强粘性,如果肉的水分多就不用加水了
-3. 配料(一点点即可 青菜泥 南瓜泥 菜的碎末 坚果的粉末等)
-</code></pre><p>比如: 小白菜猪肉丸子  </p>
-<pre><code>原料: 肉(猪肉) + 调糊(淀粉) + 配料(小白菜 虾皮粉)
-</code></pre><p>比如: 胡萝卜牛肉丸  </p>
-<pre><code>原料: 肉(牛肉) + 调糊(蛋清) + 配料(胡萝卜 土豆 香菇)
-</code></pre><h2 id="饼"><a href="#饼" class="headerlink" title="饼"></a>饼</h2><p>一般步骤: 调面糊 - 烙熟</p>
-<h3 id="松饼"><a href="#松饼" class="headerlink" title="松饼"></a>松饼</h3><p>一般步骤: </p>
-<pre><code>打发蛋白 - 混合面糊 - 烙熟面糊
-
-1. 蛋清用电动打蛋器打成糊糊状
-2. 蛋黄和面在一起
-3. 激活酵母(放入温水) - 混合面糊 - 等待发酵 (30min) - 烙熟
-</code></pre><p>原料: 粉 - 调糊 - 配料</p>
-<pre><code>1. 粉(面粉 可以加点全麦粉 玉米面 米粉 坚果粉之类)
-2. 调糊 (水 奶 高汤 鸡蛋液 辅食汁[汁可以上色]  )
-3. 配料(一堆)
-</code></pre><p>比如: 菠菜胡萝卜饼  </p>
-<pre><code>原料: 粉(面粉) + 调糊(水) + 配料(菠菜 胡萝卜 甜椒))
-</code></pre><p>比如:香葱酸奶玉米鸡蛋饼   </p>
-<pre><code>原料: 粉(面粉 玉米面) + 调糊(鸡蛋 酸奶) + 配料(香葱))
-</code></pre><h2 id="馒头-发糕"><a href="#馒头-发糕" class="headerlink" title="馒头/发糕"></a>馒头/发糕</h2><p>发糕步骤:   </p>
-<pre><code>调面糊 - 发酵 - 蒸熟  
-</code></pre><p>馒头步骤:  </p>
-<pre><code>揉面团 - 发酵 - 再揉下排气 - 二次发酵 - 蒸熟
-</code></pre><p>原料:  </p>
-<pre><code>粉(面粉 可以加点全麦粉 玉米面 米粉 坚果粉之类) - 调糊 (安琪干酵母 奶 水 ) - 配料(紫薯泥 鸡蛋 南瓜泥 青菜泥)
-</code></pre><p>比如: 馒头</p>
-<p>原料: 粉(面粉 奶粉) - 调糊 (安琪干酵母 水 ) - 配料(胡萝卜汁 菠菜汁))</p>
-<p>比如: 发糕   </p>
-<pre><code>原料: 粉(面粉) - 调糊 (安琪干酵母 水 ) - 配料(紫薯泥 山药泥))
-</code></pre><h2 id="蛋羹"><a href="#蛋羹" class="headerlink" title="蛋羹"></a>蛋羹</h2><p>一般步骤:  </p>
-<pre><code>搅拌蛋液 - 加入配料 - 蒸熟
-</code></pre><p>原料:       </p>
-<pre><code>蛋(鸡蛋 鸭蛋 鹅蛋 鹌鹑蛋) + 液体(奶 温水 高汤) + 配料(鱼 虾 菜 )
-</code></pre><p>小窍门: 温水调蛋液 蛋会很滑嫩</p>
-<p>比如: 秋葵蒸蛋羹 (秋葵切片以后像小花))  </p>
-<pre><code>原料:蛋(鸡蛋) + 液体(温水) + 配料(秋葵)
-</code></pre><p>比如:香菇菠菜虾仁蛋羹  </p>
-<pre><code>原料:蛋(鸡蛋) + 液体(温水) + 配料(虾 香菇 菠菜)
-</code></pre><p>香菇提前蒸熟</p>
-<h1 id="9月龄的辅食公式"><a href="#9月龄的辅食公式" class="headerlink" title="9月龄的辅食公式"></a>9月龄的辅食公式</h1><p>9月的碎末状比8月份的要大些,但是如果宝宝经常噎到,可以退一步</p>
-<h2 id="蝴蝶面"><a href="#蝴蝶面" class="headerlink" title="蝴蝶面"></a>蝴蝶面</h2><p>蝴蝶面可以抓着吃~  </p>
-<p>汤面一般步骤:  </p>
-<pre><code>面煮熟 -&gt; 加配菜
-</code></pre><p>炒面步骤: </p>
-<pre><code>面煮熟 -&gt; 配菜炒熟 -&gt; 加入面条炒匀
-</code></pre><p>比如: 番茄油麦菜鸡肉蝴蝶面  </p>
-<pre><code>原料: 面(蝴蝶面) + 液体(水) + 配料(番茄油麦菜鸡肉)
-</code></pre><p>比如: 胡萝卜西蓝花肉末炒蝴蝶面  </p>
-<pre><code>原料: 面(蝴蝶面) + 液体(水 鸡汤) + 配料(胡萝卜西蓝花肉末)
-</code></pre><h2 id="小馄饨"><a href="#小馄饨" class="headerlink" title="小馄饨"></a>小馄饨</h2><p>促进咀嚼的动作. 生馄饨可以冷冻.<br>一般步骤:  </p>
-<pre><code>买小馄饨的皮 -&gt; 调馅 -&gt; 包馄饨 -&gt; 煮熟
-</code></pre><p>原料:<br>    馅料(猪肉 鸡肉 虾肉 鱼肉等等 还有菜) + 液体(水 高汤) + 配料(鸡蛋 番茄 紫菜 虾皮)</p>
-<p>配料一般提鲜和好看~  </p>
-<p>比如: 猪肉高汤小馄饨 </p>
-<pre><code>原料: 馅料(猪肉) + 液体(猪骨汤)) + 配料(一点煮熟的菠菜碎)
-</code></pre><p>比如: 虾皮紫菜牛肉小馄饨 (紫菜补碘 虾皮补钙)</p>
-<pre><code>原料: 馅料(牛肉) + 液体(水) + 配料(紫菜+虾皮)
-</code></pre><h1 id="8-9月龄奶和辅食的安排"><a href="#8-9月龄奶和辅食的安排" class="headerlink" title="8-9月龄奶和辅食的安排"></a>8-9月龄奶和辅食的安排</h1><p>辅食会越吃越多 奶会变少些<br>有一顿奶可以被辅食代替</p>
-<h2 id="什么时候吃辅食-1"><a href="#什么时候吃辅食-1" class="headerlink" title="什么时候吃辅食"></a>什么时候吃辅食</h2><p>有一餐可以和家人同步</p>
-<p>7.30喝奶<br>11.30 辅食加喝奶<br>15.30 喝奶<br>6点辅食<br>8点喝奶</p>
-<h2 id="怎么用辅食代替奶"><a href="#怎么用辅食代替奶" class="headerlink" title="怎么用辅食代替奶"></a>怎么用辅食代替奶</h2><p>辅食逐渐增多<br>辅食后喝奶减少<br>辅食的要求</p>
-<h3 id="辅食的要求"><a href="#辅食的要求" class="headerlink" title="辅食的要求"></a>辅食的要求</h3><pre><code>1. 分量足
-2. 能量密度高(减少水分 混搭食材[主食 蛋白质荤 蔬菜或水果] )
-</code></pre><h2 id="辅食和奶需要多少-1"><a href="#辅食和奶需要多少-1" class="headerlink" title="辅食和奶需要多少"></a>辅食和奶需要多少</h2><p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/8&amp;9m_food_mount.jpg" alt="8&amp;9m_food_mount"><br><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/8m_food_example.jpg" alt="8m_food_example"><br><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/9m_food_example.jpg" alt="9m_food_example">   </p>
-<h2 id="示例图片"><a href="#示例图片" class="headerlink" title="示例图片"></a>示例图片</h2><p> <img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/%E8%8F%A0%E8%8F%9C%E8%9B%8B%E7%BE%B9.jpg" alt="菠菜蛋羹">   </p>
-<p> <img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/%E7%A7%8B%E8%91%B5%E8%9B%8B%E7%BE%B9.jpg" alt="秋葵蛋羹"><br> <img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/%E7%B4%AB%E8%96%AF%E5%8F%91%E7%B3%95.jpg" alt="紫薯发糕"><br> <img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/%E8%83%A1%E8%90%9D%E5%8D%9C%E9%A6%92%E5%A4%B4.jpg" alt="胡萝卜馒头">  </p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/12/baby_food_feed_rule/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2018/10/12/baby_food_feed_rule/" itemprop="url">
-                  正确的喂养行为
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-12T09:46:45+08:00">
-                2018-10-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/baby/" itemprop="url" rel="index">
-                    <span itemprop="name">baby</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/10/12/baby_food_feed_rule/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/10/12/baby_food_feed_rule/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <a id="more"></a>
-<h2 id="正确的喂养方式-13-1"><a href="#正确的喂养方式-13-1" class="headerlink" title="正确的喂养方式[13-1]"></a>正确的喂养方式[13-1]</h2><p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/feed_error.png" alt="不正确喂养方式的统计"><br><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/feed_control.png" alt="正确的喂养方式"><br><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/feed_control2.png" alt="正确的喂养方式"><br><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/feed_control3.png" alt="正确的喂养方式"></p>
-<h2 id="最有价值的推荐的吃饭经验"><a href="#最有价值的推荐的吃饭经验" class="headerlink" title="最有价值的推荐的吃饭经验"></a>最有价值的推荐的吃饭经验</h2><p>吃东西坐餐椅，并且带绑带。<br>选择餐椅安全简单好清洁即可。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/12/baby_qizhi/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2018/10/12/baby_qizhi/" itemprop="url">
-                  了解宝宝的气质
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-12T09:46:45+08:00">
-                2018-10-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/baby/" itemprop="url" rel="index">
-                    <span itemprop="name">baby</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/10/12/baby_qizhi/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/10/12/baby_qizhi/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <a id="more"></a>
-<p>让宝宝爱吃饭的两个方面：喂得对和饭好吃。</p>
-<p>## </p>
-<p>活动性高：餐椅</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/12/baby_food_choose/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2018/10/12/baby_food_choose/" itemprop="url">
-                  选择食材的奥秘
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-12T09:46:45+08:00">
-                2018-10-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/baby/" itemprop="url" rel="index">
-                    <span itemprop="name">baby</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/10/12/baby_food_choose/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/10/12/baby_food_choose/" itemprop="commentCount"></span>
+                <a href="/2018/10/12/baby_food_material/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/10/12/baby_food_material/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1675,12 +1240,14 @@
       
         
           <p>TL;DR  </p>
-<pre><code>* 选食品看包装：执行标准，配料表，营养成分表
-* 油：每个月换一种
+<pre><code>* 食物分类：谷薯杂粮，蔬菜，水果，肉蛋水产豆，奶
+* 五筐搭配法： 蔬菜4种 谷类2种 肉类2种 水果1种 奶1种（每天起码10种，每周20种）
+* 每周吃1-2次肝，吃1-2次菌藻类
+* 红薯燕麦土豆山药都可以算是谷薯杂粮，特别是燕麦，厉害了啊，常吃
 </code></pre>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/10/12/baby_food_choose/#more" rel="contents">
+            <a class="btn" href="/2018/10/12/baby_food_material/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -2263,7 +1830,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/12/baby_food_material/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/12/baby_7_8_9_food_make/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="frontzhm">
@@ -2285,8 +1852,8 @@
             
               
                 
-                <a class="post-title-link" href="/2018/10/12/baby_food_material/" itemprop="url">
-                  食材多样化搭配
+                <a class="post-title-link" href="/2018/10/12/baby_7_8_9_food_make/" itemprop="url">
+                  7.8.9月辅食的制作
                 </a>
               
             
@@ -2343,8 +1910,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/10/12/baby_food_material/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/10/12/baby_food_material/" itemprop="commentCount"></span>
+                <a href="/2018/10/12/baby_7_8_9_food_make/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/10/12/baby_7_8_9_food_make/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -2371,19 +1938,537 @@
 
       
         
-          <p>TL;DR  </p>
-<pre><code>* 食物分类：谷薯杂粮，蔬菜，水果，肉蛋水产豆，奶
-* 五筐搭配法： 蔬菜4种 谷类2种 肉类2种 水果1种 奶1种（每天起码10种，每周20种）
-* 每周吃1-2次肝，吃1-2次菌藻类
-* 红薯燕麦土豆山药都可以算是谷薯杂粮，特别是燕麦，厉害了啊，常吃
-</code></pre>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/10/12/baby_food_material/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
+            <h1 id="7月辅食制作公式"><a href="#7月辅食制作公式" class="headerlink" title="7月辅食制作公式"></a>7月辅食制作公式</h1><h2 id="辅食泥的做法"><a href="#辅食泥的做法" class="headerlink" title="辅食泥的做法"></a>辅食泥的做法</h2><p>辅食泥制作步骤:  </p>
+<pre><code>原料烹熟 =&gt;    
+    1. 勺子背压泥  
+    1. 研磨碗捣鼓成泥  
+    1. 压蒜器挤成泥状,特别适合叶类肉类  
+</code></pre><p>辅食泥做好后可以放冰格存起来,要的时候拿出来加热即可.<br>下面的面和粥就是,主食煮好之后,从冰箱拿出泥搅拌即可,很方便.</p>
+<h2 id="颗粒面的做法"><a href="#颗粒面的做法" class="headerlink" title="颗粒面的做法"></a>颗粒面的做法</h2><p>颗粒面的制作步骤:  </p>
+<pre><code>面煮熟 =&gt; 加入配菜搅拌
+</code></pre><p>原料: 面 + 液体 + 配料  </p>
+<pre><code>1. 颗粒面(GB10769 含铁)  
+1. 液体(水,牛奶,高汤)
+1. 配料(菜 蛋 肉 鱼 虾 坚果粉末))
+</code></pre><p>比如: 南瓜青菜虾泥颗粒面的制作</p>
+<pre><code>1. 放颗粒面
+2. 用水煮熟
+3. 加入南瓜青菜虾泥搅拌
+</code></pre><p>比如: 红薯油菜三文鱼鸡汤面</p>
+<pre><code>1. 放颗粒面
+2. 放鸡汤煮熟
+3. 加入红薯油菜三文鱼搅拌
+</code></pre><h2 id="十倍粥的做法"><a href="#十倍粥的做法" class="headerlink" title="十倍粥的做法"></a>十倍粥的做法</h2><p>十倍粥: 10g粥 + 100g水 (水是粥的十倍)  </p>
+<p>制作步骤: </p>
+<pre><code>粥煮熟 =&gt; 加入配菜  
+</code></pre><p>原料: 主食 + 液体 + 配料  </p>
+<pre><code>1. 粮食主食: 大米,小米,玉米,高粱米,红豆,绿豆,红薯
+2. 液体: 水 奶 高汤
+3. 配料: 菜 肉 蛋 水果 果干
+</code></pre><p>比如: 西蓝花三文鱼大小米粥  </p>
+<pre><code>1. 大米小米加水煮熟
+2. 然后加入西蓝花三文鱼煮一煮 也可以搅拌
+</code></pre><p>比如: 苹果南瓜蛋黄米粥(生病的时候宝宝也会喜欢吃 甜甜的细腻的)  </p>
+<pre><code>1. 大米加水和一点奶粉煮熟
+2. 然后苹果南瓜蛋黄煮一煮 或者搅拌
+</code></pre><p>常用的配料: 土豆胡萝卜泥 青菜泥 火龙果 三文鱼 紫甘蓝泥 土豆鸡肉泥 肝粉   </p>
+<h1 id="6-7月辅食和奶的安排"><a href="#6-7月辅食和奶的安排" class="headerlink" title="6-7月辅食和奶的安排"></a>6-7月辅食和奶的安排</h1><h2 id="什么时候吃辅食"><a href="#什么时候吃辅食" class="headerlink" title="什么时候吃辅食"></a>什么时候吃辅食</h2><p>和奶一起喝<br>也可以和家人一起进餐,这样做饭时间短.</p>
+<p>比如:<br>    7.30喝奶<br>    11.30辅食+喝奶<br>    3.30辅食+喝奶<br>    6喝奶<br>    8喝奶</p>
+<h2 id="先吃辅食还是先喝奶"><a href="#先吃辅食还是先喝奶" class="headerlink" title="先吃辅食还是先喝奶"></a>先吃辅食还是先喝奶</h2><pre><code>原则: 
+1. 6-7月的辅食原则是不影响喝奶量,只是简单的尝味道以及补充部分营养,所以这阶段的辅食是很少量的
+2. 辅食之后立即喝奶,因为如果分开,进食就会变成多次,会让宝宝的饥饿感不明显,这样降低宝宝对食物的兴趣,会觉得吃不吃无所谓,长期以往是不利于宝宝成长的
+</code></pre>  <div style="display: none"><br>    遇到问题的话参照的原则:<br>    1. 如果吃辅食的时候情绪很差不愿意吃,可以先吃点点奶缓解宝宝的情绪(这里的量不多 仅仅为了缓解情绪),然后吃辅食,然后在吃奶吃到饱<br>    2. 如果只想吃辅食不喝奶的话,那就调换顺序.<br>   </div>
+
+<pre><code>大原则就是: 6-7月龄的必须保证奶量.
+</code></pre><h2 id="辅食和奶需要多少"><a href="#辅食和奶需要多少" class="headerlink" title="辅食和奶需要多少"></a>辅食和奶需要多少</h2><p>辅食一天1-2次即可.<br><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/7m_food_mount.jpg" alt="7月辅食量"><br><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/7m_food_example.jpg" alt="7月进餐示例"><br>进餐安排图片在微信</p>
+<h2 id="喝奶变少"><a href="#喝奶变少" class="headerlink" title="喝奶变少"></a>喝奶变少</h2><p>6-7月龄如果因为辅食量影响奶量,就会影响宝宝的生长发育,所以奶量必须保证.<br>喝奶变少的话 就必须减少辅食量</p>
+<h1 id="8月龄辅食制作公式"><a href="#8月龄辅食制作公式" class="headerlink" title="8月龄辅食制作公式"></a>8月龄辅食制作公式</h1><h2 id="8月龄食物的制作-辅食碎末-促进宝宝咀嚼"><a href="#8月龄食物的制作-辅食碎末-促进宝宝咀嚼" class="headerlink" title="8月龄食物的制作 - 辅食碎末(促进宝宝咀嚼)"></a>8月龄食物的制作 - 辅食碎末(促进宝宝咀嚼)</h2><p>碎末制作方法:  </p>
+<pre><code>1. 厨房搅馅器搅碎 (生的肉 菜 胡萝卜等) 再蒸或者煮熟
+2. 弄熟之后 勺子戳碎 (土豆 胡萝卜 红薯类)
+3. 菜刀剁碎
+4. 辅食剪剪碎(面条 肉)
+</code></pre><h2 id="细面"><a href="#细面" class="headerlink" title="细面"></a>细面</h2><p>汤面的一般步骤:  </p>
+<pre><code>面煮熟 - 加入配菜 - 剪成颗粒状  
+</code></pre><p>炒面的一般步骤:  </p>
+<pre><code>面煮熟 - 配菜炒熟 - 加入面条炒匀 - 剪成颗粒状
+</code></pre><p>原料: 面(GB10769) + 液体(水 奶 汤) + 配料())   </p>
+<p>比如: 胡萝卜生菜虾肉面  </p>
+<pre><code>面(细面) + 液体(虾汤) + 配料(胡萝卜 生菜 虾肉))  
+</code></pre><p>比如: 番茄油麦菜肉末面  </p>
+<pre><code>面(细面) + 液体(水) + 配料(油麦菜 番茄 肉末)
+</code></pre><h2 id="面疙瘩"><a href="#面疙瘩" class="headerlink" title="面疙瘩"></a>面疙瘩</h2><p>面疙瘩的三种制作方法:  </p>
+<pre><code>1. 漏勺法: 搅好面糊(放进有孔的漏勺里,用东西压下,这样面糊就顺着孔进锅里) - 煮熟疙瘩 - 加入配菜
+1. 挖块法: 搅好面糊(面糊就是面和水搅拌,稍微干燥些,用小勺子挖进锅里) - 煮熟疙瘩 - 加入配菜
+1. 滴水法: 滴水(打开水龙头 滴水到面粉里 一边滴一边摇匀)摇匀成疙瘩 - 煮熟疙瘩 - 加入配菜
+</code></pre><p>原料: 粉 - 调糊 - 配料</p>
+<pre><code>1. 粉(面粉 可以加点全麦粉 玉米面 米粉 坚果粉之类)
+2. 调糊 (水 奶 高汤 鸡蛋液 辅食汁[汁可以上色]  )
+3. 配料(一堆)
+</code></pre><p>比如: 南瓜泥青菜面疙瘩</p>
+<p>原料: 粉(面粉 玉米面) + 调糊(南瓜泥 水) + 配料(青菜)  </p>
+<p>比如: 香菇巴沙鱼西蓝花鸡蛋面疙瘩 </p>
+<p>原料: 粉(面粉 婴儿米粉) + 调糊(紫甘蓝泥 水) + 配料(香菇巴沙鱼西蓝花鸡蛋)</p>
+<h2 id="肉丸"><a href="#肉丸" class="headerlink" title="肉丸"></a>肉丸</h2><p>肉丸做好之后放入冰箱冷冻起来,需要的话拿出来蒸熟/煮熟即可.</p>
+<p>一般步骤:  </p>
+<pre><code>肉打成泥 - 加入配料 - 塑性(圆形 片状 肉肠状) - 蒸熟/煮熟
+</code></pre><p>其中圆形: 手搓即可<br>片状: 放在方形的容器蒸熟 拿出来切片即可<br>肉肠状:  肉肠状模具 蒸熟</p>
+<p>原料: 肉 + 调糊 + 配料</p>
+<pre><code>1. 肉像(猪肉 牛肉 鸡肉  鸡肉 虾肉等)打成泥
+2. 调糊(淀粉[玉米淀粉 马铃薯淀粉] 蛋液 奶 水 ),肉的粘性差加入前面那些增强粘性,如果肉的水分多就不用加水了
+3. 配料(一点点即可 青菜泥 南瓜泥 菜的碎末 坚果的粉末等)
+</code></pre><p>比如: 小白菜猪肉丸子  </p>
+<pre><code>原料: 肉(猪肉) + 调糊(淀粉) + 配料(小白菜 虾皮粉)
+</code></pre><p>比如: 胡萝卜牛肉丸  </p>
+<pre><code>原料: 肉(牛肉) + 调糊(蛋清) + 配料(胡萝卜 土豆 香菇)
+</code></pre><h2 id="饼"><a href="#饼" class="headerlink" title="饼"></a>饼</h2><p>一般步骤: 调面糊 - 烙熟</p>
+<h3 id="松饼"><a href="#松饼" class="headerlink" title="松饼"></a>松饼</h3><p>一般步骤: </p>
+<pre><code>打发蛋白 - 混合面糊 - 烙熟面糊
+
+1. 蛋清用电动打蛋器打成糊糊状
+2. 蛋黄和面在一起
+3. 激活酵母(放入温水) - 混合面糊 - 等待发酵 (30min) - 烙熟
+</code></pre><p>原料: 粉 - 调糊 - 配料</p>
+<pre><code>1. 粉(面粉 可以加点全麦粉 玉米面 米粉 坚果粉之类)
+2. 调糊 (水 奶 高汤 鸡蛋液 辅食汁[汁可以上色]  )
+3. 配料(一堆)
+</code></pre><p>比如: 菠菜胡萝卜饼  </p>
+<pre><code>原料: 粉(面粉) + 调糊(水) + 配料(菠菜 胡萝卜 甜椒))
+</code></pre><p>比如:香葱酸奶玉米鸡蛋饼   </p>
+<pre><code>原料: 粉(面粉 玉米面) + 调糊(鸡蛋 酸奶) + 配料(香葱))
+</code></pre><h2 id="馒头-发糕"><a href="#馒头-发糕" class="headerlink" title="馒头/发糕"></a>馒头/发糕</h2><p>发糕步骤:   </p>
+<pre><code>调面糊 - 发酵 - 蒸熟  
+</code></pre><p>馒头步骤:  </p>
+<pre><code>揉面团 - 发酵 - 再揉下排气 - 二次发酵 - 蒸熟
+</code></pre><p>原料:  </p>
+<pre><code>粉(面粉 可以加点全麦粉 玉米面 米粉 坚果粉之类) - 调糊 (安琪干酵母 奶 水 ) - 配料(紫薯泥 鸡蛋 南瓜泥 青菜泥)
+</code></pre><p>比如: 馒头</p>
+<p>原料: 粉(面粉 奶粉) - 调糊 (安琪干酵母 水 ) - 配料(胡萝卜汁 菠菜汁))</p>
+<p>比如: 发糕   </p>
+<pre><code>原料: 粉(面粉) - 调糊 (安琪干酵母 水 ) - 配料(紫薯泥 山药泥))
+</code></pre><h2 id="蛋羹"><a href="#蛋羹" class="headerlink" title="蛋羹"></a>蛋羹</h2><p>一般步骤:  </p>
+<pre><code>搅拌蛋液 - 加入配料 - 蒸熟
+</code></pre><p>原料:       </p>
+<pre><code>蛋(鸡蛋 鸭蛋 鹅蛋 鹌鹑蛋) + 液体(奶 温水 高汤) + 配料(鱼 虾 菜 )
+</code></pre><p>小窍门: 温水调蛋液 蛋会很滑嫩</p>
+<p>比如: 秋葵蒸蛋羹 (秋葵切片以后像小花))  </p>
+<pre><code>原料:蛋(鸡蛋) + 液体(温水) + 配料(秋葵)
+</code></pre><p>比如:香菇菠菜虾仁蛋羹  </p>
+<pre><code>原料:蛋(鸡蛋) + 液体(温水) + 配料(虾 香菇 菠菜)
+</code></pre><p>香菇提前蒸熟</p>
+<h1 id="9月龄的辅食公式"><a href="#9月龄的辅食公式" class="headerlink" title="9月龄的辅食公式"></a>9月龄的辅食公式</h1><p>9月的碎末状比8月份的要大些,但是如果宝宝经常噎到,可以退一步</p>
+<h2 id="蝴蝶面"><a href="#蝴蝶面" class="headerlink" title="蝴蝶面"></a>蝴蝶面</h2><p>蝴蝶面可以抓着吃~  </p>
+<p>汤面一般步骤:  </p>
+<pre><code>面煮熟 -&gt; 加配菜
+</code></pre><p>炒面步骤: </p>
+<pre><code>面煮熟 -&gt; 配菜炒熟 -&gt; 加入面条炒匀
+</code></pre><p>比如: 番茄油麦菜鸡肉蝴蝶面  </p>
+<pre><code>原料: 面(蝴蝶面) + 液体(水) + 配料(番茄油麦菜鸡肉)
+</code></pre><p>比如: 胡萝卜西蓝花肉末炒蝴蝶面  </p>
+<pre><code>原料: 面(蝴蝶面) + 液体(水 鸡汤) + 配料(胡萝卜西蓝花肉末)
+</code></pre><h2 id="小馄饨"><a href="#小馄饨" class="headerlink" title="小馄饨"></a>小馄饨</h2><p>促进咀嚼的动作. 生馄饨可以冷冻.<br>一般步骤:  </p>
+<pre><code>买小馄饨的皮 -&gt; 调馅 -&gt; 包馄饨 -&gt; 煮熟
+</code></pre><p>原料:<br>    馅料(猪肉 鸡肉 虾肉 鱼肉等等 还有菜) + 液体(水 高汤) + 配料(鸡蛋 番茄 紫菜 虾皮)</p>
+<p>配料一般提鲜和好看~  </p>
+<p>比如: 猪肉高汤小馄饨 </p>
+<pre><code>原料: 馅料(猪肉) + 液体(猪骨汤)) + 配料(一点煮熟的菠菜碎)
+</code></pre><p>比如: 虾皮紫菜牛肉小馄饨 (紫菜补碘 虾皮补钙)</p>
+<pre><code>原料: 馅料(牛肉) + 液体(水) + 配料(紫菜+虾皮)
+</code></pre><h1 id="8-9月龄奶和辅食的安排"><a href="#8-9月龄奶和辅食的安排" class="headerlink" title="8-9月龄奶和辅食的安排"></a>8-9月龄奶和辅食的安排</h1><p>辅食会越吃越多 奶会变少些<br>有一顿奶可以被辅食代替</p>
+<h2 id="什么时候吃辅食-1"><a href="#什么时候吃辅食-1" class="headerlink" title="什么时候吃辅食"></a>什么时候吃辅食</h2><p>有一餐可以和家人同步</p>
+<p>7.30喝奶<br>11.30 辅食加喝奶<br>15.30 喝奶<br>6点辅食<br>8点喝奶</p>
+<h2 id="怎么用辅食代替奶"><a href="#怎么用辅食代替奶" class="headerlink" title="怎么用辅食代替奶"></a>怎么用辅食代替奶</h2><p>辅食逐渐增多<br>辅食后喝奶减少<br>辅食的要求</p>
+<h3 id="辅食的要求"><a href="#辅食的要求" class="headerlink" title="辅食的要求"></a>辅食的要求</h3><pre><code>1. 分量足
+2. 能量密度高(减少水分 混搭食材[主食 蛋白质荤 蔬菜或水果] )
+</code></pre><h2 id="辅食和奶需要多少-1"><a href="#辅食和奶需要多少-1" class="headerlink" title="辅食和奶需要多少"></a>辅食和奶需要多少</h2><p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/8&amp;9m_food_mount.jpg" alt="8&amp;9m_food_mount"><br><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/8m_food_example.jpg" alt="8m_food_example"><br><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/9m_food_example.jpg" alt="9m_food_example">   </p>
+<h2 id="示例图片"><a href="#示例图片" class="headerlink" title="示例图片"></a>示例图片</h2><p> <img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/%E8%8F%A0%E8%8F%9C%E8%9B%8B%E7%BE%B9.jpg" alt="菠菜蛋羹">   </p>
+<p> <img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/%E7%A7%8B%E8%91%B5%E8%9B%8B%E7%BE%B9.jpg" alt="秋葵蛋羹"><br> <img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/%E7%B4%AB%E8%96%AF%E5%8F%91%E7%B3%95.jpg" alt="紫薯发糕"><br> <img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/%E8%83%A1%E8%90%9D%E5%8D%9C%E9%A6%92%E5%A4%B4.jpg" alt="胡萝卜馒头">  </p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/12/baby_qizhi/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/10/12/baby_qizhi/" itemprop="url">
+                  了解宝宝的气质
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-12T09:46:45+08:00">
+                2018-10-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/baby/" itemprop="url" rel="index">
+                    <span itemprop="name">baby</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/10/12/baby_qizhi/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/10/12/baby_qizhi/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <a id="more"></a>
+<p>让宝宝爱吃饭的两个方面：喂得对和饭好吃。</p>
+<p>## </p>
+<p>活动性高：餐椅</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/12/baby_learn_eat/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/10/12/baby_learn_eat/" itemprop="url">
+                  宝宝学会吃饭
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-12T09:46:45+08:00">
+                2018-10-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/baby/" itemprop="url" rel="index">
+                    <span itemprop="name">baby</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/10/12/baby_learn_eat/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/10/12/baby_learn_eat/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="进食能力的发展-11-1"><a href="#进食能力的发展-11-1" class="headerlink" title="进食能力的发展[11-1]"></a>进食能力的发展[11-1]</h1><p> <img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/6m_food_active.png" alt="6m_food_active"><br> <img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/7m_food_active.png" alt="7m_food_active"><br> <img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/8m_food_active.png" alt="8m_food_active"> </p>
+<p> <img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/9m_food_active.png" alt="9m_food_active"> </p>
+<p> <img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/10m_food_active.png" alt="10m_food_active"> </p>
+<p> <img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/12m_food_active.png" alt="12m_food_active"> </p>
+<p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/15m_food_active.png" alt="15m_food_active"> </p>
+<p>进食能力包括两方面:  </p>
+<pre><code>1. 自主进食能力(食物从面前到嘴里:抓 握 捏 舀 夹 递)
+1. 咀嚼吞咽的能力(食物从嘴里到肚子里: 送 吞 嚼 拌 吐 连)
+</code></pre><h1 id="为什么要让宝宝自己吃-11-2"><a href="#为什么要让宝宝自己吃-11-2" class="headerlink" title="为什么要让宝宝自己吃[11-2]"></a>为什么要让宝宝自己吃[11-2]</h1><ol>
+<li>手眼口协调,精细动作发育</li>
+<li>增强自信,独立,责任感</li>
+<li>增强进食兴趣,减少拒食</li>
+<li>共同进餐,解放家长的时间</li>
+<li>权威机构的建议:<br> <img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/qw_food_active.png" alt="qw_food_active"> </li>
+</ol>
+<h1 id="开始学习自己吃饭的时间-11-3-10min左右"><a href="#开始学习自己吃饭的时间-11-3-10min左右" class="headerlink" title="开始学习自己吃饭的时间[11-3 10min左右]"></a>开始学习自己吃饭的时间[11-3 10min左右]</h1><p>7.5个月左右的时间全手抓握,10个月左右的时间拇指抓握  </p>
+<p>看信号,任意信号就是想自己吃饭的意愿:  </p>
+<pre><code>宝宝抢勺子,抢碗 =&gt; 试试
+宝宝抓面前的食物 =&gt; 香蕉 胡萝卜
+宝宝闹(不乐意吃 咬勺子)) 
+</code></pre><h1 id="手指食物-11-4"><a href="#手指食物-11-4" class="headerlink" title="手指食物[11-4]"></a>手指食物[11-4]</h1><p>手指食物的形状  </p>
+<pre><code>1. 初始阶段,只知道全手握:长条状,不小于6厘米,大人小拇指粗
+2. 后续阶段,可以打开手吃,可以换手: 随便什么形状,她可以抓起来吃就行
+</code></pre><p>增加食物表面粗糙:  </p>
+<pre><code>1. 外面裹米粉,如香蕉,牛油果等等
+1. 波浪刀
+1. 球状食物一定切开
+</code></pre><p>初始手指食物的硬度: 软!软!软!(手一捏就烂了,苹果不行的,如黄瓜 西蓝花 胡萝卜 土豆)</p>
+<p>后续手指食物: 学会咀嚼之后可以宽松点,因为会咀嚼了嘛,可以一锅煮</p>
+<p>初始食物的要求: 能抓,能捏烂</p>
+<p>  <img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/hand_food.png" alt="hand_food.png">  </p>
+<p>  <img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/hand_food2.png" alt="hand_food2.png">  </p>
+<p>  <img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/hand_food3.png" alt="hand_food3.png"><br><a href="https://mp.weixin.qq.com/s/cVyrfWnjxMpRzWee7x_nVA" target="_blank" rel="noopener">90种手指食物汇总</a></p>
+<h1 id="用勺子吃饭-11-5"><a href="#用勺子吃饭-11-5" class="headerlink" title="用勺子吃饭[11-5]"></a>用勺子吃饭[11-5]</h1><p>用手: 6-18个月<br>用勺子:10-18个月<br>练习次数是关键:    </p>
+<pre><code>第一阶段:好孩子弯头勺(10-14m)
+第二阶段:oxo金属勺(12-24m)
+第三阶段:爱迪生勺子(24-36m)
+</code></pre><p>碗: 深/稳[防滑垫 或者 吸盘]</p>
+<p>开始的时候用增加成功率的食物[能180度翻转,粘性强]: 稠厚的米粉 食物泥 软焖饭  稠密的粥  酸奶</p>
+<p>开始的时候,舀好食物放着.因为这步比较难.容易挫伤宝宝.然后宝宝拿着有食物的勺子送到嘴里就ok了.<br>观察,如果哪步对宝宝有困难就帮助她.</p>
+<h1 id="为什么不自己吃呢-11-6"><a href="#为什么不自己吃呢-11-6" class="headerlink" title="为什么不自己吃呢[11-6]"></a>为什么不自己吃呢[11-6]</h1><p>意愿 + 能力<br>能力的提高:  </p>
+<pre><code>1. 递送东西(抓握东西 传递东西 把那个递给妈妈)
+2. 打开手心(手心里放个小泡芙 哇 手心里有什么)
+3. 舀取搬运(比如一个放满玉米粒,一个空着,让宝宝练习搬运)
+</code></pre><p>意愿:  </p>
+<pre><code>1. 尽量随着宝宝
+1. 喝汤喽,擦一擦绘本
+1. 相互喂食(为妈妈吃)
+1. 让宝宝多观察大人吃饭
+</code></pre><h1 id="一千个喂饭的理由-11-7"><a href="#一千个喂饭的理由-11-7" class="headerlink" title="一千个喂饭的理由[11-7]"></a>一千个喂饭的理由[11-7]</h1><p>他还是个孩子啊,[给他机会试试]<br>有一种不行叫我觉得你不行[权威机构]<br>干呕好可怕,不敢给了[干呕是正常的保护机制 避免食物引起窒息]<br>需要注意:  </p>
+<pre><code>1. 宝宝在餐椅里面坐直
+2. 去掉干扰源,专心进餐
+3. 给合适的条状,不要太小
+4. 吃东西的时候,家长必须看护
+</code></pre><p>噎住的话有视频[多次看]</p>
+<p>防止脏的话:<br>    地上报纸/浴帘<br>    身上反穿衣 裤子大人袖套</p>
+<h1 id="咀嚼能力-11-8"><a href="#咀嚼能力-11-8" class="headerlink" title="咀嚼能力[11-8]"></a>咀嚼能力[11-8]</h1><p> <img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/food_develop.png" alt="food_develop"><br> <img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/food_jujue1.png" alt="food_jujue1"><br> <img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/food_jujue2.png" alt="food_jujue2"><br> <img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/food_jujue3.png" alt="food_jujue3"><br> <img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/food_jujue4.png" alt="food_jujue4"> </p>
+<h1 id="咀嚼能力的锻炼-11-9"><a href="#咀嚼能力的锻炼-11-9" class="headerlink" title="咀嚼能力的锻炼[11-9]"></a>咀嚼能力的锻炼[11-9]</h1><p>2+1的锻炼法: 三餐用一餐比较难一点,也可以某一餐有难的和容易的.  </p>
+<p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/2add1_0.png" alt="2add1"><br><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/2add1.png" alt="2add1"><br><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/2add1_2.png" alt="2add1"><br><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/2add1_3.png" alt="2add1"><br><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/2add1_4.png" alt="2add1"> </p>
+<h1 id="出牙期不爱吃饭-11-10"><a href="#出牙期不爱吃饭-11-10" class="headerlink" title="出牙期不爱吃饭[11-10]"></a>出牙期不爱吃饭[11-10]</h1><p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/tooth.png" alt="tooth"></p>
+<p>2岁半基本长齐.</p>
+<p>出牙的表现:  </p>
+<pre><code>1. 口水多(擦净口水 抹润肤产品)
+2. 喜欢咬人(冷藏的牙胶 硅胶指套牙刷 上桌前先啃牙胶)
+3. 轻微发烧(安抚)
+4. 黏人娇气(安抚 牙齿的绘本 玩具)
+5. 睡眠不安
+6. 啃勺子 啃碗(啃牙胶 给手指食物 给较硬的食物)
+7. 烦躁哭闹(安抚 询问是否还要吃么 增加加餐的量 抱出来溜达下再试试抱进去餐椅)
+8. 进食中断(吐出去 含着饭不动 =&gt; 降低进食难度 尊重意愿 减少进餐时间)
+9. 进食变少(少量多餐)
+10. 拒绝硬食(吸管碗 吸吸乐 粥)
+11. 偏爱酸甜凉(食物放凉 增加酸甜食物 酸奶水果入餐)
+</code></pre><p>解决办法:改变食物  </p>
+<ol>
+<li>泥状(<a href="https://mp.weixin.qq.com/s/csOflpGQ0GE7oVrWzxZdgg" target="_blank" rel="noopener">汤羹米糊的做法 </a>)</li>
+<li>粥(<a href="https://mp.weixin.qq.com/s/UAMblfa_h5HAntwJtF9HrQ" target="_blank" rel="noopener">粥做法 </a>)</li>
+<li>面(<a href="https://mp.weixin.qq.com/s/gt91c7eNP_Nmq4XY-spCHQ" target="_blank" rel="noopener">面做法 </a>)</li>
+</ol>
+<h1 id="咀嚼力的问题-11-11"><a href="#咀嚼力的问题-11-11" class="headerlink" title="咀嚼力的问题[11-11]"></a>咀嚼力的问题[11-11]</h1><p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/food_jujue_problem.png" alt="food_jujue_problem"></p>
+<p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/food_jujue_problem2.png" alt="food_jujue_problem"></p>
+<h1 id="喂养调整案例-11-12"><a href="#喂养调整案例-11-12" class="headerlink" title="喂养调整案例[11-12]"></a>喂养调整案例[11-12]</h1><p>不要边吃边玩 + 坚决在餐椅里吃 =&gt; 提供手指食物</p>
+
+          
         
       
     </div>
@@ -2462,7 +2547,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">133</span>
+                <span class="site-state-item-count">134</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2473,7 +2558,7 @@
             
             <div class="site-state-item site-state-categories">
               
-                <span class="site-state-item-count">34</span>
+                <span class="site-state-item-count">35</span>
                 <span class="site-state-item-name">分类</span>
               
             </div>
@@ -2484,7 +2569,7 @@
             
             <div class="site-state-item site-state-tags">
               
-                <span class="site-state-item-count">49</span>
+                <span class="site-state-item-count">50</span>
                 <span class="site-state-item-name">标签</span>
               
             </div>
