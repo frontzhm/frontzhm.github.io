@@ -261,6 +261,202 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/29/self-vue-router/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2019/10/29/self-vue-router/" itemprop="url">
+                  vue-router的背后的逻辑
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-29T15:46:42+08:00">
+                2019-10-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/编辑器/" itemprop="url" rel="index">
+                    <span itemprop="name">编辑器</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/10/29/self-vue-router/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/10/29/self-vue-router/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="vue-router的工作流程"><a href="#vue-router的工作流程" class="headerlink" title="vue-router的工作流程"></a>vue-router的工作流程</h2><p>url改变 =&gt; 触发监听事件 =&gt; 改变vue-route里的current变量 =&gt; 监视current变量的监视者 =&gt; 获取新的组件 =&gt; render新组件</p>
+<h2 id="hash和history"><a href="#hash和history" class="headerlink" title="hash和history"></a>hash和history</h2><h3 id="hash"><a href="#hash" class="headerlink" title="hash"></a>hash</h3><ul>
+<li>#后就是hash的内容，</li>
+<li>#后面不论是什么一般不会触发页面跳转，这样就是单页面</li>
+<li>可以通过location.hash拿到：<code>#/123/...</code></li>
+<li>window.onhashchange：监听hash变化</li>
+</ul>
+<p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/onhashchange.png" alt="hash改变的事件"></p>
+<h3 id="history"><a href="#history" class="headerlink" title="history"></a>history</h3><ul>
+<li>history模式就是正常的路径</li>
+<li>location.pathname就可以拿到</li>
+<li>onpopstate监听history的变化</li>
+</ul>
+<h2 id="vue插件的基础点"><a href="#vue插件的基础点" class="headerlink" title="vue插件的基础点"></a>vue插件的基础点</h2><ul>
+<li><code>Vue.use</code>去使用一个插件，并且会执行<code>install</code>方法</li>
+<li><code>Vue.mixin</code>往vue的全局中混入自定义的操作</li>
+<li>可以通过<code>this.options</code>拿到<code>new Vue</code>时的参数</li>
+</ul>
+<h3 id="Vue-use-params"><a href="#Vue-use-params" class="headerlink" title="Vue.use(params)"></a>Vue.use(params)</h3><ul>
+<li>params是一个对象的时候，执行对象的<code>install</code>属性所指的函数</li>
+<li>params是一个函数的时候，因为函数也是对象，如果函数上有install的属性，就直接执行该函数，没有该属性就直接执行这个函数</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typeof</span> params.install === <span class="string">'function'</span> ? params.install():(<span class="keyword">typeof</span> params === <span class="string">'function'</span> &amp;&amp; params())</span><br></pre></td></tr></table></figure>
+<h3 id="Vue-mixin-params"><a href="#Vue-mixin-params" class="headerlink" title="Vue.mixin(params)"></a>Vue.mixin(params)</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fn = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="built_in">console</span>.log(<span class="string">'fn'</span>)&#125;</span><br><span class="line">fn.install = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="comment">// 其实就是将this.options和这里的mixin里的参数合并</span></span><br><span class="line">    <span class="comment">// 一般在所有组件的生命周期里混入一些功能</span></span><br><span class="line">    <span class="comment">// 这段代码在main.js写完之后，会出现三次，因为首先new Vue一次，App.vue一次，helloworld一次</span></span><br><span class="line">    Vue.mixin(&#123;</span><br><span class="line">       created()&#123;</span><br><span class="line">           <span class="built_in">console</span>.log(<span class="string">'i am created'</span>)</span><br><span class="line">           <span class="built_in">console</span>.log(<span class="keyword">this</span>)</span><br><span class="line">          <span class="comment">//  组件其实根本上也是vue实例，是vue的类，通过`new Vue(options)`得到的，vue提供`this.$options`让我们拿到当前vue实例的`options`。</span></span><br><span class="line">           <span class="built_in">console</span>.log(<span class="keyword">this</span>.$options)</span><br><span class="line">       &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="this-options"><a href="#this-options" class="headerlink" title="this.$options"></a>this.$options</h3><p>组件其实根本上也是vue实例，是vue的类，通过<code>new Vue(options)</code>得到的，vue提供<code>this.$options</code>让我们拿到当前vue实例的<code>options</code>。</p>
+<h2 id="实现vue-router"><a href="#实现vue-router" class="headerlink" title="实现vue-router"></a>实现vue-router</h2><ol>
+<li>建项目</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vue create self-router</span><br><span class="line">选择 babel vue-router prettier+lint</span><br><span class="line"><span class="built_in">cd</span> self-router</span><br><span class="line">npm run server</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>router/index.js里的引用插件router改成我们自己的</li>
+</ol>
+<p>我们自己在src下面写个myrouter，在来个index.js导出VueRouter这个类</p>
+<ol start="3">
+<li>步骤</li>
+</ol>
+<ul>
+<li>判断模式</li>
+<li>自动加上#/</li>
+<li>监听事件</li>
+<li>history实例的建立</li>
+<li>Vue.mixin里beforeCreate事件来 监视current变量的监视者，知道current什么变了，从而通知变化</li>
+<li>路径和视图的对应关系，简化成map</li>
+<li>this._router =&gt; this.$router</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这里没有set，保证了router不可更改，不能赋值，保证只可读</span></span><br><span class="line"><span class="built_in">Object</span>.defineProperty(<span class="keyword">this</span>,<span class="string">'$router'</span>,&#123;</span><br><span class="line">  get()&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>._root._router</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"><span class="built_in">Object</span>.defineProperty(<span class="keyword">this</span>,<span class="string">'$route'</span>,&#123;</span><br><span class="line">  get()&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>._root._router.history.current</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="实现路由"><a href="#实现路由" class="headerlink" title="实现路由"></a>实现路由</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; runInthisContext &#125; <span class="keyword">from</span> <span class="string">"vm"</span>;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HistoryRoute</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>() &#123;</span><br><span class="line">    <span class="keyword">this</span>.current = <span class="literal">null</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">VueRouter</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(options) &#123;</span><br><span class="line">    <span class="keyword">this</span>.mode = options.mode || <span class="string">"hash"</span>;</span><br><span class="line">    <span class="comment">// 当前所有的history在这里，其中有个current</span></span><br><span class="line">    <span class="keyword">this</span>.history = <span class="keyword">new</span> HistoryRoute();</span><br><span class="line">    <span class="keyword">this</span>.routes = options.routes || [];</span><br><span class="line">    <span class="keyword">this</span>.routerMap = <span class="keyword">this</span>.createMap(<span class="keyword">this</span>.routes);</span><br><span class="line">  &#125;</span><br><span class="line">  init() &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.mode === <span class="string">"hash"</span>) &#123;</span><br><span class="line">      <span class="comment">// 当输入地址之后，如果没有#，将会自动在地址后面加上`#/`</span></span><br><span class="line">      <span class="comment">// 始终确保地址上有hash这样才能方便匹配路由</span></span><br><span class="line">      location.hash ? <span class="string">""</span> : (location.hash = <span class="string">"/"</span>);</span><br><span class="line">      <span class="built_in">window</span>.addEventListener(<span class="string">"load"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">params</span>) </span>&#123;</span><br><span class="line">        <span class="comment">// slice(1)是不要#</span></span><br><span class="line">        <span class="keyword">this</span>.history.current = location.hash.slice(<span class="number">1</span>);</span><br><span class="line">      &#125;);</span><br><span class="line">      <span class="built_in">window</span>.addEventListener(<span class="string">"hashchange"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">params</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.history.current = location.hash.slice(<span class="number">1</span>);</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="built_in">window</span>.addEventListener(<span class="string">"load"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">params</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.history.current = location.pathname;</span><br><span class="line">      &#125;);</span><br><span class="line">      <span class="built_in">window</span>.addEventListener(<span class="string">"popstate"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">params</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.history.current = location.pathname;</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// [&#123;path:'/',component:Home&#125;] =&gt; &#123;'/':Home&#125;</span></span><br><span class="line">  creatMap(routes) &#123;</span><br><span class="line">    <span class="keyword">return</span> routes.reduce(<span class="function">(<span class="params">memo, current</span>) =&gt;</span> &#123;</span><br><span class="line">      memo[current.path] = current.component;</span><br><span class="line">      <span class="keyword">return</span> memo;</span><br><span class="line">    &#125;, &#123;&#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// Vue是Vue实例</span></span><br><span class="line">VueRouter.install = <span class="function"><span class="keyword">function</span>(<span class="params">Vue</span>) </span>&#123;</span><br><span class="line">  Vue.mixin(&#123;</span><br><span class="line">    beforeCreate() &#123;</span><br><span class="line">      <span class="comment">// new Vue(&#123;router&#125;)，router就是项目里路径和视图的一一对应</span></span><br><span class="line">      <span class="keyword">if</span> (<span class="keyword">this</span>.$options &amp;&amp; <span class="keyword">this</span>.$options.router) &#123;</span><br><span class="line">        <span class="keyword">this</span>._root = <span class="keyword">this</span>;</span><br><span class="line">        <span class="keyword">this</span>._router = <span class="keyword">this</span>.$options.router;</span><br><span class="line">        Vue.unit.defineReactive(<span class="keyword">this</span>, <span class="string">"current"</span>, <span class="keyword">this</span>._router.history);</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">this</span>._root = <span class="keyword">this</span>.$parent._root;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">  Vue.component(<span class="string">"router-view"</span>, &#123;</span><br><span class="line">    render(h) &#123;</span><br><span class="line">      <span class="comment">// 拿到当前路由的组件</span></span><br><span class="line">      <span class="keyword">let</span> current = <span class="keyword">this</span>._self._root._router.history.current;</span><br><span class="line">      <span class="keyword">let</span> routeMap = <span class="keyword">this</span>._self._root.routeMap;</span><br><span class="line">      <span class="comment">// h方法能将组件渲染成当前视图</span></span><br><span class="line">      <span class="keyword">return</span> h(routeMap[current]);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> VueRouter;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/25/understand-child/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1938,162 +2134,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/16/express_api/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2019/09/16/express_api/" itemprop="url">
-                  express简单的创建接口mock数据
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-16T10:16:02+08:00">
-                2019-09-16
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/09/16/express_api/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/09/16/express_api/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>express简单的创建接口mock数据。快速开启伪接口服务。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// npm i express body-parser</span></span><br><span class="line"><span class="keyword">let</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>)</span><br><span class="line"><span class="keyword">let</span> bodyParser = <span class="built_in">require</span>(<span class="string">'body-parser'</span>)</span><br><span class="line"><span class="keyword">let</span> app = express()</span><br><span class="line">app.use(bodyParser.json())</span><br><span class="line">app.use(bodyParser.urlencoded(&#123; <span class="attr">extended</span>: <span class="literal">true</span> &#125;))</span><br><span class="line"><span class="comment">// 设置跨域 网上搜 express跨域头</span></span><br><span class="line">app.use(<span class="function">(<span class="params">req, res, next</span>) =&gt;</span> &#123;</span><br><span class="line">  res.header(<span class="string">'Access-Control-Allow-Origin'</span>, <span class="string">'*'</span>)</span><br><span class="line">  res.header(<span class="string">'Access-Control-Allow-Headers'</span>, <span class="string">'Content-Type,Content-Length, Authorization, Accept,X-Requested-With'</span>)</span><br><span class="line">  res.header(<span class="string">'Access-Control-Allow-Methods'</span>, <span class="string">'PUT,POST,GET,DELETE,OPTIONS'</span>)</span><br><span class="line">  <span class="comment">// 让options请求快速返回</span></span><br><span class="line">  req.method === <span class="string">'OPTIONS'</span> ? res.sendStatus(<span class="number">200</span>) : next()</span><br><span class="line">&#125;)</span><br><span class="line">app.get(<span class="string">'/'</span>, (req, res) =&gt; &#123;</span><br><span class="line">  res.json(&#123; <span class="attr">ready</span>: <span class="string">'ok'</span> &#125;)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// let &#123;username&#125; = req.body</span></span><br><span class="line">app.get(<span class="string">'/user'</span>, (req, res) =&gt; &#123;</span><br><span class="line">  res.json(&#123; <span class="attr">name</span>: <span class="string">'huahua'</span> &#125;)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">app.post(<span class="string">'/VideoStatistic/Index'</span>, (req, res) =&gt; &#123;</span><br><span class="line">  <span class="keyword">let</span> &#123; method &#125; = req.body</span><br><span class="line">  <span class="built_in">console</span>.log(method)</span><br><span class="line">  res.json(&#123; <span class="attr">name</span>: <span class="string">'huahua'</span> &#125;)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">const</span> PORT = <span class="number">3333</span></span><br><span class="line">app.listen(PORT,()=&gt;&#123;</span><br><span class="line">    <span class="keyword">const</span> getLocalHostnameAndIp = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> os = <span class="built_in">require</span>(<span class="string">'os'</span>)</span><br><span class="line">    <span class="keyword">const</span> hostname = os.hostname()</span><br><span class="line">    <span class="keyword">const</span> networks = os.networkInterfaces().en0</span><br><span class="line">    <span class="keyword">const</span> localNetwork = networks.find(<span class="function"><span class="params">item</span> =&gt;</span> item.family === <span class="string">'IPv4'</span>)</span><br><span class="line">    <span class="keyword">const</span> localIpAddress = localNetwork.address</span><br><span class="line">    <span class="keyword">return</span> &#123; hostname, <span class="attr">ip</span>: localIpAddress &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> &#123; hostname, ip &#125; = getLocalHostnameAndIp()</span><br><span class="line"><span class="comment">// xxx 10.73.33.84</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">`<span class="subst">$&#123;ip&#125;</span>:<span class="subst">$&#123;PORT&#125;</span> 接口服务已开启`</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -2138,7 +2183,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">140</span>
+                <span class="site-state-item-count">141</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2149,7 +2194,7 @@
             
             <div class="site-state-item site-state-categories">
               
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">分类</span>
               
             </div>
