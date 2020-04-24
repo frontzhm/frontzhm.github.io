@@ -1,0 +1,742 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="js," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="项目中，原始使用 checkbox 的话，一般绑定 v-model 就行，但是，如果想实现类似微信从通讯录选中好友来建群的效果，如下图，加上可以组里面再选择，就需要将 v-model 拆解成 checked 和 change 事件，然后封装单项组件。 v-model 可以绑定两种类型的值，Boolean和Array。所以组件封装之后可以这样使用： 12345//- item是内容区的相关信息，比如">
+<meta name="keywords" content="js">
+<meta property="og:type" content="article">
+<meta property="og:title" content="拆解checkbox的v-model">
+<meta property="og:url" content="http://yoursite.com/2020/04/24/checkbox/index.html">
+<meta property="og:site_name" content="花花的博客">
+<meta property="og:description" content="项目中，原始使用 checkbox 的话，一般绑定 v-model 就行，但是，如果想实现类似微信从通讯录选中好友来建群的效果，如下图，加上可以组里面再选择，就需要将 v-model 拆解成 checked 和 change 事件，然后封装单项组件。 v-model 可以绑定两种类型的值，Boolean和Array。所以组件封装之后可以这样使用： 12345//- item是内容区的相关信息，比如">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/contact.jpeg">
+<meta property="og:updated_time" content="2020-04-24T10:11:17.762Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="拆解checkbox的v-model">
+<meta name="twitter:description" content="项目中，原始使用 checkbox 的话，一般绑定 v-model 就行，但是，如果想实现类似微信从通讯录选中好友来建群的效果，如下图，加上可以组里面再选择，就需要将 v-model 拆解成 checked 和 change 事件，然后封装单项组件。 v-model 可以绑定两种类型的值，Boolean和Array。所以组件封装之后可以这样使用： 12345//- item是内容区的相关信息，比如">
+<meta name="twitter:image" content="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/contact.jpeg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/04/24/checkbox/"/>
+
+
+
+
+
+  <title> 拆解checkbox的v-model | 花花的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?60f2cb5747a596a24f2a053f1650c30b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">花花的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/24/checkbox/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                拆解checkbox的v-model
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-24T18:11:17+08:00">
+                2020-04-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/04/24/checkbox/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/04/24/checkbox/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>项目中，原始使用 checkbox 的话，一般绑定 v-model 就行，但是，如果想实现类似微信从通讯录选中好友来建群的效果，如下图，加上可以组里面再选择，就需要将 v-model 拆解成 checked 和 change 事件，然后封装单项组件。<br><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/contact.jpeg" alt="通讯录"></p>
+<p>v-model 可以绑定两种类型的值，<code>Boolean</code>和<code>Array</code>。所以组件封装之后可以这样使用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//- item是内容区的相关信息，比如头像 昵称 uid</span><br><span class="line">//- 1 boolean类型的时候，通常用于全选 组选的情况</span><br><span class="line">checkboxEnhanced(v-model=&apos;bool&apos;) 同意协议</span><br><span class="line">//- 2 array类型的时候，这时候可以循环</span><br><span class="line">checkboxEnhanced(v-for=&quot;(item,index) in list&quot; v-model=&apos;arr&apos;  :value=&apos;item.code&apos;) &#123;&#123;item.name&#125;&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="https://frontzhm.github.io/checkbox/dist/index.html#/" target="_blank" rel="noopener">查看使用案例</a></p>
+<blockquote>
+<p><a href="https://github.com/frontzhm/checkbox" target="_blank" rel="noopener">项目的github</a></p>
+</blockquote>
+<h2 id="v-mode-是-boolean-的时候"><a href="#v-mode-是-boolean-的时候" class="headerlink" title="v-mode 是 boolean 的时候"></a>v-mode 是 boolean 的时候</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- checkboxBoolean.vue --&gt;</span><br><span class="line">&lt;template lang=&quot;pug&quot;&gt;</span><br><span class="line">div.checkbox-box</span><br><span class="line">  div.checkbox-content-box(@click=&apos;$refs.input.click()&apos;)</span><br><span class="line">    //- 自定义选中图标</span><br><span class="line">    div.icon-box</span><br><span class="line">      img.icon(alt=&apos;&apos; :src=&apos;checked?&quot;https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/icon_selected.png&quot;:&quot;https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/icon_not_selected.png&quot;&apos;)</span><br><span class="line">    div.content</span><br><span class="line">      //- slot可以自定义后面的内容</span><br><span class="line">      slot</span><br><span class="line">        //- 这里可以根据自己的项目灵活改变</span><br><span class="line">        div.avatar-box</span><br><span class="line">          img.img-avatar(alt=&apos;&apos; :src=&apos;item.avatar || &quot; https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/default_avatar.png&quot;&apos;)</span><br><span class="line">        .name &#123;&#123;item.name&#125;&#125;</span><br><span class="line">  //- 原始input隐藏，这里的value看情况使用，可以不传，change是将选择事件抛出去，让父组件知晓</span><br><span class="line">  input(ref=&apos;input&apos; hidden type=&apos;checkbox&apos; :checked=&apos;checked&apos; :value=&apos;value&apos; @change=&apos;changeInput($event)&apos;)</span><br><span class="line"></span><br><span class="line">&lt;/template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">/**</span><br><span class="line"> * 这个组件是利用了checkbox</span><br><span class="line"> 组件逻辑</span><br><span class="line"> - 需要传入checked，value属性，item以项目传</span><br><span class="line"> - 将原始的input隐藏，通过点击内容区触发input的click事件，从而达到控制其change事件</span><br><span class="line"> - change事件会改变元素的checked属性，再向父组件派发事件，父组件根据传递的值更新自己的checked，而更新后的值又会再影响这个组件的checked，形成闭环。</span><br><span class="line"> - 这里为了方便父组件使用v-model，将model设置为change事件和checked</span><br><span class="line"> 官网文档 https://cn.vuejs.org/v2/guide/components-custom-events.html#%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BB%84%E4%BB%B6%E7%9A%84-v-model</span><br><span class="line"></span><br><span class="line"> 使用方法</span><br><span class="line">  checkbox-boolean(v-model=&apos;checked&apos; :item=&apos;item&apos;)</span><br><span class="line"></span><br><span class="line"> 加上value和change事件也是没问题的</span><br><span class="line">    checkbox-boolean(v-model=&apos;checked&apos; :item=&apos;item&apos; :value=&apos;item.code&apos; @change=&apos;handleChange&apos;)</span><br><span class="line"> */</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &quot;checkbox-boolean&quot;,</span><br><span class="line">  model: &#123;</span><br><span class="line">    prop: &quot;checked&quot;,</span><br><span class="line">    event: &quot;change&quot;,</span><br><span class="line">  &#125;,</span><br><span class="line">  props: &#123;</span><br><span class="line">    item: &#123;</span><br><span class="line">      type: Object,</span><br><span class="line">      default() &#123;</span><br><span class="line">        return &#123;&#125;;</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">    checked: &#123;</span><br><span class="line">      type: Boolean,</span><br><span class="line">      required: true,</span><br><span class="line">      default() &#123;</span><br><span class="line">        return false;</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">    value: &#123;</span><br><span class="line">      // type: [Boolean, String, Number],</span><br><span class="line">      default() &#123;</span><br><span class="line">        return this.item;</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  methods: &#123;</span><br><span class="line">    changeInput($event) &#123;</span><br><span class="line">      // 第一项就将是否选中扔出去，这里注意，扔出去之后，父组件用v-model的话，父组件的值会自动变化</span><br><span class="line">      // v-model是个语法糖，本质上相当于父组件 checkbox-item(:checked=&apos;checked&apos; @change=&apos;checked=$event&apos;)</span><br><span class="line">      this.$emit(&quot;change&quot;, $event.target.checked, $event);</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line">.checkbox-box &#123;</span><br><span class="line">  display: flex;</span><br><span class="line">  margin-left: 30px;</span><br><span class="line">  margin-right: 30px;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.checkbox-content-box &#123;</span><br><span class="line">  display: flex;</span><br><span class="line">  height: 80px;</span><br><span class="line">  line-height: 80px;</span><br><span class="line">  margin-top: 12px;</span><br><span class="line">  margin-bottom: 12px;</span><br><span class="line">  width: 100%;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.icon &#123;</span><br><span class="line">  width: 34px;</span><br><span class="line">  height: 34px;</span><br><span class="line">  display: inline-block;</span><br><span class="line">  vertical-align: middle;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.content &#123;</span><br><span class="line">  display: flex;</span><br><span class="line">  margin-left: 20px;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.img-avatar &#123;</span><br><span class="line">  display: block;</span><br><span class="line">  width: 80px;</span><br><span class="line">  height: 80px;</span><br><span class="line">  border-radius: 50%;</span><br><span class="line">&#125;</span><br><span class="line">.name &#123;</span><br><span class="line">  margin-left: 15px;</span><br><span class="line">  color: #333;</span><br><span class="line">  font-size: 30px;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="v-model-是-Array-的时候"><a href="#v-model-是-Array-的时候" class="headerlink" title="v-model 是 Array 的时候"></a>v-model 是 Array 的时候</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- checkboxArray.vue --&gt;</span><br><span class="line">&lt;template lang=&quot;pug&quot;&gt;</span><br><span class="line">div.checkbox-box</span><br><span class="line">  div.checkbox-content-box(@click=&apos;$refs.input.click()&apos;)</span><br><span class="line">    //- 自定义选中图标</span><br><span class="line">    div.icon-box</span><br><span class="line">      img.icon(alt=&apos;&apos; :src=&apos;curChecked?&quot;https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/icon_selected.png&quot;:&quot;https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/icon_not_selected.png&quot;&apos;)</span><br><span class="line">    div.content</span><br><span class="line">      //- slot可以自定义后面的内容</span><br><span class="line">      slot</span><br><span class="line">        //- 这里可以灵活改变</span><br><span class="line">        div.avatar-box</span><br><span class="line">          img.img-avatar(alt=&apos;&apos; :src=&apos;item.avatar || &quot; https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/default_avatar.png&quot;&apos;)</span><br><span class="line">        .name &#123;&#123;item.name&#125;&#125;</span><br><span class="line">  //- 原始input隐藏，这里的value看情况使用，可以不传，change是将选择事件抛出去，让父组件知晓</span><br><span class="line">  input(ref=&apos;input&apos; hidden type=&apos;checkbox&apos; :checked=&apos;curChecked&apos; :value=&apos;value&apos; @change=&apos;changeInput($event)&apos;)</span><br><span class="line"></span><br><span class="line">&lt;/template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">/*</span><br><span class="line">  当父组件传过来的checked是数组类型的时候，</span><br><span class="line">  当前组件的初始状态curChecked是，看数组里有没有当前value，有就是选中，没有就不选中</span><br><span class="line">  数组是引用类型，为了不改变父组件的值，这里使用selectedList复制一份checked</span><br><span class="line">  当checkbox有change事件的时候，选中就将value值push到selectedList，否则删掉，然后将selectedList抛给父组件</span><br><span class="line">  !!! 注意这里使用computed,以为别的复选框选择的时候，selectedList也会跟着变化</span><br><span class="line"> */</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &quot;checkbox-array&quot;,</span><br><span class="line">  model: &#123;</span><br><span class="line">    prop: &quot;checked&quot;,</span><br><span class="line">    event: &quot;change&quot;,</span><br><span class="line">  &#125;,</span><br><span class="line">  props: &#123;</span><br><span class="line">    item: &#123;</span><br><span class="line">      type: Object,</span><br><span class="line">      default() &#123;</span><br><span class="line">        return &#123;&#125;;</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">    checked: &#123;</span><br><span class="line">      required: true,</span><br><span class="line">      default() &#123;</span><br><span class="line">        return [];</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">    value: &#123;</span><br><span class="line">      default() &#123;</span><br><span class="line">        return this.item;</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">  computed: &#123;</span><br><span class="line">    selectedList: &#123;</span><br><span class="line">      get() &#123;</span><br><span class="line">        return [...this.checked];</span><br><span class="line">      &#125;,</span><br><span class="line">      set() &#123;</span><br><span class="line">        console.log();</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">    curChecked() &#123;</span><br><span class="line">      return this.checked.includes(this.value);</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  methods: &#123;</span><br><span class="line">    changeInput($event) &#123;</span><br><span class="line">      let &#123; checked &#125; = $event.target;</span><br><span class="line">      // 看下选中的值在数组中的索引，这里不用原生的value，因为$event.target.value始终是字符串类型</span><br><span class="line">      let index = this.selectedList.indexOf(this.value);</span><br><span class="line">      // 选择的时候,selectedList跟着变化</span><br><span class="line">      checked</span><br><span class="line">        ? this.selectedList.push(this.value)</span><br><span class="line">        : index !== -1 &amp;&amp; this.selectedList.splice(index, 1);</span><br><span class="line">      this.$emit(&quot;change&quot;, this.selectedList, $event);</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line">.checkbox-box &#123;</span><br><span class="line">  display: flex;</span><br><span class="line">  margin-left: 30px;</span><br><span class="line">  margin-right: 30px;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.checkbox-content-box &#123;</span><br><span class="line">  display: flex;</span><br><span class="line">  height: 80px;</span><br><span class="line">  line-height: 80px;</span><br><span class="line">  margin-top: 12px;</span><br><span class="line">  margin-bottom: 12px;</span><br><span class="line">  width: 100%;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.icon &#123;</span><br><span class="line">  width: 34px;</span><br><span class="line">  height: 34px;</span><br><span class="line">  display: inline-block;</span><br><span class="line">  vertical-align: middle;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.content &#123;</span><br><span class="line">  display: flex;</span><br><span class="line">  margin-left: 20px;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.img-avatar &#123;</span><br><span class="line">  display: block;</span><br><span class="line">  width: 80px;</span><br><span class="line">  height: 80px;</span><br><span class="line">  border-radius: 50%;</span><br><span class="line">&#125;</span><br><span class="line">.name &#123;</span><br><span class="line">  margin-left: 15px;</span><br><span class="line">  color: #333;</span><br><span class="line">  font-size: 30px;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="将两种情况合并"><a href="#将两种情况合并" class="headerlink" title="将两种情况合并"></a>将两种情况合并</h2><p>这里简单使用 component 组件。<a href="https://cn.vuejs.org/v2/guide/components-dynamic-async.html" target="_blank" rel="noopener">vue 官网介绍</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">&lt;template lang=&quot;pug&quot;&gt;</span><br><span class="line">div</span><br><span class="line">  component(v-if=&quot;!isArray&quot; is=&apos;CheckboxBoolean&apos; v-bind=&apos;$attrs&apos; v-on=&apos;$listeners&apos;)</span><br><span class="line">    //- 自定义后面的内容</span><br><span class="line">    slot</span><br><span class="line">  component(v-else is=&apos;CheckboxArray&apos; v-bind=&apos;$attrs&apos; v-on=&apos;$listeners&apos;)</span><br><span class="line">    slot</span><br><span class="line">&lt;/template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">import CheckboxBoolean from &quot;@/components/CheckboxBoolean&quot;;</span><br><span class="line">import CheckboxArray from &quot;@/components/CheckboxArray&quot;;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  name: &quot;checkbox-enhanced&quot;,</span><br><span class="line">  components: &#123;</span><br><span class="line">    CheckboxArray,</span><br><span class="line">    CheckboxBoolean,</span><br><span class="line">  &#125;,</span><br><span class="line">  model: &#123;</span><br><span class="line">    prop: &quot;checked&quot;,</span><br><span class="line">    event: &quot;change&quot;,</span><br><span class="line">  &#125;,</span><br><span class="line">  created() &#123;</span><br><span class="line">    this.isArray = Array.isArray(this.$attrs.checked);</span><br><span class="line">  &#125;,</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      isArray: false,</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="综合使用"><a href="#综合使用" class="headerlink" title="综合使用"></a>综合使用</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">//- Home.vue</span><br><span class="line">&lt;template lang=&quot;pug&quot;&gt;</span><br><span class="line">div</span><br><span class="line">  h2 boolean</span><br><span class="line">  div</span><br><span class="line">    div &#123;&#123;checked&#125;&#125;</span><br><span class="line">    checkbox-enhanced(v-model=&apos;checked&apos; @change=&apos;change&apos;) 同意协议</span><br><span class="line">  h2 array</span><br><span class="line">  div</span><br><span class="line">    div &#123;&#123;selectedCodes&#125;&#125;</span><br><span class="line">    checkbox-enhanced(v-for=&apos;(item,index) in items&apos; :key=&apos;index&apos; v-model=&apos;selectedCodes&apos; :item=&apos;item&apos; :value=&apos;item.code&apos; @change=&apos;changeItem&apos;)</span><br><span class="line">  h2 array 自定义传入的内容</span><br><span class="line">  div</span><br><span class="line">    div &#123;&#123;selectedCodes&#125;&#125;</span><br><span class="line">    checkbox-enhanced(v-for=&apos;(item,index) in items&apos; :key=&apos;index&apos; v-model=&apos;selectedCodes&apos; :value=&apos;item.code&apos; @change=&apos;changeItem&apos;) &#123;&#123;item.name&#125;&#125;</span><br><span class="line">  h3 group</span><br><span class="line">    section(v-for=&apos;(group,index) in groups&apos; :key=&apos;index&apos;)</span><br><span class="line">      br</span><br><span class="line">      div &#123;&#123;group.name&#125;&#125;</span><br><span class="line">      checkbox-enhanced(v-for=&apos;(item,idx) in group.children&apos; :key=&apos;idx&apos; v-model=&apos;selectedCodes&apos;  :item=&apos;item&apos; :value=&apos;item.code&apos;  @change=&apos;changeItem&apos;)</span><br><span class="line"></span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">// @ is an alias to /src</span><br><span class="line">import CheckboxEnhanced from &quot;@/components/CheckboxEnhanced.vue&quot;;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  name: &quot;Home&quot;,</span><br><span class="line">  components: &#123;</span><br><span class="line">    CheckboxEnhanced</span><br><span class="line">  &#125;,</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      item: &#123; code: 6, name: &quot;组&quot; &#125;,</span><br><span class="line">      items: [</span><br><span class="line">        &#123; code: 1, name: &quot;huahua&quot; &#125;,</span><br><span class="line">        &#123; code: 2, name: &quot;huahua2&quot; &#125;</span><br><span class="line">      ],</span><br><span class="line">      selectedCodes: [],</span><br><span class="line">      checked: true,</span><br><span class="line">      groups: [</span><br><span class="line">        &#123;</span><br><span class="line">          name: &quot;a组的成员&quot;,</span><br><span class="line">          children: [&#123; code: 3, name: &quot;huahua3&quot; &#125;]</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          name: &quot;b组的成员&quot;,</span><br><span class="line">          children: [&#123; code: 4, name: &quot;huahua4&quot; &#125;]</span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  watch: &#123;</span><br><span class="line">    groups(newVal) &#123;</span><br><span class="line">      console.log(newVal);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    changeItem() &#123;</span><br><span class="line">      console.log(arguments);</span><br><span class="line">    &#125;,</span><br><span class="line">    change(group) &#123;</span><br><span class="line">      console.log(group);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/js/" rel="tag"># js</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/04/20/baby-picture-book/" rel="next" title="绘本的选择">
+                <i class="fa fa-chevron-left"></i> 绘本的选择
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2020/04/24/checkbox/"
+           data-title="拆解checkbox的v-model" data-url="http://yoursite.com/2020/04/24/checkbox/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://omizt4opc.bkt.clouddn.com/avatar.jpg"
+               alt="frontzhm" />
+          <p class="site-author-name" itemprop="name">frontzhm</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">160</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">52</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#v-mode-是-boolean-的时候"><span class="nav-number">1.</span> <span class="nav-text">v-mode 是 boolean 的时候</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#v-model-是-Array-的时候"><span class="nav-number">2.</span> <span class="nav-text">v-model 是 Array 的时候</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#将两种情况合并"><span class="nav-number">3.</span> <span class="nav-text">将两种情况合并</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#综合使用"><span class="nav-number">4.</span> <span class="nav-text">综合使用</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">frontzhm</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"frontzhm"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
