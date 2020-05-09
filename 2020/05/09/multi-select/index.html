@@ -1,0 +1,745 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="vue," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="之前拆解checkbox的v-model的时候，发现其实多选这类的可以统一抽象出来公共逻辑。多选的样式可以灵活多变。组件的效果：组件使用的github地址：https://github.com/frontzhm/checkbox 组件的源码12345678910111213141516171819202122232425262728293031323334353637383940414243444">
+<meta name="keywords" content="vue">
+<meta property="og:type" content="article">
+<meta property="og:title" content="通用多选组件">
+<meta property="og:url" content="http://yoursite.com/2020/05/09/multi-select/index.html">
+<meta property="og:site_name" content="花花的博客">
+<meta property="og:description" content="之前拆解checkbox的v-model的时候，发现其实多选这类的可以统一抽象出来公共逻辑。多选的样式可以灵活多变。组件的效果：组件使用的github地址：https://github.com/frontzhm/checkbox 组件的源码12345678910111213141516171819202122232425262728293031323334353637383940414243444">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/multi_select.gif">
+<meta property="og:updated_time" content="2020-05-09T07:21:48.589Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="通用多选组件">
+<meta name="twitter:description" content="之前拆解checkbox的v-model的时候，发现其实多选这类的可以统一抽象出来公共逻辑。多选的样式可以灵活多变。组件的效果：组件使用的github地址：https://github.com/frontzhm/checkbox 组件的源码12345678910111213141516171819202122232425262728293031323334353637383940414243444">
+<meta name="twitter:image" content="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/multi_select.gif">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/05/09/multi-select/"/>
+
+
+
+
+
+  <title> 通用多选组件 | 花花的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?60f2cb5747a596a24f2a053f1650c30b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">花花的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/09/multi-select/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                通用多选组件
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-09T15:21:48+08:00">
+                2020-05-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/vue/" itemprop="url" rel="index">
+                    <span itemprop="name">vue</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/05/09/multi-select/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/05/09/multi-select/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>之前<a href="https://juejin.im/post/5ea2bac551882573cd41c84e" target="_blank" rel="noopener">拆解checkbox的v-model</a>的时候，发现其实多选这类的可以统一抽象出来公共逻辑。<br>多选的样式可以灵活多变。<br>组件的效果：<img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/multi_select.gif" alt="效果"><br>组件使用的github地址：<a href="https://github.com/frontzhm/checkbox" target="_blank" rel="noopener">https://github.com/frontzhm/checkbox</a></p>
+<h2 id="组件的源码"><a href="#组件的源码" class="headerlink" title="组件的源码"></a>组件的源码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- MultiSelect.vue --&gt;</span><br><span class="line">&lt;template lang=&quot;pug&quot;&gt;</span><br><span class="line">div</span><br><span class="line">  div.option-box(@click=&apos;$refs.input.click()&apos;)</span><br><span class="line">    slot(:selected=&apos;curChecked&apos;) </span><br><span class="line">  //- 原始input隐藏，这里的value看情况使用，可以不传，change是将选择事件抛出去，让父组件知晓</span><br><span class="line">  input(ref=&apos;input&apos; hidden type=&apos;checkbox&apos; :checked=&apos;curChecked&apos; :value=&apos;value&apos; @change=&apos;changeInput($event)&apos;)</span><br><span class="line">&lt;/template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  name: &quot;multi-select&quot;,</span><br><span class="line">  model: &#123;</span><br><span class="line">    prop: &quot;checked&quot;,</span><br><span class="line">    event: &quot;change&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  props: &#123;</span><br><span class="line">    checked: &#123;</span><br><span class="line">      required: true,</span><br><span class="line">      default() &#123;</span><br><span class="line">        return [];</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    value: &#123;</span><br><span class="line">      required: true,</span><br><span class="line">      default() &#123;</span><br><span class="line">        return &quot;&quot;;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  computed: &#123;</span><br><span class="line">    selectedList: &#123;</span><br><span class="line">      get() &#123;</span><br><span class="line">        return [...this.checked];</span><br><span class="line">      &#125;,</span><br><span class="line">      set() &#123;</span><br><span class="line">        console.log();</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    curChecked() &#123;</span><br><span class="line">      return this.checked.includes(this.value);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  methods: &#123;</span><br><span class="line">    changeInput($event) &#123;</span><br><span class="line">      let &#123; checked &#125; = $event.target;</span><br><span class="line">      // 看下选中的值在数组中的索引，这里不用原生的value，因为$event.target.value始终是字符串类型</span><br><span class="line">      let index = this.selectedList.indexOf(this.value);</span><br><span class="line">      // 选择的时候,selectedList跟着变化</span><br><span class="line">      checked</span><br><span class="line">        ? this.selectedList.push(this.value)</span><br><span class="line">        : index !== -1 &amp;&amp; this.selectedList.splice(index, 1);</span><br><span class="line">      this.$emit(&quot;change&quot;, this.selectedList, $event);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="组件的逻辑"><a href="#组件的逻辑" class="headerlink" title="组件的逻辑"></a>组件的逻辑</h2><p>复选主要用的是原始的checkbox。</p>
+<ol>
+<li>当父组件传过来的checked是数组类型的时候，当前组件的初始状态curChecked是，看数组里有没有当前value，有就是选中，没有就不选中</li>
+<li>数组是引用类型，为了不改变父组件的值，这里使用selectedList复制一份checked</li>
+<li>当checkbox有change事件的时候，选中就将value值push到selectedList，否则删掉，然后将selectedList抛给父组件</li>
+<li>!!! 注意这里使用computed,因为别的复选框选择的时候，selectedList也会跟着变化</li>
+<li>slot里面就是具体的dom了，此组件只提供逻辑</li>
+</ol>
+<h2 id="组件的使用步骤"><a href="#组件的使用步骤" class="headerlink" title="组件的使用步骤"></a>组件的使用步骤</h2><p>使用方法：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> MultiSelect <span class="keyword">from</span> <span class="string">"@/components/MultiSelect.vue"</span>;</span><br><span class="line"></span><br><span class="line">multi-select(v-model=<span class="string">'selectedCodes'</span> :value=<span class="string">'item.code'</span>)</span><br><span class="line">    template(#default="&#123; selected &#125;")</span><br><span class="line">        div.option-content(:<span class="class"><span class="keyword">class</span></span>=<span class="string">'&#123; selected &#125;'</span>) &#123;&#123;item.name&#125;&#125;</span><br></pre></td></tr></table></figure>
+<p><code>.option-content</code>可以是任意复杂的dom，selected是当前项选中与否的值，这样可以灵活增加选中的样式<br>如果需要动态根据选中得到节点信息，可以加个监听事件 change</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">multi-select(v-model=<span class="string">'selectedCodes'</span> :value=<span class="string">'item.code'</span> @change=<span class="string">'changeItem'</span>)</span><br><span class="line">changeItem(...args)&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(...args)</span><br><span class="line">    <span class="comment">// 两个值，第一个是选中的列表，第二个是原生input的信息</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="组件使用的例子"><a href="#组件使用的例子" class="headerlink" title="组件使用的例子"></a>组件使用的例子</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br></pre></td><td class="code"><pre><span class="line">&lt;template lang=&quot;pug&quot;&gt;</span><br><span class="line">div</span><br><span class="line">  h2 multi-select</span><br><span class="line">  div</span><br><span class="line">    div &#123;&#123;selectedCodes&#125;&#125;</span><br><span class="line">    ul</span><br><span class="line">      li(v-for=&apos;(item,index) in items&apos; :key=&apos;index&apos;)</span><br><span class="line">        multi-select(v-model=&apos;selectedCodes&apos;  :value=&apos;item.code&apos; @change=&apos;changeItem&apos;)</span><br><span class="line">          template(#default=&quot;&#123; selected &#125;&quot;)</span><br><span class="line">            div.option-content</span><br><span class="line">              div.icon-box</span><br><span class="line">                img.icon(alt=&apos;&apos; :src=&apos;selected?&quot;https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/icon_selected.png&quot;:&quot;https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/icon_not_selected.png&quot;&apos;)</span><br><span class="line">              div.content</span><br><span class="line">                  div.avatar-box</span><br><span class="line">                    img.img-avatar(alt=&apos;&apos; :src=&apos;item.avatar || &quot; https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/default_avatar.png&quot;&apos;)</span><br><span class="line">                  .name &#123;&#123;item.name&#125;&#125;</span><br><span class="line">    ul.btn-list</span><br><span class="line">      li(v-for=&apos;(item,index) in items&apos; :key=&apos;index&apos;)</span><br><span class="line">        multi-select(v-model=&apos;selectedCodes&apos;  :value=&apos;item.code&apos; @change=&apos;changeItem&apos;)</span><br><span class="line">          template(#default=&quot;&#123; selected &#125;&quot;)</span><br><span class="line">            div.option-content2(:class=&apos;&#123; selected &#125;&apos;) &#123;&#123;item.name&#125;&#125;</span><br><span class="line"></span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">import MultiSelect from &quot;@/components/MultiSelect.vue&quot;;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  name: &quot;Multi&quot;,</span><br><span class="line">  components: &#123;</span><br><span class="line">    MultiSelect</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      items: [</span><br><span class="line">        &#123; code: 1, name: &quot;huahua&quot; &#125;,</span><br><span class="line">        &#123; code: 2, name: &quot;huahua2&quot; &#125;</span><br><span class="line">      ],</span><br><span class="line">      selectedCodes: []</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  methods: &#123;</span><br><span class="line">    changeItem(...args) &#123;</span><br><span class="line">      console.log(...args);</span><br><span class="line">      // 两个值，第一个是选中的列表，第二个是原生input的信息</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line">ul &#123;</span><br><span class="line">  list-style: none;</span><br><span class="line">&#125;</span><br><span class="line">.checkbox-box &#123;</span><br><span class="line">  display: flex;</span><br><span class="line">  margin-left: 30px;</span><br><span class="line">  margin-right: 30px;</span><br><span class="line">&#125;</span><br><span class="line">.option-content &#123;</span><br><span class="line">  display: flex;</span><br><span class="line">  height: 80px;</span><br><span class="line">  line-height: 80px;</span><br><span class="line">  margin-top: 12px;</span><br><span class="line">  margin-bottom: 12px;</span><br><span class="line">  width: 100%;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.icon &#123;</span><br><span class="line">  width: 34px;</span><br><span class="line">  height: 34px;</span><br><span class="line">  display: inline-block;</span><br><span class="line">  vertical-align: middle;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.content &#123;</span><br><span class="line">  display: flex;</span><br><span class="line">  margin-left: 20px;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.img-avatar &#123;</span><br><span class="line">  display: block;</span><br><span class="line">  width: 80px;</span><br><span class="line">  height: 80px;</span><br><span class="line">  border-radius: 50%;</span><br><span class="line">&#125;</span><br><span class="line">.name &#123;</span><br><span class="line">  margin-left: 15px;</span><br><span class="line">  color: #333;</span><br><span class="line">  font-size: 30px;</span><br><span class="line">&#125;</span><br><span class="line">.btn-list &#123;</span><br><span class="line">  display: flex;</span><br><span class="line">&#125;</span><br><span class="line">.option-content2 &#123;</span><br><span class="line">  padding: 14px 38px;</span><br><span class="line">  border: 2px solid #ccc;</span><br><span class="line">  color: #333;</span><br><span class="line">  font-size: 28px;</span><br><span class="line">  line-height: 40px;</span><br><span class="line">  background-color: #fff;</span><br><span class="line">  border-radius: 8px;</span><br><span class="line">  text-align: center;</span><br><span class="line">  margin-bottom: 10px;</span><br><span class="line">  margin-left: 20px;</span><br><span class="line">&#125;</span><br><span class="line">.option-content2.selected &#123;</span><br><span class="line">  background-color: rgba(0, 186, 151, 0.06);</span><br><span class="line">  border-color: rgba(0, 186, 151, 1);</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/vue/" rel="tag"># vue</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/05/06/throttle/" rel="next" title="节流：阻止函数被动的频繁调用">
+                <i class="fa fa-chevron-left"></i> 节流：阻止函数被动的频繁调用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2020/05/09/multi-select/"
+           data-title="通用多选组件" data-url="http://yoursite.com/2020/05/09/multi-select/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://omizt4opc.bkt.clouddn.com/avatar.jpg"
+               alt="frontzhm" />
+          <p class="site-author-name" itemprop="name">frontzhm</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">162</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">52</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#组件的源码"><span class="nav-number">1.</span> <span class="nav-text">组件的源码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组件的逻辑"><span class="nav-number">2.</span> <span class="nav-text">组件的逻辑</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组件的使用步骤"><span class="nav-number">3.</span> <span class="nav-text">组件的使用步骤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组件使用的例子"><span class="nav-number">4.</span> <span class="nav-text">组件使用的例子</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">frontzhm</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"frontzhm"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
