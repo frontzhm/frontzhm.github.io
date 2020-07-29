@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="frontzhm, zhm, huahua, hua_hua" />
+  <meta name="keywords" content="js," />
 
 
 
@@ -87,17 +87,18 @@
 
 
 
-<meta name="description" content="reduce 最大的作用：从一个数组得到一个值，对数组中的每个元素执行 reducer 函数(升序执行) reduce 打开相当于： 1234// 这里为了可读性更高，更好入门，加上initValue[x1, x2, x3].reduce(f,initValue) // f起码是两个参数，相当于f(f(f(initValue,x1),x2) x3); 写reduce的核心 : 就是找到f">
+<meta name="description" content="reduce 最大的作用：从一个数组得到一个值，对数组中的每个元素执行 reducer 函数(升序执行) reduce 打开相当于： 1234// 这里为了可读性更高，更好入门，加上initValue[x1, x2, x3].reduce(f,initValue) // f起码是两个参数，相当于f(f(f(initValue,x1),x2) x3); 写reduce的核心 : 就是找到f和init">
+<meta name="keywords" content="js">
 <meta property="og:type" content="article">
-<meta property="og:title" content="花花的博客">
+<meta property="og:title" content="数组的reduce方法的应用场景及相关面试题">
 <meta property="og:url" content="http://yoursite.com/2020/07/29/reduce/index.html">
 <meta property="og:site_name" content="花花的博客">
-<meta property="og:description" content="reduce 最大的作用：从一个数组得到一个值，对数组中的每个元素执行 reducer 函数(升序执行) reduce 打开相当于： 1234// 这里为了可读性更高，更好入门，加上initValue[x1, x2, x3].reduce(f,initValue) // f起码是两个参数，相当于f(f(f(initValue,x1),x2) x3); 写reduce的核心 : 就是找到f">
+<meta property="og:description" content="reduce 最大的作用：从一个数组得到一个值，对数组中的每个元素执行 reducer 函数(升序执行) reduce 打开相当于： 1234// 这里为了可读性更高，更好入门，加上initValue[x1, x2, x3].reduce(f,initValue) // f起码是两个参数，相当于f(f(f(initValue,x1),x2) x3); 写reduce的核心 : 就是找到f和init">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-07-29T03:49:39.408Z">
+<meta property="og:updated_time" content="2020-07-29T03:51:51.788Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="花花的博客">
-<meta name="twitter:description" content="reduce 最大的作用：从一个数组得到一个值，对数组中的每个元素执行 reducer 函数(升序执行) reduce 打开相当于： 1234// 这里为了可读性更高，更好入门，加上initValue[x1, x2, x3].reduce(f,initValue) // f起码是两个参数，相当于f(f(f(initValue,x1),x2) x3); 写reduce的核心 : 就是找到f">
+<meta name="twitter:title" content="数组的reduce方法的应用场景及相关面试题">
+<meta name="twitter:description" content="reduce 最大的作用：从一个数组得到一个值，对数组中的每个元素执行 reducer 函数(升序执行) reduce 打开相当于： 1234// 这里为了可读性更高，更好入门，加上initValue[x1, x2, x3].reduce(f,initValue) // f起码是两个参数，相当于f(f(f(initValue,x1),x2) x3); 写reduce的核心 : 就是找到f和init">
 
 
 
@@ -131,7 +132,7 @@
 
 
 
-  <title>  | 花花的博客 </title>
+  <title> 数组的reduce方法的应用场景及相关面试题 | 花花的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -281,7 +282,7 @@
             
             
               
-                
+                数组的reduce方法的应用场景及相关面试题
               
             
           </h2>
@@ -306,6 +307,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -342,12 +365,7 @@
       
 
       
-        <!------->
-<!--title: 数组的reduce方法的应用场景及相关面试题-->
-<!--tags: js-->
-<!--categories: js-->
-<!------->
-<p>reduce 最大的作用：从一个数组得到一个值，对数组中的每个元素执行 reducer 函数(升序执行)</p>
+        <p>reduce 最大的作用：从一个数组得到一个值，对数组中的每个元素执行 reducer 函数(升序执行)</p>
 <p>reduce 打开相当于：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这里为了可读性更高，更好入门，加上initValue</span></span><br><span class="line">[x1, x2, x3].reduce(f,initValue) </span><br><span class="line"><span class="comment">// f起码是两个参数，相当于</span></span><br><span class="line">f(f(f(initValue,x1),x2) x3);</span><br></pre></td></tr></table></figure>
 <p>写reduce的核心 : <strong>就是找到<code>f</code>和<code>initValue</code></strong>，<code>f</code>始终有两个参数：<code>acc item</code></p>
@@ -414,6 +432,12 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/js/" rel="tag"># js</a>
+          
+        </div>
+      
 
       
         
@@ -458,7 +482,7 @@
   <div class="comments" id="comments">
     
       <div class="ds-thread" data-thread-key="2020/07/29/reduce/"
-           data-title="" data-url="http://yoursite.com/2020/07/29/reduce/">
+           data-title="数组的reduce方法的应用场景及相关面试题" data-url="http://yoursite.com/2020/07/29/reduce/">
       </div>
     
   </div>

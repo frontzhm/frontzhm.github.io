@@ -284,7 +284,7 @@
               
                 
                 <a class="post-title-link" href="/2020/07/29/reduce/" itemprop="url">
-                  未命名
+                  数组的reduce方法的应用场景及相关面试题
                 </a>
               
             
@@ -310,6 +310,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -348,12 +370,7 @@
       
         
           
-            <!------->
-<!--title: 数组的reduce方法的应用场景及相关面试题-->
-<!--tags: js-->
-<!--categories: js-->
-<!------->
-<p>reduce 最大的作用：从一个数组得到一个值，对数组中的每个元素执行 reducer 函数(升序执行)</p>
+            <p>reduce 最大的作用：从一个数组得到一个值，对数组中的每个元素执行 reducer 函数(升序执行)</p>
 <p>reduce 打开相当于：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这里为了可读性更高，更好入门，加上initValue</span></span><br><span class="line">[x1, x2, x3].reduce(f,initValue) </span><br><span class="line"><span class="comment">// f起码是两个参数，相当于</span></span><br><span class="line">f(f(f(initValue,x1),x2) x3);</span><br></pre></td></tr></table></figure>
 <p>写reduce的核心 : <strong>就是找到<code>f</code>和<code>initValue</code></strong>，<code>f</code>始终有两个参数：<code>acc item</code></p>
