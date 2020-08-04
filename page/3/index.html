@@ -261,6 +261,174 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/18/zf/obeserver/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2020/04/18/zf/obeserver/" itemprop="url">
+                  未命名
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-18T11:04:42+08:00">
+                2020-04-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/04/18/zf/obeserver/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/04/18/zf/obeserver/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            // 观察者和被观察者是有关联的
+// 观察者需要将自己放到被观察者之上，当被观察者状态发生变化，需要通知所有的观察者
+
+// 宝宝和父母，宝宝就是被观察者 父母就是观察者
+
+class Subject{
+    constructor(name){
+        this.name = name
+        this.state = '开心'
+        this.observers = []
+    }
+    // 将观察者放进数组，也就是愿意让这个数组里面的观察者  观察
+    attach(observer){
+        // 相当于发布订阅的订阅on，收集observer
+        this.observers.push(observer)
+    }
+    // 当被观察者的状态发生变化的时候，让每个观察者都知道这个事，观察者会根据状态做出相应行为
+    setState(state){
+        this.state = state
+        // 相当于发布订阅的发布emit，让observer都行动起来
+        this.observers.forEach(o=>{
+            o.update(this)
+        })
+    }
+
+}
+class Observer{
+    constructor(name){
+        this.name = name
+    }
+    // 只要被观察者的状态发生变化就会调用这个方法
+    update(s){
+        console.log(`${this.name}发现 ${s.name}${s.state}`)
+    }
+}
+let baby = new Subject('宝宝')
+let baba = new Observer('爸爸')
+let mama = new Observer('妈妈')
+baby.attach(baba)
+baby.attach(mama)
+baby.setState('不开心')
+baby.setState('开心')
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/18/zf-3-emit/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1863,165 +2031,6 @@ fs.readFile("/Users/zhm/blog/source/_posts/zf-name.txt",'utf8', (err,data) => {
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/16/has-http/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2020/01/16/has-http/" itemprop="url">
-                  借助github让页面快速有个https的网址访问
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-01-16T17:36:40+08:00">
-                2020-01-16
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/工具/" itemprop="url" rel="index">
-                    <span itemprop="name">工具</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2020/01/16/has-http/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/01/16/has-http/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <ol>
-<li><p>在github上建一个项目</p>
-</li>
-<li><p>点击项目的<code>⚙ settings</code></p>
-</li>
-<li><p>往下翻到<code>github pages</code>，然后选择分支和主题，然后页面出现绿色区域，此时就可以访问这个地址了(其实就是<code>https://你自己的github名字.github.io/项目名</code>)</p>
-</li>
-<li><p>随之我们在这个项目里的任意html文件都可以访问，比如有个<code>demo.html</code>就可以<code>https://你自己的github名字.github.io/项目名/demo.html</code></p>
-</li>
-</ol>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2071,7 +2080,7 @@ fs.readFile("/Users/zhm/blog/source/_posts/zf-name.txt",'utf8', (err,data) => {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">173</span>
+                <span class="site-state-item-count">174</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
