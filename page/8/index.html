@@ -261,6 +261,194 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/16/iframe/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2019/08/16/iframe/" itemprop="url">
+                  iframe的运用---特别是获取父子页面的元素
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-16T11:20:05+08:00">
+                2019-08-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/08/16/iframe/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/08/16/iframe/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="iframe的运用—特别是获取父子页面的元素"><a href="#iframe的运用—特别是获取父子页面的元素" class="headerlink" title="iframe的运用—特别是获取父子页面的元素"></a>iframe的运用—特别是获取父子页面的元素</h1><h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
+<li>使用<code>&lt;iframe src=&quot;./iframe.html&quot; frameborder=&quot;0&quot; scrolling=&quot;auto&quot; name=&quot;iframe&quot;&gt;&lt;/iframe&gt;</code></li>
+<li>同域的情况下，当前页面获取iframe页面里面的元素的话，必须使用加载事件，<code>window.frames.iframeName.onload = ...</code>，<code>window.frames.iframeName.document</code>就是iframe的document</li>
+<li>同域的情况下，子页面获取父页面元素的话，<code>window.parent.document</code>就是父页面的document</li>
+</ul>
+<h2 id="简单的概念"><a href="#简单的概念" class="headerlink" title="简单的概念"></a>简单的概念</h2><ul>
+<li>iframe功能：能够将另一个HTML页面嵌入到当前页面中。</li>
+<li>父页面：iframe元素存在的页面，也就是当前页面</li>
+<li>子页面：iframe的src的页面，也就是当前页面里面嵌套的页面</li>
+<li>同域：子页面和父页面的地址同域（协议端口域名均相同）</li>
+<li>跨域：子页面和父页面的地址跨域</li>
+<li>！！！跨域的父子页面不能进行获取元素的操作，只能有显示的操作</li>
+<li><a href="https://frontzhm.github.io/web-demo/iframes" target="_blank" rel="noopener">查看示例demo</a>，<a href="https://github.com/frontzhm/web-demo/tree/master/iframes" target="_blank" rel="noopener">demo地址</a></li>
+</ul>
+<h2 id="简单使用和属性介绍"><a href="#简单使用和属性介绍" class="headerlink" title="简单使用和属性介绍"></a>简单使用和属性介绍</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">src</span>=<span class="string">"./iframe.html"</span> <span class="attr">frameborder</span>=<span class="string">"0"</span> <span class="attr">scrolling</span>=<span class="string">"auto"</span> <span class="attr">name</span>=<span class="string">"iframe"</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>属性如下：</p>
+<ul>
+<li>frameborder:是否显示边框，1(yes),0(no)</li>
+<li>height:框架作为一个普通元素的高度，建议在使用css设置。默认值为150px。</li>
+<li>width:框架作为一个普通元素的宽度，建议使用css设置。</li>
+<li>name:框架的名称，window.frames[name]时专用的属性。</li>
+<li>scrolling:框架的是否滚动。yes,no,auto。</li>
+<li>src：内框架的地址，可以使页面地址，也可以是图片的地址。</li>
+<li>srcdoc , 用来替代原来HTML body里面的内容。但是IE不支持。</li>
+<li>sandbox: 对iframe进行一些列限制，IE10+支持</li>
+</ul>
+<h3 id="当前页面获取iframe页面的元素—必须是同域"><a href="#当前页面获取iframe页面的元素—必须是同域" class="headerlink" title="当前页面获取iframe页面的元素—必须是同域"></a>当前页面获取iframe页面的元素—必须是同域</h3><p><code>window.frames</code>可以获取页面所有的iframe元素。<br>获取iframe的的window：</p>
+<ul>
+<li><code>window.frames.iframeName</code>，主要这里的iframeName是iframe的name属性值。这时候就可以用window的一系列属性了。</li>
+<li>或者，<code>document.getElementById(&quot;frameid&quot;).contentWindow</code></li>
+<li>这里特别注意，必须等iframe页面都加载完了才能获取iframe里面的元素，<code>window.frames.iframeName.onload = funcetion(){...}</code></li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- index.html --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">src</span> =<span class="string">"/iframe.html"</span> <span class="attr">id</span>=<span class="string">"test"</span> <span class="attr">name</span>=<span class="string">"test"</span> <span class="attr">scrolling</span>=<span class="string">"yes"</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">p</span>&gt;</span>Your browser does not support iframes.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">  // iframe.html里面的window</span></span><br><span class="line"><span class="undefined">  var iwindow_alias = document.getElementById("testid");</span></span><br><span class="line"><span class="undefined">  var iwindow = window.frames.test;</span></span><br><span class="line"><span class="undefined">  // 获取iframe的元素就需要在iframe加载后</span></span><br><span class="line"><span class="undefined">  iwindow.onload = function() &#123;</span></span><br><span class="line"><span class="undefined">    // iframe.html里面的document</span></span><br><span class="line"><span class="undefined">    var idoc = iwindow.document;</span></span><br><span class="line"><span class="undefined">    // iframe.html里面的body</span></span><br><span class="line"><span class="undefined">    var ibody = idoc.body;</span></span><br><span class="line"><span class="undefined">    // iframe.html里面的元素</span></span><br><span class="line"><span class="undefined">    var iele = iwindow.document.querySelector("a");</span></span><br><span class="line"><span class="undefined">    console.log(idoc, ibody, iele);</span></span><br><span class="line"><span class="undefined">  &#125;;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="iframe获取父页面的元素-—-必须是同域"><a href="#iframe获取父页面的元素-—-必须是同域" class="headerlink" title="iframe获取父页面的元素 — 必须是同域"></a>iframe获取父页面的元素 — 必须是同域</h2><p>在iframe页面里，通过访问<code>window.parent</code>，引用它的父框架的window。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- iframe.html  --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span>&gt;</span>点击<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">  // index.html里面的window</span></span><br><span class="line"><span class="undefined">  var pwindow = window.parent</span></span><br><span class="line"><span class="undefined">  // index.html里面的document</span></span><br><span class="line"><span class="undefined">  var pdoc = pwindow.document</span></span><br><span class="line"><span class="undefined">  // index.html里面的body</span></span><br><span class="line"><span class="undefined">  var pbody = pdoc.body</span></span><br><span class="line"><span class="undefined">  // index.html里面的a元素之类的</span></span><br><span class="line"><span class="undefined">  var pele = pdoc.querySelector('a')</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<!-- sh ~/sh/blog.sh  /Users/zhm/mygit/http-demo/iframe/iframe.md -->
+<blockquote>
+<p><a href="https://juejin.im/post/5bdef5ffe51d451a5126086e" target="_blank" rel="noopener">iframe的使用</a><br><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/iframe" target="_blank" rel="noopener">mdn上iframe的使用</a><br><a href="https://www.cnblogs.com/lifeil/archive/2013/02/20/2918049.html" target="_blank" rel="noopener">判断iframe框架是否加载完成的方法</a></p>
+</blockquote>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/01/baby_small_food/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1792,160 +1980,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/25/current_monday/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2019/06/25/current_monday/" itemprop="url">
-                  获取当前周的周一
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-25T16:26:16+08:00">
-                2019-06-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/06/25/current_monday/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/06/25/current_monday/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <ul>
-<li>得到当前周的 这个时间点的 周一的时间戳  就是今天是周三，现在是10点，那么这个周的周一的10点的时间戳是多少</li>
-<li>计算逻辑就是，看看当前时间和周一差几天，将天数变成毫秒，再当前时间戳减掉这个毫秒，就得到周一这个点的时间戳了</li>
-<li>感觉会对其他的有感应就先存储着</li>
-</ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">      </span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getTimestampOfCurrentMonday</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 当前时间</span></span><br><span class="line">  <span class="keyword">var</span> currentDate = <span class="keyword">new</span> <span class="built_in">Date</span>()</span><br><span class="line">  <span class="comment">// 当前时间戳</span></span><br><span class="line">  <span class="keyword">var</span> currentTimestamp = currentDate.getTime()</span><br><span class="line">  <span class="comment">// 当前是周几 0表示星期天 1-6表示周一到周六</span></span><br><span class="line">  <span class="keyword">var</span> currenWeekday = currentDate.getDay()</span><br><span class="line">  <span class="comment">// 感觉0不符合心理预期吖，就当前情境，周日变成7，比较接地气~</span></span><br><span class="line">  currenWeekday = currenWeekday === <span class="number">0</span> ? <span class="number">7</span> : currenWeekday</span><br><span class="line">  <span class="comment">// 当前时间离当前周一的天数 周一的话就是0 ，周二就是1</span></span><br><span class="line">  <span class="keyword">let</span> gapDaysFromMondayToCurrenWeekday = currenWeekday - <span class="number">1</span></span><br><span class="line">  <span class="comment">// 一天换算成毫秒 ms表示milliscond 毫秒</span></span><br><span class="line">  <span class="keyword">const</span> dayToMs = <span class="number">24</span> * <span class="number">60</span> * <span class="number">60</span> * <span class="number">1000</span></span><br><span class="line">  <span class="comment">// 离周一这个时间点的毫秒数</span></span><br><span class="line">  <span class="keyword">let</span> gapMsFromMondayToCurrenWeekday = gapDaysFromMondayToCurrenWeekday * dayToMs</span><br><span class="line">  <span class="comment">// 周一这个点的时间戳</span></span><br><span class="line">  <span class="keyword">let</span> timestampOfMonday = currentTimestamp - gapMsFromMondayToCurrenWeekday</span><br><span class="line">  <span class="keyword">return</span> timestampOfMonday</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1995,7 +2029,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">174</span>
+                <span class="site-state-item-count">175</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
