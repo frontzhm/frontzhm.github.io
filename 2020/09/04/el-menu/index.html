@@ -1,0 +1,780 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="vue," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="简约菜单都可以使用el-menu生成，水平的菜单或者垂直的菜单。本文是希望能帮助需求者更快熟悉el-menu的使用，以及能快速生成n级菜单。   基础介绍使用的时候，最外层是el-menu，其上面属性，是用来配置整个菜单，如水平还是垂直、背景色、文字色、默认激活的菜单子项、默认展开的菜单子项等。el-menu的子元素只有三种情况：  el-menu-item 就是普通的菜单项 el-submenu">
+<meta name="keywords" content="vue">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用el-menu自动生成菜单">
+<meta property="og:url" content="http://yoursite.com/2020/09/04/el-menu/index.html">
+<meta property="og:site_name" content="花花的博客">
+<meta property="og:description" content="简约菜单都可以使用el-menu生成，水平的菜单或者垂直的菜单。本文是希望能帮助需求者更快熟悉el-menu的使用，以及能快速生成n级菜单。   基础介绍使用的时候，最外层是el-menu，其上面属性，是用来配置整个菜单，如水平还是垂直、背景色、文字色、默认激活的菜单子项、默认展开的菜单子项等。el-menu的子元素只有三种情况：  el-menu-item 就是普通的菜单项 el-submenu">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d4da43ce46524f2da8d6c6dfd03e5593~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="http://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/76bd1ef71b1b4bf78dd06f0992ff408e~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="http://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e10fee6d80eb4039848e39214b430e07~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="http://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0f520487ebb143bc9aabe20b7bf8ad5d~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="http://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b99f3b4fe3a243cc876c77e12de2794f~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="http://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4128842dd39f4623b1c2e54b83653cd4~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="http://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2403fb6335374c148ea7c21ccdeaf50f~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:updated_time" content="2020-09-04T09:23:48.785Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="用el-menu自动生成菜单">
+<meta name="twitter:description" content="简约菜单都可以使用el-menu生成，水平的菜单或者垂直的菜单。本文是希望能帮助需求者更快熟悉el-menu的使用，以及能快速生成n级菜单。   基础介绍使用的时候，最外层是el-menu，其上面属性，是用来配置整个菜单，如水平还是垂直、背景色、文字色、默认激活的菜单子项、默认展开的菜单子项等。el-menu的子元素只有三种情况：  el-menu-item 就是普通的菜单项 el-submenu">
+<meta name="twitter:image" content="http://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d4da43ce46524f2da8d6c6dfd03e5593~tplv-k3u1fbpfcp-zoom-1.image">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/09/04/el-menu/"/>
+
+
+
+
+
+  <title> 用el-menu自动生成菜单 | 花花的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?60f2cb5747a596a24f2a053f1650c30b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">花花的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/09/04/el-menu/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                用el-menu自动生成菜单
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-09-04T17:23:48+08:00">
+                2020-09-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/vue/" itemprop="url" rel="index">
+                    <span itemprop="name">vue</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/09/04/el-menu/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/09/04/el-menu/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>简约菜单都可以使用<code>el-menu</code>生成，水平的菜单或者垂直的菜单。<br>本文是希望能帮助需求者更快熟悉<a href="https://element.eleme.cn/#/zh-CN/component/menu" target="_blank" rel="noopener"><code>el-menu</code></a>的使用，以及能快速生成n级菜单。  </p>
+<h2 id="基础介绍"><a href="#基础介绍" class="headerlink" title="基础介绍"></a>基础介绍</h2><p>使用的时候，最外层是<code>el-menu</code>，其上面属性，是用来配置整个菜单，如水平还是垂直、背景色、文字色、默认激活的菜单子项、默认展开的菜单子项等。<br><code>el-menu</code>的子元素只有三种情况：</p>
+<ul>
+<li>el-menu-item 就是普通的菜单项</li>
+<li>el-submenu 是菜单项里还有子菜单</li>
+<li>el-menu-item-group 是菜单项组，就是好几个菜单项有个标题</li>
+</ul>
+<p><img src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d4da43ce46524f2da8d6c6dfd03e5593~tplv-k3u1fbpfcp-zoom-1.image" alt="el-menu"></p>
+<h2 id="index的妙用"><a href="#index的妙用" class="headerlink" title="index的妙用"></a>index的妙用</h2><p>建议将每个<code>el-menu-item</code>和<code>el-submenu</code>上加上<code>index</code>的属性。</p>
+<p>好处以下：</p>
+<ul>
+<li>选中的时候，有高亮的状态</li>
+<li>方便设置默认选中的菜单，可以<code>default-active=&#39;anyIndex&#39;</code></li>
+<li>方便设置默认展开的嵌套菜单，可以<code>:default-openeds=&#39;[&quot;submenuIndex&quot;]&#39;</code>，这里必须是数组哈</li>
+<li>点击<code>el-menu-item</code>触发select事件，可以知道选了哪个和路径数组</li>
+<li>点击<code>el-submenu</code>触发open/close事件，可以知道选了哪个和路径数组</li>
+<li><code>el-menu</code>设置<code>router</code>属性的时候，index作为 path 进行路由跳转</li>
+</ul>
+<p><img src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/76bd1ef71b1b4bf78dd06f0992ff408e~tplv-k3u1fbpfcp-zoom-1.image" alt="el-menu-2"></p>
+<h2 id="折叠菜单"><a href="#折叠菜单" class="headerlink" title="折叠菜单"></a>折叠菜单</h2><p>一级菜单每个加特定的图标，然后就可以折叠，这样最大化内容区。</p>
+<p>折叠使用的是<code>el-menu</code>的<code>collapse</code>属性。但记得将文字用标签裹起来，且加上<code>slot=&#39;title&#39;</code>，这样框架本身将<code>title</code>会隐藏起来，且在<code>hover</code>的时候显示出来。</p>
+<p><img src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e10fee6d80eb4039848e39214b430e07~tplv-k3u1fbpfcp-zoom-1.image" alt="效果图"><br><img src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0f520487ebb143bc9aabe20b7bf8ad5d~tplv-k3u1fbpfcp-zoom-1.image" alt="代码"></p>
+<h2 id="重点来了：生成菜单"><a href="#重点来了：生成菜单" class="headerlink" title="重点来了：生成菜单"></a>重点来了：生成菜单</h2><p>先简单点，只有二级菜单。<br>data增加menus，然后将模板部分，该循环循环，该判断判断，常量的地方变成变量。</p>
+<p><img src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b99f3b4fe3a243cc876c77e12de2794f~tplv-k3u1fbpfcp-zoom-1.image" alt="效果图"></p>
+<h2 id="生成n级菜单，肯定递归哈"><a href="#生成n级菜单，肯定递归哈" class="headerlink" title="生成n级菜单，肯定递归哈"></a>生成n级菜单，肯定递归哈</h2><p>如果没有写过递归组件的，可以尝试先写下三级菜单。</p>
+<p>然后将重复的地方，提出来作为一个组件就可以了。</p>
+<p>递归组件，需要多思考，多敲哈~ </p>
+<p><img src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4128842dd39f4623b1c2e54b83653cd4~tplv-k3u1fbpfcp-zoom-1.image" alt="效果图"></p>
+<p>提取出来的<code>MiddleMenu</code>如下：<br><img src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2403fb6335374c148ea7c21ccdeaf50f~tplv-k3u1fbpfcp-zoom-1.image" alt="效果图"></p>
+<h2 id="水平菜单和其他属性"><a href="#水平菜单和其他属性" class="headerlink" title="水平菜单和其他属性"></a>水平菜单和其他属性</h2><p>如果觉得还需要什么功能，优先去官网看看。</p>
+<ul>
+<li>想要水平菜单：<code>mode=&#39;horizontal&#39;</code></li>
+<li>想设置菜单的背景色、文字色、激活菜单的文字色(夜间模式)：<code>background-color=&quot;#545c64&quot; text-color=&quot;#fff&quot; active-text-color=&quot;#ffd04b&quot;</code></li>
+<li>只想有一个子菜单展开：<code>unique-opened</code></li>
+<li>打开子菜单的方式可以设置hover：<code>menu-trigger=&#39;hover&#39;</code></li>
+<li>不要折叠的动画效果：<code>:collapse-transition=&#39;false&#39;</code></li>
+<li>点击菜单项直接去相应的路由：<code>router</code>，且相应的index设置成路由路径</li>
+</ul>
+<h2 id="附注代码"><a href="#附注代码" class="headerlink" title="附注代码"></a>附注代码</h2><h3 id="基础介绍代码"><a href="#基础介绍代码" class="headerlink" title="基础介绍代码"></a>基础介绍代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">section(style=&apos;width:210px&apos;)</span><br><span class="line">  el-menu</span><br><span class="line">    el-menu-item 单项菜单1</span><br><span class="line">    el-menu-item 单项菜单2</span><br><span class="line">    el-submenu</span><br><span class="line">      template(slot=&apos;title&apos;) 有子菜单，带展开小箭头</span><br><span class="line">      el-menu-item 子菜单1</span><br><span class="line">      el-menu-item 子菜单2</span><br><span class="line">    el-menu-item-group(title=&apos;菜单组，直接展开&apos;)</span><br><span class="line">      el-menu-item 组员1</span><br><span class="line">      el-menu-item 组员2</span><br></pre></td></tr></table></figure>
+<h3 id="加index代码"><a href="#加index代码" class="headerlink" title="加index代码"></a>加index代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&lt;template lang=&apos;pug&apos;&gt;</span><br><span class="line">section(style=&apos;width:210px&apos;)</span><br><span class="line">  el-menu(default-active=&apos;menu1&apos; :default-openeds=&apos;[&quot;submenu1&quot;]&apos;</span><br><span class="line">   @open=&apos;handleOpen&apos; @close=&apos;handleClose&apos; @select=&apos;handleSelect&apos;)</span><br><span class="line">    el-menu-item(index=&apos;menu1&apos;) 单项菜单1</span><br><span class="line">    el-menu-item(index=&apos;menu2&apos;) 单项菜单2</span><br><span class="line">    el-submenu(index=&apos;submenu1&apos;)</span><br><span class="line">      template(slot=&apos;title&apos;) 有子菜单，带展开小箭头</span><br><span class="line">      el-menu-item(index=&apos;menu1-1&apos;) 子菜单1</span><br><span class="line">      el-menu-item(index=&apos;menu1-2&apos;) 子菜单2</span><br><span class="line">    el-menu-item-group(title=&apos;菜单组，直接展开&apos;)</span><br><span class="line">      el-menu-item(index=&apos;menu3&apos;) 组员1</span><br><span class="line">      el-menu-item(index=&apos;menu4&apos;) 组员2</span><br><span class="line">&lt;/template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  methods: &#123;</span><br><span class="line">    handleOpen (key, keyPath) &#123;</span><br><span class="line">      console.log(&apos;open事件&apos;, key, keyPath)</span><br><span class="line">    &#125;,</span><br><span class="line">    handleClose (key, keyPath) &#123;</span><br><span class="line">      console.log(&apos;close事件&apos;, key, keyPath)</span><br><span class="line">    &#125;,</span><br><span class="line">    handleSelect (key, keyPath) &#123;</span><br><span class="line">      console.log(&apos;select事件&apos;, key, keyPath)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="折叠菜单代码"><a href="#折叠菜单代码" class="headerlink" title="折叠菜单代码"></a>折叠菜单代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&lt;template lang=&apos;pug&apos;&gt;</span><br><span class="line">section(style=&apos;width:210px&apos;)</span><br><span class="line">  el-menu.el-menu-vertical-demo(default-active=&apos;menu1&apos; :collapse=&apos;isCollapse&apos;)</span><br><span class="line">    el-menu-item(index=&apos;menu1&apos;)</span><br><span class="line">      i.el-icon-location</span><br><span class="line">      span(slot=&apos;title&apos;) 单项菜单1</span><br><span class="line">    el-menu-item(index=&apos;menu2&apos;)</span><br><span class="line">      i.el-icon-document</span><br><span class="line">      span(slot=&apos;title&apos;) 单项菜单2</span><br><span class="line">    el-submenu(index=&apos;submenu1&apos;)</span><br><span class="line">      template(slot=&apos;title&apos;)</span><br><span class="line">        i.el-icon-setting</span><br><span class="line">        span(slot=&apos;title&apos;) 有子菜单</span><br><span class="line">      el-menu-item(index=&apos;menu1-1&apos;) 子菜单1</span><br><span class="line">      el-menu-item(index=&apos;menu1-2&apos;) 子菜单2</span><br><span class="line">  div(style=&apos;margin-top:20px&apos;)</span><br><span class="line">    el-button(@click=&apos;isCollapse=!isCollapse&apos;) &#123;&#123;isCollapse?&apos;展开&apos;:&apos;折叠&apos;&#125;&#125;</span><br><span class="line"></span><br><span class="line">&lt;/template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  data () &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      isCollapse: true</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="生成菜单，只有二级代码"><a href="#生成菜单，只有二级代码" class="headerlink" title="生成菜单，只有二级代码"></a>生成菜单，只有二级代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">&lt;template lang=&apos;pug&apos;&gt;</span><br><span class="line">section(style=&apos;width:210px&apos;)</span><br><span class="line">  el-menu.el-menu-vertical-demo(default-active=&apos;首页&apos; :collapse=&apos;isCollapse&apos;)</span><br><span class="line">    template(v-for=&apos;(item,outerIndex) in menus&apos; )</span><br><span class="line">      el-submenu(v-if=&apos;item.children&apos; :index=&apos;item.text&apos; :key=&apos;outerIndex&apos;)</span><br><span class="line">        template(slot=&apos;title&apos;)</span><br><span class="line">          i(:class=&apos;item.iconClass&apos;)</span><br><span class="line">          span(slot=&apos;title&apos;) &#123;&#123;item.text&#125;&#125;</span><br><span class="line">        el-menu-item(v-for=&apos;(innerItem,innerIndex) in item.children&apos; :key=&apos;innerIndex&apos;</span><br><span class="line">         :index=&apos;innerItem.text&apos;) &#123;&#123;innerItem.text&#125;&#125;</span><br><span class="line">      el-menu-item(v-else :index=&apos;item.text&apos; :key=&apos;outerIndex&apos;)</span><br><span class="line">        i(:class=&apos;item.iconClass&apos;)</span><br><span class="line">        span(slot=&apos;title&apos;) &#123;&#123;item.text&#125;&#125;</span><br><span class="line">  div(style=&apos;margin-top:20px&apos;)</span><br><span class="line">    el-button(@click=&apos;isCollapse=!isCollapse&apos;) &#123;&#123;isCollapse?&apos;展开&apos;:&apos;折叠&apos;&#125;&#125;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  data () &#123;</span><br><span class="line">    let menus = [</span><br><span class="line">      &#123; text: &apos;首页&apos;, iconClass: &apos;el-icon-document&apos; &#125;,</span><br><span class="line">      &#123; text: &apos;人员管理&apos;, iconClass: &apos;el-icon-user&apos;, children: [ &#123; text: &apos;教师管理&apos; &#125;, &#123; text: &apos;助教管理&apos; &#125; ] &#125;,</span><br><span class="line">      &#123; text: &apos;权限管理&apos;, iconClass: &apos;el-icon-setting&apos;, children: [ &#123; text: &apos;角色管理&apos; &#125;, &#123; text: &apos;人员角色&apos; &#125; ] &#125;</span><br><span class="line">    ]</span><br><span class="line">    return &#123;</span><br><span class="line">      isCollapse: false,</span><br><span class="line">      menus</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="生成n级菜单代码"><a href="#生成n级菜单代码" class="headerlink" title="生成n级菜单代码"></a>生成n级菜单代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- MiddleMenu.vue --&gt;</span><br><span class="line">&lt;template lang=&quot;pug&quot;&gt;</span><br><span class="line">//- 这里注意不能使用div包裹，因为menu的标签很多是li，不能使用别的标签，所以使用component</span><br><span class="line">component(:is=&apos;menuItem.children?&quot;el-submenu&quot;:&quot;el-menu-item&quot;&apos; :index=&apos;menuItem.text&apos;)</span><br><span class="line">  template(v-if=&apos;menuItem.children&apos;)</span><br><span class="line">    template(slot=&apos;title&apos;)</span><br><span class="line">      i(:class=&apos;menuItem.iconClass&apos;)</span><br><span class="line">      span(slot=&apos;title&apos;) &#123;&#123;menuItem.text&#125;&#125;</span><br><span class="line">    //- 和Index重复的地方，这也是递归的关键</span><br><span class="line">    template(v-for=&apos;(innerItem,innerIndex) in menuItem.children&apos;)</span><br><span class="line">      middle-menu(:menu-item=&apos;innerItem&apos; :key=&apos;innerIndex&apos;)</span><br><span class="line">  template(v-else)</span><br><span class="line">    i(:class=&apos;menuItem.iconClass&apos;)</span><br><span class="line">    span(slot=&apos;title&apos;) &#123;&#123;menuItem.text&#125;&#125;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &apos;middle-menu&apos;,</span><br><span class="line">  props: &#123;</span><br><span class="line">    menuItem: &#123;</span><br><span class="line">      type: Object,</span><br><span class="line">      required: true</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- Index.vue --&gt;</span><br><span class="line">&lt;template lang=&apos;pug&apos;&gt;</span><br><span class="line">section(style=&apos;width:210px&apos;)</span><br><span class="line">  el-menu.el-menu-vertical-demo(default-active=&apos;首页&apos; :collapse=&apos;isCollapse&apos;)</span><br><span class="line">    //- 和MiddleMenu重复的地方</span><br><span class="line">    template(v-for=&apos;(item,outerIndex) in menus&apos; )</span><br><span class="line">      middle-menu( :menu-item=&apos;item&apos; :key=&apos;outerIndex&apos;)</span><br><span class="line">  div(style=&apos;margin-top:20px&apos;)</span><br><span class="line">    el-button(@click=&apos;isCollapse=!isCollapse&apos;) &#123;&#123;isCollapse?&apos;展开&apos;:&apos;折叠&apos;&#125;&#125;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">import MiddleMenu from &apos;./components/MiddleMenu&apos;</span><br><span class="line">export default &#123;</span><br><span class="line">  components: &#123; MiddleMenu &#125;,</span><br><span class="line">  data () &#123;</span><br><span class="line">    let menus = [</span><br><span class="line">      &#123; text: &apos;首页&apos;, iconClass: &apos;el-icon-document&apos; &#125;,</span><br><span class="line">      &#123; text: &apos;人员管理&apos;,</span><br><span class="line">        iconClass: &apos;el-icon-user&apos;,</span><br><span class="line">        children: [ &#123; text: &apos;教师管理&apos;, children: [&#123; text: &apos;数学系&apos; &#125;] &#125;, &#123; text: &apos;助教管理&apos; &#125; ] &#125;,</span><br><span class="line">      &#123; text: &apos;权限管理&apos;,</span><br><span class="line">        iconClass: &apos;el-icon-setting&apos;,</span><br><span class="line">        children: [ &#123; text: &apos;角色管理&apos; &#125;, &#123; text: &apos;人员角色&apos; &#125; ] &#125;</span><br><span class="line">    ]</span><br><span class="line">    return &#123;</span><br><span class="line">      isCollapse: false,</span><br><span class="line">      menus</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/vue/" rel="tag"># vue</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/09/03/baby_hot/" rel="next" title="发烧及应对措施">
+                <i class="fa fa-chevron-left"></i> 发烧及应对措施
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2020/09/04/el-menu/"
+           data-title="用el-menu自动生成菜单" data-url="http://yoursite.com/2020/09/04/el-menu/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://omizt4opc.bkt.clouddn.com/avatar.jpg"
+               alt="frontzhm" />
+          <p class="site-author-name" itemprop="name">frontzhm</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">179</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">52</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基础介绍"><span class="nav-number">1.</span> <span class="nav-text">基础介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#index的妙用"><span class="nav-number">2.</span> <span class="nav-text">index的妙用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#折叠菜单"><span class="nav-number">3.</span> <span class="nav-text">折叠菜单</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重点来了：生成菜单"><span class="nav-number">4.</span> <span class="nav-text">重点来了：生成菜单</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生成n级菜单，肯定递归哈"><span class="nav-number">5.</span> <span class="nav-text">生成n级菜单，肯定递归哈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#水平菜单和其他属性"><span class="nav-number">6.</span> <span class="nav-text">水平菜单和其他属性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#附注代码"><span class="nav-number">7.</span> <span class="nav-text">附注代码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础介绍代码"><span class="nav-number">7.1.</span> <span class="nav-text">基础介绍代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#加index代码"><span class="nav-number">7.2.</span> <span class="nav-text">加index代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#折叠菜单代码"><span class="nav-number">7.3.</span> <span class="nav-text">折叠菜单代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生成菜单，只有二级代码"><span class="nav-number">7.4.</span> <span class="nav-text">生成菜单，只有二级代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生成n级菜单代码"><span class="nav-number">7.5.</span> <span class="nav-text">生成n级菜单代码</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">frontzhm</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"frontzhm"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
