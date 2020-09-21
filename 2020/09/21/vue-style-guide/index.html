@@ -1,0 +1,817 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="格式化," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="官方的风格指南。   本文按照自己的逻辑，稍微简化了。规范的好处是，排雷更加容易，踩雷更加艰难，项目看着更赏心悦目。 必要组件名为多个单词这样做可以避免跟现有的以及未来的 HTML 元素相冲突。比如以前不小心写了个masker的组件，然不生效。 Prop 定义应该尽量详细在开发环境下，如果向一个组件提供格式不正确的 prop，Vue 将会告警，以帮助你捕获潜在的错误来源。 123456789101">
+<meta name="keywords" content="格式化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="写vue的尽量按照规范来">
+<meta property="og:url" content="http://yoursite.com/2020/09/21/vue-style-guide/index.html">
+<meta property="og:site_name" content="花花的博客">
+<meta property="og:description" content="官方的风格指南。   本文按照自己的逻辑，稍微简化了。规范的好处是，排雷更加容易，踩雷更加艰难，项目看着更赏心悦目。 必要组件名为多个单词这样做可以避免跟现有的以及未来的 HTML 元素相冲突。比如以前不小心写了个masker的组件，然不生效。 Prop 定义应该尽量详细在开发环境下，如果向一个组件提供格式不正确的 prop，Vue 将会告警，以帮助你捕获潜在的错误来源。 123456789101">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-09-21T07:37:41.566Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="写vue的尽量按照规范来">
+<meta name="twitter:description" content="官方的风格指南。   本文按照自己的逻辑，稍微简化了。规范的好处是，排雷更加容易，踩雷更加艰难，项目看着更赏心悦目。 必要组件名为多个单词这样做可以避免跟现有的以及未来的 HTML 元素相冲突。比如以前不小心写了个masker的组件，然不生效。 Prop 定义应该尽量详细在开发环境下，如果向一个组件提供格式不正确的 prop，Vue 将会告警，以帮助你捕获潜在的错误来源。 123456789101">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/09/21/vue-style-guide/"/>
+
+
+
+
+
+  <title> 写vue的尽量按照规范来 | 花花的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?60f2cb5747a596a24f2a053f1650c30b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">花花的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/09/21/vue-style-guide/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                写vue的尽量按照规范来
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-09-21T15:37:41+08:00">
+                2020-09-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/编辑器/" itemprop="url" rel="index">
+                    <span itemprop="name">编辑器</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/09/21/vue-style-guide/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/09/21/vue-style-guide/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="https://cn.vuejs.org/v2/style-guide/index.html#%E8%A7%84%E5%88%99%E5%BD%92%E7%B1%BB" target="_blank" rel="noopener">官方的风格指南</a>。  </p>
+<p>本文按照自己的逻辑，稍微简化了。规范的好处是，排雷更加容易，踩雷更加艰难，项目看着更赏心悦目。</p>
+<h2 id="必要"><a href="#必要" class="headerlink" title="必要"></a>必要</h2><h3 id="组件名为多个单词"><a href="#组件名为多个单词" class="headerlink" title="组件名为多个单词"></a>组件名为多个单词</h3><p>这样做可以避免跟现有的以及未来的 HTML 元素相冲突。比如以前不小心写了个<code>masker</code>的组件，然不生效。</p>
+<h3 id="Prop-定义应该尽量详细"><a href="#Prop-定义应该尽量详细" class="headerlink" title="Prop 定义应该尽量详细"></a>Prop 定义应该尽量详细</h3><p>在开发环境下，如果向一个组件提供格式不正确的 prop，Vue 将会告警，以帮助你捕获潜在的错误来源。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">props: &#123;</span><br><span class="line">  status: <span class="built_in">String</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 更好的做法！</span></span><br><span class="line"></span><br><span class="line">props: &#123;</span><br><span class="line">  status: &#123;</span><br><span class="line">    type: <span class="built_in">String</span>,</span><br><span class="line">    required: <span class="literal">true</span>,</span><br><span class="line">    validator: <span class="function"><span class="keyword">function</span> (<span class="params">value</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> [</span><br><span class="line">        <span class="string">'syncing'</span>,</span><br><span class="line">        <span class="string">'synced'</span>,</span><br><span class="line">        <span class="string">'version-conflict'</span>,</span><br><span class="line">        <span class="string">'error'</span></span><br><span class="line">      ].indexOf(value) !== <span class="number">-1</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="v-for必须设置key"><a href="#v-for必须设置key" class="headerlink" title="v-for必须设置key"></a>v-for必须设置key</h3><p>始终添加一个唯一的键值，以便你和你的团队永远不必担心一些极端情况。也在少数对性能有严格要求的情况下，为了避免对象固化，你可以刻意做一些非常规的处理。</p>
+<h3 id="永远不要把-v-if-和-v-for-同时用在同一个元素上"><a href="#永远不要把-v-if-和-v-for-同时用在同一个元素上" class="headerlink" title="永远不要把 v-if 和 v-for 同时用在同一个元素上"></a>永远不要把 v-if 和 v-for 同时用在同一个元素上</h3><p>如果有这种场景，按照下面的方式改进，以优化性能</p>
+<ol>
+<li><p>过滤一个列表中的项目 (比如 v-for=”user in users” v-if=”user.isActive”)。在这种情形下，请将 users 替换为一个<code>计算属性</code> (比如 activeUsers)，让其返回过滤后的列表。</p>
+</li>
+<li><p>为了避免渲染本应该被隐藏的列表 (比如 v-for=”user in users” v-if=”shouldShowUsers”)。这种情形下，请将 v-if 移动至<code>容器元素</code>上 (比如 ul、ol)</p>
+</li>
+</ol>
+<h2 id="强烈推荐"><a href="#强烈推荐" class="headerlink" title="强烈推荐"></a>强烈推荐</h2><h3 id="组件一律使用单文件申明，而不是Vue-component"><a href="#组件一律使用单文件申明，而不是Vue-component" class="headerlink" title="组件一律使用单文件申明，而不是Vue.component"></a>组件一律使用单文件申明，而不是Vue.component</h3><p>只要有能够拼接文件的构建系统，就把每个组件单独分成文件。</p>
+<h3 id="组件的文件名的格式要么都是PascalCase，要么都是是kebab-case"><a href="#组件的文件名的格式要么都是PascalCase，要么都是是kebab-case" class="headerlink" title="组件的文件名的格式要么都是PascalCase，要么都是是kebab-case"></a>组件的文件名的格式要么都是PascalCase，要么都是是kebab-case</h3><p>但单词大写开头对于代码编辑器的自动补全最为友好，因为这使得我们在 JS(X) 和模板中引用组件的方式尽可能的一致。然而，混用文件命名方式有的时候会导致大小写不敏感的文件系统的问题，这也是横线连接命名同样完全可取的原因。</p>
+<h3 id="基础组件名加特定前缀，比如-Base、App-或-V"><a href="#基础组件名加特定前缀，比如-Base、App-或-V" class="headerlink" title="基础组件名加特定前缀，比如 Base、App 或 V"></a>基础组件名加特定前缀，比如 Base、App 或 V</h3><p>应用特定样式和约定的基础组件 (也就是展示类的、无逻辑的或无状态的组件) 应该全部以一个特定的前缀开头，比如 Base、App 或 V。</p>
+<p>好处：</p>
+<ol>
+<li><p>当你在编辑器中以字母顺序排序时，你的应用的基础组件会全部列在一起，这样更容易识别。</p>
+</li>
+<li><p>因为组件名应该始终是多个单词，所以这样做可以避免你在包裹简单组件时随意选择前缀 (比如 MyButton、VueButton)。</p>
+</li>
+<li><p>因为这些组件会被频繁使用，所以你可能想把它们放到全局而不是在各处分别导入它们。使用相同的前缀可以让 webpack 这样工作：</p>
+</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> requireComponent = <span class="built_in">require</span>.context(<span class="string">"./src"</span>, <span class="literal">true</span>, /Base[A-Z]\w+\.(vue|js)$/)</span><br><span class="line">requireComponent.keys().forEach(<span class="function"><span class="keyword">function</span> (<span class="params">fileName</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> baseComponentConfig = requireComponent(fileName)</span><br><span class="line">  baseComponentConfig = baseComponentConfig.default || baseComponentConfig</span><br><span class="line">  <span class="keyword">var</span> baseComponentName = baseComponentConfig.name || (</span><br><span class="line">    fileName</span><br><span class="line">      .replace(<span class="regexp">/^.+\//</span>, <span class="string">''</span>)</span><br><span class="line">      .replace(<span class="regexp">/\.\w+$/</span>, <span class="string">''</span>)</span><br><span class="line">  )</span><br><span class="line">  Vue.component(baseComponentName, baseComponentConfig)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="每个页面只能使用一次的组件应该以-The-前缀命名，以示其唯一性"><a href="#每个页面只能使用一次的组件应该以-The-前缀命名，以示其唯一性" class="headerlink" title="每个页面只能使用一次的组件应该以 The 前缀命名，以示其唯一性"></a>每个页面只能使用一次的组件应该以 The 前缀命名，以示其唯一性</h3><p>这不意味着组件只可用于一个单页面，而是每个页面只使用一次。这些组件永远不接受任何 prop，因为它们是为你的应用定制的，而不是它们在你的应用中的上下文。如果你发现有必要添加 prop，那就表明这实际上是一个可复用的组件，只是目前在每个页面里只使用一次</p>
+<h3 id="紧密耦合的组件名依次加父组件前缀"><a href="#紧密耦合的组件名依次加父组件前缀" class="headerlink" title="紧密耦合的组件名依次加父组件前缀"></a>紧密耦合的组件名依次加父组件前缀</h3><p>如果一个组件只在某个父组件的场景下有意义，这层关系应该体现在其名字上。因为编辑器通常会按字母顺序组织文件，所以这样做可以把相关联的文件排在一起。不推荐文件夹嵌套。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">components/</span><br><span class="line">|- TodoList.vue</span><br><span class="line">|- TodoListItem.vue</span><br><span class="line">|- TodoListItemButton.vue</span><br></pre></td></tr></table></figure>
+<h3 id="组件名中的单词顺序尽量让相关的在一起"><a href="#组件名中的单词顺序尽量让相关的在一起" class="headerlink" title="组件名中的单词顺序尽量让相关的在一起"></a>组件名中的单词顺序尽量让相关的在一起</h3><p>给组件命名时并不需要遵从自然语言。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">components/</span><br><span class="line">|- SearchButtonClear.vue</span><br><span class="line">|- SearchButtonRun.vue</span><br><span class="line">|- SearchInputExcludeGlob.vue</span><br><span class="line">|- SearchInputQuery.vue</span><br><span class="line">|- SettingsCheckboxLaunchOnStartup.vue</span><br><span class="line">|- SettingsCheckboxTerms.vue</span><br><span class="line"></span><br><span class="line"><span class="comment">// 而不是下面的，这样翻找很困难</span></span><br><span class="line">components/</span><br><span class="line">|- ClearSearchButton.vue</span><br><span class="line">|- ExcludeFromSearchInput.vue</span><br><span class="line">|- LaunchOnStartupCheckbox.vue</span><br><span class="line">|- RunSearchButton.vue</span><br><span class="line">|- SearchInput.vue</span><br><span class="line">|- TermsCheckbox.vue</span><br></pre></td></tr></table></figure>
+<p>好处：</p>
+<ol>
+<li>在多级目录间找来找去，要比在单个 components 目录下滚动查找要花费更多的精力。</li>
+<li>存在组件重名 (比如存在多个 ButtonDelete 组件) 的时候在编辑器里更难快速定位。</li>
+<li>让重构变得更难，因为为一个移动了的组件更新相关引用时，查找/替换通常并不高效。</li>
+</ol>
+<h3 id="模板中组件名始终-kebab-case，-lt-my-component-gt-lt-my-component-gt"><a href="#模板中组件名始终-kebab-case，-lt-my-component-gt-lt-my-component-gt" class="headerlink" title="模板中组件名始终 kebab-case，&lt;my-component&gt;&lt;/my-component&gt;"></a>模板中组件名始终 kebab-case，<code>&lt;my-component&gt;&lt;/my-component&gt;</code></h3><p>对于绝大多数项目来说，在单文件组件和字符串模板中组件名应该总是 PascalCase 的——但是在 DOM 模板中总是 kebab-case 的。</p>
+<h3 id="组件名应该倾向于完整单词而不是缩写"><a href="#组件名应该倾向于完整单词而不是缩写" class="headerlink" title="组件名应该倾向于完整单词而不是缩写"></a>组件名应该倾向于完整单词而不是缩写</h3><p>编辑器中的自动补全已经让书写长命名的代价非常之低了，而其带来的明确性却是非常宝贵的。不常用的缩写尤其应该避免。</p>
+<h3 id="声明-prop的时候用-camelCase，在模板和-JSX-中用-kebab-case"><a href="#声明-prop的时候用-camelCase，在模板和-JSX-中用-kebab-case" class="headerlink" title="声明 prop的时候用 camelCase，在模板和 JSX 中用 kebab-case"></a>声明 prop的时候用 camelCase，在模板和 JSX 中用 kebab-case</h3><p>我们单纯的遵循每个语言的约定。在 JavaScript 中更自然的是 camelCase。而在 HTML 中则是 kebab-case。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">props: &#123;</span><br><span class="line">  greetingText: <span class="built_in">String</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">welcome-message</span> <span class="attr">greeting-text</span>=<span class="string">"hi"</span>&gt;</span><span class="tag">&lt;/<span class="name">welcome-message</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="多个-attribute-的元素-每个-attribute-一行"><a href="#多个-attribute-的元素-每个-attribute-一行" class="headerlink" title="多个 attribute 的元素,每个 attribute 一行"></a>多个 attribute 的元素,每个 attribute 一行</h3><p>在 JavaScript 中，用多行分隔对象的多个 property 是很常见的最佳实践，因为这样更易读。模板和 JSX 值得我们做相同的考虑。</p>
+<h3 id="模板中只能用简单表达式，复杂的用computed"><a href="#模板中只能用简单表达式，复杂的用computed" class="headerlink" title="模板中只能用简单表达式，复杂的用computed"></a>模板中只能用简单表达式，复杂的用computed</h3><p>复杂表达式会让你的模板变得不那么声明式。我们应该尽量描述应该出现的是什么，而非如何计算那个值。而且计算属性和方法使得代码可以重用。</p>
+<h3 id="应把复杂计算属性分割为尽可能多的更简单的-property"><a href="#应把复杂计算属性分割为尽可能多的更简单的-property" class="headerlink" title="应把复杂计算属性分割为尽可能多的更简单的 property"></a>应把复杂计算属性分割为尽可能多的更简单的 property</h3><p>好处：</p>
+<ul>
+<li><p>易于测试。当每个计算属性都包含一个非常简单且很少依赖的表达式时，撰写测试以确保其正确工作就会更加容易。</p>
+</li>
+<li><p>易于阅读。简化计算属性要求你为每一个值都起一个描述性的名称，即便它不可复用。这使得其他开发者 (以及未来的你) 更容易专注在他们关心的代码上并搞清楚发生了什么。</p>
+</li>
+<li><p>更好的“拥抱变化”。任何能够命名的值都可能用在视图上。举个例子，我们可能打算展示一个信息，告诉用户他们存了多少钱；也可能打算计算税费，但是可能会分开展现，而不是作为总价的一部分。</p>
+</li>
+</ul>
+<p>小的、专注的计算属性减少了信息使用时的假设性限制，所以需求变更时也用不着那么多重构了</p>
+<h3 id="attribute-值尽量都带引号"><a href="#attribute-值尽量都带引号" class="headerlink" title="attribute 值尽量都带引号"></a>attribute 值尽量都带引号</h3><p>在 HTML 中不带空格的 attribute 值是可以没有引号的，但这鼓励了大家在特征值里不写空格，导致可读性变差</p>
+<h3 id="指令缩写要么都用，要么都不用"><a href="#指令缩写要么都用，要么都不用" class="headerlink" title="指令缩写要么都用，要么都不用"></a>指令缩写要么都用，要么都不用</h3><p>指令缩写 (用 <code>:</code> 表示 <code>v-bind:</code>、用 <code>@</code> 表示 <code>v-on:</code> 和用 <code>#</code> 表示 <code>v-slot:</code>) 应该要么都用要么都不用。</p>
+<h2 id="推荐"><a href="#推荐" class="headerlink" title="推荐"></a>推荐</h2><h3 id="组件中选项的顺序"><a href="#组件中选项的顺序" class="headerlink" title="组件中选项的顺序"></a>组件中选项的顺序</h3><ul>
+<li>el</li>
+<li>name</li>
+<li>components/directives/filters</li>
+<li>mixins/extends</li>
+<li>props</li>
+<li>data</li>
+<li>computed</li>
+<li>watch</li>
+<li>created之类的生命周期钩子</li>
+<li>methods</li>
+<li>template</li>
+</ul>
+<h3 id="属性顺序"><a href="#属性顺序" class="headerlink" title="属性顺序"></a>属性顺序</h3><ul>
+<li>is</li>
+<li>v-for</li>
+<li>v-if/v-show</li>
+<li>v-pre/v-once</li>
+<li>id</li>
+<li>ref</li>
+<li>key</li>
+<li>v-model</li>
+<li>其他</li>
+<li>v-on</li>
+<li>v-html/v-text</li>
+</ul>
+<h3 id="组件中顶级元素的顺序保持一致"><a href="#组件中顶级元素的顺序保持一致" class="headerlink" title="组件中顶级元素的顺序保持一致"></a>组件中顶级元素的顺序保持一致</h3><p>template/script/style</p>
+<h2 id="谨慎"><a href="#谨慎" class="headerlink" title="谨慎"></a>谨慎</h2><h3 id="如果一组-v-if-v-else-的元素类型相同，最好使用-key-比如两个-lt-div-gt-元素"><a href="#如果一组-v-if-v-else-的元素类型相同，最好使用-key-比如两个-lt-div-gt-元素" class="headerlink" title="如果一组 v-if + v-else 的元素类型相同，最好使用 key (比如两个 &lt;div&gt; 元素)"></a>如果一组 v-if + v-else 的元素类型相同，最好使用 key (比如两个 <code>&lt;div&gt;</code> 元素)</h3><p>默认情况下，Vue 会尽可能高效的更新 DOM。这意味着其在相同类型的元素之间切换时，会修补已存在的元素，而不是将旧的元素移除然后在同一位置添加一个新元素。如果本不相同的元素被识别为相同，则会出现意料之外的结果。</p>
+<h3 id="scoped-中的避免元素选择器，而尽量用类选择器"><a href="#scoped-中的避免元素选择器，而尽量用类选择器" class="headerlink" title="scoped 中的避免元素选择器，而尽量用类选择器"></a>scoped 中的避免元素选择器，而尽量用类选择器</h3><p>在 scoped 样式中，类选择器比元素选择器更好，因为大量使用元素选择器是很慢的。</p>
+<h3 id="优先通过-prop-和事件进行父子组件之间的通信，而不是-this-parent-或变更-prop"><a href="#优先通过-prop-和事件进行父子组件之间的通信，而不是-this-parent-或变更-prop" class="headerlink" title="优先通过 prop 和事件进行父子组件之间的通信，而不是 this.$parent 或变更 prop"></a>优先通过 prop 和事件进行父子组件之间的通信，而不是 this.$parent 或变更 prop</h3><p>一个理想的 Vue 应用是 prop 向下传递，事件向上传递的。遵循这一约定会让你的组件更易于理解。然而，在一些边界情况下 prop 的变更或 this.$parent 能够简化两个深度耦合的组件。</p>
+<p>问题在于，这种做法在很多简单的场景下可能会更方便。但请当心，不要为了一时方便 (少写代码) 而牺牲数据流向的简洁性 (易于理解)。</p>
+<h3 id="应该优先通过-Vuex-管理全局状态，而不是通过-this-root-或一个全局事件总线"><a href="#应该优先通过-Vuex-管理全局状态，而不是通过-this-root-或一个全局事件总线" class="headerlink" title="应该优先通过 Vuex 管理全局状态，而不是通过 this.$root 或一个全局事件总线"></a>应该优先通过 Vuex 管理全局状态，而不是通过 this.$root 或一个全局事件总线</h3><p>通过 this.$root 和/或全局事件总线管理状态在很多简单的情况下都是很方便的，但是并不适用于绝大多数的应用。</p>
+<p>Vuex 是 Vue 的官方类 flux 实现，其提供的不仅是一个管理状态的中心区域，还是组织、追踪和调试状态变更的好工具。它很好地集成在了 Vue 生态系统之中 (包括完整的 Vue DevTools 支持)</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/格式化/" rel="tag"># 格式化</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/09/04/el-menu/" rel="next" title="用el-menu自动生成菜单">
+                <i class="fa fa-chevron-left"></i> 用el-menu自动生成菜单
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2020/09/21/vue-style-guide/"
+           data-title="写vue的尽量按照规范来" data-url="http://yoursite.com/2020/09/21/vue-style-guide/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://omizt4opc.bkt.clouddn.com/avatar.jpg"
+               alt="frontzhm" />
+          <p class="site-author-name" itemprop="name">frontzhm</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">180</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">52</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#必要"><span class="nav-number">1.</span> <span class="nav-text">必要</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#组件名为多个单词"><span class="nav-number">1.1.</span> <span class="nav-text">组件名为多个单词</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Prop-定义应该尽量详细"><span class="nav-number">1.2.</span> <span class="nav-text">Prop 定义应该尽量详细</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#v-for必须设置key"><span class="nav-number">1.3.</span> <span class="nav-text">v-for必须设置key</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#永远不要把-v-if-和-v-for-同时用在同一个元素上"><span class="nav-number">1.4.</span> <span class="nav-text">永远不要把 v-if 和 v-for 同时用在同一个元素上</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#强烈推荐"><span class="nav-number">2.</span> <span class="nav-text">强烈推荐</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#组件一律使用单文件申明，而不是Vue-component"><span class="nav-number">2.1.</span> <span class="nav-text">组件一律使用单文件申明，而不是Vue.component</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#组件的文件名的格式要么都是PascalCase，要么都是是kebab-case"><span class="nav-number">2.2.</span> <span class="nav-text">组件的文件名的格式要么都是PascalCase，要么都是是kebab-case</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基础组件名加特定前缀，比如-Base、App-或-V"><span class="nav-number">2.3.</span> <span class="nav-text">基础组件名加特定前缀，比如 Base、App 或 V</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#每个页面只能使用一次的组件应该以-The-前缀命名，以示其唯一性"><span class="nav-number">2.4.</span> <span class="nav-text">每个页面只能使用一次的组件应该以 The 前缀命名，以示其唯一性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#紧密耦合的组件名依次加父组件前缀"><span class="nav-number">2.5.</span> <span class="nav-text">紧密耦合的组件名依次加父组件前缀</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#组件名中的单词顺序尽量让相关的在一起"><span class="nav-number">2.6.</span> <span class="nav-text">组件名中的单词顺序尽量让相关的在一起</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模板中组件名始终-kebab-case，-lt-my-component-gt-lt-my-component-gt"><span class="nav-number">2.7.</span> <span class="nav-text">模板中组件名始终 kebab-case，&lt;my-component&gt;&lt;/my-component&gt;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#组件名应该倾向于完整单词而不是缩写"><span class="nav-number">2.8.</span> <span class="nav-text">组件名应该倾向于完整单词而不是缩写</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#声明-prop的时候用-camelCase，在模板和-JSX-中用-kebab-case"><span class="nav-number">2.9.</span> <span class="nav-text">声明 prop的时候用 camelCase，在模板和 JSX 中用 kebab-case</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多个-attribute-的元素-每个-attribute-一行"><span class="nav-number">2.10.</span> <span class="nav-text">多个 attribute 的元素,每个 attribute 一行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模板中只能用简单表达式，复杂的用computed"><span class="nav-number">2.11.</span> <span class="nav-text">模板中只能用简单表达式，复杂的用computed</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#应把复杂计算属性分割为尽可能多的更简单的-property"><span class="nav-number">2.12.</span> <span class="nav-text">应把复杂计算属性分割为尽可能多的更简单的 property</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#attribute-值尽量都带引号"><span class="nav-number">2.13.</span> <span class="nav-text">attribute 值尽量都带引号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#指令缩写要么都用，要么都不用"><span class="nav-number">2.14.</span> <span class="nav-text">指令缩写要么都用，要么都不用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#推荐"><span class="nav-number">3.</span> <span class="nav-text">推荐</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#组件中选项的顺序"><span class="nav-number">3.1.</span> <span class="nav-text">组件中选项的顺序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#属性顺序"><span class="nav-number">3.2.</span> <span class="nav-text">属性顺序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#组件中顶级元素的顺序保持一致"><span class="nav-number">3.3.</span> <span class="nav-text">组件中顶级元素的顺序保持一致</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#谨慎"><span class="nav-number">4.</span> <span class="nav-text">谨慎</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#如果一组-v-if-v-else-的元素类型相同，最好使用-key-比如两个-lt-div-gt-元素"><span class="nav-number">4.1.</span> <span class="nav-text">如果一组 v-if + v-else 的元素类型相同，最好使用 key (比如两个 &lt;div&gt; 元素)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#scoped-中的避免元素选择器，而尽量用类选择器"><span class="nav-number">4.2.</span> <span class="nav-text">scoped 中的避免元素选择器，而尽量用类选择器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#优先通过-prop-和事件进行父子组件之间的通信，而不是-this-parent-或变更-prop"><span class="nav-number">4.3.</span> <span class="nav-text">优先通过 prop 和事件进行父子组件之间的通信，而不是 this.$parent 或变更 prop</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#应该优先通过-Vuex-管理全局状态，而不是通过-this-root-或一个全局事件总线"><span class="nav-number">4.4.</span> <span class="nav-text">应该优先通过 Vuex 管理全局状态，而不是通过 this.$root 或一个全局事件总线</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">frontzhm</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"frontzhm"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
