@@ -261,6 +261,197 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/23/circle-ring/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2019/07/23/circle-ring/" itemprop="url">
+                  svg或css，写loading圆环和百分比
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-23T11:09:01+08:00">
+                2019-07-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/css/" itemprop="url" rel="index">
+                    <span itemprop="name">css</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/07/23/circle-ring/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/07/23/circle-ring/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
+<li>svg写圆环就是利用<code>stroke-dasharray</code></li>
+<li>纯css写圆环是利用<code>border-radius rect rotate</code></li>
+</ul>
+<h2 id="svg写圆环"><a href="#svg写圆环" class="headerlink" title="svg写圆环"></a>svg写圆环</h2><p>css的步骤很多，可以的话优先svg写圆环。</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/circle" target="_blank" rel="noopener">mdn上svg画circle</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-dasharray" target="_blank" rel="noopener">mdn上stroke-dasharray的理解</a>，就是<code>实线的长度 空白的长度 实线的长度 空白的长度 。。。</code></li>
+<li><a href="https://juejin.im/post/5c8db3175188257e252a49da" target="_blank" rel="noopener">掘金上stroke-dasharray和stroke-dashoffset属性的解释</a></li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 本地或者线上跑个demo 修改 stroke-dasharray="0 1069"的第一个值就能看到圆环--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">svg</span> <span class="attr">width</span>=<span class="string">"440"</span> <span class="attr">height</span>=<span class="string">"440"</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 底部的灰色背景圆环 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">circle</span> <span class="attr">cx</span>=<span class="string">"220"</span> <span class="attr">cy</span>=<span class="string">"220"</span> <span class="attr">r</span>=<span class="string">"170"</span> <span class="attr">stroke-width</span>=<span class="string">"50"</span> <span class="attr">stroke</span>=<span class="string">"#D1D3D7"</span> <span class="attr">fill</span>=<span class="string">"none"</span>&gt;</span><span class="tag">&lt;/<span class="name">circle</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 需要显示的圆环  通过修改 stroke-dasharray="0 1069"的0值那块，(角度/360) = 圆弧长度/周长  这里的圆弧长度就是第一个值--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">circle</span> <span class="attr">cx</span>=<span class="string">"220"</span> <span class="attr">cy</span>=<span class="string">"220"</span> <span class="attr">r</span>=<span class="string">"170"</span> <span class="attr">stroke-width</span>=<span class="string">"50"</span> <span class="attr">stroke</span>=<span class="string">"#00A5E0"</span> <span class="attr">fill</span>=<span class="string">"none"</span> <span class="attr">transform</span>=<span class="string">"matrix(0,-1,1,0,0,440)"</span> <span class="attr">stroke-dasharray</span>=<span class="string">"0 1069"</span>&gt;</span><span class="tag">&lt;/<span class="name">circle</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- transform="matrix(0,-1,1,0,0,440)"这个是让实线从12点开始 需要研究的话 文章末尾有相关链接 --&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">svg</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="vue写个动态圆环组件"><a href="#vue写个动态圆环组件" class="headerlink" title="vue写个动态圆环组件"></a>vue写个动态圆环组件</h3><ul>
+<li>自定义：圆环显示的百分比、外圆环的直径、圆环宽度、颜色、圆环内文字以及文字大小</li>
+<li>使用方式 <code>&lt;ring rate=&quot;0.6&quot; size=&quot;60&quot; stroke-width=&quot;10&quot; stroke-color=&quot;#8C95FF&quot; text=&quot;及格&quot;  text-size=&quot;30&quot;/&gt;</code></li>
+<li>组件的具体代码如下</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"parent-element-center"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">svg</span> <span class="attr">:width</span>=<span class="string">"diameterShow"</span> <span class="attr">:height</span>=<span class="string">"diameterShow"</span> <span class="attr">:viewbox</span>=<span class="string">"viewbox"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">circle</span> <span class="attr">:cx</span>=<span class="string">"size"</span> <span class="attr">:cy</span>=<span class="string">"size"</span> <span class="attr">:r</span>=<span class="string">"raduisActual"</span> <span class="attr">:stroke-width</span>=<span class="string">"strokeWidth"</span> <span class="attr">stroke</span>=<span class="string">"#eee"</span> <span class="attr">fill</span>=<span class="string">"none"</span>&gt;</span><span class="tag">&lt;/<span class="name">circle</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">circle</span> <span class="attr">v-if</span>=<span class="string">"rate"</span> <span class="attr">:text</span>=<span class="string">"text"</span> <span class="attr">:cx</span>=<span class="string">"size"</span> <span class="attr">:cy</span>=<span class="string">"size"</span> <span class="attr">:r</span>=<span class="string">"raduisActual"</span> <span class="attr">:stroke-width</span>=<span class="string">"strokeWidth"</span> <span class="attr">:stroke</span>=<span class="string">"strokeColor"</span> <span class="attr">fill</span>=<span class="string">"none"</span> <span class="attr">:transform</span>=<span class="string">"transform"</span> <span class="attr">:stroke-dasharray</span>=<span class="string">"strokeDasharray"</span> <span class="attr">stroke-linecap</span>=<span class="string">"round"</span>&gt;</span><span class="tag">&lt;/<span class="name">circle</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">svg</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"element-center"</span> <span class="attr">:style</span>=<span class="string">"textStyle"</span>&gt;</span>&#123;&#123; text &#125;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">export default &#123;</span></span><br><span class="line"><span class="undefined">  props: &#123;</span></span><br><span class="line"><span class="undefined">    // 圆环外圈的直径</span></span><br><span class="line"><span class="undefined">    size: &#123;</span></span><br><span class="line"><span class="undefined">      default: 175</span></span><br><span class="line"><span class="undefined">    &#125;,</span></span><br><span class="line"><span class="undefined">    // 圆环的小宽度</span></span><br><span class="line"><span class="undefined">    strokeWidth: &#123;</span></span><br><span class="line"><span class="undefined">      default: 5</span></span><br><span class="line"><span class="undefined">    &#125;,</span></span><br><span class="line"><span class="undefined">    // 圆环的颜色</span></span><br><span class="line"><span class="undefined">    strokeColor: &#123;</span></span><br><span class="line"><span class="undefined">      default: '#00D476'</span></span><br><span class="line"><span class="undefined">    &#125;,</span></span><br><span class="line"><span class="undefined">    // 圆环显示的百分比 这边是小数</span></span><br><span class="line"><span class="undefined">    rate: &#123;</span></span><br><span class="line"><span class="undefined">      default: 0.5</span></span><br><span class="line"><span class="undefined">    &#125;,</span></span><br><span class="line"><span class="undefined">    // 圆环里面的文字 这里的文字如果跟rate息息相关 可以放到computed计算</span></span><br><span class="line"><span class="undefined">    text: &#123;</span></span><br><span class="line"><span class="undefined">      default: 50</span></span><br><span class="line"><span class="undefined">    &#125;,</span></span><br><span class="line"><span class="undefined">    // 圆环里面的文字的fontSize大小</span></span><br><span class="line"><span class="undefined">    textSize: &#123;</span></span><br><span class="line"><span class="undefined">      default: 20</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">  &#125;,</span></span><br><span class="line"><span class="undefined">  computed: &#123;</span></span><br><span class="line"><span class="undefined">    raduisActual () &#123;</span></span><br><span class="line"><span class="undefined">      return this.size - this.strokeWidth</span></span><br><span class="line"><span class="undefined">    &#125;,</span></span><br><span class="line"><span class="undefined">    diameterShow () &#123;</span></span><br><span class="line"><span class="undefined">      return 2 * this.size</span></span><br><span class="line"><span class="undefined">    &#125;,</span></span><br><span class="line"><span class="undefined">    viewbox () &#123;</span></span><br><span class="line"><span class="undefined">      return `0 0 $&#123;this.diameterShow&#125; $&#123;this.diameterShow&#125;`</span></span><br><span class="line"><span class="undefined">    &#125;,</span></span><br><span class="line"><span class="undefined">    strokeDasharray () &#123;</span></span><br><span class="line"><span class="undefined">      const perimeter = Math.PI * 2 * this.raduisActual</span></span><br><span class="line"><span class="undefined">      const showLength = this.rate * perimeter - 3</span></span><br><span class="line"><span class="undefined">      return `$&#123;showLength&#125; 1000`</span></span><br><span class="line"><span class="undefined">    &#125;,</span></span><br><span class="line"><span class="undefined">    transform () &#123;</span></span><br><span class="line"><span class="undefined">      return `matrix(0,-1,1,0,0,$&#123;this.diameterShow&#125;)`</span></span><br><span class="line"><span class="undefined">    &#125;,</span></span><br><span class="line"><span class="undefined">    textStyle () &#123;</span></span><br><span class="line"><span class="undefined">      let res = &#123;&#125;</span></span><br><span class="line"><span class="undefined">      res.fontSize = `$&#123;this.textSize&#125;px`</span></span><br><span class="line"><span class="undefined">      return res</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">  &#125;</span></span><br><span class="line"><span class="undefined">&#125;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">scoped</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">      .parent-element-center&#123;</span></span><br><span class="line"><span class="undefined">        position: relative;display: inline-block;</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="undefined">      .element-center &#123;</span></span><br><span class="line"><span class="undefined">        position: absolute;</span></span><br><span class="line"><span class="undefined">        left: 50%;</span></span><br><span class="line"><span class="undefined">        top: 50%;</span></span><br><span class="line"><span class="undefined">        transform: translate(-50%, -50%);</span></span><br><span class="line"><span class="undefined">        font-size:40px;</span></span><br><span class="line"><span class="undefined">        font-weight: bold;</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="纯css-写圆环"><a href="#纯css-写圆环" class="headerlink" title="纯css 写圆环"></a>纯css 写圆环</h2><p>逻辑有点复杂，所以按步骤拆分了</p>
+<h3 id="1-写个圆。"><a href="#1-写个圆。" class="headerlink" title="1. 写个圆。"></a>1. 写个圆。</h3><p>so easy。设个宽高，设置radius，搞定。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"circle"</span> <span class="attr">style</span>=<span class="string">"width: 100px;height:100px;border-radius:100px;background-color: skyblue;"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="2-写个圆环。"><a href="#2-写个圆环。" class="headerlink" title="2. 写个圆环。"></a>2. 写个圆环。</h3><p>有点难度。细细一想，加个border， 背景色干掉，yeah~。<br>这个逻辑得记住，也就是圆变成圆环两步：</p>
+<ul>
+<li>背景色处理（背景色不设置，或者背景色是白色之类的hack）</li>
+<li>加个border</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"ring"</span> <span class="attr">style</span>=<span class="string">"width: 100px;height:100px;border-radius:100px;border:4px solid skyblue;"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="3-显示半个圆环。"><a href="#3-显示半个圆环。" class="headerlink" title="3.显示半个圆环。"></a>3.显示半个圆环。</h3><p>哟，嗯，拿个方块，盖住右边不就行了。这边想再升级下，试试用<code>clip</code>属性。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 圆环用到了border，计算一半的时候总是计算border很是憋手，索性加个 box-sizing: border-box; --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"left-half-ring"</span>  <span class="attr">style</span>=<span class="string">"width: 100px;height:100px;border-radius:100px;border:4px solid skyblue;position:absolute;clip:rect(0 50px 100px 0);box-sizing: border-box;"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"right-half-ring"</span>  <span class="attr">style</span>=<span class="string">"width: 100px;height:100px;border-radius:100px;border:4px solid skyblue;position:absolute;clip:rect(0 100px 100px 50px);box-sizing: border-box;"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 当然 如果不想用 box-sizing: border-box; 也可以 代码如下 注意计算的clip--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"left-half-ring"</span>  <span class="attr">style</span>=<span class="string">"width: 100px;height:100px;border-radius:100px;border:4px solid skyblue;position:absolute;clip:rect(0 54px 108px 0);"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="4-一个圆环，左边和右边不同色"><a href="#4-一个圆环，左边和右边不同色" class="headerlink" title="4.一个圆环，左边和右边不同色"></a>4.一个圆环，左边和右边不同色</h3><p>想想就是上面的拼一波呗~</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"width: 100px;height:100px;position: relative;"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"left-half-ring"</span>  <span class="attr">style</span>=<span class="string">"width: 100px;height:100px;border-radius:100px;border:4px solid blueviolet;position:absolute;clip:rect(0 50px 100px 0);box-sizing: border-box;"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"right-half-ring"</span>  <span class="attr">style</span>=<span class="string">"width: 100px;height:100px;border-radius:100px;border:4px solid skyblue;position:absolute;clip:rect(0 100px 100px 50px);box-sizing: border-box;"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="5-两个圆环交叉"><a href="#5-两个圆环交叉" class="headerlink" title="5.两个圆环交叉"></a>5.两个圆环交叉</h3><p>就是两个圆环有重叠的部分，其实就是将圆环旋转下，这里为了后期的铺垫，将左边的旋转，右边的作为底色。为了突出层级关系，用到<code>z-index</code>。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"width: 100px;height:100px;position: relative;"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"bg-right-half-ring"</span>  <span class="attr">style</span>=<span class="string">"width: 100px;height:100px;border-radius:100px;border:4px solid #000;position:absolute;clip:rect(0 100px 100px 50px);box-sizing: border-box;z-index: 1;"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"front-left-half-ring"</span>  <span class="attr">style</span>=<span class="string">"width: 100px;height:100px;border-radius:100px;border:4px solid rgba(0,200,0,0.7);position:absolute;clip:rect(0 50px 100px 0);box-sizing: border-box;z-index: 2;transform: rotate(60deg);"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="6-怎么将左边非重叠的部分隐藏掉，只显示重叠部分"><a href="#6-怎么将左边非重叠的部分隐藏掉，只显示重叠部分" class="headerlink" title="6.怎么将左边非重叠的部分隐藏掉，只显示重叠部分"></a>6.怎么将左边非重叠的部分隐藏掉，只显示重叠部分</h3><p>其实就是再拿个半圆放在左边部分，这个半圆的颜色和底色一致，造成假象。<br>这时候，其实通过控制<code>front-left-half-ring</code>的rotate能得到小于180度以内的圆弧</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"width: 100px;height:100px;position: relative;"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"bg-right-half-ring"</span>  <span class="attr">style</span>=<span class="string">"width: 100px;height:100px;border-radius:100px;border:4px solid #000;position:absolute;clip:rect(0 100px 100px 50px);box-sizing: border-box;z-index: 1;"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"front-left-half-ring"</span>  <span class="attr">style</span>=<span class="string">"width: 100px;height:100px;border-radius:100px;border:4px solid rgba(0,200,0,0.7);position:absolute;clip:rect(0 50px 100px 0);box-sizing: border-box;z-index: 2;transform: rotate(60deg);"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 遮掉左边的非重叠部分 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"bg-left-half-ring"</span>  <span class="attr">style</span>=<span class="string">"width: 100px;height:100px;border-radius:100px;border:4px solid #000;position:absolute;clip:rect(0 50px 100px 0);box-sizing: border-box;z-index: 3;"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="7-显示超过180度的圆环"><a href="#7-显示超过180度的圆环" class="headerlink" title="7.显示超过180度的圆环"></a>7.显示超过180度的圆环</h3><p>上面的超过180度就有毛病了，毕竟我们只有半个圆弧。那怎么办呢。继续制造假象！<br>说起来你可能不想相信，就是再写个右半圆，旋转，原来的保持不动。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"width: 100px;height:100px;position: relative;"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"bg-right-half-ring"</span>  <span class="attr">style</span>=<span class="string">"width: 100px;height:100px;border-radius:100px;border:4px solid #000;position:absolute;clip:rect(0 100px 100px 50px);box-sizing: border-box;z-index: 1;"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"front-left-half-ring"</span>  <span class="attr">style</span>=<span class="string">"width: 100px;height:100px;border-radius:100px;border:4px solid rgba(0,200,0,0.7);position:absolute;clip:rect(0 50px 100px 0);box-sizing: border-box;z-index: 2;transform: rotate(180deg);"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"bg-left-half-ring"</span>  <span class="attr">style</span>=<span class="string">"width: 100px;height:100px;border-radius:100px;border:4px solid #000;position:absolute;clip:rect(0 50px 100px 0);box-sizing: border-box;z-index: 3;"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 想要240度圆环的话  这边旋转 240-180=60 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"right-half-ring"</span>  <span class="attr">style</span>=<span class="string">"width: 100px;height:100px;border-radius:100px;border:4px solid rgba(0,200,0,0.7);position:absolute;clip:rect(0 100px 100px 50px);box-sizing: border-box;z-index: 4;transform: rotate(60deg);"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>上面的颜色仅仅为了理解，为了显示完美，请将<code>rgba(0,200,0,0.7)</code>的透明度去掉，效果就很完美了。</p>
+<h3 id="8-能显示百分比的圆环"><a href="#8-能显示百分比的圆环" class="headerlink" title="8.能显示百分比的圆环"></a>8.能显示百分比的圆环</h3><p>其实直接写个标签在里面，然后(旋转的度数/360 = 百分比)，以此求出旋转的度数。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"width: 100px;height:100px;position: relative;display: flex;justify-content: center;align-items: center;"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"bg-right-half-ring"</span>  <span class="attr">style</span>=<span class="string">"width: 100px;height:100px;border-radius:100px;border:4px solid #000;position:absolute;clip:rect(0 100px 100px 50px);box-sizing: border-box;z-index: 1;"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 72/360=20% --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"front-left-half-ring"</span>  <span class="attr">style</span>=<span class="string">"width: 100px;height:100px;border-radius:100px;border:4px solid rgba(0,200,0,0.7);position:absolute;clip:rect(0 50px 100px 0);box-sizing: border-box;z-index: 2;transform: rotate(72deg);"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"bg-left-half-ring"</span>  <span class="attr">style</span>=<span class="string">"width: 100px;height:100px;border-radius:100px;border:4px solid #000;position:absolute;clip:rect(0 50px 100px 0);box-sizing: border-box;z-index: 3;"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 想要240度圆环的话  这边旋转 240-180=60 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"right-half-ring"</span>  <span class="attr">style</span>=<span class="string">"width: 100px;height:100px;border-radius:100px;border:4px solid rgba(0,200,0,0.7);position:absolute;clip:rect(0 100px 100px 50px);box-sizing: border-box;z-index: 4;transform: rotate(60deg);"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span> <span class="attr">id</span>=<span class="string">"progress"</span>&gt;</span>20%<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><a href="https://demo.haoji.me/2016/08/19-shanxing/" target="_blank" rel="noopener">无意中发现又是这个大神写的，大神就是大神</a><br><a href="https://www.zhangxinxu.com/wordpress/2011/04/css-clip-rect/" target="_blank" rel="noopener">张鑫旭大神的rect解释</a><br><a href="https://www.zhangxinxu.com/wordpress/2015/07/svg-circle-loading/" target="_blank" rel="noopener">张鑫旭大神svg画loading</a><br><a href="https://www.zhangxinxu.com/wordpress/2017/11/pure-css-colorful-circle/" target="_blank" rel="noopener">张鑫旭大神多彩圆环的实现</a><br><a href="https://www.zhangxinxu.com/wordpress/2012/06/css3-transform-matrix-%e7%9f%a9%e9%98%b5/" target="_blank" rel="noopener">张鑫旭大神矩阵的理解</a>  </p>
+</blockquote>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/11/clip/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1759,140 +1950,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/28/vue_ball_animation/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2019/05/28/vue_ball_animation/" itemprop="url">
-                  未命名
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-28T15:34:15+08:00">
-                2019-05-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/05/28/vue_ball_animation/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/05/28/vue_ball_animation/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span> <span class="attr">lang</span>=<span class="string">"pug"</span>&gt;</span></span><br><span class="line">    //- npm i pug-plain-loader pug -D</span><br><span class="line">    div#app</span><br><span class="line">        div.ball(:style="ballStyle")</span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript"><span class="comment">// import HelloWorld from './components/HelloWorld.vue'</span></span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line"><span class="javascript">  name: <span class="string">'app'</span>,</span></span><br><span class="line"><span class="undefined">  components: &#123;</span></span><br><span class="line"><span class="javascript">    <span class="comment">// HelloWorld</span></span></span><br><span class="line"><span class="undefined">  &#125;,</span></span><br><span class="line"><span class="undefined">  data()&#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">return</span>&#123;</span></span><br><span class="line"><span class="undefined">      left:0,</span></span><br><span class="line"><span class="undefined">      target:200</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">  &#125;,</span></span><br><span class="line"><span class="undefined">  methods:&#123;</span></span><br><span class="line"><span class="undefined">  animationFn() &#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> queueID;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">const</span>  _animation = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">if</span> (<span class="keyword">this</span>.left &gt;= <span class="keyword">this</span>.target) &#123;</span></span><br><span class="line"><span class="undefined">        cancelAnimationFrame(queueID);</span></span><br><span class="line"><span class="javascript">        <span class="keyword">return</span>;</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">this</span>.left++;</span></span><br><span class="line"><span class="javascript">      <span class="comment">// ！！！！！这里的属性必须写在行内样式里，这里写死了，注意</span></span></span><br><span class="line"><span class="javascript">      <span class="comment">// computed自动计算</span></span></span><br><span class="line"><span class="undefined">      cancelAnimationFrame(queueID);</span></span><br><span class="line"><span class="undefined">      queueID = requestAnimationFrame(_animation);</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="javascript">    <span class="comment">// 首次渲染</span></span></span><br><span class="line"><span class="undefined">    requestAnimationFrame(_animation);</span></span><br><span class="line"><span class="undefined">&#125;</span></span><br><span class="line"><span class="undefined">  &#125;,</span></span><br><span class="line"><span class="undefined">  computed:&#123;</span></span><br><span class="line"><span class="undefined">    ballStyle()&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> <span class="string">`transform:translate(<span class="subst">$&#123;<span class="keyword">this</span>.left&#125;</span>px)`</span></span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">  &#125;,</span></span><br><span class="line"><span class="undefined">  mounted()&#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">this</span>.animationFn()</span></span><br><span class="line"><span class="undefined">  &#125;</span></span><br><span class="line"><span class="undefined">&#125;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">#app &#123;</span></span><br><span class="line"><span class="undefined">  font-family: 'Avenir', Helvetica, Arial, sans-serif;</span></span><br><span class="line"><span class="undefined">  -webkit-font-smoothing: antialiased;</span></span><br><span class="line"><span class="undefined">  -moz-osx-font-smoothing: grayscale;</span></span><br><span class="line"><span class="undefined">  text-align: center;</span></span><br><span class="line"><span class="undefined">  color: #2c3e50;</span></span><br><span class="line"><span class="undefined">  margin-top: 60px;</span></span><br><span class="line"><span class="undefined">&#125;</span></span><br><span class="line"><span class="undefined">.ball&#123;</span></span><br><span class="line"><span class="undefined">  width:100px;</span></span><br><span class="line"><span class="undefined">  height:100px;</span></span><br><span class="line"><span class="undefined">  border-radius:100px;</span></span><br><span class="line"><span class="undefined">  background-color:#f69;</span></span><br><span class="line"><span class="undefined">&#125;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>然后将ball相关的移到ball.vue，</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- app.vue --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">template</span> <span class="attr">lang</span>=<span class="string">"pug"</span>&gt;</span></span><br><span class="line">    //- npm i pug-plain-loader pug -D</span><br><span class="line">    div#app</span><br><span class="line">        ball</span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript"><span class="keyword">import</span> Ball <span class="keyword">from</span> <span class="string">'./Ball.vue'</span></span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line"><span class="javascript">  name: <span class="string">'app'</span>,</span></span><br><span class="line"><span class="undefined">  components: &#123;</span></span><br><span class="line"><span class="undefined">    Ball</span></span><br><span class="line"><span class="undefined">  &#125;,</span></span><br><span class="line"><span class="undefined">  data()&#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">return</span>&#123;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">  &#125;,</span></span><br><span class="line"><span class="undefined">  methods:&#123;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">  &#125;</span></span><br><span class="line"><span class="undefined">&#125;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">#app &#123;</span></span><br><span class="line"><span class="undefined">  font-family: 'Avenir', Helvetica, Arial, sans-serif;</span></span><br><span class="line"><span class="undefined">  -webkit-font-smoothing: antialiased;</span></span><br><span class="line"><span class="undefined">  -moz-osx-font-smoothing: grayscale;</span></span><br><span class="line"><span class="undefined">  text-align: center;</span></span><br><span class="line"><span class="undefined">  color: #2c3e50;</span></span><br><span class="line"><span class="undefined">  margin-top: 60px;</span></span><br><span class="line"><span class="undefined">&#125;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- ball.vue --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">template</span> <span class="attr">lang</span>=<span class="string">"pug"</span>&gt;</span></span><br><span class="line">    div.ball(:style="ballStyle")</span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line"><span class="javascript">  name: <span class="string">'Ball'</span>,</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">  data()&#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">return</span>&#123;</span></span><br><span class="line"><span class="undefined">      left:0,</span></span><br><span class="line"><span class="undefined">      target:200</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">  &#125;,</span></span><br><span class="line"><span class="undefined">  methods:&#123;</span></span><br><span class="line"><span class="undefined">  animationFn() &#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> queueID;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">const</span>  _animation = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">if</span> (<span class="keyword">this</span>.left &gt;= <span class="keyword">this</span>.target) &#123;</span></span><br><span class="line"><span class="undefined">        cancelAnimationFrame(queueID);</span></span><br><span class="line"><span class="javascript">        <span class="keyword">return</span>;</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">this</span>.left++;</span></span><br><span class="line"><span class="javascript">      <span class="comment">// ！！！！！这里的属性必须写在行内样式里，这里写死了，注意</span></span></span><br><span class="line"><span class="javascript">      <span class="comment">// computed自动计算</span></span></span><br><span class="line"><span class="undefined">      cancelAnimationFrame(queueID);</span></span><br><span class="line"><span class="undefined">      queueID = requestAnimationFrame(_animation);</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="javascript">    <span class="comment">// 首次渲染</span></span></span><br><span class="line"><span class="undefined">    requestAnimationFrame(_animation);</span></span><br><span class="line"><span class="undefined">&#125;</span></span><br><span class="line"><span class="undefined">  &#125;,</span></span><br><span class="line"><span class="undefined">  computed:&#123;</span></span><br><span class="line"><span class="undefined">    ballStyle()&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> <span class="string">`transform:translate(<span class="subst">$&#123;<span class="keyword">this</span>.left&#125;</span>px)`</span></span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">  &#125;,</span></span><br><span class="line"><span class="undefined">  mounted()&#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">this</span>.animationFn()</span></span><br><span class="line"><span class="undefined">  &#125;</span></span><br><span class="line"><span class="undefined">&#125;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">.ball&#123;</span></span><br><span class="line"><span class="undefined">  width:100px;</span></span><br><span class="line"><span class="undefined">  height:100px;</span></span><br><span class="line"><span class="undefined">  border-radius:100px;</span></span><br><span class="line"><span class="undefined">  background-color:#f69;</span></span><br><span class="line"><span class="undefined">&#125;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/8/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/10/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/8/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" href="/page/10/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1937,7 +1999,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">180</span>
+                <span class="site-state-item-count">181</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
