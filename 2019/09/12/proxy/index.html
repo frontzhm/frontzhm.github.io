@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="vue," />
+  <meta name="keywords" content="js," />
 
 
 
@@ -87,18 +87,18 @@
 
 
 
-<meta name="description" content="请求的路径必须是不带域名的。类似于axios.get(&amp;#39;/api&amp;#39;)，不能axios.get(&amp;#39;http://xx.com/api&amp;#39;)。 只需配置vue.config.js即可 123456789101112131415161718192021// 你axios请求的是 /apis/getName  (默认会直接 将当前访问的网址的origin加在路径前面 如项目">
-<meta name="keywords" content="vue">
+<meta name="description" content="监测属性变化的有 defineProperty 和 proxy。 但两者使用和局限并不一样。  defineProperty可以监测对象修改属性或者获取属性，但不能检测对象增加或删除属性，而且也不能检测数组 proxy可以监测对象或数组，增删改查属性，但兼容性不好。 用法也不一样：proxy里操作的是对象。defineProperty操作的是一个变量值。这点特别注意。   之前写过definePr">
+<meta name="keywords" content="js">
 <meta property="og:type" content="article">
-<meta property="og:title" content="vue中proxy的使用---解决本地开发过程中与后端服务器的跨域问题">
+<meta property="og:title" content="proxy监测属性变化">
 <meta property="og:url" content="http://yoursite.com/2019/09/12/proxy/index.html">
 <meta property="og:site_name" content="花花的博客">
-<meta property="og:description" content="请求的路径必须是不带域名的。类似于axios.get(&amp;#39;/api&amp;#39;)，不能axios.get(&amp;#39;http://xx.com/api&amp;#39;)。 只需配置vue.config.js即可 123456789101112131415161718192021// 你axios请求的是 /apis/getName  (默认会直接 将当前访问的网址的origin加在路径前面 如项目">
+<meta property="og:description" content="监测属性变化的有 defineProperty 和 proxy。 但两者使用和局限并不一样。  defineProperty可以监测对象修改属性或者获取属性，但不能检测对象增加或删除属性，而且也不能检测数组 proxy可以监测对象或数组，增删改查属性，但兼容性不好。 用法也不一样：proxy里操作的是对象。defineProperty操作的是一个变量值。这点特别注意。   之前写过definePr">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-12T03:56:18.762Z">
+<meta property="og:updated_time" content="2020-09-28T02:53:31.912Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="vue中proxy的使用---解决本地开发过程中与后端服务器的跨域问题">
-<meta name="twitter:description" content="请求的路径必须是不带域名的。类似于axios.get(&amp;#39;/api&amp;#39;)，不能axios.get(&amp;#39;http://xx.com/api&amp;#39;)。 只需配置vue.config.js即可 123456789101112131415161718192021// 你axios请求的是 /apis/getName  (默认会直接 将当前访问的网址的origin加在路径前面 如项目">
+<meta name="twitter:title" content="proxy监测属性变化">
+<meta name="twitter:description" content="监测属性变化的有 defineProperty 和 proxy。 但两者使用和局限并不一样。  defineProperty可以监测对象修改属性或者获取属性，但不能检测对象增加或删除属性，而且也不能检测数组 proxy可以监测对象或数组，增删改查属性，但兼容性不好。 用法也不一样：proxy里操作的是对象。defineProperty操作的是一个变量值。这点特别注意。   之前写过definePr">
 
 
 
@@ -132,7 +132,7 @@
 
 
 
-  <title> vue中proxy的使用---解决本地开发过程中与后端服务器的跨域问题 | 花花的博客 </title>
+  <title> proxy监测属性变化 | 花花的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -282,7 +282,7 @@
             
             
               
-                vue中proxy的使用---解决本地开发过程中与后端服务器的跨域问题
+                proxy监测属性变化
               
             
           </h2>
@@ -365,17 +365,26 @@
       
 
       
-        <!-- # vue中proxy的使用---解决本地开发过程中与后端服务器的跨域问题 -->
-<p>请求的路径必须是不带域名的。类似于<code>axios.get(&#39;/api&#39;)</code>，不能<code>axios.get(&#39;http://xx.com/api&#39;)</code>。</p>
-<p>只需配置<code>vue.config.js</code>即可</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 你axios请求的是 /apis/getName  (默认会直接 将当前访问的网址的origin加在路径前面 如项目的访问地址是http://10.73.33.84:8080/#/  那么接口就是 http://10.73.33.84:8080/apis/getName)</span></span><br><span class="line"><span class="comment">// 但实际上希望能请求 http://test.staff.cn/test/apis/getName</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  devServer: &#123;</span><br><span class="line">    proxy: &#123;</span><br><span class="line">        <span class="comment">// 捕获API的标志，如果API中有这个字符串，那么就开始匹配代理，比如API请求/api/users, 会被代理到请求 http://www.baidu.com/api/users </span></span><br><span class="line">        <span class="string">'/apis'</span>: &#123;</span><br><span class="line">            <span class="comment">// target实际想请求的域名</span></span><br><span class="line">            target: <span class="string">'http://test.staff.cn'</span>,</span><br><span class="line">            <span class="comment">// 如果就是 http://test.staff.cn/apis 则不需要这行，这个是改变路径的</span></span><br><span class="line">            pathRewrite: &#123; <span class="string">'^/apis'</span>: <span class="string">'/test/apis'</span> &#125;,</span><br><span class="line">            <span class="comment">// 如果websocket服务也开启代理，需要下面的</span></span><br><span class="line">            ws: <span class="literal">true</span>,</span><br><span class="line">            <span class="comment">// 如果后端服务托管在虚拟主机的时候，也就是一个IP对应多个域名，需要通过域名区分服务，就要下面的</span></span><br><span class="line">            changeOrigin: <span class="literal">true</span>,</span><br><span class="line">            <span class="comment">// 如果后端服务器使用无效的https证书，需要加上下面的</span></span><br><span class="line">            secure: <span class="literal">false</span></span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;</span><br><span class="line">   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>每次配置完，记得重新<code>npm run serve</code></p>
-<h2 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h2><ul>
-<li><a href="https://cli.vuejs.org/zh/config/#devserver-proxy" target="_blank" rel="noopener">vuecli官网的说明</a></li>
-<li><a href="https://segmentfault.com/a/1190000016199721" target="_blank" rel="noopener">webpack开发配置API代理解决跨域问题-devServer</a></li>
-<li><a href="https://segmentfault.com/a/1190000016314976" target="_blank" rel="noopener">Webpack-dev-server的proxy用法</a></li>
-<li><a href="https://github.com/chimurai/http-proxy-middleware#proxycontext-config" target="_blank" rel="noopener">http-proxy-middleware 的github</a></li>
+        <p>监测属性变化的有 defineProperty 和 proxy。</p>
+<p>但两者使用和局限并不一样。</p>
+<ul>
+<li>defineProperty可以监测对象修改属性或者获取属性，但不能检测对象增加或删除属性，而且也不能检测数组</li>
+<li>proxy可以监测对象或数组，增删改查属性，但兼容性不好。</li>
+<li>用法也不一样：proxy里操作的是对象。defineProperty操作的是一个变量值。这点特别注意。<!-- * vue2用的defineProperty，vue3用的proxy -->
+</li>
 </ul>
+<p><a href="https://juejin.im/post/6857077890140340238" target="_blank" rel="noopener">之前写过defineProperty</a>，这里不再赘述，下面简单说下<code>proxy</code>。  </p>
+<p><code>proxy</code>字面意思代理，有点像秘书，想要约总经理，秘书都会先挡着。<a href="https://es6.ruanyifeng.com/#docs/proxy" target="_blank" rel="noopener">阮一峰大大的proxy官方解释</a>。</p>
+<p>js可以<code>Proxy</code>类创建<code>proxy实例</code>，每个实例就是某个对象的秘书。针对<strong>增删改查</strong>对象属性的操作，秘书都可以做些小动作。</p>
+<p>！！！注意，这里的对象包含数组。<br>！！！注意，这里的对象包含数组。<br>！！！注意，这里的对象包含数组。   </p>
+<h2 id="怎么拦截对象增删改查属性"><a href="#怎么拦截对象增删改查属性" class="headerlink" title="怎么拦截对象增删改查属性"></a>怎么拦截对象增删改查属性</h2><p>没啥悬念，直接上demo。</p>
+<h3 id="改查"><a href="#改查" class="headerlink" title="改查"></a>改查</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 比如，obj就是我</span></span><br><span class="line"><span class="keyword">let</span> obj = &#123; <span class="attr">name</span>: <span class="string">"颜酱"</span>, <span class="attr">age</span>: <span class="number">18</span>, <span class="attr">phone</span>: <span class="number">18362780848</span> &#125;;</span><br><span class="line"><span class="comment">// 给我加个秘书</span></span><br><span class="line"><span class="keyword">let</span> proxy = <span class="keyword">new</span> <span class="built_in">Proxy</span>(obj, &#123;</span><br><span class="line">  <span class="comment">// 想要知道我的其他信息，先问问秘书，秘书心情好就说</span></span><br><span class="line">  get(target, key) &#123;</span><br><span class="line">    <span class="comment">// target就是obj，key就是访问的属性</span></span><br><span class="line">    <span class="keyword">const</span> isHappy = <span class="built_in">Math</span>.random() &gt; <span class="number">0.5</span>;</span><br><span class="line">    <span class="keyword">return</span> isHappy ? target[key] : <span class="string">"不太清楚"</span>;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment">// 想更新我的信息，同样看我秘书心情</span></span><br><span class="line">  set(target, key, value) &#123;</span><br><span class="line">    <span class="comment">// target就是obj，key就是访问的属性,value是别人想要的属性值</span></span><br><span class="line">    <span class="keyword">const</span> isHappy = <span class="built_in">Math</span>.random() &gt; <span class="number">0.5</span>;</span><br><span class="line">    <span class="comment">// 心情好就更新,不好就不改了</span></span><br><span class="line">    isHappy ? (target[key] = value) : <span class="built_in">console</span>.log(<span class="string">"修改失败"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// 这里注意，只能使用秘书，只有秘书才会说或者不说，如果直接obj.name跟秘书就没关系了</span></span><br><span class="line"><span class="built_in">console</span>.log(proxy.name);</span><br><span class="line"><span class="comment">// 同理，这里不能 obj.phone = 28</span></span><br><span class="line">proxy.phone = <span class="number">18362790909</span>;</span><br><span class="line"><span class="comment">// 一旦修改成功，obj.phone就会被更新，当然不成功肯定不会被更新</span></span><br><span class="line"><span class="built_in">console</span>.log(proxy, obj);</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="增删"><a href="#增删" class="headerlink" title="增删"></a>增删</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 比如，obj就是我，但是呢，是不是单身属于我的隐私，我不想别知道</span></span><br><span class="line"><span class="keyword">let</span> obj = &#123; <span class="attr">name</span>: <span class="string">"颜酱"</span>, <span class="attr">age</span>: <span class="number">18</span>, <span class="attr">phone</span>: <span class="number">18362780848</span>, <span class="attr">moonCake</span>: <span class="number">1</span> &#125;;</span><br><span class="line"><span class="comment">// 给我加个秘书</span></span><br><span class="line"><span class="keyword">let</span> proxy = <span class="keyword">new</span> <span class="built_in">Proxy</span>(obj, &#123;</span><br><span class="line">  <span class="comment">// 想吃掉我的月饼，那不行</span></span><br><span class="line">  deleteProperty(target, key) &#123;</span><br><span class="line">    <span class="comment">// target就是obj，key就是要删的属性</span></span><br><span class="line">    <span class="keyword">if</span> (key !== <span class="string">"moonCake"</span>) &#123;</span><br><span class="line">      <span class="comment">// 要删除记得这里再次使用delete语法</span></span><br><span class="line">      <span class="keyword">delete</span> target[key];</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">"不能删除月饼"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 如果这个方法返回false或者报错就会删除失败</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment">// 想给我加食物，跟我说下. 这里注意增和改的操作都是set</span></span><br><span class="line">  set(target, key, value) &#123;</span><br><span class="line">    <span class="keyword">const</span> isAdd = !target.hasOwnProperty(key)</span><br><span class="line">    isAdd &amp;&amp; <span class="built_in">console</span>.log(<span class="string">"加食物喽"</span>);</span><br><span class="line">    target[key] = value;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// 同理是 proxy而不是obj哈</span></span><br><span class="line"><span class="keyword">delete</span> proxy[<span class="string">"moonCake"</span>];</span><br><span class="line"><span class="keyword">delete</span> proxy[<span class="string">"phone"</span>];</span><br><span class="line">proxy.waterMelon = <span class="number">1</span>;</span><br><span class="line"><span class="comment">// &#123; name: '颜酱', age: 18, moonCake: 1, waterMelon: 1 &#125;</span></span><br><span class="line"><span class="built_in">console</span>.log(proxy, obj);</span><br></pre></td></tr></table></figure>
+<h2 id="proxy不能劫持到第二级的对象"><a href="#proxy不能劫持到第二级的对象" class="headerlink" title="proxy不能劫持到第二级的对象"></a>proxy不能劫持到第二级的对象</h2><p>就是对象套对象，只能劫持到第一层。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123; <span class="attr">name</span>: <span class="string">"颜酱"</span>, <span class="attr">age</span>: <span class="number">18</span>, <span class="attr">boyFriend</span>: &#123; <span class="attr">name</span>: <span class="string">"包子"</span> &#125; &#125;;</span><br><span class="line"><span class="keyword">let</span> proxy = <span class="keyword">new</span> <span class="built_in">Proxy</span>(obj, &#123;</span><br><span class="line">  get(target, key) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(key);</span><br><span class="line">    <span class="keyword">return</span> target[key];</span><br><span class="line">  &#125;,</span><br><span class="line">  set(target, key, value) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(key);</span><br><span class="line">    target[key] = value;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">console</span>.log(proxy.boyFriend.name);</span><br><span class="line">proxy.boyFriend.name = <span class="string">"萌萌的包子"</span>;</span><br><span class="line"><span class="built_in">console</span>.log(proxy, obj);</span><br></pre></td></tr></table></figure>
+<h2 id="深层监测，需要递归"><a href="#深层监测，需要递归" class="headerlink" title="深层监测，需要递归"></a>深层监测，需要递归</h2><p>所以如果想深层次监测对象，又要用到递归了。递归的逻辑在以往的文章中基本也用烂了，这里不多说。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">observeObj</span>(<span class="params">obj</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 这边把handle拿出来，看着更清晰</span></span><br><span class="line">  <span class="keyword">const</span> handle = &#123;</span><br><span class="line">    get(target, key) &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">"get"</span>);</span><br><span class="line">      <span class="comment">// 如果是对象的话就递归  </span></span><br><span class="line">      <span class="keyword">if</span> (<span class="keyword">typeof</span> target[key] === <span class="string">"object"</span> &amp;&amp; target[key] !== <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> observeObj(target[key]);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> target[key];</span><br><span class="line">    &#125;,</span><br><span class="line">    set(target, key, value) &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">"set"</span>);</span><br><span class="line">      target[key] = value;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">const</span> proxy = <span class="keyword">new</span> <span class="built_in">Proxy</span>(obj, handle);</span><br><span class="line">  <span class="keyword">return</span> proxy;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> obj = &#123; <span class="attr">name</span>: <span class="string">"颜酱"</span>, <span class="attr">age</span>: <span class="number">18</span>, <span class="attr">boyFriend</span>: &#123; <span class="attr">name</span>: <span class="string">"包子"</span> &#125; &#125;;</span><br><span class="line"><span class="keyword">let</span> x = observeObj(obj);</span><br><span class="line"><span class="built_in">console</span>.log(x.boyFriend.name);</span><br><span class="line">x.boyFriend.name = <span class="string">"肉包子"</span>;</span><br><span class="line"><span class="built_in">console</span>.log(x, obj);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 数组也行的哟~</span></span><br><span class="line"><span class="keyword">let</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>];</span><br><span class="line"><span class="keyword">let</span> x1 = observeObj(arr);</span><br><span class="line"><span class="built_in">console</span>.log(x1[<span class="number">2</span>]);</span><br><span class="line">x1[<span class="number">2</span>] = <span class="number">8</span>;</span><br><span class="line"><span class="built_in">console</span>.log(x1, arr);</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -399,7 +408,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/vue/" rel="tag"># vue</a>
+            <a href="/tags/js/" rel="tag"># js</a>
           
         </div>
       
@@ -451,7 +460,7 @@
   <div class="comments" id="comments">
     
       <div class="ds-thread" data-thread-key="2019/09/12/proxy/"
-           data-title="vue中proxy的使用---解决本地开发过程中与后端服务器的跨域问题" data-url="http://yoursite.com/2019/09/12/proxy/">
+           data-title="proxy监测属性变化" data-url="http://yoursite.com/2019/09/12/proxy/">
       </div>
     
   </div>
@@ -557,7 +566,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文档"><span class="nav-number">1.</span> <span class="nav-text">参考文档</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#怎么拦截对象增删改查属性"><span class="nav-number">1.</span> <span class="nav-text">怎么拦截对象增删改查属性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#改查"><span class="nav-number">1.1.</span> <span class="nav-text">改查</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#增删"><span class="nav-number">1.2.</span> <span class="nav-text">增删</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#proxy不能劫持到第二级的对象"><span class="nav-number">2.</span> <span class="nav-text">proxy不能劫持到第二级的对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#深层监测，需要递归"><span class="nav-number">3.</span> <span class="nav-text">深层监测，需要递归</span></a></li></ol></div>
             
 
           </div>
