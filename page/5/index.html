@@ -261,6 +261,181 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/03/zf-1-high-fn/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2020/03/03/zf-1-high-fn/" itemprop="url">
+                  高阶函数
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-03T16:35:02+08:00">
+                2020-03-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/03/03/zf-1-high-fn/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/03/03/zf-1-high-fn/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>高阶函数是啥，符合以下任意一个条件就是：</p>
+<ol>
+<li>参数有函数</li>
+<li>返回值是函数</li>
+</ol>
+<p>返回值是函数的时候，就涉及到闭包，闭包其实就是函数可以不在定义的作用域里运行。比如在某个函数里定义一个新函数，那这个新函数可以在别的作用域运行。</p>
+<h2 id="高阶函数的起始例子：isType"><a href="#高阶函数的起始例子：isType" class="headerlink" title="高阶函数的起始例子：isType"></a>高阶函数的起始例子：isType</h2><ol>
+<li>判断一个变量什么类型的，最开始可能这样写</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1. 判断是什么类型 typeof instanceof toString</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isType</span>(<span class="params">type, content</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">Object</span>.prototype.toString.call(content) === <span class="string">`[object <span class="subst">$&#123;type&#125;</span>]`</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(isType(<span class="number">123</span>, <span class="string">"Number"</span>));</span><br></pre></td></tr></table></figure>
+<p>但是缺点是，单词一拼错，就容易出问题</p>
+<ol>
+<li>于是返回一个函数，这样想判断什么函数，就用生成相应的函数</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isType</span>(<span class="params">type</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">content</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Object</span>.prototype.toString.call(content) === <span class="string">`[object <span class="subst">$&#123;type&#125;</span>]`</span>;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> isNumber = isType(<span class="string">"Number"</span>);</span><br><span class="line"><span class="built_in">console</span>.log(isNumber(<span class="number">123</span>));</span><br></pre></td></tr></table></figure>
+<h2 id="高阶函数最大的好处：可以拓展函数，也可以说是装饰"><a href="#高阶函数最大的好处：可以拓展函数，也可以说是装饰" class="headerlink" title="高阶函数最大的好处：可以拓展函数，也可以说是装饰"></a>高阶函数最大的好处：可以拓展函数，也可以说是装饰</h2><ol>
+<li>说话</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 有个说话的函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">say</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"hi"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 希望能在说话之前做什么事</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 统一扩展所有的函数</span></span><br><span class="line"><span class="built_in">Function</span>.prototype.before = <span class="function"><span class="keyword">function</span>(<span class="params">fn</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    fn();</span><br><span class="line">    <span class="keyword">this</span>();</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> newSay = say.before(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"刷牙"</span>);</span><br><span class="line">&#125;);</span><br><span class="line">newSay();</span><br></pre></td></tr></table></figure>
+<ol>
+<li>当有参数的时候，谁在说话</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 有个说话的函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">say</span>(<span class="params">who</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"hi"</span>, who);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 希望能在说话之前做什么事</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 统一扩展所有的函数</span></span><br><span class="line"><span class="built_in">Function</span>.prototype.before = <span class="function"><span class="keyword">function</span>(<span class="params">fn</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 箭头函数里没有this arguments，但是可以传入...args</span></span><br><span class="line">  <span class="keyword">return</span> <span class="function">(<span class="params">...args</span>) =&gt;</span> &#123;</span><br><span class="line">    fn();</span><br><span class="line">    <span class="comment">// this本身的参数 比如say，装饰之后参数不变，newSay依旧需要who</span></span><br><span class="line">    <span class="keyword">this</span>(...args);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> newSay = say.before(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"刷牙"</span>);</span><br><span class="line">&#125;);</span><br><span class="line">newSay(<span class="string">"我"</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="高阶函数可以处理多个异步请求"><a href="#高阶函数可以处理多个异步请求" class="headerlink" title="高阶函数可以处理多个异步请求"></a>高阶函数可以处理多个异步请求</h2><p>需要拿到多个请求之后，执行某函数的话，怎么处理呢。<br>最次方案回调地狱，不列举了。<br>每个请求都调用同样的函数，这个函数里面计数，当数量满足的时候，执行想要的操作。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这是多个请求结果返回之后向做的事</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">wantSay</span>(<span class="params">data</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"say"</span>, data);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 这里封装一个高阶函数，可以控制执行多少次之后才真正执行某函数</span></span><br><span class="line"><span class="comment">// fn执行times次数之后才真正执行fn</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">timesFn</span>(<span class="params">times, fn</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> obj = &#123;&#125;;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">key, value</span>) </span>&#123;</span><br><span class="line">    times = times - <span class="number">1</span>;</span><br><span class="line">    obj[key] = value;</span><br><span class="line">    <span class="keyword">if</span> (times === <span class="number">0</span>) &#123;</span><br><span class="line">      fn(obj);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> timesWantSay = timesFn(<span class="number">2</span>, wantSay);</span><br><span class="line">fs.readFile(<span class="string">"./a.txt"</span>, data =&gt; &#123;</span><br><span class="line">  timesWantSay(<span class="string">"name"</span>, data);</span><br><span class="line">&#125;);</span><br><span class="line">fs.readFile(<span class="string">"./b.txt"</span>, data =&gt; &#123;</span><br><span class="line">  timesWantSay(<span class="string">"age"</span>, data);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>高阶函数还应用在柯里化和反柯里化。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/03/deploy_window/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1907,158 +2082,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/27/doctor-6_1-experience/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2019/11/27/doctor-6_1-experience/" itemprop="url">
-                  6.1-科学育儿观，原来经验并不靠谱
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-27T13:45:49+08:00">
-                2019-11-27
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/医学/" itemprop="url" rel="index">
-                    <span itemprop="name">医学</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/11/27/doctor-6_1-experience/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/11/27/doctor-6_1-experience/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>人的思维分两种形式，快思考和慢思考。看到图像能知道是谁属于快思考，能快速得到答案。计算方程属于慢思考，需要逻辑分析等等，比较慢。<br>快思考倾向于经验，慢思考偏向于逻辑分析。<br>不能一味的相信经验，感官直觉，很多时候需要克服经验主义，进行科学的思考和分析。  </p>
-<p>比如，医学上很久以前有放血疗法，华盛顿总统因为这种疗法去世，后期被证明，很多情况下放血疗法效果不好。<br>正因为科学的思考和分析，产生纠错机制，让医学科学而快速的发展。  </p>
-<p>思考题：医生，在当时已经写了放血疗法不那么靠谱的一篇论文，但没有发布，如果你在当场你的建议是？<br>如果没有相应的实力保护自己的人身和财产安全，可以让自己的后代慢慢推广。    </p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2108,7 +2131,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">187</span>
+                <span class="site-state-item-count">188</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
