@@ -261,6 +261,167 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/06/throttle/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2020/05/06/throttle/" itemprop="url">
+                  节流：阻止函数被动的频繁调用
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-06T11:32:13+08:00">
+                2020-05-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/05/06/throttle/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/05/06/throttle/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>函数节流主要是解决非用户操作导致的函数被频繁调用的问题。</p>
+<h2 id="节流背景"><a href="#节流背景" class="headerlink" title="节流背景"></a>节流背景</h2><p>浏览器中一些事件让函数非常频繁地调用，从而造成大的性能问题。</p>
+<ul>
+<li>window.onresize 事件。当浏览器窗口大小被拖动而改变的时候，这个事件触发的频率非常之高。<br>如果我们在 window.onresize 事件函数里有一些跟 DOM 节点相关的操作，这时候浏览器可能就会吃不消而造成卡顿现象。</li>
+<li>mousemove 事件。同样，如果我们给一个 div 节点绑定了拖曳事件（主要是 mousemove），当<br>div 节点被拖动的时候，也会频繁地触发该拖曳事件函数。</li>
+<li>上传进度。一些上传插件在真正开始上传文件之前，会对文件进行扫描并随时通知 JavaScript 函数，以便在页面中显示当前的扫描进度。通知的频率非常之高，大约一秒钟 10 次，很显然我们在页面中不需要如此频繁地去提示用户。  </li>
+</ul>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>其实上面的问题在于，函数被触发的频率太高，1s可能运行了 10 次，但显然我们可能500ms运行1次就够</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">throttle</span>(<span class="params">fn, delay = <span class="number">500</span></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 记录上一次运行时间，初始设置0</span></span><br><span class="line">  <span class="keyword">let</span> lastDate = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">...args</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> now = <span class="keyword">new</span> <span class="built_in">Date</span>() - <span class="number">0</span>;</span><br><span class="line">    <span class="comment">// 当次运行的时间和上一次时间的差值，超过500ms运行，否则不运行</span></span><br><span class="line">    <span class="keyword">if</span> (now - lastDate &lt; delay) &#123;</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 迭代上一次运行时间</span></span><br><span class="line">    lastDate = now;</span><br><span class="line">    fn.call(<span class="literal">null</span>, ...args);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="实现逻辑"><a href="#实现逻辑" class="headerlink" title="实现逻辑"></a>实现逻辑</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 1. 普通的函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">print</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">new</span> <span class="built_in">Date</span>());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> delay = <span class="number">1000</span>;</span><br><span class="line"><span class="keyword">let</span> lastDate = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">print1</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> now = <span class="keyword">new</span> <span class="built_in">Date</span>() - <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">if</span> (now - lastDate &lt; delay) &#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  lastDate = now;</span><br><span class="line">&#125;</span><br><span class="line">print1();</span><br><span class="line">print1();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. 相关内容封装</span></span><br><span class="line"><span class="keyword">var</span> print2 = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> delay = <span class="number">1000</span>;</span><br><span class="line">  <span class="keyword">let</span> lastDate = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> now = <span class="keyword">new</span> <span class="built_in">Date</span>() - <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (now - lastDate &lt; delay) &#123;</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    lastDate = now;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">new</span> <span class="built_in">Date</span>());</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;)();</span><br><span class="line">print2();</span><br><span class="line">print2();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 3. 提取参数</span></span><br><span class="line"><span class="keyword">var</span> print3 = <span class="function"><span class="keyword">function</span>(<span class="params">fn, delay = <span class="number">1000</span></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> lastDate = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> now = <span class="keyword">new</span> <span class="built_in">Date</span>() - <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (now - lastDate &lt; delay) &#123;</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    lastDate = now;</span><br><span class="line">    fn.apply(<span class="literal">null</span>, <span class="built_in">arguments</span>);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">print</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">new</span> <span class="built_in">Date</span>());</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> print3Demo = print3(print, <span class="number">1000</span>);</span><br><span class="line">print3Demo();</span><br><span class="line">print3Demo();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 4. 再抽象一层</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">throttle</span>(<span class="params">fn, delay = <span class="number">500</span></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> lastDate = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">...args</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> now = <span class="keyword">new</span> <span class="built_in">Date</span>() - <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (now - lastDate &lt; delay) &#123;</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    lastDate = now;</span><br><span class="line">    fn.call(<span class="literal">null</span>, ...args);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">print</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(name, <span class="keyword">new</span> <span class="built_in">Date</span>());</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> tprint = throttle(print, <span class="number">100</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">10000000</span>; i++) &#123;</span><br><span class="line">  tprint(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用场景：</span></span><br><span class="line"><span class="built_in">window</span>.onresize = throttle(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="number">1</span>);</span><br><span class="line">&#125;, <span class="number">500</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="《JavaScript设计模式与开发实践》"><a href="#《JavaScript设计模式与开发实践》" class="headerlink" title="《JavaScript设计模式与开发实践》"></a>《JavaScript设计模式与开发实践》</h2><p>本文主要在看《JavaScript设计模式与开发实践》，再进行总结的，作者写的很棒，作者写的<code>throttle</code>。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// throttle 函数的原理是，将即将被执行的函数用 setTimeout 延迟一段时间执行。如果该次延迟执行还没有完成，则忽略接下来调用该函数的请求。throttle 函数接受 2 个参数，第一个参数为需要被延迟执行的函数，第二个参数为延迟执行的时间。</span></span><br><span class="line"><span class="keyword">var</span> throttle = <span class="function"><span class="keyword">function</span>(<span class="params">fn, interval</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> __self = fn, <span class="comment">// 保存需要被延迟执行的函数引用</span></span><br><span class="line">    timer, <span class="comment">// 定时器</span></span><br><span class="line">    firstTime = <span class="literal">true</span>; <span class="comment">// 是否是第一次调用</span></span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> args = <span class="built_in">arguments</span>,</span><br><span class="line">      __me = <span class="keyword">this</span>;</span><br><span class="line">    <span class="keyword">if</span> (firstTime) &#123;</span><br><span class="line">      <span class="comment">// 如果是第一次调用，不需延迟执行</span></span><br><span class="line">      __self.apply(__me, args);</span><br><span class="line">      <span class="keyword">return</span> (firstTime = <span class="literal">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (timer) &#123;</span><br><span class="line">      <span class="comment">// 如果定时器还在，说明前一次延迟执行还没有完成</span></span><br><span class="line">      <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    timer = setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="comment">// 延迟一段时间执行</span></span><br><span class="line">      clearTimeout(timer);</span><br><span class="line">      timer = <span class="literal">null</span>;</span><br><span class="line">      __self.apply(__me, args);</span><br><span class="line">    &#125;, interval || <span class="number">500</span>);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">window</span>.onresize = throttle(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="number">1</span>);</span><br><span class="line">&#125;, <span class="number">500</span>);</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/24/checkbox/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1897,162 +2058,11 @@ fs.readFile("/Users/zhm/blog/source/_posts/zf-name.txt",'utf8', (err,data) => {
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/31/stringify/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2020/03/31/stringify/" itemprop="url">
-                  stringify一个对象
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-31T16:14:58+08:00">
-                2020-03-31
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2020/03/31/stringify/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/03/31/stringify/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>简单记录，<code>url</code>上<code>stringify</code>一些参数</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// &#123;a:1,b:2&#125; =&gt; a=1&amp;b=2，不考虑深层嵌套</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">stringify</span>(<span class="params">params</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> str = <span class="string">""</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> k <span class="keyword">in</span> params) &#123;</span><br><span class="line">    <span class="keyword">var</span> value = <span class="keyword">typeof</span> params[k] === <span class="string">"undefined"</span> ? <span class="string">""</span> : params[k];</span><br><span class="line">    str += <span class="string">`&amp;<span class="subst">$&#123;<span class="built_in">encodeURIComponent</span>(value)&#125;</span>`</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> str ? str.slice(<span class="number">1</span>) : <span class="string">""</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// '/api',&#123;a:1,b:2&#125;  =&gt; '/api?a=1&amp;b=2'</span></span><br><span class="line"><span class="comment">// '/api?c=1',&#123;a:1,b:2&#125;  =&gt; '/api?c=1&amp;a=1&amp;b=2'</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">joinUrl</span>(<span class="params">url, params</span>) </span>&#123;</span><br><span class="line">  url += (url.includes(<span class="string">"?"</span>) ? <span class="string">"&amp;"</span> : <span class="string">"?"</span>) + stringify(params);</span><br><span class="line">  <span class="keyword">return</span> url;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -2097,7 +2107,7 @@ fs.readFile("/Users/zhm/blog/source/_posts/zf-name.txt",'utf8', (err,data) => {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">190</span>
+                <span class="site-state-item-count">191</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
