@@ -1,0 +1,746 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="js," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="async-validator的官方文档，真真”通俗易懂”。 为自己以后快速使用，这边写了个简单使用方法。 校验单个表单元素先看demo：  123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869">
+<meta name="keywords" content="js">
+<meta property="og:type" content="article">
+<meta property="og:title" content="怎么使用async-validator快速校验表单">
+<meta property="og:url" content="http://yoursite.com/2020/11/20/async-validator/index.html">
+<meta property="og:site_name" content="花花的博客">
+<meta property="og:description" content="async-validator的官方文档，真真”通俗易懂”。 为自己以后快速使用，这边写了个简单使用方法。 校验单个表单元素先看demo：  123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5e40acfe66504f84a3d33cfff2edef8b~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f2a72b45fabe43adad5605667c678d10~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:updated_time" content="2020-11-20T11:58:24.758Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="怎么使用async-validator快速校验表单">
+<meta name="twitter:description" content="async-validator的官方文档，真真”通俗易懂”。 为自己以后快速使用，这边写了个简单使用方法。 校验单个表单元素先看demo：  123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869">
+<meta name="twitter:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5e40acfe66504f84a3d33cfff2edef8b~tplv-k3u1fbpfcp-zoom-1.image">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/11/20/async-validator/"/>
+
+
+
+
+
+  <title> 怎么使用async-validator快速校验表单 | 花花的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?60f2cb5747a596a24f2a053f1650c30b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">花花的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/20/async-validator/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                怎么使用async-validator快速校验表单
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-11-20T19:58:24+08:00">
+                2020-11-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/11/20/async-validator/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/11/20/async-validator/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="https://github.com/yiminghe/async-validator" target="_blank" rel="noopener">async-validator</a>的官方文档，真真”通俗易懂”。</p>
+<p>为自己以后快速使用，这边写了个简单使用方法。</p>
+<h2 id="校验单个表单元素"><a href="#校验单个表单元素" class="headerlink" title="校验单个表单元素"></a>校验单个表单元素</h2><p>先看demo：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5e40acfe66504f84a3d33cfff2edef8b~tplv-k3u1fbpfcp-zoom-1.image" alt="validator"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line">&lt;template lang=&quot;pug&quot;&gt;</span><br><span class="line">div</span><br><span class="line">  input(v-model=&quot;title&quot; @input=&quot;validateValue&quot;) </span><br><span class="line">  div(v-if=&quot;errorMessage&quot;) &#123;&#123;errorMessage&#125;&#125;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">import Schema from &quot;async-validator&quot;;</span><br><span class="line">// 自定义规则函数的模板</span><br><span class="line">const validateData = (rule, value, callback) =&gt; &#123;</span><br><span class="line">  let errorMessage;</span><br><span class="line">  if (value === &quot;坏蛋&quot;) &#123;</span><br><span class="line">    errorMessage = &quot;请文明用语&quot;;</span><br><span class="line">  &#125;</span><br><span class="line">  callback(errorMessage);</span><br><span class="line">&#125;;</span><br><span class="line">export default &#123;</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      config: &#123;</span><br><span class="line">        modelKey: &quot;title&quot;,</span><br><span class="line">        label: &quot;标题&quot;,</span><br><span class="line">        rule: [</span><br><span class="line">          &#123; required: true, message: &quot;标题不能为空&quot; &#125;,</span><br><span class="line">          &#123; min: 3, message: &quot;长度最小是3&quot; &#125;,</span><br><span class="line">          &#123; max: 6, message: &quot;长度最大是6&quot; &#125;,</span><br><span class="line">          validateData</span><br><span class="line">        ]</span><br><span class="line">      &#125;,</span><br><span class="line">      title: &quot;&quot;,</span><br><span class="line">      errorMessage: &quot;&quot;</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    // 封装 校验单个表单元素的值是否有效。参数：单个表单元素的配置、表单元素的value</span><br><span class="line">    // 返回值是promise类型， &#123;isValid:true,errorMessages:[&quot;xx&quot;,&quot;ddd&quot;]&#125;</span><br><span class="line">    validateFormItem(config, value) &#123;</span><br><span class="line">      // 获取绑定的是什么属性</span><br><span class="line">      const &#123; modelKey, rule &#125; = config;</span><br><span class="line">      // 1. 通过描述信息创建一个骨架</span><br><span class="line">      const schema = new Schema(&#123; [modelKey]: rule &#125;);</span><br><span class="line">      // 2. 将结果扔出去</span><br><span class="line">      return new Promise(resolve =&gt; &#123;</span><br><span class="line">        schema.validate(&#123; [modelKey]: value &#125;, err =&gt; &#123;</span><br><span class="line">          // 没有错误，就说明是有效值</span><br><span class="line">          if (!err) &#123;</span><br><span class="line">            resolve(&#123; isValid: true &#125;);</span><br><span class="line">            return;</span><br><span class="line">          &#125;</span><br><span class="line">          // 错误的话，拿到所有的错误信息列表</span><br><span class="line">          let errorMessages = err.map(item =&gt; item.message);</span><br><span class="line">          resolve(&#123; isValid: false, errorMessages &#125;);</span><br><span class="line">        &#125;);</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;,</span><br><span class="line">    // 使用校验</span><br><span class="line">    async validateValue() &#123;</span><br><span class="line">      // 异步方法</span><br><span class="line">      const &#123; isValid, errorMessages &#125; = await this.validateFormItem(</span><br><span class="line">        this.config,</span><br><span class="line">        this.title</span><br><span class="line">      );</span><br><span class="line">      if (isValid) &#123;</span><br><span class="line">        this.errorMessage = &quot;&quot;;</span><br><span class="line">        return;</span><br><span class="line">      &#125;</span><br><span class="line">      // 有错误的话 显示所有错误信息</span><br><span class="line">      this.errorMessage = errorMessages.join(&quot; / &quot;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>使用方法：</p>
+<ul>
+<li>用描述信息创建Schema实例</li>
+<li><code>schema.validate</code>是一个异步操作，这边用<code>promise</code></li>
+<li><code>rule</code>规则里，可以使用官方自带的一些校验规则，也可以写个自定义规则的函数</li>
+</ul>
+<h2 id="校验整个表单"><a href="#校验整个表单" class="headerlink" title="校验整个表单"></a>校验整个表单</h2><p>还是先看demo：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f2a72b45fabe43adad5605667c678d10~tplv-k3u1fbpfcp-zoom-1.image" alt="validator2"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">&lt;template lang=&quot;pug&quot;&gt;</span><br><span class="line">form</span><br><span class="line">  div(v-for=&quot;(config,index) in configs&quot; :key=&quot;index&quot;)</span><br><span class="line">    label &#123;&#123;config.label&#125;&#125;</span><br><span class="line">    input(v-model=&quot;formData[config.modelKey]&quot; @input=&quot;validateValue(config)&quot;)</span><br><span class="line">    span(v-if=&quot;config.errorMessage&quot; style=&quot;color:&apos;red&apos;&quot;)  &#123;&#123;config.errorMessage&#125;&#125;</span><br><span class="line">  button(@click.stop=&quot;submit&quot;) 点击提交</span><br><span class="line">&lt;/template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">import Schema from &quot;async-validator&quot;;</span><br><span class="line">const validateData = ...</span><br><span class="line">export default &#123;</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      formData: &#123;</span><br><span class="line">        title: &quot;&quot;,</span><br><span class="line">        content: &quot;&quot;</span><br><span class="line">      &#125;,</span><br><span class="line">      configs: [</span><br><span class="line">        &#123;</span><br><span class="line">          modelKey: &quot;title&quot;,</span><br><span class="line">          label: &quot;标题&quot;,</span><br><span class="line">          rule: [</span><br><span class="line">            &#123; required: true, message: &quot;标题不能为空&quot; &#125;,</span><br><span class="line">            &#123; min: 3, message: &quot;长度最小是3&quot; &#125;,</span><br><span class="line">            &#123; max: 6, message: &quot;长度最大是6&quot; &#125;,</span><br><span class="line">            validateData</span><br><span class="line">          ],</span><br><span class="line">          errorMessage: &quot;&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          modelKey: &quot;content&quot;,</span><br><span class="line">          label: &quot;内容&quot;,</span><br><span class="line">          rule: [&#123; required: true, message: &quot;内容不能为空&quot; &#125;],</span><br><span class="line">          errorMessage: &quot;&quot;</span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    validateFormItem(config, value) &#123;...&#125;</span><br><span class="line">    async validateValue(config) &#123;</span><br><span class="line">      // 异步方法</span><br><span class="line">      const &#123; isValid, errorMessages &#125; = await this.validateFormItem(</span><br><span class="line">        config,</span><br><span class="line">        this.formData[config.modelKey]</span><br><span class="line">      );</span><br><span class="line">      if (isValid) &#123;</span><br><span class="line">        config.errorMessage = &quot;&quot;;</span><br><span class="line">        return;</span><br><span class="line">      &#125;</span><br><span class="line">      // 有错误的话 显示所有错误信息</span><br><span class="line">      config.errorMessage = errorMessages.join(&quot; / &quot;);</span><br><span class="line">    &#125;,</span><br><span class="line">    submit() &#123;</span><br><span class="line">      const isOk = this.configs.every(item =&gt; !item.errorMessage);</span><br><span class="line">      alert(isOk ? &quot;提交成功&quot; : &quot;不符合规范哟&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>这里其实就是通过配置的形式，简单实现了表单的验证。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/js/" rel="tag"># js</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/11/20/vue-component-contact/" rel="next" title="总结 -- vue组件通信系列">
+                <i class="fa fa-chevron-left"></i> 总结 -- vue组件通信系列
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2020/11/20/async-validator/"
+           data-title="怎么使用async-validator快速校验表单" data-url="http://yoursite.com/2020/11/20/async-validator/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://omizt4opc.bkt.clouddn.com/avatar.jpg"
+               alt="frontzhm" />
+          <p class="site-author-name" itemprop="name">frontzhm</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">197</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">52</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#校验单个表单元素"><span class="nav-number">1.</span> <span class="nav-text">校验单个表单元素</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#校验整个表单"><span class="nav-number">2.</span> <span class="nav-text">校验整个表单</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">frontzhm</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"frontzhm"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
