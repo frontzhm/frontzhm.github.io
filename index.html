@@ -261,6 +261,176 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/20/vue-ref/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2020/11/20/vue-ref/" itemprop="url">
+                  ref/$refs的使用场景 -- vue组件通信系列
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-11-20T14:34:35+08:00">
+                2020-11-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/11/20/vue-ref/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/11/20/vue-ref/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>vue 组件的数据通信方式很多，本篇着重讲<code>ref/$refs</code>，神助<code>$nextTick</code>。</p>
+<p>作用：获取节点或组件实例。<br>场景：简单的获取节点或组件实例的属性或者方法，但并不改变其数据。<br>缺陷：必须在模板渲染之后，不是响应式的，时不时配合<code>$nextTick</code></p>
+<p><code>ref</code>放在不同的位置，有不同的效果：</p>
+<ul>
+<li>节点时，可以通过<code>this.$refs.p</code>得到节点的属性或者方法，如<code>&lt;p ref=&quot;p&quot;&gt;hello&lt;/p&gt;</code></li>
+<li>组件时，可以通过<code>this.$refs.child</code>得到相应的组件实例，从而得到组件上面的属性和方法，如<code>&lt;child-component ref=&quot;child&quot;&gt;&lt;/child-component&gt;</code></li>
+<li>v-for语法时，可以通过<code>this.$refs.items</code>得到节点或组件实例的数组，具体的某项，需要<code>this.$refs.items[index]</code>，如<code>&lt;item ref=&quot;items&quot; v-for=&quot;.&quot;&gt;hello&lt;/item&gt;</code></li>
+</ul>
+<h2 id="ref要在组件渲染完成之后才能生效"><a href="#ref要在组件渲染完成之后才能生效" class="headerlink" title="ref要在组件渲染完成之后才能生效"></a>ref要在组件渲染完成之后才能生效</h2><p><code>ref</code> 是以属性的方式存在标签上，所以在<strong>组件渲染完成</strong>之后才会生效。<br>因此<code>$refs</code> 不是响应式的，避免在模板或计算属性中访问 <code>$refs</code>。</p>
+<p>举个例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">&lt;template lang=&quot;pug&quot;&gt;</span><br><span class="line">div</span><br><span class="line">  list-item(ref=&quot;listItem1&quot;)</span><br><span class="line">  list-item(v-if=&quot;isShow&quot; ref=&quot;listItem2&quot;)</span><br><span class="line">&lt;/template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">import ListItem from &quot;@/components/ListItem&quot;;</span><br><span class="line">export default &#123;</span><br><span class="line">  components: &#123; ListItem &#125;,</span><br><span class="line">  data:() =&gt; (&#123; isShow: &quot;&quot; &#125;),</span><br><span class="line">  created() &#123;</span><br><span class="line">    // 此时模板未渲染</span><br><span class="line">    // &#123;&#125;</span><br><span class="line">    console.log(1, this.$refs);</span><br><span class="line">  &#125;,</span><br><span class="line">  mounted() &#123;</span><br><span class="line">    // 模板已渲染，但isShow是false，所以没有listItem2</span><br><span class="line">    // &#123; listItem1:&#123;...&#125; &#125;</span><br><span class="line">    console.log(2, this.$refs);</span><br><span class="line">    setTimeout(() =&gt; &#123;</span><br><span class="line">      this.isShow = true;</span><br><span class="line">      // 即便这里isShow是true了，但是模板还没更新</span><br><span class="line">      // &#123; listItem1:&#123;...&#125; &#125;</span><br><span class="line">      console.log(3, this.$refs);</span><br><span class="line">      this.$nextTick(() =&gt; &#123;</span><br><span class="line">        // 只有在模板更新之后</span><br><span class="line">        // &#123; listItem1:&#123;...&#125;,listItem1:&#123;...&#125; &#125;</span><br><span class="line">        console.log(4, this.$refs);</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;, 500);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>created</code>的时候，<code>$refs</code>只是一个空对象。</li>
+<li><code>mounted</code>的时候，<code>$refs</code>才有数据，但没有渲染的节点或者组件依旧获取不到</li>
+<li>将某个节点或者组件，<code>v-if</code>的值从<code>false=&gt;true</code>的瞬间，因为模板还未更新，所以依旧获取不到</li>
+<li>常配合<code>nextTick</code></li>
+</ul>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
+<li><a href="https://cn.vuejs.org/v2/guide/components-edge-cases.html#%E8%AE%BF%E9%97%AE%E5%AD%90%E7%BB%84%E4%BB%B6%E5%AE%9E%E4%BE%8B%E6%88%96%E5%AD%90%E5%85%83%E7%B4%A0" target="_blank" rel="noopener">官网：访问子组件实例或子元素</a></li>
+<li><a href="https://cn.vuejs.org/v2/api/#ref" target="_blank" rel="noopener">官网Api：特殊属性ref</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/20/vue-eventbus/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1985,206 +2155,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/19/el_template_render_mount/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2020/10/19/el_template_render_mount/" itemprop="url">
-                  el、template、render、mount怎么用的
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-10-19T15:21:58+08:00">
-                2020-10-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2020/10/19/el_template_render_mount/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/10/19/el_template_render_mount/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>el、template、render、mount四者混在一起的时候，有种乱乱的感觉，本文努力说清楚。</p>
-<p>先说几个专业名词：</p>
-<ul>
-<li>编译：将模板字符串 生成 Dom。<code>&lt;div&gt;1&lt;/div&gt;</code>这样只是模板字符串，只有<code>createElement(&#39;div&#39;)</code>这才是Dom。</li>
-<li>挂载元素：想象成一个占位，Vue 生成的 DOM 之后覆盖在这个元素上，注意，这个元素是会被干掉的，所以挂载元素不能是<code>html</code>或者<code>body</code></li>
-</ul>
-<p>开始可能<a href="https://cn.vuejs.org/v2/guide/" target="_blank" rel="noopener">Vue官方教程更重要</a>，后期多看<a href="https://cn.vuejs.org/v2/api/#el" target="_blank" rel="noopener">Vue官方API文档</a>，这里有更多，你撸码时能用到的操作。以下，很多是文档里整理的。</p>
-<h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
-<li>优先级：render &gt; template &gt; el 或 $mount</li>
-<li>$mount的好处：可以先编译，然后想什么时候挂载就什么时候挂载</li>
-</ul>
-<h2 id="el"><a href="#el" class="headerlink" title="el"></a>el</h2><p>用法：<code>new Vue({el:&#39;#app&#39;})</code></p>
-<ul>
-<li><p>提供一个在页面上<strong>已存在的</strong> DOM 元素作为 Vue 实例的<strong>挂载</strong>元素，其会被 Vue 生成的 DOM <strong>替换</strong>。</p>
-</li>
-<li><p>在实例<strong>挂载之后</strong>，元素可以用 <code>vm.$el</code> 访问。</p>
-</li>
-<li><p>如果在实例化时存在这个选项，实例将<strong>立即进入</strong>编译过程，否则，需要显式调用 <code>vm.$mount()</code>，手动开启编译。</p>
-</li>
-<li><p>如果 <code>render</code> 函数和 <code>template</code> 属性都不存在，挂载 DOM 元素的 HTML 会被提取出来用作模板。</p>
-</li>
-</ul>
-<h2 id="template"><a href="#template" class="headerlink" title="template"></a>template</h2><p>用法：<code>new Vue({template:&quot;&lt;div&gt;msg&lt;/div&gt;&quot;})</code></p>
-<ul>
-<li>一个字符串模板。模板将会替换挂载的元素。挂载元素的内容都将被忽略，除非模板的内容有分发插槽。</li>
-<li>如果值以 # 开始，则它将被用作选择符，并使用匹配元素的 innerHTML 作为模板。常用的技巧是用 <code>&lt;script type=&quot;x-template&quot;&gt;</code>包含模板。</li>
-<li>如果 <code>render</code> 函数存在，该模板将被忽略。</li>
-</ul>
-<!-- - 出于安全考虑，你应该只使用你信任的 Vue 模板。避免使用其他人生成的内容作为你的模板。 -->
-<h2 id="render"><a href="#render" class="headerlink" title="render"></a>render</h2><p>用法：<code>new Vue({render(createElement){return createElement(&#39;div&#39;,&#39;hello&#39;) }})</code></p>
-<ul>
-<li><p>字符串模板的代替方案，允许你发挥 JavaScript 最大的编程能力。该渲染函数接收一个 createElement 方法作为第一个参数用来创建 VNode。</p>
-</li>
-<li><p>如果组件是一个函数组件，渲染函数还会接收一个额外的 context 参数，为没有实例的函数组件提供上下文信息。</p>
-</li>
-<li><p>render 函数若存在，将直接作为模板编译，而完全无视template或el挂载元素中提取出的 HTML 模板。</p>
-</li>
-</ul>
-<h2 id="mount"><a href="#mount" class="headerlink" title="mount"></a>mount</h2><p>用法：</p>
-<ul>
-<li><code>new Vue({...}).$mount(&#39;#app&#39;)</code></li>
-<li><p><code>var vm = new Vue({...}).$mount(); document.body.appendChild(vm.$el)</code></p>
-</li>
-<li><p>如果实例化时没有收到 el 选项，则它处于“未挂载”状态，没有关联的 DOM 元素。可以使用 <code>vm.$mount()</code> 手动地挂载一个未挂载的实例。</p>
-</li>
-<li><p>如果没有提供参数，模板将被渲染为文档之外的的元素，并且你必须使用<strong>原生 DOM API</strong>把它插入文档中。</p>
-</li>
-</ul>
-<h2 id="大致图"><a href="#大致图" class="headerlink" title="大致图"></a>大致图</h2><p><img src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2d4df8e882664dc2bef75c7bfbcb1d0d~tplv-k3u1fbpfcp-zoom-1.image" alt="解析"></p>
-<p>官网生命周期图:</p>
-<p><img src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/099e7dad0318479585822db53ff0de50~tplv-k3u1fbpfcp-zoom-1.image" alt="官网周期"></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2234,7 +2204,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">193</span>
+                <span class="site-state-item-count">194</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

@@ -261,6 +261,168 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/06/enhanced-table/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2019/11/06/enhanced-table/" itemprop="url">
+                  优雅的使用 element-ui 中的 table 组件之升级版
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-06T16:20:27+08:00">
+                2019-11-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/11/06/enhanced-table/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/11/06/enhanced-table/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>原文在这里，<a href="https://juejin.im/post/5a100d09f265da4324800807" target="_blank" rel="noopener">优雅的使用 element-ui 中的 table 组件</a>， 作者写的很棒，我在项目里也广泛使用，很好用，使用过程中，因为需要其他的功能，我在作者原有的基础上，升级了原组件，主要增加了以下：</p>
+<ul>
+<li><code>slot-scope</code>统一替换成<code>v-slot</code></li>
+<li>自定义排序</li>
+<li>可勾选</li>
+<li>加载状态</li>
+</ul>
+<h2 id="EnhancedTable的代码"><a href="#EnhancedTable的代码" class="headerlink" title="EnhancedTable的代码"></a>EnhancedTable的代码</h2><p>先贴上源码，我喜欢用pug，其实就是去掉成对的标签，属性在括号里，通过缩进表达嵌套关系。让项目能用pug的话，<code>npm install pug pug-cli pug-plain-loader -D</code>即可。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&lt;template lang=&quot;pug&quot;&gt;</span><br><span class="line">el-table(:data=&quot;tableData&quot; v-loading=&quot;isLoad&quot; stripe v-bind=&quot;tableConfig&quot; @sort-change=&quot;changeSort&quot; @selection-change=&quot;changeSelectRows&quot;)</span><br><span class="line">  template(v-for=&quot;colConfig in colConfigs&quot;)</span><br><span class="line">    //- 循环每一项 有slot的单独渲染</span><br><span class="line">    slot(v-if=&quot;colConfig.slot&quot; :name=&quot;colConfig.slot&quot; :col-config=&quot;colConfig&quot;)</span><br><span class="line">    //- 有component的单独渲染</span><br><span class="line">    component(v-else-if=&quot;colConfig.component&quot; :is=&quot;colConfig.component&quot; :col-config=&quot;colConfig&quot;)</span><br><span class="line">    //- 普通项</span><br><span class="line">    el-table-column(v-else v-bind=&quot;colConfig&quot;)</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &apos;enhanced-table&apos;,</span><br><span class="line">  props: &#123; colConfigs: Array, tableData: Array, tableConfig: Object, isLoad: Boolean &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    // 提前先定义排序事件，需要用的时候直接在父组件使用</span><br><span class="line">    changeSort (&#123; column, prop, order &#125;) &#123;</span><br><span class="line">      this.$emit(&apos;sort-change&apos;, column, prop, order)</span><br><span class="line">    &#125;,</span><br><span class="line">    // 提前先定义排序事件，需要用的时候直接在父组件使用</span><br><span class="line">    changeSelectRows (val) &#123;</span><br><span class="line">      this.$emit(&apos;selection-change&apos;, val)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="父组件使用EnhancedTable"><a href="#父组件使用EnhancedTable" class="headerlink" title="父组件使用EnhancedTable"></a>父组件使用EnhancedTable</h2><p>综合使用的demo代码如下，<a href="https://github.com/frontzhm/web-demo/tree/master/enhanced-table" target="_blank" rel="noopener">github地址</a>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br></pre></td><td class="code"><pre><span class="line">&lt;template lang=&quot;pug&quot;&gt;</span><br><span class="line">ul</span><br><span class="line">  li</span><br><span class="line">    h2(id=&quot;#basic&quot;) 基本表格</span><br><span class="line">    enhanced-table(:tableData=&quot;tableData&quot; :col-configs=&quot;basicTableConfigs&quot;)</span><br><span class="line">  li</span><br><span class="line">    h2 特殊行用slot的表格</span><br><span class="line">    enhanced-table(:tableData=&quot;tableData&quot; :col-configs=&quot;slotTableConfigs&quot;)</span><br><span class="line">      template(v-slot:options=&quot;&#123;colConfig&#125;&quot;)</span><br><span class="line">        el-table-column(v-bind=&quot;colConfig&quot;)</span><br><span class="line">          template(v-slot=&quot;&#123;row&#125;&quot;)</span><br><span class="line">            el-button(size=&quot;mini&quot;) 查看&#123;&#123;row.date&#125;&#125;</span><br><span class="line">  li</span><br><span class="line">    h2 特殊行用component的表格</span><br><span class="line">    enhanced-table(:tableData=&quot;tableData&quot; :col-configs=&quot;componentTableConfigs&quot;)</span><br><span class="line">  li</span><br><span class="line">    h2 有排序的表格</span><br><span class="line">    enhanced-table(:tableData=&quot;tableData&quot; :col-configs=&quot;sortedTableConfigs&quot;,@sort-change=&apos;changeCustomSort&apos;)</span><br><span class="line">  li</span><br><span class="line">    h2 可以勾选行的表格</span><br><span class="line">    enhanced-table(:tableData=&quot;tableData&quot; :col-configs=&quot;selectRowTableConfigs&quot;,@selection-change=&quot;selectDeleteRows&quot;)</span><br><span class="line">  li(id=&quot;#loading&quot;)</span><br><span class="line">    h2 有加载状态的表格</span><br><span class="line">    enhanced-table(:is-load=&apos;isShowTableLoading&apos; :tableData=&quot;tableData&quot; :col-configs=&quot;selectRowTableConfigs&quot;)</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">// @ is an alias to /src</span><br><span class="line">import EnhancedTable from &apos;@/components/EnhancedTable.vue&apos;</span><br><span class="line">import PrefixPlusText from &apos;@/components/PrefixPlusText.vue&apos;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  name: &apos;home&apos;,</span><br><span class="line">  components: &#123;</span><br><span class="line">    EnhancedTable,</span><br><span class="line">    PrefixPlusText</span><br><span class="line">  &#125;,</span><br><span class="line">  data () &#123;</span><br><span class="line">    let basicTableConfigs = [</span><br><span class="line">      &#123; prop: &apos;date&apos;, label: &apos;日期&apos; &#125;,</span><br><span class="line">      &#123; prop: &apos;name&apos;, label: &apos;姓名&apos; &#125;,</span><br><span class="line">      &#123; prop: &apos;address&apos;, label: &apos;地址&apos; &#125;,</span><br><span class="line">      &#123; prop: &apos;trend&apos;, label: &apos;趋势&apos; &#125;</span><br><span class="line">    ]</span><br><span class="line">    let slotTableConfigs = [</span><br><span class="line">      &#123; prop: &apos;date&apos;, label: &apos;日期&apos; &#125;,</span><br><span class="line">      &#123; prop: &apos;name&apos;, label: &apos;姓名&apos; &#125;,</span><br><span class="line">      &#123; prop: &apos;address&apos;, label: &apos;地址&apos; &#125;,</span><br><span class="line">      &#123; prop: &apos;trend&apos;, label: &apos;趋势&apos; &#125;,</span><br><span class="line">      &#123; slot: &apos;options&apos;, label: &apos;slot的操作&apos;, message: &apos;message&apos; &#125;</span><br><span class="line">    ]</span><br><span class="line">    let componentTableConfigs = [</span><br><span class="line">      &#123; prop: &apos;date&apos;, label: &apos;日期&apos; &#125;,</span><br><span class="line">      &#123; prop: &apos;name&apos;, label: &apos;姓名&apos; &#125;,</span><br><span class="line">      &#123; prop: &apos;address&apos;, label: &apos;地址&apos; &#125;,</span><br><span class="line">      &#123; component: PrefixPlusText, prop: &apos;change&apos;, label: &apos;component的变化&apos; &#125;,</span><br><span class="line">      &#123; prop: &apos;trend&apos;, label: &apos;趋势&apos; &#125;</span><br><span class="line">    ]</span><br><span class="line">    let sortedTableConfigs = [</span><br><span class="line">      &#123; prop: &apos;date&apos;, label: &apos;有排序的日期，不是自定义的不需要加事件&apos;, sortable: true &#125;,</span><br><span class="line">      &#123; prop: &apos;name&apos;, label: &apos;自定义排序的姓名，需要加事件&apos;, sortable: &apos;custom&apos; &#125;,</span><br><span class="line">      &#123; prop: &apos;address&apos;, label: &apos;地址&apos; &#125;,</span><br><span class="line">      &#123; prop: &apos;trend&apos;, label: &apos;趋势&apos; &#125;</span><br><span class="line">    ]</span><br><span class="line">    let selectRowTableConfigs = [</span><br><span class="line">      &#123; prop: &apos;随便&apos;, type: &apos;selection&apos;, label: &apos;日期&apos; &#125;,</span><br><span class="line">      &#123; prop: &apos;date&apos;, label: &apos;日期&apos; &#125;,</span><br><span class="line">      &#123; prop: &apos;name&apos;, label: &apos;姓名&apos; &#125;,</span><br><span class="line">      &#123; prop: &apos;address&apos;, label: &apos;地址&apos; &#125;,</span><br><span class="line">      &#123; prop: &apos;trend&apos;, label: &apos;趋势&apos; &#125;</span><br><span class="line">    ]</span><br><span class="line">    let loadingTableConfigs = [</span><br><span class="line">      &#123; prop: &apos;date&apos;, label: &apos;日期&apos; &#125;,</span><br><span class="line">      &#123; prop: &apos;name&apos;, label: &apos;姓名&apos; &#125;,</span><br><span class="line">      &#123; prop: &apos;address&apos;, label: &apos;地址&apos; &#125;,</span><br><span class="line">      &#123; prop: &apos;trend&apos;, label: &apos;趋势&apos; &#125;</span><br><span class="line">    ]</span><br><span class="line">    return &#123;</span><br><span class="line">      basicTableConfigs,</span><br><span class="line">      slotTableConfigs,</span><br><span class="line">      componentTableConfigs,</span><br><span class="line">      sortedTableConfigs,</span><br><span class="line">      // 下面rowsToDelete在勾选事件的时候能是数组，每项就是row</span><br><span class="line">      selectRowTableConfigs,</span><br><span class="line">      rowsToDelete: [],</span><br><span class="line">      // 下面的isShowTableLoading就是加载的flag</span><br><span class="line">      loadingTableConfigs,</span><br><span class="line">      isShowTableLoading: true,</span><br><span class="line"></span><br><span class="line">      tableData: [&#123;</span><br><span class="line">        id: &apos;1&apos;,</span><br><span class="line">        date: &apos;2016-05-02&apos;,</span><br><span class="line">        name: &apos;王小虎&apos;,</span><br><span class="line">        address: &apos;上海市普陀区金沙江路 1518 弄&apos;,</span><br><span class="line">        change: &apos;12%&apos;,</span><br><span class="line">        trend: &apos;10%&apos;</span><br><span class="line">      &#125;]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  mounted () &#123;</span><br><span class="line">    setTimeout(() =&gt; &#123;</span><br><span class="line">      this.isShowTableLoading = false</span><br><span class="line">    &#125;, 1000)</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    changeCustomSort (column, prop, order) &#123;</span><br><span class="line">      console.log(arguments)</span><br><span class="line">      let isAsc</span><br><span class="line">      order === null &amp;&amp; (isAsc = &apos;&apos;)</span><br><span class="line">      order === &apos;ascending&apos; &amp;&amp; (isAsc = true)</span><br><span class="line">      order === &apos;descending&apos; &amp;&amp; (isAsc = false)</span><br><span class="line">      this.sortBy = prop</span><br><span class="line">      this.isAsc = isAsc</span><br><span class="line">    &#125;,</span><br><span class="line">    selectDeleteRows (val) &#123;</span><br><span class="line">      console.log(arguments)</span><br><span class="line">      this.rowsToDelete = val</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="部署用的"><a href="#部署用的" class="headerlink" title="部署用的"></a>部署用的</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 连接服务器</span></span><br><span class="line">ssh han</span><br><span class="line"><span class="comment"># 创建一个文件夹专门放一些包</span></span><br><span class="line">mkdir package</span><br><span class="line"><span class="built_in">cd</span> package</span><br><span class="line"><span class="comment"># 下载和解压node</span></span><br><span class="line">wget https://nodejs.org/dist/v10.15.3/node-v10.15.3-linux-x64.tar.xz</span><br><span class="line">xz -d node-v10.15.3-linux-x64.tar.xz</span><br><span class="line">tar -xvf node-v10.15.3-linux-x64.tar</span><br><span class="line"><span class="comment"># 让node能全局使用</span></span><br><span class="line"><span class="built_in">cd</span> node-v10.15.3-linux-x64</span><br><span class="line"><span class="built_in">pwd</span></span><br><span class="line">ln -s <span class="built_in">pwd</span>的路径/bin/node /usr/<span class="built_in">local</span>/bin/node</span><br><span class="line">ln -s ~/package/node-v10.15.3-linux-x64/bin/npm /usr/<span class="built_in">local</span>/bin/npm</span><br><span class="line">ln -s <span class="built_in">pwd</span>的路径/bin/npx /usr/<span class="built_in">local</span>/bin/npx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装git</span></span><br><span class="line">sudo apt-get install git</span><br><span class="line"><span class="comment"># 生成公私钥</span></span><br><span class="line">ssh-keygen</span><br><span class="line"><span class="comment"># 手动复制下</span></span><br><span class="line">less ~/.ssh/id_rsa.pub</span><br><span class="line"><span class="comment"># 去github上 settings - deploy keys 增加之后</span></span><br><span class="line"><span class="comment"># 项目拿过来</span></span><br><span class="line">git <span class="built_in">clone</span> git@github.com:frontzhm/web-demo.git</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># cd /Users/zhm/mygit/http-demo/enhanced-table</span></span><br><span class="line"><span class="comment"># yarn build</span></span><br><span class="line"><span class="comment"># git add .;git commit -m"update enhanced-table"</span></span><br><span class="line"><span class="comment"># git pull</span></span><br><span class="line"><span class="comment"># git push</span></span><br><span class="line"><span class="comment"># ssh han "cd ~/web-demo/enhanced-table;git pull"</span></span><br><span class="line"><span class="comment"># echo -e '\033[32m ok♪(^∇^*)请访问  \033[0m'</span></span><br><span class="line">scp /Users/zhm/mygit/http-demo/enhanced-table/server.js han:~/web-demo/enhanced-table/server.js</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/01/nuxt/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2066,180 +2228,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/23/redis/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2019/09/23/redis/" itemprop="url">
-                  redis键值对内存数据库
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-23T15:35:08+08:00">
-                2019-09-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/database/" itemprop="url" rel="index">
-                    <span itemprop="name">database</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/09/23/redis/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/09/23/redis/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>redis四开源免费的，遵守BSD协议，是一个高性能的key-value数据库<br><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/license.jpeg" alt="开源协议"></p>
-<p>Redis是一个使用ANSI C编写的开源、支持网络、基于内存、可选持久性的键值对存储数据库。最流行的键值对存储数据库。</p>
-<h2 id="redis优势"><a href="#redis优势" class="headerlink" title="redis优势"></a>redis优势</h2><ul>
-<li>性能极高 读速度11万次/s 写8.1万次/s</li>
-<li>丰富的数据类型，字符串 列表 哈希 集合 有序集合</li>
-<li>原子性  成功、失败、不执行三种状态</li>
-<li>单个操作原子性，多个操作也支持事务，MULTI EXEC</li>
-<li>丰富的特性 支持发布订阅 key过期</li>
-<li>缺点是只能 key-value。内存性数据库。</li>
-</ul>
-<h2 id="用的背景"><a href="#用的背景" class="headerlink" title="用的背景"></a>用的背景</h2><p>一般在数据库前面一层。</p>
-<p>现在redis找，没有再去mongo。一般将请求结果存一拨到redis.</p>
-<p>缓存数据。</p>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p><a href="https://github.com/ServiceStack/redis-windows" target="_blank" rel="noopener">redis-window</a></p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">brew uninstall redis</span><br><span class="line"><span class="comment"># 不自动更新brew</span></span><br><span class="line"><span class="built_in">export</span> HOMEBREW_NO_AUTO_UPDATE=<span class="literal">true</span></span><br><span class="line">brew install redis</span><br><span class="line"><span class="comment"># 启动的话 这样 后面是配置文件</span></span><br><span class="line"><span class="comment"># redis-server /usr/local/etc/redis.conf</span></span><br><span class="line"><span class="comment">## 可以看看</span></span><br><span class="line">cat /usr/<span class="built_in">local</span>/etc/redis.conf</span><br></pre></td></tr></table></figure>
-<p>数据库都分为：服务端和客户端。这里的redis默认端口 6379</p>
-<p>服务端<code>redis-server</code><br>客户端<code>redis-cli</code></p>
-<h2 id="客户端的命令"><a href="#客户端的命令" class="headerlink" title="客户端的命令"></a>客户端的命令</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br></pre></td><td class="code"><pre><span class="line">redis-cli</span><br><span class="line"><span class="comment">#  看所有的keys</span></span><br><span class="line">keys *</span><br><span class="line"><span class="comment"># 设置key</span></span><br><span class="line"><span class="built_in">set</span> a 1</span><br><span class="line"><span class="comment"># 获取key</span></span><br><span class="line">get a</span><br><span class="line">keys *</span><br><span class="line"><span class="comment"># key的value值+1</span></span><br><span class="line">incr a</span><br><span class="line">incr a</span><br><span class="line"><span class="comment"># key的value值-1</span></span><br><span class="line">decr a</span><br><span class="line">decr a</span><br><span class="line"><span class="comment"># 看类型</span></span><br><span class="line"><span class="built_in">type</span> a</span><br><span class="line"><span class="built_in">set</span> name hua</span><br><span class="line">del a</span><br><span class="line"><span class="comment"># 取字符串的部分 0 1表示两个字符串</span></span><br><span class="line">getrange name 0 1</span><br><span class="line"><span class="comment"># 5s过期</span></span><br><span class="line">expire name 5</span><br><span class="line"><span class="comment"># 看下某些属性还有多久过期</span></span><br><span class="line">ttl name</span><br><span class="line"><span class="comment"># 过期的key get不到的</span></span><br><span class="line">get name</span><br><span class="line"></span><br><span class="line"><span class="comment">###############</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># hash</span></span><br><span class="line"><span class="comment"># 设置 person这个对象的name值是hua</span></span><br><span class="line">hset person name hua</span><br><span class="line">hset person age 1</span><br><span class="line"><span class="comment"># 读取</span></span><br><span class="line">hget person name</span><br><span class="line">hget person age</span><br><span class="line"><span class="comment"># 读取多个属性</span></span><br><span class="line">hmget person name age</span><br><span class="line"><span class="comment"># 读取所有属性</span></span><br><span class="line">hgetall person</span><br><span class="line"><span class="comment"># 删除某个属性</span></span><br><span class="line">hdel person name</span><br><span class="line"><span class="comment"># 删除对象</span></span><br><span class="line">del person</span><br><span class="line"></span><br><span class="line"><span class="comment">########</span></span><br><span class="line"><span class="comment"># list</span></span><br><span class="line"><span class="comment"># 设置</span></span><br><span class="line">lpush arr 1 2 3 4 5</span><br><span class="line"><span class="comment"># 看部分项</span></span><br><span class="line">lrange arr 0 -1</span><br><span class="line"><span class="comment"># 右边插入</span></span><br><span class="line">rpush arr 6 7 8 9</span><br><span class="line">lrange arr 0 -1</span><br><span class="line"><span class="comment"># 左边删</span></span><br><span class="line">lpop arr</span><br><span class="line"><span class="comment"># 右边删</span></span><br><span class="line">rpop arr</span><br><span class="line"><span class="comment"># 所有把数组左边的7个里=1的都删掉</span></span><br><span class="line">lrem arr 7 1</span><br><span class="line"><span class="comment"># 取某一个</span></span><br><span class="line">lindex arr 1</span><br><span class="line"><span class="comment">############</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># set</span></span><br><span class="line"><span class="comment"># 设置</span></span><br><span class="line">sadd myset 1  1 1 2 3 2</span><br><span class="line"><span class="comment"># 读取</span></span><br><span class="line">smembers myset</span><br><span class="line">sadd mysel 1 2 3 4 5</span><br><span class="line"><span class="comment"># 删除</span></span><br><span class="line">del mysel</span><br><span class="line"><span class="comment"># 删除某项</span></span><br><span class="line">srem myset 1</span><br><span class="line">sadd myset 123 3</span><br><span class="line">sadd myset1 123 3</span><br><span class="line"><span class="comment"># 并集</span></span><br><span class="line">sunion myset1 myset</span><br><span class="line"><span class="comment"># 交集</span></span><br><span class="line">sinter myset1 myset</span><br><span class="line"><span class="comment"># 差集 (myset里有的 myset1没有的)</span></span><br><span class="line">sdiff myset myset1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">########</span></span><br><span class="line"><span class="comment"># 有序 先索引 然后索引内在自行排序</span></span><br><span class="line">zadd my 1 222</span><br><span class="line">zadd my 1 224</span><br><span class="line">zadd my 1 2</span><br><span class="line">zadd my 8 555</span><br><span class="line">zrange my 0 -1</span><br><span class="line">zadd my 5 9</span><br><span class="line">zadd my 3 232131</span><br><span class="line"></span><br><span class="line">(<span class="built_in">integer</span>) 1</span><br><span class="line">127.0.0.1:6379&gt; zadd orderedset 1 78</span><br><span class="line">(<span class="built_in">integer</span>) 1</span><br><span class="line">127.0.0.1:6379&gt; zadd orderedset 1 7</span><br><span class="line">(<span class="built_in">integer</span>) 1</span><br><span class="line">127.0.0.1:6379&gt; zrange orderedset 0 -1</span><br><span class="line">1) <span class="string">"7"</span></span><br><span class="line">2) <span class="string">"77"</span></span><br><span class="line">3) <span class="string">"78"</span></span><br><span class="line">127.0.0.1:6379&gt; zadd orderedset 2 7</span><br><span class="line">(<span class="built_in">integer</span>) 0</span><br><span class="line">127.0.0.1:6379&gt; zadd orderedset 2 733</span><br><span class="line">(<span class="built_in">integer</span>) 1</span><br><span class="line">127.0.0.1:6379&gt; zadd orderedset 2 73</span><br><span class="line">(<span class="built_in">integer</span>) 1</span><br><span class="line">127.0.0.1:6379&gt; zrange orderedset 0 -1</span><br><span class="line">1) <span class="string">"77"</span></span><br><span class="line">2) <span class="string">"78"</span></span><br><span class="line">3) <span class="string">"7"</span></span><br><span class="line">4) <span class="string">"73"</span></span><br><span class="line">5) <span class="string">"733"</span></span><br><span class="line">127.0.0.1:6379&gt;</span><br></pre></td></tr></table></figure>
-<h2 id="redis的数据类型-5类"><a href="#redis的数据类型-5类" class="headerlink" title="redis的数据类型 5类"></a>redis的数据类型 5类</h2><ul>
-<li>string 方法有 get set del getrange incr decr</li>
-<li>hash 方法有 hset hget hmget hgetall hdel</li>
-<li>列表 数组 链表 lpush lpop lrem lindex lrange</li>
-<li>集合 set 方法 sadd smembers srem sdiff sunion sinter</li>
-<li>有些集合 set 方法 zadd zrange withscores</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2289,7 +2277,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">193</span>
+                <span class="site-state-item-count">194</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
