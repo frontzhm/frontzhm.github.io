@@ -261,6 +261,183 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/16/canvas_star/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2020/10/16/canvas_star/" itemprop="url">
+                  canvas绘制五角星
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-10-16T10:48:52+08:00">
+                2020-10-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/10/16/canvas_star/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/10/16/canvas_star/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>canvas 绘制多边形的通用步骤：</p>
+<ol>
+<li>找到每个点的坐标，形成路径</li>
+<li>设置状态</li>
+<li>绘制</li>
+</ol>
+<p>五角星的模样：</p>
+<p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/star.png" alt="五角星"></p>
+<p>如果遇到正某形的情况，可以借助圆来计算。<br>这边，借助两个圆寻找每个点的坐标：</p>
+<p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/star_pos.png" alt="五角星1"></p>
+<ul>
+<li>五角星的外圈相邻点之间的角度是：360/5 = 72</li>
+<li>同理，五角星的内圈相邻点之间的角度是：360/5 = 72</li>
+<li>于是，五角星两个相邻点的之间的角度是：72/2 = 36</li>
+<li>于是，五角星最右边的点和 x 轴之间的角度是：90-36-36 = 18</li>
+<li>于是，直角三角形中斜边为 R，一个夹角是 18，则夹角的那边长度是<code>R*cos(18deg)</code>，非夹角的那边长度是<code>R*sin(18deg)</code></li>
+<li>于是，外圈最右边的点坐标是<code>(R*cos(18deg),-R*sin(18deg))</code>，外圈往左的一个点是<code>(R*cos(18+72deg),-R*sin(18+72deg))</code>，以此类推</li>
+<li>于是，内圈最右边的点坐标是<code>(r*cos(54deg),-r*sin(54deg))</code>，内圈往左的一个点是<code>(r*cos(54+72deg),-r*sin(54+72deg))</code>，以此类推</li>
+</ul>
+<p>这样可以写一个五角星的路径函数，这里注意 cos 函数需要另外封装下，这样更方便使用：</p>
+<p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/canvas_star_code.png" alt="绘制五角星"></p>
+<p>五角星需要旋转角度的话，修改成</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ..参数加个rotate即可</span></span><br><span class="line">ctx.lineTo(</span><br><span class="line">  R * cos(<span class="number">18</span> + i * angle - rotate) + x,</span><br><span class="line">  -R * sin(<span class="number">18</span> + i * angle - rotate) + y</span><br><span class="line">);</span><br><span class="line">ctx.lineTo(</span><br><span class="line">  r * cos(<span class="number">54</span> + i * angle - rotate) + x,</span><br><span class="line">  -r * sin(<span class="number">54</span> + i * angle - rotate) + y</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>修改 R 和 r 的值会有很多不同感觉的五角星，两者差距越大，五角星越尖锐，反之越圆润。</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">canvas</span> <span class="attr">id</span>=<span class="string">"canvas"</span> <span class="attr">width</span>=<span class="string">"500"</span> <span class="attr">height</span>=<span class="string">"500"</span>&gt;</span><span class="tag">&lt;/<span class="name">canvas</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">  <span class="keyword">const</span> canvas = <span class="built_in">document</span>.querySelector(<span class="string">"#canvas"</span>);</span></span><br><span class="line"><span class="javascript">  <span class="keyword">const</span> ctx = canvas.getContext(<span class="string">"2d"</span>);</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript">  <span class="comment">// 角度转化成弧度</span></span></span><br><span class="line"><span class="javascript">  <span class="keyword">const</span> getRadianFromAngle = <span class="function">(<span class="params">angle</span>) =&gt;</span> (<span class="built_in">Math</span>.PI / <span class="number">180</span>) * angle;</span></span><br><span class="line"><span class="javascript">  <span class="comment">// 封装下cos  sin</span></span></span><br><span class="line"><span class="javascript">  <span class="keyword">const</span> cos = <span class="function">(<span class="params">angle</span>) =&gt;</span> <span class="built_in">Math</span>.cos(getRadianFromAngle(angle));</span></span><br><span class="line"><span class="javascript">  <span class="keyword">const</span> sin = <span class="function">(<span class="params">angle</span>) =&gt;</span> <span class="built_in">Math</span>.sin(getRadianFromAngle(angle));</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript">  <span class="function"><span class="keyword">function</span> <span class="title">getStarPath</span>(<span class="params">&#123; ctx, x, y, R, r, rotate = <span class="number">0</span> &#125;</span>) </span>&#123;</span></span><br><span class="line"><span class="undefined">    ctx.beginPath();</span></span><br><span class="line"><span class="javascript">    <span class="keyword">const</span> horn = <span class="number">5</span>;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">const</span> angle = <span class="number">360</span> / horn;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; horn; i++) &#123;</span></span><br><span class="line"><span class="undefined">      ctx.lineTo( R * cos(18 + i * angle - rotate) + x, -R * sin(18 + i * angle - rotate) + y );</span></span><br><span class="line"><span class="undefined">      ctx.lineTo( r * cos(54 + i * angle - rotate) + x, -r * sin(54 + i * angle - rotate) + y );</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">    ctx.closePath();</span></span><br><span class="line"><span class="undefined">  &#125;</span></span><br><span class="line"><span class="javascript">  <span class="comment">// 1.设置路径</span></span></span><br><span class="line"><span class="undefined">  getStarPath(&#123; ctx, x: 200, y: 200, R: 100, r: 50 &#125;);</span></span><br><span class="line"><span class="javascript">  <span class="comment">// 2.设置状态</span></span></span><br><span class="line"><span class="javascript">  ctx.lineWidth = <span class="string">"3"</span>;</span></span><br><span class="line"><span class="javascript">  ctx.strokeStyle = <span class="string">"#f69"</span>;</span></span><br><span class="line"><span class="javascript">  <span class="comment">// 3.绘制</span></span></span><br><span class="line"><span class="undefined">  ctx.stroke();</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><blockquote>
+<p><a href="https://www.imooc.com/video/3488" target="_blank" rel="noopener">liuyubobobo 的绘制五角星 视频</a><br><a href="https://www.imooc.com/learn/133" target="_blank" rel="noopener">liuyubobobo 的 Canvas 绘图与动画基础 视频</a><br><a href="https://www.imooc.com/learn/185" target="_blank" rel="noopener">liuyubobobo 的 Canvas 绘图详解 视频</a></p>
+</blockquote>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/10/canvas/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2185,201 +2362,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/29/reduce/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2020/07/29/reduce/" itemprop="url">
-                  数组的reduce方法的应用场景及相关面试题
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-29T11:49:39+08:00">
-                2020-07-29
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2020/07/29/reduce/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/07/29/reduce/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>reduce 最大的作用：从一个数组得到一个值，对数组中的每个元素执行 reducer 函数(升序执行)</p>
-<p>reduce 打开相当于：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这里为了可读性更高，更好入门，加上initValue</span></span><br><span class="line">[x1, x2, x3].reduce(f,initValue) </span><br><span class="line"><span class="comment">// f起码是两个参数，相当于</span></span><br><span class="line">f(f(f(initValue,x1),x2) x3);</span><br></pre></td></tr></table></figure>
-<p>写reduce的核心 : <strong>就是找到<code>f</code>和<code>initValue</code></strong>，<code>f</code>始终有两个参数：<code>acc item</code></p>
-<p>以下既是应用场景，也是可以作为练习reduce的例子</p>
-<h2 id="累加数组所有值"><a href="#累加数组所有值" class="headerlink" title="累加数组所有值"></a>累加数组所有值</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> sumFn = <span class="function">(<span class="params">acc, item</span>) =&gt;</span> acc + item;</span><br><span class="line"><span class="keyword">const</span> sum = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>].reduce(sumFn, <span class="number">0</span>);</span><br><span class="line"><span class="comment">// 6</span></span><br><span class="line"><span class="built_in">console</span>.log(sum);</span><br></pre></td></tr></table></figure>
-<h2 id="累加对象数组里的值"><a href="#累加对象数组里的值" class="headerlink" title="累加对象数组里的值"></a>累加对象数组里的值</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> sumFn = <span class="function">(<span class="params">acc, item</span>) =&gt;</span> acc + item.x;</span><br><span class="line"><span class="keyword">const</span> sum = [&#123; <span class="attr">x</span>: <span class="number">1</span> &#125;, &#123; <span class="attr">x</span>: <span class="number">2</span> &#125;, &#123; <span class="attr">x</span>: <span class="number">3</span> &#125;, &#123; <span class="attr">x</span>: <span class="number">4</span> &#125;].reduce(sumFn, <span class="number">0</span>);</span><br><span class="line"><span class="comment">// 6</span></span><br><span class="line"><span class="built_in">console</span>.log(sum);</span><br></pre></td></tr></table></figure>
-<h2 id="降维数组，二维变成一维"><a href="#降维数组，二维变成一维" class="headerlink" title="降维数组，二维变成一维"></a>降维数组，二维变成一维</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 之所以用concat不用push 是concat返回合并后的数组，而push返回数组长度</span></span><br><span class="line"><span class="keyword">const</span> flat = <span class="function">(<span class="params">acc, item</span>) =&gt;</span> acc.concat(item);</span><br><span class="line"><span class="keyword">const</span> res = [</span><br><span class="line">  [<span class="number">0</span>, <span class="number">1</span>],</span><br><span class="line">  [<span class="number">2</span>, <span class="number">3</span>],</span><br><span class="line">  [<span class="number">4</span>, <span class="number">5</span>]</span><br><span class="line">].reduce(flat, []);</span><br><span class="line"><span class="comment">// [0, 1, 2, 3, 4, 5]</span></span><br><span class="line"><span class="built_in">console</span>.log(res);</span><br></pre></td></tr></table></figure>
-<h2 id="扁平化任意维数组-—-面试常考"><a href="#扁平化任意维数组-—-面试常考" class="headerlink" title="扁平化任意维数组 — 面试常考"></a>扁平化任意维数组 — 面试常考</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> flat = <span class="function">(<span class="params">acc, item</span>) =&gt;</span> acc.concat(item);</span><br><span class="line"><span class="keyword">const</span> res = [ <span class="number">0</span>, <span class="number">1</span>, [<span class="number">2</span>, <span class="number">3</span>, [<span class="number">4</span>, <span class="number">5</span>]] ].reduce(flat, []);</span><br><span class="line"><span class="comment">// [0, 1, 2, 3, 4, 5]</span></span><br><span class="line"><span class="built_in">console</span>.log(res)</span><br><span class="line"><span class="comment">// 稍微抽象出一个函数，当前项是数组的话 flatten(item) 不是数组的话用concat合并下</span></span><br><span class="line"><span class="keyword">const</span> flatten = <span class="function"><span class="params">arr</span> =&gt;</span></span><br><span class="line">  arr.reduce(</span><br><span class="line">    (acc, item) =&gt; acc.concat(<span class="built_in">Array</span>.isArray(item) ? flatten(item) : item),</span><br><span class="line">    []</span><br><span class="line">  );</span><br></pre></td></tr></table></figure>
-<h2 id="计算数组中每个元素出现的次数-—-面试常考"><a href="#计算数组中每个元素出现的次数-—-面试常考" class="headerlink" title="计算数组中每个元素出现的次数 — 面试常考"></a>计算数组中每个元素出现的次数 — 面试常考</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> names = [<span class="string">"Alice"</span>, <span class="string">"Bob"</span>, <span class="string">"Tiff"</span>, <span class="string">"Bruce"</span>, <span class="string">"Alice"</span>];</span><br><span class="line"><span class="keyword">const</span> getCount = <span class="function">(<span class="params">obj, key</span>) =&gt;</span> &#123;</span><br><span class="line">  key <span class="keyword">in</span> obj || (obj[key] = <span class="number">0</span>);</span><br><span class="line">  obj[key]++;</span><br><span class="line">  <span class="keyword">return</span> obj;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">const</span> res = names.reduce(getCount, &#123;&#125;);</span><br><span class="line"><span class="comment">// &#123; 'Alice': 2, 'Bob': 1, 'Tiff': 1, 'Bruce': 1 &#125;</span></span><br><span class="line"><span class="built_in">console</span>.log(res);</span><br></pre></td></tr></table></figure>
-<h2 id="按属性对-object-分类-—-面试常考"><a href="#按属性对-object-分类-—-面试常考" class="headerlink" title="按属性对 object 分类 — 面试常考"></a>按属性对 object 分类 — 面试常考</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 按年龄分类</span></span><br><span class="line"><span class="keyword">const</span> people = [</span><br><span class="line">  &#123; <span class="attr">id</span>: <span class="number">1</span>, <span class="attr">name</span>: <span class="string">"Alice"</span>, <span class="attr">age</span>: <span class="number">21</span> &#125;,</span><br><span class="line">  &#123; <span class="attr">id</span>: <span class="number">2</span>, <span class="attr">name</span>: <span class="string">"Max"</span>, <span class="attr">age</span>: <span class="number">20</span> &#125;,</span><br><span class="line">  &#123; <span class="attr">id</span>: <span class="number">3</span>, <span class="attr">name</span>: <span class="string">"Jane"</span>, <span class="attr">age</span>: <span class="number">20</span> &#125;</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> getType = <span class="function">(<span class="params">obj, item</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> key = item.age;</span><br><span class="line">  key <span class="keyword">in</span> obj || (obj[key] = []);</span><br><span class="line">  obj[key].push(item);</span><br><span class="line">  <span class="keyword">return</span> obj;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">const</span> res = people.reduce(getType, &#123;&#125;);</span><br><span class="line"><span class="comment">// &#123; 20: [ &#123; name: 'Max', age: 20 &#125;, &#123; name: 'Jane', age: 20 &#125; ], 21: [&#123; name: 'Alice', age: 21 &#125;] &#125;</span></span><br><span class="line"><span class="built_in">console</span>.log(res);</span><br></pre></td></tr></table></figure>
-<p>这里可以稍微升级下，可以对任意字段进行分类</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> classifyArray = <span class="function">(<span class="params">arr, keyClassified</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> getType = <span class="function">(<span class="params">obj, item</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> key = item[keyClassified];</span><br><span class="line">    key <span class="keyword">in</span> obj || (obj[key] = []);</span><br><span class="line">    obj[key].push(item);</span><br><span class="line">    <span class="keyword">return</span> obj;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">return</span> arr.reduce(getType, &#123;&#125;);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> people = [</span><br><span class="line">  &#123; <span class="attr">id</span>: <span class="number">1</span>, <span class="attr">name</span>: <span class="string">"Alice"</span>, <span class="attr">age</span>: <span class="number">21</span>, <span class="attr">gender</span>: <span class="number">0</span> &#125;,</span><br><span class="line">  &#123; <span class="attr">id</span>: <span class="number">2</span>, <span class="attr">name</span>: <span class="string">"Max"</span>, <span class="attr">age</span>: <span class="number">20</span>, <span class="attr">gender</span>: <span class="number">1</span> &#125;,</span><br><span class="line">  &#123; <span class="attr">id</span>: <span class="number">3</span>, <span class="attr">name</span>: <span class="string">"Jane"</span>, <span class="attr">age</span>: <span class="number">20</span>, <span class="attr">gender</span>: <span class="number">0</span> &#125;</span><br><span class="line">];</span><br><span class="line"><span class="comment">// &#123; '0': [ &#123; id: 1, name: 'Alice', age: 21, gender: 0 &#125;, &#123; id: 3, name: 'Jane', age: 20, gender: 0 &#125; ], '1': [ &#123; id: 2, name: 'Max', age: 20, gender: 1 &#125; ] &#125;</span></span><br><span class="line"><span class="built_in">console</span>.log(classifyArray(people, <span class="string">"gender"</span>));</span><br></pre></td></tr></table></figure>
-<h2 id="使用扩展运算符处理对象数组中的数组"><a href="#使用扩展运算符处理对象数组中的数组" class="headerlink" title="使用扩展运算符处理对象数组中的数组"></a>使用扩展运算符处理对象数组中的数组</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 合并所有的书</span></span><br><span class="line"><span class="keyword">var</span> friends = [</span><br><span class="line">  &#123;</span><br><span class="line">    name: <span class="string">"Anna"</span>,</span><br><span class="line">    books: [<span class="string">"Bible"</span>, <span class="string">"Harry Potter"</span>],</span><br><span class="line">    age: <span class="number">21</span></span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    name: <span class="string">"Bob"</span>,</span><br><span class="line">    books: [<span class="string">"War and peace"</span>, <span class="string">"Romeo and Juliet"</span>],</span><br><span class="line">    age: <span class="number">26</span></span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    name: <span class="string">"Alice"</span>,</span><br><span class="line">    books: [<span class="string">"The Lord of the Rings"</span>, <span class="string">"The Shining"</span>],</span><br><span class="line">    age: <span class="number">18</span></span><br><span class="line">  &#125;</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> sumArr = <span class="function">(<span class="params">oldArr, item</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> [...oldArr, ...item.books];</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">const</span> res = friends.reduce(sumArr, []);</span><br><span class="line"><span class="comment">// [ 'Bible', 'Harry Potter', 'War and peace', 'Romeo and Juliet', 'The Lord of the Rings', 'The Shining' ]</span></span><br><span class="line"><span class="built_in">console</span>.log(res);</span><br></pre></td></tr></table></figure>
-<h2 id="数组去重-—-面试常考"><a href="#数组去重-—-面试常考" class="headerlink" title="数组去重 — 面试常考"></a>数组去重 — 面试常考</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> myArray = [<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"c"</span>, <span class="string">"e"</span>, <span class="string">"e"</span>, <span class="string">"c"</span>, <span class="string">"d"</span>, <span class="string">"d"</span>, <span class="string">"d"</span>, <span class="string">"d"</span>];</span><br><span class="line"><span class="keyword">const</span> addArr = <span class="function">(<span class="params">acc, item</span>) =&gt;</span> (acc.includes(item) ? acc : [...acc, item]);</span><br><span class="line"><span class="keyword">const</span> res = myArray.reduce(addArr, []);</span><br><span class="line"><span class="comment">// [ 'a', 'b', 'c', 'e', 'd' ]</span></span><br><span class="line"><span class="built_in">console</span>.log(res);</span><br></pre></td></tr></table></figure>
-<p>当然还有更简单粗暴的法子</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> unique = <span class="function"><span class="params">arr</span> =&gt;</span> <span class="built_in">Array</span>.from(<span class="keyword">new</span> <span class="built_in">Set</span>(arr));</span><br><span class="line"><span class="comment">// [ 'a', 'b', 'c', 'e', 'd' ]</span></span><br><span class="line"><span class="built_in">console</span>.log(</span><br><span class="line">  unique([<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"c"</span>, <span class="string">"e"</span>, <span class="string">"e"</span>, <span class="string">"c"</span>, <span class="string">"d"</span>, <span class="string">"d"</span>, <span class="string">"d"</span>, <span class="string">"d"</span>])</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
-<h2 id="按顺序运行-promise-—-面试常考"><a href="#按顺序运行-promise-—-面试常考" class="headerlink" title="按顺序运行 promise — 面试常考"></a>按顺序运行 promise — 面试常考</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// promise function 1</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">p1</span>(<span class="params">a</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> &#123;</span><br><span class="line">    resolve(a * <span class="number">5</span>);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ！！这个是普通函数哟</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">a</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> a * <span class="number">2</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// promise function 2</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">p2</span>(<span class="params">a</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> &#123;</span><br><span class="line">    resolve(a - <span class="number">2</span>);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> arr = [p1, f, p2];</span><br><span class="line"><span class="keyword">const</span> runOrderly = <span class="function">(<span class="params">acc, item</span>) =&gt;</span> acc.then(item);</span><br><span class="line"><span class="keyword">const</span> res = arr.reduce(runOrderly, <span class="built_in">Promise</span>.resolve(<span class="number">10</span>));</span><br><span class="line"><span class="comment">// 98</span></span><br><span class="line"><span class="built_in">console</span>.log(res);</span><br></pre></td></tr></table></figure>
-<p>再抽象下写个通用的顺序执行的函数</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> runOrderly = <span class="function">(<span class="params">arr, initValue</span>) =&gt;</span></span><br><span class="line">  arr.reduce(<span class="function">(<span class="params">acc, item</span>) =&gt;</span> acc.then(item), <span class="built_in">Promise</span>.resolve(initValue));</span><br></pre></td></tr></table></figure>
-<h2 id="生成组合函数compose-—-面试常考"><a href="#生成组合函数compose-—-面试常考" class="headerlink" title="生成组合函数compose — 面试常考"></a>生成组合函数compose — 面试常考</h2><p>举个例子，就明白啥是组合函数了</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> sum = <span class="function">(<span class="params">a, b</span>) =&gt;</span> a + b;</span><br><span class="line"><span class="keyword">const</span> len = <span class="function"><span class="params">str</span> =&gt;</span> str.length;</span><br><span class="line"><span class="keyword">const</span> addCurrency = <span class="function"><span class="params">str</span> =&gt;</span> <span class="string">"$"</span> + str;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 现在想要先 将两字符求和，然后求长度，再然后再长度前加个$，这就是一个新的函数，是已知函数的组合</span></span><br><span class="line"><span class="keyword">const</span> newFn = <span class="function">(<span class="params">a, b</span>) =&gt;</span> addCurrency(len(sum(a, b)));</span><br><span class="line"><span class="built_in">console</span>.log(newFn(<span class="string">"xyz"</span>, <span class="string">"abc"</span>));</span><br></pre></td></tr></table></figure>
-<p>但是不想像上面那样，地狱式嵌套的生成<code>newFn</code>，希望能 <code>compose(addCurrency,len,sum)</code></p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// compose(addCurrency,len,sum)</span></span><br><span class="line"><span class="keyword">const</span> compose = <span class="function">(<span class="params">...fns</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function">(<span class="params">...args</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 这里因为最后一个函数是两个参数，和别的不一样，所以这边单独把它扔出来，这样其他的都符合fn(acc)</span></span><br><span class="line">    <span class="keyword">const</span> lastFn = fns.pop();</span><br><span class="line">    <span class="keyword">let</span> initValue = lastFn(...args);</span><br><span class="line">    <span class="keyword">const</span> f = <span class="function">(<span class="params">acc, fn</span>) =&gt;</span> fn(acc);</span><br><span class="line">    <span class="keyword">return</span> fns.reduceRight(f, initValue);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">const</span> newFn = compose(addCurrency, len, sum);</span><br><span class="line"><span class="built_in">console</span>.log(newFn(<span class="string">"xyz"</span>, <span class="string">"abc"</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">// 用箭头函数简化</span></span><br><span class="line"><span class="keyword">const</span> compose = <span class="function">(<span class="params">...fns</span>) =&gt;</span> (...args) =&gt;</span><br><span class="line">  fns.reduceRight(<span class="function">(<span class="params">acc, fn</span>) =&gt;</span> fn(acc), fns.pop()(...args));</span><br></pre></td></tr></table></figure>
-<p>当然如果思维再厉害点，也可以用reduce</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// compose(addCurrency,len,sum)</span></span><br><span class="line"><span class="keyword">const</span> compose = <span class="function">(<span class="params">...fns</span>) =&gt;</span></span><br><span class="line">  fns.reduce(<span class="function">(<span class="params">acc, cur</span>) =&gt;</span> (...args) =&gt; acc(cur(...args)));</span><br></pre></td></tr></table></figure>
-<p>这个法子很不容易想，但是假设现在只组合两个函数，len和sum</p>
-<ul>
-<li>compose就相当于<code>(...args) =&gt; len(sum(...args))</code></li>
-<li>而用reduce的话相当于<code>(...args)=&gt;[len,sum].reduce((acc,curFn)=&gt;(...args) =&gt; acc(curFn(...args)))</code></li>
-<li>将<code>[len,sum]</code>换成别的数组也一样</li>
-<li>我这也是马后炮啦，下次我自己写估计又只会reduceRight</li>
-</ul>
-<h2 id="reduce-的坑"><a href="#reduce-的坑" class="headerlink" title="reduce 的坑"></a>reduce 的坑</h2><ul>
-<li>空数组不能 reduce</li>
-<li><code>reduce(f)</code>没 initValue 的话，f 的第一次参数是<code>arr[0] arr[1] 1 arr</code></li>
-<li><code>reduce(f,initValue)</code>有 initValue 的话，f 的第一次参数是<code>initValue arr[0] 0 arr</code></li>
-<li><code>f</code>必须至少有两个参数，总共四个参数<code>acc(累计器) cur(当前值) curIndex (当前索引) src (源数组)</code></li>
-</ul>
-<p>可读性更高的话，可以传入 initValue，这样每次的操作都是一致的不容易出错，所以本文也只说明加initValue的情况。</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
-<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/map" target="_blank" rel="noopener">mdn 的 map</a></li>
-<li><a href="https://www.liaoxuefeng.com/wiki/1022910821149312/1024322552460832" target="_blank" rel="noopener">廖雪峰的map解析</a></li>
-<li><a href="http://research.google.com/archive/mapreduce.html" target="_blank" rel="noopener">MapReduce: Simplified Data Processing on Large Clusters 原文</a></li>
-<li><a href="https://www.cnblogs.com/fuzhe1989/p/3413457.html" target="_blank" rel="noopener">MapReduce翻译文</a></li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2429,7 +2411,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">192</span>
+                <span class="site-state-item-count">193</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
