@@ -261,6 +261,199 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/10/oh-my-zsh/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2019/09/10/oh-my-zsh/" itemprop="url">
+                  oh-my-zsh让终端好用到飞起~
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-10T15:57:26+08:00">
+                2019-09-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/终端/" itemprop="url" rel="index">
+                    <span itemprop="name">终端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/09/10/oh-my-zsh/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/09/10/oh-my-zsh/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><a href="https://asciinema.org/a/266997?speed=2&amp;autoplay=1" target="_blank" rel="noopener"><img src="https://asciinema.org/a/266997.png" alt="asciicast"></a></p>
+<h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
+<li>安装zsh<code>brew install zsh zsh-completions</code></li>
+<li>切换到zsh<code>[sudo] chsh -s $(which zsh)</code></li>
+<li>安装oh-my-zsh<code>git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh</code></li>
+<li>修改主题 <code>~/.zshrc</code>里的<code>ZSH_THEME=&quot;ys&quot;</code></li>
+<li>安装autojump、zsh-autosuggestions、zsh-syntax-highlighting三个插件 <code>brew install autojump;git clone git://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions;git clone git://github.com/zsh-users/zsh-syntax-highlighting $ZSH_CUSTOM/plugins/zsh-syntax-highlighting</code></li>
+<li>别忘了在<code>~/.zshrc</code>找到<code>plugins=</code>添加下面的，最后保存执行<code>source ~/.zshrc</code>，autojump还有别的设置</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">plugins=(</span><br><span class="line">  autojump</span><br><span class="line">  zsh-autosuggestions</span><br><span class="line">  zsh-syntax-highlighting</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>asciinema可以上面酷酷的视频，其实也很简单哟</li>
+</ul>
+<h2 id="oh-my-zsh简介"><a href="#oh-my-zsh简介" class="headerlink" title="oh-my-zsh简介"></a>oh-my-zsh简介</h2><p>目前常用的 Linux 系统和 OS X 系统的默认 Shell 都是 bash。<a href="https://github.com/robbyrussell/oh-my-zsh" target="_blank" rel="noopener">「oh my zsh」</a>是强化的的 Shell 。</p>
+<h2 id="使用步骤"><a href="#使用步骤" class="headerlink" title="使用步骤"></a>使用步骤</h2><h3 id="1-安装zsh"><a href="#1-安装zsh" class="headerlink" title="1.安装zsh"></a>1.安装zsh</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Linux</span></span><br><span class="line">sudo yum install zsh    (Fedora和RedHat以及SUSE中)或</span><br><span class="line">sudo apt-get install zsh    (Debian系列，Ubuntu )</span><br><span class="line"></span><br><span class="line"><span class="comment"># macOS 系统自带了zsh, 一般不是最新版，如果需要最新版可通过Homebrew来安装(确认安装了Homebrew)</span></span><br><span class="line">brew install zsh zsh-completions</span><br><span class="line"></span><br><span class="line"><span class="comment"># 或者也可以使用MacPorts(包管理工具)</span></span><br><span class="line">sudo port install zsh zsh-completions</span><br></pre></td></tr></table></figure>
+<h3 id="2-更改默认shell"><a href="#2-更改默认shell" class="headerlink" title="2.更改默认shell"></a>2.更改默认shell</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 把zsh设为默认shell，如果shell列表中没有zsh或者你没有使用chsh权限的时候，不起作用</span></span><br><span class="line">echo $SHELL    </span><br><span class="line">[sudo] chsh -s $(which zsh)  或 chsh -s /bin/zsh</span><br></pre></td></tr></table></figure>
+<h3 id="3-安装-oh-my-zsh"><a href="#3-安装-oh-my-zsh" class="headerlink" title="3.安装 oh my zsh"></a>3.安装 oh my zsh</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装 oh my zsh 之前必须安装 zsh，否则会收到如下提示：Zsh is not installed! Please install zsh first!</span></span><br><span class="line"><span class="comment"># 方法一：官网上的方法，但需要安装wget或者curl。wget，用来从指定的 URL 下载文件。curl，发出网络请求，然后得到和提取数据。</span></span><br><span class="line">sh -c <span class="string">"<span class="variable">$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)</span>"</span></span><br><span class="line">sh -c <span class="string">"<span class="variable">$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)</span>"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 方法二：当然也可以通过git下载 ，我觉得git最亲切 哈哈哈哈</span></span><br><span class="line">git <span class="built_in">clone</span> git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh</span><br></pre></td></tr></table></figure>
+<h3 id="4-配置主题"><a href="#4-配置主题" class="headerlink" title="4.配置主题"></a>4.配置主题</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Oh-My-Zsh 的默认配置文件在：~/.zshrc。编辑～/.zshrc 修改主题，这里我用的是 ys 主题，更多主体看[这里](https://github.com/robbyrussell/oh-my-zsh/wiki/Themes)，直接修改即可，无需下载</span></span><br><span class="line">ZSH_THEME=<span class="string">"ys"</span></span><br><span class="line"><span class="comment"># !!!! 重启终端后有效 或 使用 source ~/.zshrc 更新配置</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 题外话，不太想显示主机名，所以直接干掉主机名</span></span><br><span class="line"><span class="comment"># 编辑 ~/.oh-my-zsh/themes/ys.zsh-theme，最后面改成这样</span></span><br><span class="line">PROMPT=<span class="string">"</span></span><br><span class="line"><span class="string">%&#123;<span class="variable">$terminfo</span>[bold]<span class="variable">$fg</span>[blue]%&#125;#%&#123;<span class="variable">$reset_color</span>%&#125; \</span></span><br><span class="line"><span class="string">%(#,%&#123;<span class="variable">$bg</span>[yellow]%&#125;%&#123;<span class="variable">$fg</span>[black]%&#125;%n%&#123;<span class="variable">$reset_color</span>%&#125;,%&#123;<span class="variable">$fg</span>[cyan]%&#125;%n) \</span></span><br><span class="line"><span class="string">%&#123;<span class="variable">$fg</span>[white]%&#125;in \</span></span><br><span class="line"><span class="string">%&#123;<span class="variable">$terminfo</span>[bold]<span class="variable">$fg</span>[yellow]%&#125;%~%&#123;<span class="variable">$reset_color</span>%&#125;\</span></span><br><span class="line"><span class="string"><span class="variable">$&#123;hg_info&#125;</span>\</span></span><br><span class="line"><span class="string"><span class="variable">$&#123;git_info&#125;</span>\</span></span><br><span class="line"><span class="string"> \</span></span><br><span class="line"><span class="string">%&#123;<span class="variable">$fg</span>[white]%&#125;[%*] <span class="variable">$exit_code</span></span></span><br><span class="line"><span class="string">%&#123;<span class="variable">$terminfo</span>[bold]<span class="variable">$fg</span>[red]%&#125;$ %&#123;<span class="variable">$reset_color</span>%&#125;"</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/zsh_ui.png" alt="zsh_ui"></p>
+<h2 id="oh-my-zsh-插件推荐"><a href="#oh-my-zsh-插件推荐" class="headerlink" title="oh-my-zsh 插件推荐"></a>oh-my-zsh 插件推荐</h2><p>插件依然需要打开<code>~/.zshrc</code>，找到<code>plugins=</code>，然后在里面写需要的插件名，有些插件可能还需要安装。<br>!!!! 注意，只要改了此文件，重启终端后有效 或 使用 <code>source ~/.zshrc</code> 更新配置。</p>
+<p>这边插件推荐 : autojump、zsh-autosuggestion 以及 zsh-syntax-highlighting。  </p>
+<h3 id="autojump"><a href="#autojump" class="headerlink" title="autojump"></a>autojump</h3><p>功能：实现目录间快速跳转，想去哪个目录直接 <code>j + 目录名</code>，不用在频繁的 cd 了！ <a href="https://github.com/wting/autojump" target="_blank" rel="noopener">github地址</a>。</p>
+<p><code>history | grep &quot;git clone&quot;</code>这个命令就能找到近期 clone 了哪些库，省却了写一堆代码的功夫。  </p>
+<p><code>autojump</code> 就是通过记录你在 <code>history</code> 中的行为把你访问过的文件夹路径都 cache 下来，当你输入路径名的时候会模糊匹配你之前<code>cd</code>过的目录路径，配合后面的自动提示插件，无敌了！！！</p>
+<p>如下图，我先<code>cd</code>到一些目录，然后就可以<code>j</code>快速切换，用<code>jo</code>快递在finder里打开文件夹<br><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/autojump_use.png" alt="autojump"><br><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/autojump_jo.png" alt="autojump"></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装步骤</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ------ mac -------</span></span><br><span class="line">brew install autojump</span><br><span class="line">vim ~/.zshrc</span><br><span class="line"><span class="comment"># 在文件里找到plugins，添加</span></span><br><span class="line">plugins=(autojump)</span><br><span class="line"><span class="comment"># 在文件末尾添加</span></span><br><span class="line">[[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] &amp;&amp; . $(brew --prefix)/etc/profile.d/autojump.sh</span><br><span class="line"><span class="built_in">source</span> <span class="variable">$ZSH</span>/oh-my-zsh.sh</span><br><span class="line"><span class="comment"># 最后</span></span><br><span class="line"><span class="built_in">source</span> ~/.zshrc</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># ------ linux -----</span></span><br><span class="line">git <span class="built_in">clone</span> git://github.com/joelthelion/autojump.git</span><br><span class="line"><span class="built_in">cd</span> autojump</span><br><span class="line">./install.py</span><br><span class="line">vim ~/.zshrc</span><br><span class="line"><span class="comment"># 在文件里找到plugins，添加</span></span><br><span class="line">plugins=(autojump)</span><br><span class="line"><span class="comment"># 在文件末尾添加</span></span><br><span class="line">[[ -s ~/.autojump/etc/profile.d/autojump.sh ]] &amp;&amp; . ~/.autojump/etc/profile.d/autojump.sh</span><br><span class="line"><span class="built_in">source</span> ~/.zshrc</span><br></pre></td></tr></table></figure>
+<h3 id="zsh-autosuggestion"><a href="#zsh-autosuggestion" class="headerlink" title="zsh-autosuggestion"></a>zsh-autosuggestion</h3><p>如图所示，输入命令时可提示自动补全（灰色部分），然后按键盘 → （！！！！上下左右的右键，不是tab键）即可补全<br><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/zsh_suggestion.png" alt="autosuggestion"></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装</span></span><br><span class="line">git <span class="built_in">clone</span> git://github.com/zsh-users/zsh-autosuggestions <span class="variable">$ZSH_CUSTOM</span>/plugins/zsh-autosuggestions</span><br><span class="line">vim ~/.zshrc</span><br><span class="line"><span class="comment"># 在文件里找到plugins，添加</span></span><br><span class="line">plugins=(</span><br><span class="line">  autojump</span><br><span class="line">  zsh-autosuggestions</span><br><span class="line">)</span><br><span class="line"><span class="built_in">source</span> ~/.zshrc</span><br></pre></td></tr></table></figure>
+<h3 id="zsh-syntax-highlighting"><a href="#zsh-syntax-highlighting" class="headerlink" title="zsh-syntax-highlighting"></a>zsh-syntax-highlighting</h3><p>日常用的命令会高亮显示，命令错误显示红色<br><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/zsh_hignlight.png" alt="highlighting"></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装</span></span><br><span class="line">git <span class="built_in">clone</span> git://github.com/zsh-users/zsh-syntax-highlighting <span class="variable">$ZSH_CUSTOM</span>/plugins/zsh-syntax-highlighting</span><br><span class="line">vim ~/.zshrc</span><br><span class="line"><span class="comment"># 在文件里找到plugins，添加</span></span><br><span class="line">plugins=(</span><br><span class="line">  autojump</span><br><span class="line">  zsh-autosuggestions</span><br><span class="line">  zsh-syntax-highlighting</span><br><span class="line">)</span><br><span class="line"><span class="built_in">source</span> ~/.zshrc</span><br></pre></td></tr></table></figure>
+<h2 id="asciinema拍终端大片"><a href="#asciinema拍终端大片" class="headerlink" title="asciinema拍终端大片"></a><a href="https://asciinema.org/" target="_blank" rel="noopener">asciinema拍终端大片</a></h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># mac安装</span></span><br><span class="line">brew install asciinema</span><br><span class="line"><span class="comment"># 开始记录 first-rec.cast是自定义的文件名 也可以没有文件名</span></span><br><span class="line">asciinema rec first-rec.cast</span><br><span class="line"><span class="comment"># 停止记录</span></span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line"><span class="comment"># 按Enter键，然后 访问出现的 url</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ctrl + c 会存到本地，asciinema upload first-rec.cast 可以再次上传到官网</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 登录</span></span><br><span class="line">asciinema auth</span><br><span class="line"><span class="comment"># 首次注册会去官网，然后写个邮箱，邮箱会受到邮件，点击链接即注册</span></span><br><span class="line"><span class="comment"># 之后，一般会向邮箱里发送登录验证，点击即可</span></span><br><span class="line"><span class="comment"># 然后就会将你录制的视频，存在你的账号下</span></span><br></pre></td></tr></table></figure>
+<p><a href="https://asciinema.org/docs/embedding" target="_blank" rel="noopener">让录制的命令视频显示</a></p>
+<ul>
+<li><p>html可以这样</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"https://asciinema.org/a/14?autoplay=1"</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"https://asciinema.org/a/14.png"</span> <span class="attr">width</span>=<span class="string">"836"</span>/&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>markdown</p>
+</li>
+</ul>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">![asciicast</span>](<span class="link">https://asciinema.org/a/14.png</span>)](<span class="link">https://asciinema.org/a/14</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="引用文章"><a href="#引用文章" class="headerlink" title="引用文章"></a>引用文章</h2><ul>
+<li><a href="https://www.zrahh.com/archives/167.html" target="_blank" rel="noopener">oh-my-zsh 插件推荐 : autojump、zsh-autosuggestion 以及 zsh-syntax-highlighting</a></li>
+<li><a href="https://www.barretlee.com/blog/2015/03/30/autojump-in-mac/" target="_blank" rel="noopener">小胡子哥的Mac下的效率工具autojump</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/10/vuecli/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1884,202 +2077,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/28/vue-router/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2019/06/28/vue-router/" itemprop="url">
-                  vue-router的背后的逻辑
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-28T16:15:15+08:00">
-                2019-06-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/编辑器/" itemprop="url" rel="index">
-                    <span itemprop="name">编辑器</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/06/28/vue-router/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/06/28/vue-router/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="vue-router的工作流程"><a href="#vue-router的工作流程" class="headerlink" title="vue-router的工作流程"></a>vue-router的工作流程</h2><p>url改变 =&gt; 触发监听事件 =&gt; 改变vue-route里的current变量 =&gt; 监视current变量的监视者 =&gt; 获取新的组件 =&gt; render新组件</p>
-<h2 id="hash和history"><a href="#hash和history" class="headerlink" title="hash和history"></a>hash和history</h2><h3 id="hash"><a href="#hash" class="headerlink" title="hash"></a>hash</h3><ul>
-<li>#后就是hash的内容，</li>
-<li>#后面不论是什么一般不会触发页面跳转，这样就是单页面</li>
-<li>可以通过location.hash拿到：<code>#/123/...</code></li>
-<li>window.onhashchange：监听hash变化</li>
-</ul>
-<p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/onhashchange.png" alt="hash改变的事件"></p>
-<h3 id="history"><a href="#history" class="headerlink" title="history"></a>history</h3><ul>
-<li>history模式就是正常的路径</li>
-<li>location.pathname就可以拿到</li>
-<li>onpopstate监听history的变化</li>
-</ul>
-<h2 id="vue插件的基础点"><a href="#vue插件的基础点" class="headerlink" title="vue插件的基础点"></a>vue插件的基础点</h2><ul>
-<li><code>Vue.use</code>去使用一个插件，并且会执行<code>install</code>方法</li>
-<li><code>Vue.mixin</code>往vue的全局中混入自定义的操作</li>
-<li>可以通过<code>this.options</code>拿到<code>new Vue</code>时的参数</li>
-</ul>
-<h3 id="Vue-use-params"><a href="#Vue-use-params" class="headerlink" title="Vue.use(params)"></a>Vue.use(params)</h3><ul>
-<li>params是一个对象的时候，执行对象的<code>install</code>属性所指的函数</li>
-<li>params是一个函数的时候，因为函数也是对象，如果函数上有install的属性，就直接执行该函数，没有该属性就直接执行这个函数</li>
-</ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typeof</span> params.install === <span class="string">'function'</span> ? params.install():(<span class="keyword">typeof</span> params === <span class="string">'function'</span> &amp;&amp; params())</span><br></pre></td></tr></table></figure>
-<h3 id="Vue-mixin-params"><a href="#Vue-mixin-params" class="headerlink" title="Vue.mixin(params)"></a>Vue.mixin(params)</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fn = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="built_in">console</span>.log(<span class="string">'fn'</span>)&#125;</span><br><span class="line">fn.install = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="comment">// 其实就是将this.options和这里的mixin里的参数合并</span></span><br><span class="line">    <span class="comment">// 一般在所有组件的生命周期里混入一些功能</span></span><br><span class="line">    <span class="comment">// 这段代码在main.js写完之后，会出现三次，因为首先new Vue一次，App.vue一次，helloworld一次</span></span><br><span class="line">    Vue.mixin(&#123;</span><br><span class="line">       created()&#123;</span><br><span class="line">           <span class="built_in">console</span>.log(<span class="string">'i am created'</span>)</span><br><span class="line">           <span class="built_in">console</span>.log(<span class="keyword">this</span>)</span><br><span class="line">          <span class="comment">//  组件其实根本上也是vue实例，是vue的类，通过`new Vue(options)`得到的，vue提供`this.$options`让我们拿到当前vue实例的`options`。</span></span><br><span class="line">           <span class="built_in">console</span>.log(<span class="keyword">this</span>.$options)</span><br><span class="line">       &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="this-options"><a href="#this-options" class="headerlink" title="this.$options"></a>this.$options</h3><p>组件其实根本上也是vue实例，是vue的类，通过<code>new Vue(options)</code>得到的，vue提供<code>this.$options</code>让我们拿到当前vue实例的<code>options</code>。</p>
-<h2 id="实现vue-router"><a href="#实现vue-router" class="headerlink" title="实现vue-router"></a>实现vue-router</h2><ol>
-<li>建项目</li>
-</ol>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vue create self-router</span><br><span class="line">选择 babel vue-router prettier+lint</span><br><span class="line"><span class="built_in">cd</span> self-router</span><br><span class="line">npm run server</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>router/index.js里的引用插件router改成我们自己的</li>
-</ol>
-<p>我们自己在src下面写个myrouter，在来个index.js导出VueRouter这个类</p>
-<ol start="3">
-<li>步骤</li>
-</ol>
-<ul>
-<li>判断模式</li>
-<li>自动加上#/</li>
-<li>监听事件</li>
-<li>history实例的建立</li>
-<li>Vue.mixin里beforeCreate事件来 监视current变量的监视者，知道current什么变了，从而通知变化</li>
-<li>路径和视图的对应关系，简化成map</li>
-<li>this._router =&gt; this.$router</li>
-</ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这里没有set，保证了router不可更改，不能赋值，保证只可读</span></span><br><span class="line"><span class="built_in">Object</span>.defineProperty(<span class="keyword">this</span>,<span class="string">'$router'</span>,&#123;</span><br><span class="line">  get()&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>._root._router</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"><span class="built_in">Object</span>.defineProperty(<span class="keyword">this</span>,<span class="string">'$route'</span>,&#123;</span><br><span class="line">  get()&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>._root._router.history.current</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<h2 id="实现路由"><a href="#实现路由" class="headerlink" title="实现路由"></a>实现路由</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; runInthisContext &#125; <span class="keyword">from</span> <span class="string">"vm"</span>;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HistoryRoute</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>() &#123;</span><br><span class="line">    <span class="keyword">this</span>.current = <span class="literal">null</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">VueRouter</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(options) &#123;</span><br><span class="line">    <span class="keyword">this</span>.mode = options.mode || <span class="string">"hash"</span>;</span><br><span class="line">    <span class="comment">// 当前所有的history在这里，其中有个current</span></span><br><span class="line">    <span class="keyword">this</span>.history = <span class="keyword">new</span> HistoryRoute();</span><br><span class="line">    <span class="keyword">this</span>.routes = options.routes || [];</span><br><span class="line">    <span class="keyword">this</span>.routerMap = <span class="keyword">this</span>.createMap(<span class="keyword">this</span>.routes);</span><br><span class="line">  &#125;</span><br><span class="line">  init() &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.mode === <span class="string">"hash"</span>) &#123;</span><br><span class="line">      <span class="comment">// 当输入地址之后，如果没有#，将会自动在地址后面加上`#/`</span></span><br><span class="line">      <span class="comment">// 始终确保地址上有hash这样才能方便匹配路由</span></span><br><span class="line">      location.hash ? <span class="string">""</span> : (location.hash = <span class="string">"/"</span>);</span><br><span class="line">      <span class="built_in">window</span>.addEventListener(<span class="string">"load"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">params</span>) </span>&#123;</span><br><span class="line">        <span class="comment">// slice(1)是不要#</span></span><br><span class="line">        <span class="keyword">this</span>.history.current = location.hash.slice(<span class="number">1</span>);</span><br><span class="line">      &#125;);</span><br><span class="line">      <span class="built_in">window</span>.addEventListener(<span class="string">"hashchange"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">params</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.history.current = location.hash.slice(<span class="number">1</span>);</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="built_in">window</span>.addEventListener(<span class="string">"load"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">params</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.history.current = location.pathname;</span><br><span class="line">      &#125;);</span><br><span class="line">      <span class="built_in">window</span>.addEventListener(<span class="string">"popstate"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">params</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.history.current = location.pathname;</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// [&#123;path:'/',component:Home&#125;] =&gt; &#123;'/':Home&#125;</span></span><br><span class="line">  creatMap(routes) &#123;</span><br><span class="line">    <span class="keyword">return</span> routes.reduce(<span class="function">(<span class="params">memo, current</span>) =&gt;</span> &#123;</span><br><span class="line">      memo[current.path] = current.component;</span><br><span class="line">      <span class="keyword">return</span> memo;</span><br><span class="line">    &#125;, &#123;&#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// Vue是Vue实例</span></span><br><span class="line">VueRouter.install = <span class="function"><span class="keyword">function</span>(<span class="params">Vue</span>) </span>&#123;</span><br><span class="line">  Vue.mixin(&#123;</span><br><span class="line">    beforeCreate() &#123;</span><br><span class="line">      <span class="comment">// new Vue(&#123;router&#125;)，router就是项目里路径和视图的一一对应</span></span><br><span class="line">      <span class="keyword">if</span> (<span class="keyword">this</span>.$options &amp;&amp; <span class="keyword">this</span>.$options.router) &#123;</span><br><span class="line">        <span class="keyword">this</span>._root = <span class="keyword">this</span>;</span><br><span class="line">        <span class="keyword">this</span>._router = <span class="keyword">this</span>.$options.router;</span><br><span class="line">        Vue.unit.defineReactive(<span class="keyword">this</span>, <span class="string">"current"</span>, <span class="keyword">this</span>._router.history);</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">this</span>._root = <span class="keyword">this</span>.$parent._root;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">  Vue.component(<span class="string">"router-view"</span>, &#123;</span><br><span class="line">    render(h) &#123;</span><br><span class="line">      <span class="comment">// 拿到当前路由的组件</span></span><br><span class="line">      <span class="keyword">let</span> current = <span class="keyword">this</span>._self._root._router.history.current;</span><br><span class="line">      <span class="keyword">let</span> routeMap = <span class="keyword">this</span>._self._root.routeMap;</span><br><span class="line">      <span class="comment">// h方法能将组件渲染成当前视图</span></span><br><span class="line">      <span class="keyword">return</span> h(routeMap[current]);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> VueRouter;</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2129,7 +2126,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">197</span>
+                <span class="site-state-item-count">198</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

@@ -261,6 +261,166 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/12/queryAndTable/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2019/11/12/queryAndTable/" itemprop="url">
+                  让后台查询和表格这种页面更加快速和简便
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-12T16:59:33+08:00">
+                2019-11-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/11/12/queryAndTable/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/11/12/queryAndTable/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>做后台项目，很多页面类似下面</p>
+<p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/query1.png" alt="查询页面"></p>
+<p>这种页面有时候逻辑也是有点麻烦，要是每个页面一遍遍想，就有点尬，所以想了个偷懒的法子，将通用逻辑抽离出来，需要这种页面的时候，只需要适当的配置即可，不用再关心相同的逻辑。</p>
+<p>对于表单，需要的方法有：设置表单数据、拿到表单的参数、设置表单项其他的属性等。</p>
+<p>对于ajax请求回来的数据，需要的方法：拿到请求需要的参数，此参数分为两块，一个是表单提供的，一个分页和排序这种的，第一次的请求可以保留参数，为重置表单数据或者分页排序值做准备。</p>
+<p>主要实现的通用功能：请求数据、查询逻辑、重置逻辑、导出逻辑。</p>
+<p><a href="https://juejin.im/post/5dc281036fb9a04a9967e817" target="_blank" rel="noopener">enhanced-table</a><br><a href="https://juejin.im/post/5daeda8f51882554c07586f5" target="_blank" rel="noopener">enhanced-form</a></p>
+<h2 id="query作为mixins的代码"><a href="#query作为mixins的代码" class="headerlink" title="query作为mixins的代码"></a>query作为mixins的代码</h2><p><a href="https://github.com/frontzhm/web-demo/tree/master/enhanced-table" target="_blank" rel="noopener">github地址</a>，运行<code>node server.js</code>还有<code>yarn install;yarn dev</code>，之后打开<a href="http://localhost:8080/single-query" target="_blank" rel="noopener">http://localhost:8080/single-query</a>即可看到效果</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">/* 此页面最适合 上面是简单的表单，下面是表格，主要是查询 翻页 重置 导出功能</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">1. mixins写入此文件，import Query from 'xx';mixins:[Query]</span></span><br><span class="line"><span class="undefined">2. formConfig colConfigs ajaxApis均需要特定配置，其他的根据情况吧</span></span><br><span class="line"><span class="undefined">3. init里面一般是当前页面具体的初始化，一般需要重写</span></span><br><span class="line"><span class="undefined">4. computed:tableData一般是需要重新写的</span></span><br><span class="line"><span class="undefined">5. 放好html，基本可以玩起来了</span></span><br><span class="line"><span class="undefined"> */</span></span><br><span class="line"><span class="undefined">import EnhancedTable from '@/components/EnhancedTable'</span></span><br><span class="line"><span class="undefined">import EnhancedForm from '@/components/EnhancedForm'</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">export default &#123;</span></span><br><span class="line"><span class="undefined">  components: &#123; EnhancedTable, EnhancedForm &#125;,</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">  data () &#123;</span></span><br><span class="line"><span class="undefined">    const formConfig = &#123;</span></span><br><span class="line"><span class="undefined">      year: &#123; label: '年份', category: 'date-picker', default: (new Date()).getFullYear() + '', type: 'year', format: 'yyyy', valueFormat: 'yyyy' &#125;,</span></span><br><span class="line"><span class="undefined">      term: &#123; label: '季度', category: 'select', options: [&#123; value: '春', label: '春' &#125;, &#123; value: '夏', label: '夏' &#125;, &#123; value: '秋', label: '秋' &#125;, &#123; value: '冬', label: '冬' &#125;] &#125;,</span></span><br><span class="line"><span class="undefined">      area: &#123; label: '大区', category: 'select', filterable: true, default: '', options: null &#125;,</span></span><br><span class="line"><span class="undefined">      name: &#123; label: '姓名', category: 'input' &#125;,</span></span><br><span class="line"><span class="undefined">      code: &#123; label: '编号', category: 'input' &#125;</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">    const formAttr = &#123;</span></span><br><span class="line"><span class="undefined">      // 行内显示</span></span><br><span class="line"><span class="undefined">      inline: true,</span></span><br><span class="line"><span class="undefined">      // 每个label宽</span></span><br><span class="line"><span class="undefined">      labelWidth: '100px',</span></span><br><span class="line"><span class="undefined">      // label右对齐</span></span><br><span class="line"><span class="undefined">      labelPosition: 'right'</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">    const colConfigs = [</span></span><br><span class="line"><span class="undefined">      &#123; prop: 'orderNumber', label: '序号', sortable: false, align: 'center' &#125;,</span></span><br><span class="line"><span class="undefined">      &#123; slot: 'projectName', prop: 'projectName', label: '教研组', sortable: false, align: 'center' &#125;,</span></span><br><span class="line"><span class="undefined">      &#123; prop: 'teacherCount', label: '教师数量', sortable: false, align: 'center' &#125;,</span></span><br><span class="line"><span class="undefined">      &#123; prop: 'lessonCount', label: '总课次', sortable: false, align: 'center' &#125;,</span></span><br><span class="line"><span class="undefined">      &#123; prop: 'uploadPercent', label: '上传率', sortable: false, align: 'center' &#125;,</span></span><br><span class="line"><span class="undefined">      &#123; prop: 'passPercent', label: '合格率', sortable: false, align: 'center' &#125;</span></span><br><span class="line"><span class="undefined">    ]</span></span><br><span class="line"><span class="undefined">    const ajaxApis = &#123;</span></span><br><span class="line"><span class="undefined">      query: 'AjaxQuery',</span></span><br><span class="line"><span class="undefined">      export: 'AjaxExport'</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">    return &#123;</span></span><br><span class="line"><span class="undefined">      // 查询表单项的配置</span></span><br><span class="line"><span class="undefined">      formConfig,</span></span><br><span class="line"><span class="undefined">      // 整个表单的统一配置</span></span><br><span class="line"><span class="undefined">      formAttr,</span></span><br><span class="line"><span class="undefined">      // 表格每列的配置</span></span><br><span class="line"><span class="undefined">      colConfigs,</span></span><br><span class="line"><span class="undefined">      // 这个是 请求的方法，不同页面的请求方法名肯定是不一样的 需要配置</span></span><br><span class="line"><span class="undefined">      ajaxApis,</span></span><br><span class="line"><span class="undefined">      // 表格的加载图标</span></span><br><span class="line"><span class="undefined">      isShowTableLoading: false,</span></span><br><span class="line"><span class="undefined">      // 表格请求的原始数据</span></span><br><span class="line"><span class="undefined">      tableDataNative: [],</span></span><br><span class="line"><span class="undefined">      // 有数据就意味着可能分页</span></span><br><span class="line"><span class="undefined">      otherParams: &#123;</span></span><br><span class="line"><span class="undefined">        pageIndex: 0,</span></span><br><span class="line"><span class="undefined">        pageSize: 10,</span></span><br><span class="line"><span class="undefined">        isAsc: '',</span></span><br><span class="line"><span class="undefined">        sortBy: ''</span></span><br><span class="line"><span class="undefined">      &#125;,</span></span><br><span class="line"><span class="undefined">      // 数据总长度，基本只给分页组件用的</span></span><br><span class="line"><span class="undefined">      dataLength: 0,</span></span><br><span class="line"><span class="undefined">      // 为了方便重置，将首次请求表格数据的参数保存</span></span><br><span class="line"><span class="undefined">      initialParams: null</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">  &#125;,</span></span><br><span class="line"><span class="undefined">  computed: &#123;</span></span><br><span class="line"><span class="undefined">    // 处理之后的数据</span></span><br><span class="line"><span class="undefined">    tableData () &#123;</span></span><br><span class="line"><span class="undefined">      return this.tableDataNative</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">  &#125;,</span></span><br><span class="line"><span class="undefined">  mounted () &#123;</span></span><br><span class="line"><span class="undefined">    this.init()</span></span><br><span class="line"><span class="undefined">  &#125;,</span></span><br><span class="line"><span class="undefined">  methods: &#123;</span></span><br><span class="line"><span class="undefined">    // 页面加载执行的方法</span></span><br><span class="line"><span class="undefined">    async init () &#123;</span></span><br><span class="line"><span class="undefined">      // 这个有异步操作，需要用await</span></span><br><span class="line"><span class="undefined">      await this.setAreaOptions()</span></span><br><span class="line"><span class="undefined">      this.getTableData()</span></span><br><span class="line"><span class="undefined">    &#125;,</span></span><br><span class="line"><span class="undefined">    async setAreaOptions () &#123;</span></span><br><span class="line"><span class="undefined">      let res = await this.$api.AjaxGetAreas()</span></span><br><span class="line"><span class="undefined">      let options = res.data.data</span></span><br><span class="line"><span class="undefined">      this.setSingleFormItem(&#123; prop: 'area', attr: 'options', value: options &#125;)</span></span><br><span class="line"><span class="undefined">      this.setSingleFormItem(&#123; prop: 'area', attr: 'default', value: options[1].value &#125;)</span></span><br><span class="line"><span class="undefined">    &#125;,</span></span><br><span class="line"><span class="undefined">    clickSearchBtn () &#123;</span></span><br><span class="line"><span class="undefined">      // 重置页数的相关参数,这个是，比如你在点击第二页之后，pageIndex=2,但是当点击查询的时候，需要重新重置</span></span><br><span class="line"><span class="undefined">      this.otherParams = this.initialParams.otherParams</span></span><br><span class="line"><span class="undefined">      this.getTableData()</span></span><br><span class="line"><span class="undefined">    &#125;,</span></span><br><span class="line"><span class="undefined">    clickExportBtn () &#123;</span></span><br><span class="line"><span class="undefined">      // 导出的参数和查询的参数基本一样，但是数据不分页</span></span><br><span class="line"><span class="undefined">      let params = &#123; ...this.getAjaxQueryParams() &#125;</span></span><br><span class="line"><span class="undefined">      params.pageSize = 0</span></span><br><span class="line"><span class="undefined">      this.$api[this.ajaxApis.export](params)</span></span><br><span class="line"><span class="undefined">    &#125;,</span></span><br><span class="line"><span class="undefined">    clickResetBtn () &#123;</span></span><br><span class="line"><span class="undefined">      // 重置表单</span></span><br><span class="line"><span class="undefined">      this.setFormData(this.initialParams.formParams)</span></span><br><span class="line"><span class="undefined">      // 重置页数的相关参数</span></span><br><span class="line"><span class="undefined">      this.otherParams = this.initialParams.otherParams</span></span><br><span class="line"><span class="undefined">      // 查询</span></span><br><span class="line"><span class="undefined">      this.getTableData()</span></span><br><span class="line"><span class="undefined">    &#125;,</span></span><br><span class="line"><span class="undefined">    // ajax请求表格数据，并赋值，因为后端的数据很多时候前端需要处理下，在computed那边加一层过滤</span></span><br><span class="line"><span class="undefined">    async ajaxQuery (params) &#123;</span></span><br><span class="line"><span class="undefined">      // 显示表单加载</span></span><br><span class="line"><span class="undefined">      this.isShowTableLoading = true</span></span><br><span class="line"><span class="undefined">      let res = await this.$api[this.ajaxApis.query](params)</span></span><br><span class="line"><span class="undefined">      this.isShowTableLoading = false</span></span><br><span class="line"><span class="undefined">      this.tableDataNative = res.data.data</span></span><br><span class="line"><span class="undefined">      this.dataLength = res.data.dataCount</span></span><br><span class="line"><span class="undefined">    &#125;,</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">    // 将表单元素设置成特定的值,params  = &#123;year:2019,...&#125;</span></span><br><span class="line"><span class="undefined">    setFormData (params, refForm = 'queryForm') &#123;</span></span><br><span class="line"><span class="undefined">      // 表单</span></span><br><span class="line"><span class="undefined">      for (let key in params) &#123;</span></span><br><span class="line"><span class="undefined">        this.$refs[refForm].$data.form.props[key] = params[key]</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="undefined">    &#125;,</span></span><br><span class="line"><span class="undefined">    // 得到表单各项的值</span></span><br><span class="line"><span class="undefined">    getFormData (refForm = 'queryForm') &#123;</span></span><br><span class="line"><span class="undefined">      return this.$refs[refForm].$data.form.props</span></span><br><span class="line"><span class="undefined">    &#125;,</span></span><br><span class="line"><span class="undefined">    // 设置单个表单元素的属性，除了默认值，常用的是options</span></span><br><span class="line"><span class="undefined">    setSingleFormItem (&#123; prop, attr, value, formConfig = 'formConfig', refForm = 'queryForm' &#125;) &#123;</span></span><br><span class="line"><span class="undefined">      this[formConfig][prop][attr] = value</span></span><br><span class="line"><span class="undefined">      // 默认值的话 需要变动form的属性</span></span><br><span class="line"><span class="undefined">      if (attr === 'default') &#123;</span></span><br><span class="line"><span class="undefined">        this.$refs[refForm].$data.form.props[prop] = value</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="undefined">    &#125;,</span></span><br><span class="line"><span class="undefined">    getTableData () &#123;</span></span><br><span class="line"><span class="undefined">      let params = this.getAjaxQueryParams()</span></span><br><span class="line"><span class="undefined">      this.ajaxQuery(params)</span></span><br><span class="line"><span class="undefined">    &#125;,</span></span><br><span class="line"><span class="undefined">    // 请求的参数 包括表单和页数相关的数据</span></span><br><span class="line"><span class="undefined">    getAjaxQueryParams () &#123;</span></span><br><span class="line"><span class="undefined">      let formParams = this.getFormData()</span></span><br><span class="line"><span class="undefined">      let params = &#123; ...this.otherParams, ...formParams &#125;</span></span><br><span class="line"><span class="undefined">      // 设置首次查询的参数,这里注意对象是引用，必须深度复制下</span></span><br><span class="line"><span class="undefined">      this.initialParams || (this.initialParams = &#123; formParams: &#123; ...formParams &#125;, otherParams: &#123; ...this.otherParams &#125; &#125;)</span></span><br><span class="line"><span class="undefined">      console.log(this.initialParams)</span></span><br><span class="line"><span class="undefined">      return params</span></span><br><span class="line"><span class="undefined">    &#125;,</span></span><br><span class="line"><span class="undefined">    // 改变页数</span></span><br><span class="line"><span class="undefined">    changeTablePage (page) &#123;</span></span><br><span class="line"><span class="undefined">      this.otherParams.pageIndex = page</span></span><br><span class="line"><span class="undefined">      this.getTableData()</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">  &#125;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">&#125;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="引用query的页面"><a href="#引用query的页面" class="headerlink" title="引用query的页面"></a>引用query的页面</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line">&lt;template lang=&quot;pug&quot;&gt;</span><br><span class="line">section</span><br><span class="line">  //- 表单区域</span><br><span class="line">  enhanced-form.app-query-form(ref=&quot;queryForm&quot; :form-config=&quot;formConfig&quot; :form-attr=&quot;formAttr&quot;)</span><br><span class="line">    template(v-slot:districtName=&quot;&#123;config,form&#125;&quot;)</span><br><span class="line">      el-form-item(:label=&quot;config.label&quot; prop=&quot;districtName&quot;)</span><br><span class="line">        el-select(v-model=&quot;form.props.districtName&quot; v-bind=&quot;config&quot; @change=&quot;changeDistrict(form.props.districtName)&quot;)</span><br><span class="line">          el-option(v-for=&quot;item in config.options&quot; :key=&quot;item.value&quot; :value=&quot;item.value&quot; :label=&quot;item.label&quot; )</span><br><span class="line">    template(#btns)</span><br><span class="line">      el-form-item.app-btns-box</span><br><span class="line">        el-button.btn(type=&apos;primary&apos;, @click=&apos;clickSearchBtn&apos;) 查询</span><br><span class="line">        el-button.btn(type=&apos;primary&apos;, @click=&apos;clickResetBtn&apos;, plain=&apos;&apos;) 重置</span><br><span class="line">        el-button.btn(type=&apos;warning&apos;,plain=&apos;&apos;, @click=&apos;clickExportBtn&apos;) 导出</span><br><span class="line">  //- 表格区域</span><br><span class="line">  enhanced-table(:is-load=&apos;isShowTableLoading&apos;, :table-data=&apos;tableData&apos;, :col-configs=&apos;colConfigs&apos;)</span><br><span class="line">  //- 分页 没有数据的时候不显示</span><br><span class="line">  .pagination-box(v-if=&quot;tableData.length&quot;)</span><br><span class="line">    el-pagination(@current-change=&apos;changeTablePage&apos;, :current-page.sync=&apos;otherParams.pageIndex&apos;, :page-size=&apos;otherParams.pageSize&apos;, layout=&apos;prev, pager, next, jumper&apos;, :total=&apos;dataLength&apos;)</span><br><span class="line">&lt;/template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">import Query from &apos;@/mixins/Query&apos;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  mixins: [Query],</span><br><span class="line">  data () &#123;</span><br><span class="line">    const formConfig = &#123;</span><br><span class="line">      year: &#123; label: &apos;年份&apos;, category: &apos;date-picker&apos;, default: (new Date()).getFullYear() + &apos;&apos;, type: &apos;year&apos;, format: &apos;yyyy&apos;, valueFormat: &apos;yyyy&apos; &#125;,</span><br><span class="line">      term: &#123; label: &apos;季度&apos;, category: &apos;select&apos;, options: [&#123; value: &apos;春&apos;, label: &apos;春&apos; &#125;, &#123; value: &apos;夏&apos;, label: &apos;夏&apos; &#125;, &#123; value: &apos;秋&apos;, label: &apos;秋&apos; &#125;, &#123; value: &apos;冬&apos;, label: &apos;冬&apos; &#125;] &#125;,</span><br><span class="line">      area: &#123; label: &apos;大区&apos;, category: &apos;select&apos;, filterable: true, default: &apos;&apos;, options: null &#125;,</span><br><span class="line">      name: &#123; label: &apos;姓名&apos;, category: &apos;input&apos; &#125;,</span><br><span class="line">      code: &#123; label: &apos;编号&apos;, category: &apos;input&apos; &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    const colConfigs = [</span><br><span class="line">      &#123; prop: &apos;orderNumber&apos;, label: &apos;序号&apos;, sortable: false, align: &apos;center&apos; &#125;,</span><br><span class="line">      &#123; slot: &apos;projectName&apos;, prop: &apos;projectName&apos;, label: &apos;教研组&apos;, sortable: false, align: &apos;center&apos; &#125;,</span><br><span class="line">      &#123; prop: &apos;teacherCount&apos;, label: &apos;教师数量&apos;, sortable: false, align: &apos;center&apos; &#125;,</span><br><span class="line">      &#123; prop: &apos;lessonCount&apos;, label: &apos;总课次&apos;, sortable: false, align: &apos;center&apos; &#125;,</span><br><span class="line">      &#123; prop: &apos;uploadPercent&apos;, label: &apos;上传率&apos;, sortable: false, align: &apos;center&apos; &#125;,</span><br><span class="line">      &#123; prop: &apos;passPercent&apos;, label: &apos;合格率&apos;, sortable: false, align: &apos;center&apos; &#125;</span><br><span class="line">    ]</span><br><span class="line">    const ajaxApis = &#123;</span><br><span class="line">      query: &apos;AjaxQuery&apos;,</span><br><span class="line">      export: &apos;AjaxExport&apos;</span><br><span class="line">    &#125;</span><br><span class="line">    return &#123;</span><br><span class="line">      // 查询表单项的配置</span><br><span class="line">      formConfig,</span><br><span class="line">      // 表格每列的配置</span><br><span class="line">      colConfigs,</span><br><span class="line">      // 这个是 请求的方法，不同页面的请求方法名肯定是不一样的 需要配置</span><br><span class="line">      ajaxApis</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  computed: &#123;</span><br><span class="line">    // 处理之后的数据</span><br><span class="line">    tableData () &#123;</span><br><span class="line">      return this.tableDataNative</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    // 页面加载执行的方法</span><br><span class="line">    async init () &#123;</span><br><span class="line">      // 这个有异步操作，需要用await</span><br><span class="line">      await this.setAreaOptions()</span><br><span class="line">      this.getTableData()</span><br><span class="line">    &#125;,</span><br><span class="line">    async setAreaOptions () &#123;</span><br><span class="line">      let res = await this.$api.AjaxGetAreas()</span><br><span class="line">      let options = res.data.data</span><br><span class="line">      this.setSingleFormItem(&#123; prop: &apos;area&apos;, attr: &apos;options&apos;, value: options &#125;)</span><br><span class="line">      this.setSingleFormItem(&#123; prop: &apos;area&apos;, attr: &apos;default&apos;, value: options[1].value &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;style&gt;</span><br><span class="line">.el-table&#123;</span><br><span class="line">  border:1px solid #e8e8e8;</span><br><span class="line">  width: 90%;</span><br><span class="line">  margin: auto;</span><br><span class="line">&#125;</span><br><span class="line">.pagination-box&#123;</span><br><span class="line">  margin-top: 20px;</span><br><span class="line">  text-align: center;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="不足"><a href="#不足" class="headerlink" title="不足"></a>不足</h2><p>水平有限，即便这样还是有点麻烦，嗯，继续加油</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/12/1-3-改变思维模式/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1894,231 +2054,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/21/element-form/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2019/10/21/element-form/" itemprop="url">
-                  element-ui库的表单元素的总结
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-21T15:15:41+08:00">
-                2019-10-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/10/21/element-form/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/10/21/element-form/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <!-- # element-ui库的表单元素的总结 -->
-<p>表单元素挺多的，这里简单总结下，主要分为：文本框类、选择类、其他类</p>
-<ul>
-<li>文本框类</li>
-<li>选择类</li>
-<li>其他类</li>
-</ul>
-<h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
-<li>时间类的选择器，均可设置输入框的显示样式和值的形式，属性分别为format、value-format</li>
-<li>单选框和复选框，选中项属性的label值就是model的值</li>
-<li>复选框，如果是多选的话，务必设置model值是个数组</li>
-</ul>
-<h2 id="文本框类"><a href="#文本框类" class="headerlink" title="文本框类"></a>文本框类</h2><p><img src="https://user-gold-cdn.xitu.io/2019/10/21/16ded19f220dc9a2?w=1234&amp;h=1476&amp;f=jpeg&amp;s=159094" alt="文本框"></p>
-<p>这里我统一将有文本框的元素放在一起。主要有：普通文本框、密码框、文本域、计数器、日期选择器、自动填充文本框、有前缀的文本框。</p>
-<ul>
-<li>普通文本框：disabled是否禁用，clearable是否可清空，maxlength/minlength字符的长度，show-word-limit显示字数统计，prefix-icon/suffix-icon首尾部的显示图标，size指定输入框的尺寸(large small mini)，<br><code>&lt;el-input v-model=&quot;xx&quot; placeholder=&quot;请输入内容&quot; disabled clearable maxlength=&quot;10&quot; show-word-limit prefix-icon=&quot;el-icon-search&quot; suffix-icon=&quot;el-icon-date&quot; size=&quot;mini&quot;&gt;</code></li>
-<li>密码框：必须有<code>show-password</code><br><code>&lt;el-input show-password v-model=&quot;xx&quot; placeholder=&quot;请输入内容&quot; &gt;</code></li>
-<li>文本域：必须有<code>type=&quot;textarea&quot;</code>，rows控制高度(注意是数字，需要加:)，autosize让高度根据内容自行调整(还可设置最小行数和最大行数)<br><code>&lt;el-inut type=&quot;textarea&quot; v-model=&quot;xx&quot;  :rows=&quot;2&quot; autosize&gt;</code></li>
-<li>计数器：仅允许输入标准的数字值，方便的加减数字，min/max控制最大最小值，steps控制步长<br><code>&lt;el-input-number v-model=&quot;num&quot; :min=&quot;1&quot; :max=&quot;10&quot; :steps=&quot;2&quot;&gt;&lt;/el-input-number&gt;</code></li>
-<li>复合型输入框：可前置或后置元素(slot)</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">el-input</span> <span class="attr">placeholder</span>=<span class="string">"请输入内容"</span> <span class="attr">v-model</span>=<span class="string">"xx"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">template</span> <span class="attr">slot</span>=<span class="string">"prepend"</span>&gt;</span>Http://<span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">el-button</span> <span class="attr">slot</span>=<span class="string">"append"</span> <span class="attr">icon</span>=<span class="string">"el-icon-search"</span>&gt;</span><span class="tag">&lt;/<span class="name">el-button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">el-input</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>带输入建议的输入框，较复杂需要再看吧，<a href="https://element.eleme.cn/#/zh-CN/component/input" target="_blank" rel="noopener">el-autocomplete</a></p>
-</li>
-<li><p>日期选择器，有点麻烦，单独一部分讲</p>
-</li>
-</ul>
-<h3 id="日期时间选择器"><a href="#日期时间选择器" class="headerlink" title="日期时间选择器"></a>日期时间选择器</h3><p>这里特别强调的是：输入框里显示的格式(format)和绑定值的格式(value-format)可以控制！！！！<br>这里特别强调的是：输入框里显示的格式(format)和绑定值的格式(value-format)可以控制！！！！<br>这里特别强调的是：输入框里显示的格式(format)和绑定值的格式(value-format)可以控制！！！！</p>
-<p>年是yyyy，月是MM，日是dd，时是HH，分是mm，秒是ss，周是WW（只限于周选择器）。通用的是<code>yyyy-MM-dd HH:mm:ss</code>。  </p>
-<p>注意的坑:</p>
-<ul>
-<li>除了年，都可以单个，单个表示一位数的时候不补0。</li>
-<li>HH是24小时制，hh是12小时制！！！！</li>
-<li>value-format有个特殊的<code>timestamp</code>类型，format有A类型(AM/PM)</li>
-<li>不设置value-format，默认是这种<code>Fri Oct 18 2019 11:27:54 GMT+0800 (China Standard Time)</code>，通常会设置成<code>timestamp</code>，13位的</li>
-<li>开始和结束选择的值是数组</li>
-</ul>
-<p>选择的类型如下：</p>
-<ul>
-<li>时间选择器：picker-options设置选择的范围。<br><code>&lt;el-time-picker v-model=&quot;xx&quot; :picker-options=&quot;{selectableRange: &#39;18:30:00 - 20:30:00&#39;}&quot; placeholder=&quot;选择时间&quot;&gt;</code></li>
-<li>开始和结束时间选择器：必须有is-range属性，align对齐方式，range-separator分隔符，默认是-，start-placeholder和end-placeholder，<br><code>&lt;el-time-picker is-range v-model=&quot;value1&quot; align=&quot;center&quot; range-separator=&quot;至&quot; start-placeholder=&quot;开始时间&quot; end-placeholder=&quot;结束时间&quot;&gt;&lt;/el-time-picker&gt;</code></li>
-<li>日期选择器：必须要type，控制类型(date、week、month、year、dates)<br><code>&lt;el-date-picker type=&quot;date&quot;  v-model=&quot;value1&quot; placeholder=&quot;选择日期&quot;&gt; &lt;/el-date-picker&gt;</code></li>
-<li>开始和结束日期选择器：必须type，控制类型(daterange、weekrange、monthrange、yearrange)<br><code>&lt;el-date-picker v-model=&quot;value1&quot; type=&quot;daterange&quot; range-separator=&quot;至&quot; start-placeholder=&quot;开始日期&quot; end-placeholder=&quot;结束日期&quot;&gt; &lt;/el-date-picker&gt;</code></li>
-<li>日期时间选择器：必须<code>type=&quot;datetime&quot;</code><br><code>&lt;el-date-picker type=&quot;datetime&quot; v-model=&quot;value1&quot; placeholder=&quot;选择日期时间&quot;&gt; &lt;/el-date-picker&gt;</code></li>
-<li>开始和结束日期时间选择器：必须<code>type=&quot;datetimerange&quot;</code>，default-time可以设置默认时间<br><code>&lt;el-date-picker type=&quot;datetimerange&quot;  v-model=&quot;value1&quot; range-separator=&quot;至&quot; start-placeholder=&quot;开始日期&quot; end-placeholder=&quot;结束日期&quot;&gt; &lt;/el-date-picker&gt;</code></li>
-</ul>
-<h2 id="选择类"><a href="#选择类" class="headerlink" title="选择类"></a>选择类</h2><p>所有的选择类的表单元素，都有类似于options的选项，注意model的值和选项中的那个属性值挂钩。<br>option基本统一的模式是<code>{label:&#39;看到的&#39;,value:&#39;提交给后台的值&#39;}</code>，但是radio和chebox很奇怪，label的选项居然就是value，写的时候特别注意！！！  </p>
-<ul>
-<li>单选框：model绑定的值是选中项的label值，model值就是默认项，undefined就没有默认项。border就会有边框。想要变成按钮样式的就用<code>el-radio-button</code></li>
-</ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- options: [&#123; value:1, label: '黄金糕' &#125;, &#123; value:1, label: '双皮奶' &#125;] --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">el-radio-group</span> <span class="attr">v-model</span>=<span class="string">"radio"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">el-radio</span> <span class="attr">v-for</span>=<span class="string">"item in options"</span> <span class="attr">:key</span>=<span class="string">"item.value"</span> <span class="attr">:label</span>=<span class="string">"item.value"</span> &gt;</span>&#123;&#123;item.label&#125;&#125;<span class="tag">&lt;/<span class="name">el-radio</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">el-radio-group</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>复选框：model的值有两种类型：Boolean和Array。Boolean的时候就是，选项是否都勾选。Array的时候，选中项的label值会出现在数组中。indeterminate是true的时候是表示部分选中，用于实现全选的效果。border是带上边框<br>el-checkbox-group标签，min和max表示勾选项目的数量，size是尺寸，el-checkbox-button是按钮形式</li>
-</ul>
-<p><code>&lt;el-checkbox v-model=&quot;checked&quot; indeterminate&gt;全选&lt;/el-checkbox&gt;</code></p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">el-checkbox-group</span> <span class="attr">v-model</span>=<span class="string">"checkList"</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- options: [&#123; value:1, label: '黄金糕' &#125;, &#123; value:1, label: '双皮奶' &#125;] --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">el-checkbox</span> <span class="attr">v-for</span>=<span class="string">"item in options"</span> <span class="attr">:key</span>=<span class="string">"item.value"</span> <span class="attr">:label</span>=<span class="string">"item.value"</span>&gt;</span>&#123;&#123;item.label&#125;&#125;<span class="tag">&lt;/<span class="name">el-checkbox</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">el-checkbox-group</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>下拉框：model的值是选中的option的value值，disabled设置不能选。需要分组用<code>el-option-group</code>，远程搜索和创建条目参考官网<br>el-select可设置：clearable清空，multiple多选(多选的时候值请务必是数组)，filterable可以搜索选项<br>el-option可设置：slot设置自定义的样式</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- options: [&#123; value:1, label: '黄金糕' &#125;, &#123; value:1, label: '双皮奶' &#125;] --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">el-select</span> <span class="attr">v-model</span>=<span class="string">"value"</span> <span class="attr">placeholder</span>=<span class="string">"请选择"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">el-option</span> <span class="attr">v-for</span>=<span class="string">"item in options"</span> <span class="attr">:key</span>=<span class="string">"item.value"</span> <span class="attr">:label</span>=<span class="string">"item.label"</span> <span class="attr">:value</span>=<span class="string">"item.value"</span>&gt;</span> <span class="tag">&lt;/<span class="name">el-option</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">el-select</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>级联下拉框：model是数组，索引对应级别。options是类似于递归的模式(<code>[{value:1,label:&#39;bj&#39;,children:[{value:2,label:&#39;haidian&#39;}]}]</code>)，默认触发方式是click，可以hover<code>:props={expandTrigger:&#39;hover&#39;}</code><br><code>&lt;el-cascader v-model=&quot;value&quot; :options=&quot;options&quot; @change=&quot;handleChange&quot;&gt;&lt;/el-cascader&gt;</code></li>
-</ul>
-<h2 id="其他类"><a href="#其他类" class="headerlink" title="其他类"></a>其他类</h2><ul>
-<li>开关：model值是Boolean，可以使用active-color属性与inactive-color属性来设置开关的背景色<br><code>&lt;el-switch v-model=&quot;value&quot; active-color=&quot;#13ce66&quot; inactive-color=&quot;#ff4949&quot;&gt; &lt;/el-switch&gt;</code></li>
-<li>滑块：默认是0-100，可以formatTooltip格式化显示的值<br><code>&lt;el-slider v-model=&quot;value1&quot; :format-tooltip=&quot;formatTooltip&quot;&gt;&lt;/el-slider&gt;</code></li>
-<li>评分、颜色、穿梭框、没用，用的时候再说吧~~</li>
-<li><p>上传：挺复杂的，这边我只是简单罗列下我知道的。accept限制上传文件的格式，auto-upload要不要自动上传，limit上传的数量，file-list文件显示的列表，list-type显示的方式，on-exceed超出了文件数的钩子，on-change文件变化的钩子，on-remove的移除文件的钩子。钩子的默认参数大多有<code>file，filelist</code>。</p>
-<ul>
-<li>file-list一般可能需要用computed算出来，因为在编辑状态下，应该直接有图片链接。</li>
-<li>第一个文件可以通过<code>this.$refs.eventImage.uploadFiles[0].raw</code></li>
-<li>校验的时候，有时不一定能准确判断file的值存不存在，需要手动设置规则，每次上传之后。上传同一个图片可能不行的bug需要每次上传之后设置<code>this.$refs[ref名].value = &#39;&#39;</code><br><code>&lt;el-upload ref=&quot;eventImage&quot; accept=&quot;image/*&quot; :auto-upload=&quot;false&quot; action=&quot;&quot; :limit=&quot;1&quot; :file-list=&quot;fileListUploaded&quot; list-type=&quot;picture-card&quot; :on-exceed=&quot;exceedFile&quot; :on-change=&quot;changeFile&quot; :on-remove=&quot;removeImage&quot; &gt;&lt;/el-upload&gt;</code></li>
-</ul>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2168,7 +2103,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">197</span>
+                <span class="site-state-item-count">198</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
