@@ -261,6 +261,201 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/19/vue-children-parent/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2020/11/19/vue-children-parent/" itemprop="url">
+                  $parent/$children的使用场景 -- vue组件通信系列
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-11-19T18:45:05+08:00">
+                2020-11-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/11/19/vue-children-parent/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/11/19/vue-children-parent/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>vue 组件的数据通信方式很多，本篇着重讲<code>$parent/$children</code>，神助是<code>$broadcast/$dispatch</code>。</p>
+<p><code>$parent/$children</code>的常用场景：封装嵌套组件时，直接使用长辈或者子孙组件的方法，该方法并不改变数据，常常结合<code>$broadcast/$dispatch</code>使用。</p>
+<h2 id="什么是-parent-children"><a href="#什么是-parent-children" class="headerlink" title="什么是\$parent/$children"></a>什么是\$parent/$children</h2><p>先问一句，<code>div</code>标签，其父元素和子元素是谁？</p>
+<p>这其实没有答案。</p>
+<p>父元素和子元素是谁，取决于运行时<code>div</code>的位置。</p>
+<p>试着说说，以下<code>div</code>的父元素和子元素。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"div1"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">main</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"div2"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h1</span>&gt;</span>一级标题<span class="tag">&lt;<span class="name">h1</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">p</span>&gt;</span>段落<span class="tag">&lt;<span class="name">p</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">main</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><code>div1</code>:</p>
+<ul>
+<li>父元素是，<code>body</code></li>
+<li>子元素是，<code>main</code>。注意是子元素是指直接后代。</li>
+</ul>
+<p><code>div2</code>:</p>
+<ul>
+<li>父元素是，<code>main</code></li>
+<li>子元素是，<code>h1和p</code>。注意是子元素是指直接后代。</li>
+</ul>
+<p>总结下：</p>
+<ul>
+<li>元素本身没有父元素和子元素，而是在运行时，每个元素实例的位置，决定其父元素和子元素</li>
+<li>每个元素实例有且只有一个父元素（顶级元素实例没有哈）</li>
+<li>但每个元素实例可能没有子元素，可能有一个，也可能有多个，所以一般<code>children</code>是数组，没有的时候是空数组</li>
+<li>js 运行时，若添加或者删除元素实例，那些发生位置变化的元素实例们，父元素和子元素也会发生变化。</li>
+</ul>
+<p>正文来了！！！<strong>组件也是一样滴！！！</strong></p>
+<p>因为本来组件就是模仿元素的嘛！！！</p>
+<p>把上面的元素<strong>换</strong>成组件即可！</p>
+<ul>
+<li>组件本身没有父组件和子组件，而是在运行时，每个组件实例的位置，决定其父组件和子组件</li>
+<li>每个组件实例有且只有一个父组件（顶级组件实例没有哈）</li>
+<li>但每个组件实例可能没有子组件，可能有一个，也可能有多个，所以一般<code>children</code>是数组，没有的时候是空数组</li>
+<li>js 运行时，若添加或者删除组件实例，那些发生位置变化的组件实例们，父组件和子组件也会发生变化。</li>
+</ul>
+<p>其实属性和事件这种机制，也可以类比元素理解，当然这是后话。</p>
+<h2 id="举例说明-parent-children"><a href="#举例说明-parent-children" class="headerlink" title="举例说明\$parent/$children"></a>举例说明\$parent/$children</h2><p>写一个页面组件，里面放些组件，打印下<code>$parent/$children</code></p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/fe79df7c1eed468397cb1a6baac9a8cb~tplv-k3u1fbpfcp-zoom-1.image" alt="parent"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;template lang=&quot;pug&quot;&gt;</span><br><span class="line">//- 页面组件</span><br><span class="line">div</span><br><span class="line">  list-item</span><br><span class="line">  list-item</span><br><span class="line">&lt;/template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">import ListItem from &quot;@/components/ListItem&quot;;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &quot;List&quot;,</span><br><span class="line">  components: &#123; ListItem &#125;,</span><br><span class="line">  mounted() &#123;</span><br><span class="line">    console.log(&quot;页面的$parent&quot;, this.$parent);</span><br><span class="line">    console.log(&quot;页面的$children&quot;, this.$children);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>其实还能看到，渲染的时候先子组件的<code>mounted</code>，然后再是自己的<code>mounted</code>.<br>要是想在子组件里获取父组件的元素之类的，必须使用<code>nextTick</code>。</p>
+<h2 id="dispatch"><a href="#dispatch" class="headerlink" title="\$dispatch"></a>\$dispatch</h2><p>在使用<code>element-ui</code>的时候，有个<code>el-form</code>，大约是这么用的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;template lang=&quot;pug&quot;&gt;</span><br><span class="line">el-form</span><br><span class="line">  el-form-item</span><br><span class="line">    el-input</span><br><span class="line">&lt;/template&gt;</span><br></pre></td></tr></table></figure>
+<p>假设<code>el-input</code>想要执行<code>el-form</code>上的方法，就会这样<code>this.$parent.$parent.methodXx()</code>，更多层级可能更复杂，于是<code>$dispatch</code>就诞生了。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// main.js</span></span><br><span class="line"><span class="comment">// 向上某个组件，派发事件</span></span><br><span class="line">Vue.prototype.$dispatch = <span class="function"><span class="keyword">function</span>(<span class="params">eventName, componentName, ...args</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> parent = <span class="keyword">this</span>.$parent;</span><br><span class="line">  <span class="keyword">while</span> (parent) &#123;</span><br><span class="line">    <span class="comment">// 只有是特定组件，才会触发事件。而不会一直往上，一直触发</span></span><br><span class="line">    <span class="keyword">const</span> isSpecialComponent = parent.$options.name === componentName;</span><br><span class="line">    <span class="keyword">if</span> (isSpecialComponent) &#123;</span><br><span class="line">      <span class="comment">// 触发了，就终止循环</span></span><br><span class="line">      parent.$emit(eventName, ...args);</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    parent = parent.$parent;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>这样在<code>el-input</code>里想要触发<code>el-form</code>里的方法，<code>this.$dispatch(&#39;changeSort&#39;,&#39;el-form&#39;,{isAsc:true})</code></p>
+<h2 id="broadcast"><a href="#broadcast" class="headerlink" title="\$broadcast"></a>\$broadcast</h2><p>同理，假设<code>el-form</code>想要执行<code>el-input</code>上的方法，就会这样<code>this.$children[0].$children[0].methodXx()</code>，更多层级可能更复杂，于是<code>$broadcast</code>就诞生了，使用的时候<code>this.$broadcast(&#39;changeValue&#39;,&#39;el-input&#39;,&#39;hello&#39;)</code>。</p>
+<p>注意，<code>$children</code> 是数组，所以当只有一个子组件时，使用[0]获取。当有多个子组件时，它并不保证顺序，也不是响应式的。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 向下通知某个组件，触发事件</span></span><br><span class="line">Vue.prototype.$broadcast = <span class="function"><span class="keyword">function</span>(<span class="params">eventName, componentName, ...args</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 这里children是所有子组件，是子组件不是后代组件哈</span></span><br><span class="line">  <span class="keyword">let</span> children = <span class="keyword">this</span>.$children;</span><br><span class="line">  broadcast(children);</span><br><span class="line">  <span class="comment">// 这里注意，抽离新的方法递归，而不是递归$broadcast</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">broadcast</span>(<span class="params">children</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; children.length; i++) &#123;</span><br><span class="line">      <span class="keyword">let</span> child = children[i];</span><br><span class="line">      <span class="keyword">const</span> isSpecialComponent = child.$options.name === componentName;</span><br><span class="line">      <span class="keyword">if</span> (isSpecialComponent) &#123;</span><br><span class="line">        <span class="comment">// 触发了，就终止循环</span></span><br><span class="line">        child.$emit(eventName, ...args);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">// 没触发的话，就看下有没有子组件，接着递归</span></span><br><span class="line">      child.$children.length &amp;&amp;</span><br><span class="line">        child.$broadcast(eventName, componentName, ...args);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/19/vue-attrs-listeners/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2173,200 +2368,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/09/27/create-md5/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2020/09/27/create-md5/" itemprop="url">
-                  怎么给文件生成MD5
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-09-27T15:53:42+08:00">
-                2020-09-27
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2020/09/27/create-md5/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/09/27/create-md5/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><code>MD5</code> 的核心是通过算法把任意长度的原始数据映射成128 bit 的数据。把一串数据经过处理，得到另一个固定长度的数据。是一种<code>Hash</code>算法，全称为 消息摘要算法版本5（Message Digest Algorithm 5）。</p>
-<p>不同原始数据会有不同的 MD5 值。 所以不同的文件MD5的值也不一样。</p>
-<p>一般在上传文件的场景里，会根据<code>MD5</code>实现续传、秒传的功能。</p>
-<p>本文简单写下怎么生成 MD5，这里用到插件<a href="https://github.com/satazor/js-spark-md5" target="_blank" rel="noopener"><code>spark-md5</code></a>。</p>
-<h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
-<li>怕麻烦，10M以内生成MD5，直接用法一就行</li>
-<li>怕麻烦，30M以内生成MD5，直接用法二就行</li>
-<li>再大一点，用法三吧</li>
-<li>但法三可以用在以上所有场景</li>
-</ul>
-<h2 id="法一：生成文件的-MD5"><a href="#法一：生成文件的-MD5" class="headerlink" title="法一：生成文件的 MD5"></a>法一：生成文件的 MD5</h2><p>生成文件的 MD5，简单思路如下：</p>
-<ul>
-<li>创建 FileReader 实例，读文件</li>
-<li>读完之后，成功状态下，直接使用<code>SparkMD5.hashBinary</code>。</li>
-</ul>
-<p><img src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/fde1e7bbd9734cc887112930c37f571f~tplv-k3u1fbpfcp-zoom-1.image" alt="生成小文件的MD5"></p>
-<p>具体代码在文末。</p>
-<h3 id="缺陷"><a href="#缺陷" class="headerlink" title="缺陷"></a>缺陷</h3><p>这种方式，当文件越大的时候，生成 md5 的速度也就越慢，比如 40M 的文件可能需要 1s 才生成 md5。当页面还有其他的交互的时候，将会堵塞其他交互，导致页面假死状态。<br><!-- 引起 UI 的阻塞，导致页面假死状态 --></p>
-<p>举个例子：加个按钮，写个点击事件。选择文件之后，立即点击按钮，会发现，当文件越大的时候，弹框的速度越来越迟钝。</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">id</span>=<span class="string">"upload"</span> <span class="attr">type</span>=<span class="string">"file"</span> <span class="attr">onchange</span>=<span class="string">"selectLocalFile"</span> /&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 这里加个按钮，选择文件完之后 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">onclick</span>=<span class="string">"alert(1)"</span>&gt;</span>测试线程堵塞<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">  upload.onchange = async (e) =&gt; &#123;</span></span><br><span class="line"><span class="undefined">    const file = e.target.files[0];</span></span><br><span class="line"><span class="undefined">    console.time("timeCreateMd5");</span></span><br><span class="line"><span class="undefined">    const md5 = await createFileMd5(file);</span></span><br><span class="line"><span class="undefined">    console.log(file.size);</span></span><br><span class="line"><span class="undefined">    //  会打印timeCreateMd5: 959.31396484375 ms</span></span><br><span class="line"><span class="undefined">    console.timeEnd("timeCreateMd5");</span></span><br><span class="line"><span class="undefined">  &#125;;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h2 id="法二：在worker中生成md5"><a href="#法二：在worker中生成md5" class="headerlink" title="法二：在worker中生成md5"></a>法二：在worker中生成md5</h2><p>所以我们使用 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Web_Workers_API/Using_web_workers" target="_blank" rel="noopener"><code>web-worker</code></a> 在 <code>worker 线程</code>计算 <code>hash</code>，这样用户仍可以在主界面正常的交互，不会引起堵塞。<br>当前页面的修改，如下：</p>
-<p><img src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7c131af0dd01404bbba9744b04539f34~tplv-k3u1fbpfcp-zoom-1.image" alt="md5"></p>
-<p>新增在worker里执行的<code>hash.js</code>文件如下：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">self.importScripts(<span class="string">"https://unpkg.com/spark-md5@3.0.1/spark-md5.min.js"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 生成文件 hash</span></span><br><span class="line">self.onmessage = <span class="keyword">async</span> e =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> file = e.data</span><br><span class="line">  <span class="keyword">const</span> md5 = <span class="keyword">await</span> createFileMd5(file)</span><br><span class="line">  self.postMessage(md5);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createFileMd5</span>(<span class="params">file</span>)</span>&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">  <span class="comment">// 同之前的，但以下需要修改，增加self的前缀</span></span><br><span class="line">  isSuccess</span><br><span class="line">        ? resolve(self.SparkMD5.hashBinary(result))</span><br><span class="line">        : reject(<span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"读取出错了"</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>到这，其实虽然生成大文件的md5耗费时间长，但起码不会堵塞页面主线程了。</p>
-<h3 id="也有缺陷"><a href="#也有缺陷" class="headerlink" title="也有缺陷"></a>也有缺陷</h3><p>可以看到计算md5是将整个文件读完才看到，这样当文件过大是极其耗内存的。所以需要分片读取生成<code>md5</code>。</p>
-<h2 id="法三：将文件分片生成md5"><a href="#法三：将文件分片生成md5" class="headerlink" title="法三：将文件分片生成md5"></a>法三：将文件分片生成md5</h2><p>仔细看<a href="https://github.com/satazor/js-spark-md5" target="_blank" rel="noopener">spark-md5</a>，其实作者也是推荐分片读取，类似nodejs里面的流一样，这样不需要占据大量内存。</p>
-<p>先将文件，按照一定大小分块chunk，这边直接使用<code>File.slice</code>了。  </p>
-<p>然后将chunks传给另一个线程计算md5，这边大文件可能需要进度条，所以有一个进度，按需求使用。</p>
-<p><img src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/914521b27b014a22a3141abb6b01c246~tplv-k3u1fbpfcp-zoom-1.image" alt="Chunks"><br><img src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/dc3b958aed1e43499e297714dd9080ea~tplv-k3u1fbpfcp-zoom-1.image" alt="hash"></p>
-<h2 id="附注：代码"><a href="#附注：代码" class="headerlink" title="附注：代码"></a>附注：代码</h2><h3 id="代码：生成小文件的-MD5"><a href="#代码：生成小文件的-MD5" class="headerlink" title="代码：生成小文件的 MD5"></a>代码：生成小文件的 MD5</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">id</span>=<span class="string">"upload"</span> <span class="attr">type</span>=<span class="string">"file"</span> <span class="attr">onchange</span>=<span class="string">"selectLocalFile"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://unpkg.com/spark-md5@3.0.1/spark-md5.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">      <span class="keyword">const</span> upload = <span class="built_in">document</span>.querySelector(<span class="string">"#upload"</span>);</span></span><br><span class="line"><span class="javascript">      upload.onchange = <span class="keyword">async</span> (e) =&gt; &#123;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">const</span> file = e.target.files[<span class="number">0</span>];</span></span><br><span class="line"><span class="javascript">        <span class="keyword">const</span> md5 = <span class="keyword">await</span> createFileMd5(file);</span></span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(md5);</span></span><br><span class="line"><span class="undefined">      &#125;;</span></span><br><span class="line"><span class="javascript">      <span class="function"><span class="keyword">function</span> <span class="title">createFileMd5</span>(<span class="params">file</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">          <span class="comment">// 创建FileReader实例</span></span></span><br><span class="line"><span class="javascript">          <span class="keyword">const</span> fileReader = <span class="keyword">new</span> FileReader();</span></span><br><span class="line"><span class="javascript">          <span class="comment">// 开始读文件</span></span></span><br><span class="line"><span class="undefined">          fileReader.readAsBinaryString(file);</span></span><br><span class="line"><span class="javascript">          <span class="comment">// 文件读完之后，触发load事件</span></span></span><br><span class="line"><span class="javascript">          fileReader.onload = <span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">            <span class="comment">// e.target就是fileReader实例</span></span></span><br><span class="line"><span class="javascript">            <span class="built_in">console</span>.log(e.target);</span></span><br><span class="line"><span class="javascript">            <span class="comment">// result是fileReader读到的部分</span></span></span><br><span class="line"><span class="javascript">            <span class="keyword">const</span> result = e.target.result;</span></span><br><span class="line"><span class="javascript">            <span class="comment">// 如果读到的长度和文件长度一致，则读取成功</span></span></span><br><span class="line"><span class="javascript">            <span class="keyword">const</span> isSuccess = file.size === result.length;</span></span><br><span class="line"><span class="javascript">            <span class="comment">// 读取成功，则生成MD5，扔出去。失败就报错</span></span></span><br><span class="line"><span class="undefined">            isSuccess</span></span><br><span class="line"><span class="undefined">              ? resolve(SparkMD5.hashBinary(result))</span></span><br><span class="line"><span class="javascript">              : reject(<span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"读取出错了"</span>));</span></span><br><span class="line"><span class="undefined">          &#125;;</span></span><br><span class="line"><span class="javascript">          <span class="comment">//   读取过程中出错也直接报错</span></span></span><br><span class="line"><span class="javascript">          fileReader.onerror = <span class="function"><span class="params">()</span> =&gt;</span> reject(<span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"读取出错了"</span>));</span></span><br><span class="line"><span class="undefined">        &#125;);</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h3 id="代码：在worker中生成md5"><a href="#代码：在worker中生成md5" class="headerlink" title="代码：在worker中生成md5"></a>代码：在worker中生成md5</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">id</span>=<span class="string">"upload"</span> <span class="attr">type</span>=<span class="string">"file"</span> <span class="attr">onchange</span>=<span class="string">"selectLocalFile"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> <span class="attr">onclick</span>=<span class="string">"alert(1)"</span>&gt;</span>测试线程堵塞<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">      <span class="keyword">const</span> upload = <span class="built_in">document</span>.querySelector(<span class="string">"#upload"</span>);</span></span><br><span class="line"><span class="javascript">      upload.onchange = <span class="keyword">async</span> (e) =&gt; &#123;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">const</span> file = e.target.files[<span class="number">0</span>];</span></span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.time(<span class="string">"timeCreateMd5"</span>);</span></span><br><span class="line"><span class="javascript">        <span class="keyword">const</span> md5 = <span class="keyword">await</span> createFileMd5InWorker(file);</span></span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(file.size);</span></span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.timeEnd(<span class="string">"timeCreateMd5"</span>);</span></span><br><span class="line"><span class="undefined">      &#125;;</span></span><br><span class="line"><span class="javascript">      <span class="comment">// 生成文件 md5（web-worker）</span></span></span><br><span class="line"><span class="javascript">      <span class="function"><span class="keyword">function</span> <span class="title">createFileMd5InWorker</span>(<span class="params">file</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve</span>) =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">          <span class="comment">// 新建worker线程,执行hash.js</span></span></span><br><span class="line"><span class="javascript">          <span class="keyword">const</span> worker = <span class="keyword">new</span> Worker(<span class="string">"./hash.js"</span>);</span></span><br><span class="line"><span class="javascript">          <span class="comment">// 给线程传file</span></span></span><br><span class="line"><span class="undefined">          worker.postMessage(file);</span></span><br><span class="line"><span class="javascript">          <span class="comment">// 当线程传消息的时候，接受消息</span></span></span><br><span class="line"><span class="javascript">          worker.onmessage = <span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">const</span> md5 = e.data;</span></span><br><span class="line"><span class="undefined">            md5 &amp;&amp; resolve(md5)</span></span><br><span class="line"><span class="undefined">          &#125;;</span></span><br><span class="line"><span class="undefined">        &#125;);</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// hash.js</span></span><br><span class="line">self.importScripts(<span class="string">"https://unpkg.com/spark-md5@3.0.1/spark-md5.min.js"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 生成文件 md5</span></span><br><span class="line">self.onmessage = <span class="keyword">async</span> e =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> file = e.data</span><br><span class="line">  <span class="keyword">const</span> md5 = <span class="keyword">await</span> createFileMd5(file)</span><br><span class="line">  self.postMessage(md5);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createFileMd5</span>(<span class="params">file</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 创建FileReader实例</span></span><br><span class="line">    <span class="keyword">const</span> fileReader = <span class="keyword">new</span> FileReader();</span><br><span class="line">    <span class="comment">// 开始读文件</span></span><br><span class="line">    fileReader.readAsBinaryString(file);</span><br><span class="line">    <span class="comment">// 文件读完之后，触发load事件</span></span><br><span class="line">    fileReader.onload = <span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="comment">// e.target就是fileReader实例，这里用this也是指fileReader实例</span></span><br><span class="line">      <span class="built_in">console</span>.log(e.target);</span><br><span class="line">      <span class="comment">// result是fileReader读到的部分</span></span><br><span class="line">      <span class="keyword">const</span> result = e.target.result;</span><br><span class="line">      <span class="comment">// 如果读到的长度和文件长度一致，则读取成功</span></span><br><span class="line">      <span class="keyword">const</span> isSuccess = file.size === result.length;</span><br><span class="line">      <span class="comment">// 读取成功，则生成MD5，扔出去。失败就报错</span></span><br><span class="line">      isSuccess</span><br><span class="line">        ? resolve(self.SparkMD5.hashBinary(result))</span><br><span class="line">        : reject(<span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"读取出错了"</span>));</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="comment">//   读取过程中出错也直接报错</span></span><br><span class="line">    fileReader.onerror = <span class="function"><span class="params">()</span> =&gt;</span> reject(<span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"读取出错了"</span>));</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="代码：分片读取生成md5"><a href="#代码：分片读取生成md5" class="headerlink" title="代码：分片读取生成md5"></a>代码：分片读取生成md5</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">id</span>=<span class="string">"upload"</span> <span class="attr">type</span>=<span class="string">"file"</span> <span class="attr">onchange</span>=<span class="string">"selectLocalFile"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> <span class="attr">onclick</span>=<span class="string">"alert(1)"</span>&gt;</span>测试线程堵塞<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">      <span class="keyword">const</span> upload = <span class="built_in">document</span>.querySelector(<span class="string">"#upload"</span>);</span></span><br><span class="line"><span class="javascript">      upload.onchange = <span class="keyword">async</span> (e) =&gt; &#123;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">const</span> file = e.target.files[<span class="number">0</span>];</span></span><br><span class="line"><span class="javascript">        <span class="keyword">const</span> chunks = createFileChunk(file)</span></span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.time(<span class="string">"timeCreateMd5"</span>);</span></span><br><span class="line"><span class="javascript">        <span class="comment">// 这里注意放chunks</span></span></span><br><span class="line"><span class="javascript">        <span class="keyword">const</span> &#123;md5&#125; = <span class="keyword">await</span> createFileMd5InWorker(chunks);</span></span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(file.size);</span></span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.timeEnd(<span class="string">"timeCreateMd5"</span>);</span></span><br><span class="line"><span class="undefined">      &#125;;</span></span><br><span class="line"><span class="undefined">      </span></span><br><span class="line"><span class="javascript">      <span class="comment">// 生成文件切片</span></span></span><br><span class="line"><span class="javascript">      <span class="function"><span class="keyword">function</span> <span class="title">createFileChunk</span>(<span class="params">file, size = <span class="number">4</span> * <span class="number">1024</span> * <span class="number">1024</span></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">let</span> chunks = [];</span></span><br><span class="line"><span class="javascript">        <span class="keyword">let</span> cur = <span class="number">0</span>;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">while</span> (cur &lt; file.size) &#123;</span></span><br><span class="line"><span class="undefined">          chunks.push(file.slice(cur, cur + size));</span></span><br><span class="line"><span class="undefined">          cur += size;</span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">return</span> chunks;</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="javascript">      <span class="comment">// 生成文件 hash（web-worker）</span></span></span><br><span class="line"><span class="javascript">      <span class="function"><span class="keyword">function</span> <span class="title">createFileMd5InWorker</span>(<span class="params">fileChunks</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve</span>) =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">          <span class="keyword">const</span> worker = <span class="keyword">new</span> Worker(<span class="string">"./hash.js"</span>);</span></span><br><span class="line"><span class="undefined">          worker.postMessage(&#123; fileChunks &#125;);</span></span><br><span class="line"><span class="javascript">          worker.onmessage = <span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">            <span class="comment">// 这边加了进度条 这里的进度条，看需要显示</span></span></span><br><span class="line"><span class="javascript">            <span class="keyword">const</span> &#123; percentage, hash &#125; = e.data;</span></span><br><span class="line"><span class="javascript">            <span class="built_in">console</span>.log(percentage)</span></span><br><span class="line"><span class="javascript">            <span class="comment">// 计算出hash之后，扔出去</span></span></span><br><span class="line"><span class="undefined">            hash &amp;&amp;resolve(hash);</span></span><br><span class="line"><span class="undefined">          &#125;;</span></span><br><span class="line"><span class="undefined">        &#125;);</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 直接copy的  https://juejin.im/post/6844904046436843527#heading-17</span></span><br><span class="line">self.importScripts(<span class="string">"./js/lib/spark-md5.min.js"</span>); <span class="comment">// 导入脚本</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 生成文件 hash</span></span><br><span class="line">self.onmessage = <span class="function"><span class="params">e</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> &#123; fileChunks &#125; = e.data;</span><br><span class="line">  <span class="built_in">console</span>.log(fileChunks)</span><br><span class="line"><span class="comment">//   const &#123; fileChunks &#125; = e.data;</span></span><br><span class="line">  <span class="keyword">const</span> spark = <span class="keyword">new</span> self.SparkMD5.ArrayBuffer();</span><br><span class="line">  <span class="keyword">let</span> percentage = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">let</span> count = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">const</span> loadNext = <span class="function"><span class="params">index</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> reader = <span class="keyword">new</span> FileReader();</span><br><span class="line">    reader.readAsArrayBuffer(fileChunks[index]);</span><br><span class="line">    reader.onload = <span class="function"><span class="params">e</span> =&gt;</span> &#123;</span><br><span class="line">      count++;</span><br><span class="line">      spark.append(e.target.result);</span><br><span class="line">      <span class="keyword">if</span> (count === fileChunks.length) &#123;</span><br><span class="line">        self.postMessage(&#123;</span><br><span class="line">          percentage: <span class="number">100</span>,</span><br><span class="line">          hash: spark.end()</span><br><span class="line">        &#125;);</span><br><span class="line">        self.close();</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        percentage += <span class="number">100</span> / fileChunks.length;</span><br><span class="line">        self.postMessage(&#123;</span><br><span class="line">          percentage</span><br><span class="line">        &#125;);</span><br><span class="line">        loadNext(count);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;;</span><br><span class="line">  loadNext(<span class="number">0</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
-<li><a href="https://juejin.im/post/6844904046436843527" target="_blank" rel="noopener">字节跳动面试官：请你实现一个大文件上传和断点续传</a></li>
-<li><a href="http://blog.bfw.wiki/user10/15628273380201230054.html" target="_blank" rel="noopener">js 实现 input file 转换成 blob 和 byte 字节流</a></li>
-<li><a href="https://zhuanlan.zhihu.com/p/26592209" target="_blank" rel="noopener">三分钟学习md5</a></li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/21/">21</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -2411,7 +2417,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">200</span>
+                <span class="site-state-item-count">201</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

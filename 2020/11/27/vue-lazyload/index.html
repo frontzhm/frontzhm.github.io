@@ -1,0 +1,771 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="js," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="vue-lazyload算是常用的一个插件了，一般用于图片的懒加载。 使用也很简单： 123456789import VueLazyload from &apos;vue-lazyload&apos;Vue.use(VueLazyload,&amp;#123;  preLoad: 1.3,  loading: &apos;dist/loading.gif&apos;,&amp;#125;)// 使用的时候，直接在想懒加载的img上，加个指令就好了//">
+<meta name="keywords" content="js">
+<meta property="og:type" content="article">
+<meta property="og:title" content="手写实现vue-lazyload的核心逻辑">
+<meta property="og:url" content="http://yoursite.com/2020/11/27/vue-lazyload/index.html">
+<meta property="og:site_name" content="花花的博客">
+<meta property="og:description" content="vue-lazyload算是常用的一个插件了，一般用于图片的懒加载。 使用也很简单： 123456789import VueLazyload from &apos;vue-lazyload&apos;Vue.use(VueLazyload,&amp;#123;  preLoad: 1.3,  loading: &apos;dist/loading.gif&apos;,&amp;#125;)// 使用的时候，直接在想懒加载的img上，加个指令就好了//">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9ea5703e415d46cbad0b29d1032496ef~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ed88e7d4c2a648b9b8ae735aebcb371b~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/411d5b69cfbb4e9a9238321307d505f7~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f593ca9561924e63a2f78f210b5b1503~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/26c6355c78bf44efa4031b3a7389b8b3~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:updated_time" content="2020-11-27T10:35:14.178Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="手写实现vue-lazyload的核心逻辑">
+<meta name="twitter:description" content="vue-lazyload算是常用的一个插件了，一般用于图片的懒加载。 使用也很简单： 123456789import VueLazyload from &apos;vue-lazyload&apos;Vue.use(VueLazyload,&amp;#123;  preLoad: 1.3,  loading: &apos;dist/loading.gif&apos;,&amp;#125;)// 使用的时候，直接在想懒加载的img上，加个指令就好了//">
+<meta name="twitter:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9ea5703e415d46cbad0b29d1032496ef~tplv-k3u1fbpfcp-zoom-1.image">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/11/27/vue-lazyload/"/>
+
+
+
+
+
+  <title> 手写实现vue-lazyload的核心逻辑 | 花花的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?60f2cb5747a596a24f2a053f1650c30b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">花花的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/27/vue-lazyload/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                手写实现vue-lazyload的核心逻辑
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-11-27T18:35:14+08:00">
+                2020-11-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/11/27/vue-lazyload/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/11/27/vue-lazyload/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="https://github.com/hilongjw/vue-lazyload" target="_blank" rel="noopener">vue-lazyload</a>算是常用的一个插件了，一般用于图片的懒加载。</p>
+<p>使用也很简单：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> VueLazyload <span class="keyword">from</span> <span class="string">'vue-lazyload'</span></span><br><span class="line"></span><br><span class="line">Vue.use(VueLazyload,&#123;</span><br><span class="line">  preLoad: <span class="number">1.3</span>,</span><br><span class="line">  loading: <span class="string">'dist/loading.gif'</span>,</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用的时候，直接在想懒加载的img上，加个指令就好了</span></span><br><span class="line"><span class="comment">// &lt;img v-lazy="img.src"&gt;</span></span><br></pre></td></tr></table></figure>
+<p>核心逻辑是： 图片在视图范围内，就显示，否则只显示加载图标。<br>而图片在不在视图范围内，是动态变化的，比如滚动的时候，图片就可能从视图外到视图内。</p>
+<p>再提取一层核心：怎么判断一个元素在不在视图范围内？</p>
+<h2 id="怎么判断一个元素在不在视图范围内"><a href="#怎么判断一个元素在不在视图范围内" class="headerlink" title="怎么判断一个元素在不在视图范围内"></a>怎么判断一个元素在不在视图范围内</h2><p>其实这里又是一个信息差，所谓信息差，是只要你知道了，基本就能解决问题了，而不需要高深的理解。</p>
+<p>就像你想量体温，怎么办？如果你知道温度计的话，其实这问题就已经解决了。相反，你不知道温度计的话，问题就变得很复杂了。</p>
+<p>这里的关键在于，知不知道<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Element/getBoundingClientRect" target="_blank" rel="noopener">getBoundingClientRect</a>。</p>
+<p>这个方法，可以知道,元素相对于视图窗口的<strong>左上角</strong>的距离。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;top,bottom,left,right&#125; = ele.getBoundingClientRect();</span><br></pre></td></tr></table></figure>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9ea5703e415d46cbad0b29d1032496ef~tplv-k3u1fbpfcp-zoom-1.image" alt="getBoundingClientRect"></p>
+<p><strong>元素在不在视图内，其实本质上就是判断：<code>top &gt; windowHeight</code></strong>  </p>
+<p><code>top</code>越大，元素离地址栏就会越来越远，当距离<strong>大于</strong><code>windowHeight</code>，就不在视图范围内。<br>换算成代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> windowHeight = <span class="built_in">window</span>.innerHeight</span><br><span class="line"><span class="comment">// 元素离地址栏的近似距离</span></span><br><span class="line"><span class="keyword">const</span> &#123;top&#125; = ele.getBoundingClientRect()</span><br><span class="line"><span class="keyword">const</span> isInView = top&lt;windowHeight</span><br></pre></td></tr></table></figure>
+<p>看此动画，就明白了，注意看右边代码区域的<code>false</code>，代码在文末。</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ed88e7d4c2a648b9b8ae735aebcb371b~tplv-k3u1fbpfcp-zoom-1.image" alt="innerHeight"></p>
+<p>关键的难点搞定了，继续写插件，哦不，继续分析插件。</p>
+<p>每个图片在不在视图范围内，主体是每个图片，按照对象方式编程的话，这边可以创建一个图片类。</p>
+<p>这样每个图片示例，只要在合适的时机判断自己在不在视图范围内即可。同时，每个图片应该有状态，<br>如等待状态、加载状态、错误状态。</p>
+<p>接下来，逐步写插件，一点都不知道插件是怎么写的，可以先看看<a href="https://juejin.cn/post/6899639171124559886" target="_blank" rel="noopener">怎么写一个插件</a>。</p>
+<h2 id="初始用起来"><a href="#初始用起来" class="headerlink" title="初始用起来"></a>初始用起来</h2><p>先将插件正确引入进来，并能够使用<code>v-lazy</code>指令。</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/411d5b69cfbb4e9a9238321307d505f7~tplv-k3u1fbpfcp-zoom-1.image" alt="lazyload1"></p>
+<h2 id="实现图片懒加载"><a href="#实现图片懒加载" class="headerlink" title="实现图片懒加载"></a>实现图片懒加载</h2><p>架子已经搭完，重点突破插件内部怎么写</p>
+<p>在逻辑分析完之后，基本一步步写就行，重点是初次渲染和滚动的时候再次渲染。</p>
+<p>每个图片的状态，是会动态变化的，这边为了简化，只写了两种状态的判断，<code>wait</code>和<code>loading</code>，<code>wait</code>就是默认状态，显示加载图标，<code>loading</code>是加载图片。</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f593ca9561924e63a2f78f210b5b1503~tplv-k3u1fbpfcp-zoom-1.image" alt="lazyload2"></p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/26c6355c78bf44efa4031b3a7389b8b3~tplv-k3u1fbpfcp-zoom-1.image" alt="lazyload3"></p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><h3 id="代码：判断一个元素在不在视图范围内"><a href="#代码：判断一个元素在不在视图范围内" class="headerlink" title="代码：判断一个元素在不在视图范围内"></a>代码：判断一个元素在不在视图范围内</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">      ul,</span></span><br><span class="line"><span class="undefined">      body &#123;</span></span><br><span class="line"><span class="undefined">        padding: 0;</span></span><br><span class="line"><span class="undefined">        margin: 0;</span></span><br><span class="line"><span class="undefined">        list-style: none;</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="undefined">      ul &#123;</span></span><br><span class="line"><span class="undefined">        margin-left: 200px;</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="undefined">      li &#123;</span></span><br><span class="line"><span class="undefined">        margin-top: 100px;</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="undefined">      img &#123;</span></span><br><span class="line"><span class="undefined">        height: 300px;</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="undefined">      .window &#123;</span></span><br><span class="line"><span class="undefined">        position: fixed;</span></span><br><span class="line"><span class="undefined">        top: 30px;</span></span><br><span class="line"><span class="undefined">        left: 50px;</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"window"</span>&gt;</span></span><br><span class="line">        浏览器可视高度：</span><br><span class="line">        &#123;&#123;innerHeight&#125;&#125;</span><br><span class="line">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">li</span> <span class="attr">ref</span>=<span class="string">"images"</span> <span class="attr">v-for</span>=<span class="string">"(item,index) in images"</span> <span class="attr">:key</span>=<span class="string">"index"</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">span</span>&gt;</span>top:&#123;&#123;item.top&#125;&#125; <span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">span</span>&gt;</span>在视图范围内：&#123;&#123;item.isInView&#125;&#125;<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">img</span> <span class="attr">:src</span>=<span class="string">"item.url"</span> <span class="attr">alt</span>=<span class="string">""</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"./node_modules/vue/dist/vue.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">      <span class="keyword">let</span> images = [</span></span><br><span class="line"><span class="javascript">        <span class="string">"https://article-fd.zol-img.com.cn/t_s627x449/g6/M00/07/00/ChMkKl-7j82IM9KTAAPn0WO6WtEAAFubAPtVd4AA-fp664.png"</span>,</span></span><br><span class="line"><span class="javascript">        <span class="string">"https://article-fd.zol-img.com.cn/t_s640x560/g6/M00/07/00/ChMkKV-7j8yIfRybAAeUzN2S-GcAAFubAPUqlEAB5Tk317.png"</span>,</span></span><br><span class="line"><span class="javascript">        <span class="string">"https://article-fd.zol-img.com.cn/t_s640x359/g6/M00/07/00/ChMkKV-7j8qICSISAATqB3abUOIAAFubQP1QyMABOof216.png"</span>,</span></span><br><span class="line"><span class="undefined">      ];</span></span><br><span class="line"><span class="javascript">      images = images.map(<span class="function">(<span class="params">item</span>) =&gt;</span> (&#123; <span class="attr">top</span>: <span class="number">0</span>, <span class="attr">isInView</span>: <span class="literal">false</span>, <span class="attr">url</span>: item &#125;));</span></span><br><span class="line"><span class="javascript">      <span class="keyword">const</span> vm = <span class="keyword">new</span> Vue(&#123;</span></span><br><span class="line"><span class="javascript">        el: <span class="string">"#app"</span>,</span></span><br><span class="line"><span class="undefined">        data: &#123;</span></span><br><span class="line"><span class="undefined">          images,</span></span><br><span class="line"><span class="undefined">          innerHeight: 0,</span></span><br><span class="line"><span class="undefined">        &#125;,</span></span><br><span class="line"><span class="undefined">        mounted() &#123;</span></span><br><span class="line"><span class="javascript">          <span class="keyword">this</span>.innerHeight = <span class="built_in">window</span>.innerHeight;</span></span><br><span class="line"><span class="javascript">          <span class="keyword">this</span>.getImgTop();</span></span><br><span class="line"><span class="javascript">          <span class="built_in">window</span>.onscroll = <span class="keyword">this</span>.getImgTop;</span></span><br><span class="line"><span class="undefined">        &#125;,</span></span><br><span class="line"><span class="undefined">        methods: &#123;</span></span><br><span class="line"><span class="undefined">          getImgTop() &#123;</span></span><br><span class="line"><span class="javascript">            Vue.nextTick(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">              <span class="keyword">this</span>.$refs.images.forEach(<span class="function">(<span class="params">item, index</span>) =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">                <span class="keyword">const</span> curImage = <span class="keyword">this</span>.images[index];</span></span><br><span class="line"><span class="undefined">                curImage.top = item.getBoundingClientRect().top;</span></span><br><span class="line"><span class="javascript">                curImage.isInView = curImage.top &lt; <span class="keyword">this</span>.innerHeight;</span></span><br><span class="line"><span class="undefined">              &#125;);</span></span><br><span class="line"><span class="undefined">            &#125;);</span></span><br><span class="line"><span class="undefined">          &#125;,</span></span><br><span class="line"><span class="undefined">        &#125;,</span></span><br><span class="line"><span class="undefined">      &#125;);</span></span><br><span class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="代码：初始用起来"><a href="#代码：初始用起来" class="headerlink" title="代码：初始用起来"></a>代码：初始用起来</h3><p>vue-lazyload/index.js  </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// vue-lazyload/index.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  install(Vue, options) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(&#123; Vue, options &#125;);</span><br><span class="line">    <span class="comment">// img(v-lazy="item.src")  lazy是指令名称 el是img这个元素 binding是&#123;value:item.src&#125;</span></span><br><span class="line">    Vue.directive(<span class="string">"lazy"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">el, binding</span>) </span>&#123;</span><br><span class="line">      <span class="built_in">console</span>.log(&#123; el, binding &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>main.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">"vue"</span>;</span><br><span class="line"><span class="keyword">import</span> App <span class="keyword">from</span> <span class="string">"./App.vue"</span>;</span><br><span class="line"><span class="keyword">import</span> loading <span class="keyword">from</span> <span class="string">"./loading.gif"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这里添加了自己写的VueLazyload</span></span><br><span class="line"><span class="keyword">import</span> VueLazyload <span class="keyword">from</span> <span class="string">"./vue-lazyload"</span>;</span><br><span class="line">Vue.use(VueLazyload, &#123; <span class="attr">preLoad</span>: <span class="number">1.3</span>, loading &#125;);</span><br><span class="line"></span><br><span class="line">Vue.config.productionTip = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">  render: <span class="function"><span class="params">h</span> =&gt;</span> h(App)</span><br><span class="line">&#125;).$mount(<span class="string">"#app"</span>);</span><br></pre></td></tr></table></figure>
+<p>App.vue</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- App.vue --&gt;</span><br><span class="line">&lt;template lang=&quot;pug&quot;&gt;</span><br><span class="line">  div#app</span><br><span class="line">    img( v-for=&quot;(item,index) in images&quot; v-lazy=&quot;item&quot;)</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &quot;App&quot;,</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      images: [</span><br><span class="line">        &quot;https://article-fd.zol-img.com.cn/t_s627x449/g6/M00/07/00/ChMkKl-7j82IM9KTAAPn0WO6WtEAAFubAPtVd4AA-fp664.png&quot;,</span><br><span class="line">        &quot;https://article-fd.zol-img.com.cn/t_s640x560/g6/M00/07/00/ChMkKV-7j8yIfRybAAeUzN2S-GcAAFubAPUqlEAB5Tk317.png&quot;,</span><br><span class="line">        &quot;https://article-fd.zol-img.com.cn/t_s640x359/g6/M00/07/00/ChMkKV-7j8qICSISAATqB3abUOIAAFubQP1QyMABOof216.png&quot;,</span><br><span class="line">        &quot;https://article-fd.zol-img.com.cn/t_s640x481/g6/M00/07/00/ChMkKl-7j8qISTtxAAYwGecnqdsAAFubQPr_JYABjAx866.png&quot;,</span><br><span class="line">        &quot;https://article-fd.zol-img.com.cn/t_s640x709/g6/M00/07/00/ChMkKl-7j8yIWZXlAAU_dwj8c0AAAFubAPNuMAABT-P182.png&quot;,</span><br><span class="line">        &quot;https://article-fd.zol-img.com.cn/t_s640x496/g6/M00/07/00/ChMkKV-7j82IaXWcAAf1A1qo0-gAAFubAPcPzUAB_Ub040.png&quot;,</span><br><span class="line">        &quot;https://article-fd.zol-img.com.cn/t_s640x286/g6/M00/07/00/ChMkKV-7j8qIRV9LAAC1WTJ8wRUAAFubQP6LUIAALVx696.jpg&quot;</span><br><span class="line">      ]</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style&gt;</span><br><span class="line"></span><br><span class="line">img &#123;</span><br><span class="line">  display: block;</span><br><span class="line">  height: 400px;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="代码：懒加载图片"><a href="#代码：懒加载图片" class="headerlink" title="代码：懒加载图片"></a>代码：懒加载图片</h3><p>vue-lazyload/index.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// vue-lazyload/index.js</span></span><br><span class="line"><span class="keyword">import</span> &#123; throttle &#125; <span class="keyword">from</span> <span class="string">"lodash"</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  install(Vue, options) &#123;</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">ImageReactive</span> </span>&#123;</span><br><span class="line">      <span class="keyword">constructor</span>(&#123; el, url, options &#125;) &#123;</span><br><span class="line">        <span class="keyword">this</span>.el = el;</span><br><span class="line">        <span class="keyword">this</span>.url = url;</span><br><span class="line">        <span class="keyword">this</span>.options = options;</span><br><span class="line">        <span class="keyword">this</span>.state = <span class="string">"wait"</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      checkInView() &#123;</span><br><span class="line">        <span class="keyword">const</span> windowHeight = <span class="built_in">window</span>.innerHeight;</span><br><span class="line">        <span class="keyword">const</span> &#123; top &#125; = <span class="keyword">this</span>.el.getBoundingClientRect();</span><br><span class="line">        <span class="keyword">return</span> top &lt; windowHeight * <span class="keyword">this</span>.options.preLoad;</span><br><span class="line">      &#125;</span><br><span class="line">      elRender() &#123;</span><br><span class="line">        <span class="comment">// 如果不是等待状态，则图片已经加载过，不需要再次渲染了</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.state !== <span class="string">"wait"</span>) <span class="keyword">return</span>;</span><br><span class="line">        <span class="comment">// 等待状态的图片，看下在不在视图内，在的话更新状态</span></span><br><span class="line">        <span class="keyword">const</span> isInView = <span class="keyword">this</span>.checkInView();</span><br><span class="line">        isInView &amp;&amp; (<span class="keyword">this</span>.state = <span class="string">"loading"</span>);</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.state, <span class="keyword">this</span>.el.getBoundingClientRect().top);</span><br><span class="line">        <span class="comment">// 不同的状态对应不同的操作</span></span><br><span class="line">        <span class="keyword">switch</span> (<span class="keyword">this</span>.state) &#123;</span><br><span class="line">          <span class="keyword">case</span> <span class="string">"wait"</span>:</span><br><span class="line">            <span class="keyword">this</span>.el.src = <span class="keyword">this</span>.options.loading;</span><br><span class="line">            <span class="keyword">this</span>.el.dataset.src = <span class="keyword">this</span>.url;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">          <span class="keyword">case</span> <span class="string">"loading"</span>:</span><br><span class="line">            <span class="keyword">this</span>.el.src = <span class="keyword">this</span>.url;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">          <span class="keyword">default</span>:</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// img(v-lazy="item.src")</span></span><br><span class="line">    <span class="comment">// lazy是指令名称 el是img这个元素 binding是&#123;value:item.src&#125;</span></span><br><span class="line">    Vue.directive(<span class="string">"lazy"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">el, binding</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">const</span> img = <span class="keyword">new</span> ImageReactive(&#123; el, <span class="attr">url</span>: binding.value, options &#125;);</span><br><span class="line">      <span class="comment">// 初始的时候，先渲染一次</span></span><br><span class="line">      Vue.nextTick(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        img.elRender();</span><br><span class="line">      &#125;);</span><br><span class="line">      <span class="comment">// 每次滚动，再渲染一次，这里注意滚动事件需要节流</span></span><br><span class="line">      <span class="built_in">window</span>.addEventListener(</span><br><span class="line">        <span class="string">"scroll"</span>,</span><br><span class="line">        throttle(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">          img.elRender();</span><br><span class="line">        &#125;, <span class="number">1000</span>)</span><br><span class="line">      );</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>其他两个文件依旧。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/js/" rel="tag"># js</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/11/27/vue-plugin/" rel="next" title="怎么写一个vue插件">
+                <i class="fa fa-chevron-left"></i> 怎么写一个vue插件
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2020/11/27/vue-lazyload/"
+           data-title="手写实现vue-lazyload的核心逻辑" data-url="http://yoursite.com/2020/11/27/vue-lazyload/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://omizt4opc.bkt.clouddn.com/avatar.jpg"
+               alt="frontzhm" />
+          <p class="site-author-name" itemprop="name">frontzhm</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">201</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">52</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#怎么判断一个元素在不在视图范围内"><span class="nav-number">1.</span> <span class="nav-text">怎么判断一个元素在不在视图范围内</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#初始用起来"><span class="nav-number">2.</span> <span class="nav-text">初始用起来</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现图片懒加载"><span class="nav-number">3.</span> <span class="nav-text">实现图片懒加载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码"><span class="nav-number">4.</span> <span class="nav-text">代码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#代码：判断一个元素在不在视图范围内"><span class="nav-number">4.1.</span> <span class="nav-text">代码：判断一个元素在不在视图范围内</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码：初始用起来"><span class="nav-number">4.2.</span> <span class="nav-text">代码：初始用起来</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码：懒加载图片"><span class="nav-number">4.3.</span> <span class="nav-text">代码：懒加载图片</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">frontzhm</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"frontzhm"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
