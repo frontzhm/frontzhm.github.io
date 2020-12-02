@@ -261,6 +261,165 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/19/vue-provide-inject/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2020/11/19/vue-provide-inject/" itemprop="url">
+                  provide/inject的使用场景 -- vue组件通信系列
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-11-19T19:15:35+08:00">
+                2020-11-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/11/19/vue-provide-inject/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/11/19/vue-provide-inject/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>vue 组件的数据通信方式很多，本篇着重讲依赖注入<code>provide/inject</code>。</p>
+<p><code>provide/inject</code>的常用场景：封装嵌套组件时，一个祖先组件向其所有子孙后代注入一个依赖，不论组件层次有多深，在其上下游关系成立的时间里始终生效。</p>
+<p>用法很多，不一一介绍，本文只做简单用法的介绍，<a href="https://cn.vuejs.org/v2/api/#provide-inject" target="_blank" rel="noopener">详情可看API</a>。</p>
+<ul>
+<li>祖先组件里提供<code>provide</code>。provide是函数，返回一个对象</li>
+<li>子孙组件里，<code>inject</code>相应的名字即可。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&lt;template lang=&quot;pug&quot;&gt;</span><br><span class="line">div(name=&quot;页面&quot;)</span><br><span class="line">  list-item</span><br><span class="line">  list-item</span><br><span class="line">&lt;/template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">import ListItem from &quot;@/components/ListItem&quot;;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &quot;List&quot;,</span><br><span class="line">  // here</span><br><span class="line">  // here</span><br><span class="line">  provide() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      list: this</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  components: &#123; ListItem &#125;,</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      title: &quot;页面标题&quot;</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>ListItem.vue</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;template lang=&quot;pug&quot;&gt;</span><br><span class="line">//- 直接用就行</span><br><span class="line">div &#123;&#123;list.title&#125;&#125;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &quot;list-item&quot;,</span><br><span class="line">  // here</span><br><span class="line">  // here</span><br><span class="line">  inject: [&quot;list&quot;]</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/19/vue-children-parent/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2040,334 +2199,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/10/canvas/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2020/10/10/canvas/" itemprop="url">
-                  学习canvas
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-10-10T19:44:01+08:00">
-                2020-10-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2020/10/10/canvas/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/10/10/canvas/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><code>canvas</code>是一个<code>HTML</code>标签，必须结合<code>JS</code>代码绘制和处理一些图形。</p>
-<p>基本涉及到图片处理的相关操作，比如截图功能、合成图片、图片像素级处理、图片的动画，都可以考虑下<code>canvas</code>。</p>
-<p>大名鼎鼎的<a href="https://echarts.apache.org/examples/zh/index.html" target="_blank" rel="noopener"><code>echarts</code></a>、<code>d3.js</code>、<code>three.js</code>可视化数据的这些库都是基于canvas。</p>
-<p>哦，还能解决大量图片相关面试题，如实现动画时钟。</p>
-<p><img src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/bd5262f51a074592a2d88fc8605a0d87~tplv-k3u1fbpfcp-zoom-1.image" alt="动画时钟"></p>
-<h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
-<li>特基础知识：创建画布、获取渲染上下文、绘制矩形、绘制三角形、绘制圆弧、绘制文本</li>
-<li>设置图形的各种样式，如背景、线、颜色和透明度</li>
-<li>高阶知识：缓存路径、保存和恢复状态、移动坐标原点、旋转坐标轴、缩放网格、transform的使用</li>
-<li>重点-操作图像：合成、裁剪、动画、控制每个像素、上传和下载</li>
-</ul>
-<h2 id="创造画布"><a href="#创造画布" class="headerlink" title="创造画布"></a>创造画布</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">canvas</span> <span class="attr">id</span>=<span class="string">"tutorial"</span> <span class="attr">width</span>=<span class="string">"150"</span> <span class="attr">height</span>=<span class="string">"150"</span>&gt;</span><span class="tag">&lt;/<span class="name">canvas</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>上述代码，<code>canvas</code>就创造了一个 150*150 像素的画布了。</p>
-<p><code>canvas</code>和<code>img</code>看起来很像，但其只有两个<strong>特有</strong>属性<code>width</code>和<code>height</code>，默认值是 300、150。<br>因为 canvas 是一个标签元素，自然可以使用属性设置，也可使用 css 设置样式。<br><strong>注意的是，如果 CSS 的尺寸与初始画布的比例不一致，它会出现扭曲，这时候就需要明确用属性标明宽高。</strong></p>
-<h2 id="获取渲染上下文"><a href="#获取渲染上下文" class="headerlink" title="获取渲染上下文"></a>获取渲染上下文</h2><p>画布创建好，要想绘制图形，需要结合 JS。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> canvas = <span class="built_in">document</span>.getElementById(<span class="string">"tutorial"</span>);</span><br><span class="line"><span class="keyword">var</span> ctx = canvas.getContext(<span class="string">"2d"</span>);</span><br></pre></td></tr></table></figure>
-<ul>
-<li>JS 先找到画布 canvas</li>
-<li>然后用 canvas 的<code>getContext()</code>，来获得渲染上下文和它的绘画功能。其参数是上下文的格式，一般都是<code>2d</code></li>
-</ul>
-<p>这里说个基础点，canvas 画布，想象成格子本，每个格子是 1*1 像素，左上角的点是(0,0)，其他的点都有其相应的坐标(x,y)。</p>
-<h2 id="绘制矩形"><a href="#绘制矩形" class="headerlink" title="绘制矩形"></a>绘制矩形</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 这里style是为了显示画布大小，这样更好识别(x,y) --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">canvas</span></span></span><br><span class="line"><span class="tag">  <span class="attr">id</span>=<span class="string">"tutorial"</span></span></span><br><span class="line"><span class="tag">  <span class="attr">width</span>=<span class="string">"150"</span></span></span><br><span class="line"><span class="tag">  <span class="attr">height</span>=<span class="string">"150"</span></span></span><br><span class="line"><span class="tag">  <span class="attr">style</span>=<span class="string">"border:1px solid #ccc;"</span></span></span><br><span class="line"><span class="tag">&gt;</span><span class="tag">&lt;/<span class="name">canvas</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">  <span class="keyword">var</span> canvas = <span class="built_in">document</span>.getElementById(<span class="string">"tutorial"</span>);</span></span><br><span class="line"><span class="javascript">  <span class="keyword">var</span> ctx = canvas.getContext(<span class="string">"2d"</span>);</span></span><br><span class="line"><span class="undefined">  ctx.fillRect(25, 25, 100, 100);</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p><code>fillRect(x, y, width, height)</code>，用颜色填充出一个矩形，x 和 y 是矩形左上角的坐标，width 和 height 是矩形宽高。</p>
-<p><img src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/79162ae882a34f4b8ab5d337f4fde217~tplv-k3u1fbpfcp-zoom-1.image" alt="矩形"></p>
-<p>当然绘制矩形，canvas 提供三种方法，上面是一个，下面两个类似（还有一个方法在后面）</p>
-<ul>
-<li><code>strokeRect(x, y, width, height)</code>，用线条绘制一个矩形轮廓</li>
-<li><code>clearRect(x, y, width, height)</code>，像橡皮，清除指定矩形区域，让清除部分完全透明</li>
-</ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> canvas = <span class="built_in">document</span>.getElementById(<span class="string">"tutorial"</span>);</span><br><span class="line"><span class="keyword">var</span> ctx = canvas.getContext(<span class="string">"2d"</span>);</span><br><span class="line">ctx.fillRect(<span class="number">25</span>, <span class="number">25</span>, <span class="number">100</span>, <span class="number">100</span>);</span><br><span class="line">ctx.clearRect(<span class="number">45</span>, <span class="number">45</span>, <span class="number">60</span>, <span class="number">60</span>);</span><br><span class="line">ctx.strokeRect(<span class="number">50</span>, <span class="number">50</span>, <span class="number">50</span>, <span class="number">50</span>);</span><br></pre></td></tr></table></figure>
-<p><img src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b02fb8eb187344928c96b54903d16079~tplv-k3u1fbpfcp-zoom-1.image" alt="矩形"></p>
-<h2 id="绘制三角形"><a href="#绘制三角形" class="headerlink" title="绘制三角形"></a>绘制三角形</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> canvas = <span class="built_in">document</span>.getElementById(<span class="string">"tutorial"</span>);</span><br><span class="line"><span class="keyword">var</span> ctx = canvas.getContext(<span class="string">"2d"</span>);</span><br><span class="line">ctx.beginPath();</span><br><span class="line">ctx.moveTo(<span class="number">75</span>, <span class="number">50</span>);</span><br><span class="line">ctx.lineTo(<span class="number">100</span>, <span class="number">75</span>);</span><br><span class="line">ctx.lineTo(<span class="number">100</span>, <span class="number">25</span>);</span><br><span class="line">ctx.closePath();</span><br><span class="line">ctx.stroke();</span><br><span class="line"><span class="comment">// ctx.fill();</span></span><br></pre></td></tr></table></figure>
-<p><img src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/99509e37ec3045ec86cd97185d140561~tplv-k3u1fbpfcp-zoom-1.image" alt="三角形"></p>
-<p>canvas 绘制图形，只有两种方式，就是我们见到的两种：矩形和路径(由一系列点连成的线段)。所有其他类型的图形都是通过一条或者多条路径组合而成的。</p>
-<p>使用路径绘制图形的步骤：</p>
-<ul>
-<li>准备绘制一个新的形状路径，<code>ctx.beginPath()</code></li>
-<li>将笔触移动到指定位置，<code>ctx.moveTo(75, 50)</code></li>
-<li>绘制从当前位置到指定位置的直线。<code>ctx.lineTo(100, 75)</code>;</li>
-<li>绘制从当前位置到起始笔触的直线，形成封闭图形，路径结束，<code>ctx.closePath()</code></li>
-<li>一旦路径生成，你就能通过描边或填充路径区域来渲染图形，<code>ctx.fill()</code>或<code>ctx.stroke()</code></li>
-</ul>
-<p>小提示，调用 fill()函数时，所有没有闭合的形状都会自动闭合，所以可省略 closePath()，但 stroke 不行哟。</p>
-<p>想绘制两个三角形的话，重新启动<code>beginPath</code>开始画就可以了</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ...之前代码</span></span><br><span class="line">ctx.beginPath();</span><br><span class="line">ctx.moveTo(<span class="number">150</span>, <span class="number">150</span>);</span><br><span class="line">ctx.lineTo(<span class="number">150</span>, <span class="number">40</span>);</span><br><span class="line">ctx.lineTo(<span class="number">50</span>, <span class="number">150</span>);</span><br><span class="line">ctx.closePath();</span><br><span class="line">ctx.fill();</span><br></pre></td></tr></table></figure>
-<p><img src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/53f8095cc5664fc4984c9d590ecdd739~tplv-k3u1fbpfcp-zoom-1.image" alt="三角形"></p>
-<h2 id="绘制圆弧"><a href="#绘制圆弧" class="headerlink" title="绘制圆弧"></a>绘制圆弧</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 角度换算成弧度</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getRadianFromAngle</span>(<span class="params">angle</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (<span class="built_in">Math</span>.PI / <span class="number">180</span>) * angle;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> canvas = <span class="built_in">document</span>.getElementById(<span class="string">"tutorial"</span>);</span><br><span class="line"><span class="keyword">var</span> ctx = canvas.getContext(<span class="string">"2d"</span>);</span><br><span class="line">ctx.beginPath();</span><br><span class="line"><span class="comment">// 顺时针</span></span><br><span class="line">ctx.arc(<span class="number">75</span>, <span class="number">75</span>, <span class="number">32</span>, <span class="number">0</span>, getRadianFromAngle(<span class="number">90</span>), <span class="literal">false</span>);</span><br><span class="line">ctx.closePath();</span><br><span class="line">ctx.stroke();</span><br><span class="line"></span><br><span class="line">ctx.beginPath();</span><br><span class="line"><span class="comment">// 逆时针</span></span><br><span class="line">ctx.arc(<span class="number">75</span>, <span class="number">75</span>, <span class="number">32</span>, <span class="number">0</span>, getRadianFromAngle(<span class="number">135</span>), <span class="literal">true</span>);</span><br><span class="line">ctx.closePath();</span><br><span class="line">ctx.fill();</span><br></pre></td></tr></table></figure>
-<p><img src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0a60e4bb6a1b4cd2887869a188429a78~tplv-k3u1fbpfcp-zoom-1.image" alt="弧形"></p>
-<p><code>arc(x, y, radius, startRadian, endRadian, anticlockwise)</code>，画一个以<code>（x,y）</code>为圆心的以<code>radius</code>为半径的圆弧（圆），从<code>startRadian</code>开始到<code>endRadian</code>结束，按照<code>anticlockwise</code>给定的方向（anti 是反对的，clockwise 顺时针的，anticlockwise 逆时针，默认值是 false 也就是顺时针）来生成。</p>
-<p>说人话：想象拿一个圆规，先确定圆心，圆规一个脚站好，在确定半径，圆规另一个脚拉开特定距离。0 度是圆心的右边，90 度是圆心的下边，180 度是圆心的左边，270 度是圆心的上边，360 度回归右边。画 0 到 90 度，顺时针的话是 1/4 圆，逆时针的话是 3/4 的圆，想象圆规开始画的情景。</p>
-<p>注意这里的 arc 只是绘制路径，想要看到需要借助 fill 或者 stroke。</p>
-<p>同理，这里说下矩形的另一个方法，<code>rect(x, y, width, height)</code>，相比<code>fillRect(x, y, width, height)</code>不一样的是，<code>fillRect</code>是自动填充出一个矩形，这里的<code>rect</code>只是绘制出路径，还需要用<code>fill</code>或<code>stroke</code>才能看到矩形。换言之，<code>fillRect = rect +fill</code>和<code>strokeRect = rect + stroke</code>。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ctx.rect(<span class="number">25</span>, <span class="number">25</span>, <span class="number">100</span>, <span class="number">100</span>);</span><br><span class="line">ctx.fill();</span><br></pre></td></tr></table></figure>
-<h2 id="绘制文本"><a href="#绘制文本" class="headerlink" title="绘制文本"></a>绘制文本</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> canvas = <span class="built_in">document</span>.getElementById(<span class="string">"tutorial"</span>);</span><br><span class="line"><span class="keyword">var</span> ctx = canvas.getContext(<span class="string">"2d"</span>);</span><br><span class="line"></span><br><span class="line">ctx.font = <span class="string">"28px serif"</span>;</span><br><span class="line">ctx.fillText(<span class="string">"Hello world"</span>, <span class="number">10</span>, <span class="number">30</span>);</span><br><span class="line"></span><br><span class="line">ctx.font = <span class="string">"28px serif"</span>;</span><br><span class="line">ctx.strokeText(<span class="string">"Hello world"</span>, <span class="number">10</span>, <span class="number">80</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> text = ctx.measureText(<span class="string">"foo"</span>);</span><br><span class="line"><span class="comment">// 37</span></span><br><span class="line"><span class="built_in">console</span>.log(text.width);</span><br></pre></td></tr></table></figure>
-<p><img src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f9777986d70049c1b2d94f861e62c84c~tplv-k3u1fbpfcp-zoom-1.image" alt="字"></p>
-<ul>
-<li><code>fillText(text, x, y [, maxWidth])</code>在指定的(x,y)位置填充指定的文本，绘制的最大宽度是可选的.</li>
-<li><code>strokeText(text, x, y [, maxWidth])</code>在指定的(x,y)位置绘制文本边框，绘制的最大宽度是可选的.</li>
-<li><code>measureText()</code>返回一个 TextMetrics 对象的宽度所在像素，这些体现文本特性的属性。</li>
-<li><code>font = value</code>，用来绘制文本的样式. 这个字符串使用和 CSS font 属性相同的语法. 默认的字体是 <code>10px sans-serif</code>。</li>
-<li><code>textAlign = value</code>，文本对齐选项. 可选的值包括：start, end, left, right or center. 默认值是 start。</li>
-<li><code>textBaseline = value</code>，基线对齐选项. 可选的值包括：top, hanging, middle, alphabetic, ideographic, bottom。默认值是 alphabetic。</li>
-<li><code>direction = value</code>，文本方向。可能的值包括：ltr, rtl, inherit。默认值是 inherit。</li>
-<li><code>shadowOffsetX = float</code> 设定阴影在 X 轴的延伸距离，它们是不受变换矩阵所影响的。负值表示阴影会往上或左延伸，正值则表示会往下或右延伸，默认为 0。</li>
-<li><code>shadowOffsetY = float</code> 设定阴影在 Y 轴的延伸距离，它们是不受变换矩阵所影响的。负值表示阴影会往上或左延伸，正值则表示会往下或右延伸，默认为 0。</li>
-<li><code>shadowBlur = float</code>用于设定阴影的模糊程度，其数值并不跟像素数量挂钩，也不受变换矩阵的影响，默认为 0。</li>
-<li><code>shadowColor = color</code>用于设定阴影颜色效果，默认是全透明的黑色。</li>
-</ul>
-<h2 id="设置不同的颜色和透明度"><a href="#设置不同的颜色和透明度" class="headerlink" title="设置不同的颜色和透明度"></a>设置不同的颜色和透明度</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> canvas = <span class="built_in">document</span>.getElementById(<span class="string">"tutorial"</span>);</span><br><span class="line"><span class="keyword">var</span> ctx = canvas.getContext(<span class="string">"2d"</span>);</span><br><span class="line"><span class="comment">// 必须提前写好颜色</span></span><br><span class="line">ctx.fillStyle = <span class="string">"rgba(0,255,0,0.5)"</span>;</span><br><span class="line">ctx.rect(<span class="number">25</span>, <span class="number">25</span>, <span class="number">30</span>, <span class="number">30</span>);</span><br><span class="line">ctx.fill();</span><br><span class="line"></span><br><span class="line"><span class="comment">// ！！！这里需要重置下路径哈，不然会和上面的混合在一起了</span></span><br><span class="line">ctx.beginPath();</span><br><span class="line">ctx.strokeStyle = <span class="string">"#FF0000"</span>;</span><br><span class="line">ctx.globalAlpha = <span class="number">0.5</span>;</span><br><span class="line">ctx.rect(<span class="number">80</span>, <span class="number">80</span>, <span class="number">40</span>, <span class="number">40</span>);</span><br><span class="line">ctx.stroke();</span><br></pre></td></tr></table></figure>
-<p><img src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/bd332799af824990b468c35506ec40db~tplv-k3u1fbpfcp-zoom-1.image" alt="色"></p>
-<p>前期的 fill 和 stroke 都是黑色，需要别的颜色其实也很简单，想象你拿画笔，先选择特定颜色的画笔，然后画画就是特定颜色的了。这里的颜色同 css 的颜色，可以<code>#ff0000</code>、<code>red</code>、<code>rgba(255,0,0,0.5)</code>等。</p>
-<ul>
-<li>fillStyle = color</li>
-<li>strokeStyle = color</li>
-<li>透明度的话，一个是 rgba 模式，还有一个是<code>globalAlpha = 某数值</code></li>
-</ul>
-<h3 id="设置渐变色"><a href="#设置渐变色" class="headerlink" title="设置渐变色"></a>设置渐变色</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> canvas = <span class="built_in">document</span>.getElementById(<span class="string">"tutorial"</span>);</span><br><span class="line"><span class="keyword">var</span> ctx = canvas.getContext(<span class="string">"2d"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> lineGrad = ctx.createLinearGradient(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">150</span>);</span><br><span class="line">lineGrad.addColorStop(<span class="number">0</span>, <span class="string">"#00ABEB"</span>);</span><br><span class="line">lineGrad.addColorStop(<span class="number">0.5</span>, <span class="string">"#fff"</span>);</span><br><span class="line">lineGrad.addColorStop(<span class="number">0.5</span>, <span class="string">"#26C000"</span>);</span><br><span class="line">lineGrad.addColorStop(<span class="number">1</span>, <span class="string">"#fff"</span>);</span><br><span class="line"></span><br><span class="line">ctx.strokeStyle = lineGrad;</span><br><span class="line">ctx.rect(<span class="number">10</span>, <span class="number">10</span>, <span class="number">130</span>, <span class="number">130</span>);</span><br><span class="line">ctx.stroke();</span><br><span class="line"></span><br><span class="line">ctx.beginPath();</span><br><span class="line"><span class="comment">// 径向渐变</span></span><br><span class="line"><span class="keyword">var</span> radialGrad = ctx.createRadialGradient(<span class="number">45</span>, <span class="number">45</span>, <span class="number">10</span>, <span class="number">52</span>, <span class="number">50</span>, <span class="number">30</span>);</span><br><span class="line">radialGrad.addColorStop(<span class="number">0</span>, <span class="string">"#A7D30C"</span>);</span><br><span class="line">radialGrad.addColorStop(<span class="number">0.9</span>, <span class="string">"#019F62"</span>);</span><br><span class="line">radialGrad.addColorStop(<span class="number">1</span>, <span class="string">"rgba(1,159,98,0)"</span>);</span><br><span class="line"></span><br><span class="line">ctx.fillStyle = radialGrad;</span><br><span class="line">ctx.rect(<span class="number">0</span>, <span class="number">0</span>, <span class="number">150</span>, <span class="number">150</span>);</span><br><span class="line">ctx.fill();</span><br></pre></td></tr></table></figure>
-<p><img src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/28446da5a6b84ed2b10d86a313ca76a1~tplv-k3u1fbpfcp-zoom-1.image" alt="渐变色"></p>
-<ul>
-<li><code>createLinearGradient(x1, y1, x2, y2)</code>，(x1,y1)渐变的起点与(x2,y2)终点</li>
-<li><code>createRadialGradient(x1, y1, r1, x2, y2, r2)</code>，前三个定义一个以 (x1,y1) 为原点，半径为 r1 的圆，后三个参数则定义另一个以 (x2,y2) 为原点，半径为 r2 的圆</li>
-<li><code>gradient.addColorStop(position, color)</code>，position 参数必须是一个 0.0 与 1.0 之间的数值，表示渐变中颜色所在的相对位置。例如，0.5 表示颜色会出现在正中间。color 参数必须是一个有效的 CSS 颜色值（如 #FFF， rgba(0,0,0,1)，等等）。</li>
-</ul>
-<h3 id="设置图案填充"><a href="#设置图案填充" class="headerlink" title="设置图案填充"></a>设置图案填充</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> canvas = <span class="built_in">document</span>.getElementById(<span class="string">"tutorial"</span>);</span><br><span class="line"><span class="keyword">var</span> ctx = canvas.getContext(<span class="string">"2d"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建新 image 对象，用作图案</span></span><br><span class="line"><span class="keyword">var</span> img = <span class="keyword">new</span> Image();</span><br><span class="line">img.src = <span class="string">"https://mdn.mozillademos.org/files/222/Canvas_createpattern.png"</span>;</span><br><span class="line">img.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 创建图案</span></span><br><span class="line">  <span class="keyword">var</span> ptn = ctx.createPattern(img, <span class="string">"repeat"</span>);</span><br><span class="line">  ctx.fillStyle = ptn;</span><br><span class="line">  ctx.fillRect(<span class="number">0</span>, <span class="number">0</span>, <span class="number">150</span>, <span class="number">150</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p><img src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7ab70e739d9347bb89d9557c9edde1e6~tplv-k3u1fbpfcp-zoom-1.image" alt="图案"></p>
-<p><code>createPattern(image, type)</code>，Image 可以是一个 Image 对象的引用，或者另一个 canvas 对象。Type 必须是下面的字符串值之一：<code>repeat，repeat-x，repeat-y 和 no-repeat</code>。</p>
-<h2 id="设置线段的样式"><a href="#设置线段的样式" class="headerlink" title="设置线段的样式"></a>设置线段的样式</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> canvas = <span class="built_in">document</span>.getElementById(<span class="string">"tutorial"</span>);</span><br><span class="line"><span class="keyword">var</span> ctx = canvas.getContext(<span class="string">"2d"</span>);</span><br><span class="line"></span><br><span class="line">ctx.lineWidth = <span class="number">10</span>;</span><br><span class="line">ctx.lineJoin = <span class="string">"round"</span>;</span><br><span class="line">ctx.setLineDash([<span class="number">40</span>, <span class="number">2</span>]);</span><br><span class="line">ctx.rect(<span class="number">20</span>, <span class="number">20</span>, <span class="number">100</span>, <span class="number">100</span>);</span><br><span class="line">ctx.stroke();</span><br></pre></td></tr></table></figure>
-<p><img src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/31824f810b1f4f95b904b3a1422dbb02~tplv-k3u1fbpfcp-zoom-1.image" alt="线段"></p>
-<p>线段的样式有以下，需要的时候，细细研究下即可：</p>
-<ul>
-<li>lineWidth 线宽，是给定路径的中心到两边的粗细，注意最左边的以及所有宽度为奇数的线并不能精确呈现，这就是因为路径的定位问题。就是线宽的时候，需要考虑定位的问题。默认是 1。</li>
-<li>lineCap 线端样式，butt，round 和 square。线端两端的帽子，butt 表示没帽子，round 是半圆帽子，square 是方块帽子。默认是 butt。</li>
-<li>lineJoin 线端连接处样式，round, bevel 和 miter。连接处是怎么处理的，round 是边角被磨圆，bevel 是水平，miters 默认是 miter。</li>
-<li>用 setLineDash 方法和 lineDashOffset 属性来制定虚线样式， setLineDash 方法接受一个数组，来指定线段与间隙的交替；lineDashOffset 属性设置起始偏移量。这个主要用在动画里。</li>
-</ul>
-<h2 id="缓存路径"><a href="#缓存路径" class="headerlink" title="缓存路径"></a>缓存路径</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> canvas = <span class="built_in">document</span>.getElementById(<span class="string">"tutorial"</span>);</span><br><span class="line"><span class="keyword">var</span> ctx = canvas.getContext(<span class="string">"2d"</span>);</span><br><span class="line"><span class="comment">// 先存矩形路径</span></span><br><span class="line"><span class="keyword">var</span> rectangle = <span class="keyword">new</span> Path2D();</span><br><span class="line">rectangle.rect(<span class="number">10</span>, <span class="number">10</span>, <span class="number">50</span>, <span class="number">50</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> circle = <span class="keyword">new</span> Path2D();</span><br><span class="line">circle.moveTo(<span class="number">125</span>, <span class="number">35</span>);</span><br><span class="line">circle.arc(<span class="number">100</span>, <span class="number">35</span>, <span class="number">25</span>, <span class="number">0</span>, <span class="number">2</span> * <span class="built_in">Math</span>.PI);</span><br><span class="line"><span class="comment">// 后期显示</span></span><br><span class="line">ctx.stroke(rectangle);</span><br><span class="line">ctx.fill(circle);</span><br></pre></td></tr></table></figure>
-<p><img src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/53ab504cecfc4fbda07cfae9dd927071~tplv-k3u1fbpfcp-zoom-1.image" alt="路径"></p>
-<p><code>Path2D</code>对象，用来缓存或记录绘画命令，这样能快速地回顾路径。所有的路径方法比如 moveTo, rect, arc 等，都可以在 Path2D 中使用。</p>
-<h2 id="保存状态和恢复状态"><a href="#保存状态和恢复状态" class="headerlink" title="保存状态和恢复状态"></a>保存状态和恢复状态</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> canvas = <span class="built_in">document</span>.getElementById(<span class="string">"tutorial"</span>);</span><br><span class="line"><span class="keyword">var</span> ctx = canvas.getContext(<span class="string">"2d"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 画黑色，保存状态</span></span><br><span class="line">ctx.fillRect(<span class="number">0</span>, <span class="number">0</span>, <span class="number">150</span>, <span class="number">150</span>);</span><br><span class="line">ctx.save();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 换蓝色画一个，再保存状态</span></span><br><span class="line">ctx.fillStyle = <span class="string">"#09F"</span>;</span><br><span class="line">ctx.fillRect(<span class="number">15</span>, <span class="number">15</span>, <span class="number">120</span>, <span class="number">120</span>);</span><br><span class="line">ctx.save();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 换白色画一个，不保存状态</span></span><br><span class="line">ctx.fillStyle = <span class="string">"#FFF"</span>;</span><br><span class="line">ctx.globalAlpha = <span class="number">0.5</span>;</span><br><span class="line">ctx.fillRect(<span class="number">30</span>, <span class="number">30</span>, <span class="number">90</span>, <span class="number">90</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 恢复上一个状态，也就是蓝色</span></span><br><span class="line">ctx.restore();</span><br><span class="line">ctx.fillRect(<span class="number">45</span>, <span class="number">45</span>, <span class="number">60</span>, <span class="number">60</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 恢复上上一个状态，也就是黑色</span></span><br><span class="line">ctx.restore();</span><br><span class="line">ctx.fillRect(<span class="number">60</span>, <span class="number">60</span>, <span class="number">30</span>, <span class="number">30</span>);</span><br></pre></td></tr></table></figure>
-<p><img src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/467277f838984009a5295901fd1807c1~tplv-k3u1fbpfcp-zoom-1.image" alt="保存和恢复状态"></p>
-<p>Canvas 的状态就是当前画面应用的所有样式和变形的一个快照，而保存状态和恢复状态是绘制复杂图形时必不可少的方法：</p>
-<ul>
-<li><code>save()</code>，保存画布(canvas)的所有状态，无参数。当<code>save()</code>方法被调用后，当前的状态就被推送到栈中保存。状态包括之前提到过的各种属性、变形、裁切路径。</li>
-<li><code>restore()</code>，恢复 canvas 状态，无参数。当<code>restore()</code>方法被调用后，上一个保存的状态就从栈中弹出，相应的设定都恢复。</li>
-</ul>
-<h2 id="移动坐标原点"><a href="#移动坐标原点" class="headerlink" title="移动坐标原点"></a>移动坐标原点</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> canvas = <span class="built_in">document</span>.getElementById(<span class="string">"tutorial"</span>);</span><br><span class="line"><span class="keyword">var</span> ctx = canvas.getContext(<span class="string">"2d"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) &#123;</span><br><span class="line">  <span class="comment">// 将原始状态保存</span></span><br><span class="line">  ctx.save();</span><br><span class="line">  <span class="comment">// 移动原点，画方块</span></span><br><span class="line">  drawSquare(i);</span><br><span class="line">  <span class="comment">// 画完之后，重置回到原始状态</span></span><br><span class="line">  ctx.restore();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">drawSquare</span>(<span class="params">i</span>) </span>&#123;</span><br><span class="line">  ctx.fillStyle = <span class="string">"#f69"</span>;</span><br><span class="line">  <span class="comment">// 移动原点</span></span><br><span class="line">  ctx.translate(<span class="number">10</span>, <span class="number">10</span> + i * <span class="number">50</span>);</span><br><span class="line">  <span class="comment">// 始终在(0,0)画</span></span><br><span class="line">  ctx.fillRect(<span class="number">0</span>, <span class="number">0</span>, <span class="number">25</span>, <span class="number">25</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><img src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c2f772dfae9049dc896e26feb40f7498~tplv-k3u1fbpfcp-zoom-1.image" alt="移动原点2"><br><code>translate(x, y)</code>，x 是左右偏移量，y 是上下偏移量，如下图所示。<br><strong>移动原点前记得保存状态，这样方便恢复状态，不然最后你可能会走到外太空。</strong><br>移动 canvas 原点的好处：调整坐标之后，可以不用调整绘制的位置，这样很多时候更好理解和循环使用。<br><img src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/581c20c6b28a49328b01a8cec67de48b~tplv-k3u1fbpfcp-zoom-1.image" alt="移动原点"></p>
-<h2 id="旋转坐标轴"><a href="#旋转坐标轴" class="headerlink" title="旋转坐标轴"></a>旋转坐标轴</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> canvas = <span class="built_in">document</span>.getElementById(<span class="string">"tutorial"</span>);</span><br><span class="line"><span class="keyword">var</span> ctx = canvas.getContext(<span class="string">"2d"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) &#123;</span><br><span class="line">  <span class="comment">// 将原始状态保存</span></span><br><span class="line">  ctx.save();</span><br><span class="line">  <span class="comment">// 旋转坐标轴，画方块</span></span><br><span class="line">  drawSquare(i);</span><br><span class="line">  <span class="comment">// 画完之后，重置回到原始状态</span></span><br><span class="line">  ctx.restore();</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 角度换算成弧度</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getRadianFromAngle</span>(<span class="params">angle</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (<span class="built_in">Math</span>.PI / <span class="number">180</span>) * angle;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">drawSquare</span>(<span class="params">i</span>) </span>&#123;</span><br><span class="line">  ctx.fillStyle = <span class="string">`rgb(<span class="subst">$&#123;<span class="number">51</span> * i&#125;</span>,<span class="subst">$&#123;<span class="number">255</span> - <span class="number">51</span> * i&#125;</span>,255)`</span>;</span><br><span class="line">  <span class="comment">// 旋转坐标轴</span></span><br><span class="line">  ctx.rotate(getRadianFromAngle(<span class="number">30</span> * i));</span><br><span class="line">  <span class="comment">// 始终在(0,0)画</span></span><br><span class="line">  ctx.fillRect(<span class="number">0</span>, <span class="number">0</span>, <span class="number">80</span>, <span class="number">80</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><img src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/cca6cf3b5cc642438bf908b0eb5205f5~tplv-k3u1fbpfcp-zoom-1.image" alt="旋转坐标轴"></p>
-<p><code>rotate(radian)</code>，旋转坐标轴的角度(以弧度为单位)，它是顺时针方向的。旋转的中心点始终是坐标原点，如果要改变它，我们需要用到 <code>translate</code> 方法。同样记得旋转前保存下状态。</p>
-<h2 id="缩放网格"><a href="#缩放网格" class="headerlink" title="缩放网格"></a>缩放网格</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> canvas = <span class="built_in">document</span>.getElementById(<span class="string">"tutorial"</span>);</span><br><span class="line"><span class="keyword">var</span> ctx = canvas.getContext(<span class="string">"2d"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) &#123;</span><br><span class="line">  <span class="comment">// 将原始状态保存</span></span><br><span class="line">  ctx.save();</span><br><span class="line">  <span class="comment">// 缩放网格，画方块</span></span><br><span class="line">  drawSquare(i);</span><br><span class="line">  <span class="comment">// 画完之后，重置回到原始状态</span></span><br><span class="line">  ctx.restore();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">drawSquare</span>(<span class="params">i</span>) </span>&#123;</span><br><span class="line">  ctx.fillStyle = <span class="string">`rgb(<span class="subst">$&#123;<span class="number">51</span> * i&#125;</span>,<span class="subst">$&#123;<span class="number">255</span> - <span class="number">51</span> * i&#125;</span>,255)`</span>;</span><br><span class="line">  <span class="comment">// 缩放网格</span></span><br><span class="line">  ctx.scale(<span class="number">1</span>, (i + <span class="number">1</span>) * <span class="number">1</span>);</span><br><span class="line">  <span class="comment">// 同样是20*20，但是y轴上的1个网格本来表示1px,现在就相当于缩放的像素，表面看竖直方向被拉伸</span></span><br><span class="line">  ctx.fillRect(<span class="number">0</span>, <span class="number">10</span> * i, <span class="number">20</span>, <span class="number">20</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><img src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/28496e2291b34afc9ccc2ac9b12b5bfe~tplv-k3u1fbpfcp-zoom-1.image" alt="缩放网格"></p>
-<p><code>scale(x, y)</code>，可以缩放画布的水平和垂直的单位。两个参数都是实数，可以为负数，x 为水平缩放因子，y 为垂直缩放因子，如果比 1 小，会比缩放图形， 如果比 1 大会放大图形。默认值为 1， 为实际大小。<br>画布初始情况下， 是以左上角坐标为原点的第一象限。如果参数为负实数， 相当于以 x 或 y 轴作为对称轴镜像反转（例如， 使用 translate(0,canvas.height); scale(1,-1); 以 y 轴作为对称轴镜像反转， 就可得到著名的笛卡尔坐标系，左下角为原点）。</p>
-<h2 id="一次性设置原点、旋转、缩放"><a href="#一次性设置原点、旋转、缩放" class="headerlink" title="一次性设置原点、旋转、缩放"></a>一次性设置原点、旋转、缩放</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ...</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">drawSquare</span>(<span class="params">i</span>) </span>&#123;</span><br><span class="line">  ctx.fillStyle = <span class="string">`rgb(<span class="subst">$&#123;<span class="number">51</span> * i&#125;</span>,<span class="subst">$&#123;<span class="number">255</span> - <span class="number">51</span> * i&#125;</span>,255)`</span>;</span><br><span class="line">  <span class="comment">// 缩放网格</span></span><br><span class="line">  <span class="comment">// ctx.scale(1,(i+1)*1);</span></span><br><span class="line">  <span class="comment">// 等同于</span></span><br><span class="line">  ctx.transform(<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, (i + <span class="number">1</span>) * <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">  ctx.fillRect(<span class="number">0</span>, <span class="number">10</span> * i, <span class="number">20</span>, <span class="number">20</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li><code>transform(a, b, c, d, e, f)</code>，这个方法是将当前的变形矩阵乘上一个基于自身参数的矩阵。a 水平方向的缩放，b 竖直方向的倾斜偏移，c 水平方向的倾斜偏移，d 竖直方向的缩放，e(dx)水平方向的移动，f(dy) 竖直方向的移动。如果任意一个参数是 Infinity，变形矩阵也必须被标记为无限大，否则会抛出异常。</li>
-<li><code>setTransform(a, b, c, d, e, f)</code>，这个方法会将当前的变形矩阵重置为单位矩阵，然后用相同的参数调用 <code>transform</code> 方法。从根本上来说，该方法是取消了当前变形,然后设置为指定的变形,一步完成。</li>
-<li><code>resetTransform()</code>重置当前变形为单位矩阵，它和调用以下语句是一样的：<code>ctx.setTransform(1, 0, 0, 1, 0, 0)</code>;</li>
-</ul>
-<h2 id="操作图像"><a href="#操作图像" class="headerlink" title="操作图像"></a>操作图像</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> canvas = <span class="built_in">document</span>.getElementById(<span class="string">"tutorial"</span>);</span><br><span class="line"><span class="keyword">var</span> ctx = canvas.getContext(<span class="string">"2d"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 方式</span></span><br><span class="line"><span class="comment">// html那边加一行代码    &lt;img id='canvasImg' style='display: none;' src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/avatar-panda.png" alt=""&gt;</span></span><br><span class="line"><span class="keyword">var</span> domImg = <span class="built_in">document</span>.querySelector(<span class="string">"#canvasImg"</span>);</span><br><span class="line">domImg.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 图片放在哪</span></span><br><span class="line">  ctx.drawImage(domImg, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 方式</span></span><br><span class="line"><span class="keyword">var</span> urlImg = <span class="keyword">new</span> Image();</span><br><span class="line"><span class="comment">// 这里的src可以是</span></span><br><span class="line">urlImg.src =</span><br><span class="line">  <span class="string">"https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/avatar-panda.png"</span>;</span><br><span class="line">urlImg.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 图片放在哪，图片可以设置宽高</span></span><br><span class="line">  ctx.drawImage(urlImg, <span class="number">100</span>, <span class="number">0</span>, <span class="number">50</span>, <span class="number">50</span>);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 方式</span></span><br><span class="line"><span class="keyword">var</span> urlImg2 = <span class="keyword">new</span> Image();</span><br><span class="line">urlImg2.src =</span><br><span class="line">  <span class="string">"https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/avatar-panda.png"</span>;</span><br><span class="line">urlImg2.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 前四个参数是在原图片上，先找到剪切的点比如这里从图片左上角开始，然后剪切多长多宽如这里是50长宽</span></span><br><span class="line">  <span class="comment">// 后四个参数是将刚刚切出来的图片，放在画布的哪个位置比如100/60，然后在画布上面图片的宽高(比例不对图片会被拉伸)比如25/50</span></span><br><span class="line">  ctx.drawImage(urlImg2, <span class="number">0</span>, <span class="number">0</span>, <span class="number">50</span>, <span class="number">50</span>, <span class="number">100</span>, <span class="number">60</span>, <span class="number">25</span>, <span class="number">50</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p><img src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8c6ae51dfc2a4a89ae7a21446ae4b1dd~tplv-k3u1fbpfcp-zoom-1.image" alt="图像"><br>操作图像是 canvas 很重要的能力，可以合成新的图片等等。</p>
-<p>引入图像到 canvas 需要两个步骤：</p>
-<ul>
-<li>1.获取图片源，图片源可以是<ul>
-<li>已存在的 canvas</li>
-<li>已存在的 img 元素，</li>
-<li>也可以创建 Image 元素，其中的 src 可以是<code>相对地址、绝对地址、data:url、视频的某帧</code></li>
-</ul>
-</li>
-<li>2.使用 drawImage()函数将图片绘制到画布上，drawImage 有三种使用方式<ul>
-<li><code>context.drawImage(img,x,y);</code>，在画布上定位图像</li>
-<li><code>context.drawImage(img,x,y,width,height);</code>，在画布上定位图像，并规定图像的宽度和高度</li>
-<li><code>context.drawImage(img,sx,sy,swidth,sheight,x,y,width,height)</code>，剪切图像，并在画布上定位被剪切的部分(s 是 slice 切片的意思)。</li>
-</ul>
-</li>
-</ul>
-<h2 id="合成和裁剪"><a href="#合成和裁剪" class="headerlink" title="合成和裁剪"></a>合成和裁剪</h2><h3 id="合成"><a href="#合成" class="headerlink" title="合成"></a>合成</h3><p><code>globalCompositeOperation = type</code>，如何将一个源（新的）图像绘制到目标（已有）的图像上。，其值是一个标识 12 种遮盖方式的字符串。默认值是<code>source-over</code>，在目标图像上显示源图像。<br><a href="https://www.w3school.com.cn/tags/canvas_globalcompositeoperation.asp" target="_blank" rel="noopener">w3school 的对 12 种绘制方式解释的很到位</a></p>
-<h3 id="裁剪"><a href="#裁剪" class="headerlink" title="裁剪"></a>裁剪</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> canvas = <span class="built_in">document</span>.getElementById(<span class="string">"tutorial"</span>);</span><br><span class="line"><span class="keyword">var</span> ctx = canvas.getContext(<span class="string">"2d"</span>);</span><br><span class="line"><span class="comment">// 如果准备裁剪，先存下初始状态，以方便重置</span></span><br><span class="line">ctx.save();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 画一个矩形轮廓</span></span><br><span class="line">ctx.rect(<span class="number">50</span>, <span class="number">50</span>, <span class="number">40</span>, <span class="number">40</span>);</span><br><span class="line">ctx.stroke();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用clip就表示之后的绘图，只有矩形范围内的才能看见</span></span><br><span class="line">ctx.clip();</span><br><span class="line"></span><br><span class="line">ctx.beginPath();</span><br><span class="line"><span class="comment">// 虽然矩形外也有，但是看不见</span></span><br><span class="line">ctx.rect(<span class="number">40</span>, <span class="number">40</span>, <span class="number">30</span>, <span class="number">30</span>);</span><br><span class="line">ctx.fill();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 恢复初始状态</span></span><br><span class="line">ctx.restore();</span><br></pre></td></tr></table></figure>
-<p><img src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/75c72f2906934832bb2d2e2b8c7059b1~tplv-k3u1fbpfcp-zoom-1.image" alt="裁剪"></p>
-<p><code>clip()</code>将当前正在构建的路径转换为当前的裁剪路径，之后的绘图只会显示在裁剪路径内。在特定区域里绘制图形时相当好用。<br>一旦剪切了某个区域，则所有之后的绘图都会被限制在被剪切的区域内（不能访问画布上的其他区域）。所以使用 <code>clip()</code> 方法前保存状态，方便之后恢复。</p>
-<h2 id="动起来"><a href="#动起来" class="headerlink" title="动起来"></a>动起来</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> canvas = <span class="built_in">document</span>.getElementById(<span class="string">"tutorial"</span>);</span><br><span class="line"><span class="keyword">var</span> ctx = canvas.getContext(<span class="string">"2d"</span>);</span><br><span class="line"><span class="comment">// 用对象将球的属性存起来，也方便使用</span></span><br><span class="line"><span class="keyword">var</span> ball = &#123;</span><br><span class="line">  x: <span class="number">10</span>,</span><br><span class="line">  y: <span class="number">10</span>,</span><br><span class="line">  vx: <span class="number">5</span>,</span><br><span class="line">  vy: <span class="number">5</span>,</span><br><span class="line">  radius: <span class="number">10</span>,</span><br><span class="line">  color: <span class="string">"#f69"</span>,</span><br><span class="line">  draw() &#123;</span><br><span class="line">    ctx.beginPath();</span><br><span class="line">    <span class="comment">// 画圆</span></span><br><span class="line">    ctx.arc(<span class="keyword">this</span>.x, <span class="keyword">this</span>.y, <span class="keyword">this</span>.radius, <span class="number">0</span>, <span class="built_in">Math</span>.PI * <span class="number">2</span>, <span class="literal">true</span>);</span><br><span class="line">    ctx.closePath();</span><br><span class="line">    ctx.fillStyle = <span class="keyword">this</span>.color;</span><br><span class="line">    ctx.fill();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> raf;</span><br><span class="line"><span class="comment">// 画每帧的关键函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">draw</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 清除画布</span></span><br><span class="line">  ctx.clearRect(<span class="number">0</span>, <span class="number">0</span>, canvas.width, canvas.height);</span><br><span class="line">  ball.draw();</span><br><span class="line">  <span class="comment">// 设置小球的下一次位置</span></span><br><span class="line">  ball.x += ball.vx;</span><br><span class="line">  ball.y += ball.vy;</span><br><span class="line">  <span class="comment">// 动画的关键</span></span><br><span class="line">  raf = <span class="built_in">window</span>.requestAnimationFrame(draw);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 小球先显示出来</span></span><br><span class="line">ball.draw();</span><br><span class="line"><span class="comment">// 鼠标在canvas的时候，动画启动</span></span><br><span class="line">canvas.addEventListener(<span class="string">"mouseover"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">  raf = <span class="built_in">window</span>.requestAnimationFrame(draw);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// 动画取消</span></span><br><span class="line">canvas.addEventListener(<span class="string">"mouseout"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">window</span>.cancelAnimationFrame(raf);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p><img src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/93aa4abc814c41b0b8cce521e5da6b2d~tplv-k3u1fbpfcp-zoom-1.image" alt="动画"></p>
-<p>canvas 做动画也是挺炫酷的，做动画的基本步骤：</p>
-<ul>
-<li>清空 canvas。一般动画一帧一帧的画，如果不需要上一帧的话，直接清除整个画布即可<code>ctx.clearRect(0, 0, canvas.width, canvas.height);</code></li>
-<li>适当保存 canvas 的状态。如果画图形的时候涉及到样式变形之类的，记得要保存状态，以便随时恢复。</li>
-<li>绘制每帧。这步大概率是重复进行的，以此实现动画的效果 setTimeout/setInterval/requestAnimationFrame</li>
-<li>恢复 canvas 的状态</li>
-</ul>
-<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Canvas_API/Tutorial/Advanced_animations" target="_blank" rel="noopener">当然还可以增加边界、加速度以及有个酷酷的小尾巴。</a> 其他精彩动画，如实现时钟、贪吃蛇之类的也有详细代码。</p>
-<h2 id="控制每个像素的颜色"><a href="#控制每个像素的颜色" class="headerlink" title="控制每个像素的颜色"></a>控制每个像素的颜色</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> canvas = <span class="built_in">document</span>.getElementById(<span class="string">"tutorial"</span>);</span><br><span class="line"><span class="keyword">var</span> ctx = canvas.getContext(<span class="string">"2d"</span>);</span><br><span class="line"><span class="comment">// 创建10*10像素的图片数据，data是数组，100*100*4的长度</span></span><br><span class="line"><span class="keyword">var</span> imgData = ctx.createImageData(<span class="number">100</span>, <span class="number">100</span>);</span><br><span class="line"><span class="comment">// 每四项表示一个像素的颜色，分别表示rgba，换言之imgData.data.length始终是总网格的4倍</span></span><br><span class="line"><span class="built_in">console</span>.log(imgData);</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; imgData.data.length; i += <span class="number">4</span>) &#123;</span><br><span class="line">  setGridColor(imgData, i, <span class="number">0</span>, <span class="number">255</span>, <span class="number">0</span>, <span class="number">255</span>);</span><br><span class="line">  <span class="comment">// 超过一半就换个颜色</span></span><br><span class="line">  <span class="keyword">if</span> (i &gt;= imgData.data.length / <span class="number">2</span>) &#123;</span><br><span class="line">    setGridColor(imgData, i, <span class="number">255</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">255</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">ctx.putImageData(imgData, <span class="number">10</span>, <span class="number">10</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// [0,255,0,255]</span></span><br><span class="line"><span class="built_in">console</span>.log(getGridColor(imgData, <span class="number">11</span>, <span class="number">11</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">// 得到位于(100,100)位置的10*10像素的图像数据</span></span><br><span class="line"><span class="keyword">var</span> specialImgData = ctx.getImageData(<span class="number">100</span>, <span class="number">100</span>, <span class="number">10</span>, <span class="number">10</span>);</span><br><span class="line"><span class="comment">// 将其变成蓝色</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; specialImgData.data.length; i += <span class="number">4</span>) &#123;</span><br><span class="line">  setGridColor(specialImgData, i, <span class="number">0</span>, <span class="number">0</span>, <span class="number">255</span>, <span class="number">255</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 再次填充到画布上，其实这样就可以对图片进行各种滤镜处理之类的了</span></span><br><span class="line">ctx.putImageData(specialImgData, <span class="number">100</span>, <span class="number">100</span>);</span><br><span class="line"><span class="built_in">console</span>.log();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 设置某个网格的颜色信息</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setGridColor</span>(<span class="params">imgData, i, r, g, b, a</span>) </span>&#123;</span><br><span class="line">  imgData.data[i + <span class="number">0</span>] = r;</span><br><span class="line">  imgData.data[i + <span class="number">1</span>] = g;</span><br><span class="line">  imgData.data[i + <span class="number">2</span>] = b;</span><br><span class="line">  imgData.data[i + <span class="number">3</span>] = a;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 得到某行某列的特定网格的像素信息</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getGridColor</span>(<span class="params">imageData, row, column</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> rIndex = row * (imageData.width * <span class="number">4</span>) + column * <span class="number">4</span> + <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">return</span> imageData.data.slice(rIndex, rIndex + <span class="number">4</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 设置特定某行某列网格的颜色信息</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setSpecialGridColor</span>(<span class="params">imageData, row, column, r, g, b, a</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> rIndex = row * (imageData.width * <span class="number">4</span>) + column * <span class="number">4</span> + <span class="number">0</span>;</span><br><span class="line">  imageData.data[rIndex] = r;</span><br><span class="line">  imageData.data[rIndex + <span class="number">1</span>] = g;</span><br><span class="line">  imageData.data[rIndex + <span class="number">2</span>] = b;</span><br><span class="line">  imageData.data[rIndex + <span class="number">3</span>] = a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><img src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ede9331cd21b4e3b84f51098dca2d700~tplv-k3u1fbpfcp-zoom-1.image" alt="像素控制"></p>
-<ul>
-<li><code>createImageData(width,height)</code> 方法创建新的空白 ImageData 对象。ImageData 的<code>data</code>存了所有的像素信息，是一个数组，每四项对应一个像素的 rgba 信息(a 的话 0 是透明，255 是完全可见)，默认是(0,0,0,0)。如数组的 0,1,2,3 对应第一个像素，4,5,6,7 对应第二个像素。 长度是<code>高度 × 宽度 × 4</code> ，索引值从 0 到<code>长度-1</code></li>
-<li><code>putImageData(imgData,x,y)</code> 方法将图像数据（从指定的 ImageData 对象）放回画布特定位置上</li>
-<li><code>getImageData(left, top, width, height)</code>，这个方法会返回一个 ImageData 对象，它代表了画布区域的对象数据，此画布的四个角落分别表示为(left, top), (left + width, top), (left, top + height), 以及(left + width, top + height)四个点。这些坐标点被设定为画布坐标空间元素。</li>
-</ul>
-<!-- ## 反锯齿
-
-默认反锯齿是开启的。`imageSmoothingEnabled` -->
-<h2 id="上传和下载-canvas-绘制的图片"><a href="#上传和下载-canvas-绘制的图片" class="headerlink" title="上传和下载 canvas 绘制的图片"></a>上传和下载 canvas 绘制的图片</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> canvas = <span class="built_in">document</span>.getElementById(<span class="string">"tutorial"</span>);</span><br><span class="line"><span class="keyword">var</span> ctx = canvas.getContext(<span class="string">"2d"</span>);</span><br><span class="line">ctx.fillRect(<span class="number">50</span>, <span class="number">50</span>, <span class="number">50</span>, <span class="number">50</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 获取图片的base64</span></span><br><span class="line"><span class="keyword">var</span> base64 = canvas.toDataURL(<span class="string">"image/png"</span>, <span class="number">1</span>);</span><br><span class="line"><span class="built_in">document</span>.querySelector(<span class="string">"#canvasImg"</span>).src = base64;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(base64);</span><br><span class="line"><span class="comment">// 也可以下载到本地</span></span><br><span class="line"><span class="comment">// openDownloadDialog(base64, `随便起名.png`);</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 可以拿到blob对象，像File那样处理</span></span><br><span class="line">canvas.toBlob(<span class="function"><span class="params">blobObj</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(blobObj);</span><br><span class="line">  <span class="comment">// 当然也可以下载到本地</span></span><br><span class="line">  openDownloadDialog(blobObj, <span class="string">`随便起名blob.png`</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这里的blob可以是blob文件也可以是base64</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">openDownloadDialog</span>(<span class="params">blob, fileName</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> blob === <span class="string">"object"</span> &amp;&amp; blob <span class="keyword">instanceof</span> Blob) &#123;</span><br><span class="line">    blob = URL.createObjectURL(blob); <span class="comment">// 创建blob地址</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">var</span> aLink = <span class="built_in">document</span>.createElement(<span class="string">"a"</span>);</span><br><span class="line">  aLink.href = blob;</span><br><span class="line">  <span class="comment">// HTML5新增的属性，指定保存文件名，可以不要后缀，注意，有时候 file:///模式下不会生效</span></span><br><span class="line">  aLink.download = fileName || <span class="string">""</span>;</span><br><span class="line">  <span class="keyword">var</span> event;</span><br><span class="line">  <span class="keyword">if</span> (<span class="built_in">window</span>.MouseEvent) event = <span class="keyword">new</span> MouseEvent(<span class="string">"click"</span>);</span><br><span class="line">  <span class="comment">// 移动端</span></span><br><span class="line">  <span class="keyword">else</span> &#123;</span><br><span class="line">    event = <span class="built_in">document</span>.createEvent(<span class="string">"MouseEvents"</span>);</span><br><span class="line">    event.initMouseEvent( <span class="string">"click"</span>, <span class="literal">true</span>, <span class="literal">false</span>, <span class="built_in">window</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="number">0</span>, <span class="literal">null</span> );</span><br><span class="line">  &#125;</span><br><span class="line">  aLink.dispatchEvent(event);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><img src="//p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/745d2a9741fc4178b177596de740c146~tplv-k3u1fbpfcp-zoom-1.image" alt="保存和下载"></p>
-<ul>
-<li><code>canvas.toDataURL(&#39;image/png&#39;)</code>，默认设定。创建一个PNG图片。</li>
-<li><code>canvas.toDataURL(&#39;image/jpeg&#39;, quality)</code>，创建一个JPG图片。可以有选择地提供从0到1的品质量，1表示最好品质，0基本不被辨析但有比较小的文件大小。</li>
-<li><code>canvas.toBlob(callback, type, encoderOptions)</code>创建了一个在画布中的代表图片的Blob对像。</li>
-</ul>
-<h2 id="可能用到的canvas代码片段"><a href="#可能用到的canvas代码片段" class="headerlink" title="可能用到的canvas代码片段"></a>可能用到的canvas代码片段</h2><p><a href="https://developer.mozilla.org/zh-CN/docs/Mozilla/Add-ons/Code_snippets/Canvas" target="_blank" rel="noopener">mdn写的很详细，不粘贴了。</a></p>
-<ul>
-<li>在画布中获取特定颜色的像素数量</li>
-<li>在画布中获取某一个像素的颜色</li>
-<li>链式调用方法</li>
-<li>将canvas图片保存到文件中</li>
-<li>将一个远程页面加载到canvas元素上</li>
-<li>将图像文件转换为base64字符串</li>
-</ul>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><blockquote>
-<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Canvas_API/Tutorial" target="_blank" rel="noopener">MDN 的 Canvas 教程</a><br><a href="https://developer.mozilla.org/zh-CN/docs/Mozilla/Add-ons/Code_snippets/Canvas" target="_blank" rel="noopener">MDN 的canvas可能用到的代码片段</a><br><a href="https://www.w3school.com.cn/tags/html_ref_canvas.asp" target="_blank" rel="noopener">w3school 的 canvas 教程</a></p>
-</blockquote>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2417,7 +2248,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">201</span>
+                <span class="site-state-item-count">202</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

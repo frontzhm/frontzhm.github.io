@@ -261,6 +261,170 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/09/multi-select/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2020/05/09/multi-select/" itemprop="url">
+                  通用多选组件
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-09T15:21:48+08:00">
+                2020-05-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/vue/" itemprop="url" rel="index">
+                    <span itemprop="name">vue</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/05/09/multi-select/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/05/09/multi-select/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>之前<a href="https://juejin.im/post/5ea2bac551882573cd41c84e" target="_blank" rel="noopener">拆解checkbox的v-model</a>的时候，发现其实多选这类的可以统一抽象出来公共逻辑。<br>多选的样式可以灵活多变。<br>组件的效果：<img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/multi_select.gif" alt="效果"><br>组件使用的github地址：<a href="https://github.com/frontzhm/checkbox" target="_blank" rel="noopener">https://github.com/frontzhm/checkbox</a></p>
+<h2 id="组件的源码"><a href="#组件的源码" class="headerlink" title="组件的源码"></a>组件的源码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- MultiSelect.vue --&gt;</span><br><span class="line">&lt;template lang=&quot;pug&quot;&gt;</span><br><span class="line">div</span><br><span class="line">  div.option-box(@click=&apos;$refs.input.click()&apos;)</span><br><span class="line">    slot(:selected=&apos;curChecked&apos;) </span><br><span class="line">  //- 原始input隐藏，这里的value看情况使用，可以不传，change是将选择事件抛出去，让父组件知晓</span><br><span class="line">  input(ref=&apos;input&apos; hidden type=&apos;checkbox&apos; :checked=&apos;curChecked&apos; :value=&apos;value&apos; @change=&apos;changeInput($event)&apos;)</span><br><span class="line">&lt;/template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  name: &quot;multi-select&quot;,</span><br><span class="line">  model: &#123;</span><br><span class="line">    prop: &quot;checked&quot;,</span><br><span class="line">    event: &quot;change&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  props: &#123;</span><br><span class="line">    checked: &#123;</span><br><span class="line">      required: true,</span><br><span class="line">      default() &#123;</span><br><span class="line">        return [];</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    value: &#123;</span><br><span class="line">      required: true,</span><br><span class="line">      default() &#123;</span><br><span class="line">        return &quot;&quot;;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  computed: &#123;</span><br><span class="line">    selectedList: &#123;</span><br><span class="line">      get() &#123;</span><br><span class="line">        return [...this.checked];</span><br><span class="line">      &#125;,</span><br><span class="line">      set() &#123;</span><br><span class="line">        console.log();</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    curChecked() &#123;</span><br><span class="line">      return this.checked.includes(this.value);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  methods: &#123;</span><br><span class="line">    changeInput($event) &#123;</span><br><span class="line">      let &#123; checked &#125; = $event.target;</span><br><span class="line">      // 看下选中的值在数组中的索引，这里不用原生的value，因为$event.target.value始终是字符串类型</span><br><span class="line">      let index = this.selectedList.indexOf(this.value);</span><br><span class="line">      // 选择的时候,selectedList跟着变化</span><br><span class="line">      checked</span><br><span class="line">        ? this.selectedList.push(this.value)</span><br><span class="line">        : index !== -1 &amp;&amp; this.selectedList.splice(index, 1);</span><br><span class="line">      this.$emit(&quot;change&quot;, this.selectedList, $event);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="组件的逻辑"><a href="#组件的逻辑" class="headerlink" title="组件的逻辑"></a>组件的逻辑</h2><p>复选主要用的是原始的checkbox。</p>
+<ol>
+<li>当父组件传过来的checked是数组类型的时候，当前组件的初始状态curChecked是，看数组里有没有当前value，有就是选中，没有就不选中</li>
+<li>数组是引用类型，为了不改变父组件的值，这里使用selectedList复制一份checked</li>
+<li>当checkbox有change事件的时候，选中就将value值push到selectedList，否则删掉，然后将selectedList抛给父组件</li>
+<li>!!! 注意这里使用computed,因为别的复选框选择的时候，selectedList也会跟着变化</li>
+<li>slot里面就是具体的dom了，此组件只提供逻辑</li>
+</ol>
+<h2 id="组件的使用步骤"><a href="#组件的使用步骤" class="headerlink" title="组件的使用步骤"></a>组件的使用步骤</h2><p>使用方法：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> MultiSelect <span class="keyword">from</span> <span class="string">"@/components/MultiSelect.vue"</span>;</span><br><span class="line"></span><br><span class="line">multi-select(v-model=<span class="string">'selectedCodes'</span> :value=<span class="string">'item.code'</span>)</span><br><span class="line">    template(#default="&#123; selected &#125;")</span><br><span class="line">        div.option-content(:<span class="class"><span class="keyword">class</span></span>=<span class="string">'&#123; selected &#125;'</span>) &#123;&#123;item.name&#125;&#125;</span><br></pre></td></tr></table></figure>
+<p><code>.option-content</code>可以是任意复杂的dom，selected是当前项选中与否的值，这样可以灵活增加选中的样式<br>如果需要动态根据选中得到节点信息，可以加个监听事件 change</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">multi-select(v-model=<span class="string">'selectedCodes'</span> :value=<span class="string">'item.code'</span> @change=<span class="string">'changeItem'</span>)</span><br><span class="line">changeItem(...args)&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(...args)</span><br><span class="line">    <span class="comment">// 两个值，第一个是选中的列表，第二个是原生input的信息</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="组件使用的例子"><a href="#组件使用的例子" class="headerlink" title="组件使用的例子"></a>组件使用的例子</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br></pre></td><td class="code"><pre><span class="line">&lt;template lang=&quot;pug&quot;&gt;</span><br><span class="line">div</span><br><span class="line">  h2 multi-select</span><br><span class="line">  div</span><br><span class="line">    div &#123;&#123;selectedCodes&#125;&#125;</span><br><span class="line">    ul</span><br><span class="line">      li(v-for=&apos;(item,index) in items&apos; :key=&apos;index&apos;)</span><br><span class="line">        multi-select(v-model=&apos;selectedCodes&apos;  :value=&apos;item.code&apos; @change=&apos;changeItem&apos;)</span><br><span class="line">          template(#default=&quot;&#123; selected &#125;&quot;)</span><br><span class="line">            div.option-content</span><br><span class="line">              div.icon-box</span><br><span class="line">                img.icon(alt=&apos;&apos; :src=&apos;selected?&quot;https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/icon_selected.png&quot;:&quot;https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/icon_not_selected.png&quot;&apos;)</span><br><span class="line">              div.content</span><br><span class="line">                  div.avatar-box</span><br><span class="line">                    img.img-avatar(alt=&apos;&apos; :src=&apos;item.avatar || &quot; https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/default_avatar.png&quot;&apos;)</span><br><span class="line">                  .name &#123;&#123;item.name&#125;&#125;</span><br><span class="line">    ul.btn-list</span><br><span class="line">      li(v-for=&apos;(item,index) in items&apos; :key=&apos;index&apos;)</span><br><span class="line">        multi-select(v-model=&apos;selectedCodes&apos;  :value=&apos;item.code&apos; @change=&apos;changeItem&apos;)</span><br><span class="line">          template(#default=&quot;&#123; selected &#125;&quot;)</span><br><span class="line">            div.option-content2(:class=&apos;&#123; selected &#125;&apos;) &#123;&#123;item.name&#125;&#125;</span><br><span class="line"></span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">import MultiSelect from &quot;@/components/MultiSelect.vue&quot;;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  name: &quot;Multi&quot;,</span><br><span class="line">  components: &#123;</span><br><span class="line">    MultiSelect</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      items: [</span><br><span class="line">        &#123; code: 1, name: &quot;huahua&quot; &#125;,</span><br><span class="line">        &#123; code: 2, name: &quot;huahua2&quot; &#125;</span><br><span class="line">      ],</span><br><span class="line">      selectedCodes: []</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  methods: &#123;</span><br><span class="line">    changeItem(...args) &#123;</span><br><span class="line">      console.log(...args);</span><br><span class="line">      // 两个值，第一个是选中的列表，第二个是原生input的信息</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line">ul &#123;</span><br><span class="line">  list-style: none;</span><br><span class="line">&#125;</span><br><span class="line">.checkbox-box &#123;</span><br><span class="line">  display: flex;</span><br><span class="line">  margin-left: 30px;</span><br><span class="line">  margin-right: 30px;</span><br><span class="line">&#125;</span><br><span class="line">.option-content &#123;</span><br><span class="line">  display: flex;</span><br><span class="line">  height: 80px;</span><br><span class="line">  line-height: 80px;</span><br><span class="line">  margin-top: 12px;</span><br><span class="line">  margin-bottom: 12px;</span><br><span class="line">  width: 100%;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.icon &#123;</span><br><span class="line">  width: 34px;</span><br><span class="line">  height: 34px;</span><br><span class="line">  display: inline-block;</span><br><span class="line">  vertical-align: middle;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.content &#123;</span><br><span class="line">  display: flex;</span><br><span class="line">  margin-left: 20px;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.img-avatar &#123;</span><br><span class="line">  display: block;</span><br><span class="line">  width: 80px;</span><br><span class="line">  height: 80px;</span><br><span class="line">  border-radius: 50%;</span><br><span class="line">&#125;</span><br><span class="line">.name &#123;</span><br><span class="line">  margin-left: 15px;</span><br><span class="line">  color: #333;</span><br><span class="line">  font-size: 30px;</span><br><span class="line">&#125;</span><br><span class="line">.btn-list &#123;</span><br><span class="line">  display: flex;</span><br><span class="line">&#125;</span><br><span class="line">.option-content2 &#123;</span><br><span class="line">  padding: 14px 38px;</span><br><span class="line">  border: 2px solid #ccc;</span><br><span class="line">  color: #333;</span><br><span class="line">  font-size: 28px;</span><br><span class="line">  line-height: 40px;</span><br><span class="line">  background-color: #fff;</span><br><span class="line">  border-radius: 8px;</span><br><span class="line">  text-align: center;</span><br><span class="line">  margin-bottom: 10px;</span><br><span class="line">  margin-left: 20px;</span><br><span class="line">&#125;</span><br><span class="line">.option-content2.selected &#123;</span><br><span class="line">  background-color: rgba(0, 186, 151, 0.06);</span><br><span class="line">  border-color: rgba(0, 186, 151, 1);</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/06/throttle/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1898,166 +2062,6 @@ fs.readFile("/Users/zhm/blog/source/_posts/zf-name.txt",'utf8', (err,data) => {
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/18/zf-3-observe/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2020/04/18/zf-3-observe/" itemprop="url">
-                  发布订阅--观察者模式
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-18T10:31:54+08:00">
-                2020-04-18
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2020/04/18/zf-3-observe/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/04/18/zf-3-observe/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>我希望读两本书之后才能说话。</p>
-<p>当然可以通过装饰函数来：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 希望读完两本书再说话</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 这是基本的说话</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">wantSay</span>(<span class="params">data</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"say"</span>, data);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 处理函数的装饰，让某件事满足条件了才能做</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">timesFn</span>(<span class="params">times, fn</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> obj = &#123;&#125;;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">key, value</span>) </span>&#123;</span><br><span class="line">    times = times - <span class="number">1</span>;</span><br><span class="line">    obj[key] = value;</span><br><span class="line">    <span class="keyword">if</span> (times === <span class="number">0</span>) &#123;</span><br><span class="line">      fn(obj);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 这是只有两本了才说话</span></span><br><span class="line"><span class="keyword">let</span> timesWantSay = timesFn(<span class="number">2</span>, wantSay);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 每次读完一本的时候就看看 是不是读完两本可以说话了啊</span></span><br><span class="line">fs.readFile(<span class="string">"./a.txt"</span>, data =&gt; &#123;</span><br><span class="line">  timesWantSay(<span class="string">"name"</span>, data);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// 每次读完一本的时候就看看 是不是读完两本可以说话了啊</span></span><br><span class="line">fs.readFile(<span class="string">"./b.txt"</span>, data =&gt; &#123;</span><br><span class="line">  timesWantSay(<span class="string">"age"</span>, data);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>这里，如果我还想读完两本书打游戏，那么就还需要<code>play,timesWantPlay</code>，以及每次读完书的时候，看看能不能玩。当事情越来越多的时候，就会不方便管理。</p>
-<p>于是将读完书之后要做的事情，写在清单里，每次读完之后，把清单里的事情做一遍就行。<br>这里，可以用一个对象管理。</p>
-<p>发布订阅模式</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> e = &#123;</span><br><span class="line">  <span class="comment">// 每做完一件事情记录一些数据，方便他人使用</span></span><br><span class="line">  _obj:&#123;&#125;,</span><br><span class="line">  <span class="comment">// 要做的事情的清单</span></span><br><span class="line">  _callbacks:[],</span><br><span class="line">  <span class="comment">// 往清单里加事情</span></span><br><span class="line">  on(fn)&#123;</span><br><span class="line">    <span class="keyword">this</span>._callbacks.push(fn)</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment">// 依次做清单上面的事情</span></span><br><span class="line">  emit(key,value)&#123;</span><br><span class="line">    <span class="comment">// 这里，顺便将记录的数据也一起准备好，以方便做事的时候需要数据</span></span><br><span class="line">    <span class="keyword">this</span>._callbacks.forEach(<span class="function"><span class="params">fn</span>=&gt;</span>fn(<span class="keyword">this</span>._obj))</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">say</span>(<span class="params">word</span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(&#123;word&#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">play</span>(<span class="params">game</span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(&#123;game&#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">timesFn</span>(<span class="params">times, fn</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> obj = &#123;&#125;;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">key, value</span>) </span>&#123;</span><br><span class="line">    times = times - <span class="number">1</span>;</span><br><span class="line">    obj[key] = value;</span><br><span class="line">    <span class="keyword">if</span> (times === <span class="number">0</span>) &#123;</span><br><span class="line">      fn(obj);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line">e.on(timesFn(say,<span class="number">2</span>))</span><br><span class="line">e.on(timesFn(play,<span class="number">2</span>))</span><br><span class="line"></span><br><span class="line">fs.readFile(<span class="string">"./a.txt"</span>, (err,data) =&gt; &#123;</span><br><span class="line">  e.emit(<span class="string">'a'</span>,data)</span><br><span class="line">&#125;);</span><br><span class="line">fs.readFile(<span class="string">"./b.txt"</span>, (err,data) =&gt; &#123;</span><br><span class="line">  e.emit(<span class="string">'b'</span>,data)</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>答案参照回头</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">let</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</span><br><span class="line"><span class="comment">// 订阅 on --- 发布 emit,promise也是基于这</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> e = &#123;</span><br><span class="line">    _obj:&#123;&#125;,</span><br><span class="line">    _callback:[],</span><br><span class="line">    <span class="comment">// 订阅就是将函数放进数组里</span></span><br><span class="line">    on(callback)&#123;</span><br><span class="line">        <span class="keyword">this</span>._callback.push(callback)</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// emit存结果，且让订阅的数组中的方法依次执行</span></span><br><span class="line">    emit(key,value)&#123;</span><br><span class="line">        <span class="keyword">this</span>._obj[key] = value</span><br><span class="line">        <span class="keyword">this</span>._callback.forEach(<span class="function"><span class="params">fn</span>=&gt;</span>&#123;</span><br><span class="line">            fn(<span class="keyword">this</span>._obj)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 只要发布了，就必须让订阅的事执行</span></span><br><span class="line"><span class="comment">// 每次发布都会触发此函数</span></span><br><span class="line">e.on(<span class="function"><span class="params">obj</span>=&gt;</span><span class="built_in">console</span>.log(<span class="string">'一个'</span>))</span><br><span class="line">e.on(<span class="function"><span class="params">obj</span>=&gt;</span>&#123;</span><br><span class="line">    <span class="comment">// 用户根据结果决定次数</span></span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">Object</span>.keys(obj).length === <span class="number">2</span>)&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'2个'</span>,obj)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// 解耦on和emit，后期每个实例有自己的on emit</span></span><br><span class="line"><span class="comment">// 这里特别注意，run code时候，工作目录是当前根目录，所以./表示的是当前根目录，这里可以先用下绝对路径</span></span><br><span class="line">fs.readFile(<span class="string">"/Users/zhm/blog/source/_posts/zf-age.txt"</span>,<span class="string">'utf8'</span>, (err,data) =&gt; &#123;</span><br><span class="line">    e.emit(<span class="string">'age'</span>,data)</span><br><span class="line">&#125;)</span><br><span class="line">fs.readFile(<span class="string">"/Users/zhm/blog/source/_posts/zf-name.txt"</span>,<span class="string">'utf8'</span>, (err,data) =&gt; &#123;</span><br><span class="line">    e.emit(<span class="string">'name'</span>,data)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 发布订阅 发布就是把fn放到一个数组里 订阅就是依次执行数组里的fn。 特点，发布和订阅没有关系，，没有发布，我照样能订阅</span></span><br><span class="line"><span class="comment">// 观察者模式 观察者 被观察者</span></span><br></pre></td></tr></table></figure>
-<p>观察者模式，爸爸和妈妈根据小宝宝的状态做些事情</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 观察者和被观察者是有关联的</span></span><br><span class="line"><span class="comment">// 观察者需要将自己放到被观察者之上，当被观察者状态发生变化，需要通知所有的观察者</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 宝宝和父母，宝宝就是被观察者 父母就是观察者</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Subject</span></span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(name)&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name</span><br><span class="line">        <span class="keyword">this</span>.state = <span class="string">'开心'</span></span><br><span class="line">        <span class="keyword">this</span>.observers = []</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 将观察者放进数组，也就是愿意让这个数组里面的观察者  观察</span></span><br><span class="line">    attach(observer)&#123;</span><br><span class="line">        <span class="comment">// 相当于发布订阅的订阅on，收集observer</span></span><br><span class="line">        <span class="keyword">this</span>.observers.push(observer)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 当被观察者的状态发生变化的时候，让每个观察者都知道这个事，观察者会根据状态做出相应行为</span></span><br><span class="line">    setState(state)&#123;</span><br><span class="line">        <span class="keyword">this</span>.state = state</span><br><span class="line">        <span class="comment">// 相当于发布订阅的发布emit，让observer都行动起来</span></span><br><span class="line">        <span class="keyword">this</span>.observers.forEach(<span class="function"><span class="params">o</span>=&gt;</span>&#123;</span><br><span class="line">            o.update(<span class="keyword">this</span>)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Observer</span></span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(name)&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 只要被观察者的状态发生变化就会调用这个方法</span></span><br><span class="line">    update(s)&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">`<span class="subst">$&#123;<span class="keyword">this</span>.name&#125;</span>发现 <span class="subst">$&#123;s.name&#125;</span><span class="subst">$&#123;s.state&#125;</span>`</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> baby = <span class="keyword">new</span> Subject(<span class="string">'宝宝'</span>)</span><br><span class="line"><span class="keyword">let</span> baba = <span class="keyword">new</span> Observer(<span class="string">'爸爸'</span>)</span><br><span class="line"><span class="keyword">let</span> mama = <span class="keyword">new</span> Observer(<span class="string">'妈妈'</span>)</span><br><span class="line">baby.attach(baba)</span><br><span class="line">baby.attach(mama)</span><br><span class="line">baby.setState(<span class="string">'不开心'</span>)</span><br><span class="line">baby.setState(<span class="string">'开心'</span>)</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2107,7 +2111,7 @@ fs.readFile("/Users/zhm/blog/source/_posts/zf-name.txt",'utf8', (err,data) => {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">201</span>
+                <span class="site-state-item-count">202</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
