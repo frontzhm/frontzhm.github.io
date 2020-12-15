@@ -261,6 +261,165 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/03/line-center/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2020/11/03/line-center/" itemprop="url">
+                  试试用flex处理直线和其他元素居中
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-11-03T19:10:22+08:00">
+                2020-11-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/css/" itemprop="url" rel="index">
+                    <span itemprop="name">css</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/11/03/line-center/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/11/03/line-center/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>经常会碰到如图所示的效果<br><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/center-line.png" alt="线居中"></p>
+<p>一般可能常用一个盒子里放线和文本，然后让文本或者线定位下。</p>
+<p>这里考虑到更多的通用性，用下flex思维布局。</p>
+<p>先实现两者没重叠的时候的样式</p>
+<p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/center-line2.png" alt="线居中"></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"line-text-box"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"text"</span>&gt;</span>我是标题<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"line"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.line-text-box</span>&#123;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">  <span class="attribute">flex-direction</span>: column;</span><br><span class="line">  <span class="attribute">align-items</span>: center;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.text</span>&#123;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">0</span> <span class="number">10px</span>;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#fff</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.line</span>&#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">1px</span>;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#eee</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那想要两者重叠，其实只要脱离文档流即可，另外考虑到两者垂直方向也是居中，所以额外还得加个属性。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.line-text-box</span>&#123;</span><br><span class="line">  <span class="comment">/* ... */</span></span><br><span class="line">  <span class="attribute">justify-content</span>: center;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.line</span>&#123;</span><br><span class="line">  <span class="comment">/* ... */</span></span><br><span class="line">  <span class="attribute">position</span>: absolute;</span><br><span class="line">  <span class="attribute">z-index</span>: -<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这种布局的方式是灵活，中间的文本可以换成多个图标，左对齐右对齐都很方便。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/19/el_template_render_mount/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2150,210 +2309,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/19/observe-arr/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2020/08/19/observe-arr/" itemprop="url">
-                  怎么实现监测数组的变化
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-08-19T11:42:23+08:00">
-                2020-08-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2020/08/19/observe-arr/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/08/19/observe-arr/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><a href="https://juejin.im/post/6857077890140340238" target="_blank" rel="noopener">之前介绍<code>defineProperty</code></a>的时候说到，其只能监测对象的变化，并不能监测数组的变化。</p>
-<p>本文致力于说清楚怎么实现监测数组的变化。</p>
-<p><strong>核心思路：找到改变原数组的方法，然后对这些方法进行劫持处理。</strong></p>
-<p>上面这句话，是重中之重，务必读三遍，记住了，再往下走。</p>
-<p>改变原数组，常用到的方法有<code>push pop shift unshift reverse sort splice</code>。</p>
-<p>换言之，这些方法是改变数组的入口。</p>
-<h2 id="在数组实例和数组原型之间，加一个新的原型"><a href="#在数组实例和数组原型之间，加一个新的原型" class="headerlink" title="在数组实例和数组原型之间，加一个新的原型"></a>在数组实例和数组原型之间，加一个新的原型</h2><p>直接修改<code>Array.prototype</code>，是极其危险的。<br>换一个思路，复制已有的数组原型，然后修改其中的方法，但这里因为原型上的方法不可枚举，自然也就没法复制。<br>于是再换一个思路，在数组和数组的原型之间，插入一个原型，形成原型链，<code>数组 =&gt; 新原型 =&gt; 数组的原型</code>，可以在新原型上增加同名的方法就可以了。</p>
-<p>先借助伪代码理解：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 伪代码</span></span><br><span class="line"><span class="keyword">let</span> arr = [];</span><br><span class="line">arr.__proto__ = newPrototype;</span><br><span class="line">newPrototype.__proto__ = <span class="built_in">Array</span>.prototype;</span><br><span class="line"><span class="comment">// 然后可以在新原型上添加同名的方法就可以了</span></span><br><span class="line">newPrototype.push = xxx;</span><br></pre></td></tr></table></figure>
-<p>转换成真实的代码如下，核心使用了<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/create" target="_blank" rel="noopener">Object.create</a>，</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Object.create返回一个新对象，而来新对象的__proto__就是传进去的参数。</span></span><br><span class="line"><span class="keyword">let</span> newPrototype = <span class="built_in">Object</span>.create(<span class="built_in">Array</span>.prototype);</span><br><span class="line"><span class="comment">// 然后可以在新原型上添加同名的方法就可以了</span></span><br><span class="line">newPrototype.push = xxx;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 需要监测的数组，绑定新的原型就可以了</span></span><br><span class="line"><span class="keyword">let</span> arr = [];</span><br><span class="line">arr.__proto__ = newPrototype;</span><br></pre></td></tr></table></figure>
-<h2 id="以-push-为例，劫持-push"><a href="#以-push-为例，劫持-push" class="headerlink" title="以 push 为例，劫持 push"></a>以 push 为例，劫持 push</h2><p>就是在新原型上重新写一个 push 的方法，里面执行老的 push，但除此之外还可以做点别的事。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> newPrototype = <span class="built_in">Object</span>.create(<span class="built_in">Array</span>.prototype);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在新原型上添加同名push</span></span><br><span class="line">newPrototype.push = <span class="function"><span class="keyword">function</span>(<span class="params">...args</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 语义化this</span></span><br><span class="line">  <span class="keyword">let</span> curArr = <span class="keyword">this</span>;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"使用了push"</span>);</span><br><span class="line">  <span class="comment">// 最后还是会执行原始的push</span></span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">Array</span>.prototype.push.call(curArr, ...args);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 需要监测的数组，绑定新的原型就可以了</span></span><br><span class="line"><span class="keyword">let</span> arr = [];</span><br><span class="line">arr.__proto__ = newPrototype;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 执行push的时候，就会打印了</span></span><br><span class="line">arr.push(<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
-<p>然后其他的方法也是类似的，试着写写其他的方法</p>
-<h2 id="劫持其他的方法"><a href="#劫持其他的方法" class="headerlink" title="劫持其他的方法"></a>劫持其他的方法</h2><p>将其他方法也一起写了，因为逻辑一样，直接遍历即可。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> newPrototype = <span class="built_in">Object</span>.create(<span class="built_in">Array</span>.prototype);</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> methods = [<span class="string">"push"</span>, <span class="string">"pop"</span>, <span class="string">"shift"</span>, <span class="string">"unshift"</span>, <span class="string">"reverse"</span>, <span class="string">"sort"</span>, <span class="string">"splice"</span>];</span><br><span class="line"></span><br><span class="line">methods.forEach(<span class="function"><span class="params">method</span> =&gt;</span> &#123;</span><br><span class="line">  newPrototype[method] = <span class="function"><span class="keyword">function</span>(<span class="params">...args</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`使用了<span class="subst">$&#123;method&#125;</span>`</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Array</span>.prototype[method].call(<span class="keyword">this</span>, ...args);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 需要监测的数组，绑定新的原型就可以了</span></span><br><span class="line"><span class="keyword">let</span> arr = [];</span><br><span class="line">arr.__proto__ = newPrototype;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 执行的时候，就会打印了</span></span><br><span class="line">arr.push(<span class="number">1</span>);</span><br><span class="line">arr.pop();</span><br></pre></td></tr></table></figure>
-<h2 id="数组里有数组项的话，也是需要监测的"><a href="#数组里有数组项的话，也是需要监测的" class="headerlink" title="数组里有数组项的话，也是需要监测的"></a>数组里有数组项的话，也是需要监测的</h2><p>这里数组里可能也是有数组的，需要遍历数组的每项，如果是数组的话依然需要指向新的原型。</p>
-<p>嗯，对，用到递归了。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> newPrototype = <span class="built_in">Object</span>.create(<span class="built_in">Array</span>.prototype);</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> methods = [<span class="string">"push"</span>, <span class="string">"pop"</span>, <span class="string">"shift"</span>, <span class="string">"unshift"</span>, <span class="string">"reverse"</span>, <span class="string">"sort"</span>, <span class="string">"splice"</span>];</span><br><span class="line"></span><br><span class="line">methods.forEach(<span class="function"><span class="params">method</span> =&gt;</span> &#123;</span><br><span class="line">  newPrototype[method] = <span class="function"><span class="keyword">function</span>(<span class="params">...args</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`使用了<span class="subst">$&#123;method&#125;</span>`</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Array</span>.prototype[method].call(<span class="keyword">this</span>, ...args);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">observeArr</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 既是条件限制，也是递归的终止条件</span></span><br><span class="line">  <span class="keyword">if</span> (!<span class="built_in">Array</span>.isArray(arr)) &#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 整个数组指向新的原型</span></span><br><span class="line">  arr.__proto__ = newPrototype;</span><br><span class="line">  <span class="comment">// 数组的每项，如果是数组，也指向新的原型。</span></span><br><span class="line">  arr.forEach(observeArr);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 需要监测的数组，绑定新的原型就可以了</span></span><br><span class="line"><span class="keyword">let</span> arr = [[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]];</span><br><span class="line">observeArr(arr);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 执行的时候，就会打印了</span></span><br><span class="line">arr[<span class="number">0</span>].push(<span class="number">1</span>);</span><br><span class="line">arr[<span class="number">1</span>].pop();</span><br></pre></td></tr></table></figure>
-<h2 id="数组新添加的项，如果是数组也需要指向新的原型"><a href="#数组新添加的项，如果是数组也需要指向新的原型" class="headerlink" title="数组新添加的项，如果是数组也需要指向新的原型"></a>数组新添加的项，如果是数组也需要指向新的原型</h2><p>能添加元素的方法：<code>push unshift splice</code>。</p>
-<p>找到新加的元素，然后是数组的也同样指向新的原型</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> newPrototype = <span class="built_in">Object</span>.create(<span class="built_in">Array</span>.prototype);</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> methods = [<span class="string">"push"</span>, <span class="string">"pop"</span>, <span class="string">"shift"</span>, <span class="string">"unshift"</span>, <span class="string">"reverse"</span>, <span class="string">"sort"</span>, <span class="string">"splice"</span>];</span><br><span class="line"></span><br><span class="line">methods.forEach(<span class="function"><span class="params">method</span> =&gt;</span> &#123;</span><br><span class="line">  newPrototype[method] = <span class="function"><span class="keyword">function</span>(<span class="params">...args</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`使用了<span class="subst">$&#123;method&#125;</span>`</span>);</span><br><span class="line">    <span class="keyword">let</span> inserted;</span><br><span class="line">    <span class="keyword">switch</span> (method) &#123;</span><br><span class="line">      <span class="keyword">case</span> <span class="string">"push"</span>:</span><br><span class="line">      <span class="keyword">case</span> <span class="string">"unshift"</span>:</span><br><span class="line">        inserted = args;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> <span class="string">"splice"</span>:</span><br><span class="line">        inserted = args.slice(<span class="number">2</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">default</span>:</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    inserted &amp;&amp; observeArr(inserted);</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Array</span>.prototype[method].call(<span class="keyword">this</span>, ...args);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">observeArr</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 即是条件限制，也是递归的终止条件</span></span><br><span class="line">  <span class="keyword">if</span> (!<span class="built_in">Array</span>.isArray(arr)) &#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 整个数组指向新的原型</span></span><br><span class="line">  arr.__proto__ = newPrototype;</span><br><span class="line">  <span class="comment">// 数组的每项，如果是数组，也指向新的原型。</span></span><br><span class="line">  arr.forEach(observeArr);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 这里可以导出去，方便别的文件使用</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> observeArr;</span><br><span class="line"><span class="comment">// 需要监测的数组，绑定新的原型就可以了</span></span><br><span class="line"><span class="keyword">let</span> arr = [];</span><br><span class="line">observeArr(arr);</span><br><span class="line"><span class="keyword">let</span> addItem = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line">arr.push(addItem);</span><br><span class="line"><span class="comment">// 执行的时候，就会打印了</span></span><br><span class="line">addItem.push(<span class="number">1</span>);</span><br><span class="line">addItem.pop();</span><br></pre></td></tr></table></figure>
-<h2 id="综合使用-defineProperty-监测对象和数组"><a href="#综合使用-defineProperty-监测对象和数组" class="headerlink" title="综合使用 defineProperty 监测对象和数组"></a>综合使用 defineProperty 监测对象和数组</h2><p>现在已经有了监测对象的方法，也有了监测数组的方法，将两个综合起来，就能监测数组里面的对象，对象里面的数组了。</p>
-<p>将监测数组和监测对象的的可以单独写成一个文件，方便之后使用。</p>
-<p>这里为了方便直接运行代码，直接放在一块了。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * observeArr的部分</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"><span class="comment">// 生成新的原型</span></span><br><span class="line"><span class="keyword">let</span> newPrototype = <span class="built_in">Object</span>.create(<span class="built_in">Array</span>.prototype);</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> methods = [<span class="string">"push"</span>, <span class="string">"pop"</span>, <span class="string">"shift"</span>, <span class="string">"unshift"</span>, <span class="string">"reverse"</span>, <span class="string">"sort"</span>, <span class="string">"splice"</span>];</span><br><span class="line"><span class="comment">// 在新原型上面添加以上方法，实现劫持</span></span><br><span class="line">methods.forEach(<span class="function"><span class="params">method</span> =&gt;</span> &#123;</span><br><span class="line">  newPrototype[method] = <span class="function"><span class="keyword">function</span>(<span class="params">...args</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`使用了<span class="subst">$&#123;method&#125;</span>`</span>);</span><br><span class="line">    <span class="keyword">let</span> inserted;</span><br><span class="line">    <span class="keyword">switch</span> (method) &#123;</span><br><span class="line">      <span class="keyword">case</span> <span class="string">"push"</span>:</span><br><span class="line">      <span class="keyword">case</span> <span class="string">"unshift"</span>:</span><br><span class="line">        inserted = args;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> <span class="string">"splice"</span>:</span><br><span class="line">        inserted = args.slice(<span class="number">2</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">default</span>:</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    inserted &amp;&amp; observeArr(inserted);</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Array</span>.prototype[method].call(<span class="keyword">this</span>, ...args);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">observeArr</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 新加！！！是对象的话，需要用对象</span></span><br><span class="line">  <span class="keyword">if</span> (<span class="built_in">Object</span>.prototype.toString.call(arr) === <span class="string">"[object Object]"</span>) &#123;</span><br><span class="line">    observeObj(arr);</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(arr)) &#123;</span><br><span class="line">    <span class="comment">// 整个数组指向新的原型</span></span><br><span class="line">    arr.__proto__ = newPrototype;</span><br><span class="line">    <span class="comment">// 数组的每项，如果是数组，也指向新的原型。</span></span><br><span class="line">    arr.forEach(observeArr);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 不是对象或者数组的，什么都不做</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * observeObj的部分</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">observeObj</span>(<span class="params">obj</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 加上参数限制，必须是对象才有劫持，也是递归的终止条件</span></span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> obj !== <span class="string">"object"</span> || obj == <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 新加！！！数组交给数组处理</span></span><br><span class="line">  <span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(obj)) &#123;</span><br><span class="line">    observeArr(obj);</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 是对象的话 才开始递归</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> key <span class="keyword">in</span> obj) &#123;</span><br><span class="line">    <span class="comment">// 直接使用 obj.hasOwnProperty会提示不规范</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">Object</span>.prototype.hasOwnProperty.call(obj, key)) &#123;</span><br><span class="line">      observeKey(obj, key);</span><br><span class="line">      <span class="comment">// 这里劫持该属性的属性值，如果不是对象直接返回，不影响</span></span><br><span class="line">      observeObj(obj[key]);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> obj;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">observeKey</span>(<span class="params">obj, key</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> value = obj[key];</span><br><span class="line">  <span class="built_in">Object</span>.defineProperty(obj, key, &#123;</span><br><span class="line">    get() &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">"读取属性"</span>, value);</span><br><span class="line">      <span class="keyword">return</span> value;</span><br><span class="line">    &#125;,</span><br><span class="line">    set(newValue) &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">"设置属性"</span>, newValue);</span><br><span class="line">      value = newValue;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * demo试试</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"><span class="keyword">let</span> data = &#123; <span class="attr">a</span>: <span class="number">1</span>, <span class="attr">b</span>: [<span class="number">1</span>, <span class="number">2</span>, &#123; <span class="attr">c</span>: <span class="number">2</span> &#125;] &#125;;</span><br><span class="line">observeObj(data);</span><br><span class="line">data.a = <span class="number">2</span>;</span><br><span class="line">data.b.push([<span class="number">2</span>, <span class="number">3</span>]);</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> arr = [&#123; <span class="attr">a</span>: <span class="string">"数组里的对象"</span> &#125;, <span class="number">3</span>, <span class="number">4</span>];</span><br><span class="line">observeArr(arr);</span><br><span class="line">arr[<span class="number">0</span>].a = <span class="number">3</span>;</span><br></pre></td></tr></table></figure>
-<h2 id="缺陷"><a href="#缺陷" class="headerlink" title="缺陷"></a>缺陷</h2><p>当然数组其实可以不通过方法改变，比如直接删除数组可以直接使用 length 属性，或者直接<code>arr[0]=xxx</code>改变数组。 </p>
-<p>但只有当使用<code>&quot;push&quot;,&quot;pop&quot;, &quot;shift&quot;,&quot;unshift&quot;,&quot;reverse&quot;,&quot;sort&quot;,&quot;splice&quot;</code>才能检测到数组变化。 </p>
-<p>这也是 vue 的缺陷，当然新版的 proxy 将干掉这个缺陷。</p>
-<p>所以在使用 vue 的过程中，要尽量使用以上方法操作数组~~~</p>
-<h2 id="附注：查看数组的所有属性和方法"><a href="#附注：查看数组的所有属性和方法" class="headerlink" title="附注：查看数组的所有属性和方法"></a>附注：查看数组的所有属性和方法</h2><p>在控制台可以输入<code>dir([])</code>，然后能看到数组所有的属性和方法。</p>
-<p>具体用法，可以直接到<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/slice" target="_blank" rel="noopener">到 mdn 上细看，点击侧边栏看对应的方法</a><br><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/array.png" alt="array"></p>
-<!-- 
-
-## 以 push 为例，劫持 push
-
-以 push 为例，想想怎么知道用了 push 方法呢。
-
-其实就是在原来的 push 方法上做了劫持，劫持听着高大上，就是高阶函数，里面除了执行 push，还做了其他操作。
-
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"><span class="comment">// 改写push，这里为了不影响原型上面的push，直接修改arr上的push</span></span><br><span class="line">arr.push = <span class="function"><span class="keyword">function</span>(<span class="params">...args</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 语义化this</span></span><br><span class="line">  <span class="keyword">let</span> curArr = <span class="keyword">this</span>;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"使用了push"</span>);</span><br><span class="line">  <span class="comment">// 最后还是会执行原始的push</span></span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">Array</span>.prototype.push.call(curArr, ...args);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// 执行push的时候，就会打印了</span></span><br><span class="line">arr.push(<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
-<p>现在，试试将其抽象出一个方法，劫持任意一个数组的任意方法。</p>
-<h2 id="劫持任意一个数组的任意方法"><a href="#劫持任意一个数组的任意方法" class="headerlink" title="劫持任意一个数组的任意方法"></a>劫持任意一个数组的任意方法</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">observeMethod</span>(<span class="params">arr, method</span>) </span>&#123;</span><br><span class="line">  arr[method] = <span class="function"><span class="keyword">function</span>(<span class="params">...args</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 语义化this</span></span><br><span class="line">    <span class="keyword">let</span> curArr = <span class="keyword">this</span>;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`使用了<span class="subst">$&#123;method&#125;</span>`</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Array</span>.prototype[method].call(curArr, ...args);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"><span class="comment">// 实现劫持方法的操作</span></span><br><span class="line">observeMethod(arr, <span class="string">"push"</span>);</span><br><span class="line">observeMethod(arr, <span class="string">"pop"</span>);</span><br><span class="line">arr.push(<span class="number">1</span>);</span><br><span class="line">arr.pop();</span><br><span class="line"><span class="built_in">console</span>.log(arr);</span><br></pre></td></tr></table></figure>
-<p>当然，我们这里只需要劫持，会改变原数组的方法</p>
-<h2 id="劫持改变原数组的所有方法"><a href="#劫持改变原数组的所有方法" class="headerlink" title="劫持改变原数组的所有方法"></a>劫持改变原数组的所有方法</h2><p>也就是只需传入想要监测的数组，数组的方法自动劫持。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">observeArr</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> methods = [</span><br><span class="line">    <span class="string">"push"</span>,</span><br><span class="line">    <span class="string">"pop"</span>,</span><br><span class="line">    <span class="string">"shift"</span>,</span><br><span class="line">    <span class="string">"unshift"</span>,</span><br><span class="line">    <span class="string">"reverse"</span>,</span><br><span class="line">    <span class="string">"sort"</span>,</span><br><span class="line">    <span class="string">"splice"</span></span><br><span class="line">  ];</span><br><span class="line">  <span class="comment">// 复制一遍上面的</span></span><br><span class="line">  methods.forEach(<span class="function"><span class="params">method</span> =&gt;</span> &#123;</span><br><span class="line">    arr[method] = <span class="function"><span class="keyword">function</span>(<span class="params">...args</span>) </span>&#123;</span><br><span class="line">      <span class="comment">// 语义化this</span></span><br><span class="line">      <span class="keyword">let</span> curArr = <span class="keyword">this</span>;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">`使用了<span class="subst">$&#123;method&#125;</span>`</span>);</span><br><span class="line">      <span class="keyword">return</span> <span class="built_in">Array</span>.prototype[method].call(curArr, ...args);</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"><span class="comment">// 实现劫持方法的操作</span></span><br><span class="line">observeArr(arr);</span><br><span class="line">arr.push(<span class="number">1</span>);</span><br><span class="line">arr.pop();</span><br><span class="line"><span class="built_in">console</span>.log(arr);</span><br></pre></td></tr></table></figure>
-<p>这里，再往前走，监测数组新加的元素</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> innerArr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line">arr.push(innerArr);</span><br><span class="line"><span class="comment">// 希望这里也能监测到新加数组使用了push</span></span><br><span class="line">innerArr.push(<span class="number">3</span>);</span><br></pre></td></tr></table></figure>
-<h2 id="递归监测数组新加的元素，还是以-push-为例"><a href="#递归监测数组新加的元素，还是以-push-为例" class="headerlink" title="递归监测数组新加的元素，还是以 push 为例"></a>递归监测数组新加的元素，还是以 push 为例</h2><p>很像之前的 defineProperty 递归对象的属性。其实递归很多都是这个思路。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">observeArr</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 不是数组的直接返回，也是递归终止条件</span></span><br><span class="line">  <span class="keyword">if</span> (!<span class="built_in">Array</span>.isArray(arr)) &#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">let</span> methods = [</span><br><span class="line">    <span class="string">"push"</span>,</span><br><span class="line">    <span class="string">"pop"</span>,</span><br><span class="line">    <span class="string">"shift"</span>,</span><br><span class="line">    <span class="string">"unshift"</span>,</span><br><span class="line">    <span class="string">"reverse"</span>,</span><br><span class="line">    <span class="string">"sort"</span>,</span><br><span class="line">    <span class="string">"splice"</span></span><br><span class="line">  ];</span><br><span class="line">  methods.forEach(<span class="function"><span class="params">method</span> =&gt;</span> &#123;</span><br><span class="line">    arr[method] = <span class="function"><span class="keyword">function</span>(<span class="params">...args</span>) </span>&#123;</span><br><span class="line">      <span class="comment">// 语义化this</span></span><br><span class="line">      <span class="keyword">let</span> curArr = <span class="keyword">this</span>;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">`使用了<span class="subst">$&#123;method&#125;</span>`</span>);</span><br><span class="line">      <span class="comment">// 如果是push,新添加的项都进行监测下，这里不是数组的会递归终止</span></span><br><span class="line">      <span class="keyword">if</span> (method === <span class="string">"push"</span>) &#123;</span><br><span class="line">        <span class="keyword">let</span> inserts = args;</span><br><span class="line">        inserts.forEach(<span class="function"><span class="params">item</span> =&gt;</span> observeArr(item));</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> <span class="built_in">Array</span>.prototype[method].call(curArr, ...args);</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"><span class="comment">// 实现劫持方法的操作</span></span><br><span class="line">observeArr(arr);</span><br><span class="line"><span class="keyword">let</span> innerArr = [<span class="number">67</span>, <span class="number">78</span>];</span><br><span class="line">arr.push(innerArr);</span><br><span class="line">innerArr.push(<span class="number">89</span>);</span><br><span class="line">arr.pop();</span><br><span class="line"><span class="built_in">console</span>.log(arr, innerArr);</span><br></pre></td></tr></table></figure>
-<h2 id="递归，其他增加数组元素的方法"><a href="#递归，其他增加数组元素的方法" class="headerlink" title="递归，其他增加数组元素的方法"></a>递归，其他增加数组元素的方法</h2><p>改变原数组且增加数组元素的方法有：<code>push unshift splice</code>。<br>将所有新增的项，进行监测。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">observeArr</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (!<span class="built_in">Array</span>.isArray(arr)) &#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">let</span> methods = [</span><br><span class="line">    <span class="string">"push"</span>,</span><br><span class="line">    <span class="string">"pop"</span>,</span><br><span class="line">    <span class="string">"shift"</span>,</span><br><span class="line">    <span class="string">"unshift"</span>,</span><br><span class="line">    <span class="string">"reverse"</span>,</span><br><span class="line">    <span class="string">"sort"</span>,</span><br><span class="line">    <span class="string">"splice"</span></span><br><span class="line">  ];</span><br><span class="line">  methods.forEach(<span class="function"><span class="params">method</span> =&gt;</span> &#123;</span><br><span class="line">    arr[method] = <span class="function"><span class="keyword">function</span>(<span class="params">...args</span>) </span>&#123;</span><br><span class="line">      <span class="comment">// 语义化this</span></span><br><span class="line">      <span class="keyword">let</span> curArr = <span class="keyword">this</span>;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">`使用了<span class="subst">$&#123;method&#125;</span>`</span>);</span><br><span class="line">      <span class="comment">// 将新加的项找到</span></span><br><span class="line">      <span class="keyword">let</span> addItems;</span><br><span class="line">      <span class="keyword">switch</span> (method) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">"push"</span>:</span><br><span class="line">        <span class="keyword">case</span> <span class="string">"unshift"</span>:</span><br><span class="line">          addItems = args;</span><br><span class="line">          <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">"splice"</span>:</span><br><span class="line">          addItems = args.slice(<span class="number">2</span>);</span><br><span class="line">          <span class="keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">// 将添加的每项监测</span></span><br><span class="line">      addItems &amp;&amp; addItems.forEach(<span class="function"><span class="params">item</span> =&gt;</span> observeArr(item));</span><br><span class="line">      <span class="keyword">return</span> <span class="built_in">Array</span>.prototype[method].call(curArr, ...args);</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"><span class="comment">// 实现劫持方法的操作</span></span><br><span class="line">observeArr(arr);</span><br><span class="line"><span class="keyword">let</span> innerArr = [<span class="number">67</span>, <span class="number">78</span>];</span><br><span class="line">arr.push(innerArr);</span><br><span class="line">innerArr.unshift(<span class="number">89</span>);</span><br><span class="line">arr.pop();</span><br><span class="line"><span class="built_in">console</span>.log(arr, innerArr);</span><br></pre></td></tr></table></figure>
-<h2 id="综合使用-defineProperty-监测对象和数组-1"><a href="#综合使用-defineProperty-监测对象和数组-1" class="headerlink" title="综合使用 defineProperty 监测对象和数组"></a>综合使用 defineProperty 监测对象和数组</h2><p>换言之，不论对象或者数组都能监测其变化。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">observeArr</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (!<span class="built_in">Array</span>.isArray(arr)) &#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 新加！！！给数组的每项，添加监测</span></span><br><span class="line">  arr.forEach(<span class="function"><span class="params">item</span> =&gt;</span> observeObj(item));</span><br><span class="line">  <span class="keyword">let</span> methods = [</span><br><span class="line">    <span class="string">"push"</span>,</span><br><span class="line">    <span class="string">"pop"</span>,</span><br><span class="line">    <span class="string">"shift"</span>,</span><br><span class="line">    <span class="string">"unshift"</span>,</span><br><span class="line">    <span class="string">"reverse"</span>,</span><br><span class="line">    <span class="string">"sort"</span>,</span><br><span class="line">    <span class="string">"splice"</span></span><br><span class="line">  ];</span><br><span class="line">  methods.forEach(<span class="function"><span class="params">method</span> =&gt;</span> &#123;</span><br><span class="line">    arr[method] = <span class="function"><span class="keyword">function</span>(<span class="params">...args</span>) </span>&#123;</span><br><span class="line">      <span class="comment">// 语义化this</span></span><br><span class="line">      <span class="keyword">let</span> curArr = <span class="keyword">this</span>;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">`使用了<span class="subst">$&#123;method&#125;</span>`</span>);</span><br><span class="line">      <span class="comment">// 将新加的项找到</span></span><br><span class="line">      <span class="keyword">let</span> addItems;</span><br><span class="line">      <span class="keyword">switch</span> (method) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">"push"</span>:</span><br><span class="line">        <span class="keyword">case</span> <span class="string">"unshift"</span>:</span><br><span class="line">          addItems = args;</span><br><span class="line">          <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">"splice"</span>:</span><br><span class="line">          addItems = args.slice(<span class="number">2</span>);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">// 修改！！！ 将添加的每项监测，是对象的监测对象 是数组的监测数组</span></span><br><span class="line">      addItems &amp;&amp; addItems.forEach(<span class="function"><span class="params">item</span> =&gt;</span> observeObj(item));</span><br><span class="line">      <span class="keyword">return</span> <span class="built_in">Array</span>.prototype[method].call(curArr, ...args);</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">observeObj</span>(<span class="params">obj</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 新加！！！数组另外处理</span></span><br><span class="line">  <span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(obj)) &#123;</span><br><span class="line">    observeArr(obj);</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 加上参数限制，必须是对象才有劫持，也是递归的终止条件</span></span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> obj !== <span class="string">"object"</span> || obj == <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> key <span class="keyword">in</span> obj) &#123;</span><br><span class="line">    <span class="comment">// 直接使用 obj.hasOwnProperty会提示不规范</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">Object</span>.prototype.hasOwnProperty.call(obj, key)) &#123;</span><br><span class="line">      observeKey(obj, key);</span><br><span class="line">      <span class="comment">// 这里劫持该属性的属性值，如果不是对象直接返回，不影响</span></span><br><span class="line">      observeObj(obj[key]);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> obj;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">observeKey</span>(<span class="params">obj, key</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> value = obj[key];</span><br><span class="line">  <span class="built_in">Object</span>.defineProperty(obj, key, &#123;</span><br><span class="line">    get() &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">"读取属性"</span>, value);</span><br><span class="line">      <span class="keyword">return</span> value;</span><br><span class="line">    &#125;,</span><br><span class="line">    set(newValue) &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">"设置属性"</span>, newValue);</span><br><span class="line">      value = newValue;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> data = &#123; <span class="attr">a</span>: <span class="number">1</span>, <span class="attr">b</span>: [<span class="number">1</span>, <span class="number">2</span>, &#123; <span class="attr">c</span>: <span class="number">2</span> &#125;] &#125;;</span><br><span class="line">observeObj(data);</span><br><span class="line">data.a = <span class="number">2</span>;</span><br><span class="line">data.b.push([<span class="number">2</span>, <span class="number">3</span>]);</span><br><span class="line"><span class="built_in">console</span>.log(data.b[<span class="number">2</span>].c);</span><br></pre></td></tr></table></figure>
-<p>–&gt;</p>
--->
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2403,7 +2358,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">204</span>
+                <span class="site-state-item-count">205</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

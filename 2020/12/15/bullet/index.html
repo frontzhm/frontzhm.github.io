@@ -1,0 +1,781 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="js," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="最近做年终活动，许愿的时候希望可以以弹幕的形式出现。 显示一条弹幕先写段静态的文字。 超简单： 但是一行通常不止一个弹幕，肯定不能block，所以这里的bullet-item需要处理下，这里我用定位的方式（主要为了之后的弹道，定位更方便）。 1234567891011121314151617181920&amp;lt;!-- App.vue --&amp;gt;&amp;lt;template lang=&amp;quot;pu">
+<meta name="keywords" content="js">
+<meta property="og:type" content="article">
+<meta property="og:title" content="实现简单的弹幕">
+<meta property="og:url" content="http://yoursite.com/2020/12/15/bullet/index.html">
+<meta property="og:site_name" content="花花的博客">
+<meta property="og:description" content="最近做年终活动，许愿的时候希望可以以弹幕的形式出现。 显示一条弹幕先写段静态的文字。 超简单： 但是一行通常不止一个弹幕，肯定不能block，所以这里的bullet-item需要处理下，这里我用定位的方式（主要为了之后的弹道，定位更方便）。 1234567891011121314151617181920&amp;lt;!-- App.vue --&amp;gt;&amp;lt;template lang=&amp;quot;pu">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/bullet1.png">
+<meta property="og:image" content="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/bullet2.gif">
+<meta property="og:image" content="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/bullet3.gif">
+<meta property="og:image" content="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/bullet4.gif">
+<meta property="og:updated_time" content="2020-12-15T11:22:09.043Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="实现简单的弹幕">
+<meta name="twitter:description" content="最近做年终活动，许愿的时候希望可以以弹幕的形式出现。 显示一条弹幕先写段静态的文字。 超简单： 但是一行通常不止一个弹幕，肯定不能block，所以这里的bullet-item需要处理下，这里我用定位的方式（主要为了之后的弹道，定位更方便）。 1234567891011121314151617181920&amp;lt;!-- App.vue --&amp;gt;&amp;lt;template lang=&amp;quot;pu">
+<meta name="twitter:image" content="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/bullet1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/12/15/bullet/"/>
+
+
+
+
+
+  <title> 实现简单的弹幕 | 花花的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?60f2cb5747a596a24f2a053f1650c30b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">花花的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/15/bullet/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                实现简单的弹幕
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-12-15T19:22:09+08:00">
+                2020-12-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/12/15/bullet/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/12/15/bullet/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近做年终活动，许愿的时候希望可以以弹幕的形式出现。</p>
+<h2 id="显示一条弹幕"><a href="#显示一条弹幕" class="headerlink" title="显示一条弹幕"></a>显示一条弹幕</h2><p>先写段静态的文字。</p>
+<p>超简单：<br><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/bullet1.png" alt="bullet1"></p>
+<p>但是一行通常不止一个弹幕，肯定不能<code>block</code>，所以这里的<code>bullet-item</code>需要处理下，这里我用定位的方式（主要为了之后的弹道，定位更方便）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- App.vue --&gt;</span><br><span class="line">&lt;template lang=&quot;pug&quot;&gt;</span><br><span class="line">div#app</span><br><span class="line">  div.bullet-wrap</span><br><span class="line">    div.bullet-item 减肥成功！</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;style&gt;</span><br><span class="line">body &#123;</span><br><span class="line">  margin: 0;</span><br><span class="line">&#125;</span><br><span class="line">.bullet-wrap &#123;</span><br><span class="line">  height: 375px;</span><br><span class="line">  background-color: #eee;</span><br><span class="line">  position: relative;</span><br><span class="line">&#125;</span><br><span class="line">.bullet-item &#123;</span><br><span class="line">  position: absolute;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="让文字在左边屏幕外"><a href="#让文字在左边屏幕外" class="headerlink" title="让文字在左边屏幕外"></a>让文字在左边屏幕外</h3><p>让文字在<strong>左边屏幕外</strong>，表面看起来消失的样子</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.bullet-item</span> &#123;</span><br><span class="line">  <span class="attribute">transform</span>: <span class="built_in">translateX</span>(-100%);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="让文字在右边屏幕外"><a href="#让文字在右边屏幕外" class="headerlink" title="让文字在右边屏幕外"></a>让文字在右边屏幕外</h3><p>让文字在<strong>右边屏幕外</strong>，表面看起来消失的样子</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.bullet-item</span> &#123;</span><br><span class="line">  <span class="attribute">transform</span>: <span class="built_in">translateX</span>(100vw);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="让文字从右边屏幕外到左边屏幕外"><a href="#让文字从右边屏幕外到左边屏幕外" class="headerlink" title="让文字从右边屏幕外到左边屏幕外"></a>让文字从右边屏幕外到左边屏幕外</h3><p>让文字从右边屏幕外到左边屏幕外，表面看起来从左边诞生，从右边离去</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.bullet-item</span> &#123;</span><br><span class="line">  <span class="attribute">position</span>: absolute;</span><br><span class="line">  <span class="attribute">animation</span>: rightToLeft <span class="number">7s</span> linear both;</span><br><span class="line">&#125;</span><br><span class="line">@<span class="keyword">keyframes</span> rightToLeft &#123;</span><br><span class="line">  0% &#123;</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">translate</span>(100vw);</span><br><span class="line">  &#125;</span><br><span class="line">  100% &#123;</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">translate</span>(-100%);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/bullet2.gif" alt="bullet2"></p>
+<h2 id="多行显示"><a href="#多行显示" class="headerlink" title="多行显示"></a>多行显示</h2><p>上面一条弹幕的感觉已经有了。<br>接下来，看看多行弹幕。  </p>
+<p>弹幕的的行，说好听点是弹道，一般将弹幕区域分成好几个弹道，就像跑道一样，每个运动员有自己的跑道。</p>
+<h3 id="两个弹道"><a href="#两个弹道" class="headerlink" title="两个弹道"></a>两个弹道</h3><p>两个弹道的逻辑，其实是在于，弹道靠<code>top</code>控制位置，不同的弹道<code>top</code>不一样</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">div.bullet-wrap</span><br><span class="line">  div.bullet-item(data-line=&quot;1&quot;) 减肥成功！</span><br><span class="line">  div.bullet-item(data-line=&quot;2&quot;) 没有bug!</span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.bullet-item</span><span class="selector-attr">[data-line="1"]</span> &#123;</span><br><span class="line">  <span class="attribute">top</span>: <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.bullet-item</span><span class="selector-attr">[data-line="2"]</span> &#123;</span><br><span class="line">  <span class="attribute">top</span>: <span class="number">75px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="多个弹道，错峰运行"><a href="#多个弹道，错峰运行" class="headerlink" title="多个弹道，错峰运行"></a>多个弹道，错峰运行</h3><p>多个弹道，其实就是将上面改下，这么先设置5个弹道。</p>
+<p>但因为动画是同时开启的，所以看起来，怪怪的。</p>
+<p>错峰的逻辑如下，以下也是本文的<strong>核心</strong>：</p>
+<p>首先分成两个集合</p>
+<ul>
+<li>等待集合：将要显示的弹幕集合</li>
+<li>显示集合：显示在屏幕上的弹幕集合，这也是页面循环的集合，出现在这个集合里，弹幕就开始滚动</li>
+</ul>
+<p>显示弹幕的逻辑</p>
+<ul>
+<li>先确定弹道，接下来的弹幕就出现在这个弹道里</li>
+<li>从等待集合里取出第一个</li>
+<li>设置此弹幕的弹道</li>
+<li>此弹幕放进显示集合里，此弹幕开始滚动</li>
+</ul>
+<p>隔一段时间执行，上续操作，弹幕就源源不断。</p>
+<p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/bullet3.gif" alt="bullet3"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line">&lt;template lang=&quot;pug&quot;&gt;</span><br><span class="line">div#app</span><br><span class="line">  div.bullet-wrap</span><br><span class="line">    div.bullet-item(v-for=&quot;item in showingBullets&quot; :key=&quot;item.id&quot; :data-line=&quot;item.line&quot;) &#123;&#123;item.name&#125;&#125;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">const getUUID = () =&gt; Math.random() + Math.random();</span><br><span class="line">export default &#123;</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      // 将要显示的弹幕队列</span><br><span class="line">      waitBullets: [</span><br><span class="line">        &#123; id: getUUID(), name: &quot;一场说走就走的旅行&quot;, line: 0 &#125;,</span><br><span class="line">        &#123; id: getUUID(), name: &quot;结束单身汪&quot;, line: 0 &#125;,</span><br><span class="line">        &#123; id: getUUID(), name: &quot;明年暴瘦10斤&quot;, line: 0 &#125;,</span><br><span class="line">        &#123; id: getUUID(), name: &quot;多陪伴父母&quot;, line: 0 &#125;,</span><br><span class="line">        &#123; id: getUUID(), name: &quot;赚到1个亿,买别墅&quot;, line: 0 &#125;</span><br><span class="line">      ],</span><br><span class="line">      showingBullets: [],</span><br><span class="line">      lines: 5,</span><br><span class="line">      currentLine: 1</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  mounted() &#123;</span><br><span class="line">    this.showNextBullet();</span><br><span class="line">    setInterval(this.showNextBullet, 700);</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    showNextBullet() &#123;</span><br><span class="line">      if (!this.waitBullets.length) &#123;</span><br><span class="line">        return;</span><br><span class="line">      &#125;</span><br><span class="line">      // 先确定弹道，跟上一个弹道错开即可</span><br><span class="line">      this.currentLine = (this.currentLine % this.lines) + 1;</span><br><span class="line">      // 从等待集合里取出第一个</span><br><span class="line">      const currentBullet = this.waitBullets.shift();</span><br><span class="line">      // 设置弹幕的弹道</span><br><span class="line">      currentBullet.line = this.currentLine;</span><br><span class="line">      // 弹幕放进显示集合里，弹幕开始滚动</span><br><span class="line">      this.showingBullets.push(currentBullet);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style&gt;</span><br><span class="line">html,</span><br><span class="line">body &#123;</span><br><span class="line">  min-height: 100%;</span><br><span class="line">  overflow: hidden;</span><br><span class="line">&#125;</span><br><span class="line">body &#123;</span><br><span class="line">  margin: 0;</span><br><span class="line">&#125;</span><br><span class="line">.bullet-wrap &#123;</span><br><span class="line">  height: 375px;</span><br><span class="line">  background-color: #eee;</span><br><span class="line">  position: relative;</span><br><span class="line">&#125;</span><br><span class="line">.bullet-item &#123;</span><br><span class="line">  position: absolute;</span><br><span class="line">  animation: rightToleft 7s linear both;</span><br><span class="line">&#125;</span><br><span class="line">.bullet-item[data-line=&quot;1&quot;] &#123;</span><br><span class="line">  top: 0;</span><br><span class="line">&#125;</span><br><span class="line">.bullet-item[data-line=&quot;2&quot;] &#123;</span><br><span class="line">  top: 75px;</span><br><span class="line">&#125;</span><br><span class="line">.bullet-item[data-line=&quot;3&quot;] &#123;</span><br><span class="line">  top: 150px;</span><br><span class="line">&#125;</span><br><span class="line">.bullet-item[data-line=&quot;4&quot;] &#123;</span><br><span class="line">  top: 225px;</span><br><span class="line">&#125;</span><br><span class="line">.bullet-item[data-line=&quot;5&quot;] &#123;</span><br><span class="line">  top: 300px;</span><br><span class="line">&#125;</span><br><span class="line">@keyframes rightToleft &#123;</span><br><span class="line">  0% &#123;</span><br><span class="line">    transform: translate(100vw);</span><br><span class="line">  &#125;</span><br><span class="line">  100% &#123;</span><br><span class="line">    transform: translate(-100%);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="发送新弹幕"><a href="#发送新弹幕" class="headerlink" title="发送新弹幕"></a>发送新弹幕</h2><p>发送新弹幕，其实没啥，送到等待队列里即可。</p>
+<p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/bullet4.gif" alt="bullet4"></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">clickSend() &#123;</span><br><span class="line">    <span class="keyword">if</span> (!<span class="keyword">this</span>.newBullet) &#123; <span class="keyword">return</span>; &#125; </span><br><span class="line">    <span class="keyword">const</span> newBullet = &#123; <span class="attr">id</span>: getUUID(), <span class="attr">name</span>: <span class="keyword">this</span>.newBullet, <span class="attr">line</span>: <span class="number">0</span> &#125;;</span><br><span class="line">    <span class="keyword">this</span>.waitBullets.push(newBullet);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">div.input-wrap</span><br><span class="line">  input(v-model.trim=&quot;newBullet&quot; type=&apos;text&apos; maxlength=&apos;12&apos; placeholder=&apos;来说点什么&apos;)</span><br><span class="line">  button.btn(@click=&quot;clickSend&quot;) 发送</span><br></pre></td></tr></table></figure>
+<h2 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h2><ul>
+<li>弹幕从屏幕上消失之后，需要从显示队列里移除</li>
+<li>组件销毁前，清除定时器</li>
+<li>想无限循环弹幕列表，需要在等待队列推出第一个的时候，顺手将这个再塞到等待队列里</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br></pre></td><td class="code"><pre><span class="line">&lt;template lang=&quot;pug&quot;&gt;</span><br><span class="line">div#app</span><br><span class="line">  div.bullet-wrap</span><br><span class="line">    div.bullet-item(v-for=&quot;item in showingBullets&quot; @animationend=&apos;removeBullet&apos; :key=&quot;item.id&quot; :data-line=&quot;item.line&quot;) &#123;&#123;item.name&#125;&#125;</span><br><span class="line">  div.input-wrap</span><br><span class="line">    input(v-model.trim=&quot;newBullet&quot; type=&apos;text&apos; maxlength=&apos;12&apos; placeholder=&apos;来说点什么&apos;)</span><br><span class="line">    button.btn(@click=&quot;clickSend&quot;) 发送</span><br><span class="line">&lt;/template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">const getUUID = () =&gt; Math.random() + Math.random();</span><br><span class="line">export default &#123;</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      // 将要显示的弹幕队列</span><br><span class="line">      waitBullets: [</span><br><span class="line">        &#123; id: getUUID(), name: &quot;一场说走就走的旅行&quot;, isWished: false, line: 0 &#125;,</span><br><span class="line">        &#123; id: getUUID(), name: &quot;结束单身汪&quot;, isWished: false, line: 0 &#125;,</span><br><span class="line">        &#123; id: getUUID(), name: &quot;明年暴瘦10斤&quot;, isWished: false, line: 0 &#125;,</span><br><span class="line">        &#123; id: getUUID(), name: &quot;多陪伴父母&quot;, isWished: false, line: 0 &#125;,</span><br><span class="line">        &#123; id: getUUID(), name: &quot;赚到1个亿,买别墅&quot;, isWished: false, line: 0 &#125;</span><br><span class="line">      ],</span><br><span class="line">      showingBullets: [],</span><br><span class="line">      lines: 5,</span><br><span class="line">      currentLine: 1,</span><br><span class="line">      newBullet: &quot;&quot;,</span><br><span class="line">      isInfinite: true</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  mounted() &#123;</span><br><span class="line">    this.showNextBullet();</span><br><span class="line">    const timer = setInterval(this.showNextBullet, 700);</span><br><span class="line">    // 组件销毁前，清除定时器</span><br><span class="line">    this.$once(&quot;hook:beforeDestroy&quot;, () =&gt; &#123;</span><br><span class="line">      clearInterval(timer);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    showNextBullet() &#123;</span><br><span class="line">      if (!this.waitBullets.length) &#123;</span><br><span class="line">        return;</span><br><span class="line">      &#125;</span><br><span class="line">      // 先确定弹道，跟上一个弹道错开即可</span><br><span class="line">      this.currentLine = (this.currentLine % this.lines) + 1;</span><br><span class="line">      // 从等待集合里取出第一个</span><br><span class="line">      const currentBullet = this.waitBullets.shift();</span><br><span class="line">      // 想要无限循环的话</span><br><span class="line">      this.isInfinite &amp;&amp;</span><br><span class="line">        this.waitBullets.push(&#123;</span><br><span class="line">          id: getUUID(),</span><br><span class="line">          name: currentBullet.name,</span><br><span class="line">          isWished: false,</span><br><span class="line">          line: 0</span><br><span class="line">        &#125;);</span><br><span class="line">      // 设置弹幕的弹道</span><br><span class="line">      currentBullet.line = this.currentLine;</span><br><span class="line">      // 弹幕放进显示集合里，弹幕开始滚动</span><br><span class="line">      this.showingBullets.push(currentBullet);</span><br><span class="line">    &#125;,</span><br><span class="line">    clickSend() &#123;</span><br><span class="line">      if (!this.newBullet) &#123;</span><br><span class="line">        return;</span><br><span class="line">      &#125;</span><br><span class="line">      const newBullet = &#123;</span><br><span class="line">        id: getUUID(),</span><br><span class="line">        name: this.newBullet,</span><br><span class="line">        isWished: false,</span><br><span class="line">        line: 0</span><br><span class="line">      &#125;;</span><br><span class="line">      this.waitBullets.push(newBullet);</span><br><span class="line">    &#125;,</span><br><span class="line">    removeBullet() &#123;</span><br><span class="line">      this.showingBullets.shift();</span><br><span class="line">      console.log(this.showingBullets);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style&gt;</span><br><span class="line">html,</span><br><span class="line">body &#123;</span><br><span class="line">  min-height: 100%;</span><br><span class="line">  overflow: hidden;</span><br><span class="line">&#125;</span><br><span class="line">body &#123;</span><br><span class="line">  margin: 0;</span><br><span class="line">&#125;</span><br><span class="line">.bullet-wrap &#123;</span><br><span class="line">  height: 375px;</span><br><span class="line">  background-color: #eee;</span><br><span class="line">  position: relative;</span><br><span class="line">&#125;</span><br><span class="line">.bullet-item &#123;</span><br><span class="line">  position: absolute;</span><br><span class="line">  animation: rightToleft 7s linear both;</span><br><span class="line">&#125;</span><br><span class="line">.bullet-item[data-line=&quot;1&quot;] &#123;</span><br><span class="line">  top: 0;</span><br><span class="line">&#125;</span><br><span class="line">.bullet-item[data-line=&quot;2&quot;] &#123;</span><br><span class="line">  top: 75px;</span><br><span class="line">&#125;</span><br><span class="line">.bullet-item[data-line=&quot;3&quot;] &#123;</span><br><span class="line">  top: 150px;</span><br><span class="line">&#125;</span><br><span class="line">.bullet-item[data-line=&quot;4&quot;] &#123;</span><br><span class="line">  top: 225px;</span><br><span class="line">&#125;</span><br><span class="line">.bullet-item[data-line=&quot;5&quot;] &#123;</span><br><span class="line">  top: 300px;</span><br><span class="line">&#125;</span><br><span class="line">@keyframes rightToleft &#123;</span><br><span class="line">  0% &#123;</span><br><span class="line">    transform: translate(100vw);</span><br><span class="line">  &#125;</span><br><span class="line">  100% &#123;</span><br><span class="line">    transform: translate(-100%);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
+<li><a href="https://segmentfault.com/a/1190000022549145" target="_blank" rel="noopener">Vue 实现弹幕效果</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/js/" rel="tag"># js</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/12/09/animation_2/" rel="next" title="写个简单css动画，transition 和animate">
+                <i class="fa fa-chevron-left"></i> 写个简单css动画，transition 和animate
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2020/12/15/bullet/"
+           data-title="实现简单的弹幕" data-url="http://yoursite.com/2020/12/15/bullet/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://omizt4opc.bkt.clouddn.com/avatar.jpg"
+               alt="frontzhm" />
+          <p class="site-author-name" itemprop="name">frontzhm</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">205</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">52</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#显示一条弹幕"><span class="nav-number">1.</span> <span class="nav-text">显示一条弹幕</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#让文字在左边屏幕外"><span class="nav-number">1.1.</span> <span class="nav-text">让文字在左边屏幕外</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#让文字在右边屏幕外"><span class="nav-number">1.2.</span> <span class="nav-text">让文字在右边屏幕外</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#让文字从右边屏幕外到左边屏幕外"><span class="nav-number">1.3.</span> <span class="nav-text">让文字从右边屏幕外到左边屏幕外</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多行显示"><span class="nav-number">2.</span> <span class="nav-text">多行显示</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#两个弹道"><span class="nav-number">2.1.</span> <span class="nav-text">两个弹道</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多个弹道，错峰运行"><span class="nav-number">2.2.</span> <span class="nav-text">多个弹道，错峰运行</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#发送新弹幕"><span class="nav-number">3.</span> <span class="nav-text">发送新弹幕</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优化"><span class="nav-number">4.</span> <span class="nav-text">优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引用"><span class="nav-number">5.</span> <span class="nav-text">引用</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">frontzhm</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"frontzhm"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
