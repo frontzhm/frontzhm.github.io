@@ -261,6 +261,209 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/31/compile-text/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2020/08/31/compile-text/" itemprop="url">
+                  一点点学会编译文本
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-08-31T16:45:35+08:00">
+                2020-08-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/08/31/compile-text/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/08/31/compile-text/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <!-- hexo遇到{ { } }会出错 -->
+<p>使用 vue，都知道<code>左双大括号msg右双大括号</code>，能变成<code>data.msg</code>相对应的值<code>hello</code>。</p>
+<p>此文循序渐进实现最终vue中编译文本的效果。</p>
+<h2 id="左双大括号msg右双大括号-gt-‘hello’"><a href="#左双大括号msg右双大括号-gt-‘hello’" class="headerlink" title="左双大括号msg右双大括号 =&gt; ‘hello’"></a>左双大括号msg右双大括号 =&gt; ‘hello’</h2><p>这里先不关注 dom 之类的事情，只专注于其中的逻辑。</p>
+<p>首先看看以下代码，想想<code>compileText</code>怎么实现</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> data = &#123;</span><br><span class="line">  msg: <span class="string">"hello"</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> text = <span class="string">"左双大括号msg右双大括号 world"</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">compileText</span>(<span class="params">data, text</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 想想怎么实现</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">text = compileText(data, text);</span><br><span class="line"><span class="comment">// 想输出 =&gt; hello world</span></span><br><span class="line"><span class="built_in">console</span>.log(text);</span><br></pre></td></tr></table></figure>
+<p>其实这里的逻辑并不难，无外乎先找到<code>左双大括号msg右双大括号</code>，然后将整那个字符串替换成<code>data.msg</code>的值。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">compileText</span>(<span class="params">data, text</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 匹配正则</span></span><br><span class="line">  <span class="keyword">let</span> reg = <span class="regexp">/\&#123;\&#123;(.+)\&#125;\&#125;/</span>;</span><br><span class="line">  <span class="keyword">let</span> newText = text.replace(reg, (...args) =&gt; &#123;</span><br><span class="line">    <span class="comment">// 拿到msg</span></span><br><span class="line">    <span class="keyword">let</span> expr = args[<span class="number">1</span>];</span><br><span class="line">    <span class="comment">// data里面msg属性的值</span></span><br><span class="line">    <span class="keyword">let</span> value = data[expr];</span><br><span class="line">    <span class="keyword">return</span> value;</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="comment">// 返回替换完的新字符串</span></span><br><span class="line">  <span class="keyword">return</span> newText;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但是 data 里可能也有对象，如<code>{msg:&#39;hello&#39;,person:{name:&#39;hua&#39;右双大括号</code></p>
+<p>text 可能就变成<code>左双大括号person.name右双大括号 喜欢西湖</code></p>
+<h2 id="左双大括号person-name右双大括号-gt-‘hua’"><a href="#左双大括号person-name右双大括号-gt-‘hua’" class="headerlink" title="左双大括号person.name右双大括号 =&gt; ‘hua’"></a>左双大括号person.name右双大括号 =&gt; ‘hua’</h2><p>其实就是在 <code>compileText</code> 里拿到 <code>value</code> 值的时候，多些操作。</p>
+<p>思考下面的 <code>getValue</code> 怎么实现</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> data = &#123; <span class="attr">person</span>: &#123; <span class="attr">name</span>: <span class="string">"hua"</span> &#125; &#125;;</span><br><span class="line"><span class="keyword">let</span> expr = <span class="string">"person.name"</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getValue</span>(<span class="params">data, expr</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 想想这里怎么写</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 想输出 =&gt; hua</span></span><br><span class="line"><span class="built_in">console</span>.log(getValue(data, expr));</span><br></pre></td></tr></table></figure>
+<p>这里其实就是一层层往下返回，为了写成公用的，会考虑很多层的情况。<br>理解难点是<code>reduce</code>，如果不明白，可以看<a href="https://juejin.im/post/6854573222323552263" target="_blank" rel="noopener">入门怎么使用 reduce</a></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getValue</span>(<span class="params">data, expr</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 先将每个key分隔开，放进数组里</span></span><br><span class="line">  <span class="keyword">let</span> arr = expr.split(<span class="string">"."</span>);</span><br><span class="line">  <span class="comment">// 下面就是reduce的使用了，写出init和fn，就基本ok了</span></span><br><span class="line">  <span class="keyword">let</span> init = data;</span><br><span class="line">  <span class="keyword">let</span> fn = <span class="function">(<span class="params">acc, cur</span>) =&gt;</span> acc[cur];</span><br><span class="line">  <span class="keyword">let</span> value = arr.reduce(fn, init);</span><br><span class="line">  <span class="keyword">return</span> value;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后升级下 compileText</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">compileText</span>(<span class="params">data, text</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 匹配正则</span></span><br><span class="line">  <span class="keyword">let</span> reg = <span class="regexp">/\&#123;\&#123;(.+)\&#125;\&#125;/</span>;</span><br><span class="line">  <span class="keyword">let</span> newText = text.replace(reg, (...args) =&gt; &#123;</span><br><span class="line">    <span class="comment">// 拿到msg</span></span><br><span class="line">    <span class="keyword">let</span> expr = args[<span class="number">1</span>];</span><br><span class="line">    <span class="comment">// 就改了这里，就能支持多重key</span></span><br><span class="line">    <span class="keyword">let</span> value = getValue(data, expr);</span><br><span class="line">    <span class="keyword">return</span> value;</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="comment">// 返回替换完的新字符串</span></span><br><span class="line">  <span class="keyword">return</span> newText;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// demo演示</span></span><br><span class="line"><span class="keyword">let</span> data = &#123;</span><br><span class="line">  person: &#123; <span class="attr">name</span>: <span class="string">"hua"</span> &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">let</span> text = <span class="string">"左双大括号person.name右双大括号 喜欢西湖"</span>;</span><br><span class="line"></span><br><span class="line">text = compileText(data, text);</span><br><span class="line"><span class="comment">// hua 喜欢西湖</span></span><br><span class="line"><span class="built_in">console</span>.log(text);</span><br></pre></td></tr></table></figure>
+<h2 id="文本节点编译-lt-div-id-’app’-左双大括号msg右双大括号-lt-b-1-lt-b-左双大括号msg右双大括号-lt-div"><a href="#文本节点编译-lt-div-id-’app’-左双大括号msg右双大括号-lt-b-1-lt-b-左双大括号msg右双大括号-lt-div" class="headerlink" title="文本节点编译 &lt;div id=’app’> 左双大括号msg右双大括号 &lt;b>1&lt;/b> 左双大括号msg右双大括号 &lt;/div>"></a>文本节点编译 &lt;div id=’app’> 左双大括号msg右双大括号 &lt;b>1&lt;/b> 左双大括号msg右双大括号 &lt;/div></h2><p>先试着将<code>div</code>里<strong>子文本节点</strong>里面的表达式正确编译。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> data = &#123; <span class="attr">msg</span>: <span class="string">"hello"</span> &#125;;</span><br><span class="line"><span class="keyword">let</span> app = <span class="built_in">document</span>.querySelector(<span class="string">"#app"</span>);</span><br><span class="line"><span class="comment">// 找到所有子节点</span></span><br><span class="line"><span class="keyword">let</span> children = [...app.childNodes];</span><br><span class="line">children.forEach(<span class="function"><span class="params">child</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// 如果是文本节点，就编译</span></span><br><span class="line">  <span class="keyword">if</span> (child.nodeType === <span class="number">3</span>) &#123;</span><br><span class="line">    compileTextNode(child, data);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">compileTextNode</span>(<span class="params">node, data</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 试着写写，就一行代码啦</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>嗯哼，结果如下</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">compileTextNode</span>(<span class="params">node, data</span>) </span>&#123;</span><br><span class="line">  node.textContent = compileText(data, node.textContent);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="元素节点编译-lt-div-id-’app’-lt-span-左双大括号msg右双大括号-lt-span-lt-div"><a href="#元素节点编译-lt-div-id-’app’-lt-span-左双大括号msg右双大括号-lt-span-lt-div" class="headerlink" title="元素节点编译 &lt;div id=’app’> &lt;span>左双大括号msg右双大括号&lt;/span>&lt;/div>"></a>元素节点编译 &lt;div id=’app’> &lt;span>左双大括号msg右双大括号&lt;/span>&lt;/div></h2><p>现在 span 元素里面有的话，怎么编译呢。<br>其实就是元素节点的话，将其文本元素再挑出来。这里如果深层嵌套，依旧涉及到递归。<br>可以先试试想想，甚至敲敲<code>compileElement</code>。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> data = &#123; <span class="attr">msg</span>: <span class="string">"hello"</span> &#125;;</span><br><span class="line"><span class="keyword">let</span> app = <span class="built_in">document</span>.querySelector(<span class="string">"#app"</span>);</span><br><span class="line">compileElement(app, data);</span><br><span class="line"><span class="comment">// 增加一个方法，编译元素节点，这里注意，其实只会编译文本节点，如果是元素节点就去找其子文本节点</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">compileElement</span>(<span class="params">node, data</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> children = [...node.childNodes];</span><br><span class="line">  children.forEach(<span class="function"><span class="params">child</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (child.nodeType === <span class="number">1</span>) &#123;</span><br><span class="line">      compileElement(child, data);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (child.nodeType === <span class="number">3</span>) &#123;</span><br><span class="line">      compileTextNode(child, data);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="避免频繁操作-dom，试试-fragment"><a href="#避免频繁操作-dom，试试-fragment" class="headerlink" title="避免频繁操作 dom，试试 fragment"></a>避免频繁操作 dom，试试 fragment</h2><p>这里 app 里面的节点一直在频繁操作，是很不利于性能的。</p>
+<ul>
+<li>先将 app 里所有的节点放进文档碎片</li>
+<li>编译完之后，再把文档碎片塞进 app 里，完美。</li>
+</ul>
+<p>代码想想也就没啥大的事了</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> data = &#123; <span class="attr">msg</span>: <span class="string">"hello"</span> &#125;;</span><br><span class="line"><span class="keyword">let</span> app = <span class="built_in">document</span>.querySelector(<span class="string">"#app"</span>);</span><br><span class="line"><span class="comment">// 塞进碎片</span></span><br><span class="line"><span class="keyword">let</span> appFragment = moveToFragment(app);</span><br><span class="line"><span class="comment">// 编辑碎片</span></span><br><span class="line">compileElement(appFragment, data);</span><br><span class="line"><span class="comment">// 碎片在塞进app</span></span><br><span class="line">app.appendChild(appFragment);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">moveToFragment</span>(<span class="params">node</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> fragment = <span class="built_in">document</span>.createDocumentFragment();</span><br><span class="line">  <span class="comment">// 来试试写这里实现功能</span></span><br><span class="line">  <span class="keyword">return</span> fragment;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>答案这样子</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">moveToFragment</span>(<span class="params">node</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> fragment = <span class="built_in">document</span>.createDocumentFragment();</span><br><span class="line">  <span class="comment">// 高阶可以这样</span></span><br><span class="line">  <span class="comment">// let firstNode;</span></span><br><span class="line">  <span class="comment">// while ((firstNode = node.firstChild)) &#123;</span></span><br><span class="line">  <span class="comment">//   fragment.appendChild(firstNode);</span></span><br><span class="line">  <span class="comment">// &#125;</span></span><br><span class="line">  <span class="keyword">let</span> children = [...node.childNodes];</span><br><span class="line">  children.forEach(<span class="function"><span class="params">child</span> =&gt;</span> &#123;</span><br><span class="line">    fragment.appendChild(child);</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="keyword">return</span> fragment;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="合并写下，编译的整体-demo"><a href="#合并写下，编译的整体-demo" class="headerlink" title="合并写下，编译的整体 demo"></a>合并写下，编译的整体 demo</h2><p>可以直接复制，在本地试试。希望里面的方法能有一些启发。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span>&gt;</span></span><br><span class="line">    左双大括号msg右双大括号</span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span>左双大括号msg右双大括号<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    左双大括号msg右双大括号</span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">    <span class="keyword">let</span> data = &#123; <span class="attr">msg</span>: <span class="string">"hello"</span> &#125;;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">let</span> app = <span class="built_in">document</span>.querySelector(<span class="string">"#app"</span>);</span></span><br><span class="line"><span class="javascript">    <span class="comment">// 塞进碎片</span></span></span><br><span class="line"><span class="javascript">    <span class="keyword">let</span> appFragment = moveToFragment(app);</span></span><br><span class="line"><span class="javascript">    <span class="comment">// 编辑碎片</span></span></span><br><span class="line"><span class="undefined">    compileElement(appFragment, data);</span></span><br><span class="line"><span class="javascript">    <span class="comment">// 碎片在塞进app</span></span></span><br><span class="line"><span class="undefined">    app.appendChild(appFragment);</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">moveToFragment</span>(<span class="params">node</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">let</span> fragment = <span class="built_in">document</span>.createDocumentFragment();</span></span><br><span class="line"><span class="javascript">      <span class="comment">// let firstNode;</span></span></span><br><span class="line"><span class="javascript">      <span class="comment">// while ((firstNode = node.firstChild)) &#123;</span></span></span><br><span class="line"><span class="javascript">      <span class="comment">//   fragment.appendChild(firstNode);</span></span></span><br><span class="line"><span class="javascript">      <span class="comment">// &#125;</span></span></span><br><span class="line"><span class="javascript">      <span class="keyword">let</span> children = [...node.childNodes];</span></span><br><span class="line"><span class="javascript">      children.forEach(<span class="function"><span class="params">child</span> =&gt;</span> &#123;</span></span><br><span class="line"><span class="undefined">        fragment.appendChild(child);</span></span><br><span class="line"><span class="undefined">      &#125;);</span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> fragment;</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">compileElement</span>(<span class="params">node, data</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">let</span> children = [...node.childNodes];</span></span><br><span class="line"><span class="javascript">      children.forEach(<span class="function"><span class="params">child</span> =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">if</span> (child.nodeType === <span class="number">1</span>) &#123;</span></span><br><span class="line"><span class="undefined">          compileElement(child, data);</span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">if</span> (child.nodeType === <span class="number">3</span>) &#123;</span></span><br><span class="line"><span class="undefined">          compileTextNode(child, data);</span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="undefined">      &#125;);</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">compileTextNode</span>(<span class="params">node, data</span>) </span>&#123;</span></span><br><span class="line"><span class="undefined">      node.textContent = compileText(data, node.textContent);</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">compileText</span>(<span class="params">data, text</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="comment">// 匹配正则 注释是高级点的匹配 哈哈哈 我还不会 先粘贴在这里</span></span></span><br><span class="line"><span class="javascript">      <span class="comment">// let reg = /\&#123;\&#123;((?:.|\r?\n)+?)\&#125;\&#125;/g;</span></span></span><br><span class="line"><span class="javascript">      <span class="keyword">let</span> reg = <span class="regexp">/\&#123;\&#123;(.+)\&#125;\&#125;/</span>;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">let</span> newText = text.replace(reg, (...args) =&gt; &#123;</span></span><br><span class="line"><span class="javascript">        <span class="comment">// 拿到msg</span></span></span><br><span class="line"><span class="javascript">        <span class="keyword">let</span> expr = args[<span class="number">1</span>];</span></span><br><span class="line"><span class="javascript">        <span class="comment">// 就改了这里，就能支持多重key</span></span></span><br><span class="line"><span class="javascript">        <span class="keyword">let</span> value = getValue(data, expr);</span></span><br><span class="line"><span class="javascript">        <span class="keyword">return</span> value;</span></span><br><span class="line"><span class="undefined">      &#125;);</span></span><br><span class="line"><span class="javascript">      <span class="comment">// 返回替换完的新字符串</span></span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> newText;</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">getValue</span>(<span class="params">data, expr</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="comment">// 先将每个key分隔开，放进数组里</span></span></span><br><span class="line"><span class="javascript">      <span class="keyword">let</span> arr = expr.split(<span class="string">"."</span>);</span></span><br><span class="line"><span class="javascript">      <span class="comment">// 下面就是reduce的使用了，写出init和fn，就基本ok了</span></span></span><br><span class="line"><span class="javascript">      <span class="keyword">let</span> init = data;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">let</span> fn = <span class="function">(<span class="params">acc, cur</span>) =&gt;</span> acc[cur];</span></span><br><span class="line"><span class="javascript">      <span class="keyword">let</span> value = arr.reduce(fn, init);</span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> value;</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">  </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<!--
+## <div>左双大括号msg右双大括号</div> => <div>hello</div>
+
+当文本出现在 dom 中的时候，怎么编译。
+
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span>&gt;</span></span><br><span class="line">  左双大括号msg右双大括号</span><br><span class="line">  <span class="tag">&lt;<span class="name">span</span>&gt;</span>左双大括号msg右双大括号<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">br</span> /&gt;</span></span><br><span class="line">  左双大括号msg右双大括号</span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">  <span class="keyword">let</span> data = &#123; <span class="attr">msg</span>: <span class="string">"hello"</span> &#125;;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>拿到一个元素节点里所有的文本节点</li>
+<li>遍历所有的文本节点，将文本节点内容中的<code>左双大括号右双大括号</code>正确编译</li>
+</ul>
+<h3 id="找到一个元素节点里所有的子文本节点"><a href="#找到一个元素节点里所有的子文本节点" class="headerlink" title="找到一个元素节点里所有的子文本节点"></a>找到一个元素节点里所有的子文本节点</h3><p>先找到子文本节点</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 判断一个节点是不是文本</span></span><br><span class="line"><span class="keyword">const</span> isText = <span class="function"><span class="params">node</span> =&gt;</span> node.nodeType === <span class="number">3</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getTextNodes</span>(<span class="params">node</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 最终返回这个数组</span></span><br><span class="line">  <span class="keyword">let</span> textNodes = [];</span><br><span class="line">  <span class="comment">// 这里不能用 node.children 因为其 仅仅表示元素节点</span></span><br><span class="line">  <span class="keyword">let</span> children = [...node.childNodes];</span><br><span class="line">  children.forEach(<span class="function"><span class="params">child</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 是文本节点 就push进结果里</span></span><br><span class="line">    isText(child) &amp;&amp; textNodes.push(child);</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="comment">// 返回拿到的所有文本节点</span></span><br><span class="line">  <span class="keyword">return</span> textNodes;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="找到一个元素节点里所有的文本节点"><a href="#找到一个元素节点里所有的文本节点" class="headerlink" title="找到一个元素节点里所有的文本节点"></a>找到一个元素节点里所有的文本节点</h3><p>上面拿到第一层级的子文本节点，如果想继续拿到 <code>span</code> 里的文本节点，就需要递归了。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> isElement = <span class="function"><span class="params">node</span> =&gt;</span> node.nodeType === <span class="number">1</span>;</span><br><span class="line"><span class="keyword">const</span> isText = <span class="function"><span class="params">node</span> =&gt;</span> node.nodeType === <span class="number">3</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getTextNodes</span>(<span class="params">node</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 不是元素节点直接返回空数组，也是递归的终止条件</span></span><br><span class="line">  <span class="keyword">if</span> (!isElement(node)) &#123;</span><br><span class="line">    <span class="keyword">return</span> [];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">let</span> textNodes = [];</span><br><span class="line">  <span class="comment">// 这里不能用 node.children 因为其 仅仅表示元素节点</span></span><br><span class="line">  <span class="keyword">let</span> children = [...node.childNodes];</span><br><span class="line">  children.forEach(<span class="function"><span class="params">child</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 是文本节点 就push进结果里</span></span><br><span class="line">    isText(child) &amp;&amp; textNodes.push(child);</span><br><span class="line">    <span class="comment">// 重点在这里，是元素的话，拿到子节点里面的文本节点，然后和现有的合并</span></span><br><span class="line">    <span class="keyword">if</span> (isElement(child)) &#123;</span><br><span class="line">      textNodes = [...textNodes, ...getTextNodes(child)];</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="comment">// 返回拿到的所有文本节点</span></span><br><span class="line">  <span class="keyword">return</span> textNodes;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>再回到例子里，试着遍历文本节点，正确编译。</p>
+<h3 id="正确编译所有的文本节点"><a href="#正确编译所有的文本节点" class="headerlink" title="正确编译所有的文本节点"></a>正确编译所有的文本节点</h3><p>这里好像没啥了，直接上码。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span>&gt;</span></span><br><span class="line">  左双大括号msg右双大括号</span><br><span class="line">  <span class="tag">&lt;<span class="name">span</span>&gt;</span>左双大括号msg右双大括号<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">span</span>&gt;</span>211221<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">br</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">span</span>&gt;</span>211221 左双大括号msg右双大括号<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">  <span class="comment">// ...那几个function放这里</span></span></span><br><span class="line"><span class="javascript">  <span class="keyword">let</span> data = &#123; <span class="attr">msg</span>: <span class="string">"hello"</span> &#125;;</span></span><br><span class="line"><span class="javascript">  <span class="comment">// 拿到app里所有文本节点</span></span></span><br><span class="line"><span class="javascript">  <span class="keyword">let</span> textNodes = getTextNodes(<span class="built_in">document</span>.querySelector(<span class="string">"#app"</span>));</span></span><br><span class="line"><span class="javascript">  <span class="built_in">console</span>.log(textNodes);</span></span><br><span class="line"><span class="javascript">  <span class="comment">// 遍历替换即可</span></span></span><br><span class="line"><span class="javascript">  textNodes.forEach(<span class="function"><span class="params">textNode</span> =&gt;</span> &#123;</span></span><br><span class="line"><span class="undefined">    textNode.textContent = compileText(data, textNode.textContent);</span></span><br><span class="line"><span class="undefined">  &#125;);</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>但是遍历的时候，频繁操作 dom 了，这是大忌啊。想办法换 fragment 试试。</p>
+<h2 id="fragment"><a href="#fragment" class="headerlink" title="fragment"></a>fragment</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span>&gt;</span></span><br><span class="line">      左双大括号msg右双大括号</span><br><span class="line">      <span class="tag">&lt;<span class="name">span</span>&gt;</span>左双大括号msg右双大括号<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">span</span>&gt;</span>211221<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">br</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">span</span>&gt;</span>211221 左双大括号msg右双大括号<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">      <span class="function"><span class="keyword">function</span> <span class="title">getValue</span>(<span class="params">data, expr</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="comment">// 先将每个key分隔开，放进数组里</span></span></span><br><span class="line"><span class="javascript">        <span class="keyword">let</span> arr = expr.split(<span class="string">"."</span>);</span></span><br><span class="line"><span class="javascript">        <span class="comment">// 下面就是reduce的使用了，写出init和fn，就基本ok了</span></span></span><br><span class="line"><span class="javascript">        <span class="keyword">let</span> init = data;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">let</span> fn = <span class="function">(<span class="params">acc, cur</span>) =&gt;</span> acc[cur];</span></span><br><span class="line"><span class="javascript">        <span class="keyword">let</span> value = arr.reduce(fn, init);</span></span><br><span class="line"><span class="javascript">        <span class="keyword">return</span> value;</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="javascript">      <span class="function"><span class="keyword">function</span> <span class="title">compileText</span>(<span class="params">data, text</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="comment">// 匹配正则</span></span></span><br><span class="line"><span class="javascript">        <span class="keyword">let</span> reg = <span class="regexp">/\&#123;\&#123;(.+)\&#125;\&#125;/</span>;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">let</span> newText = text.replace(reg, (...args) =&gt; &#123;</span></span><br><span class="line"><span class="javascript">          <span class="comment">// 拿到msg</span></span></span><br><span class="line"><span class="javascript">          <span class="keyword">let</span> expr = args[<span class="number">1</span>];</span></span><br><span class="line"><span class="javascript">          <span class="comment">// 就改了这里，就能支持多重key</span></span></span><br><span class="line"><span class="javascript">          <span class="keyword">let</span> value = getValue(data, expr);</span></span><br><span class="line"><span class="javascript">          <span class="keyword">return</span> value;</span></span><br><span class="line"><span class="undefined">        &#125;);</span></span><br><span class="line"><span class="javascript">        <span class="comment">// 返回替换完的新字符串</span></span></span><br><span class="line"><span class="javascript">        <span class="keyword">return</span> newText;</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript">      <span class="comment">// node</span></span></span><br><span class="line"><span class="javascript">      <span class="function"><span class="keyword">function</span> <span class="title">getTextNodes</span>(<span class="params">node</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">let</span> isElement = <span class="function"><span class="params">node</span> =&gt;</span> node.nodeType === <span class="number">1</span> || node.nodeType === <span class="number">11</span>;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">let</span> isText = <span class="function"><span class="params">node</span> =&gt;</span> node.nodeType === <span class="number">3</span>;</span></span><br><span class="line"><span class="javascript">        <span class="comment">// 不是元素节点直接返回空数组</span></span></span><br><span class="line"><span class="javascript">        <span class="keyword">if</span> (!isElement(node)) &#123;</span></span><br><span class="line"><span class="javascript">          <span class="keyword">return</span> [];</span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">let</span> textNodes = [];</span></span><br><span class="line"><span class="javascript">        <span class="comment">// 这里不能用 node.children 因为其 仅仅表示元素节点</span></span></span><br><span class="line"><span class="javascript">        <span class="keyword">let</span> children = [...node.childNodes];</span></span><br><span class="line"><span class="javascript">        children.forEach(<span class="function"><span class="params">child</span> =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">          <span class="comment">// 是文本节点 就push进结果里</span></span></span><br><span class="line"><span class="undefined">          isText(child) &amp;&amp; textNodes.push(child);</span></span><br><span class="line"><span class="javascript">          <span class="comment">// isText(child) &amp;&amp; (child.textContent = compileText(data, child.textContent));</span></span></span><br><span class="line"><span class="javascript">          <span class="comment">// 是元素的话，拿到子节点里面的文本节点，然后和现有的合并</span></span></span><br><span class="line"><span class="javascript">          <span class="keyword">if</span> (isElement(child)) &#123;</span></span><br><span class="line"><span class="undefined">            textNodes = [...textNodes, ...getTextNodes(child)];</span></span><br><span class="line"><span class="javascript">            <span class="comment">// getTextNodes(child,data)</span></span></span><br><span class="line"><span class="javascript">            <span class="comment">// textNodes = [...textNodes, ...];</span></span></span><br><span class="line"><span class="undefined">          &#125;</span></span><br><span class="line"><span class="undefined">        &#125;);</span></span><br><span class="line"><span class="javascript">        <span class="comment">// 返回拿到的所有文本节点</span></span></span><br><span class="line"><span class="javascript">        <span class="keyword">return</span> textNodes;</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="javascript">      <span class="function"><span class="keyword">function</span> <span class="title">moveInFragment</span>(<span class="params">node</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">let</span> fragment = <span class="built_in">document</span>.createDocumentFragment();</span></span><br><span class="line"><span class="javascript">        <span class="keyword">let</span> children = [...node.childNodes];</span></span><br><span class="line"><span class="javascript">        children.forEach(<span class="function"><span class="params">child</span> =&gt;</span> fragment.appendChild(child));</span></span><br><span class="line"><span class="javascript">        <span class="keyword">return</span> fragment;</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">      /*</span></span><br><span class="line"><span class="javascript">          <span class="comment">// 要循环这个元素 将里面的内容 换成我们的数据</span></span></span><br><span class="line"><span class="javascript">    <span class="keyword">let</span> node = <span class="built_in">document</span>.createDocumentFragment();</span></span><br><span class="line"><span class="javascript">    <span class="keyword">let</span> firstChild;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">while</span>(firstChild = el.firstChild)&#123; <span class="comment">// 每次拿到第一个元素就将这个元素放入到文档碎片中</span></span></span><br><span class="line"><span class="javascript">        node.appendChild(firstChild); <span class="comment">// appendChild 是具有移动的功能 </span></span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="javascript">    onst defaultRE = <span class="regexp">/\&#123;\&#123;((?:.|\r?\n)+?)\&#125;\&#125;/g</span></span></span><br><span class="line"><span class="javascript"><span class="keyword">export</span> <span class="keyword">const</span> util = &#123;</span></span><br><span class="line"><span class="javascript">    getValue(vm,expr)&#123; <span class="comment">// [msg]</span></span></span><br><span class="line"><span class="javascript">        <span class="keyword">let</span> keys = expr.split(<span class="string">'.'</span>);</span></span><br><span class="line"><span class="javascript">        <span class="keyword">return</span> keys.reduce(<span class="function">(<span class="params">memo,current</span>)=&gt;</span>&#123; <span class="comment">// reduce 他具备迭代的功能</span></span></span><br><span class="line"><span class="javascript">            memo = memo[current]; <span class="comment">//  vm.school.name</span></span></span><br><span class="line"><span class="javascript">            <span class="keyword">return</span> memo</span></span><br><span class="line"><span class="undefined">        &#125;,vm);</span></span><br><span class="line"><span class="undefined">    &#125;,</span></span><br><span class="line"><span class="javascript">    compilerText(node,vm)&#123; <span class="comment">// 编译文本 替换左双大括号school.name右双大括号</span></span></span><br><span class="line"><span class="javascript">        <span class="keyword">if</span>(!node.expr)&#123;</span></span><br><span class="line"><span class="javascript">            node.expr = node.textContent; <span class="comment">// 给节点增加了一个自定义属性 为了方便后续的更新操作</span></span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="javascript">        node.textContent = node.expr.replace(defaultRE,<span class="function"><span class="keyword">function</span> (<span class="params">...args</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">return</span> <span class="built_in">JSON</span>.stringify(util.getValue(vm,args[<span class="number">1</span>]))</span></span><br><span class="line"><span class="undefined">        &#125;);</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">&#125;</span></span><br><span class="line"><span class="javascript"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">compiler</span>(<span class="params">node,vm</span>)</span>&#123; <span class="comment">// node 就是文档碎片 </span></span></span><br><span class="line"><span class="javascript">    <span class="keyword">let</span> childNodes = node.childNodes; <span class="comment">// 只有第一层 只有儿子 没有孙子</span></span></span><br><span class="line"><span class="javascript">    <span class="comment">// 将类数组转化成数组</span></span></span><br><span class="line"><span class="javascript">    [...childNodes].forEach(<span class="function"><span class="params">child</span>=&gt;</span>&#123; <span class="comment">// 一种是元素 一种是文本 </span></span></span><br><span class="line"><span class="javascript">        <span class="keyword">if</span>(child.nodeType == <span class="number">1</span>)&#123; <span class="comment">//1 元素  3表示文本</span></span></span><br><span class="line"><span class="javascript">            compiler(child,vm); <span class="comment">// 编译当前元素的孩子节点</span></span></span><br><span class="line"><span class="javascript">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(child.nodeType == <span class="number">3</span>)&#123;</span></span><br><span class="line"><span class="undefined">            util.compilerText(child,vm);</span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="undefined">    &#125;);</span></span><br><span class="line"><span class="undefined">&#125;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">    */</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript">      <span class="function"><span class="keyword">function</span> <span class="title">compileNode</span>(<span class="params">node, data</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="comment">// 先把node里所有阶段移进fragment</span></span></span><br><span class="line"><span class="javascript">        <span class="keyword">let</span> fragment = moveInFragment(node);</span></span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.dir(fragment);</span></span><br><span class="line"><span class="javascript">        <span class="comment">// 操作fragment,文本编译</span></span></span><br><span class="line"><span class="javascript">        <span class="keyword">let</span> textNodes = getTextNodes(fragment);</span></span><br><span class="line"><span class="javascript">        textNodes.forEach(<span class="function"><span class="params">textNode</span> =&gt;</span> &#123;</span></span><br><span class="line"><span class="undefined">          textNode.textContent = compileText(data, textNode.textContent);</span></span><br><span class="line"><span class="undefined">        &#125;);</span></span><br><span class="line"><span class="javascript">        <span class="comment">// 替换完之后在重新填充到node里</span></span></span><br><span class="line"><span class="undefined">        node.appendChild(fragment);</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript">      <span class="keyword">let</span> data = &#123; <span class="attr">msg</span>: <span class="string">"hello"</span> &#125;;</span></span><br><span class="line"><span class="javascript">      compileNode(<span class="built_in">document</span>.querySelector(<span class="string">"#app"</span>), data);</span></span><br><span class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>&lt;–!&gt;</p>
+-->
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/27/radix/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2013,166 +2216,6 @@ ssr将component变成字符串
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/11/download/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2020/06/11/download/" itemprop="url">
-                  前端下载文件常用的方式
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-06-11T19:12:32+08:00">
-                2020-06-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2020/06/11/download/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/06/11/download/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><a href="https://juejin.im/post/5e50fa23518825494b3cccd7" target="_blank" rel="noopener">前端下载文件的5种方法的对比(附加获取文件名)</a>，此文全而且实用  </p>
-<p>此篇算是对此文的读后总结。</p>
-<ol>
-<li>同源，下载文件可以直接用a属性</li>
-<li>接口实现下载功能，访问接口就触发下载，接口主要设置的返回response的 contentType 为文件的MIME类型 （常规类型application/json）</li>
-<li>接口返回文件流，这时候用blob处理下，然后再利用a下载</li>
-</ol>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2020/06/11/download/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2222,7 +2265,7 @@ ssr将component变成字符串
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">206</span>
+                <span class="site-state-item-count">207</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
