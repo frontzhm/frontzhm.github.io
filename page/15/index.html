@@ -261,6 +261,234 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/28/set-node-server/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2019/03/28/set-node-server/" itemprop="url">
+                  服务器配置node环境和项目
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-28T13:38:29+08:00">
+                2019-03-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/server/" itemprop="url" rel="index">
+                    <span itemprop="name">server</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/03/28/set-node-server/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/03/28/set-node-server/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="配置node环境"><a href="#配置node环境" class="headerlink" title="配置node环境"></a>配置node环境</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> ssh登录服务器</span></span><br><span class="line">ssh m@124.4.5.4</span><br><span class="line">输入密码</span><br><span class="line">cd /home/zhm/software</span><br><span class="line"><span class="meta">#</span><span class="bash"> 下载  [wget命令是下载](http://www.cnblogs.com/peida/archive/2013/03/18/2965369.html)</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 不要这个源码 编译太费劲 wget https://nodejs.org/dist/v10.15.3/node-v10.15.3.tar.gz</span></span><br><span class="line">wget https://nodejs.org/dist/v10.15.3/node-v10.15.3-linux-x64.tar.xz</span><br><span class="line"><span class="meta">#</span><span class="bash"> 解压 node-v10.15.3.tar.gz被解压到当前目录，文件夹node-v10.15.3</span></span><br><span class="line">xz -d node-v10.15.3-linux-x64.tar.xz</span><br><span class="line"><span class="meta">#</span><span class="bash"> 再次解压</span></span><br><span class="line">tar -xvf node-v10.15.3-linux-x64.tar</span><br><span class="line"><span class="meta">#</span><span class="bash"> 拿到目录</span></span><br><span class="line">cd node-v10.15.3-linux-x64</span><br><span class="line"><span class="meta">#</span><span class="bash"> 这个路径等下要用，假设这个路径是AAA  其实可以看下 ls bin就可以看到 `npm node npx`这也是为什么能用命令的原因</span></span><br><span class="line">pwd</span><br><span class="line"><span class="meta">#</span><span class="bash"> npm node设置到全局 两种方式 </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 软链接</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 先获取PATH变量 会打印类似于 /usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin 一般会有/usr/local/bin，假设这个路径是BBB。</span></span></span><br><span class="line">echo $PATH</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 我们将node和npm链接到PATH下，这样就可以执行  其实就是建立软链接。</span></span></span><br><span class="line">ln -s AAA/bin/node BBB/node</span><br><span class="line">ln -s AAA/bin/npm BBB/npm</span><br><span class="line">ln -s AAA/bin/npx BBB/npx</span><br><span class="line"><span class="meta">#</span><span class="bash"> 永久设置（没试了）</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 首先在 root 目录下找到 .bash_profile 文件，编辑，vi ~/.bash_profile 找到 PATH=<span class="variable">$PATH</span>:<span class="variable">$HOME</span>/bin，在后面添加路径为：PATH=<span class="variable">$PATH</span>:<span class="variable">$HOME</span>/bin:/usr/<span class="built_in">local</span>/nodejs/bin保存修改，然后重载一下，<span class="built_in">source</span> ~/.bash_profile</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 在任意目录下</span></span><br><span class="line">npm -v</span><br><span class="line">node -v</span><br><span class="line">npx -v</span><br></pre></td></tr></table></figure>
+<h2 id="特别之处"><a href="#特别之处" class="headerlink" title="特别之处"></a>特别之处</h2><p>在Linux系统下，使用NodeJS监听80或443端口提供HTTP(S)服务时需要root权限。<br>有两种方式可以做到。</p>
+<p>一种方式是使用sudo命令运行NodeJS。例如通过以下命令运行的server.js中有权限使用80和443端口。一般推荐这种方式，可以保证仅为有需要的JS脚本提供root权限。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo node server.js</span><br></pre></td></tr></table></figure>
+<p>另一种方式是使用chmod +s命令让NodeJS总是以root权限运行，具体做法如下。因为这种方式让任何JS脚本都有了root权限，不太安全，因此在需要很考虑安全的系统下不推荐使用。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo chown root /usr/local/bin/node</span><br><span class="line">sudo chmod +s /usr/local/bin/node</span><br></pre></td></tr></table></figure>
+<h2 id="项目运行"><a href="#项目运行" class="headerlink" title="项目运行"></a>项目运行</h2><p>将项目放进来。 <code>nohup</code>加在一个命令的最前面，表示不挂断的运行命令。<code>&amp;</code>加载一个命令的最后面，表示这个命令放在后台执行。查看运行的命令，有两个命令可以来查看，ps 和 jobs。区别在于 jobs 只能查看当前终端后台执行的任务，换了终端就看不见了。而ps命令适用于查看瞬时进程的动态，可以看到别的终端的任务。杀掉程序 <code>kill pid号</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 让程序在后台运行</span></span><br><span class="line">nohup node app.js &amp;</span><br><span class="line"><span class="meta">#</span><span class="bash"> 看下任务号 node的那个</span></span><br><span class="line">ps</span><br><span class="line"><span class="meta">#</span><span class="bash"> 如果需要终止的话</span></span><br><span class="line">kill 21455</span><br></pre></td></tr></table></figure>
+<h2 id="公钥"><a href="#公钥" class="headerlink" title="公钥"></a>公钥</h2><p>检查有没有安装ssh：<code>ssh -v</code>，安装的命令<code>ssh-keygen -t rsa -C &quot;youremail@example.com&quot;</code>一路回车确定下就安装好了。生成在当前用户名下会有一个.sh文件。<br>检查有没有共钥： <code>ls -a ~/.ssh</code><br>生成公钥：<code>ssh-keygen</code>它先要求你确认保存公钥的位置（.ssh/id_rsa）,然后它会让你重复一个密码两次，如果不想在使用公钥的时候输入密码，可以留空。<br>打印公钥复制发给管理人员：<code>cat ~/.ssh/id_rsa.pub</code></p>
+<h2 id="安装git"><a href="#安装git" class="headerlink" title="安装git"></a>安装git</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install git</span><br></pre></td></tr></table></figure>
+<h2 id="远程编辑文件"><a href="#远程编辑文件" class="headerlink" title="远程编辑文件"></a>远程编辑文件</h2><p>vscode安装插件sftp；作者是liximomo。<br> .vscode 在该目录下新建一个sftp.json。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">"host"</span>: <span class="string">"服务器ip地址"</span>,</span><br><span class="line">    <span class="string">"port"</span>: <span class="number">22</span>,</span><br><span class="line">    <span class="string">"username"</span>: <span class="string">"登录名"</span>,</span><br><span class="line">    <span class="string">"password"</span>: <span class="string">"登录密码"</span>,</span><br><span class="line">    <span class="string">"protocol"</span>: <span class="string">"sftp"</span>,</span><br><span class="line">    <span class="string">"agent"</span>: <span class="string">""</span>,</span><br><span class="line">    <span class="string">"privateKeyPath"</span>: <span class="string">"存放在本地的已配置好的用于登录工作站的密钥文件（也可以是ppk文件"</span>,</span><br><span class="line">    <span class="string">"passphrase"</span>: <span class="string">""</span>,</span><br><span class="line">    <span class="string">"passive"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"interactiveAuth"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="string">"remotePath"</span>: <span class="string">"工作站上与本地工程同步的文件夹路径，需要和本地工程文件根目录同名，且在使用sftp上传文件之前要手动在工作站上mkdir生成这个根目录"</span>,</span><br><span class="line">    <span class="string">"uploadOnSave"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="string">"syncMode"</span>: <span class="string">"update"</span>,</span><br><span class="line">    <span class="string">"ignore"</span>: [</span><br><span class="line">        <span class="string">"**/.vscode/**"</span>,</span><br><span class="line">        <span class="string">"**/.git/**"</span>,</span><br><span class="line">        <span class="string">"**/.DS_Store"</span></span><br><span class="line">    ],</span><br><span class="line">    <span class="string">"watcher"</span>: &#123;</span><br><span class="line">        <span class="string">"files"</span>: <span class="string">"glob"</span>,</span><br><span class="line">        <span class="string">"autoUpload"</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="string">"autoDelete"</span>: <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="vim编辑器"><a href="#vim编辑器" class="headerlink" title="vim编辑器"></a>vim编辑器</h2><p>vim是从vi发展出来的一个文本编辑器。代码补完、编译及错误跳转等方便编程的功能特别丰富。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim xx.html</span><br></pre></td></tr></table></figure>
+<p>进入插入模式：</p>
+<p>i: 插入光标前一个字符</p>
+<p>I: 插入行首</p>
+<p>a: 插入光标后一个字符</p>
+<p>A: 插入行未</p>
+<p>o: 向下新开一行,插入行首</p>
+<p>O: 向上新开一行,插入行首<br>进入命令模式：</p>
+<p>ESC:从插入模式或末行模式进入命令模式</p>
+<p>移动光标：</p>
+<p>h: 左移 </p>
+<p>j: 下移 </p>
+<p>k: 上移 </p>
+<p>l: 右移</p>
+<p>M: 光标移动到中间行 </p>
+<p>L: 光标移动到屏幕最后一行行首 </p>
+<p>G: 移动到指定行,行号 -G</p>
+<p>w: 向后一次移动一个字 </p>
+<p>b: 向前一次移动一个字</p>
+<p>{: 按段移动,上移 </p>
+<p>}: 按段移动,下移</p>
+<p>Ctr-d: 向下翻半屏 </p>
+<p>Ctr-u: 向上翻半屏</p>
+<p>Ctr-f: 向下翻一屏 </p>
+<p>Ctr-b: 向上翻一屏</p>
+<p>gg: 光标移动文件开头 </p>
+<p>G: 光标移动到文件末尾<br>删除命令：</p>
+<p>x: 删除光标后一个字符,相当于 Del </p>
+<p>X: 删除光标前一个字符,相当于 Backspace</p>
+<p>dd: 删除光标所在行,n dd 删除指定的行数 D: 删除光标后本行所有内容,包含光标所在字符 </p>
+<p>d0: 删除光标前本行所有内容,不包含光标所在字符</p>
+<p>dw: 删除光标开始位置的字,包含光标所在字符<br>撤销命令</p>
+<p>u: 一步一步撤销 </p>
+<p>Ctr-r: 反撤销<br>重复命令：</p>
+<p>.: 重复上一次操作的命令<br>文本行移动：</p>
+<blockquote>
+<blockquote>
+<p>: 文本行右移 </p>
+</blockquote>
+</blockquote>
+<p>&lt;&lt;: 文本行左移<br>复制粘贴：</p>
+<p>yy: 复制当前行,n yy 复制 n 行 </p>
+<p>p: 在光标所在位置向下新开辟一行,粘贴<br>可视模式：</p>
+<p>v: 按字符移动,选中文本 </p>
+<p>V: 按行移动,选中文本可视模式可以配合 d, y, &gt;&gt;, &lt;&lt; 实现对文本块的删除,复制,左右移动<br>替换操作：</p>
+<p>r: 替换当前字符 </p>
+<p>R: 替换当前行光标后的字符<br>查找命令：</p>
+<p>/: str查找<br>n: 下一个<br>N：上一个<br>替换命令：</p>
+<p>把abc全部换成123</p>
+<p>末行模式下，将光标所在行的abc替换成123<br>:%s/abc/123/g</p>
+<p>末行模式下，将第一行至第10行之间的abc替换成123<br>:1, 10s/abc/123/g<br>vim里执行shell下命令：</p>
+<p>末行模式里输入！，后面跟命令</p>
+<blockquote>
+<p><a href="https://segmentfault.com/a/1190000014826120" target="_blank" rel="noopener">linux下安装node npm并配置</a><br><a href="https://www.jianshu.com/p/abbe619070d6" target="_blank" rel="noopener">源码包</a><br><a href="https://segmentfault.com/a/1190000011844958" target="_blank" rel="noopener">vscode的sftp插件</a></p>
+</blockquote>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/21/vdom/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1876,546 +2104,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/12/baby_breakfast_eg/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2018/10/12/baby_breakfast_eg/" itemprop="url">
-                  快手早餐的例子
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-12T09:46:45+08:00">
-                2018-10-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/baby/" itemprop="url" rel="index">
-                    <span itemprop="name">baby</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/10/12/baby_breakfast_eg/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/10/12/baby_breakfast_eg/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="快手早餐合集例子-8-8"><a href="#快手早餐合集例子-8-8" class="headerlink" title="快手早餐合集例子[8-8]"></a>快手早餐合集例子[8-8]</h1><h2 id="胡萝卜土豆香菇丝（提前泡发）"><a href="#胡萝卜土豆香菇丝（提前泡发）" class="headerlink" title="胡萝卜土豆香菇丝（提前泡发）"></a>胡萝卜土豆香菇丝（提前泡发）</h2><ol>
-<li>提前泡发干贝和香菇</li>
-<li>胡萝卜，土豆，刀豆切成丝，时间长就泡在水里<br>上面两步可以提前做，放入冰箱里</li>
-<li>泡好的香菇切成丝，干贝捏碎</li>
-<li>倒油，加上所有素材，炒一会，倒入香菇水闷会，然后放盐出锅</li>
-</ol>
-<h2 id="西蓝花胡萝卜"><a href="#西蓝花胡萝卜" class="headerlink" title="西蓝花胡萝卜"></a>西蓝花胡萝卜</h2><ol>
-<li>西蓝花切小朵，胡萝卜切小块，锅里煮一会，颜色变深捞起来<br>上面可以做好，放冰箱</li>
-<li>放油，放素材，炒一会，加水焖一会，然后放盐出锅</li>
-</ol>
-<h2 id="鸡蛋牛奶饼（有点麻烦）"><a href="#鸡蛋牛奶饼（有点麻烦）" class="headerlink" title="鸡蛋牛奶饼（有点麻烦）"></a>鸡蛋牛奶饼（有点麻烦）</h2><p>1.磕个鸡蛋，蛋清蛋黄分开<br>2.蛋黄里加10g面粉，一点糖，一点油拌匀<br>上面的做好后，可以放进冰箱里，顺手准备好 煎锅 打蛋器</p>
-<ol start="3">
-<li>向蛋黄糊里加一点牛奶拌匀</li>
-<li>打发蛋白到提起来有小弯钩</li>
-<li>蛋黄糊倒到蛋清里搅拌</li>
-<li>煎锅，小火，面糊凝固后翻面继续，熟了就可以了</li>
-</ol>
-<h2 id="饭饼"><a href="#饭饼" class="headerlink" title="饭饼"></a>饭饼</h2><ol>
-<li>生菜 小白菜 口蘑(白色的小蘑菇)洗干净,放锅里煮熟</li>
-<li>捞出来切成菜碎，和饭拌匀<br>上面可以放入冰箱</li>
-<li>在上面的饭里，磕一个鸡蛋，加点香菇粉(今良)拌成糊状</li>
-<li>小火，倒入米饭糊，煎到两面发黄就可以了</li>
-</ol>
-<h2 id="燕麦糊"><a href="#燕麦糊" class="headerlink" title="燕麦糊"></a>燕麦糊</h2><ol>
-<li>燕麦片，水，红枣，少量杏仁，预约煮粥<br>上面可以提前约</li>
-<li>用料理棒打成糊</li>
-</ol>
-<h2 id="菠菜虾仁蛋饼（有点难度）"><a href="#菠菜虾仁蛋饼（有点难度）" class="headerlink" title="菠菜虾仁蛋饼（有点难度）"></a>菠菜虾仁蛋饼（有点难度）</h2><ol>
-<li>菠菜焯水2分钟，剥虾仁，</li>
-<li>菜和虾仁剁碎<br>上面可以放入冰箱</li>
-<li>磕一个鸡蛋，加点油，加点香菇粉拌匀</li>
-<li><p>倒入不粘锅晃动，摊开之后开小火，未凝固的时候放入菜和虾仁，<br>(如果凝固了再卷,蛋卷会散开),立刻卷起(锅里放油会让蛋皮硬点更容易卷起),用铲子一边卷那种,卷完之后推到中间,在上方轻按,按不出蛋液,表面变黄就熟了</p>
-</li>
-<li><p>蛋卷切块</p>
-</li>
-</ol>
-<h2 id="馒头片（）"><a href="#馒头片（）" class="headerlink" title="馒头片（）"></a>馒头片（）</h2><ol start="0">
-<li>冷冻馒头 蛋液</li>
-<li>冷冻馒头蒸熟后放着不用管了（九州丰园儿童馒头 12元）<!-- 做好可以放冰箱 --></li>
-<li>馒头切片，鸡蛋打散，馒头两面沾了蛋液之后放进不粘锅，多翻几次</li>
-</ol>
-<p>例子1:  </p>
-<pre><code>1. 前一晚大米燕麦葡萄干洗干净,加入煮粥的水,电炖盅预约煮粥  
-1. 胡萝卜土豆去皮擦成丝 刀豆切成细丝 都泡在水里  
-1. 干贝 干香菇泡水
-1. 然后这两份放进冰箱冷藏
-
-早上起来   
-1. 蒸锅开火 鹌鹑蛋洗干净放入蒸锅
-1. 打开炖盅 让粥凉一下
-1. 泡好的香菇切成丝 干贝捏碎
-1. 锅里倒油,胡萝卜 土豆 干贝 香菇 刀豆 放进锅里翻炒,加入泡香菇的水焖一会
-1. 焖一会的功夫里,把宝宝餐盘拿出来 盛点粥 搞点水果 剥鹌鹑蛋
-1. 再去炒锅那,(小宝宝的不放盐,单独盛出来)放点盐炒匀
-1. 配图 
-</code></pre><p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/breakfast_make1.png" alt="breakfast_make1"></p>
-<p>例子2:  </p>
-<pre><code>1. 晚上煮一小锅水
-1. 西蓝花洗干净切小朵 胡萝卜切小块,
-1. 放进锅里煮一会
-1. 玉米洗干净放入炖盅(不加水),预约煮饭程序
-1. 西蓝花,胡萝卜变深色之后捞出来
-1. 鸡蛋分开蛋清和蛋黄,蛋黄加10g面粉,加少量木糖醇,一点油,搅拌匀
-1. 将上面西蓝花,胡萝卜 蛋清 混合蛋黄 装3个碗保鲜膜冷藏在冰箱
-1. 准备好煎锅 炒锅 打蛋器就去睡觉啦
-</code></pre><p>早上起来:  </p>
-<pre><code>1. 开一袋纯牛奶,蛋黄糊里加点牛奶拌匀
-1. 打发蛋清(电动打蛋器)到提起来有小弯钩,而且变成白色(记得蛋清的碗大一点不然蛋清要飞)
-1. 蛋黄糊倒入蛋清里翻拌,倒入煎锅小火
-1. 西蓝花胡萝卜倒入炒锅翻炒,加水焖一会
-1. 玉米拿出来凉一下 准备点水果 
-1. 面糊凝固之后翻面,继续
-1. 牛奶微波炉热下
-1. 西蓝花和胡萝卜加少量盐拌匀(小宝宝的不加盐)
-1. 饼切块装盘
-1. 准备好啦!!
-</code></pre><p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/breakfast_make2.png" alt="breakfast_make2"></p>
-<p>例子3:  </p>
-<pre><code>1. 晚上剩了些杂粮饭
-1. 煮一小锅水,生菜 小白菜 口蘑(白色的小蘑菇)洗干净,放锅里煮熟
-1. 红枣洗干净,去掉核
-1. 炖盅里加燕麦片和水,放入红枣和少量坚果(比如杏仁),预约煮粥
-1. 菜应该熟了捞出来,用厨房切菜器(20元)切成菜碎,然后和饭拌匀,保鲜膜包起来放冰箱
-1. 准备好丸子锅(30元)和料理棒,睡觉
-
-早上啦:  
-
-1. 取出米饭打入一个鸡蛋
-1. 加少量香菇粉(今良香菇粉 30元),拌成糊状
-1. 丸子锅刷油,小火,倒入米饭糊,要满一点不然不圆
-1. 稍微凝固一点就可以翻动,开始丑,但是慢慢就变成圆形啦
-1. 表面发黄,能轻松转动就好了
-1. 燕麦糊用料理棒(手持料理棒 100元)打成糊,可以用硅胶软吸管(39元)
-1. 好啦!
-</code></pre><p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/breakfast_make3.png" alt="breakfast_make3"></p>
-<p>例子4:  </p>
-<pre><code>1. 煮一锅水,菠菜洗干净,焯水2分钟
-1. 剥出几个虾仁(其他熟肉也可以),然后和菜一起剁碎,包上保鲜膜送冰箱
-1. 红薯去皮切小块,炖盅加大米.水.红薯,预约煮粥
-1. 准备好不粘锅和炒锅,睡觉
-
-早上: 
-1. 白玉菇和韭菜黄洗干净切段(小宝宝的切更碎)
-1. 倒油,翻炒,韭黄香气浓郁的时候加少量水焖一会
-1. 鸡蛋打散加少量油,加少量香菇粉(今良香菇粉 33),拌匀,
-1. 倒入不粘锅晃动,均匀摊开后开小火,蛋液上层[未凝固时]均匀铺上菠菜虾仁(如果凝固了再卷,蛋卷会散开),立刻卷起(锅里放油会让蛋皮硬点更容易卷起),用铲子一边卷那种,卷完之后推到中间,在上方轻按,按不出蛋液,表面变黄就熟了
-1. 炒锅那边加少量盐拌匀(崽崽的不加),盛出来
-1. 蛋卷切块
-</code></pre><p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/egg_juan_make.png" alt="蛋卷制作"><br><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/breakfast_make4.png" alt="breakfast_make4"></p>
-<p>例子5:  </p>
-<pre><code>1. 晚上没弄啊...
-早上:
-1. 煮一锅水
-1. 开一袋纯牛奶
-1. 水开之后倒入即食燕麦片(丹蒂燕麦片 55元)
-1. 面粉加少量牛奶,加一半蛋液,搅拌成顺滑的面糊
-1. 不粘锅倒油,倒入面糊自然摊开
-1. 洋葱,白菜洗干净,切成小块(菜刀沾水切洋葱不会辣眼睛)
-1. 燕麦煮5分钟就可以拿下来了
-1. 换小炒锅,炒蔬菜,焖一会
-1. 燕麦倒入搅拌机,加入一段香蕉,倒入剩余牛奶,搅拌成糊(手持料理棒 100元)
-1. 小饼别忘记翻身,熟了就取出来切块
-1. 焖软的菜推到一边,倒入剩余一半蛋液,开大火,蛋液基本凝固时炒匀
-</code></pre><p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/breakfast_make5.png" alt="breakfast_make5"></p>
-<p>例子6:</p>
-<pre><code>1. 冷冻馒头蒸熟,放着不用管了(12元 九洲丰园儿童馒头)
-1. 一小块南瓜,洗干净,去皮,切小块
-1. 红枣洗净,用辅食剪去掉核,条状
-1. 大米加入水 南瓜 红枣,放炖盅,预约煮粥
-1. 准备好小汤锅 不粘锅 料理棒 ,睡觉
-早上
-1. 小汤锅烧一锅水
-1. 馒头切片在蛋液里浸泡
-1. 不粘锅倒油,小火,放入馒头片
-1. 菠菜切碎,放入小汤锅的开水里,焯2分钟
-1. 馒头片一面金黄之后翻面,把剩余的蛋液也倒进去
-1. 菠菜捞出来,放芝麻油和盐(宝宝的不放),拌花生酱(三添花生酱 14元)
-1. 取出粥放入料理棒,搅拌
-</code></pre><p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/breakfast_make6.png" alt="breakfast_make6"></p>
-<p>例子7： </p>
-<pre><code>1. 煮一锅水
-1. 洗净菜花，剪成花状
-1. 冷冻杂菜（10元 超市可购 里面各种胡萝卜丁 豌豆 土豆丁）放入水中，放入菜花，煮半熟
-1. 鸡脯切成小块，放入姜片和少量酒（都可不加），捞出杂菜和菜花，两个碗覆盖保鲜膜冷藏
-1. 大米和黑米洗净，预约煮粥
-1. 准备两个可以炒菜的锅子，睡觉
-
-早上：
-1. 番茄切成小块，锅里倒油放入番茄翻炒
-1. 拿走姜片，鸡肉冲洗干净，加入少量淀粉抓匀
-1. 番茄变软之后加入菜花，加少量水焖一会
-1. 鸡肉倒入另一个锅里翻炒，变色之后加入杂菜翻炒
-1. 盛粥，菜花，胸脯
-</code></pre><p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/breakfast_make7.png" alt="breakfast_make7">  </p>
-<p>例子8： </p>
-<pre><code>1. 大米淘洗干净，倒掉水，冷冻（冷冻不是冷藏）
-1. 干贝和干香菇泡水
-1. 鸡翅从冷冻室拿到冷藏室，准备汤锅，睡觉
-
-早上：
-1. 煮一锅水，备菜
-1. 洗干净济柴，什么都不加，直接蒸
-1. 香菇切成丝，干贝捏碎
-1. 准备好胡萝卜，平菇，菜花，西芹，油麦菜（可以自由搭配）
-1. 开水化开大米冰块，煮开后加入香菇干贝，再加入除了叶子菜外的配菜，中小火慢煮
-1. 鸡翅蒸十分钟左右，能轻松插穿即可
-1. 粥最后加入叶子菜，大火煮两分钟，尝尝米粒软烂没有
-1. 加入少量芝麻油盛出来，自带鲜咸，不用调味
-</code></pre><p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/breakfast_make8.png" alt="breakfast_make8">  </p>
-<p>例子9： </p>
-<pre><code>1. 牛奶热10秒微微温
-1. 加0.5g干酵母（1元 安琪酵母），充分搅拌溶解
-1. 分离鸡蛋，蛋黄加入牛奶，加入面粉搅拌，成为顺滑的面糊
-1. 西葫芦，白菜，胡萝卜洗净，加入汤锅焯熟，取出来切成丁
-1. 以上冷藏
-1. 大米，燕麦，葡萄干洗净，加水预约煮粥
-1. 准备好四孔锅（多孔早餐锅 40元），睡了
-
-
-早上：
-1. 面糊加入果泥（鲁娃娃果汁泥 58元），搅拌均匀
-1. 四孔锅，倒入面糊，摊匀（占2孔），在第三个孔里倒入蛋清，未凝固的时候加入蔬菜丁，快凝固时加入海苔碎，然后翻面
-1. 注意面饼凝固时多翻面
-1. 粥盛出来，饼也是，蛋清小披萨也好了
-</code></pre><p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/breakfast_make9.png" alt="breakfast_make9"></p>
-<p>例子10： </p>
-<pre><code>1. 烧一锅水，年糕和胡萝卜擦成粗丝（年糕只能吃少量 多功能切菜器30元），白玉菇切细，剥点毛豆切碎（必须切碎）
-1. 先放毛豆煮，毛豆基本熟了再放胡萝卜和白玉菇焯一下，捞出来，冷藏
-1. 红薯切块放锅里不加水，预约煮饭程序
-1. 年糕泡在冷水里
-1. 准备不粘锅和料理棒睡觉
-
-
-
-早上：
-1. 白菜洗净切丝
-1. 锅里倒油，放入年糕，加入所有蔬菜翻炒，加点水焖一会
-1. 一个鸡蛋打散，在锅里推出一块空间，倒入蛋液，大火至鸡蛋凝固，炒匀
-1. 开一带牛奶，微波加热
-1. 红薯取出来，加入牛奶，搅拌成奶糊
-</code></pre><p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/breakfast_make10.png" alt="breakfast_make10"></p>
-<p>例子11： </p>
-<pre><code>1. 烧一锅水，白菜胡萝卜白玉菇洗净,切好
-1. 几个河虾去壳取肉
-1. 蔬菜焯熟,捞出来,和⤵虾子一起剁成碎末
-1. 菜肉碎 和 60g剩米饭冷藏
-1. 准备不粘锅，可以蒸的容器，玉米面
-
-
-
-
-
-
-早上：
-1. 米饭加入鸡蛋搅拌均匀，然后加入虾肉菜碎
-1. 加入少量银鱼粉调味（小宝宝可不加 南日小杂海银鱼 50元）
-1. 锅里倒油，倒入米饭糊，整理摊平
-1. 表面也基本凝固时翻面（别急着翻 容易碎）
-1. 容器加入玉米面，倒入牛奶（也可以用水），搅拌至没有大颗粒，上蒸锅，蒸一会之后把结块的地方拌开
-1. 米饭饼取出来切成想要的形状，装盘
-1. 玉米糊倒出来（如果太浓可以再加液体）
-1. 切水果
-</code></pre><p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/breakfast_make11.png" alt="breakfast_make11">  </p>
-<p>例子12： </p>
-<pre><code>1. 干木耳、干贝放入炖盅
-1. 切四片土豆也放入炖盅
-1. 大米糙米洗净加水放入另一个炖盅
-1. 两个小炖盅预约煮粥
-1. 准备不粘锅和研磨碗，睡觉
-
-
-
-早上：
-1. 捞出炖盅里的食材，用研磨碗磨烂，加入一个鸡蛋搅拌均匀
-1. 锅里倒油，放小火，倒入土豆泥（一小片 一小片摊开，像一个个饼）
-1. 粥盛出来，加一点芝麻粉和小麦胚芽（可以不加），放小水果
-1. 饼底面凝固的时候就可以翻面，多翻几次到表面微黄即可
-</code></pre><p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/breakfast_make12.png" alt="breakfast_make12"></p>
-<p>例子13： </p>
-<pre><code>1. 白菜切成适合宝宝吃的大小，冷藏
-1. 干贝泡水，冷藏
-1. 燕麦加水预约煮粥
-1. 准备好丸子锅（章鱼小丸子机 40元），炒菜锅，擦丝器
-1. 准备半个土豆和一个湿香菇
-
-
-
-
-
-早上：
-1. 土豆擦成细丝（不要提前擦丝泡水 多功能切菜器30元），然后切短一点
-1. 丸子锅刷油，放入浅浅一层土豆丝压紧，土豆丝饼勤翻身
-1. 鲜香菇切片（干香菇提前泡发）
-1. 白菜、干贝、香菇下油锅翻炒，加水焖一会，一个鸡蛋打散，放进锅里，稍微凝固后炒匀
-1. 各种装盘，然后放个小水果
-</code></pre><p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/breakfast_make13.png" alt="breakfast_make13"></p>
-<p>例子14： </p>
-<pre><code>1. 煮一锅水，白菜菠菜洗净，口蘑洗净切片（那种白色蘑菇）
-1. 蘑菇白菜菠菜放进锅里煮熟
-1. 大米放入炖盅洗净
-1. 胡萝卜切片，切碎之后放入炖盅，加几粒干贝，预约煮粥
-1. 煮熟的蔬菜加入拉拉神器（厨房切菜器 20元）切成菜碎，加保鲜膜冷藏
-1. 准备一个不粘锅 两个鸡蛋 睡觉
-
-
-早上：
-1. 鸡蛋打散
-1. 锅里刷油，蛋液倒入后摊开，冷藏的蔬菜铺在中间
-1. 边缘凝固、中间未凝固时开始卷起，有点像街边的卷饼，慢慢卷起来，卷完之后推到中间，多翻几次身，按压时不出蛋液就好了
-1. 洗水果（圆水果要切开），蛋卷取出切好，粥盛出来
-</code></pre><p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/breakfast_make14.png" alt="breakfast_make14"></p>
-<p>例子15： </p>
-<pre><code>1. 三文鱼放进冷藏室解冻
-1. 杂粮洗净（大米燕麦小米黑米等），放去核的红枣
-1. 另一个炖盅放玉米（不加水），预约煮粥
-1. 准备擦丝板（多功能切菜器 30元）和不粘锅，sleep
-
-
-
-早上：
-1. 三文鱼切成厚度一致的鱼片
-1. 锅里倒油（稍微多点），放入鱼片，小火
-1. 记得翻面，很容易熟
-1. 煎鱼的时候切好胡萝卜细丝，秋葵切片（横着切 有小花 好看），黄瓜切丝
-1. 鱼两面发黄就熟了，盛出来，锅里的油直接放入蔬菜翻炒
-1. 加少量水和盐，焖一会（宝宝不加盐）
-1. 各种装盘，玉米切小段
-</code></pre><p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/breakfast_make15.png" alt="breakfast_make15"></p>
-<p>例子16： </p>
-<pre><code>1. 调味牛排提前解冻（小宝宝可换成鸡胸肉）
-1. 意面泡水
-1. 准备好汤锅，不粘锅睡觉
-
-
-
-早上：
-1. 煮一锅水烧开，加入油和盐（小宝宝不加盐）
-1. 切几片土豆先煮，切点胡萝卜西蓝花，一起煮
-1. 泡好的意面放进去，一家人要整整齐齐
-1. 锅里刷油放入牛排，小火，两面变色后取出来切小，重新放进锅里煎熟
-1. 西蓝花煮熟捞出，牛排捞出
-1. 锅里倒入一些番茄酱（冠农番茄丁 8元），倒入煮好的意面，拌匀即可
-1. 胡萝卜土豆捞出来戳碎（小宝宝碾成泥），可以搞一个小团子装盘，再倒牛奶装盘
-</code></pre><p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/breakfast_make16.png" alt="breakfast_make16"></p>
-<p>例子17： </p>
-<pre><code>1. 杂粮洗净加水（黑米 燕麦 糙米），加入去核红枣
-1. 另一个炖盅放几片胡萝卜，不加水，预约煮粥
-1. 准备不粘锅，搅拌棒，鸡蛋面粉韭菜牛奶，睡觉
-
-
-
-早上：
-1. 面粉10g
-1. 加入牛奶搅拌成糊，放置一旁（水也可以）
-1. 韭菜洗净切碎，加入面糊里，炖盅的胡萝卜拿出来，放进面糊戳碎，加入鸡蛋搅拌成稀面糊
-1. 锅里倒油，倒入面糊摊开，小火，凝固后翻面，直至两面都熟
-1. 杂粮倒进搅拌棒（手持料理棒 200元），搅拌成糊，洗点水果，蛋饼切块
-</code></pre><p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/breakfast_make17.png" alt="breakfast_make17"></p>
-<p>例子18： </p>
-<pre><code>1. 玉米洗净切段放入炖盅，不加水
-1. 南瓜去皮去瓤放入炖盅，不加水
-1. 意面泡水
-1. 准备青菜、豆腐、口蘑、牛奶、猕猴桃、鸡蛋
-1. 一个汤锅，一个炒锅
-
-早上：
-1. 汤锅烧水，水烧开放意面煮，还有放豆腐
-1. 青菜洗净切碎，口蘑洗净切碎
-1. 锅里倒油，放入青菜口蘑翻炒，豆腐捞出来，放进来戳碎
-1. 鸡蛋分离出蛋黄，蛋黄打散倒入锅里，凝固后戳碎，加少许水焖一会
-1. 意面捞出来倒进锅里，加少量酱油调味（小宝宝不加）
-1. 取出南瓜捣成泥，加牛奶搅匀成汤状，玉米拿出来，猕猴桃切片
-</code></pre><p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/breakfast_make18.png" alt="breakfast_make18"></p>
-<p>例子19： </p>
-<pre><code>1. 半个土豆切滚刀块，放进水里泡着
-1. 冷冻鸡翅放入冷藏室解冻
-1. 燕麦葡萄干洗净加水，大炖盅,预约煮粥
-1. 准备炒锅，空气炸锅（没有的话全蒸）
-1. 鸡蛋放在煮蛋器上
-
-早上：
-1. 开启煮蛋器
-1. 青薯角鸡翅加油盐抓匀（小宝宝不加盐），放进空气炸锅200度10分钟
-1. 豆苗摘嫩的部分洗净，锅里倒油翻炒
-1. 炸锅10分钟到了之后全部翻面再来十分钟
-1. 菜捞出来，粥盛出来，鸡蛋剥出蛋黄放进粥里，搅碎拌匀，再弄点水果
-1. 锅里挤点番茄酱（笑厨 2元），加少量糖和水炒匀（看娃口味，可以不加糖），
-</code></pre><p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/breakfast_make19.png" alt="breakfast_make19"></p>
-<p>例子20： </p>
-<pre><code>1. 冷冻馒头蒸熟后放着不用管了（九州丰园儿童馒头 12元）
-1. 干贝泡发
-1. 准备不粘锅 汤锅 白菜香菇胡萝卜鸡蛋
-
-早上：
-1. 白菜香菇胡萝卜洗净切碎
-1. 泡发的干贝捏碎
-1. 锅里倒油，放入胡萝卜香菇干贝翻炒，加一大碗水煮汤
-1. 馒头切片，鸡蛋打散，馒头两面沾了蛋液之后放进不粘锅，多翻几次
-1. 汤那边，都煮软之后加入白菜，剩余的蛋液淋在汤里，少量银鱼粉（银鱼粉 45元）调味
-1. 生粉加水调成芡水，倒进汤里，让汤稠厚
-</code></pre><p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/breakfast_make20.png" alt="breakfast_make20"></p>
-<p>例子21： </p>
-<pre><code>1. 15g面粉，少量少量加水至粘稠的糊状
-1. 一个鸡蛋分离蛋清蛋黄，蛋黄和面糊搅拌均匀
-1. 面糊和蛋清分开冷藏
-1. 准备土豆胡萝卜口蘑圣女果
-1. 四孔锅，汤锅，电动打蛋器，手持料理棒
-
-
-早上：
-1. 土豆胡萝卜口蘑切碎，丁状
-1. 汤锅放入小块黄油融化，放入蔬菜丁翻炒，加水煮汤
-1. 取出面糊，加入果泥（鲁娃娃果汁泥），搅拌拌匀后，用打蛋器打发至有小弯钩
-1. 面糊倒入蛋清中，上下翻拌均匀
-1. 四孔锅里刷油倒入面糊，底面凝固后翻面，多翻动至两面金黄，
-1. 煮开后放入圣女果，中火，煮到粘稠状用打蛋器打成糊，滤掉大颗粒即可
-1. 松饼熟后取出，再来点水果
-</code></pre><p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/breakfast_make21.png" alt="breakfast_make21"></p>
-<p>例子22： </p>
-<pre><code>1. 冷冻馒头蒸熟后放着不用管了（九州丰园儿童馒头 12元）
-1. 干贝泡发
-1. 准备不粘锅 汤锅 白菜香菇胡萝卜鸡蛋
-
-早上：
-1. 白菜香菇胡萝卜洗净切碎
-1. 泡发的干贝捏碎
-1. 锅里倒油，放入胡萝卜香菇干贝翻炒，加一大碗水煮汤
-1. 馒头切片，鸡蛋打散，馒头两面沾了蛋液之后放进不粘锅，多翻几次
-1. 汤那边，都煮软之后加入白菜，剩余的蛋液淋在汤里，少量银鱼粉（银鱼粉 45元）调味
-1. 生粉加水调成芡水，倒进汤里，让汤稠厚
-</code></pre><p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/breakfast_make22.png" alt="breakfast_make22"></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2465,7 +2153,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">212</span>
+                <span class="site-state-item-count">213</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
