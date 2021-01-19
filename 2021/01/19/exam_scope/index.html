@@ -95,7 +95,7 @@
 <meta property="og:site_name" content="花花的博客">
 <meta property="og:description" content="最近在看大神写的专栏，很精辟，笔者想通过总结的方式加深理解，不一定准确，只是笔者自己的想法，欢迎指正。 TL;DR 作用域：存储和访问变量的规则 作用域链：寻找变量形成的路 变量提升：console.log(a);var a，编译器先var a，之后才是 JS 引擎执行console.log(a) 暂时性死区：let 命令声明变量之前，该变量都是不可用的。上面的换成let就会报错。 执行上下文：常">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-01-19T04:22:33.819Z">
+<meta property="og:updated_time" content="2021-01-19T08:13:46.318Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="作用域相关的知识点：闭包、LHS&#x2F;RHS">
 <meta name="twitter:description" content="最近在看大神写的专栏，很精辟，笔者想通过总结的方式加深理解，不一定准确，只是笔者自己的想法，欢迎指正。 TL;DR 作用域：存储和访问变量的规则 作用域链：寻找变量形成的路 变量提升：console.log(a);var a，编译器先var a，之后才是 JS 引擎执行console.log(a) 暂时性死区：let 命令声明变量之前，该变量都是不可用的。上面的换成let就会报错。 执行上下文：常">
@@ -374,6 +374,8 @@
 <li>执行上下文：常常是函数调用的时候，JS 引擎先做一些执行前的准备工作。</li>
 <li>闭包：一个函数，使用了非自己作用域的变量。</li>
 <li>LHS/RHS：变量出现在赋值的左边，就是变量就进行了<code>LHS</code>，否则就是<code>RHS</code>(就是读取啦)</li>
+<li>词法作用域：作用域链沿着它定义的位置往外延伸</li>
+<li>欺骗词法作用域：eval和with</li>
 </ul>
 <h2 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h2><p>每一种编程语言，它最基本的能力都是能够<strong>存储</strong>变量当中的值、并且允许我们对这个变量的值进行<strong>访问</strong>和<strong>修改</strong>。</p>
 <p>那么有了变量之后，应该把它<strong>放在哪里</strong>、程序<strong>如何找到</strong>它们？</p>
@@ -419,7 +421,20 @@
 <p>其实没啥，最开始说的<strong>编辑器</strong>查找变量，如果查找的目的是对变量进行赋值， 那么就会使用 LHS 查询； 如果目的是获取变量的值， 就会使用 RHS 查询。赋值操作会导致 LHS 查询。</p>
 <p>快速速记法：L 就是 Left，R 就是 Read。（不过这两本身是 left hand side 和 right hand side。）</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// name出现在左边，进行赋值操作，就是对name进行了LHS</span></span><br><span class="line"><span class="keyword">var</span> name = <span class="number">2</span>;</span><br><span class="line"><span class="comment">// name被读取，就是对name进行了RHS</span></span><br><span class="line"><span class="built_in">console</span>.log(name);</span><br><span class="line"><span class="comment">// name仍然是被读取，就是对name进行了RHS</span></span><br><span class="line"><span class="comment">// newName出现在左边，进行赋值操作，就是对newName进行了LHS</span></span><br><span class="line"><span class="keyword">var</span> newName = name;</span><br></pre></td></tr></table></figure>
-<p>此文写的很细致了：<a href="https://www.cnblogs.com/slly/p/9225780.html" target="_blank" rel="noopener">LHS 和 RHS—-你所不知道的JavaScript系列（1）</a></p>
+<p>此文写的很细致了：<a href="https://www.cnblogs.com/slly/p/9225780.html" target="_blank" rel="noopener">LHS 和 RHS—-你所不知道的 JavaScript 系列（1）</a></p>
+<h2 id="词法作用域和动态作用域"><a href="#词法作用域和动态作用域" class="headerlink" title="词法作用域和动态作用域"></a>词法作用域和动态作用域</h2><p>词法作用域和动态作用域的区别其实在于划分作用域的时机：</p>
+<ul>
+<li>词法作用域： 在代码书写的时候完成划分，作用域链沿着它定义的位置往外延伸</li>
+<li>动态作用域： 在代码运行时完成划分，作用域链沿着它的调用栈往外延伸</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name = <span class="string">"yan"</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">showName</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(name);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">changeName</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> name = <span class="string">"BigBear"</span>;</span><br><span class="line">  showName();</span><br><span class="line">&#125;</span><br><span class="line">changeName();</span><br></pre></td></tr></table></figure>
+<p>js 遵循的是词法作用域，所以 showName 的外层作用域是全局作用域，会打印<code>yan</code><br>如果是动态作用域，那么 showName 的外层作用域就是 changeName 函数作用域了，会打印<code>BigBear</code></p>
+<h2 id="如何欺骗词法作用域"><a href="#如何欺骗词法作用域" class="headerlink" title="如何欺骗词法作用域"></a>如何欺骗词法作用域</h2><p>其实欺骗就是改变的意思，听起来又很玄学，主要就是下面的一句话。</p>
+<p><code>eval</code>和<code>with</code>可以修改词法作用域，但因为这种特性，所以尽可能不要用这两个语句。</p>
+<p>举个例子：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">showName</span>(<span class="params">str</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">eval</span>(str);</span><br><span class="line">  <span class="built_in">console</span>.log(name);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> name = <span class="string">"xiuyan"</span>;</span><br><span class="line"><span class="keyword">var</span> str = <span class="string">'var name = "BigBear"'</span>;</span><br><span class="line">showName(str); <span class="comment">// 输出 BigBear</span></span><br></pre></td></tr></table></figure>
+<p>eval 拿到一个字符串入参后，它会把这段字符串的内容当做一段 js 代码（不管它是不是一段 js 代码），插入自己被调用的那个位置。导致了 showName 作用域多了一个变量 name，这个是在运行时才创建的变量，所以欺骗了词法作用域。</p>
+<p>with 用法有类似的功能，不再赘述（笔者偷懒不想研究了）~</p>
 
       
     </div>
@@ -597,7 +612,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#TL-DR"><span class="nav-number">1.</span> <span class="nav-text">TL;DR</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#作用域"><span class="nav-number">2.</span> <span class="nav-text">作用域</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#作用域链"><span class="nav-number">3.</span> <span class="nav-text">作用域链</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#闭包"><span class="nav-number">4.</span> <span class="nav-text">闭包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#执行上下文"><span class="nav-number">5.</span> <span class="nav-text">执行上下文</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LHS-RHS"><span class="nav-number">6.</span> <span class="nav-text">LHS/RHS</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#TL-DR"><span class="nav-number">1.</span> <span class="nav-text">TL;DR</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#作用域"><span class="nav-number">2.</span> <span class="nav-text">作用域</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#作用域链"><span class="nav-number">3.</span> <span class="nav-text">作用域链</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#闭包"><span class="nav-number">4.</span> <span class="nav-text">闭包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#执行上下文"><span class="nav-number">5.</span> <span class="nav-text">执行上下文</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LHS-RHS"><span class="nav-number">6.</span> <span class="nav-text">LHS/RHS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#词法作用域和动态作用域"><span class="nav-number">7.</span> <span class="nav-text">词法作用域和动态作用域</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何欺骗词法作用域"><span class="nav-number">8.</span> <span class="nav-text">如何欺骗词法作用域</span></a></li></ol></div>
             
 
           </div>
