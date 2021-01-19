@@ -261,6 +261,237 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/19/exam_memory/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2021/01/19/exam_memory/" itemprop="url">
+                  内存相关的知识点：
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-19T19:30:43+08:00">
+                2021-01-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/01/19/exam_memory/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2021/01/19/exam_memory/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>最近在看大神写的专栏，很精辟，笔者想通过总结的方式加深理解，不一定准确，只是笔者自己的想法，欢迎指正。</p>
+<h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
+<li>JS 的内存管理生命周期：分配、读写、释放</li>
+<li>垃圾回收机制的算法：引用计数法、标记清除法</li>
+<li>内存泄漏成因：闭包引起的共享父作用域、变量没声明、未清除定时器、删除不要的dom</li>
+</ul>
+<h2 id="JS-内存生命周期"><a href="#JS-内存生命周期" class="headerlink" title="JS 内存生命周期"></a>JS 内存生命周期</h2><p>内存管理又是是每一种编程语言都会具备的一种基本能力。</p>
+<p>但有些语言暴露内存管理的方法，如 c，有些语言不暴露，如<strong>JS</strong>。</p>
+<p>所以，不暴露，就不容易看见和知道了。。。</p>
+<p>JS 内存生命周期，三个：</p>
+<ul>
+<li>“挖坑”—— 在内存空间的沃土里，划出自己的地，此举称为 “分配内存”。</li>
+<li>“用坑”—— 往地里 “种菜” ：填入你需要存储的信息。此后你可以读取它，也可以更改它，此举称为 “内存的读与写” 操作。</li>
+<li>“还坑”—— 用坑一时爽，但作为好公民，咱用完这个地就得及时上交给村里。这个 “还回去” 的动作，就叫做内存的释放。</li>
+</ul>
+<p>但挖坑的时候，得看你种啥，从而选择不同的土壤。</p>
+<h2 id="1-分配内存"><a href="#1-分配内存" class="headerlink" title="1.分配内存"></a>1.分配内存</h2><p>内存分为两种：</p>
+<ul>
+<li>栈内存：线性表结构。适合存 基本类型：Sting、Number、Boolean、null、undefined、Symbol</li>
+<li>堆内存：树结构。适合存 引用类型：Object Array 等…</li>
+</ul>
+<h2 id="2-读写内存"><a href="#2-读写内存" class="headerlink" title="2.读写内存"></a>2.读写内存</h2><p>栈内存和堆内存的结构不一样，所以读写的方式也不一样。</p>
+<p>先看看以下是放在哪种内存里。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">let</span> b = <span class="string">"Hello World"</span>;</span><br><span class="line"><span class="keyword">let</span> c = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">let</span> d = &#123; <span class="attr">name</span>: <span class="string">"修言"</span> &#125;;</span><br><span class="line"><span class="keyword">let</span> e = [<span class="string">"修言"</span>, <span class="string">"小明"</span>, <span class="string">"bear"</span>];</span><br></pre></td></tr></table></figure>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5a10f7f04df24bd48e995e2d6b770585~tplv-k3u1fbpfcp-zoom-1.image" alt="memory1"></p>
+<p>在访问 a、b、c 三个变量时，过程非常简单：从栈中直接获取该变量的值。</p>
+<p>而在访问 d 和 e 时，则需要分两步走：</p>
+<ol>
+<li>从栈中获取变量对应对象的引用（即它在堆内存中的地址）</li>
+<li>拿着 1 中获取到的地址，再去堆内存空间查询，才能拿到我们想要的数据</li>
+</ol>
+<h2 id="3-释放内存"><a href="#3-释放内存" class="headerlink" title="3.释放内存"></a>3.释放内存</h2><p>JS 没有管理内存的方法，所以 JS 隔一段时间就巡查一次。<br>当<strong>判断</strong>一个变量不再被需要之后，就会把个变量所占用的内存空间给释放掉。</p>
+<p>垃圾回收： 巡查 =&gt; 判断 =&gt; 释放 的过程<br>垃圾回收的算法：怎么判断变量不再被需要</p>
+<p>两种判断的法子：</p>
+<ul>
+<li>引用计数法（已被淘汰）</li>
+<li>标记清除法（正使用的）</li>
+</ul>
+<h2 id="引用计数法"><a href="#引用计数法" class="headerlink" title="引用计数法"></a>引用计数法</h2><p>“引用” 这个概念，其实可以认为它描述的是变量所处那块内存的内存地址。</p>
+<p>用一个变量指向了一个值，那么就创建了一个针对这个值的 “引用”：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 内存中数组这个值有一个引用，就是student这个变量</span></span><br><span class="line"><span class="keyword">let</span> students = [<span class="string">"修言"</span>, <span class="string">"小明"</span>, <span class="string">"bear"</span>];</span><br></pre></td></tr></table></figure>
+<p>在引用计数法的机制下，内存中的每一个值都会对应一个引用计数。当垃圾收集器感知到某个值的引用计数<br>为 0 时，就判断它 “没用” 了，随即这块内存就会被释放。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 如果将students改成null，则上面数组的引用数就变成0了，就会被回收</span></span><br><span class="line">students = <span class="literal">null</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="引用计数法的缺陷"><a href="#引用计数法的缺陷" class="headerlink" title="引用计数法的缺陷"></a>引用计数法的缺陷</h4><p>看个例子：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">badCycle</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> cycleObj1 = &#123;&#125;;</span><br><span class="line">  <span class="keyword">var</span> cycleObj2 = &#123;&#125;;</span><br><span class="line">  cycleObj1.target = cycleObj2;</span><br><span class="line">  cycleObj2.target = cycleObj1;</span><br><span class="line">&#125;</span><br><span class="line">badCycle();</span><br></pre></td></tr></table></figure>
+<p>一般函数执行完，内部变量自动会被清除。<br>但是用引用计数法的话，cycleObj1 和 cycleObj2<strong>循环引用</strong>，其引用计数一直是 1，就不能被回收。</p>
+<p>所以，引用计数法的缺陷是：循环引用的变量，很容易不能被回收。</p>
+<h2 id="标记清除法"><a href="#标记清除法" class="headerlink" title="标记清除法"></a>标记清除法</h2><p>标记清除法分为两个阶段：</p>
+<ul>
+<li>标记阶段：垃圾收集器会先找到根对象，在浏览器里，根对象是 Window；在 Node 里，根对象是 Global。从 根对象出发，垃圾收集器会扫描所有可以通过根对象触及的变量，这些对象会被标记为 “可抵达”。</li>
+<li>清除阶段： 没有被标记为 “可抵达” 的变量，就会被认为是不需要的变量，这波变量会被清除</li>
+</ul>
+<p>“可抵达”：意味着可以被使用</p>
+<p>重新看循环引用的代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">badCycle</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> cycleObj1 = &#123;&#125;;</span><br><span class="line">  <span class="keyword">var</span> cycleObj2 = &#123;&#125;;</span><br><span class="line">  cycleObj1.target = cycleObj2;</span><br><span class="line">  cycleObj2.target = cycleObj1;</span><br><span class="line">&#125;</span><br><span class="line">badCycle();</span><br></pre></td></tr></table></figure>
+<p>badCycle 执行完毕后，从根对象 Window 出发，cycleObj1 和 cycleObj2 都会被识别为不可达的对象（不可被使用的对象），它们会按照 预期被清除掉。这样一来，循环引用的问题，就被标记清除干脆地解决掉了。</p>
+<h2 id="闭包和内存泄露"><a href="#闭包和内存泄露" class="headerlink" title="闭包和内存泄露"></a>闭包和内存泄露</h2><p>啥是内存泄露？</p>
+<blockquote>
+<p>该释放的变量（内存垃圾）没有被释放，仍然霸占着原有的内存不松手，导致内存占用不断攀高，带来性能恶化、 系统崩溃等一系列问题，这种现象就叫内存泄漏。</p>
+</blockquote>
+<p>先说一句，单纯由闭包导致的内存泄漏，极少极少（除非你的代码写得有问题）。</p>
+<p>先看一段经典的闭包造成内存泄露的代码（写的有问题哈，改进就不会了）。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> theThing = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">var</span> replaceThing = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> originalThing = theThing;</span><br><span class="line">  <span class="keyword">var</span> unused = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (originalThing)</span><br><span class="line">      <span class="comment">// 'originalThing'的引用</span></span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">"嘿嘿嘿"</span>);</span><br><span class="line">  &#125;;</span><br><span class="line">  theThing = &#123;</span><br><span class="line">    longStr: <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">1000000</span>).join(<span class="string">"*"</span>),</span><br><span class="line">    someMethod: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">"哈哈哈"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br><span class="line">setInterval(replaceThing, <span class="number">1000</span>);</span><br></pre></td></tr></table></figure>
+<p>在 V8 中，一旦不同的作用域位于同一个 父级作用域下，那么它们会共享这个父级作用域。</p>
+<p>在这段代码里， unused 是一个不会被使用的闭包，但和它共享同一个父级作用域的 someMethod，则是一个 “可抵达”的闭包。<br>unused 引用了 originalThing，这导致和它共享作用域的 someMethod 也 <strong>间接</strong>地引用了 originalThing。<br>结果就是 someMethod <strong>“被迫”</strong> 产生了对 originalThing 的持续引用，originalThing 虽然 没有任何意义和作用，却永远不会被回收。<br>不仅如此，originalThing 每次 setInterval 都会改变一次指向（指向最近 一次的 theThing 赋值结果），这导致无法被回收的无用 originalThing 越堆积越多，最终导致严重的内存泄漏。</p>
+<h2 id="内存泄露的原因"><a href="#内存泄露的原因" class="headerlink" title="内存泄露的原因"></a>内存泄露的原因</h2><ul>
+<li><p>被迫产生对父作用域变量的引用。上面的例子。<strong>避免方案</strong>：将某个闭包多裹一层，从而不共享父作用域</p>
+</li>
+<li><p>在函数里，没有声明而直接赋值的变量。<strong>避免方案</strong>：变量必须声明</p>
+</li>
+</ul>
+<p>本身想在函数内部用，用完就回收，但是因为变成了全局变量，则不会被回收</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  me = <span class="string">"yan"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>忘记清除的 setInterval 和 setTimeout。<strong>避免方案</strong>：必须清定时器</li>
+</ul>
+<p>在 轮询调用setInterval 和链式调用的 setTimeout 这两种场景下，定时器的工作可以说都是无穷无尽的。<br>当定时器囊括的函数逻辑不再被需要、而我们又忘记手动清除定时器时，它们就会永远保持对内存的占用。</p>
+<ul>
+<li>清除不当的 DOM。<strong>避免方案</strong>：手动置为null。</li>
+</ul>
+<p>虽然删除了节点，但myDiv 这个变量对 这个 DOM 的引用仍然存在，它仍然是一块 “可抵达” 的内存。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> myDiv = <span class="built_in">document</span>.getElementById(<span class="string">'myDiv'</span>)</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleMyDiv</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="comment">// 一些与myDiv相关的逻辑</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 使用myDiv</span></span><br><span class="line">handleMyDiv()</span><br><span class="line"><span class="comment">// 尝试”删除“ myDiv</span></span><br><span class="line"><span class="built_in">document</span>.body.removeChild(<span class="built_in">document</span>.getElementById(<span class="string">'myDiv'</span>));</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/19/exam_scope/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2174,179 +2405,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/09/animation_2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2020/12/09/animation_2/" itemprop="url">
-                  写个简单css动画，transition 和animate
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-12-09T16:32:25+08:00">
-                2020-12-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/css/" itemprop="url" rel="index">
-                    <span itemprop="name">css</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2020/12/09/animation_2/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/12/09/animation_2/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>先写个普通的不动的球</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.ball</span>&#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">100px</span>;</span><br><span class="line">  <span class="attribute">border-radius</span>: <span class="number">100px</span>;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#f69</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>然后加上一个神奇的属性<code>transform</code>，可以让小球偏移原来的位置（transform有很多玩法，这里展示移动）</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.ball</span>&#123;</span><br><span class="line">  <span class="comment">/* ...  */</span></span><br><span class="line">  <span class="attribute">transform</span>: <span class="built_in">translate</span>(200px,0);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="transition：动作触发，一次性动画"><a href="#transition：动作触发，一次性动画" class="headerlink" title="transition：动作触发，一次性动画"></a>transition：动作触发，一次性动画</h2><p>让其动起来</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.ball</span>&#123;</span><br><span class="line">  <span class="comment">/* ...  */</span></span><br><span class="line">  <span class="attribute">transform</span>: <span class="built_in">translate</span>(200px,0);</span><br><span class="line">  <span class="attribute">transition</span>: <span class="number">1s</span> linear;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.ball</span><span class="selector-pseudo">:hover</span>&#123;</span><br><span class="line">  <span class="comment">/* ...  */</span></span><br><span class="line">  <span class="attribute">transform</span>: <span class="built_in">translate</span>(0,0);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>但<code>transition</code>的毛病就是，必须某种动作触发（hover active巴拉巴拉），然后一次性动画。</p>
-<p>需要复杂些的动画就需要animation</p>
-<h2 id="animation-随时触发，可控性很强"><a href="#animation-随时触发，可控性很强" class="headerlink" title="animation:随时触发，可控性很强"></a>animation:随时触发，可控性很强</h2><p>上面的换成animation：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.ball</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">100px</span>;</span><br><span class="line">  <span class="attribute">border-radius</span>: <span class="number">100px</span>;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#f69</span>;</span><br><span class="line">  <span class="attribute">animation</span>: move <span class="number">2s</span> linear;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@<span class="keyword">keyframes</span> move &#123;</span><br><span class="line">  0% &#123;</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">translate</span>(0, 0);</span><br><span class="line">  &#125;</span><br><span class="line">  100% &#123;</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">translate</span>(200px, 0);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/animate.gif" alt="animate"></p>
-<p>球一开始就运动，但是运动完之后，秒回动画前的位置，也就是很突然的感觉，想改变的话，两种方式：</p>
-<ul>
-<li>第一种常想到的方式：设置动画的100%处就是动画前的状态，这样结束时就和动画前的状态一致了。</li>
-</ul>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@<span class="keyword">keyframes</span> move &#123;</span><br><span class="line">  0%,100% &#123;</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">translate</span>(0, 0);</span><br><span class="line">  &#125;</span><br><span class="line">  50% &#123;</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">translate</span>(200px, 0);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>第二种：设置动画填充模式<code>forwards</code>，动画结束之后，就让小球在100%的状态</li>
-</ul>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* backwards是有延迟时让小球在动画开始前，在0%的状态。both是动画开始前和结束后一个0%,一个100%的状态 */</span></span><br><span class="line"><span class="selector-class">.box</span>&#123;<span class="attribute">animation</span>: move <span class="number">2s</span> linear forwards;&#125;</span><br></pre></td></tr></table></figure>
-<p><a href="https://juejin.cn/post/6844903845470945294" target="_blank" rel="noopener">大牛老姚的animation的8个属性的介绍，非常棒</a></p>
-<h2 id="无限播放：基本结合alternative"><a href="#无限播放：基本结合alternative" class="headerlink" title="无限播放：基本结合alternative"></a>无限播放：基本结合alternative</h2><p>实现一直在动的话</p>
-<p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/animate2.gif" alt="animate2"></p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.ball</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">100px</span>;</span><br><span class="line">  <span class="attribute">border-radius</span>: <span class="number">100px</span>;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#f69</span>;</span><br><span class="line">  <span class="comment">/* alternate很关键，正向和反向交替进行，先从0%-&gt;100%，然后100%-&gt;0%，这样才有一直动的效果 */</span></span><br><span class="line">  <span class="attribute">animation</span>: move <span class="number">2s</span> linear alternate infinite;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@<span class="keyword">keyframes</span> move &#123;</span><br><span class="line">  0% &#123;</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">translate</span>(0, 0);</span><br><span class="line">  &#125;</span><br><span class="line">  100% &#123;</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">translate</span>(200px, 0);</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2396,7 +2454,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">213</span>
+                <span class="site-state-item-count">214</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
