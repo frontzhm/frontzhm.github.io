@@ -261,6 +261,193 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/20/exam_prototype/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2021/01/20/exam_prototype/" itemprop="url">
+                  理解，原型/原型链/new
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-20T19:54:20+08:00">
+                2021-01-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/01/20/exam_prototype/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2021/01/20/exam_prototype/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>本文主要总结了大神的专栏，如果有不对之处，欢迎指正。</p>
+<p>原型（Prototype）模式是一种设计模式，同时更是一种编程范式（programming paradigm）</p>
+<h2 id="理解原型编程范式"><a href="#理解原型编程范式" class="headerlink" title="理解原型编程范式"></a>理解原型编程范式</h2><p>类是先抽象后具体，也就是必须先有类，之后才是实例，然后在关注具体层面的东西。比如 JAVA 中，类是它面向对象系统的根本。</p>
+<p>原型是先具体后抽象，将相似实例关联到一个原型对象，从而囊括较为通用的行为和属性。基于此原型，通过 “复制” 来创建新对象。</p>
+<p>JS 中，原型是面向对象系 统的根本。</p>
+<p>JS 中怎么实现复制的呢？</p>
+<p>JS 是通过使<strong>新对象</strong>保持对原型对象的<strong>引用</strong>来做到了 “复制”（就是新对象上面有 <strong>proto</strong>）。</p>
+<p>JS 不是有 Class 么？</p>
+<p>注意，JS 的 class 只是原型的语法糖：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dog</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(name, age) &#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name;</span><br><span class="line">    <span class="keyword">this</span>.age = age;</span><br><span class="line">  &#125;</span><br><span class="line">  eat() &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"肉骨头真好吃"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>等价于：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Dog</span>(<span class="params">name, age</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.name = name;</span><br><span class="line">  <span class="keyword">this</span>.age = age;</span><br><span class="line">&#125;</span><br><span class="line">Dog.prototype.eat = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"肉骨头真好吃"</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="理解原型与原型链"><a href="#理解原型与原型链" class="headerlink" title="理解原型与原型链"></a>理解原型与原型链</h2><p>原型编程范式的核心思想就是利用实例来描述对象，用<strong>实例</strong>作为定义对象和继承的基础。</p>
+<p>JS 里，原型编程范式的体现就是基于<strong>原型链</strong>的继承，每个新对象都<strong>保留</strong>了对原型对象的引用。</p>
+<ul>
+<li>每个构造函数都拥有一个 <code>prototype</code> 属性，它指向构造函数的原型对象，这个原型对象中有一个 <code>construtor</code> 属性指回构造函数</li>
+<li>每个实例都有一个<strong><strong>proto</strong></strong>属性，当我们使用构造函数去创建实例时，实例的<strong><strong>proto</strong></strong> 属性就会指向构造函数的原型对象。</li>
+</ul>
+<p>用例子来理解原型链：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建一个Dog构造函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Dog</span>(<span class="params">name, age</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.name = name;</span><br><span class="line">  <span class="keyword">this</span>.age = age;</span><br><span class="line">&#125;</span><br><span class="line">Dog.prototype.eat = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"肉骨头真好吃"</span>);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// 使用Dog构造函数创建dog实例</span></span><br><span class="line"><span class="comment">// 输出"肉骨头真好吃"</span></span><br><span class="line">dog.eat();</span><br><span class="line"><span class="comment">// 输出"[object Object]"</span></span><br><span class="line">dog.toString();</span><br></pre></td></tr></table></figure>
+<p>dog 实例里并没有 eat 方法和 toString 方法，它们还是被成功地调用了。</p>
+<p>因为当<strong>读取</strong>一个实例的属性/方法时，它首先搜索这个实例本身，若没找到，会向上去搜索实例的原型对象；<br>若还没找到，它就去搜索原型对象的原型对象，一直到<code>Object.prototype</code>为止，这个搜索的轨迹，就叫做 <strong>原型链</strong>。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">A</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.name = <span class="string">"a"</span>;</span><br><span class="line">  <span class="keyword">this</span>.color = [<span class="string">"green"</span>, <span class="string">"yellow"</span>];</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">B</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line">B.prototype = <span class="keyword">new</span> A();</span><br><span class="line"><span class="keyword">var</span> b1 = <span class="keyword">new</span> B();</span><br><span class="line"><span class="keyword">var</span> b2 = <span class="keyword">new</span> B();</span><br><span class="line"><span class="comment">// 此处是赋值，并不是读取，所以不会往上找</span></span><br><span class="line">b1.name = <span class="string">"change"</span>;</span><br><span class="line"><span class="comment">// b1.color是读取，如果b1上面没有，是会往上找的</span></span><br><span class="line">b1.color.push(<span class="string">"black"</span>);</span><br><span class="line"><span class="built_in">console</span>.log(b2.name); <span class="comment">// 'a'</span></span><br><span class="line"><span class="built_in">console</span>.log(b2.color); <span class="comment">// ["green", "yellow", "black"]</span></span><br></pre></td></tr></table></figure>
+<h2 id="new-做了啥"><a href="#new-做了啥" class="headerlink" title="new 做了啥"></a>new 做了啥</h2><p>实例大多是被 new 出来的。</p>
+<p>那么 new 到底做了什么呢？</p>
+<ul>
+<li>为这个新的对象开辟一块属于它的内存空间</li>
+<li>把函数体内的 this 指到 开辟的内存空间去</li>
+<li>将新对象的 <code>__proto__</code>这个属性指向对应构造函数的 <code>prototype</code>属性的<strong>引用</strong>，把实例和原型对象关联起来。注意这里是<strong>引用</strong>。</li>
+<li>执行函数体内的逻辑，有可能创建新对象的属性和方法</li>
+<li>最后即便你没有手动 return，构造函数也会帮你把创建的这个新对象 return 出来</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> A = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;;</span><br><span class="line">A.prototype.n = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> b = <span class="keyword">new</span> A();</span><br><span class="line">A.prototype = &#123;</span><br><span class="line">  n: <span class="number">2</span>,</span><br><span class="line">  m: <span class="number">3</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> c = <span class="keyword">new</span> A();</span><br><span class="line"><span class="built_in">console</span>.log(b.n);</span><br><span class="line"><span class="built_in">console</span>.log(b.m);</span><br><span class="line"><span class="built_in">console</span>.log(c.n);</span><br><span class="line"><span class="built_in">console</span>.log(c.m);</span><br></pre></td></tr></table></figure>
+<p>答案是<code>1 undefined 2 3</code>。</p>
+<p>注意，b 实例创建的时候，构造函数的 prototype 的<strong>引用</strong>是<code>{n:1,constructor:A}</code>，所以 b 实例的<strong>proto</strong>也是指向<code>{n:1,constructor:A}</code><br>之后进行<code>A.prototype ={...}</code>，切断了和旧 prototype 的关系，<br>而 b 却仍然保留着旧 prototype 的引用。这就是造 成 b 实例和 c 实例之间表现差异的原因。</p>
+<p>再看个例子</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">A</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">B</span>(<span class="params">a</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.a = a;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">C</span>(<span class="params">a</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (a) &#123;</span><br><span class="line">    <span class="keyword">this</span>.a = a;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">A.prototype.a = <span class="number">1</span>;</span><br><span class="line">B.prototype.a = <span class="number">1</span>;</span><br><span class="line">C.prototype.a = <span class="number">1</span>;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">new</span> A().a); <span class="comment">// 1</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">new</span> B().a); <span class="comment">// undefined</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">new</span> C(<span class="number">2</span>).a); <span class="comment">// 2</span></span><br></pre></td></tr></table></figure>
+<p>这里主要注意，new操作里，执行函数体的时候，实例会新增自己的属性和方法。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/20/exam_execute_context/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2228,241 +2415,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/30/form-component/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2020/12/30/form-component/" itemprop="url">
-                  让el-form更好用，通过配置的方式
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-12-30T16:33:36+08:00">
-                2020-12-30
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2020/12/30/form-component/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/12/30/form-component/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><code>element-ui</code>虽然有<a href="https://element.eleme.cn/#/zh-CN/component/form" target="_blank" rel="noopener"><code>el-form</code>组件</a>，但是仍然需要手动写<code>el-form-item</code>。</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/232d7ad7079a4f4bbb4ad8c90cd37ce3~tplv-k3u1fbpfcp-zoom-1.image" alt="e-el-form1"></p>
-<p>这里希望进一步抽离配置，在<code>el-form</code>的基础上封装个<code>enhanced-el-form</code>组件。</p>
-<p>使用的时候希望这样，不再需要手动写里面的<code>el-form-item</code>：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">enhanced-el-form</span> <span class="attr">:model</span>=<span class="string">"model"</span> <span class="attr">:schema</span>=<span class="string">"schema"</span> &gt;</span><span class="tag">&lt;/<span class="name">enhanced-el-form</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>这边借鉴<a href="https://didi.github.io/cube-ui/#/en-US/docs/form" target="_blank" rel="noopener">cube-ui的form属性</a></p>
-<ul>
-<li>model属性，表单数据对象，<code>{name:&#39;颜酱&#39;,age:18}</code></li>
-<li>schema属性，每个表单项的配置数组，如下</li>
-</ul>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/147d9d0483904ee3b65c85b59fe08702~tplv-k3u1fbpfcp-zoom-1.image" alt="e-el-form9"></p>
-<p>本文代码后期可能较复杂，需要的话，可以去看<a href="https://github.com/frontzhm/enhanced-el-form" target="_blank" rel="noopener">github代码</a></p>
-<p>当然文末也附上了，每个小节的具体代码，有需要也可以看看</p>
-<h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
-<li>就是写了个<code>enhanced-el-form</code>组件，充当原先的<code>el-form</code>组件</li>
-<li>唯一不一样的是，<code>rules</code>换成<code>schema</code>，其他属性、事件、方法同<code>el-form</code>组件</li>
-<li>哦，如果表单项不足以用<code>schema</code>描述的话，这边提供了<code>slot</code></li>
-<li>按钮部分也不需要用<code>schema</code>,这里提供<code>slot#footer</code></li>
-<li>想直接看<code>enhanced-el-form</code>组件怎么用的，包括复杂情况，直接跳到本文的<code>演示实例的优化</code></li>
-</ul>
-<h2 id="组件的概况"><a href="#组件的概况" class="headerlink" title="组件的概况"></a>组件的概况</h2><p>综上，<code>enhanced-el-form</code>组件的大概就出来了。</p>
-<p>注意，<code>rules</code>属性是<code>el-form</code>有的，这里通过<code>schema</code>得到</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6948364997c046c092b8453fba26c965~tplv-k3u1fbpfcp-zoom-1.image" alt="e-el-form2"></p>
-<h2 id="el-form-item的处理"><a href="#el-form-item的处理" class="headerlink" title="el-form-item的处理"></a>el-form-item的处理</h2><p>现在有一个很简单的表单，需要填写<code>姓名</code>和<code>年龄</code>。</p>
-<p><code>App.vue</code>里可以简单写下：</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b4c489c134ee40278021b9461440988a~tplv-k3u1fbpfcp-zoom-1.image" alt="e-el-form3"></p>
-<p>而<code>enhanced-el-form</code>内部，没有<code>schema</code>的情况下，长这样</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">el-form(:model=&quot;model&quot; :rules=&quot;rules&quot;)</span><br><span class="line">  el-form-item(label=&quot;姓名&quot; prop=&quot;name&quot;)</span><br><span class="line">    el-input(v-model=&quot;model.name&quot; maxlength=&quot;20&quot;)</span><br><span class="line">  el-form-item(label=&quot;年龄&quot; prop=&quot;age&quot;)</span><br><span class="line">    el-input(v-model=&quot;model.age&quot; maxlength=&quot;20&quot;)</span><br></pre></td></tr></table></figure>
-<p>当然，有了<code>schema</code>，直接就循环了</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">el-form(:model=&quot;model&quot; :rules=&quot;rules&quot;)</span><br><span class="line">  el-form-item(:label=&quot;config.label&quot; :prop=&quot;config.modelKey&quot; v-for=&quot;config in schema&quot; :key=&quot;config.modelKey&quot;)</span><br><span class="line">    el-input(v-model=&quot;model[config.modelKey]&quot; v-bind=&quot;config.props&quot;)</span><br></pre></td></tr></table></figure>
-<h2 id="匹配除了input之外的元素"><a href="#匹配除了input之外的元素" class="headerlink" title="匹配除了input之外的元素"></a>匹配除了input之外的元素</h2><p>表单组件当然不止<code>input</code>，查看<a href="https://element.eleme.cn/#/zh-CN/component/radio" target="_blank" rel="noopener">官网的侧边栏</a>发现有以下组件，其中需要配合子组件使用的放在末尾，其他的都可以单独使用。</p>
-<ul>
-<li>radio</li>
-<li>checkbox</li>
-<li>input</li>
-<li>input-number</li>
-<li>cascader</li>
-<li>switch</li>
-<li>slider</li>
-<li>time-select</li>
-<li>date-picker</li>
-<li>rate</li>
-<li>color-picker</li>
-<li>transfer</li>
-<li>radio-group，需要子组件</li>
-<li>checkbox-group，需要子组件</li>
-<li>select，需要子组件</li>
-<li>upload，需要子组件</li>
-</ul>
-<p><code>enhanced-el-form</code>内部，可以使用<code>component</code>匹配不同组件，需要子组件的，单独匹配。<br><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3864d7d3abe54f469cde692f94471daf~tplv-k3u1fbpfcp-zoom-1.image" alt="e-el-form5"></p>
-<blockquote>
-<p>注意：有选项的时候，<code>options</code>可以是<code>[&#39;上海&#39;,&#39;北京&#39;]</code>，也可以是<code>[{label:&#39;上海&#39;,value:&#39;shanghai&#39;},{label:&#39;北京&#39;,value:&#39;北京&#39;}]</code>。<br><code>option项</code>里没有设定<code>label</code>和<code>value</code>的时候，默认两者一致。</p>
-</blockquote>
-<h2 id="演示实例-添加表单项"><a href="#演示实例-添加表单项" class="headerlink" title="演示实例 - 添加表单项"></a>演示实例 - 添加表单项</h2><p>接下来，通过改写<code>schema</code>来显示表单。</p>
-<p>将最开始的<a href="https://element.eleme.cn/#/zh-CN/component/form#biao-dan-yan-zheng" target="_blank" rel="noopener">官方的例子</a>，用<code>schema</code>改写下：  </p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/83024fef84484d63bf4f52e9814d81fc~tplv-k3u1fbpfcp-zoom-1.image" alt="e-el-form6"></p>
-<blockquote>
-<p>注意：多选的时候，<code>model</code>里面的相应项的默认值必须是<code>数组</code></p>
-</blockquote>
-<p>这是大概效果，嗯，还差点，没关系，后面还有优化~</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f768fc51e0c54eaf9aed11acfb34c057~tplv-k3u1fbpfcp-zoom-1.image" alt="e-el-form7"></p>
-<h2 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h2><ul>
-<li><code>el-form</code>自身也有很多属性，这里通过简单的<code>v-bind=&quot;$attrs&quot;</code>，将<code>enhanced-el-from</code>上面的属性自动到<code>el-form</code>。  </li>
-<li>同理，<code>v-on=&quot;$listeners&quot;</code></li>
-<li><code>el-form</code>上面的方法，稍微麻烦点，通过手动赋值</li>
-<li>一般提交按钮不需要配置项，直接插入即可，这里增加<code>slot#footer</code></li>
-<li>同理，表单的开始有可能有别的描述，这里增加<code>slot#header</code></li>
-<li>部分表单项，需要定制，通过<code>slotName</code>属性，表示不参与内部循环，需要自己写逻辑</li>
-<li><code>date</code>系列的表单，可能需要多个组件拼接，一般有<code>children</code>，这种时候再需要自己定制的基础上，还需要处理<code>children</code>的<code>rules</code></li>
-</ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// el-form(ref="elForm" :model="model" :rules="rules" v-bind="$attrs" v-on="$listeners")</span></span><br><span class="line">  mounted() &#123;</span><br><span class="line">    <span class="keyword">const</span> methods = [ <span class="string">"validate"</span>, <span class="string">"validateField"</span>, <span class="string">"resetFields"</span>, <span class="string">"clearValidate"</span> ];</span><br><span class="line">    methods.forEach(<span class="function"><span class="params">method</span> =&gt;</span> (<span class="keyword">this</span>[method] = <span class="keyword">this</span>.$refs.elForm[method]));</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-<p>以上逻辑将在下面的部分展示全部代码。</p>
-<h2 id="演示实例的优化"><a href="#演示实例的优化" class="headerlink" title="演示实例的优化"></a>演示实例的优化</h2><p>实例的效果：</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/dfaaca6e0d004f56a7d831623685e809~tplv-k3u1fbpfcp-zoom-1.image" alt="e-el-form8"></p>
-<p>EnhancedElForm的代码如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">&lt;template lang=&quot;pug&quot;&gt;</span><br><span class="line">el-form(ref=&quot;elForm&quot; :model=&quot;model&quot; :rules=&quot;rules&quot; v-bind=&quot;$attrs&quot; v-on=&quot;$listeners&quot;)</span><br><span class="line">  slot(name=&quot;header&quot;)</span><br><span class="line">  </span><br><span class="line">  template(v-for=&quot;config in schema&quot; )</span><br><span class="line">    slot(v-if=&quot;config.slotName&quot; :name=&quot;config.slotName&quot; v-bind=&quot;config&quot;)</span><br><span class="line"> </span><br><span class="line">    el-form-item(v-else :label=&quot;config.label&quot; :prop=&quot;config.modelKey&quot; :key=&quot;config.modelKey&quot;)</span><br><span class="line">      el-radio-group(v-if=&quot;config.type===&apos;radio-group&apos;&quot;   v-model=&quot;model[config.modelKey]&quot; v-bind=&quot;config.props&quot;)</span><br><span class="line">        el-radio(v-for=&quot;(item,index) in config.props.options&quot; :key=&quot;index&quot; :label=&quot;typeof item===&apos;object&apos;?item.value:item&quot;) &#123;&#123; typeof item===&apos;object&apos;?item.label:item &#125;&#125;</span><br><span class="line">      el-checkbox-group(v-else-if=&quot;config.type===&apos;checkbox-group&apos;&quot;   v-model=&quot;model[config.modelKey]&quot; v-bind=&quot;config.props&quot;)</span><br><span class="line">        el-checkbox(v-for=&quot;(item,index) in config.props.options&quot; :key=&quot;index&quot; :label=&quot;typeof item===&apos;object&apos;?item.value:item&quot;) &#123;&#123; typeof item===&apos;object&apos;?item.label:item &#125;&#125;</span><br><span class="line">      el-select(v-else-if=&quot;config.type===&apos;select&apos;&quot;   v-model=&quot;model[config.modelKey]&quot; v-bind=&quot;config.props&quot;)</span><br><span class="line">        el-option(v-for=&quot;(item,index) in config.props.options&quot; :key=&quot;index&quot; :value=&quot;typeof item===&apos;object&apos;?item.value:item&quot; :label=&quot;typeof item===&apos;object&apos;?item.label:item&quot;)</span><br><span class="line"></span><br><span class="line">      component(v-else :is=&quot;&apos;el-&apos;+config.type&quot; v-model=&quot;model[config.modelKey]&quot; v-bind=&quot;config.props&quot;) &#123;&#123;config.text&#125;&#125;</span><br><span class="line"></span><br><span class="line">  slot(name=&quot;footer&quot;)</span><br><span class="line">&lt;/template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &quot;enhanced-el-form&quot;,</span><br><span class="line">  props: &#123;</span><br><span class="line">    model: &#123;</span><br><span class="line">      type: Object,</span><br><span class="line">      default() &#123;</span><br><span class="line">        return &#123;&#125;;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    schema: &#123;</span><br><span class="line">      type: Array,</span><br><span class="line">      default() &#123;</span><br><span class="line">        return &#123;&#125;;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  computed: &#123;</span><br><span class="line">    rules() &#123;</span><br><span class="line">      return this.schema.reduce((acc, cur) =&gt; &#123;</span><br><span class="line">        acc[cur.modelKey] = cur.rules;</span><br><span class="line">        // 日期组件可能有children</span><br><span class="line">        const hasChildren = cur.children &amp;&amp; cur.children.length;</span><br><span class="line">        hasChildren &amp;&amp;</span><br><span class="line">          cur.children.forEach(child =&gt; (acc[child.modelKey] = child.rules));</span><br><span class="line">        return acc;</span><br><span class="line">      &#125;, &#123;&#125;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  mounted() &#123;</span><br><span class="line">    // el-form上面的方法继承过来</span><br><span class="line">    const methods = [</span><br><span class="line">      &quot;validate&quot;,</span><br><span class="line">      &quot;validateField&quot;,</span><br><span class="line">      &quot;resetFields&quot;,</span><br><span class="line">      &quot;clearValidate&quot;</span><br><span class="line">    ];</span><br><span class="line">    methods.forEach(method =&gt; (this[method] = this.$refs.elForm[method]));</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-<p>App.vue的代码如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br></pre></td><td class="code"><pre><span class="line">&lt;template lang=&quot;pug&quot;&gt;</span><br><span class="line">div#app</span><br><span class="line">  enhanced-el-form(ref=&apos;ruleForm&apos; :model=&quot;model&quot; :schema=&quot;schema&quot;  label-width=&quot;100px&quot; @validate=&quot;validate&quot;)</span><br><span class="line">    template(#date=&quot;config&quot;)</span><br><span class="line">      el-form-item(:label=&quot;config.label&quot;)</span><br><span class="line">        el-col(:span=&quot;11&quot;)</span><br><span class="line">          el-form-item(:prop=&quot;config.children[0].modelKey&quot;)</span><br><span class="line">            el-date-picker(v-model=&quot;model[config.children[0].modelKey]&quot; v-bind=&quot;config.children[0].props&quot;)</span><br><span class="line">        el-col(:span=&quot;2&quot;) --</span><br><span class="line">        el-col(:span=&quot;11&quot;)</span><br><span class="line">          el-form-item(:prop=&quot;config.children[1].modelKey&quot;)</span><br><span class="line">            el-time-picker(v-model=&quot;model[config.children[1].modelKey]&quot; v-bind=&quot;config.children[1].props&quot;)</span><br><span class="line">    template(#footer)</span><br><span class="line">      el-form-item</span><br><span class="line">        el-button(type=&quot;primary&quot; @click=&quot;submitForm(&apos;ruleForm&apos;)&quot;) 立即创建</span><br><span class="line">        el-button(@click=&quot;resetForm(&apos;ruleForm&apos;)&quot;) 重置</span><br><span class="line">  div &#123;&#123;model&#125;&#125;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">import EnhancedElForm from &quot;./components/EnhancedElForm.vue&quot;;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &quot;App&quot;,</span><br><span class="line">  components: &#123; EnhancedElForm &#125;,</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      model: &#123; type: [] &#125;,</span><br><span class="line">      schema: [</span><br><span class="line">        &#123;</span><br><span class="line">          type: &quot;input&quot;,</span><br><span class="line">          modelKey: &quot;name&quot;,</span><br><span class="line">          label: &quot;活动名称&quot;,</span><br><span class="line">          rules: [</span><br><span class="line">            &#123; required: true, message: &quot;请输入活动名称&quot;, trigger: &quot;blur&quot; &#125;,</span><br><span class="line">            &#123; min: 3, max: 5, message: &quot;长度在 3 到 5 个字符&quot;, trigger: &quot;blur&quot; &#125;</span><br><span class="line">          ]</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          type: &quot;select&quot;,</span><br><span class="line">          modelKey: &quot;region&quot;,</span><br><span class="line">          label: &quot;活动区域&quot;,</span><br><span class="line">          props: &#123;</span><br><span class="line">            placeholder: &quot;请选择活动区域&quot;,</span><br><span class="line">            options: [</span><br><span class="line">              &#123; label: &quot;区域一&quot;, value: &quot;shanghai&quot; &#125;,</span><br><span class="line">              &#123; label: &quot;区域二&quot;, value: &quot;beijing&quot; &#125;</span><br><span class="line">            ]</span><br><span class="line">          &#125;,</span><br><span class="line">          rules: [</span><br><span class="line">            &#123; required: true, message: &quot;请选择活动区域&quot;, trigger: &quot;change&quot; &#125;</span><br><span class="line">          ]</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          slotName: &quot;date&quot;,</span><br><span class="line">          label: &quot;活动时间&quot;,</span><br><span class="line">          children: [</span><br><span class="line">            &#123;</span><br><span class="line">              modelKey: &quot;date1&quot;,</span><br><span class="line">              props: &#123;</span><br><span class="line">                type: &quot;date&quot;,</span><br><span class="line">                placeholder: &quot;选择日期&quot;,</span><br><span class="line">                style: &quot;width:100%&quot;</span><br><span class="line">              &#125;,</span><br><span class="line">              rules: [</span><br><span class="line">                &#123;</span><br><span class="line">                  type: &quot;date&quot;,</span><br><span class="line">                  required: true,</span><br><span class="line">                  message: &quot;请选择日期&quot;,</span><br><span class="line">                  trigger: &quot;change&quot;</span><br><span class="line">                &#125;</span><br><span class="line">              ]</span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">              modelKey: &quot;date2&quot;,</span><br><span class="line">              props: &#123;</span><br><span class="line">                placeholder: &quot;选择时间&quot;,</span><br><span class="line">                style: &quot;width:100%&quot;</span><br><span class="line">              &#125;,</span><br><span class="line">              rules: [</span><br><span class="line">                &#123;</span><br><span class="line">                  type: &quot;date&quot;,</span><br><span class="line">                  required: true,</span><br><span class="line">                  message: &quot;请选择时间&quot;,</span><br><span class="line">                  trigger: &quot;change&quot;</span><br><span class="line">                &#125;</span><br><span class="line">              ]</span><br><span class="line">            &#125;</span><br><span class="line">          ]</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          type: &quot;switch&quot;,</span><br><span class="line">          modelKey: &quot;delivery&quot;,</span><br><span class="line">          label: &quot;即时配送&quot;,</span><br><span class="line">          props: &#123;&#125;</span><br><span class="line">        &#125;,</span><br><span class="line"></span><br><span class="line">        &#123;</span><br><span class="line">          type: &quot;checkbox-group&quot;,</span><br><span class="line">          modelKey: &quot;type&quot;,</span><br><span class="line">          label: &quot;活动性质&quot;,</span><br><span class="line">          props: &#123;</span><br><span class="line">            options: [</span><br><span class="line">              &quot;美食/餐厅线上活动&quot;,</span><br><span class="line">              &quot;地推活动&quot;,</span><br><span class="line">              &quot;线下主题活动&quot;,</span><br><span class="line">              &quot;单纯品牌曝光&quot;</span><br><span class="line">            ]</span><br><span class="line">          &#125;,</span><br><span class="line">          rules: [</span><br><span class="line">            &#123;</span><br><span class="line">              type: &quot;array&quot;,</span><br><span class="line">              required: true,</span><br><span class="line">              message: &quot;请至少选择一个活动性质&quot;,</span><br><span class="line">              trigger: &quot;change&quot;</span><br><span class="line">            &#125;</span><br><span class="line">          ]</span><br><span class="line">        &#125;,</span><br><span class="line"></span><br><span class="line">        &#123;</span><br><span class="line">          type: &quot;radio-group&quot;,</span><br><span class="line">          modelKey: &quot;resource&quot;,</span><br><span class="line">          label: &quot;特殊资源&quot;,</span><br><span class="line">          props: &#123;</span><br><span class="line">            options: [</span><br><span class="line">              &#123; label: &quot;线上品牌商赞助&quot;, value: &quot;xianshang&quot; &#125;,</span><br><span class="line">              &#123; label: &quot;线下场地免费&quot;, value: &quot;xianxia&quot; &#125;</span><br><span class="line">            ]</span><br><span class="line">          &#125;,</span><br><span class="line">          rules: [</span><br><span class="line">            &#123; required: true, message: &quot;请选择活动资源&quot;, trigger: &quot;change&quot; &#125;</span><br><span class="line">          ]</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          type: &quot;input&quot;,</span><br><span class="line">          modelKey: &quot;desc&quot;,</span><br><span class="line">          label: &quot;活动形式&quot;,</span><br><span class="line">          props: &#123;</span><br><span class="line">            type: &quot;textarea&quot;</span><br><span class="line">          &#125;,</span><br><span class="line">          rules: [</span><br><span class="line">            &#123; required: true, message: &quot;请填写活动形式&quot;, trigger: &quot;blur&quot; &#125;</span><br><span class="line">          ]</span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    validate(...args) &#123;</span><br><span class="line">      console.log(...args);</span><br><span class="line">    &#125;,</span><br><span class="line">    submitForm(formName) &#123;</span><br><span class="line">      this.$refs[formName].validate(valid =&gt; &#123;</span><br><span class="line">        if (valid) &#123;</span><br><span class="line">          alert(&quot;submit!&quot;);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">          console.log(&quot;error submit!!&quot;);</span><br><span class="line">          return false;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;,</span><br><span class="line">    resetForm(formName) &#123;</span><br><span class="line">      this.$refs[formName].resetFields();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style&gt;</span><br><span class="line">#app &#123;</span><br><span class="line">  font-family: Avenir, Helvetica, Arial, sans-serif;</span><br><span class="line">  -webkit-font-smoothing: antialiased;</span><br><span class="line">  -moz-osx-font-smoothing: grayscale;</span><br><span class="line">  color: #2c3e50;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
-<h2 id="不足"><a href="#不足" class="headerlink" title="不足"></a>不足</h2><p>为了方便，这里的组件<code>EnhancedElForm</code>，直接修改了父组件的<code>model</code>。</p>
-<p>但这是违反规范的，回头有空再研究下，读者有思路也可以指导下~</p>
-<p>表单组件可能有少量遗漏，实际使用中如果发现<code>el-undefined</code>未注册之类的错误信息，可以自己匹配下</p>
-<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><h3 id="代码：组件概况"><a href="#代码：组件概况" class="headerlink" title="代码：组件概况"></a>代码：组件概况</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&lt;template lang=&quot;pug&quot;&gt;</span><br><span class="line">  el-form(:model=&quot;model&quot; :rules=&quot;rules&quot;)</span><br><span class="line">&lt;/template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &quot;enhanced-el-form&quot;,</span><br><span class="line">  props: &#123;</span><br><span class="line">    model: &#123;</span><br><span class="line">      type: Object, default() &#123; return &#123;&#125;; &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    schema: &#123;</span><br><span class="line">      type: Array, default() &#123; return &#123;&#125;; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  computed: &#123;</span><br><span class="line">    rules() &#123;</span><br><span class="line">      return this.schema.reduce((acc, cur) =&gt; &#123;</span><br><span class="line">        acc[cur.modelKey] = cur.rules;</span><br><span class="line">        return acc;</span><br><span class="line">      &#125;, &#123;&#125;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="代码：el-form-item的处理"><a href="#代码：el-form-item的处理" class="headerlink" title="代码：el-form-item的处理"></a>代码：el-form-item的处理</h3><p>App.vue</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;template lang=&quot;pug&quot;&gt;</span><br><span class="line">div#app</span><br><span class="line">  enhanced-el-form(:model=&quot;model&quot; :schema=&quot;schema&quot;)</span><br><span class="line">  div &#123;&#123;model&#125;&#125;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">import EnhancedElForm from &quot;./components/EnhancedElForm.vue&quot;;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &quot;App&quot;,</span><br><span class="line">  components: &#123; EnhancedElForm &#125;,</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      model: &#123; name: &quot;&quot;, age: &quot;&quot; &#125;,</span><br><span class="line">      schema: [</span><br><span class="line">        &#123;</span><br><span class="line">          type: &quot;input&quot;, modelKey: &quot;name&quot;, label: &quot;姓名&quot;,</span><br><span class="line">          props: &#123; maxlength: 20 &#125;,</span><br><span class="line">          rules: [&#123; required: true, message: &quot;请输入姓名&quot;, trigger: &quot;blur&quot; &#125;]</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          type: &quot;input&quot;, modelKey: &quot;age&quot;, label: &quot;年龄&quot;,</span><br><span class="line">          props: &#123; maxlength: 5 &#125;,</span><br><span class="line">          rules: [&#123; required: true, message: &quot;请输入年龄&quot;, trigger: &quot;blur&quot; &#125;]</span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style&gt;</span><br><span class="line">#app &#123;</span><br><span class="line">  font-family: Avenir, Helvetica, Arial, sans-serif;</span><br><span class="line">  -webkit-font-smoothing: antialiased;</span><br><span class="line">  -moz-osx-font-smoothing: grayscale;</span><br><span class="line">  color: #2c3e50;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="代码：除input之外的元素"><a href="#代码：除input之外的元素" class="headerlink" title="代码：除input之外的元素"></a>代码：除input之外的元素</h3><p>EnhancedElForm.vue</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">&lt;template lang=&quot;pug&quot;&gt;</span><br><span class="line">el-form(:model=&quot;model&quot; :rules=&quot;rules&quot;)</span><br><span class="line">  el-form-item(v-for=&quot;config in schema&quot; :label=&quot;config.label&quot; :prop=&quot;config.modelKey&quot; :key=&quot;config.modelKey&quot;)</span><br><span class="line">  </span><br><span class="line">    el-radio-group(v-if=&quot;config.type===&apos;radio-group&apos;&quot;   v-model=&quot;model[config.modelKey]&quot; v-bind=&quot;config.props&quot;)</span><br><span class="line">      el-radio(v-for=&quot;(item,index) in config.props.options&quot; :key=&quot;index&quot; :label=&quot;typeof item===&apos;object&apos;?item.value:item&quot;) &#123;&#123; typeof item===&apos;object&apos;?item.label:item &#125;&#125;</span><br><span class="line">      </span><br><span class="line">    el-checkbox-group(v-else-if=&quot;config.type===&apos;checkbox-group&apos;&quot;   v-model=&quot;model[config.modelKey]&quot; v-bind=&quot;config.props&quot;)</span><br><span class="line">      el-checkbox(v-for=&quot;(item,index) in config.props.options&quot; :key=&quot;index&quot; :label=&quot;typeof item===&apos;object&apos;?item.value:item&quot;) &#123;&#123; typeof item===&apos;object&apos;?item.label:item &#125;&#125;</span><br><span class="line">      </span><br><span class="line">    el-select(v-else-if=&quot;config.type===&apos;select&apos;&quot;   v-model=&quot;model[config.modelKey]&quot; v-bind=&quot;config.props&quot;)</span><br><span class="line">      el-option(v-for=&quot;(item,index) in config.props.options&quot; :key=&quot;index&quot; :value=&quot;typeof item===&apos;object&apos;?item.label:item&quot; :label=&quot;typeof item===&apos;object&apos;?item.value:item&quot;)</span><br><span class="line"></span><br><span class="line">    component(v-else :is=&quot;&apos;el-&apos;+config.type&quot; v-model=&quot;model[config.modelKey]&quot; v-bind=&quot;config.props&quot;) &#123;&#123;config.text&#125;&#125;</span><br><span class="line">    </span><br><span class="line">&lt;/template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &quot;enhanced-el-form&quot;,</span><br><span class="line">  props: &#123;</span><br><span class="line">    model: &#123;</span><br><span class="line">      type: Object,</span><br><span class="line">      default() &#123;</span><br><span class="line">        return &#123;&#125;;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    schema: &#123;</span><br><span class="line">      type: Array,</span><br><span class="line">      default() &#123;</span><br><span class="line">        return &#123;&#125;;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  computed: &#123;</span><br><span class="line">    rules() &#123;</span><br><span class="line">      return this.schema.reduce((acc, cur) =&gt; &#123;</span><br><span class="line">        acc[cur.modelKey] = cur.rules;</span><br><span class="line">        return acc;</span><br><span class="line">      &#125;, &#123;&#125;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2512,7 +2464,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">216</span>
+                <span class="site-state-item-count">217</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

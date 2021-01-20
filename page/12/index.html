@@ -261,6 +261,243 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/10/vuecli/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2019/09/10/vuecli/" itemprop="url">
+                  vuecli3创建项目，尤其推荐图形化界面
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-10T10:24:38+08:00">
+                2019-09-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/09/10/vuecli/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/09/10/vuecli/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/zoro.jpeg" alt="zoro"></p>
+<h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
+<li>安装cli3的命令行<code>npm install -g @vue/cli</code></li>
+<li>安装预览单个vue文件<code>npm install -g @vue/cli-service-global</code></li>
+<li>强烈推荐使用<code>vue ui</code><a href="https://juejin.im/post/5bdec6e8e51d4505327a8952#heading-24" target="_blank" rel="noopener">导入已有项目或新建项目</a>，安装插件，进行eslint规则配置等超级好用</li>
+<li><a href="http://obkoro1.com/web_accumulate/accumulate/tool/Eslint%E8%87%AA%E5%8A%A8%E4%BF%AE%E5%A4%8D%E6%A0%BC%E5%BC%8F%E9%94%99%E8%AF%AF.html#vscode%E4%BF%9D%E5%AD%98%E6%97%B6%E8%87%AA%E5%8A%A8%E4%BF%AE%E5%A4%8Deslint%E9%94%99%E8%AF%AF" target="_blank" rel="noopener">保存时自动统一代码风格，真的爽爆了</a></li>
+<li>个人生成项目的习惯参数，这里换成ui视图也是一样的</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">vue create hello-vue</span><br><span class="line"><span class="comment"># 选择这个</span></span><br><span class="line">&gt; Manually select feature</span><br><span class="line"><span class="comment"># 哎 惭愧 我还不会ts</span></span><br><span class="line"> ◉ Babel</span><br><span class="line"> ◯ TypeScript</span><br><span class="line"> ◯ Progressive Web App (PWA) Support</span><br><span class="line"> ◉ Router</span><br><span class="line"> ◉ Vuex</span><br><span class="line">❯◉ CSS Pre-processors</span><br><span class="line"> ◉ Linter / Formatter</span><br><span class="line"><span class="comment"># 不选择 history模式，这个因项目而已，我这边hash够用</span></span><br><span class="line">? Use <span class="built_in">history</span> mode <span class="keyword">for</span> router? (Requires proper server setup <span class="keyword">for</span> index fallback <span class="keyword">in</span> production) (Y/n) n</span><br><span class="line"><span class="comment"># dart的比较快，其他的随意</span></span><br><span class="line">❯ Sass/SCSS (with dart-sass)</span><br><span class="line"><span class="comment"># 加prettier，保存的时候，能自动格式化vue里的html和css，爽爆了，这里尽量不选错</span></span><br><span class="line">❯ ESLint + Prettier</span><br><span class="line"><span class="comment"># 保存就自动lint，commit会太多</span></span><br><span class="line">❯◉ Lint on save</span><br><span class="line"><span class="comment"># 分别生成配置文件，一目了然</span></span><br><span class="line">❯ In dedicated config files</span><br><span class="line"><span class="comment"># 保存配置</span></span><br><span class="line">Save this as a preset <span class="keyword">for</span> future projects? y</span><br></pre></td></tr></table></figure>
+<ul>
+<li>本人水平有限，仅供参考</li>
+</ul>
+<h2 id="安装cli3"><a href="#安装cli3" class="headerlink" title="安装cli3"></a>安装cli3</h2><ol>
+<li><code>node -v</code>      <ul>
+<li>若低于8.9.0，,需要<code>npm install -g n</code>和<code>n stable</code>更新node到最新的稳定版，mac下可能需要<code>sudo</code>  </li>
+<li>报错的话，说明没有安装node，<a href="http://nodejs.cn/download/" target="_blank" rel="noopener">下载一个node</a></li>
+</ul>
+</li>
+<li><code>vue --version</code>      <ul>
+<li>版本不是3的就执行 <code>npm uninstall vue-cli -g</code>  </li>
+<li>报错的话，直接安装cli3 <code>npm install -g @vue/cli</code>,再<code>vue --version</code>,检测下</li>
+</ul>
+</li>
+</ol>
+<h2 id="cli直接预览单个vue文件"><a href="#cli直接预览单个vue文件" class="headerlink" title="cli直接预览单个vue文件"></a>cli直接预览单个vue文件</h2><ol>
+<li><code>npm install -g @vue/cli-service-global</code></li>
+<li>去任意文件夹，建一个<code>App.vue</code>，当然文件夹里还可以有别的文件，这个文件只是启动文件</li>
+<li><code>vue serve App.vue</code> 文件夹里会生成Node_module,可以在浏览器访问页面</li>
+<li><code>vue build App.vue</code> 文件夹里会生成dist文件夹，可以用来部署</li>
+</ol>
+<p>用于开发一个库、组件，做一些小demo等都是非常适合的！</p>
+<h2 id="命令行创建新项目"><a href="#命令行创建新项目" class="headerlink" title="命令行创建新项目"></a>命令行创建新项目</h2><ol>
+<li><code>vue create hello-vue</code>，hello-vue是文件夹名字，如果不存在会自动创建文件夹，如果存在会安装到那个文件夹中。</li>
+<li>开始弹出选择模板，按上下键选择<ul>
+<li>default，默认配置，表示只有babel和eslint，选择这项之后，直接创建项目，一般不用这个</li>
+<li>Manually select feature，表示手动配置，一般选择这个</li>
+<li>手动设置完之后，如果保存配置，这里下次就会多个选项</li>
+<li><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/vuecli_1.png" alt="preset"></li>
+</ul>
+</li>
+<li><p>选择配置</p>
+<ul>
+<li><code>空格键</code>选中/反选，<code>按a键</code>全选/全不选，<code>按i键</code>反选已选择项， 上下键 上下移动选择。可以根据项目大小和功能体验配置不同的功能</li>
+<li>选中<code>router</code>的时候，注意！！！在问<code>Use history mode for router?</code>建议选择<code>n</code>，history的模式需要服务器的一些配合，如果后期要用再打开</li>
+<li>选中<code>css预处理器</code>，如果是sass，建议选择<code>Sass/SCSS (with dart-sass)</code></li>
+<li>选中<code>lint/formatter</code>（支持代码风格检查和格式化），个人偏好选择<code>eslint+prettier</code>，<a href="https://standardjs.com/readme-zhcn.html" target="_blank" rel="noopener">standard规范到底是啥</a>，<a href="https://airbnb.io/javascript/" target="_blank" rel="noopener">airbnb</a></li>
+<li><code>In dedicated config files</code>表示babel,postcss,eslint的配置都是独立的文件，一般选择这个</li>
+<li><code>Save this as a preset for future projects? (Y/n)</code> // 是否记录一下以便下次继续使用这套配置，需要的话输入配置的名字</li>
+<li><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/vuecli_2.png" alt="preset"></li>
+<li><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/vuecli_4.png" alt="preset"></li>
+</ul>
+</li>
+<li><p><code>npm run serve</code>打开浏览器看下</p>
+</li>
+</ol>
+<h2 id="强烈推荐，图形化新建、管理项目"><a href="#强烈推荐，图形化新建、管理项目" class="headerlink" title="强烈推荐，图形化新建、管理项目"></a>强烈推荐，图形化新建、管理项目</h2><p><a href="https://juejin.im/post/5bdec6e8e51d4505327a8952#heading-24" target="_blank" rel="noopener">这篇文章超棒了</a></p>
+<p>下面的可以不用看，没上面写的好，哈哈哈</p>
+<ol>
+<li><p><code>vue ui</code>在想要建项目的文件夹里运行此命令，然后就是小白式看看点点</p>
+<ul>
+<li><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/vuecli_5.png" alt="preset"></li>
+<li><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/vuecli_6.png" alt="preset"></li>
+<li><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/vuecli_7.png" alt="preset"></li>
+</ul>
+</li>
+<li><p>进入项目仪表盘</p>
+<ul>
+<li>设置快速启动项目 =&gt; 点击右上角的 自定义 =&gt; 选择 运行任务 =&gt; 选择 完成 =&gt; 点击 配置部件</li>
+<li><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/vuecli_dashboard.png" alt="preset"></li>
+<li><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/vuecli_dashboard2.png" alt="preset"></li>
+<li><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/vuecli_dashboard3.png" alt="preset"></li>
+<li>任务 =&gt; serve =&gt; 变量 =&gt; 可配置端口，环境变量，https开启等具体配置，其他任务也通过变量配置</li>
+<li><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/vuecli_8.png" alt="preset"></li>
+<li>配置那边，如设置部署路径，输出目录之类的，Eslint规则修改</li>
+<li><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/vuecli_9.png" alt="preset"></li>
+<li><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/vuecli_10.png" alt="preset"></li>
+<li>安装依赖的话，注意选择是开发还是运行依赖</li>
+<li><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/vuecli_11.png" alt="preset"></li>
+<li><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/vuecli_13.png" alt="preset"></li>
+<li>安装插件</li>
+<li><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/vuecli_12.png" alt="preset"></li>
+<li><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/vuecli_14.png" alt="重新回到项目管理"></li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p><a href="https://juejin.im/post/5ad862c95188252eb3237752" target="_blank" rel="noopener">vuecli</a><br><a href="https://juejin.im/post/5bdec6e8e51d4505327a8952" target="_blank" rel="noopener">超详细的vuecli</a></p>
+</blockquote>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/27/axios/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1843,148 +2080,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/26/vue-ball/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2019/06/26/vue-ball/" itemprop="url">
-                  未命名
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-26T10:14:33+08:00">
-                2019-06-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/06/26/vue-ball/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/06/26/vue-ball/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="vue-ball-scroll"><a href="#vue-ball-scroll" class="headerlink" title="vue-ball-scroll"></a>vue-ball-scroll</h2><p>必须按照vue-cli</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo npm install @vue/cli @vue/cli-service-global -g</span><br><span class="line">npm i pug-plain-loader pug -D</span><br></pre></td></tr></table></figure>
-<p>然后</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vue serve</span><br></pre></td></tr></table></figure>
-<p>可以<a href="https://github.com/frontzhm/vue-ball-scroll/commits/master" target="_blank" rel="noopener">看以往的版本</a></p>
-<h2 id="简单的动画"><a href="#简单的动画" class="headerlink" title="简单的动画"></a>简单的动画</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">    .ball&#123;</span></span><br><span class="line"><span class="undefined">        width: 100px;</span></span><br><span class="line"><span class="undefined">        height: 100px;</span></span><br><span class="line"><span class="undefined">        border-radius: 100px;</span></span><br><span class="line"><span class="undefined">        background-color: #f69;</span></span><br><span class="line"><span class="undefined">        transform: translate(20px);</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">    .ball:hover&#123;</span></span><br><span class="line"><span class="undefined">        transition: transform 1s;</span></span><br><span class="line"><span class="undefined">        transform: translate(200px);</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"ball"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h2 id="vue的时候，写style样式"><a href="#vue的时候，写style样式" class="headerlink" title="vue的时候，写style样式"></a>vue的时候，写style样式</h2><p>通过left的增加减少，控制移动动画</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// div( :style="ballStyle")</span></span><br><span class="line">data()&#123;<span class="keyword">return</span> &#123;<span class="attr">left</span>:<span class="number">0</span>&#125;&#125;</span><br><span class="line">computed:&#123;</span><br><span class="line">  ballStyle()&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">`transform:translate(<span class="subst">$&#123;<span class="keyword">this</span>.left&#125;</span>px)`</span></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-<h2 id="动画的重点代码"><a href="#动画的重点代码" class="headerlink" title="动画的重点代码"></a>动画的重点代码</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">animationFn</span>(<span class="params">el, initial, target</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> queueID;</span><br><span class="line">  <span class="keyword">var</span> accur = initial;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">_animation</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (accur &gt;= target) &#123;</span><br><span class="line">      cancelAnimationFrame(queueID);</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    accur++;</span><br><span class="line">    <span class="comment">// ！！！！！这里的属性必须写在行内样式里，这里写死了，注意</span></span><br><span class="line">    el.style.transform = <span class="string">`translate(<span class="subst">$&#123;accur&#125;</span>px)`</span>;</span><br><span class="line">    cancelAnimationFrame(queueID);</span><br><span class="line">    queueID = requestAnimationFrame(_animation);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 首次渲染</span></span><br><span class="line">  requestAnimationFrame(_animation);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="简单的小文件"><a href="#简单的小文件" class="headerlink" title="简单的小文件"></a>简单的小文件</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span> <span class="attr">lang</span>=<span class="string">"pug"</span>&gt;</span></span><br><span class="line">    //- npm i pug-plain-loader pug -D</span><br><span class="line">    div#app</span><br><span class="line">        div.ball(:style="ballStyle")</span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript"><span class="comment">// import HelloWorld from './components/HelloWorld.vue'</span></span></span><br><span class="line"><span class="javascript"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line"><span class="javascript">  name: <span class="string">'app'</span>,</span></span><br><span class="line"><span class="undefined">  components: &#123;</span></span><br><span class="line"><span class="javascript">    <span class="comment">// HelloWorld</span></span></span><br><span class="line"><span class="undefined">  &#125;,</span></span><br><span class="line"><span class="undefined">  data()&#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">return</span>&#123;</span></span><br><span class="line"><span class="undefined">      left:0,</span></span><br><span class="line"><span class="undefined">      target:200</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">  &#125;,</span></span><br><span class="line"><span class="undefined">  methods:&#123;</span></span><br><span class="line"><span class="undefined">  animationFn() &#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> queueID;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">const</span>  _animation = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">if</span> (<span class="keyword">this</span>.left &gt;= <span class="keyword">this</span>.target) &#123;</span></span><br><span class="line"><span class="undefined">        cancelAnimationFrame(queueID);</span></span><br><span class="line"><span class="javascript">        <span class="keyword">return</span>;</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">this</span>.left++;</span></span><br><span class="line"><span class="javascript">      <span class="comment">// ！！！！！这里的属性必须写在行内样式里，这里写死了，注意</span></span></span><br><span class="line"><span class="javascript">      <span class="comment">// computed自动计算</span></span></span><br><span class="line"><span class="undefined">      cancelAnimationFrame(queueID);</span></span><br><span class="line"><span class="undefined">      queueID = requestAnimationFrame(_animation);</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="javascript">    <span class="comment">// 首次渲染</span></span></span><br><span class="line"><span class="undefined">    requestAnimationFrame(_animation);</span></span><br><span class="line"><span class="undefined">&#125;</span></span><br><span class="line"><span class="undefined">  &#125;,</span></span><br><span class="line"><span class="undefined">  computed:&#123;</span></span><br><span class="line"><span class="undefined">    ballStyle()&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> <span class="string">`transform:translate(<span class="subst">$&#123;<span class="keyword">this</span>.left&#125;</span>px)`</span></span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">  &#125;,</span></span><br><span class="line"><span class="undefined">  mounted()&#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">this</span>.animationFn()</span></span><br><span class="line"><span class="undefined">  &#125;</span></span><br><span class="line"><span class="undefined">&#125;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">#app &#123;</span></span><br><span class="line"><span class="undefined">  font-family: 'Avenir', Helvetica, Arial, sans-serif;</span></span><br><span class="line"><span class="undefined">  -webkit-font-smoothing: antialiased;</span></span><br><span class="line"><span class="undefined">  -moz-osx-font-smoothing: grayscale;</span></span><br><span class="line"><span class="undefined">  text-align: center;</span></span><br><span class="line"><span class="undefined">  color: #2c3e50;</span></span><br><span class="line"><span class="undefined">  margin-top: 60px;</span></span><br><span class="line"><span class="undefined">&#125;</span></span><br><span class="line"><span class="undefined">.ball&#123;</span></span><br><span class="line"><span class="undefined">  width:100px;</span></span><br><span class="line"><span class="undefined">  height:100px;</span></span><br><span class="line"><span class="undefined">  border-radius:100px;</span></span><br><span class="line"><span class="undefined">  background-color:#f69;</span></span><br><span class="line"><span class="undefined">&#125;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h2 id="其他的点"><a href="#其他的点" class="headerlink" title="其他的点"></a>其他的点</h2><ul>
-<li>vue的子组件想改变父组件的值，on,emit</li>
-<li>vue的父组件想调用子组件的方法，$refs.xx.fn()</li>
-<li>v-for的ref是数组</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2034,7 +2129,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">216</span>
+                <span class="site-state-item-count">217</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
