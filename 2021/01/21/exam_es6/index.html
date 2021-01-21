@@ -1,0 +1,763 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="js," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="let/const 块作用域里，和函数作用域类似，存在变量提升 let/const作用于块作用域 let也存在变量提升，但是 JS 不允许你在声明语句前使用，声明语句前都是暂时性死区 const声明必须赋值，普通值不可被修改，引用类型的值不可修改引用指向，但是可以对其中的属性修改 let/const 可以替换掉var  123456789101112131415161718 console.log">
+<meta name="keywords" content="js">
+<meta property="og:type" content="article">
+<meta property="og:title" content="细心使用es6新增的语法">
+<meta property="og:url" content="http://yoursite.com/2021/01/21/exam_es6/index.html">
+<meta property="og:site_name" content="花花的博客">
+<meta property="og:description" content="let/const 块作用域里，和函数作用域类似，存在变量提升 let/const作用于块作用域 let也存在变量提升，但是 JS 不允许你在声明语句前使用，声明语句前都是暂时性死区 const声明必须赋值，普通值不可被修改，引用类型的值不可修改引用指向，但是可以对其中的属性修改 let/const 可以替换掉var  123456789101112131415161718 console.log">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2021-01-21T09:53:43.544Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="细心使用es6新增的语法">
+<meta name="twitter:description" content="let/const 块作用域里，和函数作用域类似，存在变量提升 let/const作用于块作用域 let也存在变量提升，但是 JS 不允许你在声明语句前使用，声明语句前都是暂时性死区 const声明必须赋值，普通值不可被修改，引用类型的值不可修改引用指向，但是可以对其中的属性修改 let/const 可以替换掉var  123456789101112131415161718 console.log">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2021/01/21/exam_es6/"/>
+
+
+
+
+
+  <title> 细心使用es6新增的语法 | 花花的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?60f2cb5747a596a24f2a053f1650c30b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">花花的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/21/exam_es6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                细心使用es6新增的语法
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-21T17:53:43+08:00">
+                2021-01-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/01/21/exam_es6/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2021/01/21/exam_es6/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="let-const"><a href="#let-const" class="headerlink" title="let/const"></a>let/const</h2><ul>
+<li>块作用域里，和函数作用域类似，存在变量提升</li>
+<li><code>let/const</code>作用于块作用域</li>
+<li><code>let</code>也存在变量提升，但是 JS 不允许你在声明语句前使用，声明语句前都是暂时性死区</li>
+<li><code>const</code>声明必须赋值，普通值不可被修改，引用类型的值不可修改<strong>引用指向</strong>，但是可以对其中的属性修改</li>
+<li><code>let/const</code> 可以替换掉<code>var</code></li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"> <span class="built_in">console</span>.log(name)</span><br><span class="line"> <span class="keyword">var</span> name =<span class="number">1</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="comment">// 这里会报错哟，因为块作用域存在变量提升，但是这里是暂时性死区，访问不到name</span></span><br><span class="line"> <span class="built_in">console</span>.log(name)</span><br><span class="line"> <span class="keyword">let</span> name =<span class="number">2</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 依旧是1,块作用域有自己的变量</span></span><br><span class="line"><span class="built_in">console</span>.log(name)</span><br><span class="line"><span class="comment">// 报错,没赋值</span></span><br><span class="line"><span class="keyword">const</span> a</span><br><span class="line"><span class="keyword">const</span> b =<span class="number">1</span></span><br><span class="line"><span class="keyword">const</span> obj = &#123;<span class="attr">a</span>: <span class="number">1</span>&#125;</span><br><span class="line"><span class="comment">// 报错,修改引用指向</span></span><br><span class="line">obj = &#123;<span class="attr">b</span>: <span class="number">1</span>&#125;</span><br><span class="line"><span class="keyword">const</span> arr= [<span class="number">1</span>,<span class="number">2</span>]</span><br><span class="line"><span class="comment">// 这样是没问题的</span></span><br><span class="line">arr[<span class="number">1</span>]=<span class="number">3</span></span><br></pre></td></tr></table></figure>
+<h2 id="解构"><a href="#解构" class="headerlink" title="解构"></a>解构</h2><ul>
+<li>数组可以占位解构，注意严格和位置有关</li>
+<li>对象和位置无关，和属性名称有关，可以<strong>重命名</strong>属性名称，也可解析<strong>嵌套</strong>结构</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 占位赋值</span></span><br><span class="line"><span class="keyword">const</span> [a, , c] = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"><span class="comment">// 位置无关，属性名有关，可以重新命名新变量</span></span><br><span class="line"><span class="keyword">const</span> &#123; name, <span class="attr">age</span>: newAge &#125; = &#123; <span class="attr">age</span>: <span class="number">10</span>, <span class="attr">name</span>: <span class="string">"yan"</span> &#125;;</span><br><span class="line"><span class="comment">// 10</span></span><br><span class="line"><span class="built_in">console</span>.log(newAge);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> school = &#123;</span><br><span class="line">  classes: &#123;</span><br><span class="line">    stu: &#123; <span class="attr">name</span>: <span class="string">"Bob"</span>, <span class="attr">age</span>: <span class="number">24</span> &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// 可嵌套结构</span></span><br><span class="line"><span class="keyword">const</span> &#123;</span><br><span class="line">  classes: &#123;</span><br><span class="line">    stu: &#123; name, age &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125; = school;</span><br><span class="line"><span class="comment">// 24</span></span><br><span class="line"><span class="built_in">console</span>.log(age);</span><br></pre></td></tr></table></figure>
+<h2 id="扩展运算符"><a href="#扩展运算符" class="headerlink" title="扩展运算符..."></a>扩展运算符<code>...</code></h2><ul>
+<li>对象中的扩展运算符，常用于取出参数对象中的所有<strong>可遍历</strong>属性，拷贝到当前对象之中</li>
+<li>数组中扩展运算，可以将一个数组转为用逗号分隔的参数序列，一般用途如下：<ul>
+<li>把数组变成函数的参数</li>
+<li>合并数组</li>
+<li>利用 rest 参数(把零散的参数合并成一个数组，很适合用来处理参数不固定)</li>
+<li>把类数组（类数组是有 length 属性的对象）转化为数组</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> me = &#123; <span class="attr">name</span>: <span class="string">"yan"</span>, <span class="attr">age</span>: <span class="number">24</span> &#125;;</span><br><span class="line"><span class="keyword">const</span> meCopy = &#123; ...me &#125;;</span><br><span class="line"><span class="comment">// &#123; name: "yan", age: 24 &#125;</span></span><br><span class="line"><span class="built_in">console</span>.log(meCopy);</span><br><span class="line"><span class="comment">// ha he xi</span></span><br><span class="line"><span class="built_in">console</span>.log(...[<span class="string">"ha"</span>, <span class="string">"he"</span>, <span class="string">"xi"</span>]);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">multiple</span>(<span class="params">x, y</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> x * y;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> arr = [<span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"><span class="comment">// 6</span></span><br><span class="line">multiple(...arr);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> arr1 = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>];</span><br><span class="line"><span class="keyword">const</span> arr2 = [<span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>];</span><br><span class="line"><span class="comment">// 合并数组</span></span><br><span class="line"><span class="keyword">const</span> newArr = [...arr1, ...arr2];</span><br><span class="line"></span><br><span class="line"><span class="comment">// rest参数，很适合用来处理参数不固定</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">...args</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> result = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> val <span class="keyword">of</span> args) &#123;</span><br><span class="line">    result += val;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 10</span></span><br><span class="line">add(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> arrayLike = &#123; <span class="number">0</span>: <span class="string">"Bob"</span>, <span class="number">1</span>: <span class="string">"Lucy"</span>, <span class="number">2</span>: <span class="string">"Daisy"</span>, <span class="attr">length</span>: <span class="number">3</span> &#125;;</span><br><span class="line"><span class="comment">// 类数组转化成数组，下面还有两种了解下</span></span><br><span class="line"><span class="keyword">const</span> arr = [...arrayLike];</span><br><span class="line"><span class="comment">// const arr = Array.prototype.slice.call(arrayLike);</span></span><br><span class="line"><span class="comment">// const arr = Array.from(arrayLike);</span></span><br></pre></td></tr></table></figure>
+<h2 id="模板字符"><a href="#模板字符" class="headerlink" title="模板字符"></a>模板字符<code></code></h2><ul>
+<li>可用<code>${}</code>这样简单的方式嵌入变量</li>
+<li>在模板字符串中，空格、缩进、换行都会被保留 (超合适写 DOM 节点)</li>
+<li>模板字符串完全支持“运算”式的表达式，你可以在<code>${}</code>里完成一些计算</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> name = <span class="string">'yan'</span></span><br><span class="line"><span class="keyword">let</span> newName = <span class="string">`<span class="subst">$&#123;name&#125;</span> jiang`</span></span><br><span class="line"><span class="keyword">let</span> list = <span class="string">`</span></span><br><span class="line"><span class="string">&lt;ul&gt;</span></span><br><span class="line"><span class="string">  &lt;li&gt;列表项1&lt;/li&gt;</span></span><br><span class="line"><span class="string">  &lt;li&gt;列表项2&lt;/li&gt;</span></span><br><span class="line"><span class="string">&lt;/ul&gt;</span></span><br><span class="line"><span class="string">`</span>;</span><br><span class="line"><span class="built_in">console</span>.log(message); <span class="comment">// 顺利输出，不存在报错</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 可做计算</span></span><br><span class="line">  <span class="keyword">const</span> finalString = <span class="string">`<span class="subst">$&#123;a&#125;</span> + <span class="subst">$&#123;b&#125;</span> = <span class="subst">$&#123;a + b&#125;</span>`</span>;</span><br><span class="line">  <span class="built_in">console</span>.log(finalString);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出 '1 + 2 = 3'</span></span><br><span class="line">add(<span class="number">1</span>, <span class="number">2</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="字符串的实用方法"><a href="#字符串的实用方法" class="headerlink" title="字符串的实用方法"></a>字符串的实用方法</h2><ul>
+<li>存在性判定。以前只能用<code>indexOf&gt;-1</code>，现在可灵活使用<code>includes、startsWith、endsWith</code></li>
+<li>自动重复。<code>repeat</code>方法让同一个字符串被连续复制多次</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> son = <span class="string">'ha'</span></span><br><span class="line"><span class="keyword">const</span> father = <span class="string">'xi he ha'</span></span><br><span class="line"> <span class="comment">// true</span></span><br><span class="line">father.includes(son)</span><br><span class="line"><span class="comment">// false</span></span><br><span class="line">father.startsWith(son)</span><br><span class="line"><span class="comment">// true</span></span><br><span class="line">father.endsWith(son)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> sourceCode = <span class="string">'repeat '</span></span><br><span class="line"><span class="comment">// 复制3次</span></span><br><span class="line"><span class="keyword">const</span> repeated = sourceCode.repeat(<span class="number">3</span>)</span><br><span class="line"><span class="comment">// 'repeat repeat repeat '</span></span><br><span class="line"><span class="built_in">console</span>.log(repeated)</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/js/" rel="tag"># js</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/01/20/exam_prototype/" rel="next" title="理解，原型/原型链/new">
+                <i class="fa fa-chevron-left"></i> 理解，原型/原型链/new
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2021/01/21/exam_es6/"
+           data-title="细心使用es6新增的语法" data-url="http://yoursite.com/2021/01/21/exam_es6/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://omizt4opc.bkt.clouddn.com/avatar.jpg"
+               alt="frontzhm" />
+          <p class="site-author-name" itemprop="name">frontzhm</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">218</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">52</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#let-const"><span class="nav-number">1.</span> <span class="nav-text">let/const</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解构"><span class="nav-number">2.</span> <span class="nav-text">解构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#扩展运算符"><span class="nav-number">3.</span> <span class="nav-text">扩展运算符...</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模板字符"><span class="nav-number">4.</span> <span class="nav-text">模板字符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字符串的实用方法"><span class="nav-number">5.</span> <span class="nav-text">字符串的实用方法</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">frontzhm</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"frontzhm"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
