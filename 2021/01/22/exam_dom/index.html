@@ -1,0 +1,778 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="js," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="DOM 全称是Document object model，翻译为，文档对象模型，是 HTML 和 XML 文档的编程接口。把 HTML 中各个标签定义出的元素以对象的形式包装起来，然后可通过 JS 对标签进行增删改查。 DOM 结构以树的形态存在，最小单位是节点。 DOM的节点类型节点类型主要有：  Document：指这份文件，也就是这份 HTML 档的开端。当浏览器载入 HTML 文档, 它就">
+<meta name="keywords" content="js">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DOM">
+<meta property="og:url" content="http://yoursite.com/2021/01/22/exam_dom/index.html">
+<meta property="og:site_name" content="花花的博客">
+<meta property="og:description" content="DOM 全称是Document object model，翻译为，文档对象模型，是 HTML 和 XML 文档的编程接口。把 HTML 中各个标签定义出的元素以对象的形式包装起来，然后可通过 JS 对标签进行增删改查。 DOM 结构以树的形态存在，最小单位是节点。 DOM的节点类型节点类型主要有：  Document：指这份文件，也就是这份 HTML 档的开端。当浏览器载入 HTML 文档, 它就">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2021-01-22T05:16:53.256Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="DOM">
+<meta name="twitter:description" content="DOM 全称是Document object model，翻译为，文档对象模型，是 HTML 和 XML 文档的编程接口。把 HTML 中各个标签定义出的元素以对象的形式包装起来，然后可通过 JS 对标签进行增删改查。 DOM 结构以树的形态存在，最小单位是节点。 DOM的节点类型节点类型主要有：  Document：指这份文件，也就是这份 HTML 档的开端。当浏览器载入 HTML 文档, 它就">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2021/01/22/exam_dom/"/>
+
+
+
+
+
+  <title> DOM | 花花的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?60f2cb5747a596a24f2a053f1650c30b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">花花的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/22/exam_dom/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                DOM
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-22T13:16:53+08:00">
+                2021-01-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/01/22/exam_dom/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2021/01/22/exam_dom/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>DOM 全称是<code>Document object model</code>，翻译为，文档对象模型，是 HTML 和 XML 文档的编程接口。<br>把 HTML 中各个标签定义出的元素以对象的形式包装起来，然后可通过 JS 对标签进行增删改查。</p>
+<p>DOM 结构以树的形态存在，最小单位是节点。</p>
+<h2 id="DOM的节点类型"><a href="#DOM的节点类型" class="headerlink" title="DOM的节点类型"></a>DOM的节点类型</h2><p>节点类型主要有：</p>
+<ul>
+<li>Document：指这份文件，也就是这份 HTML 档的开端。当浏览器载入 HTML 文档, 它就会成为 Document 对 象。</li>
+<li>Element：指 HTML 文件内的各个标签，像是<code>&lt;div&gt;、&lt;span&gt;</code> 这样的各种 HTML 标签定义的元素</li>
+<li>Text：指被各个标签包起来的文字，像是<code>&lt;div&gt;就是这段文字&lt;/div&gt;</code></li>
+<li>Attribute：指元素的特性，就是各个标签上的属性</li>
+<li>Comment：指文档注释<code>&lt;!-- 注释 --&gt;</code></li>
+</ul>
+<h2 id="DOM-的增删改查"><a href="#DOM-的增删改查" class="headerlink" title="DOM 的增删改查"></a>DOM 的增删改查</h2><ul>
+<li>增：document.createElement(‘span’)、parent.appendChild(x)</li>
+<li>删：y.parent.removeChild(y)</li>
+<li>改：x.someAttr = ‘…’、y.parent.insertBefore(appendElement,ele)</li>
+<li>查 querySelector、querySelectorAll、getElementById/ClassName/TagName</li>
+</ul>
+<h2 id="DOM-事件体系"><a href="#DOM-事件体系" class="headerlink" title="DOM 事件体系"></a>DOM 事件体系</h2><p>先说下专有名词：</p>
+<ul>
+<li>事件：在浏览器里的动作，可以是用户触发的，也可以是浏览器触发的。如<code>click mouseover</code></li>
+<li>事件监听函数：也叫<code>事件处理程序</code>，是事件发生后，浏览器如何响应，其实就是用来应答事件的函数，。</li>
+<li>事件流（事件的流向）：事件在页面中传播的顺序</li>
+</ul>
+<p>体系主要从四方面理解：</p>
+<ul>
+<li>DOM 事件流，分 3 个阶段：事件捕获阶段、目标阶段、冒泡阶段（<strong>V</strong>字形）</li>
+<li>事件对象：当事件 DOM 元素中穿梭时，会触发当前元素上绑定的相应事件处理函数，此时会产生一个事件对象 event 作为处理函数的入参。其囊括了与事件有关的信息，比如由触发事件的元素、事件的类型等</li>
+<li>自定义事件</li>
+<li>事件代理</li>
+</ul>
+<h2 id="事件对象"><a href="#事件对象" class="headerlink" title="事件对象"></a>事件对象</h2><p>e.currentTarget 和 e.target 事件对象两个属性很容易混淆，简单说下联系和区别：</p>
+<ul>
+<li>本质上<code>e.currentTarget</code>是绑定事件的当前元素，<code>e.target</code>是触发事件的元素。</li>
+<li>因为有捕获和冒泡阶段，所以这两可能不一样</li>
+<li>假设有个<code>div</code>，里面有一个 span 标签和 b 标签，给 div 绑定点击事件的时候，<code>e.currentTarget</code>则<strong>始终</strong>是 div，但是如果点击的是<code>span</code>标签，<code>e.target</code>就是<code>span</code>，</li>
+<li>重点！！！如果点击这两标签之外的但又是 div 内部的区域，<code>e.target</code>就是<code>div</code>，此时和<code>e.currentTarget</code>是一致的</li>
+</ul>
+<p>常用的两个方法：</p>
+<ul>
+<li><code>event.stopPropagation()</code>，让事件不再冒泡，将事件的影响面控制在目标元素这个范围内</li>
+<li><code>event.preventDefault()</code>，阻止浏览器的默认动作，比如点击 a 标签会跳转</li>
+</ul>
+<h2 id="自定义事件"><a href="#自定义事件" class="headerlink" title="自定义事件"></a>自定义事件</h2><p>除了浏览器的默认事件<code>click</code>之类，开发者可以自己创建新事件。</p>
+<p>比如现在有三个同级元素<code>a b c</code>，点击 a 之后，想要 b 和 c 也知道 a 被点击。</p>
+<p>那么可以创建一个<code>clickA</code>事件，然后让 b 和 c 绑定这个事件，点击 a 之后就让 b 和 c 触发这个事件</p>
+<p>看个例子：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"a"</span>&gt;</span>a<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"b"</span>&gt;</span>b<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"c"</span>&gt;</span>c<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">  // 新建一个自定义事件</span></span><br><span class="line"><span class="undefined">  var clickA = new Event("clickA");</span></span><br><span class="line"><span class="undefined">  document.querySelector("#a").addEventListener("click", function() &#123;</span></span><br><span class="line"><span class="undefined">    // a点击之后，就是clickA事件触发的时候，但浏览器不认识它，所以感知和派发，可以自己来实现：</span></span><br><span class="line"><span class="undefined">    document.querySelector("#b").dispatchEvent(clickA);</span></span><br><span class="line"><span class="undefined">    document.querySelector("#c").dispatchEvent(clickA);</span></span><br><span class="line"><span class="undefined">  &#125;);</span></span><br><span class="line"><span class="undefined">  document.querySelector("#b").addEventListener("clickA", () =&gt; &#123;</span></span><br><span class="line"><span class="undefined">    console.log("b");</span></span><br><span class="line"><span class="undefined">  &#125;);</span></span><br><span class="line"><span class="undefined">  document.querySelector("#b").addEventListener("clickA", () =&gt; &#123;</span></span><br><span class="line"><span class="undefined">    console.log("c");</span></span><br><span class="line"><span class="undefined">  &#125;);</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="事件代理"><a href="#事件代理" class="headerlink" title="事件代理"></a>事件代理</h2><p>事件在冒泡阶段的时候，会将事件一层层传播，直到整个文档。而从事件对象的<code>target</code>属性，可以知道传播到哪里了。</p>
+<p>于是，利用事件的冒泡特性，可以将多个子元素的同一类型的监听逻辑，合并到父元素上通过一个监听函数来管理的行 为，就是事件代理。</p>
+<p>通过事件代理，我们可以减少内存开销、简化注册步骤，大大提高开发效率。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>1<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>2<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">  var ul = document.querySelector("ul");</span></span><br><span class="line"><span class="undefined">  ul.addEventListener("click", function(e) &#123;</span></span><br><span class="line"><span class="undefined">    // 这里点击不同的li就会输出相应的内容，e.target就是正在点击的元素</span></span><br><span class="line"><span class="undefined">    console.log(e.target.innerHTML);</span></span><br><span class="line"><span class="undefined">  &#125;);</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/js/" rel="tag"># js</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/01/21/exam_es6/" rel="next" title="细心使用es6新增的语法">
+                <i class="fa fa-chevron-left"></i> 细心使用es6新增的语法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2021/01/22/exam_dom/"
+           data-title="DOM" data-url="http://yoursite.com/2021/01/22/exam_dom/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://omizt4opc.bkt.clouddn.com/avatar.jpg"
+               alt="frontzhm" />
+          <p class="site-author-name" itemprop="name">frontzhm</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">219</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">52</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#DOM的节点类型"><span class="nav-number">1.</span> <span class="nav-text">DOM的节点类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DOM-的增删改查"><span class="nav-number">2.</span> <span class="nav-text">DOM 的增删改查</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DOM-事件体系"><span class="nav-number">3.</span> <span class="nav-text">DOM 事件体系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事件对象"><span class="nav-number">4.</span> <span class="nav-text">事件对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义事件"><span class="nav-number">5.</span> <span class="nav-text">自定义事件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事件代理"><span class="nav-number">6.</span> <span class="nav-text">事件代理</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">frontzhm</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"frontzhm"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
