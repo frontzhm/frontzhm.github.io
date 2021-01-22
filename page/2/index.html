@@ -261,6 +261,202 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/06/watch-notice/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2021/01/06/watch-notice/" itemprop="url">
+                  watch经常失效的场景和解决方案
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-06T18:46:40+08:00">
+                2021-01-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/01/06/watch-notice/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2021/01/06/watch-notice/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>使用过<code>watch</code>的，应该起码经历过一次失效。</p>
+<p>比如，我们监听对象的时候，在没有踩坑之前，很容易这样写：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/aee47bd1bb9d46f4b330862a1177a663~tplv-k3u1fbpfcp-zoom-1.image" alt="watch-bug1"></p>
+<p>但是，❌，这里的<code>watch</code>是无效的!!!</p>
+<p>因为 obj 是<strong>引用类型</strong>！！！</p>
+<p>引用类型的<strong>指针是固定</strong>的，所以如果不是重新赋值，那么其赋值的变量自然也不会发生变化。</p>
+<p>举个例子：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123; <span class="attr">a</span>: <span class="number">1</span> &#125;;</span><br><span class="line"><span class="keyword">let</span> obj1 = obj;</span><br><span class="line"><span class="keyword">let</span> obj2 = &#123; ...obj &#125;;</span><br><span class="line">obj1.a = <span class="number">2</span>;</span><br><span class="line">obj2.a = <span class="number">3</span>;</span><br><span class="line"><span class="comment">// 这里肯定是true，因为obj和obj1都是同一个指针，不明白的搜下引用类型</span></span><br><span class="line"><span class="built_in">console</span>.log(obj1 === obj);</span><br><span class="line"><span class="comment">// 这里肯定是false，因为指针不同</span></span><br><span class="line"><span class="built_in">console</span>.log(obj2 === obj);</span><br></pre></td></tr></table></figure>
+<p>怎么解决呢？也简单！</p>
+<p>设置<code>deep:true</code>，这样<code>obj</code>中的属性发生变化（可被监测到的），便会执行 handler 函数；。</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/844141e33301490599c6946651621648~tplv-k3u1fbpfcp-zoom-1.image" alt="watch-bug2"></p>
+<blockquote>
+<p>！！！注意，因为是引用类型，所以<code>newValue</code> 和<code>oldValue</code>始终相等，千万不要犯傻的写相等就<code>return</code>，那就永远也不往下走了。。。。</p>
+</blockquote>
+<h2 id="监测数组"><a href="#监测数组" class="headerlink" title="监测数组"></a>监测数组</h2><p>引用类型，除了对象，很容易想到<strong>数组</strong>，那数组是不是也需要这样写呢。</p>
+<p>话分两头：</p>
+<ul>
+<li>数组项是<strong>对象类型</strong>，就需要<code>deep</code></li>
+<li>数组项是<strong>值类型</strong>，就不需要<code>deep</code></li>
+</ul>
+<p>因为<code>vue2</code>里，数组被特殊处理了，跟 obj 不等同，所以需要分情况。</p>
+<p>也就是数组项是<strong>值类型</strong>的话，直接这么写就行：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f7733c015ba849cd92da03c05c143939~tplv-k3u1fbpfcp-zoom-1.image" alt="watch-bug3"></p>
+<p>对象类型的话，上面是不行的，先举个错误 ❌ 的例子：<br><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1249171c34124e0ca5ad4c46b07bf1ce~tplv-k3u1fbpfcp-zoom-1.image" alt="watch-bug5"></p>
+<p>不打印的原理，依然是数组项是对象类型，想watch对象类型，必须加<code>deep</code></p>
+<p>正确做法 ✅：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">watch:&#123;</span><br><span class="line">  arr: &#123;</span><br><span class="line">    handler(newValue) &#123;</span><br><span class="line">      <span class="comment">// 这里就可以打印了</span></span><br><span class="line">      <span class="built_in">console</span>.log(newValue);</span><br><span class="line">    &#125;,</span><br><span class="line">    deep: <span class="literal">true</span></span><br><span class="line">  &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><code>watch</code>失效的场景：</p>
+<ul>
+<li>对象类型</li>
+<li>数组项为<strong>对象类型</strong>的数组</li>
+</ul>
+<blockquote>
+<p>解决方案：加<code>deep:true</code>。</p>
+</blockquote>
+<h2 id="watch的其他属性"><a href="#watch的其他属性" class="headerlink" title="watch的其他属性"></a>watch的其他属性</h2><p><a href="https://cn.vuejs.org/v2/api/#vm-watch" target="_blank" rel="noopener">官网文档</a></p>
+<ul>
+<li>一开始就需要执行<code>watch</code>的话，可 <code>immediate</code>属性</li>
+<li><code>handle</code>可以是一个数组</li>
+<li>取消<code>watch</code>的话，<code>this.$unwatch</code></li>
+<li><code>watch</code>对象的某个属性的话，<code>&#39;obj.key&#39;(){}</code></li>
+<li>如果想同时检测两个属性，懒得一个个写的话，有个偷懒的法子用<code>computed</code>做中间层。</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">computed:&#123;</span><br><span class="line">  fullName()&#123;<span class="keyword">return</span> <span class="keyword">this</span>.firstName + <span class="keyword">this</span>.lastName&#125;</span><br><span class="line">&#125;,</span><br><span class="line">watch:&#123;</span><br><span class="line">  fullName()&#123;...&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
+<li><a href="https://www.cnblogs.com/web-chuanfa/p/9372459.html" target="_blank" rel="noopener">watch的用法</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/31/mock-api-vue/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1937,176 +2133,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/27/vue-plugin/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2020/11/27/vue-plugin/" itemprop="url">
-                  怎么写一个vue插件
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-11-27T11:25:48+08:00">
-                2020-11-27
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2020/11/27/vue-plugin/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/11/27/vue-plugin/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>最近在看<code>vue</code>的课程，说到vue插件，其实还蛮希望有一天自己能写一个vue插件。</p>
-<p>插件干嘛的呢，<a href="https://cn.vuejs.org/v2/guide/plugins.html" target="_blank" rel="noopener">官网</a>说有四种用途：</p>
-<ul>
-<li>添加全局方法或者属性</li>
-<li>添加全局资源，如<code>directives， filters，transitions</code></li>
-<li>全局混入添加组件选项</li>
-<li>添加 Vue 实例方法，<code>Vue.prototype.$xx=..</code></li>
-</ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">MyPlugin.install = <span class="function"><span class="keyword">function</span> (<span class="params">Vue, options</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 1. 添加全局方法或 property</span></span><br><span class="line">  Vue.myGlobalMethod = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 2. 添加全局资源</span></span><br><span class="line">  Vue.directive(<span class="string">'my-directive'</span>, &#123;</span><br><span class="line">    bind (el, binding, vnode, oldVnode) &#123; &#125;</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 3. 注入组件选项</span></span><br><span class="line">  Vue.mixin(&#123;</span><br><span class="line">    created: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; &#125;</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 4. 添加实例方法</span></span><br><span class="line">  Vue.prototype.$myMethod = <span class="function"><span class="keyword">function</span> (<span class="params">methodOptions</span>) </span>&#123; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="怎么安装插件"><a href="#怎么安装插件" class="headerlink" title="怎么安装插件"></a>怎么安装插件</h2><p>插件安装其实就两步：</p>
-<ul>
-<li>引入<code>import xx from &#39;xx&#39;</code></li>
-<li>再，<code>Vue.use(xx)</code>，有时候可能需要加一个options</li>
-</ul>
-<h2 id="怎么写插件"><a href="#怎么写插件" class="headerlink" title="怎么写插件"></a>怎么写插件</h2><p>先来个简单的！<br>实现开始就打印<code>vue-helloworld</code>的插件！  </p>
-<p>官网说了，<code>Vue.use</code>其实是执行了插件的<code>install</code>方法，且给<code>install</code>传了两个参数，一个<code>Vue</code>构造器，另一个就是可选的<code>参数</code>。</p>
-<p>那么，<code>vue-helloworld.js</code>其实就很简单啦</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  install(Vue) &#123;</span><br><span class="line">    Vue.mixin(&#123;</span><br><span class="line">      created() &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">"hello-world"</span>);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>安装下：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// main.js</span></span><br><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">"vue"</span>;</span><br><span class="line"><span class="keyword">import</span> App <span class="keyword">from</span> <span class="string">"./App.vue"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这里</span></span><br><span class="line"><span class="keyword">import</span> VueHelloworld <span class="keyword">from</span> <span class="string">"./vue-helloworld"</span>;</span><br><span class="line">Vue.use(VueHelloworld);</span><br><span class="line"></span><br><span class="line">Vue.config.productionTip = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">  render: <span class="function"><span class="params">h</span> =&gt;</span> h(App)</span><br><span class="line">&#125;).$mount(<span class="string">"#app"</span>);</span><br></pre></td></tr></table></figure>
-<p>这样启动项目，就看到控制台打印了<code>hello-world</code>了。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2156,7 +2182,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">219</span>
+                <span class="site-state-item-count">220</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
