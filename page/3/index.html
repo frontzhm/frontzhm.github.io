@@ -261,6 +261,192 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/27/vue-lazyload/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2020/11/27/vue-lazyload/" itemprop="url">
+                  手写实现vue-lazyload的核心逻辑
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-11-27T18:35:14+08:00">
+                2020-11-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/11/27/vue-lazyload/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/11/27/vue-lazyload/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><a href="https://github.com/hilongjw/vue-lazyload" target="_blank" rel="noopener">vue-lazyload</a>算是常用的一个插件了，一般用于图片的懒加载。</p>
+<p>使用也很简单：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> VueLazyload <span class="keyword">from</span> <span class="string">'vue-lazyload'</span></span><br><span class="line"></span><br><span class="line">Vue.use(VueLazyload,&#123;</span><br><span class="line">  preLoad: <span class="number">1.3</span>,</span><br><span class="line">  loading: <span class="string">'dist/loading.gif'</span>,</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用的时候，直接在想懒加载的img上，加个指令就好了</span></span><br><span class="line"><span class="comment">// &lt;img v-lazy="img.src"&gt;</span></span><br></pre></td></tr></table></figure>
+<p>核心逻辑是： 图片在视图范围内，就显示，否则只显示加载图标。<br>而图片在不在视图范围内，是动态变化的，比如滚动的时候，图片就可能从视图外到视图内。</p>
+<p>再提取一层核心：怎么判断一个元素在不在视图范围内？</p>
+<h2 id="怎么判断一个元素在不在视图范围内"><a href="#怎么判断一个元素在不在视图范围内" class="headerlink" title="怎么判断一个元素在不在视图范围内"></a>怎么判断一个元素在不在视图范围内</h2><p>其实这里又是一个信息差，所谓信息差，是只要你知道了，基本就能解决问题了，而不需要高深的理解。</p>
+<p>就像你想量体温，怎么办？如果你知道温度计的话，其实这问题就已经解决了。相反，你不知道温度计的话，问题就变得很复杂了。</p>
+<p>这里的关键在于，知不知道<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Element/getBoundingClientRect" target="_blank" rel="noopener">getBoundingClientRect</a>。</p>
+<p>这个方法，可以知道,元素相对于视图窗口的<strong>左上角</strong>的距离。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;top,bottom,left,right&#125; = ele.getBoundingClientRect();</span><br></pre></td></tr></table></figure>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9ea5703e415d46cbad0b29d1032496ef~tplv-k3u1fbpfcp-zoom-1.image" alt="getBoundingClientRect"></p>
+<p><strong>元素在不在视图内，其实本质上就是判断：<code>top &gt; windowHeight</code></strong>  </p>
+<p><code>top</code>越大，元素离地址栏就会越来越远，当距离<strong>大于</strong><code>windowHeight</code>，就不在视图范围内。<br>换算成代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> windowHeight = <span class="built_in">window</span>.innerHeight</span><br><span class="line"><span class="comment">// 元素离地址栏的近似距离</span></span><br><span class="line"><span class="keyword">const</span> &#123;top&#125; = ele.getBoundingClientRect()</span><br><span class="line"><span class="keyword">const</span> isInView = top&lt;windowHeight</span><br></pre></td></tr></table></figure>
+<p>看此动画，就明白了，注意看右边代码区域的<code>false</code>，代码在文末。</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ed88e7d4c2a648b9b8ae735aebcb371b~tplv-k3u1fbpfcp-zoom-1.image" alt="innerHeight"></p>
+<p>关键的难点搞定了，继续写插件，哦不，继续分析插件。</p>
+<p>每个图片在不在视图范围内，主体是每个图片，按照对象方式编程的话，这边可以创建一个图片类。</p>
+<p>这样每个图片示例，只要在合适的时机判断自己在不在视图范围内即可。同时，每个图片应该有状态，<br>如等待状态、加载状态、错误状态。</p>
+<p>接下来，逐步写插件，一点都不知道插件是怎么写的，可以先看看<a href="https://juejin.cn/post/6899639171124559886" target="_blank" rel="noopener">怎么写一个插件</a>。</p>
+<h2 id="初始用起来"><a href="#初始用起来" class="headerlink" title="初始用起来"></a>初始用起来</h2><p>先将插件正确引入进来，并能够使用<code>v-lazy</code>指令。</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/411d5b69cfbb4e9a9238321307d505f7~tplv-k3u1fbpfcp-zoom-1.image" alt="lazyload1"></p>
+<h2 id="实现图片懒加载"><a href="#实现图片懒加载" class="headerlink" title="实现图片懒加载"></a>实现图片懒加载</h2><p>架子已经搭完，重点突破插件内部怎么写</p>
+<p>在逻辑分析完之后，基本一步步写就行，重点是初次渲染和滚动的时候再次渲染。</p>
+<p>每个图片的状态，是会动态变化的，这边为了简化，只写了两种状态的判断，<code>wait</code>和<code>loading</code>，<code>wait</code>就是默认状态，显示加载图标，<code>loading</code>是加载图片。</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f593ca9561924e63a2f78f210b5b1503~tplv-k3u1fbpfcp-zoom-1.image" alt="lazyload2"></p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/26c6355c78bf44efa4031b3a7389b8b3~tplv-k3u1fbpfcp-zoom-1.image" alt="lazyload3"></p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><h3 id="代码：判断一个元素在不在视图范围内"><a href="#代码：判断一个元素在不在视图范围内" class="headerlink" title="代码：判断一个元素在不在视图范围内"></a>代码：判断一个元素在不在视图范围内</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">      ul,</span></span><br><span class="line"><span class="undefined">      body &#123;</span></span><br><span class="line"><span class="undefined">        padding: 0;</span></span><br><span class="line"><span class="undefined">        margin: 0;</span></span><br><span class="line"><span class="undefined">        list-style: none;</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="undefined">      ul &#123;</span></span><br><span class="line"><span class="undefined">        margin-left: 200px;</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="undefined">      li &#123;</span></span><br><span class="line"><span class="undefined">        margin-top: 100px;</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="undefined">      img &#123;</span></span><br><span class="line"><span class="undefined">        height: 300px;</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="undefined">      .window &#123;</span></span><br><span class="line"><span class="undefined">        position: fixed;</span></span><br><span class="line"><span class="undefined">        top: 30px;</span></span><br><span class="line"><span class="undefined">        left: 50px;</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"window"</span>&gt;</span></span><br><span class="line">        浏览器可视高度：</span><br><span class="line">        &#123;&#123;innerHeight&#125;&#125;</span><br><span class="line">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">li</span> <span class="attr">ref</span>=<span class="string">"images"</span> <span class="attr">v-for</span>=<span class="string">"(item,index) in images"</span> <span class="attr">:key</span>=<span class="string">"index"</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">span</span>&gt;</span>top:&#123;&#123;item.top&#125;&#125; <span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">span</span>&gt;</span>在视图范围内：&#123;&#123;item.isInView&#125;&#125;<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">img</span> <span class="attr">:src</span>=<span class="string">"item.url"</span> <span class="attr">alt</span>=<span class="string">""</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"./node_modules/vue/dist/vue.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">      <span class="keyword">let</span> images = [</span></span><br><span class="line"><span class="javascript">        <span class="string">"https://article-fd.zol-img.com.cn/t_s627x449/g6/M00/07/00/ChMkKl-7j82IM9KTAAPn0WO6WtEAAFubAPtVd4AA-fp664.png"</span>,</span></span><br><span class="line"><span class="javascript">        <span class="string">"https://article-fd.zol-img.com.cn/t_s640x560/g6/M00/07/00/ChMkKV-7j8yIfRybAAeUzN2S-GcAAFubAPUqlEAB5Tk317.png"</span>,</span></span><br><span class="line"><span class="javascript">        <span class="string">"https://article-fd.zol-img.com.cn/t_s640x359/g6/M00/07/00/ChMkKV-7j8qICSISAATqB3abUOIAAFubQP1QyMABOof216.png"</span>,</span></span><br><span class="line"><span class="undefined">      ];</span></span><br><span class="line"><span class="javascript">      images = images.map(<span class="function">(<span class="params">item</span>) =&gt;</span> (&#123; <span class="attr">top</span>: <span class="number">0</span>, <span class="attr">isInView</span>: <span class="literal">false</span>, <span class="attr">url</span>: item &#125;));</span></span><br><span class="line"><span class="javascript">      <span class="keyword">const</span> vm = <span class="keyword">new</span> Vue(&#123;</span></span><br><span class="line"><span class="javascript">        el: <span class="string">"#app"</span>,</span></span><br><span class="line"><span class="undefined">        data: &#123;</span></span><br><span class="line"><span class="undefined">          images,</span></span><br><span class="line"><span class="undefined">          innerHeight: 0,</span></span><br><span class="line"><span class="undefined">        &#125;,</span></span><br><span class="line"><span class="undefined">        mounted() &#123;</span></span><br><span class="line"><span class="javascript">          <span class="keyword">this</span>.innerHeight = <span class="built_in">window</span>.innerHeight;</span></span><br><span class="line"><span class="javascript">          <span class="keyword">this</span>.getImgTop();</span></span><br><span class="line"><span class="javascript">          <span class="built_in">window</span>.onscroll = <span class="keyword">this</span>.getImgTop;</span></span><br><span class="line"><span class="undefined">        &#125;,</span></span><br><span class="line"><span class="undefined">        methods: &#123;</span></span><br><span class="line"><span class="undefined">          getImgTop() &#123;</span></span><br><span class="line"><span class="javascript">            Vue.nextTick(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">              <span class="keyword">this</span>.$refs.images.forEach(<span class="function">(<span class="params">item, index</span>) =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">                <span class="keyword">const</span> curImage = <span class="keyword">this</span>.images[index];</span></span><br><span class="line"><span class="undefined">                curImage.top = item.getBoundingClientRect().top;</span></span><br><span class="line"><span class="javascript">                curImage.isInView = curImage.top &lt; <span class="keyword">this</span>.innerHeight;</span></span><br><span class="line"><span class="undefined">              &#125;);</span></span><br><span class="line"><span class="undefined">            &#125;);</span></span><br><span class="line"><span class="undefined">          &#125;,</span></span><br><span class="line"><span class="undefined">        &#125;,</span></span><br><span class="line"><span class="undefined">      &#125;);</span></span><br><span class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="代码：初始用起来"><a href="#代码：初始用起来" class="headerlink" title="代码：初始用起来"></a>代码：初始用起来</h3><p>vue-lazyload/index.js  </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// vue-lazyload/index.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  install(Vue, options) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(&#123; Vue, options &#125;);</span><br><span class="line">    <span class="comment">// img(v-lazy="item.src")  lazy是指令名称 el是img这个元素 binding是&#123;value:item.src&#125;</span></span><br><span class="line">    Vue.directive(<span class="string">"lazy"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">el, binding</span>) </span>&#123;</span><br><span class="line">      <span class="built_in">console</span>.log(&#123; el, binding &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>main.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">"vue"</span>;</span><br><span class="line"><span class="keyword">import</span> App <span class="keyword">from</span> <span class="string">"./App.vue"</span>;</span><br><span class="line"><span class="keyword">import</span> loading <span class="keyword">from</span> <span class="string">"./loading.gif"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这里添加了自己写的VueLazyload</span></span><br><span class="line"><span class="keyword">import</span> VueLazyload <span class="keyword">from</span> <span class="string">"./vue-lazyload"</span>;</span><br><span class="line">Vue.use(VueLazyload, &#123; <span class="attr">preLoad</span>: <span class="number">1.3</span>, loading &#125;);</span><br><span class="line"></span><br><span class="line">Vue.config.productionTip = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">  render: <span class="function"><span class="params">h</span> =&gt;</span> h(App)</span><br><span class="line">&#125;).$mount(<span class="string">"#app"</span>);</span><br></pre></td></tr></table></figure>
+<p>App.vue</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- App.vue --&gt;</span><br><span class="line">&lt;template lang=&quot;pug&quot;&gt;</span><br><span class="line">  div#app</span><br><span class="line">    img( v-for=&quot;(item,index) in images&quot; v-lazy=&quot;item&quot;)</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &quot;App&quot;,</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      images: [</span><br><span class="line">        &quot;https://article-fd.zol-img.com.cn/t_s627x449/g6/M00/07/00/ChMkKl-7j82IM9KTAAPn0WO6WtEAAFubAPtVd4AA-fp664.png&quot;,</span><br><span class="line">        &quot;https://article-fd.zol-img.com.cn/t_s640x560/g6/M00/07/00/ChMkKV-7j8yIfRybAAeUzN2S-GcAAFubAPUqlEAB5Tk317.png&quot;,</span><br><span class="line">        &quot;https://article-fd.zol-img.com.cn/t_s640x359/g6/M00/07/00/ChMkKV-7j8qICSISAATqB3abUOIAAFubQP1QyMABOof216.png&quot;,</span><br><span class="line">        &quot;https://article-fd.zol-img.com.cn/t_s640x481/g6/M00/07/00/ChMkKl-7j8qISTtxAAYwGecnqdsAAFubQPr_JYABjAx866.png&quot;,</span><br><span class="line">        &quot;https://article-fd.zol-img.com.cn/t_s640x709/g6/M00/07/00/ChMkKl-7j8yIWZXlAAU_dwj8c0AAAFubAPNuMAABT-P182.png&quot;,</span><br><span class="line">        &quot;https://article-fd.zol-img.com.cn/t_s640x496/g6/M00/07/00/ChMkKV-7j82IaXWcAAf1A1qo0-gAAFubAPcPzUAB_Ub040.png&quot;,</span><br><span class="line">        &quot;https://article-fd.zol-img.com.cn/t_s640x286/g6/M00/07/00/ChMkKV-7j8qIRV9LAAC1WTJ8wRUAAFubQP6LUIAALVx696.jpg&quot;</span><br><span class="line">      ]</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style&gt;</span><br><span class="line"></span><br><span class="line">img &#123;</span><br><span class="line">  display: block;</span><br><span class="line">  height: 400px;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="代码：懒加载图片"><a href="#代码：懒加载图片" class="headerlink" title="代码：懒加载图片"></a>代码：懒加载图片</h3><p>vue-lazyload/index.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// vue-lazyload/index.js</span></span><br><span class="line"><span class="keyword">import</span> &#123; throttle &#125; <span class="keyword">from</span> <span class="string">"lodash"</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  install(Vue, options) &#123;</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">ImageReactive</span> </span>&#123;</span><br><span class="line">      <span class="keyword">constructor</span>(&#123; el, url, options &#125;) &#123;</span><br><span class="line">        <span class="keyword">this</span>.el = el;</span><br><span class="line">        <span class="keyword">this</span>.url = url;</span><br><span class="line">        <span class="keyword">this</span>.options = options;</span><br><span class="line">        <span class="keyword">this</span>.state = <span class="string">"wait"</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      checkInView() &#123;</span><br><span class="line">        <span class="keyword">const</span> windowHeight = <span class="built_in">window</span>.innerHeight;</span><br><span class="line">        <span class="keyword">const</span> &#123; top &#125; = <span class="keyword">this</span>.el.getBoundingClientRect();</span><br><span class="line">        <span class="keyword">return</span> top &lt; windowHeight * <span class="keyword">this</span>.options.preLoad;</span><br><span class="line">      &#125;</span><br><span class="line">      elRender() &#123;</span><br><span class="line">        <span class="comment">// 如果不是等待状态，则图片已经加载过，不需要再次渲染了</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.state !== <span class="string">"wait"</span>) <span class="keyword">return</span>;</span><br><span class="line">        <span class="comment">// 等待状态的图片，看下在不在视图内，在的话更新状态</span></span><br><span class="line">        <span class="keyword">const</span> isInView = <span class="keyword">this</span>.checkInView();</span><br><span class="line">        isInView &amp;&amp; (<span class="keyword">this</span>.state = <span class="string">"loading"</span>);</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.state, <span class="keyword">this</span>.el.getBoundingClientRect().top);</span><br><span class="line">        <span class="comment">// 不同的状态对应不同的操作</span></span><br><span class="line">        <span class="keyword">switch</span> (<span class="keyword">this</span>.state) &#123;</span><br><span class="line">          <span class="keyword">case</span> <span class="string">"wait"</span>:</span><br><span class="line">            <span class="keyword">this</span>.el.src = <span class="keyword">this</span>.options.loading;</span><br><span class="line">            <span class="keyword">this</span>.el.dataset.src = <span class="keyword">this</span>.url;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">          <span class="keyword">case</span> <span class="string">"loading"</span>:</span><br><span class="line">            <span class="keyword">this</span>.el.src = <span class="keyword">this</span>.url;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">          <span class="keyword">default</span>:</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// img(v-lazy="item.src")</span></span><br><span class="line">    <span class="comment">// lazy是指令名称 el是img这个元素 binding是&#123;value:item.src&#125;</span></span><br><span class="line">    Vue.directive(<span class="string">"lazy"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">el, binding</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">const</span> img = <span class="keyword">new</span> ImageReactive(&#123; el, <span class="attr">url</span>: binding.value, options &#125;);</span><br><span class="line">      <span class="comment">// 初始的时候，先渲染一次</span></span><br><span class="line">      Vue.nextTick(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        img.elRender();</span><br><span class="line">      &#125;);</span><br><span class="line">      <span class="comment">// 每次滚动，再渲染一次，这里注意滚动事件需要节流</span></span><br><span class="line">      <span class="built_in">window</span>.addEventListener(</span><br><span class="line">        <span class="string">"scroll"</span>,</span><br><span class="line">        throttle(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">          img.elRender();</span><br><span class="line">        &#125;, <span class="number">1000</span>)</span><br><span class="line">      );</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>其他两个文件依旧。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/27/vue-plugin/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1803,206 +1989,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/19/vue-children-parent/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2020/11/19/vue-children-parent/" itemprop="url">
-                  $parent/$children的使用场景 -- vue组件通信系列
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-11-19T18:45:05+08:00">
-                2020-11-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2020/11/19/vue-children-parent/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/11/19/vue-children-parent/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>vue 组件的数据通信方式很多，本篇着重讲<code>$parent/$children</code>，神助是<code>$broadcast/$dispatch</code>。</p>
-<p><code>$parent/$children</code>的常用场景：封装嵌套组件时，直接使用长辈或者子孙组件的方法，该方法并不改变数据，常常结合<code>$broadcast/$dispatch</code>使用。</p>
-<h2 id="什么是-parent-children"><a href="#什么是-parent-children" class="headerlink" title="什么是\$parent/$children"></a>什么是\$parent/$children</h2><p>先问一句，<code>div</code>标签，其父元素和子元素是谁？</p>
-<p>这其实没有答案。</p>
-<p>父元素和子元素是谁，取决于运行时<code>div</code>的位置。</p>
-<p>试着说说，以下<code>div</code>的父元素和子元素。</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"div1"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">main</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"div2"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h1</span>&gt;</span>一级标题<span class="tag">&lt;<span class="name">h1</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">p</span>&gt;</span>段落<span class="tag">&lt;<span class="name">p</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">main</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p><code>div1</code>:</p>
-<ul>
-<li>父元素是，<code>body</code></li>
-<li>子元素是，<code>main</code>。注意是子元素是指直接后代。</li>
-</ul>
-<p><code>div2</code>:</p>
-<ul>
-<li>父元素是，<code>main</code></li>
-<li>子元素是，<code>h1和p</code>。注意是子元素是指直接后代。</li>
-</ul>
-<p>总结下：</p>
-<ul>
-<li>元素本身没有父元素和子元素，而是在运行时，每个元素实例的位置，决定其父元素和子元素</li>
-<li>每个元素实例有且只有一个父元素（顶级元素实例没有哈）</li>
-<li>但每个元素实例可能没有子元素，可能有一个，也可能有多个，所以一般<code>children</code>是数组，没有的时候是空数组</li>
-<li>js 运行时，若添加或者删除元素实例，那些发生位置变化的元素实例们，父元素和子元素也会发生变化。</li>
-</ul>
-<p>正文来了！！！<strong>组件也是一样滴！！！</strong></p>
-<p>因为本来组件就是模仿元素的嘛！！！</p>
-<p>把上面的元素<strong>换</strong>成组件即可！</p>
-<ul>
-<li>组件本身没有父组件和子组件，而是在运行时，每个组件实例的位置，决定其父组件和子组件</li>
-<li>每个组件实例有且只有一个父组件（顶级组件实例没有哈）</li>
-<li>但每个组件实例可能没有子组件，可能有一个，也可能有多个，所以一般<code>children</code>是数组，没有的时候是空数组</li>
-<li>js 运行时，若添加或者删除组件实例，那些发生位置变化的组件实例们，父组件和子组件也会发生变化。</li>
-</ul>
-<p>其实属性和事件这种机制，也可以类比元素理解，当然这是后话。</p>
-<h2 id="举例说明-parent-children"><a href="#举例说明-parent-children" class="headerlink" title="举例说明\$parent/$children"></a>举例说明\$parent/$children</h2><p>写一个页面组件，里面放些组件，打印下<code>$parent/$children</code></p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/fe79df7c1eed468397cb1a6baac9a8cb~tplv-k3u1fbpfcp-zoom-1.image" alt="parent"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;template lang=&quot;pug&quot;&gt;</span><br><span class="line">//- 页面组件</span><br><span class="line">div</span><br><span class="line">  list-item</span><br><span class="line">  list-item</span><br><span class="line">&lt;/template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">import ListItem from &quot;@/components/ListItem&quot;;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &quot;List&quot;,</span><br><span class="line">  components: &#123; ListItem &#125;,</span><br><span class="line">  mounted() &#123;</span><br><span class="line">    console.log(&quot;页面的$parent&quot;, this.$parent);</span><br><span class="line">    console.log(&quot;页面的$children&quot;, this.$children);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-<p>其实还能看到，渲染的时候先子组件的<code>mounted</code>，然后再是自己的<code>mounted</code>.<br>要是想在子组件里获取父组件的元素之类的，必须使用<code>nextTick</code>。</p>
-<h2 id="dispatch"><a href="#dispatch" class="headerlink" title="\$dispatch"></a>\$dispatch</h2><p>在使用<code>element-ui</code>的时候，有个<code>el-form</code>，大约是这么用的：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;template lang=&quot;pug&quot;&gt;</span><br><span class="line">el-form</span><br><span class="line">  el-form-item</span><br><span class="line">    el-input</span><br><span class="line">&lt;/template&gt;</span><br></pre></td></tr></table></figure>
-<p>假设<code>el-input</code>想要执行<code>el-form</code>上的方法，就会这样<code>this.$parent.$parent.methodXx()</code>，更多层级可能更复杂，于是<code>$dispatch</code>就诞生了。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// main.js</span></span><br><span class="line"><span class="comment">// 向上某个组件，派发事件</span></span><br><span class="line">Vue.prototype.$dispatch = <span class="function"><span class="keyword">function</span>(<span class="params">eventName, componentName, ...args</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> parent = <span class="keyword">this</span>.$parent;</span><br><span class="line">  <span class="keyword">while</span> (parent) &#123;</span><br><span class="line">    <span class="comment">// 只有是特定组件，才会触发事件。而不会一直往上，一直触发</span></span><br><span class="line">    <span class="keyword">const</span> isSpecialComponent = parent.$options.name === componentName;</span><br><span class="line">    <span class="keyword">if</span> (isSpecialComponent) &#123;</span><br><span class="line">      <span class="comment">// 触发了，就终止循环</span></span><br><span class="line">      parent.$emit(eventName, ...args);</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    parent = parent.$parent;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>这样在<code>el-input</code>里想要触发<code>el-form</code>里的方法，<code>this.$dispatch(&#39;changeSort&#39;,&#39;el-form&#39;,{isAsc:true})</code></p>
-<h2 id="broadcast"><a href="#broadcast" class="headerlink" title="\$broadcast"></a>\$broadcast</h2><p>同理，假设<code>el-form</code>想要执行<code>el-input</code>上的方法，就会这样<code>this.$children[0].$children[0].methodXx()</code>，更多层级可能更复杂，于是<code>$broadcast</code>就诞生了，使用的时候<code>this.$broadcast(&#39;changeValue&#39;,&#39;el-input&#39;,&#39;hello&#39;)</code>。</p>
-<p>注意，<code>$children</code> 是数组，所以当只有一个子组件时，使用[0]获取。当有多个子组件时，它并不保证顺序，也不是响应式的。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 向下通知某个组件，触发事件</span></span><br><span class="line">Vue.prototype.$broadcast = <span class="function"><span class="keyword">function</span>(<span class="params">eventName, componentName, ...args</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 这里children是所有子组件，是子组件不是后代组件哈</span></span><br><span class="line">  <span class="keyword">let</span> children = <span class="keyword">this</span>.$children;</span><br><span class="line">  broadcast(children);</span><br><span class="line">  <span class="comment">// 这里注意，抽离新的方法递归，而不是递归$broadcast</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">broadcast</span>(<span class="params">children</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; children.length; i++) &#123;</span><br><span class="line">      <span class="keyword">let</span> child = children[i];</span><br><span class="line">      <span class="keyword">const</span> isSpecialComponent = child.$options.name === componentName;</span><br><span class="line">      <span class="keyword">if</span> (isSpecialComponent) &#123;</span><br><span class="line">        <span class="comment">// 触发了，就终止循环</span></span><br><span class="line">        child.$emit(eventName, ...args);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">// 没触发的话，就看下有没有子组件，接着递归</span></span><br><span class="line">      child.$children.length &amp;&amp;</span><br><span class="line">        child.$broadcast(eventName, componentName, ...args);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/22/">22</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/23/">23</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -2047,7 +2038,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">220</span>
+                <span class="site-state-item-count">221</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2058,7 +2049,7 @@
             
             <div class="site-state-item site-state-categories">
               
-                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-count">39</span>
                 <span class="site-state-item-name">分类</span>
               
             </div>
@@ -2069,7 +2060,7 @@
             
             <div class="site-state-item site-state-tags">
               
-                <span class="site-state-item-count">52</span>
+                <span class="site-state-item-count">53</span>
                 <span class="site-state-item-name">标签</span>
               
             </div>
