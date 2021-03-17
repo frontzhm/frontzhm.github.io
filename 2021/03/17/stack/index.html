@@ -87,21 +87,21 @@
 
 
 
-<meta name="description" content="栈，是一种基本的数据结构，就像我们放盘子一样，一个一个往上放，用的时候，从上一个一个往下拿，不能从中间抽。   典型的特点：只允许在一端插入和删除数据，后进者先出，先进者后出。   当某个数据集合只涉及在一端插入和删除数据，并且满足后进先出、先进后出的特性，优先联想“栈”这种数据结构。 栈的常用场景：  括号匹配 表达式中求值 执行上下文栈 浏览器前进后退  括号匹配假设表达式中只包含三种括号，圆">
+<meta name="description" content="栈，是一种基本的数据结构，就像我们放盘子一样，一个一个往上放，用的时候，从上一个一个往下拿，不能从中间抽。   典型的特点：只允许在一端插入和删除数据，后进者先出，先进者后出。   当某个数据集合只涉及在一端插入和删除数据，并且满足后进先出、先进后出的特性，优先联想“栈”这种数据结构。 栈的常用场景：  括号匹配 表达式中求值 下一个更大元素 浏览器前进后退 执行上下文栈  括号匹配假设表达式中只">
 <meta name="keywords" content="js">
 <meta property="og:type" content="article">
-<meta property="og:title" content="栈的常用场景总结">
+<meta property="og:title" content="栈的一些常用场景总结">
 <meta property="og:url" content="http://yoursite.com/2021/03/17/stack/index.html">
 <meta property="og:site_name" content="花花的博客">
-<meta property="og:description" content="栈，是一种基本的数据结构，就像我们放盘子一样，一个一个往上放，用的时候，从上一个一个往下拿，不能从中间抽。   典型的特点：只允许在一端插入和删除数据，后进者先出，先进者后出。   当某个数据集合只涉及在一端插入和删除数据，并且满足后进先出、先进后出的特性，优先联想“栈”这种数据结构。 栈的常用场景：  括号匹配 表达式中求值 执行上下文栈 浏览器前进后退  括号匹配假设表达式中只包含三种括号，圆">
+<meta property="og:description" content="栈，是一种基本的数据结构，就像我们放盘子一样，一个一个往上放，用的时候，从上一个一个往下拿，不能从中间抽。   典型的特点：只允许在一端插入和删除数据，后进者先出，先进者后出。   当某个数据集合只涉及在一端插入和删除数据，并且满足后进先出、先进后出的特性，优先联想“栈”这种数据结构。 栈的常用场景：  括号匹配 表达式中求值 下一个更大元素 浏览器前进后退 执行上下文栈  括号匹配假设表达式中只">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3f173303159e4c1795805dabdd2c16c5~tplv-k3u1fbpfcp-zoom-1.image">
 <meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/19b8217d6b024067a87227bdd685e041~tplv-k3u1fbpfcp-zoom-1.image">
 <meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9dfdec5da09e4c6681eb4545c4c6be0e~tplv-k3u1fbpfcp-zoom-1.image">
-<meta property="og:updated_time" content="2021-03-17T08:09:41.193Z">
+<meta property="og:updated_time" content="2021-03-17T08:16:09.739Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="栈的常用场景总结">
-<meta name="twitter:description" content="栈，是一种基本的数据结构，就像我们放盘子一样，一个一个往上放，用的时候，从上一个一个往下拿，不能从中间抽。   典型的特点：只允许在一端插入和删除数据，后进者先出，先进者后出。   当某个数据集合只涉及在一端插入和删除数据，并且满足后进先出、先进后出的特性，优先联想“栈”这种数据结构。 栈的常用场景：  括号匹配 表达式中求值 执行上下文栈 浏览器前进后退  括号匹配假设表达式中只包含三种括号，圆">
+<meta name="twitter:title" content="栈的一些常用场景总结">
+<meta name="twitter:description" content="栈，是一种基本的数据结构，就像我们放盘子一样，一个一个往上放，用的时候，从上一个一个往下拿，不能从中间抽。   典型的特点：只允许在一端插入和删除数据，后进者先出，先进者后出。   当某个数据集合只涉及在一端插入和删除数据，并且满足后进先出、先进后出的特性，优先联想“栈”这种数据结构。 栈的常用场景：  括号匹配 表达式中求值 下一个更大元素 浏览器前进后退 执行上下文栈  括号匹配假设表达式中只">
 <meta name="twitter:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3f173303159e4c1795805dabdd2c16c5~tplv-k3u1fbpfcp-zoom-1.image">
 
 
@@ -136,7 +136,7 @@
 
 
 
-  <title> 栈的常用场景总结 | 花花的博客 </title>
+  <title> 栈的一些常用场景总结 | 花花的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -286,7 +286,7 @@
             
             
               
-                栈的常用场景总结
+                栈的一些常用场景总结
               
             
           </h2>
@@ -376,8 +376,9 @@
 <ul>
 <li>括号匹配</li>
 <li>表达式中求值</li>
-<li>执行上下文栈</li>
+<li>下一个更大元素</li>
 <li>浏览器前进后退</li>
+<li>执行上下文栈</li>
 </ul>
 <h2 id="括号匹配"><a href="#括号匹配" class="headerlink" title="括号匹配"></a>括号匹配</h2><p>假设表达式中只包含三种括号，圆括号 ()、方括号 [] 和花括号{}，并且它们可以任意嵌套。<br>比如，<code>{[{}]}</code>或 <code>[{()}([])]</code> 等都为合法格式，而<code>{[}()]</code> 或 <code>[({)]</code> 为不合法的格式。<br>现在给一个包含三种括号的表达式字符串，如何检查它是否合法呢？</p>
 <p>典型的栈思路！  </p>
@@ -511,7 +512,7 @@
   <div class="comments" id="comments">
     
       <div class="ds-thread" data-thread-key="2021/03/17/stack/"
-           data-title="栈的常用场景总结" data-url="http://yoursite.com/2021/03/17/stack/">
+           data-title="栈的一些常用场景总结" data-url="http://yoursite.com/2021/03/17/stack/">
       </div>
     
   </div>
