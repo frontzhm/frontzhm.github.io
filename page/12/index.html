@@ -261,6 +261,231 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/21/element-form/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2019/10/21/element-form/" itemprop="url">
+                  element-ui库的表单元素的总结
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-21T15:15:41+08:00">
+                2019-10-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/10/21/element-form/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/10/21/element-form/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <!-- # element-ui库的表单元素的总结 -->
+<p>表单元素挺多的，这里简单总结下，主要分为：文本框类、选择类、其他类</p>
+<ul>
+<li>文本框类</li>
+<li>选择类</li>
+<li>其他类</li>
+</ul>
+<h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
+<li>时间类的选择器，均可设置输入框的显示样式和值的形式，属性分别为format、value-format</li>
+<li>单选框和复选框，选中项属性的label值就是model的值</li>
+<li>复选框，如果是多选的话，务必设置model值是个数组</li>
+</ul>
+<h2 id="文本框类"><a href="#文本框类" class="headerlink" title="文本框类"></a>文本框类</h2><p><img src="https://user-gold-cdn.xitu.io/2019/10/21/16ded19f220dc9a2?w=1234&amp;h=1476&amp;f=jpeg&amp;s=159094" alt="文本框"></p>
+<p>这里我统一将有文本框的元素放在一起。主要有：普通文本框、密码框、文本域、计数器、日期选择器、自动填充文本框、有前缀的文本框。</p>
+<ul>
+<li>普通文本框：disabled是否禁用，clearable是否可清空，maxlength/minlength字符的长度，show-word-limit显示字数统计，prefix-icon/suffix-icon首尾部的显示图标，size指定输入框的尺寸(large small mini)，<br><code>&lt;el-input v-model=&quot;xx&quot; placeholder=&quot;请输入内容&quot; disabled clearable maxlength=&quot;10&quot; show-word-limit prefix-icon=&quot;el-icon-search&quot; suffix-icon=&quot;el-icon-date&quot; size=&quot;mini&quot;&gt;</code></li>
+<li>密码框：必须有<code>show-password</code><br><code>&lt;el-input show-password v-model=&quot;xx&quot; placeholder=&quot;请输入内容&quot; &gt;</code></li>
+<li>文本域：必须有<code>type=&quot;textarea&quot;</code>，rows控制高度(注意是数字，需要加:)，autosize让高度根据内容自行调整(还可设置最小行数和最大行数)<br><code>&lt;el-inut type=&quot;textarea&quot; v-model=&quot;xx&quot;  :rows=&quot;2&quot; autosize&gt;</code></li>
+<li>计数器：仅允许输入标准的数字值，方便的加减数字，min/max控制最大最小值，steps控制步长<br><code>&lt;el-input-number v-model=&quot;num&quot; :min=&quot;1&quot; :max=&quot;10&quot; :steps=&quot;2&quot;&gt;&lt;/el-input-number&gt;</code></li>
+<li>复合型输入框：可前置或后置元素(slot)</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">el-input</span> <span class="attr">placeholder</span>=<span class="string">"请输入内容"</span> <span class="attr">v-model</span>=<span class="string">"xx"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">template</span> <span class="attr">slot</span>=<span class="string">"prepend"</span>&gt;</span>Http://<span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">el-button</span> <span class="attr">slot</span>=<span class="string">"append"</span> <span class="attr">icon</span>=<span class="string">"el-icon-search"</span>&gt;</span><span class="tag">&lt;/<span class="name">el-button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">el-input</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>带输入建议的输入框，较复杂需要再看吧，<a href="https://element.eleme.cn/#/zh-CN/component/input" target="_blank" rel="noopener">el-autocomplete</a></p>
+</li>
+<li><p>日期选择器，有点麻烦，单独一部分讲</p>
+</li>
+</ul>
+<h3 id="日期时间选择器"><a href="#日期时间选择器" class="headerlink" title="日期时间选择器"></a>日期时间选择器</h3><p>这里特别强调的是：输入框里显示的格式(format)和绑定值的格式(value-format)可以控制！！！！<br>这里特别强调的是：输入框里显示的格式(format)和绑定值的格式(value-format)可以控制！！！！<br>这里特别强调的是：输入框里显示的格式(format)和绑定值的格式(value-format)可以控制！！！！</p>
+<p>年是yyyy，月是MM，日是dd，时是HH，分是mm，秒是ss，周是WW（只限于周选择器）。通用的是<code>yyyy-MM-dd HH:mm:ss</code>。  </p>
+<p>注意的坑:</p>
+<ul>
+<li>除了年，都可以单个，单个表示一位数的时候不补0。</li>
+<li>HH是24小时制，hh是12小时制！！！！</li>
+<li>value-format有个特殊的<code>timestamp</code>类型，format有A类型(AM/PM)</li>
+<li>不设置value-format，默认是这种<code>Fri Oct 18 2019 11:27:54 GMT+0800 (China Standard Time)</code>，通常会设置成<code>timestamp</code>，13位的</li>
+<li>开始和结束选择的值是数组</li>
+</ul>
+<p>选择的类型如下：</p>
+<ul>
+<li>时间选择器：picker-options设置选择的范围。<br><code>&lt;el-time-picker v-model=&quot;xx&quot; :picker-options=&quot;{selectableRange: &#39;18:30:00 - 20:30:00&#39;}&quot; placeholder=&quot;选择时间&quot;&gt;</code></li>
+<li>开始和结束时间选择器：必须有is-range属性，align对齐方式，range-separator分隔符，默认是-，start-placeholder和end-placeholder，<br><code>&lt;el-time-picker is-range v-model=&quot;value1&quot; align=&quot;center&quot; range-separator=&quot;至&quot; start-placeholder=&quot;开始时间&quot; end-placeholder=&quot;结束时间&quot;&gt;&lt;/el-time-picker&gt;</code></li>
+<li>日期选择器：必须要type，控制类型(date、week、month、year、dates)<br><code>&lt;el-date-picker type=&quot;date&quot;  v-model=&quot;value1&quot; placeholder=&quot;选择日期&quot;&gt; &lt;/el-date-picker&gt;</code></li>
+<li>开始和结束日期选择器：必须type，控制类型(daterange、weekrange、monthrange、yearrange)<br><code>&lt;el-date-picker v-model=&quot;value1&quot; type=&quot;daterange&quot; range-separator=&quot;至&quot; start-placeholder=&quot;开始日期&quot; end-placeholder=&quot;结束日期&quot;&gt; &lt;/el-date-picker&gt;</code></li>
+<li>日期时间选择器：必须<code>type=&quot;datetime&quot;</code><br><code>&lt;el-date-picker type=&quot;datetime&quot; v-model=&quot;value1&quot; placeholder=&quot;选择日期时间&quot;&gt; &lt;/el-date-picker&gt;</code></li>
+<li>开始和结束日期时间选择器：必须<code>type=&quot;datetimerange&quot;</code>，default-time可以设置默认时间<br><code>&lt;el-date-picker type=&quot;datetimerange&quot;  v-model=&quot;value1&quot; range-separator=&quot;至&quot; start-placeholder=&quot;开始日期&quot; end-placeholder=&quot;结束日期&quot;&gt; &lt;/el-date-picker&gt;</code></li>
+</ul>
+<h2 id="选择类"><a href="#选择类" class="headerlink" title="选择类"></a>选择类</h2><p>所有的选择类的表单元素，都有类似于options的选项，注意model的值和选项中的那个属性值挂钩。<br>option基本统一的模式是<code>{label:&#39;看到的&#39;,value:&#39;提交给后台的值&#39;}</code>，但是radio和chebox很奇怪，label的选项居然就是value，写的时候特别注意！！！  </p>
+<ul>
+<li>单选框：model绑定的值是选中项的label值，model值就是默认项，undefined就没有默认项。border就会有边框。想要变成按钮样式的就用<code>el-radio-button</code></li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- options: [&#123; value:1, label: '黄金糕' &#125;, &#123; value:1, label: '双皮奶' &#125;] --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">el-radio-group</span> <span class="attr">v-model</span>=<span class="string">"radio"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">el-radio</span> <span class="attr">v-for</span>=<span class="string">"item in options"</span> <span class="attr">:key</span>=<span class="string">"item.value"</span> <span class="attr">:label</span>=<span class="string">"item.value"</span> &gt;</span>&#123;&#123;item.label&#125;&#125;<span class="tag">&lt;/<span class="name">el-radio</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">el-radio-group</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>复选框：model的值有两种类型：Boolean和Array。Boolean的时候就是，选项是否都勾选。Array的时候，选中项的label值会出现在数组中。indeterminate是true的时候是表示部分选中，用于实现全选的效果。border是带上边框<br>el-checkbox-group标签，min和max表示勾选项目的数量，size是尺寸，el-checkbox-button是按钮形式</li>
+</ul>
+<p><code>&lt;el-checkbox v-model=&quot;checked&quot; indeterminate&gt;全选&lt;/el-checkbox&gt;</code></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">el-checkbox-group</span> <span class="attr">v-model</span>=<span class="string">"checkList"</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- options: [&#123; value:1, label: '黄金糕' &#125;, &#123; value:1, label: '双皮奶' &#125;] --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">el-checkbox</span> <span class="attr">v-for</span>=<span class="string">"item in options"</span> <span class="attr">:key</span>=<span class="string">"item.value"</span> <span class="attr">:label</span>=<span class="string">"item.value"</span>&gt;</span>&#123;&#123;item.label&#125;&#125;<span class="tag">&lt;/<span class="name">el-checkbox</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">el-checkbox-group</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>下拉框：model的值是选中的option的value值，disabled设置不能选。需要分组用<code>el-option-group</code>，远程搜索和创建条目参考官网<br>el-select可设置：clearable清空，multiple多选(多选的时候值请务必是数组)，filterable可以搜索选项<br>el-option可设置：slot设置自定义的样式</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- options: [&#123; value:1, label: '黄金糕' &#125;, &#123; value:1, label: '双皮奶' &#125;] --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">el-select</span> <span class="attr">v-model</span>=<span class="string">"value"</span> <span class="attr">placeholder</span>=<span class="string">"请选择"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">el-option</span> <span class="attr">v-for</span>=<span class="string">"item in options"</span> <span class="attr">:key</span>=<span class="string">"item.value"</span> <span class="attr">:label</span>=<span class="string">"item.label"</span> <span class="attr">:value</span>=<span class="string">"item.value"</span>&gt;</span> <span class="tag">&lt;/<span class="name">el-option</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">el-select</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>级联下拉框：model是数组，索引对应级别。options是类似于递归的模式(<code>[{value:1,label:&#39;bj&#39;,children:[{value:2,label:&#39;haidian&#39;}]}]</code>)，默认触发方式是click，可以hover<code>:props={expandTrigger:&#39;hover&#39;}</code><br><code>&lt;el-cascader v-model=&quot;value&quot; :options=&quot;options&quot; @change=&quot;handleChange&quot;&gt;&lt;/el-cascader&gt;</code></li>
+</ul>
+<h2 id="其他类"><a href="#其他类" class="headerlink" title="其他类"></a>其他类</h2><ul>
+<li>开关：model值是Boolean，可以使用active-color属性与inactive-color属性来设置开关的背景色<br><code>&lt;el-switch v-model=&quot;value&quot; active-color=&quot;#13ce66&quot; inactive-color=&quot;#ff4949&quot;&gt; &lt;/el-switch&gt;</code></li>
+<li>滑块：默认是0-100，可以formatTooltip格式化显示的值<br><code>&lt;el-slider v-model=&quot;value1&quot; :format-tooltip=&quot;formatTooltip&quot;&gt;&lt;/el-slider&gt;</code></li>
+<li>评分、颜色、穿梭框、没用，用的时候再说吧~~</li>
+<li><p>上传：挺复杂的，这边我只是简单罗列下我知道的。accept限制上传文件的格式，auto-upload要不要自动上传，limit上传的数量，file-list文件显示的列表，list-type显示的方式，on-exceed超出了文件数的钩子，on-change文件变化的钩子，on-remove的移除文件的钩子。钩子的默认参数大多有<code>file，filelist</code>。</p>
+<ul>
+<li>file-list一般可能需要用computed算出来，因为在编辑状态下，应该直接有图片链接。</li>
+<li>第一个文件可以通过<code>this.$refs.eventImage.uploadFiles[0].raw</code></li>
+<li>校验的时候，有时不一定能准确判断file的值存不存在，需要手动设置规则，每次上传之后。上传同一个图片可能不行的bug需要每次上传之后设置<code>this.$refs[ref名].value = &#39;&#39;</code><br><code>&lt;el-upload ref=&quot;eventImage&quot; accept=&quot;image/*&quot; :auto-upload=&quot;false&quot; action=&quot;&quot; :limit=&quot;1&quot; :file-list=&quot;fileListUploaded&quot; list-type=&quot;picture-card&quot; :on-exceed=&quot;exceedFile&quot; :on-change=&quot;changeFile&quot; :on-remove=&quot;removeImage&quot; &gt;&lt;/el-upload&gt;</code></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/16/unpkg/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1845,199 +2070,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/10/oh-my-zsh/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2019/09/10/oh-my-zsh/" itemprop="url">
-                  oh-my-zsh让终端好用到飞起~
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-10T15:57:26+08:00">
-                2019-09-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/终端/" itemprop="url" rel="index">
-                    <span itemprop="name">终端</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/09/10/oh-my-zsh/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/09/10/oh-my-zsh/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><a href="https://asciinema.org/a/266997?speed=2&amp;autoplay=1" target="_blank" rel="noopener"><img src="https://asciinema.org/a/266997.png" alt="asciicast"></a></p>
-<h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
-<li>安装zsh<code>brew install zsh zsh-completions</code></li>
-<li>切换到zsh<code>[sudo] chsh -s $(which zsh)</code></li>
-<li>安装oh-my-zsh<code>git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh</code></li>
-<li>修改主题 <code>~/.zshrc</code>里的<code>ZSH_THEME=&quot;ys&quot;</code></li>
-<li>安装autojump、zsh-autosuggestions、zsh-syntax-highlighting三个插件 <code>brew install autojump;git clone git://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions;git clone git://github.com/zsh-users/zsh-syntax-highlighting $ZSH_CUSTOM/plugins/zsh-syntax-highlighting</code></li>
-<li>别忘了在<code>~/.zshrc</code>找到<code>plugins=</code>添加下面的，最后保存执行<code>source ~/.zshrc</code>，autojump还有别的设置</li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">plugins=(</span><br><span class="line">  autojump</span><br><span class="line">  zsh-autosuggestions</span><br><span class="line">  zsh-syntax-highlighting</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-<ul>
-<li>asciinema可以上面酷酷的视频，其实也很简单哟</li>
-</ul>
-<h2 id="oh-my-zsh简介"><a href="#oh-my-zsh简介" class="headerlink" title="oh-my-zsh简介"></a>oh-my-zsh简介</h2><p>目前常用的 Linux 系统和 OS X 系统的默认 Shell 都是 bash。<a href="https://github.com/robbyrussell/oh-my-zsh" target="_blank" rel="noopener">「oh my zsh」</a>是强化的的 Shell 。</p>
-<h2 id="使用步骤"><a href="#使用步骤" class="headerlink" title="使用步骤"></a>使用步骤</h2><h3 id="1-安装zsh"><a href="#1-安装zsh" class="headerlink" title="1.安装zsh"></a>1.安装zsh</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Linux</span></span><br><span class="line">sudo yum install zsh    (Fedora和RedHat以及SUSE中)或</span><br><span class="line">sudo apt-get install zsh    (Debian系列，Ubuntu )</span><br><span class="line"></span><br><span class="line"><span class="comment"># macOS 系统自带了zsh, 一般不是最新版，如果需要最新版可通过Homebrew来安装(确认安装了Homebrew)</span></span><br><span class="line">brew install zsh zsh-completions</span><br><span class="line"></span><br><span class="line"><span class="comment"># 或者也可以使用MacPorts(包管理工具)</span></span><br><span class="line">sudo port install zsh zsh-completions</span><br></pre></td></tr></table></figure>
-<h3 id="2-更改默认shell"><a href="#2-更改默认shell" class="headerlink" title="2.更改默认shell"></a>2.更改默认shell</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 把zsh设为默认shell，如果shell列表中没有zsh或者你没有使用chsh权限的时候，不起作用</span></span><br><span class="line">echo $SHELL    </span><br><span class="line">[sudo] chsh -s $(which zsh)  或 chsh -s /bin/zsh</span><br></pre></td></tr></table></figure>
-<h3 id="3-安装-oh-my-zsh"><a href="#3-安装-oh-my-zsh" class="headerlink" title="3.安装 oh my zsh"></a>3.安装 oh my zsh</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装 oh my zsh 之前必须安装 zsh，否则会收到如下提示：Zsh is not installed! Please install zsh first!</span></span><br><span class="line"><span class="comment"># 方法一：官网上的方法，但需要安装wget或者curl。wget，用来从指定的 URL 下载文件。curl，发出网络请求，然后得到和提取数据。</span></span><br><span class="line">sh -c <span class="string">"<span class="variable">$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)</span>"</span></span><br><span class="line">sh -c <span class="string">"<span class="variable">$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)</span>"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 方法二：当然也可以通过git下载 ，我觉得git最亲切 哈哈哈哈</span></span><br><span class="line">git <span class="built_in">clone</span> git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh</span><br></pre></td></tr></table></figure>
-<h3 id="4-配置主题"><a href="#4-配置主题" class="headerlink" title="4.配置主题"></a>4.配置主题</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Oh-My-Zsh 的默认配置文件在：~/.zshrc。编辑～/.zshrc 修改主题，这里我用的是 ys 主题，更多主体看[这里](https://github.com/robbyrussell/oh-my-zsh/wiki/Themes)，直接修改即可，无需下载</span></span><br><span class="line">ZSH_THEME=<span class="string">"ys"</span></span><br><span class="line"><span class="comment"># !!!! 重启终端后有效 或 使用 source ~/.zshrc 更新配置</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 题外话，不太想显示主机名，所以直接干掉主机名</span></span><br><span class="line"><span class="comment"># 编辑 ~/.oh-my-zsh/themes/ys.zsh-theme，最后面改成这样</span></span><br><span class="line">PROMPT=<span class="string">"</span></span><br><span class="line"><span class="string">%&#123;<span class="variable">$terminfo</span>[bold]<span class="variable">$fg</span>[blue]%&#125;#%&#123;<span class="variable">$reset_color</span>%&#125; \</span></span><br><span class="line"><span class="string">%(#,%&#123;<span class="variable">$bg</span>[yellow]%&#125;%&#123;<span class="variable">$fg</span>[black]%&#125;%n%&#123;<span class="variable">$reset_color</span>%&#125;,%&#123;<span class="variable">$fg</span>[cyan]%&#125;%n) \</span></span><br><span class="line"><span class="string">%&#123;<span class="variable">$fg</span>[white]%&#125;in \</span></span><br><span class="line"><span class="string">%&#123;<span class="variable">$terminfo</span>[bold]<span class="variable">$fg</span>[yellow]%&#125;%~%&#123;<span class="variable">$reset_color</span>%&#125;\</span></span><br><span class="line"><span class="string"><span class="variable">$&#123;hg_info&#125;</span>\</span></span><br><span class="line"><span class="string"><span class="variable">$&#123;git_info&#125;</span>\</span></span><br><span class="line"><span class="string"> \</span></span><br><span class="line"><span class="string">%&#123;<span class="variable">$fg</span>[white]%&#125;[%*] <span class="variable">$exit_code</span></span></span><br><span class="line"><span class="string">%&#123;<span class="variable">$terminfo</span>[bold]<span class="variable">$fg</span>[red]%&#125;$ %&#123;<span class="variable">$reset_color</span>%&#125;"</span></span><br></pre></td></tr></table></figure>
-<p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/zsh_ui.png" alt="zsh_ui"></p>
-<h2 id="oh-my-zsh-插件推荐"><a href="#oh-my-zsh-插件推荐" class="headerlink" title="oh-my-zsh 插件推荐"></a>oh-my-zsh 插件推荐</h2><p>插件依然需要打开<code>~/.zshrc</code>，找到<code>plugins=</code>，然后在里面写需要的插件名，有些插件可能还需要安装。<br>!!!! 注意，只要改了此文件，重启终端后有效 或 使用 <code>source ~/.zshrc</code> 更新配置。</p>
-<p>这边插件推荐 : autojump、zsh-autosuggestion 以及 zsh-syntax-highlighting。  </p>
-<h3 id="autojump"><a href="#autojump" class="headerlink" title="autojump"></a>autojump</h3><p>功能：实现目录间快速跳转，想去哪个目录直接 <code>j + 目录名</code>，不用在频繁的 cd 了！ <a href="https://github.com/wting/autojump" target="_blank" rel="noopener">github地址</a>。</p>
-<p><code>history | grep &quot;git clone&quot;</code>这个命令就能找到近期 clone 了哪些库，省却了写一堆代码的功夫。  </p>
-<p><code>autojump</code> 就是通过记录你在 <code>history</code> 中的行为把你访问过的文件夹路径都 cache 下来，当你输入路径名的时候会模糊匹配你之前<code>cd</code>过的目录路径，配合后面的自动提示插件，无敌了！！！</p>
-<p>如下图，我先<code>cd</code>到一些目录，然后就可以<code>j</code>快速切换，用<code>jo</code>快递在finder里打开文件夹<br><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/autojump_use.png" alt="autojump"><br><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/autojump_jo.png" alt="autojump"></p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装步骤</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ------ mac -------</span></span><br><span class="line">brew install autojump</span><br><span class="line">vim ~/.zshrc</span><br><span class="line"><span class="comment"># 在文件里找到plugins，添加</span></span><br><span class="line">plugins=(autojump)</span><br><span class="line"><span class="comment"># 在文件末尾添加</span></span><br><span class="line">[[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] &amp;&amp; . $(brew --prefix)/etc/profile.d/autojump.sh</span><br><span class="line"><span class="built_in">source</span> <span class="variable">$ZSH</span>/oh-my-zsh.sh</span><br><span class="line"><span class="comment"># 最后</span></span><br><span class="line"><span class="built_in">source</span> ~/.zshrc</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># ------ linux -----</span></span><br><span class="line">git <span class="built_in">clone</span> git://github.com/joelthelion/autojump.git</span><br><span class="line"><span class="built_in">cd</span> autojump</span><br><span class="line">./install.py</span><br><span class="line">vim ~/.zshrc</span><br><span class="line"><span class="comment"># 在文件里找到plugins，添加</span></span><br><span class="line">plugins=(autojump)</span><br><span class="line"><span class="comment"># 在文件末尾添加</span></span><br><span class="line">[[ -s ~/.autojump/etc/profile.d/autojump.sh ]] &amp;&amp; . ~/.autojump/etc/profile.d/autojump.sh</span><br><span class="line"><span class="built_in">source</span> ~/.zshrc</span><br></pre></td></tr></table></figure>
-<h3 id="zsh-autosuggestion"><a href="#zsh-autosuggestion" class="headerlink" title="zsh-autosuggestion"></a>zsh-autosuggestion</h3><p>如图所示，输入命令时可提示自动补全（灰色部分），然后按键盘 → （！！！！上下左右的右键，不是tab键）即可补全<br><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/zsh_suggestion.png" alt="autosuggestion"></p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装</span></span><br><span class="line">git <span class="built_in">clone</span> git://github.com/zsh-users/zsh-autosuggestions <span class="variable">$ZSH_CUSTOM</span>/plugins/zsh-autosuggestions</span><br><span class="line">vim ~/.zshrc</span><br><span class="line"><span class="comment"># 在文件里找到plugins，添加</span></span><br><span class="line">plugins=(</span><br><span class="line">  autojump</span><br><span class="line">  zsh-autosuggestions</span><br><span class="line">)</span><br><span class="line"><span class="built_in">source</span> ~/.zshrc</span><br></pre></td></tr></table></figure>
-<h3 id="zsh-syntax-highlighting"><a href="#zsh-syntax-highlighting" class="headerlink" title="zsh-syntax-highlighting"></a>zsh-syntax-highlighting</h3><p>日常用的命令会高亮显示，命令错误显示红色<br><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/zsh_hignlight.png" alt="highlighting"></p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装</span></span><br><span class="line">git <span class="built_in">clone</span> git://github.com/zsh-users/zsh-syntax-highlighting <span class="variable">$ZSH_CUSTOM</span>/plugins/zsh-syntax-highlighting</span><br><span class="line">vim ~/.zshrc</span><br><span class="line"><span class="comment"># 在文件里找到plugins，添加</span></span><br><span class="line">plugins=(</span><br><span class="line">  autojump</span><br><span class="line">  zsh-autosuggestions</span><br><span class="line">  zsh-syntax-highlighting</span><br><span class="line">)</span><br><span class="line"><span class="built_in">source</span> ~/.zshrc</span><br></pre></td></tr></table></figure>
-<h2 id="asciinema拍终端大片"><a href="#asciinema拍终端大片" class="headerlink" title="asciinema拍终端大片"></a><a href="https://asciinema.org/" target="_blank" rel="noopener">asciinema拍终端大片</a></h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># mac安装</span></span><br><span class="line">brew install asciinema</span><br><span class="line"><span class="comment"># 开始记录 first-rec.cast是自定义的文件名 也可以没有文件名</span></span><br><span class="line">asciinema rec first-rec.cast</span><br><span class="line"><span class="comment"># 停止记录</span></span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line"><span class="comment"># 按Enter键，然后 访问出现的 url</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ctrl + c 会存到本地，asciinema upload first-rec.cast 可以再次上传到官网</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 登录</span></span><br><span class="line">asciinema auth</span><br><span class="line"><span class="comment"># 首次注册会去官网，然后写个邮箱，邮箱会受到邮件，点击链接即注册</span></span><br><span class="line"><span class="comment"># 之后，一般会向邮箱里发送登录验证，点击即可</span></span><br><span class="line"><span class="comment"># 然后就会将你录制的视频，存在你的账号下</span></span><br></pre></td></tr></table></figure>
-<p><a href="https://asciinema.org/docs/embedding" target="_blank" rel="noopener">让录制的命令视频显示</a></p>
-<ul>
-<li><p>html可以这样</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"https://asciinema.org/a/14?autoplay=1"</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"https://asciinema.org/a/14.png"</span> <span class="attr">width</span>=<span class="string">"836"</span>/&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>markdown</p>
-</li>
-</ul>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">![asciicast</span>](<span class="link">https://asciinema.org/a/14.png</span>)](<span class="link">https://asciinema.org/a/14</span>)</span><br></pre></td></tr></table></figure>
-<h2 id="引用文章"><a href="#引用文章" class="headerlink" title="引用文章"></a>引用文章</h2><ul>
-<li><a href="https://www.zrahh.com/archives/167.html" target="_blank" rel="noopener">oh-my-zsh 插件推荐 : autojump、zsh-autosuggestion 以及 zsh-syntax-highlighting</a></li>
-<li><a href="https://www.barretlee.com/blog/2015/03/30/autojump-in-mac/" target="_blank" rel="noopener">小胡子哥的Mac下的效率工具autojump</a></li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2087,7 +2119,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">227</span>
+                <span class="site-state-item-count">228</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
