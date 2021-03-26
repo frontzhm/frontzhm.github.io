@@ -1,0 +1,809 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="vue," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="刚来公司的时候，在一个没有前端的部门，后台系统是后端人员一手写的，所以同一个文件的代码，前后端代码齐飞。。。 作为现代化的前端，我是拒绝写这种文件的（写不来），于是争取了一个折中的办法，新写的页面以 iframe 的形式嵌套到项目里。 也就是，我创建一个新项目，部署的时候，页面有绝对地址，再将这个地址，以iframe的形式出现在原始项目里。 毕竟后台系统大多数是左边菜单，右边内容，所以ifram">
+<meta name="keywords" content="vue">
+<meta property="og:type" content="article">
+<meta property="og:title" content="重构后台系统 | 项目复盘">
+<meta property="og:url" content="http://yoursite.com/2021/03/17/1-todo/spoc-manage/index.html">
+<meta property="og:site_name" content="花花的博客">
+<meta property="og:description" content="刚来公司的时候，在一个没有前端的部门，后台系统是后端人员一手写的，所以同一个文件的代码，前后端代码齐飞。。。 作为现代化的前端，我是拒绝写这种文件的（写不来），于是争取了一个折中的办法，新写的页面以 iframe 的形式嵌套到项目里。 也就是，我创建一个新项目，部署的时候，页面有绝对地址，再将这个地址，以iframe的形式出现在原始项目里。 毕竟后台系统大多数是左边菜单，右边内容，所以ifram">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2021-03-19T07:54:30.185Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="重构后台系统 | 项目复盘">
+<meta name="twitter:description" content="刚来公司的时候，在一个没有前端的部门，后台系统是后端人员一手写的，所以同一个文件的代码，前后端代码齐飞。。。 作为现代化的前端，我是拒绝写这种文件的（写不来），于是争取了一个折中的办法，新写的页面以 iframe 的形式嵌套到项目里。 也就是，我创建一个新项目，部署的时候，页面有绝对地址，再将这个地址，以iframe的形式出现在原始项目里。 毕竟后台系统大多数是左边菜单，右边内容，所以ifram">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2021/03/17/1-todo/spoc-manage/"/>
+
+
+
+
+
+  <title> 重构后台系统 | 项目复盘 | 花花的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?60f2cb5747a596a24f2a053f1650c30b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">花花的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/17/1-todo/spoc-manage/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                重构后台系统 | 项目复盘
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-03-17T17:51:42+08:00">
+                2021-03-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/vue/" itemprop="url" rel="index">
+                    <span itemprop="name">vue</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/03/17/1-todo/spoc-manage/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2021/03/17/1-todo/spoc-manage/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <!--
+我想你一定做过很多项目：
+
+搭建自己的个人博客
+业余造的小轮子
+正经规划蓝图、在 GitHub 开源的项目
+独立开发的商业化产品
+在公司独立负责开发的业务或者模块
+……
+
+每个项目都留下了特别的回忆：
+
+项目发布后 GitHub Star 数暴涨
+项目非常最出彩，凭此成功晋升
+功能已经完成开发，但是最后产品改需求了
+临时拉去支援兄弟团队，面对陌生的代码和陌生的同事，硬着头皮解决问题
+遇到了自己解决不了的技术问题，后来通过自己不懈钻研/请教同事，搞定上线
+封闭开发的紧急项目，写代码的时光不止 996，甚至见过凌晨 4 点的XX城市
+……
+
+如果你没有复盘过以往的项目经的话，趁此机会，回忆当时的场景、遇到的问题；总结哪里做的好、哪里还有待改进，马上写下第一篇复盘吧！
+如果你当时曾经写过复盘文章，也可以再拿出来看一看。当时的自己已经看到事情的全貌了吗？在这段时间里有没有其他想法和认知？要不要在当时的复盘上再添上几笔？
+撰文可以参考以下思路：
+
+
+作者：掘金酱
+链接：https://juejin.cn/post/6939329638506168334/
+来源：掘金
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+ -->
+<p>刚来公司的时候，在一个没有前端的部门，后台系统是后端人员一手写的，所以同一个文件的代码，前后端代码齐飞。。。</p>
+<p>作为现代化的前端，我是拒绝写这种文件的（写不来），于是争取了一个折中的办法，新写的页面以 iframe 的形式嵌套到项目里。</p>
+<p>也就是，我创建一个新项目，部署的时候，页面有绝对地址，再将这个地址，以<code>iframe</code>的形式出现在原始项目里。</p>
+<p>毕竟后台系统大多数是左边菜单，右边内容，所以<code>iframe</code>在右边内容区就可以了。</p>
+<p>鉴于，彼时我就刚会个<code>vue</code>，所以项目就用<code>vue CLI</code>搭建起来了，组件库比较之下，觉得<code>element-ui</code>界面更适合，于是我人生独立创建的第一个<code>vue</code>项目就起来了，挺兴奋的！</p>
+<h2 id="抽离公共逻辑和封装全局组件"><a href="#抽离公共逻辑和封装全局组件" class="headerlink" title="抽离公共逻辑和封装全局组件"></a>抽离公共逻辑和封装全局组件</h2><p>写的页面越来越多，发现多数页面基本就是<code>查询条件表单+表格</code>，也基本有<code>新建 + 编辑 + 删除</code>的逻辑。</p>
+<p>于是基于<code>el-form</code>和<code>el-table</code>重新封装组件，作为全局组件，这样多数页面通过配置的方式创建表单和表格</p>
+<p><code>新建 + 编辑 + 删除</code>则是抽离出来，变成全局的<code>mixin</code>，这样写一个页面速度就很快了。</p>
+<p>当然后来才知道<code>Ant Design</code>才是封装高手，现在要是创建后台项目的话，肯定用<code>Ant Design</code>了！</p>
+<h2 id="封装-axios-和-API-接口管理"><a href="#封装-axios-和-API-接口管理" class="headerlink" title="封装 axios 和 API 接口管理"></a>封装 axios 和 API 接口管理</h2><p>开始的接口散落在页面里，后来页面渐多之后，封装 axios，增加 API 接口管理。<br>过程参考：<a href="https://juejin.cn/post/6844903652881072141#heading-10" target="_blank" rel="noopener">楞锤写的接口管理</a></p>
+<ul>
+<li>创建<code>axios</code>实例，统一的配置在这里设置，包括错误处理、请求拦截器、响应拦截器</li>
+<li>将业务划分模块，每个模块有自己的接口文件，再将每个模块放在<code>index.js</code>统一导出</li>
+<li>将<code>api</code>挂载到<code>vue.prototype上</code>，全局使用</li>
+<li>用路由守卫钩子，处理跳转页面的时候，如果断网的情况</li>
+</ul>
+<h2 id="再次重构，切换vue-element-admin框架"><a href="#再次重构，切换vue-element-admin框架" class="headerlink" title="再次重构，切换vue-element-admin框架"></a>再次重构，切换<code>vue-element-admin</code>框架</h2><p>过了半年，组织决定，将原来的项目放弃，彻底的前后端分离。</p>
+<p>考虑到尽量无痛过渡，还是先将原项目已有的页面，先写出来。</p>
+<p>这样原来的项目就差 根据权限设置菜单，以及公共的一些样式了。</p>
+<p>搜索权限设置菜单的时候，发现<code>vue-element-admin</code>框架，居然是基于<code>element-ui</code>，而且在权限设置和公共样式组件这块，作者封装的非常好，文档也很细，果断采用。</p>
+<p>下载<code>vue-element-admin</code>框架，将项目的逻辑直接挪过去，路由这块需要重新配置下，这样内容可以全部显示了。</p>
+<!-- ## 动态设置面包屑
+
+框架的面包屑，就是路由里面的`title`，但实际应用中，二级页面的标题是根据一级页面点击项决定的。
+
+比如一级列表是是展示用户列表，点击任意用户，进入二级页面用户详情，希望面包屑能展示相应的用户名。
+
+解决的方法是：
+
+- 有一个全局state，面包屑，里面是数组放着`['来路1','来路2']`
+- 在二级或者三级页面，需要自定义面包屑的时候，配置页面路由`meta:{depth:1,breadcrumbKey:'title'}`
+- 一级页面跳转到二级页面的时候，路由传参加上相应的key，`title=颜酱`
+- 路由守卫那边，跳到页面前，判断当前页面的路由有没有`depth，breadcrumbKey`，更换面包屑里面的值 -->
+<h2 id="动态设置菜单"><a href="#动态设置菜单" class="headerlink" title="动态设置菜单"></a>动态设置菜单</h2><p>权限设置这块，需要根据当前项目另外写逻辑。</p>
+<p>每个用户都有自己的角色，每个角色能看到不同的菜单，而菜单有很多嵌套关系。</p>
+<p>前端根据这个菜单信息，动态生成左侧菜单。</p>
+<p>和后台沟通之后，决定菜单名需要严格一致，前端配置路由的时候，菜单名称和后端返回的名称一致。</p>
+<p>也就是后端返回</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">  &#123; <span class="attr">title</span>: <span class="string">"首页"</span> &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    title: <span class="string">"教学管理"</span>,</span><br><span class="line">    children: [&#123; <span class="attr">title</span>: <span class="string">"教师管理"</span> &#125;, &#123; <span class="attr">title</span>: <span class="string">"助教管理"</span> &#125;],</span><br><span class="line">  &#125;,</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+<p>而每个的路由配置是：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  path:<span class="string">'/teaching'</span>,</span><br><span class="line">  meta:&#123;<span class="attr">title</span>:<span class="string">'教学管理'</span>&#125;,</span><br><span class="line">  children: [&#123;<span class="attr">path</span>:<span class="string">'/teacher-manage'</span>,<span class="attr">meta</span>:&#123;<span class="attr">title</span>:<span class="string">'教师管理'</span>&#125;&#125;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这边的处理是拿到后端返回的菜单列表后，在全部路由里过滤，生成用户自己的路由配置，这样左侧菜单就出来了。<br>在根据路由得到可访问的路径列表，如果访问权限外的页面，就跳到401了。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 地址：https://www.cnblogs.com/zhengrunlin/p/8981017.html</span></span><br><span class="line"><span class="comment"> * @param  &#123;Array&#125; userRouter 后台返回的用户权限json</span></span><br><span class="line"><span class="comment"> * @param  &#123;Array&#125; allRouter  前端配置好的所有动态路由的集合</span></span><br><span class="line"><span class="comment"> * @return &#123;Array&#125; realRoutes 过滤后的路由</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">recursionRouter</span>(<span class="params">userRouter = [], allRouter = []</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> realRoutes = [];</span><br><span class="line">  allRouter.forEach(<span class="function">(<span class="params">v, i</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 如果有隐藏属性，直接添加</span></span><br><span class="line">    <span class="keyword">if</span> (v.hidden) &#123;</span><br><span class="line">      realRoutes.push(v);</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    userRouter.forEach(<span class="function">(<span class="params">item, index</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (item.title === v.meta.title) &#123;</span><br><span class="line">        <span class="keyword">if</span> (item.children &amp;&amp; item.children.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">          v.children = recursionRouter(item.children, v.children);</span><br><span class="line">        &#125;</span><br><span class="line">        realRoutes.push(v);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="keyword">return</span> realRoutes;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 根据routes拿到可访问的path列表</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getPaths</span>(<span class="params">routes</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> res = [];</span><br><span class="line">  routes.forEach(<span class="function">(<span class="params">item</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (item.children &amp;&amp; item.children.length) &#123;</span><br><span class="line">      res.push(...getPaths(item.children));</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    res.push(item.path);</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>## </p>
+<p>## </p>
+<h2 id="其他的文章推荐"><a href="#其他的文章推荐" class="headerlink" title="其他的文章推荐"></a>其他的文章推荐</h2><p><a href="https://juejin.cn/post/6912308157997907982" target="_blank" rel="noopener">让 el-table 更好用，通过配置的方式</a><br><a href="https://juejin.cn/post/6911964058644135943" target="_blank" rel="noopener">让 el-form 更好用，通过配置的方式</a><br><a href="https://juejin.cn/post/6917218644711702541" target="_blank" rel="noopener">快速搞定，查询 + 表格，这种页面</a></p>
+<p>本文正在参与「掘金 2021 春招闯关活动」, 点击查看 <a href="https://juejin.cn/post/6939329638506168334" target="_blank" rel="noopener">活动详情</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/vue/" rel="tag"># vue</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/03/15/ckeditor/" rel="next" title="ckeditor的使用 -- 入门版">
+                <i class="fa fa-chevron-left"></i> ckeditor的使用 -- 入门版
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/03/19/1-todo/contact-h5/" rel="prev" title="通讯录组件 | 项目复盘">
+                通讯录组件 | 项目复盘 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2021/03/17/1-todo/spoc-manage/"
+           data-title="重构后台系统 | 项目复盘" data-url="http://yoursite.com/2021/03/17/1-todo/spoc-manage/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://omizt4opc.bkt.clouddn.com/avatar.jpg"
+               alt="frontzhm" />
+          <p class="site-author-name" itemprop="name">frontzhm</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">227</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">54</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#抽离公共逻辑和封装全局组件"><span class="nav-number">1.</span> <span class="nav-text">抽离公共逻辑和封装全局组件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#封装-axios-和-API-接口管理"><span class="nav-number">2.</span> <span class="nav-text">封装 axios 和 API 接口管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#再次重构，切换vue-element-admin框架"><span class="nav-number">3.</span> <span class="nav-text">再次重构，切换vue-element-admin框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#动态设置菜单"><span class="nav-number">4.</span> <span class="nav-text">动态设置菜单</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他的文章推荐"><span class="nav-number">5.</span> <span class="nav-text">其他的文章推荐</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">frontzhm</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"frontzhm"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

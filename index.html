@@ -261,6 +261,560 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/26/algorithm_sum/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2021/03/26/algorithm_sum/" itemprop="url">
+                  嵌套遍历同一个数组的时候，试试Map优化 -- 数组经典算法题
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-03-26T11:48:16+08:00">
+                2021-03-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/03/26/algorithm_sum/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2021/03/26/algorithm_sum/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>最近在看数据结构和算法，努力总结出道~</p>
+<h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL:DR"></a>TL:DR</h2><ul>
+<li>嵌套遍历同一个数组的时候，试试Map优化。</li>
+</ul>
+<p>因为嵌套遍历的时间复杂度是O(n^2)，有点大，于是可以想下，用空间换时间，在遍历的时候，记录已经遍历过的元素和对应的下标，常用的记录方式就是Map。</p>
+<ul>
+<li>几乎所有的求和问题，都可以转化为求差问题，这样会变得更简单。</li>
+</ul>
+<h2 id="练习：两数求和"><a href="#练习：两数求和" class="headerlink" title="练习：两数求和"></a>练习：两数求和</h2><p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/43d50df3be3b4613805aa231274c3154~tplv-k3u1fbpfcp-zoom-1.image" alt="sum1"></p>
+<p>没有算法基础的话，第一想法是嵌套遍历。</p>
+<ul>
+<li>枚举所有不同下标的组合</li>
+<li>看下和是不是target</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> twoSum = <span class="function"><span class="keyword">function</span> (<span class="params">nums, target</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> len = nums.length;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; len; i++) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> j = i + <span class="number">1</span>; j &lt; len; j++) &#123;</span><br><span class="line">      <span class="keyword">if</span> (nums[i] + nums[j] === target) &#123;</span><br><span class="line">        <span class="keyword">return</span> [i, j];</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>显然空间O(1)，时间O(n^2)</p>
+<p>想想原则，然后优化！</p>
+<p>嵌套遍历想到Map，用空间换时间，求和转为求差。</p>
+<ul>
+<li>在遍历数组的过程中，用 Map 来记录已经遍历过的数字及其对应的索引值。</li>
+<li>每遍历到一个新数字的时候，看下 target 与该数的差值是否在map里</li>
+<li>在则直接返回答案，反之继续存储往后走</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> twoSum = <span class="function"><span class="keyword">function</span> (<span class="params">nums, target</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 用对象来模拟 map，存储遍历过的元素和索引</span></span><br><span class="line">  <span class="keyword">const</span> map = &#123;&#125;;</span><br><span class="line">  <span class="keyword">const</span> len = nums.length;</span><br><span class="line">  <span class="comment">// 遍历数组</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; len; i++) &#123;</span><br><span class="line">    <span class="keyword">const</span> cur = nums[i];</span><br><span class="line">    <span class="keyword">const</span> diff = target - cur;</span><br><span class="line">    <span class="comment">// 看看差值 在不在 map里</span></span><br><span class="line">    <span class="keyword">if</span> (diff <span class="keyword">in</span> map) &#123;</span><br><span class="line">      <span class="comment">// 在就返回答案</span></span><br><span class="line">      <span class="keyword">return</span> [map[diff], i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 不在就存储，继续遍历</span></span><br><span class="line">    map[cur] = i;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>这样空间就是O(n)，时间也是O(n)~~</p>
+<p>可以看下<a href="https://leetcode-cn.com/problems/two-sum/solution/liang-shu-zhi-he-by-leetcode-solution/" target="_blank" rel="noopener">官方视频</a></p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
+<li><a href="https://juejin.cn/book/6844733800300150797/section/6844733800350498824" target="_blank" rel="noopener">修言的前端算法和数据结构</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/19/1-todo/contact-h5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2021/03/19/1-todo/contact-h5/" itemprop="url">
+                  通讯录组件 | 项目复盘
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-03-19T12:27:49+08:00">
+                2021-03-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/vue/" itemprop="url" rel="index">
+                    <span itemprop="name">vue</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/03/19/1-todo/contact-h5/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2021/03/19/1-todo/contact-h5/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>写h5项目的时候，有个联系人列表，非常像手机的通讯录。<br>考虑到复用的问题，封装了一个通讯录组件。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/17/1-todo/spoc-manage/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2021/03/17/1-todo/spoc-manage/" itemprop="url">
+                  重构后台系统 | 项目复盘
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-03-17T17:51:42+08:00">
+                2021-03-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/vue/" itemprop="url" rel="index">
+                    <span itemprop="name">vue</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/03/17/1-todo/spoc-manage/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2021/03/17/1-todo/spoc-manage/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <!--
+我想你一定做过很多项目：
+
+搭建自己的个人博客
+业余造的小轮子
+正经规划蓝图、在 GitHub 开源的项目
+独立开发的商业化产品
+在公司独立负责开发的业务或者模块
+……
+
+每个项目都留下了特别的回忆：
+
+项目发布后 GitHub Star 数暴涨
+项目非常最出彩，凭此成功晋升
+功能已经完成开发，但是最后产品改需求了
+临时拉去支援兄弟团队，面对陌生的代码和陌生的同事，硬着头皮解决问题
+遇到了自己解决不了的技术问题，后来通过自己不懈钻研/请教同事，搞定上线
+封闭开发的紧急项目，写代码的时光不止 996，甚至见过凌晨 4 点的XX城市
+……
+
+如果你没有复盘过以往的项目经的话，趁此机会，回忆当时的场景、遇到的问题；总结哪里做的好、哪里还有待改进，马上写下第一篇复盘吧！
+如果你当时曾经写过复盘文章，也可以再拿出来看一看。当时的自己已经看到事情的全貌了吗？在这段时间里有没有其他想法和认知？要不要在当时的复盘上再添上几笔？
+撰文可以参考以下思路：
+
+
+作者：掘金酱
+链接：https://juejin.cn/post/6939329638506168334/
+来源：掘金
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+ -->
+<p>刚来公司的时候，在一个没有前端的部门，后台系统是后端人员一手写的，所以同一个文件的代码，前后端代码齐飞。。。</p>
+<p>作为现代化的前端，我是拒绝写这种文件的（写不来），于是争取了一个折中的办法，新写的页面以 iframe 的形式嵌套到项目里。</p>
+<p>也就是，我创建一个新项目，部署的时候，页面有绝对地址，再将这个地址，以<code>iframe</code>的形式出现在原始项目里。</p>
+<p>毕竟后台系统大多数是左边菜单，右边内容，所以<code>iframe</code>在右边内容区就可以了。</p>
+<p>鉴于，彼时我就刚会个<code>vue</code>，所以项目就用<code>vue CLI</code>搭建起来了，组件库比较之下，觉得<code>element-ui</code>界面更适合，于是我人生独立创建的第一个<code>vue</code>项目就起来了，挺兴奋的！</p>
+<h2 id="抽离公共逻辑和封装全局组件"><a href="#抽离公共逻辑和封装全局组件" class="headerlink" title="抽离公共逻辑和封装全局组件"></a>抽离公共逻辑和封装全局组件</h2><p>写的页面越来越多，发现多数页面基本就是<code>查询条件表单+表格</code>，也基本有<code>新建 + 编辑 + 删除</code>的逻辑。</p>
+<p>于是基于<code>el-form</code>和<code>el-table</code>重新封装组件，作为全局组件，这样多数页面通过配置的方式创建表单和表格</p>
+<p><code>新建 + 编辑 + 删除</code>则是抽离出来，变成全局的<code>mixin</code>，这样写一个页面速度就很快了。</p>
+<p>当然后来才知道<code>Ant Design</code>才是封装高手，现在要是创建后台项目的话，肯定用<code>Ant Design</code>了！</p>
+<h2 id="封装-axios-和-API-接口管理"><a href="#封装-axios-和-API-接口管理" class="headerlink" title="封装 axios 和 API 接口管理"></a>封装 axios 和 API 接口管理</h2><p>开始的接口散落在页面里，后来页面渐多之后，封装 axios，增加 API 接口管理。<br>过程参考：<a href="https://juejin.cn/post/6844903652881072141#heading-10" target="_blank" rel="noopener">楞锤写的接口管理</a></p>
+<ul>
+<li>创建<code>axios</code>实例，统一的配置在这里设置，包括错误处理、请求拦截器、响应拦截器</li>
+<li>将业务划分模块，每个模块有自己的接口文件，再将每个模块放在<code>index.js</code>统一导出</li>
+<li>将<code>api</code>挂载到<code>vue.prototype上</code>，全局使用</li>
+<li>用路由守卫钩子，处理跳转页面的时候，如果断网的情况</li>
+</ul>
+<h2 id="再次重构，切换vue-element-admin框架"><a href="#再次重构，切换vue-element-admin框架" class="headerlink" title="再次重构，切换vue-element-admin框架"></a>再次重构，切换<code>vue-element-admin</code>框架</h2><p>过了半年，组织决定，将原来的项目放弃，彻底的前后端分离。</p>
+<p>考虑到尽量无痛过渡，还是先将原项目已有的页面，先写出来。</p>
+<p>这样原来的项目就差 根据权限设置菜单，以及公共的一些样式了。</p>
+<p>搜索权限设置菜单的时候，发现<code>vue-element-admin</code>框架，居然是基于<code>element-ui</code>，而且在权限设置和公共样式组件这块，作者封装的非常好，文档也很细，果断采用。</p>
+<p>下载<code>vue-element-admin</code>框架，将项目的逻辑直接挪过去，路由这块需要重新配置下，这样内容可以全部显示了。</p>
+<!-- ## 动态设置面包屑
+
+框架的面包屑，就是路由里面的`title`，但实际应用中，二级页面的标题是根据一级页面点击项决定的。
+
+比如一级列表是是展示用户列表，点击任意用户，进入二级页面用户详情，希望面包屑能展示相应的用户名。
+
+解决的方法是：
+
+- 有一个全局state，面包屑，里面是数组放着`['来路1','来路2']`
+- 在二级或者三级页面，需要自定义面包屑的时候，配置页面路由`meta:{depth:1,breadcrumbKey:'title'}`
+- 一级页面跳转到二级页面的时候，路由传参加上相应的key，`title=颜酱`
+- 路由守卫那边，跳到页面前，判断当前页面的路由有没有`depth，breadcrumbKey`，更换面包屑里面的值 -->
+<h2 id="动态设置菜单"><a href="#动态设置菜单" class="headerlink" title="动态设置菜单"></a>动态设置菜单</h2><p>权限设置这块，需要根据当前项目另外写逻辑。</p>
+<p>每个用户都有自己的角色，每个角色能看到不同的菜单，而菜单有很多嵌套关系。</p>
+<p>前端根据这个菜单信息，动态生成左侧菜单。</p>
+<p>和后台沟通之后，决定菜单名需要严格一致，前端配置路由的时候，菜单名称和后端返回的名称一致。</p>
+<p>也就是后端返回</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">  &#123; <span class="attr">title</span>: <span class="string">"首页"</span> &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    title: <span class="string">"教学管理"</span>,</span><br><span class="line">    children: [&#123; <span class="attr">title</span>: <span class="string">"教师管理"</span> &#125;, &#123; <span class="attr">title</span>: <span class="string">"助教管理"</span> &#125;],</span><br><span class="line">  &#125;,</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+<p>而每个的路由配置是：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  path:<span class="string">'/teaching'</span>,</span><br><span class="line">  meta:&#123;<span class="attr">title</span>:<span class="string">'教学管理'</span>&#125;,</span><br><span class="line">  children: [&#123;<span class="attr">path</span>:<span class="string">'/teacher-manage'</span>,<span class="attr">meta</span>:&#123;<span class="attr">title</span>:<span class="string">'教师管理'</span>&#125;&#125;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这边的处理是拿到后端返回的菜单列表后，在全部路由里过滤，生成用户自己的路由配置，这样左侧菜单就出来了。<br>在根据路由得到可访问的路径列表，如果访问权限外的页面，就跳到401了。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 地址：https://www.cnblogs.com/zhengrunlin/p/8981017.html</span></span><br><span class="line"><span class="comment"> * @param  &#123;Array&#125; userRouter 后台返回的用户权限json</span></span><br><span class="line"><span class="comment"> * @param  &#123;Array&#125; allRouter  前端配置好的所有动态路由的集合</span></span><br><span class="line"><span class="comment"> * @return &#123;Array&#125; realRoutes 过滤后的路由</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">recursionRouter</span>(<span class="params">userRouter = [], allRouter = []</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> realRoutes = [];</span><br><span class="line">  allRouter.forEach(<span class="function">(<span class="params">v, i</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 如果有隐藏属性，直接添加</span></span><br><span class="line">    <span class="keyword">if</span> (v.hidden) &#123;</span><br><span class="line">      realRoutes.push(v);</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    userRouter.forEach(<span class="function">(<span class="params">item, index</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (item.title === v.meta.title) &#123;</span><br><span class="line">        <span class="keyword">if</span> (item.children &amp;&amp; item.children.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">          v.children = recursionRouter(item.children, v.children);</span><br><span class="line">        &#125;</span><br><span class="line">        realRoutes.push(v);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="keyword">return</span> realRoutes;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 根据routes拿到可访问的path列表</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getPaths</span>(<span class="params">routes</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> res = [];</span><br><span class="line">  routes.forEach(<span class="function">(<span class="params">item</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (item.children &amp;&amp; item.children.length) &#123;</span><br><span class="line">      res.push(...getPaths(item.children));</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    res.push(item.path);</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>## </p>
+<p>## </p>
+<h2 id="其他的文章推荐"><a href="#其他的文章推荐" class="headerlink" title="其他的文章推荐"></a>其他的文章推荐</h2><p><a href="https://juejin.cn/post/6912308157997907982" target="_blank" rel="noopener">让 el-table 更好用，通过配置的方式</a><br><a href="https://juejin.cn/post/6911964058644135943" target="_blank" rel="noopener">让 el-form 更好用，通过配置的方式</a><br><a href="https://juejin.cn/post/6917218644711702541" target="_blank" rel="noopener">快速搞定，查询 + 表格，这种页面</a></p>
+<p>本文正在参与「掘金 2021 春招闯关活动」, 点击查看 <a href="https://juejin.cn/post/6939329638506168334" target="_blank" rel="noopener">活动详情</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/15/ckeditor/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1724,685 +2278,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/20/exam_execute_context/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2021/01/20/exam_execute_context/" itemprop="url">
-                  理解执行上下文
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-20T17:15:43+08:00">
-                2021-01-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2021/01/20/exam_execute_context/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2021/01/20/exam_execute_context/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>代码一旦变多，我们就会尝试写函数、拆文件、拆模块，从而让代码更容易。</p>
-<p>将庞大的问题拆分成一个个小问题的思想，叫分治（突然想到皇帝的政策）。</p>
-<p>同理，JS 引擎在<strong>执行阶段</strong>，会将把<strong>庞大</strong>的执行任务划分成不同的<strong>执行上下文</strong>，降低执行的复杂度。</p>
-<h2 id="执行上下文是啥"><a href="#执行上下文是啥" class="headerlink" title="执行上下文是啥"></a>执行上下文是啥</h2><p>执行上下文，简言之，“执行代码的环境”。结合分类、生命周期更易懂些。</p>
-<p>执行上下文分为 3 类：</p>
-<ul>
-<li>全局上下文 —— 全局代码所处的环境，不在函数中的代码都在全局执行上下文中</li>
-<li>函数上下文 —— 在函数调用时创建的上下文</li>
-<li><code>eval</code>上下文 —— 笔者不用<code>eval</code>，读者也别用，问就是没用过~</li>
-</ul>
-<p>执行上下文的生命周期：</p>
-<ul>
-<li>创建阶段 —— 执行上下文的初始化状态，此时一行代码都还没有执行，只是做了一些准备工作（进栈）</li>
-<li>执行阶段 —— 逐行执行脚本里的代码</li>
-<li>消失阶段 – 出栈</li>
-</ul>
-<h2 id="全局上下文的生命周期"><a href="#全局上下文的生命周期" class="headerlink" title="全局上下文的生命周期"></a>全局上下文的生命周期</h2><p>JS 脚本运行起来之后，会第一时间创建<code>全局上下文</code>。</p>
-<p>全局上下文创建阶段做的事情：</p>
-<ul>
-<li>创建全局对象（Window/Global）</li>
-<li>创建 this ，并让它指向全局对象</li>
-<li>给变量和函数安排内存空间，默认给变量赋值为 undefined；将函数声明放入内存</li>
-<li><strong>创建</strong>作用域链</li>
-</ul>
-<p>执行阶段就开始执行代码。</p>
-<p>而之前所谓的<code>变量提升</code>，只是变量的创建过程（在上下文创建阶段完成）和真实赋值过程（在上下文执行阶段完成）的不同步带来的一种错觉。</p>
-<h2 id="函数上下文的生命周期"><a href="#函数上下文的生命周期" class="headerlink" title="函数上下文的生命周期"></a>函数上下文的生命周期</h2><p>和全局上下文大同小异。</p>
-<p>函数上下文在函数调用的时候就会被创建。</p>
-<ul>
-<li>创建 arguments</li>
-<li>创建 this ，并让它指向调用对象</li>
-<li>给变量和函数安排内存空间，默认给变量赋值为 undefined；将函数声明放入内存</li>
-<li>初始化作用域链</li>
-</ul>
-<p>执行阶段就开始执行代码。<br>执行完毕，就出栈了。</p>
-<p>上面说到了初始化作用域链，怎么初始化？</p>
-<h2 id="执行上下文栈"><a href="#执行上下文栈" class="headerlink" title="执行上下文栈"></a>执行上下文栈</h2><p>JS 引擎在执行过程中，会为我们自动创建” 执行上下文栈 “（也叫调用栈）。</p>
-<p>全局上下文执行栈<strong>始终</strong>在最底层。</p>
-<p>调用函数的时候，函数上下文就会进栈，执行完就会出栈，也就是该上下文就结束了。</p>
-<h2 id="作用域链的生命周期"><a href="#作用域链的生命周期" class="headerlink" title="作用域链的生命周期"></a>作用域链的生命周期</h2><p>参考<a href="https://github.com/mqyqingfeng/Blog/issues/6" target="_blank" rel="noopener">大神写的深入作用域链</a><br>作用域链的生命周期：</p>
-<ul>
-<li>全局上下文创建阶段，声明函数的时候，就保存了根据词法所生成的作用域链</li>
-<li>函数调用之后，函数上下文被创建（进栈）</li>
-<li>函数上下文在创建阶段，会复制这个作用域链，作为自己作用域链的初始化，然后根据环境生成变量对象，将这个变量对象，添加到这个复制的作用域链</li>
-<li>函数上下文在执行阶段，会将当前作用域链的相关值更新</li>
-<li>函数执行完，函数上下文出栈，刚刚复制的作用域链失效</li>
-</ul>
-<p>至于为什么会有两个作用域链，是因为在函数创建的时候并不能确定最终的作用域的样子，为什么会采用复制的方式而不是直接修改呢？应该是因为函数会被调用很多次吧。</p>
-<p>举个例子：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> scope = <span class="string">"global scope"</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">checkscope</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> scope2 = <span class="string">"local scope"</span>;</span><br><span class="line">  <span class="keyword">return</span> scope2;</span><br><span class="line">&#125;</span><br><span class="line">checkscope();</span><br></pre></td></tr></table></figure>
-<p>全局上下文在创建阶段：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">stacks = [globalContext];</span><br><span class="line">checkscope.[[scope]] = [</span><br><span class="line">    globalContext.VO</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
-<p>执行<code>checkscope()</code>这行代码的时候：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// checkscopeContext进栈</span></span><br><span class="line">stacks = [checkscopeContext, globalContext];</span><br></pre></td></tr></table></figure>
-<p>checkscopeContext 在创建阶段:</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 先复制</span></span><br><span class="line">checkscopeContext = &#123;</span><br><span class="line">    Scope: checkscope.[[scope]]</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 然后用 arguments 创建活动对象，随后初始化活动对象，加入形参、函数声明、变量声明</span></span><br><span class="line">checkscopeContext = &#123;</span><br><span class="line">    AO: &#123;</span><br><span class="line">      <span class="built_in">arguments</span>: &#123; <span class="attr">length</span>: <span class="number">0</span> &#125;,</span><br><span class="line">      scope2: <span class="literal">undefined</span></span><br><span class="line">    &#125;,</span><br><span class="line">    Scope: checkscope.[[scope]]</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 再将活动对象放在checkscope 作用域链顶端</span></span><br><span class="line">checkscopeContext = &#123;</span><br><span class="line">    AO: &#123;</span><br><span class="line">        <span class="built_in">arguments</span>: &#123; <span class="attr">length</span>: <span class="number">0</span> &#125;,</span><br><span class="line">        scope2: <span class="literal">undefined</span></span><br><span class="line">    &#125;,</span><br><span class="line">    Scope: [AO, [[Scope]]]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>checkscopeContext 在执行阶段:</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 修改 AO 的属性值</span></span><br><span class="line">checkscopeContext = &#123;</span><br><span class="line">  AO: &#123;</span><br><span class="line">    <span class="built_in">arguments</span>: &#123; <span class="attr">length</span>: <span class="number">0</span> &#125;,</span><br><span class="line">    scope2: <span class="string">"local scope"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  Scope: [AO, [[Scope]]]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>执行完之后，checkscopeContext 出栈</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stacks = [globalContext];</span><br></pre></td></tr></table></figure>
-<p>为啥，作用域在嵌套的情况下，外部作用域是不能访问内部作用域的变量呢？</p>
-<p>因为当 JS 引擎位于外部上下文的时候，表明内部上下文已经出栈了，其维护的自己的作用域链也消失了，自然访问不到其变量。</p>
-<h2 id="理解闭包作用域"><a href="#理解闭包作用域" class="headerlink" title="理解闭包作用域"></a>理解闭包作用域</h2><p>闭包里，虽然父作用域在父函数执行完就出栈了，但是，因为父函数执行的时候，闭包函数本身也保存了一份父函数的作用域数据，所以当闭包函数执行的时候，仍可访问到父函数的作用域数据。</p>
-<p>先看这个例子，参考<a href="https://github.com/yy9306/yy9306.github.io/issues/4" target="_blank" rel="noopener">大神的深入闭包</a></p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> scope = <span class="string">"global scope"</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">checkscope</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> scope = <span class="string">"local scope"</span>;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> scope;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> f;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// checkscope执行完之后，checkscopeContext是肯定出栈的</span></span><br><span class="line"><span class="keyword">var</span> foo = checkscope();</span><br><span class="line"><span class="comment">// 那么在foo执行的时候，为什么能访问</span></span><br><span class="line">foo();</span><br></pre></td></tr></table></figure>
-<p>checkscope执行完之后，checkscopeContext是肯定出栈的。</p>
-<p>那为什么foo执行的时候，还能访问<code>checkscopeContext</code>？</p>
-<p>联系之前的作用域生命周期来理解这个问题：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 全局作用域在创建阶段：</span></span><br><span class="line">fContext.[[scope]] = [</span><br><span class="line">    checkscopeContext.VO,</span><br><span class="line">    globalContext.VO</span><br><span class="line">];</span><br><span class="line"><span class="comment">// checkscopeContext在运行阶段：</span></span><br><span class="line">fContext.[[scope]] = [</span><br><span class="line">    <span class="comment">// 此处保留了checkscopeContext的AO，也就是保留了其arguments/参数值/变量值/定义的函数</span></span><br><span class="line">    checkscopeContext.AO,</span><br><span class="line">    globalContext.VO</span><br><span class="line">];</span><br><span class="line"><span class="comment">// fContext在执行阶段：</span></span><br><span class="line">fContext = &#123;</span><br><span class="line">    <span class="comment">// 优先访问自己的AO，找不到，仍然可以访问checkscopeContext.AO</span></span><br><span class="line">    Scope: [AO, checkscopeContext.AO, globalContext.VO],</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/20/exam_this/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2021/01/20/exam_this/" itemprop="url">
-                  努力说清this的指向和怎么改变this的指向
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-20T14:31:05+08:00">
-                2021-01-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2021/01/20/exam_this/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2021/01/20/exam_this/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>JS 中的 this，总是神神叨叨的，不小心就错了。</p>
-<p>希望我自己写完本文之后，以后也按着现在捋顺的逻辑来分析 this。</p>
-<h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
-<li>箭头函数的<code>this</code>，和它<strong>书写的位置</strong>密切相关，在书写阶段（即声明位置）就绑定到它父作用域的 <code>this</code></li>
-<li>构造函数的<code>this</code>，会绑定到我们 <code>new</code> 出来的这个对象上</li>
-<li>在不使用<code>call/apply/bind</code>改变<code>this</code>指向的时候，普通函数的<code>this</code>，<strong>只</strong>在调用的时候，绑定到<strong>调用方</strong>，和它的位置没有关系<ul>
-<li>立即执行函数、setTimeout、setInterval 内部是<strong>普通函数</strong>的时候，因为其调用方是<code>window</code>，所以<code>this</code>是<code>window</code></li>
-</ul>
-</li>
-<li>call/apply/bind 均可改变 this 指向，且均可被手写实现</li>
-</ul>
-<h2 id="箭头函数"><a href="#箭头函数" class="headerlink" title="箭头函数"></a>箭头函数</h2><p>箭头函数的<code>this</code>，和它书写的位置密切相关，在书写阶段（即声明位置）就绑定到它父作用域的 <code>this</code>。</p>
-<p>因为其由父作用域决定，所以父作用域至关重要。</p>
-<ul>
-<li>若箭头函数的父作用域是全局作用域，则 this 始终指向<code>window</code></li>
-<li>若箭头函数的父作用域是函数作用域，则指向函数作用域的<code>this</code></li>
-</ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">  a: <span class="number">2</span>,</span><br><span class="line">  func2: <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 父作用域是全局，this始终都是window</span></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.a);</span><br><span class="line">  &#125;,</span><br><span class="line">  func3: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 等同于func3作用域的this</span></span><br><span class="line">    () =&gt; &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="keyword">this</span>.a);</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// func1</span></span><br><span class="line"><span class="keyword">var</span> func1 = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">//  父作用域是全局，this任何时候都是window</span></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>.a);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// func2</span></span><br><span class="line"><span class="keyword">var</span> func2 = obj.func2;</span><br><span class="line"><span class="comment">// func3</span></span><br><span class="line"><span class="keyword">var</span> func3 = obj.func3;</span><br><span class="line">func1();</span><br><span class="line">func2();</span><br><span class="line">func3();</span><br><span class="line">obj.func2();</span><br><span class="line">obj.func3();</span><br></pre></td></tr></table></figure>
-<h2 id="构造函数里的-this"><a href="#构造函数里的-this" class="headerlink" title="构造函数里的 this"></a>构造函数里的 this</h2><p>构造函数里面的 this 会绑定到我们 new 出来的这个对象上：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.name = name;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// this是person</span></span><br><span class="line"><span class="keyword">var</span> person = <span class="keyword">new</span> Person(<span class="string">"yan"</span>);</span><br></pre></td></tr></table></figure>
-<h2 id="function-定义的普通函数"><a href="#function-定义的普通函数" class="headerlink" title="function 定义的普通函数"></a>function 定义的普通函数</h2><p>function 定义的普通函数，this 的指向是在调用时决定的，而不是在书写时决定的。这点和闭包恰恰相反。</p>
-<p>换言之：不管方法被书写在哪个位置，它的 this 只会跟着它的调用方走，<br>再大白话点：<code>xx.fn()</code>，点前面是谁，fn 里的 this 就是谁。没有点就是 window。</p>
-<blockquote>
-<p>注意上面的前提是：不使用<code>call/apply/bind</code>改变<code>this</code>指向的时候。</p>
-</blockquote>
-<p>必须严格区分 “声明位置” 与 “调用位置”！！！</p>
-<p>上面的秘诀掌握好了，下面的例子就是 easy 了</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 声明位置</span></span><br><span class="line"><span class="keyword">var</span> me = &#123;</span><br><span class="line">  name: <span class="string">"yan"</span>,</span><br><span class="line">  hello: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`你好，我是<span class="subst">$&#123;<span class="keyword">this</span>.name&#125;</span>`</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> you = &#123;</span><br><span class="line">  name: <span class="string">"xiaoming"</span>,</span><br><span class="line">  hello: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> targetFunc = me.hello;</span><br><span class="line">    targetFunc();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> name = <span class="string">"BigBear"</span>;</span><br><span class="line"><span class="comment">// 调用位置</span></span><br><span class="line">you.hello();</span><br></pre></td></tr></table></figure>
-<p>还有 2 种特殊点的情景：<br>没有调用方，所以 this 始终都是<code>window</code></p>
-<ul>
-<li>立即执行函数（IIFE），<code>(function(){})()</code></li>
-<li>setTimeout/setInterval 中传入的普通函数，<code>setTimeout(function(){...},1000)</code></li>
-</ul>
-<p>！！！注意，必须是 function 写的普通函数，如果箭头函数，仍遵循箭头函数的规则</p>
-<p>先看个立即执行函数的例子，</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name = <span class="string">"BigBear"</span>;</span><br><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">  name: <span class="string">"yan"</span>,</span><br><span class="line">  fn: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    (<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="keyword">this</span>.name);</span><br><span class="line">    &#125;)();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">obj.fn();</span><br></pre></td></tr></table></figure>
-<p>仔细看看就是自执行函数执行，this 肯定是 window，自然就是<code>BigBear</code>。</p>
-<p>注意！！！换成箭头函数的话，规则就变了，因为父作用域是 fn，其 this 绑定成了 obj，所以打印的话是<code>yan</code></p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">  fn: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    (<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="keyword">this</span>);</span><br><span class="line">    &#125;)();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">obj.fn();</span><br></pre></td></tr></table></figure>
-<p>再看下 setTimeout</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name = <span class="string">"BigBear"</span>;</span><br><span class="line"><span class="keyword">var</span> me = &#123;</span><br><span class="line">  name: <span class="string">"yan"</span>,</span><br><span class="line">  hello: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">`你好，我是<span class="subst">$&#123;<span class="keyword">this</span>.name&#125;</span>`</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">me.hello();</span><br></pre></td></tr></table></figure>
-<p>setTimeout 里面的函数，this 指向<code>window</code>，自然值是<code>BigBear</code>。<br>同理，如果将 setTimeout 里面的函数修改成箭头函数，则打印<code>yan</code>了。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name = <span class="string">"BigBear"</span>;</span><br><span class="line"><span class="keyword">var</span> me = &#123;</span><br><span class="line">  name: <span class="string">"yan"</span>,</span><br><span class="line">  hello: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">`你好，我是<span class="subst">$&#123;<span class="keyword">this</span>.name&#125;</span>`</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">me.hello();</span><br></pre></td></tr></table></figure>
-<h2 id="严格模式下的-this"><a href="#严格模式下的-this" class="headerlink" title="严格模式下的 this"></a>严格模式下的 this</h2><p>笔者不用严格模式，真要用的时候百度下吧。</p>
-<h2 id="改变-this-的指向"><a href="#改变-this-的指向" class="headerlink" title="改变 this 的指向"></a>改变 this 的指向</h2><p>this 的指向，要么被书写位置限制，要么被调用位置限制，很是被动。</p>
-<ul>
-<li>对于箭头函数，因为其<code>this</code>只和书写位置有关，所以一般不修改箭头函数的 this 指向。</li>
-<li>构建函数，this 就是 new 出来的实例，所以一般不修改构建函数的 this 指向</li>
-<li>于是重点！！！对于 function 定义的普通函数，修改 this，必须要显示的调用<code>call/apply/bind</code>。</li>
-</ul>
-<p>一般问的修改 this，也是指 function 定义的普通函数。</p>
-<p><code>call/apply/bind</code>三者用法及区别：</p>
-<ul>
-<li>call/apply 改变函数的 this，且函数立即执行。但 apply 的参数是数组，call 的参数是非数组</li>
-<li>bind 改变函数的 this，但函数未执行</li>
-</ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> init = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">num1, num2</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>.init + num1 + num2);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 普通执行,肯定输出3</span></span><br><span class="line">add(<span class="number">1</span>, <span class="number">2</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> obj = &#123; <span class="attr">init</span>: <span class="number">100</span> &#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 此时因为this变成obj，所以输出103</span></span><br><span class="line">add.apply(obj, [<span class="number">1</span>, <span class="number">2</span>]);</span><br><span class="line"><span class="comment">// 此时因为this变成obj，所以输出103</span></span><br><span class="line">add.call(obj, <span class="number">1</span>, <span class="number">2</span>);</span><br><span class="line"><span class="comment">// 此时因为this变成obj，但需要调用一次函数才行，bind本身返回的是函数</span></span><br><span class="line">add.bind(obj, <span class="number">1</span>)(<span class="number">2</span>);</span><br></pre></td></tr></table></figure>
-<h3 id="手写实现-call-apply-bind"><a href="#手写实现-call-apply-bind" class="headerlink" title="手写实现 call/apply/bind"></a>手写实现 call/apply/bind</h3><p>其实细看下 call，发现 call 有以下特征：</p>
-<ul>
-<li>call 是函数的方法，可以被函数直接调用</li>
-<li>call 第一个参数是 this 绑定的对象，后面的参数是函数的参数</li>
-<li>call 调用之后，函数执行，但 this 绑定到第一个参数上</li>
-</ul>
-<p>推理下 call 怎么实现：</p>
-<ul>
-<li>是函数的方法，每个函数都可调用，可写在 Function.prototype 上</li>
-<li>参数区别第一个参数，和后面的参数</li>
-<li>call 内，this 绑定到第一个参数上，函数执行</li>
-</ul>
-<p>其实想想普通函数 this 的指向只和调用方有关<br><strong>=&gt;</strong> 于是 obj.fn()<br><strong>=&gt;</strong> 但是 fn 并不是 obj 的方法<br><strong>=&gt;</strong> 于是给 obj 增加 fn 这个方法不就行了<br><strong>=&gt;</strong> 但是 call 执行完，必须再将 fn 这个方法删掉就好了  </p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.myCall = <span class="function"><span class="keyword">function</span>(<span class="params">context, ...args</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (context === <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> fn(...args);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 注意 这里的this就是调用call的函数</span></span><br><span class="line">  <span class="keyword">const</span> fn = <span class="keyword">this</span>;</span><br><span class="line">  <span class="comment">// 先增加</span></span><br><span class="line">  context.fn = fn;</span><br><span class="line">  <span class="comment">// 执行</span></span><br><span class="line">  <span class="keyword">return</span> fn(...args);</span><br><span class="line">  <span class="comment">// 在删除</span></span><br><span class="line">  <span class="keyword">delete</span> context.fn;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 测试下，没问题，输出103</span></span><br><span class="line">add.myCall(obj, <span class="number">1</span>, <span class="number">2</span>);</span><br></pre></td></tr></table></figure>
-<p>同理：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 注意因为参数args就是数组，所以不要加...</span></span><br><span class="line"><span class="built_in">Function</span>.prototype.myApply = <span class="function"><span class="keyword">function</span>(<span class="params">context, args</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (context === <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> fn(...args);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 注意 这里的this就是调用myApply的函数</span></span><br><span class="line">  <span class="keyword">const</span> fn = <span class="keyword">this</span>;</span><br><span class="line">  context.fn = fn;</span><br><span class="line">  <span class="keyword">return</span> fn(...args);</span><br><span class="line">  <span class="keyword">delete</span> context.fn;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// 同理输出103</span></span><br><span class="line">add.myApply(obj, [<span class="number">1</span>, <span class="number">2</span>]);</span><br></pre></td></tr></table></figure>
-<p>Bind 稍微复杂点：</p>
-<ul>
-<li>bind 是函数的方法，可以被函数直接调用</li>
-<li>bind 返回一个原函数的拷贝，但 this 被指定</li>
-<li>bind 也可以传原函数的部分参数</li>
-</ul>
-<p>其实 bind 就是返回一个函数，函数内部执行 call~</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.myBind = <span class="function"><span class="keyword">function</span>(<span class="params">context, ...frontArgs</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> fn = <span class="keyword">this</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">...behindArgs</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> fn.call(context, ...frontArgs, ...behindArgs);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// this被指定，但是需要调用一次才能执行函数，输出103</span></span><br><span class="line">add.myBind(obj, <span class="number">1</span>)(<span class="number">2</span>);</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/19/exam_memory/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2021/01/19/exam_memory/" itemprop="url">
-                  内存相关的知识点：
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-19T19:30:43+08:00">
-                2021-01-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2021/01/19/exam_memory/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2021/01/19/exam_memory/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>最近在看大神写的专栏，很精辟，笔者想通过总结的方式加深理解，不一定准确，只是笔者自己的想法，欢迎指正。</p>
-<h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
-<li>JS 的内存管理生命周期：分配、读写、释放</li>
-<li>垃圾回收机制的算法：引用计数法、标记清除法</li>
-<li>内存泄漏成因：闭包引起的共享父作用域、变量没声明、未清除定时器、删除不要的dom</li>
-</ul>
-<h2 id="JS-内存生命周期"><a href="#JS-内存生命周期" class="headerlink" title="JS 内存生命周期"></a>JS 内存生命周期</h2><p>内存管理又是是每一种编程语言都会具备的一种基本能力。</p>
-<p>但有些语言暴露内存管理的方法，如 c，有些语言不暴露，如<strong>JS</strong>。</p>
-<p>所以，不暴露，就不容易看见和知道了。。。</p>
-<p>JS 内存生命周期，三个：</p>
-<ul>
-<li>“挖坑”—— 在内存空间的沃土里，划出自己的地，此举称为 “分配内存”。</li>
-<li>“用坑”—— 往地里 “种菜” ：填入你需要存储的信息。此后你可以读取它，也可以更改它，此举称为 “内存的读与写” 操作。</li>
-<li>“还坑”—— 用坑一时爽，但作为好公民，咱用完这个地就得及时上交给村里。这个 “还回去” 的动作，就叫做内存的释放。</li>
-</ul>
-<p>但挖坑的时候，得看你种啥，从而选择不同的土壤。</p>
-<h2 id="1-分配内存"><a href="#1-分配内存" class="headerlink" title="1.分配内存"></a>1.分配内存</h2><p>内存分为两种：</p>
-<ul>
-<li>栈内存：线性表结构。适合存 基本类型：Sting、Number、Boolean、null、undefined、Symbol</li>
-<li>堆内存：树结构。适合存 引用类型：Object Array 等…</li>
-</ul>
-<h2 id="2-读写内存"><a href="#2-读写内存" class="headerlink" title="2.读写内存"></a>2.读写内存</h2><p>栈内存和堆内存的结构不一样，所以读写的方式也不一样。</p>
-<p>先看看以下是放在哪种内存里。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">let</span> b = <span class="string">"Hello World"</span>;</span><br><span class="line"><span class="keyword">let</span> c = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">let</span> d = &#123; <span class="attr">name</span>: <span class="string">"修言"</span> &#125;;</span><br><span class="line"><span class="keyword">let</span> e = [<span class="string">"修言"</span>, <span class="string">"小明"</span>, <span class="string">"bear"</span>];</span><br></pre></td></tr></table></figure>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5a10f7f04df24bd48e995e2d6b770585~tplv-k3u1fbpfcp-zoom-1.image" alt="memory1"></p>
-<p>在访问 a、b、c 三个变量时，过程非常简单：从栈中直接获取该变量的值。</p>
-<p>而在访问 d 和 e 时，则需要分两步走：</p>
-<ol>
-<li>从栈中获取变量对应对象的引用（即它在堆内存中的地址）</li>
-<li>拿着 1 中获取到的地址，再去堆内存空间查询，才能拿到我们想要的数据</li>
-</ol>
-<h2 id="3-释放内存"><a href="#3-释放内存" class="headerlink" title="3.释放内存"></a>3.释放内存</h2><p>JS 没有管理内存的方法，所以 JS 隔一段时间就巡查一次。<br>当<strong>判断</strong>一个变量不再被需要之后，就会把个变量所占用的内存空间给释放掉。</p>
-<p>垃圾回收： 巡查 =&gt; 判断 =&gt; 释放 的过程<br>垃圾回收的算法：怎么判断变量不再被需要</p>
-<p>两种判断的法子：</p>
-<ul>
-<li>引用计数法（已被淘汰）</li>
-<li>标记清除法（正使用的）</li>
-</ul>
-<h2 id="引用计数法"><a href="#引用计数法" class="headerlink" title="引用计数法"></a>引用计数法</h2><p>“引用” 这个概念，其实可以认为它描述的是变量所处那块内存的内存地址。</p>
-<p>用一个变量指向了一个值，那么就创建了一个针对这个值的 “引用”：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 内存中数组这个值有一个引用，就是student这个变量</span></span><br><span class="line"><span class="keyword">let</span> students = [<span class="string">"修言"</span>, <span class="string">"小明"</span>, <span class="string">"bear"</span>];</span><br></pre></td></tr></table></figure>
-<p>在引用计数法的机制下，内存中的每一个值都会对应一个引用计数。当垃圾收集器感知到某个值的引用计数<br>为 0 时，就判断它 “没用” 了，随即这块内存就会被释放。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 如果将students改成null，则上面数组的引用数就变成0了，就会被回收</span></span><br><span class="line">students = <span class="literal">null</span>;</span><br></pre></td></tr></table></figure>
-<h4 id="引用计数法的缺陷"><a href="#引用计数法的缺陷" class="headerlink" title="引用计数法的缺陷"></a>引用计数法的缺陷</h4><p>看个例子：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">badCycle</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> cycleObj1 = &#123;&#125;;</span><br><span class="line">  <span class="keyword">var</span> cycleObj2 = &#123;&#125;;</span><br><span class="line">  cycleObj1.target = cycleObj2;</span><br><span class="line">  cycleObj2.target = cycleObj1;</span><br><span class="line">&#125;</span><br><span class="line">badCycle();</span><br></pre></td></tr></table></figure>
-<p>一般函数执行完，内部变量自动会被清除。<br>但是用引用计数法的话，cycleObj1 和 cycleObj2<strong>循环引用</strong>，其引用计数一直是 1，就不能被回收。</p>
-<p>所以，引用计数法的缺陷是：循环引用的变量，很容易不能被回收。</p>
-<h2 id="标记清除法"><a href="#标记清除法" class="headerlink" title="标记清除法"></a>标记清除法</h2><p>标记清除法分为两个阶段：</p>
-<ul>
-<li>标记阶段：垃圾收集器会先找到根对象，在浏览器里，根对象是 Window；在 Node 里，根对象是 Global。从 根对象出发，垃圾收集器会扫描所有可以通过根对象触及的变量，这些对象会被标记为 “可抵达”。</li>
-<li>清除阶段： 没有被标记为 “可抵达” 的变量，就会被认为是不需要的变量，这波变量会被清除</li>
-</ul>
-<p>“可抵达”：意味着可以被使用</p>
-<p>重新看循环引用的代码：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">badCycle</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> cycleObj1 = &#123;&#125;;</span><br><span class="line">  <span class="keyword">var</span> cycleObj2 = &#123;&#125;;</span><br><span class="line">  cycleObj1.target = cycleObj2;</span><br><span class="line">  cycleObj2.target = cycleObj1;</span><br><span class="line">&#125;</span><br><span class="line">badCycle();</span><br></pre></td></tr></table></figure>
-<p>badCycle 执行完毕后，从根对象 Window 出发，cycleObj1 和 cycleObj2 都会被识别为不可达的对象（不可被使用的对象），它们会按照 预期被清除掉。这样一来，循环引用的问题，就被标记清除干脆地解决掉了。</p>
-<h2 id="闭包和内存泄露"><a href="#闭包和内存泄露" class="headerlink" title="闭包和内存泄露"></a>闭包和内存泄露</h2><p>啥是内存泄露？</p>
-<blockquote>
-<p>该释放的变量（内存垃圾）没有被释放，仍然霸占着原有的内存不松手，导致内存占用不断攀高，带来性能恶化、 系统崩溃等一系列问题，这种现象就叫内存泄漏。</p>
-</blockquote>
-<p>先说一句，单纯由闭包导致的内存泄漏，极少极少（除非你的代码写得有问题）。</p>
-<p>先看一段经典的闭包造成内存泄露的代码（写的有问题哈，改进就不会了）。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> theThing = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">var</span> replaceThing = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> originalThing = theThing;</span><br><span class="line">  <span class="keyword">var</span> unused = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (originalThing)</span><br><span class="line">      <span class="comment">// 'originalThing'的引用</span></span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">"嘿嘿嘿"</span>);</span><br><span class="line">  &#125;;</span><br><span class="line">  theThing = &#123;</span><br><span class="line">    longStr: <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">1000000</span>).join(<span class="string">"*"</span>),</span><br><span class="line">    someMethod: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">"哈哈哈"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br><span class="line">setInterval(replaceThing, <span class="number">1000</span>);</span><br></pre></td></tr></table></figure>
-<p>在 V8 中，一旦不同的作用域位于同一个 父级作用域下，那么它们会共享这个父级作用域。</p>
-<p>在这段代码里， unused 是一个不会被使用的闭包，但和它共享同一个父级作用域的 someMethod，则是一个 “可抵达”的闭包。<br>unused 引用了 originalThing，这导致和它共享作用域的 someMethod 也 <strong>间接</strong>地引用了 originalThing。<br>结果就是 someMethod <strong>“被迫”</strong> 产生了对 originalThing 的持续引用，originalThing 虽然 没有任何意义和作用，却永远不会被回收。<br>不仅如此，originalThing 每次 setInterval 都会改变一次指向（指向最近 一次的 theThing 赋值结果），这导致无法被回收的无用 originalThing 越堆积越多，最终导致严重的内存泄漏。</p>
-<h2 id="内存泄露的原因"><a href="#内存泄露的原因" class="headerlink" title="内存泄露的原因"></a>内存泄露的原因</h2><ul>
-<li><p>被迫产生对父作用域变量的引用。上面的例子。<strong>避免方案</strong>：将某个闭包多裹一层，从而不共享父作用域</p>
-</li>
-<li><p>在函数里，没有声明而直接赋值的变量。<strong>避免方案</strong>：变量必须声明</p>
-</li>
-</ul>
-<p>本身想在函数内部用，用完就回收，但是因为变成了全局变量，则不会被回收</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  me = <span class="string">"yan"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>忘记清除的 setInterval 和 setTimeout。<strong>避免方案</strong>：必须清定时器</li>
-</ul>
-<p>在 轮询调用setInterval 和链式调用的 setTimeout 这两种场景下，定时器的工作可以说都是无穷无尽的。<br>当定时器囊括的函数逻辑不再被需要、而我们又忘记手动清除定时器时，它们就会永远保持对内存的占用。</p>
-<ul>
-<li>清除不当的 DOM。<strong>避免方案</strong>：手动置为null。</li>
-</ul>
-<p>虽然删除了节点，但myDiv 这个变量对 这个 DOM 的引用仍然存在，它仍然是一块 “可抵达” 的内存。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> myDiv = <span class="built_in">document</span>.getElementById(<span class="string">'myDiv'</span>)</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleMyDiv</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="comment">// 一些与myDiv相关的逻辑</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 使用myDiv</span></span><br><span class="line">handleMyDiv()</span><br><span class="line"><span class="comment">// 尝试”删除“ myDiv</span></span><br><span class="line"><span class="built_in">document</span>.body.removeChild(<span class="built_in">document</span>.getElementById(<span class="string">'myDiv'</span>));</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2452,7 +2327,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">224</span>
+                <span class="site-state-item-count">227</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
