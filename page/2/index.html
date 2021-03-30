@@ -261,6 +261,190 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/21/exam_es6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2021/01/21/exam_es6/" itemprop="url">
+                  细心使用es6新增的语法
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-21T17:53:43+08:00">
+                2021-01-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/01/21/exam_es6/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2021/01/21/exam_es6/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="let-const"><a href="#let-const" class="headerlink" title="let/const"></a>let/const</h2><ul>
+<li>块作用域里，和函数作用域类似，存在变量提升</li>
+<li><code>let/const</code>作用于块作用域</li>
+<li><code>let</code>也存在变量提升，但是 JS 不允许你在声明语句前使用，声明语句前都是暂时性死区</li>
+<li><code>const</code>声明必须赋值，普通值不可被修改，引用类型的值不可修改<strong>引用指向</strong>，但是可以对其中的属性修改</li>
+<li><code>let/const</code> 可以替换掉<code>var</code></li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"> <span class="built_in">console</span>.log(name)</span><br><span class="line"> <span class="keyword">var</span> name =<span class="number">1</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="comment">// 这里会报错哟，因为块作用域存在变量提升，但是这里是暂时性死区，访问不到name</span></span><br><span class="line"> <span class="built_in">console</span>.log(name)</span><br><span class="line"> <span class="keyword">let</span> name =<span class="number">2</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 依旧是1,块作用域有自己的变量</span></span><br><span class="line"><span class="built_in">console</span>.log(name)</span><br><span class="line"><span class="comment">// 报错,没赋值</span></span><br><span class="line"><span class="keyword">const</span> a</span><br><span class="line"><span class="keyword">const</span> b =<span class="number">1</span></span><br><span class="line"><span class="keyword">const</span> obj = &#123;<span class="attr">a</span>: <span class="number">1</span>&#125;</span><br><span class="line"><span class="comment">// 报错,修改引用指向</span></span><br><span class="line">obj = &#123;<span class="attr">b</span>: <span class="number">1</span>&#125;</span><br><span class="line"><span class="keyword">const</span> arr= [<span class="number">1</span>,<span class="number">2</span>]</span><br><span class="line"><span class="comment">// 这样是没问题的</span></span><br><span class="line">arr[<span class="number">1</span>]=<span class="number">3</span></span><br></pre></td></tr></table></figure>
+<h2 id="解构"><a href="#解构" class="headerlink" title="解构"></a>解构</h2><ul>
+<li>数组可以占位解构，注意严格和位置有关</li>
+<li>对象和位置无关，和属性名称有关，可以<strong>重命名</strong>属性名称，也可解析<strong>嵌套</strong>结构</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 占位赋值</span></span><br><span class="line"><span class="keyword">const</span> [a, , c] = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"><span class="comment">// 位置无关，属性名有关，可以重新命名新变量</span></span><br><span class="line"><span class="keyword">const</span> &#123; name, <span class="attr">age</span>: newAge &#125; = &#123; <span class="attr">age</span>: <span class="number">10</span>, <span class="attr">name</span>: <span class="string">"yan"</span> &#125;;</span><br><span class="line"><span class="comment">// 10</span></span><br><span class="line"><span class="built_in">console</span>.log(newAge);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> school = &#123;</span><br><span class="line">  classes: &#123;</span><br><span class="line">    stu: &#123; <span class="attr">name</span>: <span class="string">"Bob"</span>, <span class="attr">age</span>: <span class="number">24</span> &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// 可嵌套结构</span></span><br><span class="line"><span class="keyword">const</span> &#123;</span><br><span class="line">  classes: &#123;</span><br><span class="line">    stu: &#123; name, age &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125; = school;</span><br><span class="line"><span class="comment">// 24</span></span><br><span class="line"><span class="built_in">console</span>.log(age);</span><br></pre></td></tr></table></figure>
+<h2 id="扩展运算符"><a href="#扩展运算符" class="headerlink" title="扩展运算符..."></a>扩展运算符<code>...</code></h2><ul>
+<li>对象中的扩展运算符，常用于取出参数对象中的所有<strong>可遍历</strong>属性，拷贝到当前对象之中</li>
+<li>数组中扩展运算，可以将一个数组转为用逗号分隔的参数序列，一般用途如下：<ul>
+<li>把数组变成函数的参数</li>
+<li>合并数组</li>
+<li>利用 rest 参数(把零散的参数合并成一个数组，很适合用来处理参数不固定)</li>
+<li>把类数组（类数组是有 length 属性的对象）转化为数组</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> me = &#123; <span class="attr">name</span>: <span class="string">"yan"</span>, <span class="attr">age</span>: <span class="number">24</span> &#125;;</span><br><span class="line"><span class="keyword">const</span> meCopy = &#123; ...me &#125;;</span><br><span class="line"><span class="comment">// &#123; name: "yan", age: 24 &#125;</span></span><br><span class="line"><span class="built_in">console</span>.log(meCopy);</span><br><span class="line"><span class="comment">// ha he xi</span></span><br><span class="line"><span class="built_in">console</span>.log(...[<span class="string">"ha"</span>, <span class="string">"he"</span>, <span class="string">"xi"</span>]);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">multiple</span>(<span class="params">x, y</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> x * y;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> arr = [<span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"><span class="comment">// 6</span></span><br><span class="line">multiple(...arr);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> arr1 = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>];</span><br><span class="line"><span class="keyword">const</span> arr2 = [<span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>];</span><br><span class="line"><span class="comment">// 合并数组</span></span><br><span class="line"><span class="keyword">const</span> newArr = [...arr1, ...arr2];</span><br><span class="line"></span><br><span class="line"><span class="comment">// rest参数，很适合用来处理参数不固定</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">...args</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> result = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> val <span class="keyword">of</span> args) &#123;</span><br><span class="line">    result += val;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 10</span></span><br><span class="line">add(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> arrayLike = &#123; <span class="number">0</span>: <span class="string">"Bob"</span>, <span class="number">1</span>: <span class="string">"Lucy"</span>, <span class="number">2</span>: <span class="string">"Daisy"</span>, <span class="attr">length</span>: <span class="number">3</span> &#125;;</span><br><span class="line"><span class="comment">// 类数组转化成数组，下面还有两种了解下</span></span><br><span class="line"><span class="keyword">const</span> arr = [...arrayLike];</span><br><span class="line"><span class="comment">// const arr = Array.prototype.slice.call(arrayLike);</span></span><br><span class="line"><span class="comment">// const arr = Array.from(arrayLike);</span></span><br></pre></td></tr></table></figure>
+<h2 id="模板字符"><a href="#模板字符" class="headerlink" title="模板字符"></a>模板字符<code></code></h2><ul>
+<li>可用<code>${}</code>这样简单的方式嵌入变量</li>
+<li>在模板字符串中，空格、缩进、换行都会被保留 (超合适写 DOM 节点)</li>
+<li>模板字符串完全支持“运算”式的表达式，你可以在<code>${}</code>里完成一些计算</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> name = <span class="string">'yan'</span></span><br><span class="line"><span class="keyword">let</span> newName = <span class="string">`<span class="subst">$&#123;name&#125;</span> jiang`</span></span><br><span class="line"><span class="keyword">let</span> list = <span class="string">`</span></span><br><span class="line"><span class="string">&lt;ul&gt;</span></span><br><span class="line"><span class="string">  &lt;li&gt;列表项1&lt;/li&gt;</span></span><br><span class="line"><span class="string">  &lt;li&gt;列表项2&lt;/li&gt;</span></span><br><span class="line"><span class="string">&lt;/ul&gt;</span></span><br><span class="line"><span class="string">`</span>;</span><br><span class="line"><span class="built_in">console</span>.log(message); <span class="comment">// 顺利输出，不存在报错</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 可做计算</span></span><br><span class="line">  <span class="keyword">const</span> finalString = <span class="string">`<span class="subst">$&#123;a&#125;</span> + <span class="subst">$&#123;b&#125;</span> = <span class="subst">$&#123;a + b&#125;</span>`</span>;</span><br><span class="line">  <span class="built_in">console</span>.log(finalString);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出 '1 + 2 = 3'</span></span><br><span class="line">add(<span class="number">1</span>, <span class="number">2</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="字符串的实用方法"><a href="#字符串的实用方法" class="headerlink" title="字符串的实用方法"></a>字符串的实用方法</h2><ul>
+<li>存在性判定。以前只能用<code>indexOf&gt;-1</code>，现在可灵活使用<code>includes、startsWith、endsWith</code></li>
+<li>自动重复。<code>repeat</code>方法让同一个字符串被连续复制多次</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> son = <span class="string">'ha'</span></span><br><span class="line"><span class="keyword">const</span> father = <span class="string">'xi he ha'</span></span><br><span class="line"> <span class="comment">// true</span></span><br><span class="line">father.includes(son)</span><br><span class="line"><span class="comment">// false</span></span><br><span class="line">father.startsWith(son)</span><br><span class="line"><span class="comment">// true</span></span><br><span class="line">father.endsWith(son)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> sourceCode = <span class="string">'repeat '</span></span><br><span class="line"><span class="comment">// 复制3次</span></span><br><span class="line"><span class="keyword">const</span> repeated = sourceCode.repeat(<span class="number">3</span>)</span><br><span class="line"><span class="comment">// 'repeat repeat repeat '</span></span><br><span class="line"><span class="built_in">console</span>.log(repeated)</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/20/exam_prototype/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2218,205 +2402,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/31/table-component/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2020/12/31/table-component/" itemprop="url">
-                  让el-table更好用，通过配置的方式
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-12-31T14:46:42+08:00">
-                2020-12-31
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2020/12/31/table-component/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/12/31/table-component/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><code>element-ui</code>虽然有<a href="https://element.eleme.cn/#/zh-CN/component/table" target="_blank" rel="noopener"><code>el-table</code>组件</a>，但是仍然需要手动写<code>el-table-column</code>。</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4d85176352524ccbbb744ee18fe0ccf0~tplv-k3u1fbpfcp-zoom-1.image" alt="e-el-table1">  </p>
-<p>这里希望进一步抽离配置，在 <code>el-table</code>的基础上封装个<code>enhanced-el-table</code>组件。</p>
-<p>使用的时候希望这样，不再需要手动写里面的<code>el-table-column</code>：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">enhanced-el-table</span> <span class="attr">:data</span>=<span class="string">"tableData"</span> <span class="attr">:colConfigs</span>=<span class="string">"colConfigs"</span> &gt;</span><span class="tag">&lt;/<span class="name">enhanced-el-table</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>data属性，显示的数据，<code>[{name:&#39;颜酱&#39;,age:18},{...}]</code></li>
-<li>colConfigs属性，每个<code>column</code>项的配置数组，如下</li>
-</ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">colConfigs: [</span><br><span class="line">    &#123; <span class="attr">prop</span>: <span class="string">"date"</span>, <span class="attr">label</span>: <span class="string">"日期"</span>&#125;,</span><br><span class="line">    &#123; <span class="attr">prop</span>: <span class="string">"name"</span>, <span class="attr">label</span>: <span class="string">"姓名"</span>&#125;,</span><br><span class="line">    &#123; <span class="attr">prop</span>: <span class="string">'address'</span>, <span class="attr">label</span>: <span class="string">'地址'</span>&#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-<p>可以结合表格看<code>colConfigs</code>就更容易理解了，其实就是将<code>el-table-column</code>上的属性换成对象的形式</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/42d24737e0fc48e7a3939099b0587c0e~tplv-k3u1fbpfcp-zoom-1.image" alt="e-el-table2"></p>
-<p>本文代码后期可能较复杂，需要的话，可以去看<a href="https://github.com/frontzhm/enhanced-el-table" target="_blank" rel="noopener">github代码</a></p>
-<p>当然文末也附上了，每个小节的具体代码，有需要也可以看看</p>
-<h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
-<li>就是写了个<code>enhanced-el-table</code>组件，充当原先的<code>el-table</code>组件</li>
-<li>唯一不一样的是，额外加了一个<code>colConfigs</code>，其他属性、事件、方法同<code>el-table</code>组件</li>
-<li>哦，如果表格的列项不足以用<code>coloConfigs</code>描述的话，这边提供了<code>slot</code></li>
-<li>想直接看<code>enhanced-el-table</code>组件怎么用的，包括复杂情况，直接跳到本文的<code>演示实例的优化</code></li>
-</ul>
-<h2 id="组件的概况"><a href="#组件的概况" class="headerlink" title="组件的概况"></a>组件的概况</h2><p>综上，<code>enhanced-el-table</code>组件的大概就出来了。</p>
-<p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/e-el-table9.png" alt="e-el-table9"></p>
-<h2 id="el-table-column的处理"><a href="#el-table-column的处理" class="headerlink" title="el-table-column的处理"></a>el-table-column的处理</h2><p>实现最开始的表格：</p>
-<p><code>App.vue</code>里可以简单写下：</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8a0e87e6dec1429bb7e3722f09a3b20f~tplv-k3u1fbpfcp-zoom-1.image" alt="e-el-table5"></p>
-<p>而<code>enhanced-el-table</code>内部，没有<code>colConfigs</code>的情况下，长这样</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">el-table(:data=&quot;data&quot;)</span><br><span class="line">  el-table-column(label=&quot;日期&quot; prop=&quot;date&quot;)</span><br><span class="line">  el-table-column(label=&quot;姓名&quot; prop=&quot;name&quot;)</span><br><span class="line">  el-table-column(label=&quot;地址&quot; prop=&quot;address&quot;)</span><br></pre></td></tr></table></figure>
-<p>当然，有了<code>colConfigs</code>，直接就循环了</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">el-table(:data=&quot;data&quot;)</span><br><span class="line">  el-table-column(v-for=&quot;config in colConfigs&quot;  v-bind=&quot;config&quot; :key=&quot;config.prop&quot;)</span><br></pre></td></tr></table></figure>
-<h2 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h2><ul>
-<li><code>el-table</code>自身也有很多属性，这里通过简单的<code>v-bind=&quot;$attrs&quot;</code>，将<code>enhanced-el-from</code>上面的属性自动到<code>el-table</code>。  </li>
-<li>同理，<code>v-on=&quot;$listeners&quot;</code></li>
-<li><code>el-table</code>上面的方法，稍微麻烦点，通过手动赋值</li>
-<li>一般提交按钮不需要配置项，直接插入即可，这里增加<code>slot#footer</code></li>
-<li>同理，表单的开始有可能有别的描述，这里增加<code>slot#header</code></li>
-<li>部分列项，需要定制，通过<code>slotName</code>属性，表示不参与内部循环，需要自己写逻辑</li>
-</ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//   el-table(ref="elTable":data="data" v-bind="$attrs" v-on="$listeners")</span></span><br><span class="line">  mounted() &#123;</span><br><span class="line">    <span class="keyword">const</span> methods = [ <span class="string">"clearSelection"</span>, <span class="string">"toggleRowSelection"</span>, <span class="string">"toggleAllSelection"</span>, <span class="string">"toggleRowExpansion"</span>, <span class="string">"setCurrentRow"</span>, <span class="string">"clearSort"</span>, <span class="string">"clearFilter"</span>, <span class="string">"doLayout"</span>, <span class="string">"sort"</span> ];</span><br><span class="line">    methods.forEach(<span class="function"><span class="params">method</span> =&gt;</span> (<span class="keyword">this</span>[method] = <span class="keyword">this</span>.$refs.elTable[method]));</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-<p>以上逻辑将在下面的部分展示全部代码。</p>
-<h2 id="演示实例的优化"><a href="#演示实例的优化" class="headerlink" title="演示实例的优化"></a>演示实例的优化</h2><p>实例的效果：</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3afe6b55002d45adab9a6a23bfdbd0a2~tplv-k3u1fbpfcp-zoom-1.image" alt="e-el-table8"></p>
-<p>EnhancedElForm的代码如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&lt;template lang=&quot;pug&quot;&gt;</span><br><span class="line">  el-table(ref=&quot;elTable&quot; :data=&quot;data&quot; v-bind=&quot;$attrs&quot; v-on=&quot;$listeners&quot;)</span><br><span class="line">    template(v-for=&quot;colConfig in colConfigs&quot;)</span><br><span class="line">      slot(v-if=&quot;colConfig.slotName&quot; :name=&quot;colConfig.slotName&quot; v-bind=&quot;colConfig&quot;)</span><br><span class="line">      el-table-column(v-else v-bind=&quot;colConfig&quot; :key=&quot;colConfig.prop&quot;)</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &quot;enhanced-el-table&quot;,</span><br><span class="line">  props: &#123;</span><br><span class="line">    data: &#123;</span><br><span class="line">      type: Array,</span><br><span class="line">      default() &#123;</span><br><span class="line">        return [];</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    colConfigs: &#123;</span><br><span class="line">      type: Array,</span><br><span class="line">      default() &#123;</span><br><span class="line">        return [];</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  mounted() &#123;</span><br><span class="line">    const methods = [ &quot;clearSelection&quot;, &quot;toggleRowSelection&quot;, &quot;toggleAllSelection&quot;, &quot;toggleRowExpansion&quot;, &quot;setCurrentRow&quot;, &quot;clearSort&quot;, &quot;clearFilter&quot;, &quot;doLayout&quot;, &quot;sort&quot; ];</span><br><span class="line">    methods.forEach(method =&gt; (this[method] = this.$refs.elTable[method]));</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-<p>App.vue的代码如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">&lt;template lang=&quot;pug&quot;&gt;</span><br><span class="line">div#app</span><br><span class="line">  enhanced-el-table(:data=&quot;tableData&quot;,:colConfigs=&quot;colConfigs&quot; ref=&quot;multipleTable&quot; tooltip-effect=&quot;dark&quot; style=&quot;width: 100%&quot; @selection-change=&quot;handleSelectionChange&quot;)</span><br><span class="line">    template(#action=&quot;colConfig&quot;)</span><br><span class="line">      el-table-column(v-bind=&quot;colConfig&quot;)</span><br><span class="line">        template(#default=&quot;scope&quot;)</span><br><span class="line">          el-button(size=&quot;mini&quot; @click=&quot;handleEdit(scope.$index, scope.row)&quot;) 编辑</span><br><span class="line">          el-button(type=&quot;danger&quot; size=&quot;mini&quot; @click=&quot;handleDelete(scope.$index, scope.row)&quot;) 删除</span><br><span class="line">  div(style=&quot;margin-top: 20px&quot;)</span><br><span class="line">    el-button(@click=&quot;toggleSelection([tableData[1], tableData[2]])&quot;) 切换第二、第三行的选中状态</span><br><span class="line">    el-button(@click=&quot;toggleSelection()&quot;) 取消选择</span><br><span class="line">  div &#123;&#123;multipleSelection&#125;&#125;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">import EnhancedElTable from &quot;./components/EnhancedElTable.vue&quot;;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &quot;App&quot;,</span><br><span class="line">  components: &#123;</span><br><span class="line">    EnhancedElTable</span><br><span class="line">  &#125;,</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      colConfigs: [</span><br><span class="line">        &#123; type: &quot;selection&quot;, width: 55 &#125;,</span><br><span class="line">        &#123; prop: &quot;date&quot;, label: &quot;日期&quot;, width: 180 &#125;,</span><br><span class="line">        &#123; prop: &quot;name&quot;, label: &quot;姓名&quot;, width: 180, sortable: true &#125;,</span><br><span class="line">        &#123; prop: &quot;address&quot;, label: &quot;地址&quot; &#125;,</span><br><span class="line">        // 这里的action 需要自定制列</span><br><span class="line">        &#123; slotName: &quot;action&quot;, label: &quot;操作&quot; &#125;</span><br><span class="line">      ],</span><br><span class="line"></span><br><span class="line">      tableData: Array.from(&#123; length: 6 &#125;, (v, i) =&gt; (&#123;</span><br><span class="line">        date: `2016-5-$&#123;i + 1&#125;`,</span><br><span class="line">        name: `王小虎$&#123;i + 1&#125;`,</span><br><span class="line">        address: `上海市普陀区金沙江路 151$&#123;i + 1&#125; 弄`</span><br><span class="line">      &#125;)),</span><br><span class="line"></span><br><span class="line">      multipleSelection: []</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    toggleSelection(rows) &#123;</span><br><span class="line">      if (rows) &#123;</span><br><span class="line">        rows.forEach(row =&gt; &#123;</span><br><span class="line">          this.$refs.multipleTable.toggleRowSelection(row);</span><br><span class="line">        &#125;);</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">        this.$refs.multipleTable.clearSelection();</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    handleSelectionChange(val) &#123;</span><br><span class="line">      this.multipleSelection = val;</span><br><span class="line">    &#125;,</span><br><span class="line">    handleEdit(index, row) &#123;</span><br><span class="line">      console.log(index, row);</span><br><span class="line">    &#125;,</span><br><span class="line">    handleDelete(index, row) &#123;</span><br><span class="line">      console.log(index, row);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style&gt;</span><br><span class="line">#app &#123;</span><br><span class="line">  font-family: Avenir, Helvetica, Arial, sans-serif;</span><br><span class="line">  -webkit-font-smoothing: antialiased;</span><br><span class="line">  -moz-osx-font-smoothing: grayscale;</span><br><span class="line">  color: #2c3e50;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
-<li><a href="https://juejin.cn/post/6844903512225087496" target="_blank" rel="noopener">优雅的使用 element-ui 中的 table 组件</a></li>
-</ul>
-<p>对了，还有个姊妹篇，<a href="https://juejin.cn/post/6911964058644135943" target="_blank" rel="noopener">让el-form更好用，通过配置的方式</a></p>
-<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><h3 id="代码：组件的概况"><a href="#代码：组件的概况" class="headerlink" title="代码：组件的概况"></a>代码：组件的概况</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;template lang=&quot;pug&quot;&gt;</span><br><span class="line">  el-table(:data=&quot;data&quot;)</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &quot;enhanced-el-table&quot;,</span><br><span class="line">  props: &#123;</span><br><span class="line">    data: &#123;</span><br><span class="line">      type: Array,</span><br><span class="line">      default() &#123;</span><br><span class="line">        return [];</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    colConfigs: &#123;</span><br><span class="line">      type: Array,</span><br><span class="line">      default() &#123;</span><br><span class="line">        return [];</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2466,7 +2451,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">228</span>
+                <span class="site-state-item-count">229</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
