@@ -261,6 +261,208 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/22/exam_browser/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2021/01/22/exam_browser/" itemprop="url">
+                  简单理解浏览器的工作
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-22T20:21:24+08:00">
+                2021-01-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/01/22/exam_browser/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2021/01/22/exam_browser/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>浏览器既是搬运工，也是翻译官。</p>
+<ul>
+<li>将枯燥的网络资源(html css js)从服务器“搬”到本地</li>
+<li>将资源“翻译”成五彩的页面</li>
+<li>接受并反馈用户的交互</li>
+</ul>
+<h2 id="渲染引擎"><a href="#渲染引擎" class="headerlink" title="渲染引擎"></a>渲染引擎</h2><p>翻译的工作，最主要是由，浏览器的<code>渲染引擎</code>做的。</p>
+<p>翻译的过程如下：</p>
+<ul>
+<li>访问网址的时候，服务器一般会首先返回 html 文件</li>
+<li>渲染引擎，开始解析<code>html</code>文件，生成<code>DOM</code>树。在这过程中遇到其他资源（css img js），会发出新的请求</li>
+<li>识别并加载所有的 <code>CSS</code> 样式信息，生成<code>CSSOM</code>树，注意这里的样式会添加到<code>DOM</code>树的各个节点</li>
+<li>将<code>DOM</code>树和<code>CSSOM</code>树合并，<strong>将不可见的元素剔除</strong>，生成<code>render</code> 树（:after :before 伪元素会在此时被构建到 DOM 树中）</li>
+<li>计算页面中所有元素的相对位置、大小等信息，就有了<code>盒模型</code></li>
+<li>开始把每一个页面图层转换为像素，并对所有的媒体文件进行解码，然后五彩的<strong>页面</strong>就显示出来了</li>
+</ul>
+<blockquote>
+<p>总结下：<code>DOM</code>树 =&gt; <code>CSSOM</code>树 =&gt; <code>render</code>树 =&gt; 布局 =&gt; 绘制</p>
+</blockquote>
+<h2 id="重绘、重排、图层"><a href="#重绘、重排、图层" class="headerlink" title="重绘、重排、图层"></a>重绘、重排、图层</h2><p>页面不会一成不变的，JS 可以随意操作 DOM，从而会让渲染引擎再次翻译。</p>
+<p>不同的操作，翻译成本不同，主要分为两种操作：</p>
+<ul>
+<li>重排(回流)：操作引发了 DOM 几何尺寸的变化（修改元素的宽高或隐藏元素等）时，于是需要重新计算元素 的几何属性（其他元素的几何属性和位置也会因此受到影响），然后再绘制出来。<br>对应的流程：可能更新<code>DOM</code>树 =&gt; 更新<code>CSSOM</code>树 =&gt; 更新<code>render</code>树 =&gt; 重新布局 =&gt; 重新绘制</li>
+<li>重绘：操作只修改了未影响元素几何属性的样式（比如修改了颜色或背景色）时，就会跳过计算、直接绘制。<br>对应的流程： 更新<code>CSSOM</code>树 =&gt; 更新<code>render</code>树 =&gt; 重新绘制</li>
+</ul>
+<p>引发重排的操作：</p>
+<ul>
+<li>修改元素的几何属性</li>
+<li>改变 DOM 的结构，增减、移动等</li>
+<li>获取一些特定属性的值：offsetTop|Left|Width|Height、scrollTop|Left|Width|Height、<br>clientTop|Left|Width|Height，这些属性均通过<strong>即时计算</strong>得到，于是浏览器为了获取这些值，也会进行回流</li>
+</ul>
+<p>重排的代价很昂贵，尽量减少重排的操作，频繁引发重排，会让页面卡顿滴~</p>
+<h2 id="事件循环机制-event-loop"><a href="#事件循环机制-event-loop" class="headerlink" title="事件循环机制 event-loop"></a>事件循环机制 event-loop</h2><p>以上还没提到 JS 文件的翻译，JS 是由 JS 引擎翻译的。</p>
+<p>先提一些名词：</p>
+<ul>
+<li>宏任务（macro-task)队列：script（整体代码）、setTimeout、setInterval 等</li>
+<li>微任务(microtask) 队列：Promise 等</li>
+<li>函数调用栈</li>
+</ul>
+<p>JS 引擎从开始执行 Script 脚本的时候，这本身就是一个宏任务，然后创建全局上下文，进栈</p>
+<ul>
+<li>如果遇到<code>Promise</code>的<code>then</code>代码，不会直接执行，会在此宏任务的内部，开启一个微任务队列，这个<code>then任务</code>就是排队的第一人</li>
+<li>如果遇到<code>setTimeout/setInterval</code>，不会直接执行，会另外开启一个宏任务，排在当前宏任务的后面，如果这个<code>setTimeout</code>里面再遇到<code>then</code>，也会在它的内部开启一个微任务队列</li>
+<li>如果当前的宏任务的同步代码执行完了，会依次执行当前宏任务内部的，微任务队列里的任务</li>
+<li>如果当前的宏任务的同步代码执行完了，微任务队列里的任务也执行完了，就会执行下一个宏任务</li>
+<li>函数调用栈，每次执行一个函数，就创建了函数上下文，进栈，执行完，出栈，没啥说的，之前说过了</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">app</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// s-1</span></span><br><span class="line">  setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"1-1"</span>);</span><br><span class="line">    <span class="comment">// p-1</span></span><br><span class="line">    <span class="built_in">Promise</span>.resolve().then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">"2-1"</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"1-2"</span>);</span><br><span class="line">  <span class="comment">// p-2</span></span><br><span class="line">  <span class="built_in">Promise</span>.resolve().then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"1-3"</span>);</span><br><span class="line">    <span class="comment">// s-2</span></span><br><span class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">"3-1"</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line">app();</span><br><span class="line"><span class="comment">// 1-2 1-3 1-1 2-1 3-1</span></span><br></pre></td></tr></table></figure>
+<p>画了个图，希望能帮助读者理解：</p>
+<p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/task1.png" alt="task1"></p>
+<!-- - 宏任务（macro-task)队列：script（整体代码）、setTimeout、setInterval、 setImmediate、I/O 操作等。
+- 微任务(microtask) 队列：Promise、process.nextTick、MutationObserver
+- 函数调用栈 -->
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/22/exam_dom/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2246,207 +2448,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/06/watch-notice/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2021/01/06/watch-notice/" itemprop="url">
-                  watch经常失效的场景和解决方案
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-06T18:46:40+08:00">
-                2021-01-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2021/01/06/watch-notice/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2021/01/06/watch-notice/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>使用过<code>watch</code>的，应该起码经历过一次失效。</p>
-<p>比如，我们监听对象的时候，在没有踩坑之前，很容易这样写：</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/aee47bd1bb9d46f4b330862a1177a663~tplv-k3u1fbpfcp-zoom-1.image" alt="watch-bug1"></p>
-<p>但是，❌，这里的<code>watch</code>是无效的!!!</p>
-<p>因为 obj 是<strong>引用类型</strong>！！！</p>
-<p>引用类型的<strong>指针是固定</strong>的，所以如果不是重新赋值，那么其赋值的变量自然也不会发生变化。</p>
-<p>举个例子：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123; <span class="attr">a</span>: <span class="number">1</span> &#125;;</span><br><span class="line"><span class="keyword">let</span> obj1 = obj;</span><br><span class="line"><span class="keyword">let</span> obj2 = &#123; ...obj &#125;;</span><br><span class="line">obj1.a = <span class="number">2</span>;</span><br><span class="line">obj2.a = <span class="number">3</span>;</span><br><span class="line"><span class="comment">// 这里肯定是true，因为obj和obj1都是同一个指针，不明白的搜下引用类型</span></span><br><span class="line"><span class="built_in">console</span>.log(obj1 === obj);</span><br><span class="line"><span class="comment">// 这里肯定是false，因为指针不同</span></span><br><span class="line"><span class="built_in">console</span>.log(obj2 === obj);</span><br></pre></td></tr></table></figure>
-<p>怎么解决呢？也简单！</p>
-<p>设置<code>deep:true</code>，这样<code>obj</code>中的属性发生变化（可被监测到的），便会执行 handler 函数；。</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/844141e33301490599c6946651621648~tplv-k3u1fbpfcp-zoom-1.image" alt="watch-bug2"></p>
-<blockquote>
-<p>！！！注意，因为是引用类型，所以<code>newValue</code> 和<code>oldValue</code>始终相等，千万不要犯傻的写相等就<code>return</code>，那就永远也不往下走了。。。。</p>
-</blockquote>
-<h2 id="监测数组"><a href="#监测数组" class="headerlink" title="监测数组"></a>监测数组</h2><p>引用类型，除了对象，很容易想到<strong>数组</strong>，那数组是不是也需要这样写呢。</p>
-<p>话分两头：</p>
-<ul>
-<li>数组项是<strong>对象类型</strong>，就需要<code>deep</code></li>
-<li>数组项是<strong>值类型</strong>，就不需要<code>deep</code></li>
-</ul>
-<p>因为<code>vue2</code>里，数组被特殊处理了，跟 obj 不等同，所以需要分情况。</p>
-<p>也就是数组项是<strong>值类型</strong>的话，直接这么写就行：</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f7733c015ba849cd92da03c05c143939~tplv-k3u1fbpfcp-zoom-1.image" alt="watch-bug3"></p>
-<p>对象类型的话，上面是不行的，先举个错误 ❌ 的例子：<br><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1249171c34124e0ca5ad4c46b07bf1ce~tplv-k3u1fbpfcp-zoom-1.image" alt="watch-bug5"></p>
-<p>不打印的原理，依然是数组项是对象类型，想watch对象类型，必须加<code>deep</code></p>
-<p>正确做法 ✅：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">watch:&#123;</span><br><span class="line">  arr: &#123;</span><br><span class="line">    handler(newValue) &#123;</span><br><span class="line">      <span class="comment">// 这里就可以打印了</span></span><br><span class="line">      <span class="built_in">console</span>.log(newValue);</span><br><span class="line">    &#125;,</span><br><span class="line">    deep: <span class="literal">true</span></span><br><span class="line">  &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><code>watch</code>失效的场景：</p>
-<ul>
-<li>对象类型</li>
-<li>数组项为<strong>对象类型</strong>的数组</li>
-</ul>
-<blockquote>
-<p>解决方案：加<code>deep:true</code>。</p>
-</blockquote>
-<h2 id="watch的其他属性"><a href="#watch的其他属性" class="headerlink" title="watch的其他属性"></a>watch的其他属性</h2><p><a href="https://cn.vuejs.org/v2/api/#vm-watch" target="_blank" rel="noopener">官网文档</a></p>
-<ul>
-<li>一开始就需要执行<code>watch</code>的话，可 <code>immediate</code>属性</li>
-<li><code>handle</code>可以是一个数组</li>
-<li>取消<code>watch</code>的话，<code>this.$unwatch</code></li>
-<li><code>watch</code>对象的某个属性的话，<code>&#39;obj.key&#39;(){}</code></li>
-<li>如果想同时检测两个属性，懒得一个个写的话，有个偷懒的法子用<code>computed</code>做中间层。</li>
-</ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">computed:&#123;</span><br><span class="line">  fullName()&#123;<span class="keyword">return</span> <span class="keyword">this</span>.firstName + <span class="keyword">this</span>.lastName&#125;</span><br><span class="line">&#125;,</span><br><span class="line">watch:&#123;</span><br><span class="line">  fullName()&#123;...&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
-<li><a href="https://www.cnblogs.com/web-chuanfa/p/9372459.html" target="_blank" rel="noopener">watch的用法</a></li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/23/">23</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -2491,7 +2497,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">230</span>
+                <span class="site-state-item-count">231</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
