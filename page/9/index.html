@@ -261,6 +261,157 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/31/stringify/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2020/03/31/stringify/" itemprop="url">
+                  stringify一个对象
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-31T16:14:58+08:00">
+                2020-03-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/03/31/stringify/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/03/31/stringify/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>简单记录，<code>url</code>上<code>stringify</code>一些参数</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// &#123;a:1,b:2&#125; =&gt; a=1&amp;b=2，不考虑深层嵌套</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">stringify</span>(<span class="params">params</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> str = <span class="string">""</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> k <span class="keyword">in</span> params) &#123;</span><br><span class="line">    <span class="keyword">var</span> value = <span class="keyword">typeof</span> params[k] === <span class="string">"undefined"</span> ? <span class="string">""</span> : params[k];</span><br><span class="line">    str += <span class="string">`&amp;<span class="subst">$&#123;<span class="built_in">encodeURIComponent</span>(value)&#125;</span>`</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> str ? str.slice(<span class="number">1</span>) : <span class="string">""</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// '/api',&#123;a:1,b:2&#125;  =&gt; '/api?a=1&amp;b=2'</span></span><br><span class="line"><span class="comment">// '/api?c=1',&#123;a:1,b:2&#125;  =&gt; '/api?c=1&amp;a=1&amp;b=2'</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">joinUrl</span>(<span class="params">url, params</span>) </span>&#123;</span><br><span class="line">  url += (url.includes(<span class="string">"?"</span>) ? <span class="string">"&amp;"</span> : <span class="string">"?"</span>) + stringify(params);</span><br><span class="line">  <span class="keyword">return</span> url;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/17/stack/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1922,195 +2073,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/23/react-native/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2019/12/23/react-native/" itemprop="url">
-                  reactNative的入门
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-23T09:50:26+08:00">
-                2019-12-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/react/" itemprop="url" rel="index">
-                    <span itemprop="name">react</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/12/23/react-native/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/12/23/react-native/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><a href="https://facebook.github.io/react-native/docs/getting-started" target="_blank" rel="noopener">官网开始</a></p>
-<p>一堆准备工作，按照官网一步步来就行。。。。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">npx react-native init AwesomeProject</span><br><span class="line">cd AwesomeProject</span><br><span class="line"><span class="meta">#</span> 安卓下运行</span><br><span class="line">npx react-native run-android</span><br></pre></td></tr></table></figure>
-<p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/react_native.png" alt="安卓运行成功图"></p>
-<h2 id="练习"><a href="#练习" class="headerlink" title="练习"></a>练习</h2><ul>
-<li>自定义的组件是Component的子类，必须有render函数，返回一个元素</li>
-<li>主要标签<code>View Text Image</code>，View像是div，Text像是span</li>
-<li>Image必须有source属性，属性值是一个对象里面必须有uri属性，当然还可以设置宽高</li>
-<li>组件在用的时候还可以<code>props</code>属性，用法和react大同小异</li>
-<li>还可以state，取值的时候<code>this.state.xxx</code>，设置的时候<code>this.setState({isShowingText:true}) this.setState(prevState=&gt;({isShowingText:!prevState.isShowingText}))</code></li>
-<li>componentDidMount组件渲染完之后执行的钩子函数</li>
-<li>state在render的同级</li>
-<li>字的颜色之类的<code>style</code>需要引用<code>StyleSheet</code>，然后在<code>Text</code>的标签上<code>style={}</code></li>
-<li>宽高之类的需要在<code>View</code>上，View元素必须有 宽高或者flex 才显示</li>
-<li>flex默认是colomn的，横向的需要设置<code>style={flex: 1, flexDirection: &#39;row&#39;}}</code>，<code>justifyContent alignItems</code></li>
-<li>文本输入框<code>TextInput</code>，onChangeText，onSubmitEditing</li>
-<li>按钮 Button，title就是显示在按钮上的内容，color可以是按钮颜色，字默认是白色的<code>&lt;Button onPress={() =&gt; { alert(&#39;You tapped!&#39;) }} title=&quot;Press Me&quot; /&gt;</code></li>
-<li>style创建之后可以放在文件末尾，文件里能正常调用</li>
-<li>其他能捕获到交互的组件，onPress，onLongPress，<code>TouchableHighlight TouchableOpacity TouchableNativeFeedback TouchableWithoutFeedback</code><br><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/button_react.gif" alt="交互手势"></li>
-<li>视图能放大缩小滚动，这些就用到scrollView，默认水平竖直都行，可以只设置某一个</li>
-<li>列表也有单独的组件<code>FlatList SectionList</code>，flat是每项都一样，section是每项里面加了个头</li>
-<li>发请求<code>Fetch</code>，常和FlatList ActivityIndicator在一起用</li>
-</ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">getMoviesFromApi</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> response = <span class="keyword">await</span> fetch(</span><br><span class="line">      <span class="string">'https://facebook.github.io/react-native/movies.json'</span>,</span><br><span class="line">    );</span><br><span class="line">    <span class="keyword">let</span> responseJson = <span class="keyword">await</span> response.json();</span><br><span class="line">    <span class="keyword">return</span> responseJson.movies;</span><br><span class="line">  &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">    <span class="built_in">console</span>.error(error);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>App.js换成以下内容：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; Component &#125; <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; StyleSheet,Text, View,Image,TextInput,Button &#125; <span class="keyword">from</span> <span class="string">'react-native'</span>;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> // Try removing the `flex: 1` on the parent View.</span></span><br><span class="line"><span class="comment">      // The parent will not have dimensions, so the children can't expand.</span></span><br><span class="line"><span class="comment">      // What if you add `height: 300` instead of `flex: 1`?</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">const</span> styles = StyleSheet.create(&#123;</span><br><span class="line">  bigBlue:&#123;</span><br><span class="line">    color:<span class="string">'blue'</span>,</span><br><span class="line">    fontWeight:<span class="string">'bold'</span>,</span><br><span class="line">    fontSize:<span class="number">30</span></span><br><span class="line">  &#125;,</span><br><span class="line">  red:&#123;</span><br><span class="line">    color:<span class="string">'red'</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Greeting</span> <span class="keyword">extends</span> <span class="title">Component</span></span>&#123;</span><br><span class="line">  render()&#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;View&gt;</span><br><span class="line">        &lt;Text&gt;hi &#123;<span class="keyword">this</span>.props.name&#125;&lt;<span class="regexp">/Text&gt;</span></span><br><span class="line"><span class="regexp">      &lt;/</span>View&gt;</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Blink</span> <span class="keyword">extends</span> <span class="title">Component</span></span>&#123;</span><br><span class="line">  componentDidMount()&#123;</span><br><span class="line">    setInterval(<span class="function"><span class="params">()</span>=&gt;</span>&#123;<span class="keyword">this</span>.setState(<span class="function"><span class="params">preState</span>=&gt;</span>(&#123;<span class="attr">isShowHello</span>:!preState.isShowHello&#125;))&#125;,<span class="number">1000</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  state = &#123;</span><br><span class="line">    isShowHello:<span class="literal">true</span></span><br><span class="line">  &#125;</span><br><span class="line">  render()&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">this</span>.state.isShowHello)&#123;</span><br><span class="line">      <span class="keyword">return</span> (&lt;Text&gt;show hello&lt;/Text&gt;)</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">null</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FlexDimensionsBasics</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      <span class="comment">// Try removing the `flex: 1` on the parent View.</span></span><br><span class="line">      <span class="comment">// The parent will not have dimensions, so the children can't expand.</span></span><br><span class="line">      <span class="comment">// What if you add `height: 300` instead of `flex: 1`?</span></span><br><span class="line">      &lt;View style=flex: <span class="number">1</span>&#125;&#125;&gt;</span><br><span class="line">        &lt;View style=flex: <span class="number">1</span>, <span class="attr">backgroundColor</span>: <span class="string">'powderblue'</span>&#125;&#125; /&gt;</span><br><span class="line">        &lt;View style=flex: <span class="number">2</span>, <span class="attr">backgroundColor</span>: <span class="string">'skyblue'</span>&#125;&#125; /&gt;</span><br><span class="line">        &lt;View style=flex: <span class="number">3</span>, <span class="attr">backgroundColor</span>: <span class="string">'steelblue'</span>&#125;&#125; /&gt;</span><br><span class="line">      &lt;<span class="regexp">/View&gt;</span></span><br><span class="line"><span class="regexp">    );</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp">class PizzaTranslator extends Component&#123;</span></span><br><span class="line"><span class="regexp">  constructor(props)&#123;</span></span><br><span class="line"><span class="regexp">    super(props)</span></span><br><span class="line"><span class="regexp">    this.state = &#123;</span></span><br><span class="line"><span class="regexp">      text:''</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">  render()&#123;</span></span><br><span class="line"><span class="regexp">    return (</span></span><br><span class="line"><span class="regexp">      &lt;View style=padding:10&#125;&#125;&gt;</span></span><br><span class="line"><span class="regexp">        &lt;TextInput style=height:40&#125;&#125; placeholder='here' onChangeText=&#123;text=&gt;this.setState(&#123;text&#125;)&#125; value=&#123;this.state.text&#125;/</span>&gt;</span><br><span class="line">        &lt;Text style=padding:<span class="number">10</span>,<span class="attr">fontSize</span>:<span class="number">42</span>&#125;&#125;&gt;</span><br><span class="line">          &#123;<span class="keyword">this</span>.state.text.split(<span class="string">' '</span>).map(<span class="function"><span class="params">word</span>=&gt;</span> word &amp;&amp; <span class="string">'🍕'</span>).join(<span class="string">' '</span>)&#125;</span><br><span class="line">        &lt;<span class="regexp">/Text&gt;</span></span><br><span class="line"><span class="regexp">      &lt;/</span>View&gt;</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ButtonBasics</span> <span class="keyword">extends</span> <span class="title">Component</span></span>&#123;</span><br><span class="line">  _onPressButton()&#123;alert(<span class="string">'tap'</span>)&#125;</span><br><span class="line">  render()&#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;View style=&#123;styles2.container&#125;&gt;</span><br><span class="line">        &lt;View style=&#123;styles2.buttonContainer&#125;&gt;</span><br><span class="line">          &lt;Button onPress=&#123;<span class="keyword">this</span>._onPressButton&#125; title=<span class="string">'press me'</span>&gt;&lt;/Button&gt;</span><br><span class="line">        &lt;<span class="regexp">/View&gt;</span></span><br><span class="line"><span class="regexp">        &lt;View style=&#123;styles2.buttonContainer&#125;&gt;</span></span><br><span class="line"><span class="regexp">          &lt;Button onPress=&#123;this._onPressButton&#125; title='press me' color='#69f'&gt;&lt;/</span>Button&gt;</span><br><span class="line">        &lt;<span class="regexp">/View&gt;</span></span><br><span class="line"><span class="regexp">        &lt;View style=&#123;styles2.alternativeLayoutButtonContainer&#125;&gt;</span></span><br><span class="line"><span class="regexp">          &lt;Button</span></span><br><span class="line"><span class="regexp">            onPress=&#123;this._onPressButton&#125;</span></span><br><span class="line"><span class="regexp">            title="This looks great!"</span></span><br><span class="line"><span class="regexp">          /</span>&gt;</span><br><span class="line">          &lt;Button</span><br><span class="line">            onPress=&#123;<span class="keyword">this</span>._onPressButton&#125;</span><br><span class="line">            title=<span class="string">"OK!"</span></span><br><span class="line">            color=<span class="string">"#841584"</span></span><br><span class="line">          /&gt;</span><br><span class="line">        &lt;<span class="regexp">/View&gt;</span></span><br><span class="line"><span class="regexp">      &lt;/</span>View&gt;</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloWorldApp</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">  state = &#123;</span><br><span class="line">    imgUrl:&#123; <span class="attr">uri</span>:<span class="string">'https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/react_native.png'</span> &#125;,</span><br><span class="line">  &#125;</span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">let</span> msg = <span class="string">'hi'</span></span><br><span class="line">    <span class="comment">// return (&lt;FlexDimensionsBasics/&gt;)</span></span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;View style= flex: <span class="number">1</span>, <span class="attr">justifyContent</span>: <span class="string">"center"</span>, <span class="attr">alignItems</span>: <span class="string">"center"</span> &#125;&#125;&gt;</span><br><span class="line">        &lt;PizzaTranslator/&gt;</span><br><span class="line">        &lt;Text style=&#123;styles.bigBlue&#125;&gt;&#123;msg&#125;&lt;<span class="regexp">/Text&gt;</span></span><br><span class="line"><span class="regexp">        &lt;Text  style=&#123;[styles.bigBlue,styles.red]&#125;&gt;&#123;msg&#125;&lt;/</span>Text&gt;</span><br><span class="line">        &lt;Blink/&gt;</span><br><span class="line">        &lt;Greeting name=<span class="string">'huahua'</span>/&gt;</span><br><span class="line">        &lt;ButtonBasics/&gt;</span><br><span class="line">        &lt;Button onPress=&#123;() =&gt; &#123; alert(<span class="string">'You tapped the button!'</span>); &#125;&#125; title=<span class="string">"Press Me"</span> /&gt;</span><br><span class="line">        &lt;Image source=&#123;<span class="keyword">this</span>.state.imgUrl&#125; style=width:<span class="number">193</span>,<span class="attr">height</span>:<span class="number">110</span>&#125;&#125;/&gt;</span><br><span class="line">      &lt;<span class="regexp">/View&gt;</span></span><br><span class="line"><span class="regexp">    );</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">const styles2 = StyleSheet.create(&#123;</span></span><br><span class="line"><span class="regexp">  container: &#123;</span></span><br><span class="line"><span class="regexp">   flex: 1,</span></span><br><span class="line"><span class="regexp">   justifyContent: 'center',</span></span><br><span class="line"><span class="regexp">  &#125;,</span></span><br><span class="line"><span class="regexp">  buttonContainer: &#123;</span></span><br><span class="line"><span class="regexp">    margin: 20</span></span><br><span class="line"><span class="regexp">  &#125;,</span></span><br><span class="line"><span class="regexp">  alternativeLayoutButtonContainer: &#123;</span></span><br><span class="line"><span class="regexp">    margin: 20,</span></span><br><span class="line"><span class="regexp">    flexDirection: 'row',</span></span><br><span class="line"><span class="regexp">    justifyContent: 'space-between'</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;);</span></span><br></pre></td></tr></table></figure>
-<h2 id="scrollview"><a href="#scrollview" class="headerlink" title="scrollview"></a>scrollview</h2><p>视图能放大缩小滚动，这些就用到scrollView，默认水平竖直都行，可以只设置某一个</p>
-<h2 id="安卓发包的流程"><a href="#安卓发包的流程" class="headerlink" title="安卓发包的流程"></a>安卓发包的流程</h2><p>app/build/outputs/apk/ 任意配置  debug和正式，</p>
-<ol>
-<li>侧边栏的build variants可以切换打包的环境。</li>
-<li><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/android.png" alt="打成正式的包"></li>
-</ol>
-<p>正式的包需要签名：</p>
-<ol>
-<li>菜单里的 build =&gt; generate signed. =&gt; Apk =&gt; v1.v2军勾上</li>
-<li>/Users/zhm/Android/reactDemo/android/app/build.gradle 这里的</li>
-</ol>
-<p>正式的kestore路径和app/build.gradle 平级</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">signingConfigs &#123;</span><br><span class="line">  debug &#123;</span><br><span class="line">      storeFile file(<span class="string">'debug.keystore'</span>)</span><br><span class="line">      storePassword <span class="string">'android'</span></span><br><span class="line">      keyAlias <span class="string">'androiddebugkey'</span></span><br><span class="line">      keyPassword <span class="string">'android'</span></span><br><span class="line">  &#125;</span><br><span class="line">  release &#123;</span><br><span class="line">      storeFile file(<span class="string">'reactDemo'</span>)</span><br><span class="line">      storePassword <span class="string">'123456'</span></span><br><span class="line">      keyAlias <span class="string">'key0'</span></span><br><span class="line">      keyPassword <span class="string">'123456'</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>正式的包可以发版。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2160,7 +2122,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">231</span>
+                <span class="site-state-item-count">232</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
