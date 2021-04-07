@@ -261,6 +261,183 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/20/vue-slot/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2020/11/20/vue-slot/" itemprop="url">
+                  作用域插槽slot的使用场景 -- vue组件通信系列
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-11-20T16:01:00+08:00">
+                2020-11-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/11/20/vue-slot/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/11/20/vue-slot/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>vue 组件的数据通信方式很多，本篇着重讲<code>作用域插槽slot</code>。</p>
+<p><a href="https://cn.vuejs.org/v2/guide/components-slots.html" target="_blank" rel="noopener">slot的基本用法</a>，这里不再赘述。<br>本篇强调的是，怎么通过<code>slot</code>来实现通信。准备来说，是在父组件里显示子组件给<code>slot</code><strong>暴露</strong>的数据。</p>
+<p>因为vue版本的原因，父组件使用slot的形式不一样，<strong>2.6.0</strong>以上使用新版本<code>slot</code>，以下则是旧版本。</p>
+<h2 id="新版本怎么使用作用域插槽"><a href="#新版本怎么使用作用域插槽" class="headerlink" title="新版本怎么使用作用域插槽"></a>新版本怎么使用作用域插槽</h2><p>先写个demo：</p>
+<p>父组件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;template lang=&quot;pug&quot;&gt;</span><br><span class="line">div</span><br><span class="line">  list-item</span><br><span class="line">    template(v-slot:header=&quot;headerData&quot;)</span><br><span class="line">      //- &#123; &quot;title&quot;: &quot;ListItem的header&quot;, &quot;desc&quot;: &quot;header描述&quot; &#125;</span><br><span class="line">      div &#123;&#123;headerData&#125;&#125;</span><br><span class="line"></span><br><span class="line">    //- v-slot:可以简写为#</span><br><span class="line">    template(#default=&quot;defaultData&quot;)</span><br><span class="line">      //- &#123; &quot;title&quot;: &quot;ListItem的default&quot;, &quot;desc&quot;: &quot;default描述&quot; &#125;</span><br><span class="line">      div &#123;&#123;defaultData&#125;&#125;</span><br><span class="line"></span><br><span class="line">    //- 可以解构使用</span><br><span class="line">    template(v-slot:footer=&quot;&#123;title,desc&#125;&quot;)</span><br><span class="line">      //- ListItem的footer</span><br><span class="line">      div &#123;&#123;title&#125;&#125;</span><br><span class="line">      //- footer描述</span><br><span class="line">      div &#123;&#123;desc&#125;&#125;</span><br><span class="line">&lt;/template&gt;</span><br></pre></td></tr></table></figure>
+<p>子组件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;template lang=&quot;pug&quot;&gt;</span><br><span class="line">div</span><br><span class="line">  slot(name=&quot;header&quot; title=&quot;ListItem的header&quot; desc=&quot;header描述&quot;)</span><br><span class="line">  //- name是default的话，可以省略name属性</span><br><span class="line">  slot(name=&quot;default&quot; title=&quot;ListItem的default&quot; desc=&quot;default描述&quot;)</span><br><span class="line">  slot(name=&quot;footer&quot; title=&quot;ListItem的footer&quot; desc=&quot;footer描述&quot;)</span><br><span class="line">&lt;/template&gt;</span><br></pre></td></tr></table></figure>
+<p>总结下：</p>
+<ul>
+<li>子组件，在内部将数据以属性的形式放在<code>slot</code>标签上</li>
+<li>父组件，通过<code>template(v-slot:header=&quot;headerData&quot;)</code>获取数据，数据是对象形式的</li>
+<li><code>v-slot:</code>可以简写成<code>#</code></li>
+<li>数据可以<strong>解构</strong></li>
+<li>必须配合<code>template</code>标签</li>
+</ul>
+<h2 id="旧版本怎么使用作用域插槽"><a href="#旧版本怎么使用作用域插槽" class="headerlink" title="旧版本怎么使用作用域插槽"></a>旧版本怎么使用作用域插槽</h2><p>依旧先写个demo：</p>
+<p>父组件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;template lang=&quot;pug&quot;&gt;</span><br><span class="line">div</span><br><span class="line">  list-item</span><br><span class="line">    //- &#123; &quot;title&quot;: &quot;ListItem的header&quot;, &quot;desc&quot;: &quot;header描述&quot; &#125;</span><br><span class="line">    div(slot=&quot;header&quot; slot-scope=&quot;headerData&quot;) &#123;&#123;headerData&#125;&#125;</span><br><span class="line">    div(slot=&quot;header&quot; slot-scope=&quot;headerData&quot;) &#123;&#123;headerData&#125;&#125;</span><br><span class="line"></span><br><span class="line">    //- slot=&quot;default&quot; 可以省略</span><br><span class="line">    //- &#123; &quot;title&quot;: &quot;ListItem的default&quot;, &quot;desc&quot;: &quot;default描述&quot; &#125;</span><br><span class="line">    div(slot-scope=&quot;defaultData&quot;) &#123;&#123;defaultData&#125;&#125;</span><br><span class="line"></span><br><span class="line">    template(slot=&quot;footer&quot; slot-scope=&quot;&#123;title,desc&#125;&quot;)</span><br><span class="line">      div &#123;&#123;title&#125;&#125;</span><br><span class="line">      div &#123;&#123;desc&#125;&#125;</span><br><span class="line">&lt;/template&gt;</span><br></pre></td></tr></table></figure>
+<p>子组件，没变化</p>
+<p>总结下：</p>
+<ul>
+<li>子组件，在内部将数据以属性的形式放在<code>slot</code>标签上</li>
+<li>父组件，通过<code>div(slot=&quot;header&quot; slot-scope=&quot;headerData&quot;)</code>获取数据，数据是对象形式的</li>
+<li>数据可以<strong>解构</strong></li>
+</ul>
+<h2 id="第三方组件，使用作用域插槽"><a href="#第三方组件，使用作用域插槽" class="headerlink" title="第三方组件，使用作用域插槽"></a>第三方组件，使用作用域插槽</h2><p>在使用<code>element-ui</code>的<code>el-table</code>的时候，需要使用当前行的数据，就可以借助作用域</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;template lang=&quot;pug&quot;&gt;</span><br><span class="line">el-table(...)</span><br><span class="line">  el-table-column</span><br><span class="line">    template(#default=&quot;scope&quot;)</span><br><span class="line">      router-link(:to=&quot;scope.href&quot;) 观看视频</span><br><span class="line">  //- 老版</span><br><span class="line">    el-table-column</span><br><span class="line">      router-link(slot-scope=&quot;scope&quot; :to=&quot;scope.href&quot;) 观看视频</span><br><span class="line">&lt;/template&gt;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/20/vue-ref/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1996,165 +2173,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/03/line-center/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2020/11/03/line-center/" itemprop="url">
-                  试试用flex处理直线和其他元素居中
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-11-03T19:10:22+08:00">
-                2020-11-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/css/" itemprop="url" rel="index">
-                    <span itemprop="name">css</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2020/11/03/line-center/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/11/03/line-center/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>经常会碰到如图所示的效果<br><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/center-line.png" alt="线居中"></p>
-<p>一般可能常用一个盒子里放线和文本，然后让文本或者线定位下。</p>
-<p>这里考虑到更多的通用性，用下flex思维布局。</p>
-<p>先实现两者没重叠的时候的样式</p>
-<p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/center-line2.png" alt="线居中"></p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"line-text-box"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"text"</span>&gt;</span>我是标题<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"line"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.line-text-box</span>&#123;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">  <span class="attribute">flex-direction</span>: column;</span><br><span class="line">  <span class="attribute">align-items</span>: center;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.text</span>&#123;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">0</span> <span class="number">10px</span>;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#fff</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.line</span>&#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">1px</span>;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#eee</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>那想要两者重叠，其实只要脱离文档流即可，另外考虑到两者垂直方向也是居中，所以额外还得加个属性。</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.line-text-box</span>&#123;</span><br><span class="line">  <span class="comment">/* ... */</span></span><br><span class="line">  <span class="attribute">justify-content</span>: center;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.line</span>&#123;</span><br><span class="line">  <span class="comment">/* ... */</span></span><br><span class="line">  <span class="attribute">position</span>: absolute;</span><br><span class="line">  <span class="attribute">z-index</span>: -<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这种布局的方式是灵活，中间的文本可以换成多个图标，左对齐右对齐都很方便。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2204,7 +2222,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">235</span>
+                <span class="site-state-item-count">236</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
