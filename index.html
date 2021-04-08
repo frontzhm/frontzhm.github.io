@@ -261,6 +261,228 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/08/recursion_console/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2021/04/08/recursion_console/" itemprop="url">
+                  大白话理解递归本质，可视化递归过程
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-04-08T17:39:41+08:00">
+                2021-04-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/04/08/recursion_console/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2021/04/08/recursion_console/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>先来个场景：</p>
+<p>下班了，你带着女友去电影院看电影~（没有女友？快私信我，组里各种白富美！加班没时间？快私信我，组里加班少！）<br>女友问，咱两现在坐在第几排啊？<br>电影院里面太黑了，看不清，没法数，现在你怎么办？</p>
+<p>于是你开始展示你智慧的一面了，先问前排的人他是第几排，你想只要在他的数字上加一，就知道自己在哪一排了。</p>
+<p>但是，前面的人也看不清啊，所以他也问他前面的人。就这样一排一排往前问~<br>直到问到第一排的人，说我在第一排，然后再这样一排一排再把数字传回来。<br>直到你前面的人告诉你他在哪一排，于是你就知道答案了。</p>
+<p>这就是一个非常标准的递归求解问题的分解过程，去的过程叫“递”，回来的过程叫“归”，所以叫“递归”。</p>
+<blockquote>
+<p>递归的本质：将原来的问题，转化为更小的同一问题。问题一点点变小，当问题变成最小级别之后，先解决最小级别的问题的答案，然后大一点的问题也有了答案，一点点的往上，这样原来的问题也就有了答案~</p>
+</blockquote>
+<h2 id="举例理解递归：数组求和"><a href="#举例理解递归：数组求和" class="headerlink" title="举例理解递归：数组求和"></a>举例理解递归：数组求和</h2><p>举个代码的例子理解下递归：对数组求和。</p>
+<p>假设对 <code>[1,2,3,4]</code>求和，可以转化为 [2,3,4]的求和，这样问题就变得更小，直到转为空数组，空数组就是最小级别的问题，先解决最小级别的问题，然后大一点的问题也有了答案，一点点的，这样原来的问题也就有了答案~</p>
+<p>伪代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">=&gt; [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]</span><br><span class="line">=&gt; [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>] = <span class="number">1</span> + [<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]</span><br><span class="line">=&gt; [<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>] = <span class="number">2</span> + [<span class="number">3</span>,<span class="number">4</span>]</span><br><span class="line">=&gt; [<span class="number">3</span>,<span class="number">4</span>] = <span class="number">3</span> + [<span class="number">4</span>]</span><br><span class="line">=&gt; [<span class="number">4</span>] = <span class="number">4</span> + []</span><br><span class="line">=&gt; [] = <span class="number">0</span></span><br><span class="line">=&gt; [<span class="number">4</span>] = <span class="number">4</span> + <span class="number">0</span></span><br><span class="line">=&gt; [<span class="number">3</span>,<span class="number">4</span>] = <span class="number">3</span> + <span class="number">4</span></span><br><span class="line">=&gt; [<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>] = <span class="number">2</span> + <span class="number">7</span></span><br><span class="line">=&gt; [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>] = <span class="number">1</span> + <span class="number">9</span></span><br><span class="line">=&gt; 解决</span><br></pre></td></tr></table></figure>
+<p>写真实的代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sum</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 先解决最小级别的问题</span></span><br><span class="line">  <span class="keyword">if</span> (arr.length === <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 大的问题 转化为 更小的问题</span></span><br><span class="line">  <span class="keyword">return</span> arr[<span class="number">0</span>] + sum(arr.slice(<span class="number">1</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="可视化递归过程"><a href="#可视化递归过程" class="headerlink" title="可视化递归过程"></a>可视化递归过程</h2><p>上面看完之后，可能还是有点点蒙圈，感觉似懂非懂~</p>
+<p>没事，可视化代码运行，就明白了！可视化的过程，也是调试的技巧！</p>
+<p>先可视化上面的数组求和：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sum</span>(<span class="params">arr, depth</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 递归层级越深，缩进越长。同一层级的，缩进等长</span></span><br><span class="line">  <span class="keyword">const</span> indent = <span class="string">"--"</span>.repeat(depth);</span><br><span class="line">  <span class="comment">// 调用开始，输出一次</span></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">`<span class="subst">$&#123;indent&#125;</span>Start Call: sum of [<span class="subst">$&#123;arr&#125;</span>]`</span>);</span><br><span class="line">  <span class="keyword">if</span> (arr.length === <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> res = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">// 返回之前，输出一次</span></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`<span class="subst">$&#123;indent&#125;</span>Return: sum of [<span class="subst">$&#123;arr&#125;</span>] is <span class="subst">$&#123;res&#125;</span>`</span>);</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">let</span> res = sum(arr.slice(<span class="number">1</span>), depth + <span class="number">1</span>);</span><br><span class="line">  <span class="comment">// 调用之后，输出一次</span></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">`<span class="subst">$&#123;indent&#125;</span>After Call: sum of [<span class="subst">$&#123;arr.slice(<span class="number">1</span>)&#125;</span>],sum is <span class="subst">$&#123;res&#125;</span>`</span>);</span><br><span class="line">  res = arr[<span class="number">0</span>] + res;</span><br><span class="line">  <span class="comment">// 返回之前，输出一次</span></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">`<span class="subst">$&#123;indent&#125;</span>Return: sum of [<span class="subst">$&#123;arr&#125;</span>] is <span class="subst">$&#123;res&#125;</span>`</span>);</span><br><span class="line">  <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line">sum([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>], <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+<p>执行代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Start Call: sum <span class="keyword">of</span> [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]</span><br><span class="line">--Start Call: sum <span class="keyword">of</span> [<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]</span><br><span class="line">----Start Call: sum <span class="keyword">of</span> [<span class="number">3</span>,<span class="number">4</span>]</span><br><span class="line">------Start Call: sum <span class="keyword">of</span> [<span class="number">4</span>]</span><br><span class="line">--------Start Call: sum <span class="keyword">of</span> []  <span class="comment">// 这里是最小级别的问题</span></span><br><span class="line">--------Return: sum <span class="keyword">of</span> [] is <span class="number">0</span> <span class="comment">// 解决最小级别的问题</span></span><br><span class="line">------After Call: sum <span class="keyword">of</span> [],sum is <span class="number">0</span></span><br><span class="line">------Return: sum <span class="keyword">of</span> [<span class="number">4</span>] is <span class="number">4</span></span><br><span class="line">----After Call: sum <span class="keyword">of</span> [<span class="number">4</span>],sum is <span class="number">4</span></span><br><span class="line">----Return: sum <span class="keyword">of</span> [<span class="number">3</span>,<span class="number">4</span>] is <span class="number">7</span></span><br><span class="line">--After Call: sum <span class="keyword">of</span> [<span class="number">3</span>,<span class="number">4</span>],sum is <span class="number">7</span></span><br><span class="line">--Return: sum <span class="keyword">of</span> [<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>] is <span class="number">9</span></span><br><span class="line">After Call: sum <span class="keyword">of</span> [<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>],sum is <span class="number">9</span></span><br><span class="line">Return: sum <span class="keyword">of</span> [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>] is <span class="number">10</span></span><br></pre></td></tr></table></figure>
+<p>再联系本文开头的话，“递”和“归”的过程，就能看出来了~</p>
+<p>大问题转化为更小的同一问题，一直转化到最小级别的问题，先解决最小级别的问题，然后大一点的问题就解决了，一直到原先的问题就会被解决~</p>
+<p>可视化代码的步骤：</p>
+<ul>
+<li>先给函数加个额外的参数：递归深度，表示递归到哪了</li>
+<li>递归深度，可以用字符串缩进可视化</li>
+<li>调用开始的时候，打印下当前的参数（可语义下）</li>
+<li>调用之后，打印下调用返回的结果和对应参数（可语义下）</li>
+<li>返回结果之前，打印下返回结果和对应参数（可语义下）</li>
+</ul>
+<h2 id="怎么写递归"><a href="#怎么写递归" class="headerlink" title="怎么写递归"></a>怎么写递归</h2><p>两步：</p>
+<ul>
+<li>找到递归边界：找到最小级别的问题，并搞定答案</li>
+<li>找到递归式：将大问题转化为更小的同一问题（假设更小的问题有了答案，只想到第一层就行）</li>
+</ul>
+<p>再举个例子：</p>
+<p>有一组数：1,1,2,3,5,8,13,21……..</p>
+<p>问第 n 个数是什么？</p>
+<p>细细看看，其实就是斐波拉契数列，后面一个数等于前两数之和。</p>
+<ul>
+<li>找到递归边界：找到最小级别的问题，并搞定答案</li>
+</ul>
+<p>其实就是前两个数：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">f(<span class="number">1</span>) = <span class="number">1</span>;</span><br><span class="line">f(<span class="number">2</span>) = <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>找到递归式：将大问题转化为更小的同一问题（假设更小的问题有了答案，只想到第一层就行）</li>
+</ul>
+<p>第 n 个数就是前两数之和：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">f(n) = f(n - <span class="number">1</span>) + f(n - <span class="number">2</span>);</span><br></pre></td></tr></table></figure>
+<p>撸码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">n</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 最小级别的问题，务必搞定答案</span></span><br><span class="line">  <span class="keyword">if</span> (n === <span class="number">1</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">if</span> (n === <span class="number">2</span>) <span class="keyword">return</span> <span class="number">2</span>;</span><br><span class="line">  <span class="comment">// 假设n-1和n-2都知道的话</span></span><br><span class="line">  <span class="keyword">return</span> f(n - <span class="number">1</span>) + f(n - <span class="number">2</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以试试可视化过程，这里我就不演示了，当作业了~</p>
+<h2 id="递归的缺陷和解决方案"><a href="#递归的缺陷和解决方案" class="headerlink" title="递归的缺陷和解决方案"></a>递归的缺陷和解决方案</h2><p>两个大缺陷：</p>
+<ul>
+<li>堆栈溢出</li>
+<li>重复计算度高</li>
+</ul>
+<p>可以看到，递归的过程就是函数调用的过程，反复调用函数，函数调用栈会很高，一定数量级之后，会溢栈，专业名词就是<code>堆栈溢出</code>，表现为代码报错了！</p>
+<p>这种缺陷的一个解决办法是：提前规定最大深度，超过深度之后直接报错。<br>当然这个最大深度不一定好估计。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 全局变量，表示递归的深度。</span></span><br><span class="line"><span class="keyword">let</span> depth = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">n</span>) </span>&#123;</span><br><span class="line">  ++depth；</span><br><span class="line">  <span class="keyword">if</span> (depth &gt; <span class="number">1000</span>) <span class="keyword">throw</span> <span class="built_in">Error</span>(<span class="string">'递归层次超过范围了'</span>);</span><br><span class="line">  <span class="keyword">if</span>(n === <span class="number">1</span>) <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">  <span class="keyword">if</span>(n === <span class="number">2</span>) <span class="keyword">return</span> <span class="number">2</span></span><br><span class="line">  <span class="keyword">return</span> f(n<span class="number">-1</span>) + f(n<span class="number">-2</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>重复计算度高怎么理解呢？</p>
+<p>比如计算第 5 个数，等价于 <code>f(3)+f(4)</code>，而<code>f(4)</code>等价于<code>f(3)+f(2)</code>，注意这里的 f(3)出现了两次，这还只是计算第 5 个数，如果更大的话，会重复计算更多次！</p>
+<p>这种缺陷的一个解决办法是：用哈希表保存已经求解过的 f(k)，调用到 f(k) 时，哈希表有则直接返回，不需要重复计算了。<br>当然代价是，空间复杂度变高。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> resolvedList = &#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">n</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (n === <span class="number">1</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">if</span> (n === <span class="number">2</span>) <span class="keyword">return</span> <span class="number">2</span>;</span><br><span class="line">  <span class="comment">// 保存过的话直接返回</span></span><br><span class="line">  <span class="keyword">if</span> (resolvedList[n]) &#123;</span><br><span class="line">    <span class="keyword">return</span> resolvedList[n];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> res = f(n - <span class="number">1</span>) + f(n - <span class="number">2</span>);</span><br><span class="line">  <span class="comment">// 没保存过的，保存下</span></span><br><span class="line">  resolvedList[n] = res;</span><br><span class="line">  <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>除了堆栈溢出、重复计算度这两个大问题，时间上，过多的函数调用会积聚成一个可观的时间成本；空间上，调用一次就会在内存栈中保存一次现场数据，同样也会有可观的空间成本。</p>
+<h2 id="怎么将递归代码改写为非递归代码"><a href="#怎么将递归代码改写为非递归代码" class="headerlink" title="怎么将递归代码改写为非递归代码"></a>怎么将递归代码改写为非递归代码</h2><p>递归的好处是代码简洁易理解，坏处就是上面的。能不能将其转化为非递归代码呢？答案是肯定的！<br>递归的过程可以理解为函数调用栈的过程，我们可以手动模拟进栈出栈，也就是迭代循环！</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 数组求和：</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">function sum(arr) &#123;</span></span><br><span class="line"><span class="comment">  if (arr.length === 0) return 0;</span></span><br><span class="line"><span class="comment">  return arr[0] + sum(arr.slice(1));</span></span><br><span class="line"><span class="comment">&#125;</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sum</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (n === <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">let</span> res = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt;= arr.length; i++) &#123;</span><br><span class="line">    <span class="comment">// 手动迭代res</span></span><br><span class="line">    res = arr[i] + res;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 斐波拉契数列：</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">function f(n) &#123;</span></span><br><span class="line"><span class="comment">  if (n === 1) return 1;</span></span><br><span class="line"><span class="comment">  if (n === 2) return 2;</span></span><br><span class="line"><span class="comment">  return f(n - 1) + f(n - 2);</span></span><br><span class="line"><span class="comment">&#125;</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">n</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (n == <span class="number">1</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">if</span> (n == <span class="number">2</span>) <span class="keyword">return</span> <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> res = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">let</span> pre = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">let</span> prepre = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">3</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">    <span class="comment">// 手动迭代res</span></span><br><span class="line">    res = pre + prepre;</span><br><span class="line">    prepre = pre;</span><br><span class="line">    pre = res;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>“手动”递归，并不是说没有缺点，虽然没有那么多函数调用，但是重复计算度依然很高。<br>另外，迭代循环，对于线性结构的还好理解些，对于非线性结构的理解起来会更困难。</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
+<li><a href="https://coding.imooc.com/learn/list/207.html" target="_blank" rel="noopener">ACM 亚洲区奖牌获得者 liuyubobobo 的玩转数据结构_5-3</a></li>
+<li><a href="https://time.geekbang.org/column/intro/126" target="_blank" rel="noopener">前 Google 工程师王争的数据结构与算法之美_10</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/07/algorithm_queue/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1993,184 +2215,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/26/algorithm_sum/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2021/03/26/algorithm_sum/" itemprop="url">
-                  嵌套遍历同一个数组的时候，试试Map优化 -- 数组经典算法题
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-03-26T11:48:16+08:00">
-                2021-03-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2021/03/26/algorithm_sum/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2021/03/26/algorithm_sum/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>最近在看数据结构和算法，努力总结出道~</p>
-<h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL:DR"></a>TL:DR</h2><ul>
-<li>嵌套遍历同一个数组的时候，试试Map优化。</li>
-</ul>
-<p>因为嵌套遍历的时间复杂度是O(n^2)，有点大，于是可以想下，用空间换时间，在遍历的时候，记录已经遍历过的元素和对应的下标，常用的记录方式就是Map。</p>
-<ul>
-<li>几乎所有的求和问题，都可以转化为求差问题，这样会变得更简单。</li>
-</ul>
-<h2 id="练习：两数求和"><a href="#练习：两数求和" class="headerlink" title="练习：两数求和"></a>练习：两数求和</h2><p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/43d50df3be3b4613805aa231274c3154~tplv-k3u1fbpfcp-zoom-1.image" alt="sum1"></p>
-<p>没有算法基础的话，第一想法是嵌套遍历。</p>
-<ul>
-<li>枚举所有不同下标的组合</li>
-<li>看下和是不是target</li>
-</ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> twoSum = <span class="function"><span class="keyword">function</span> (<span class="params">nums, target</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> len = nums.length;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; len; i++) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> j = i + <span class="number">1</span>; j &lt; len; j++) &#123;</span><br><span class="line">      <span class="keyword">if</span> (nums[i] + nums[j] === target) &#123;</span><br><span class="line">        <span class="keyword">return</span> [i, j];</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>显然空间O(1)，时间O(n^2)</p>
-<p>想想原则，然后优化！</p>
-<p>嵌套遍历想到Map，用空间换时间，求和转为求差。</p>
-<ul>
-<li>在遍历数组的过程中，用 Map 来记录已经遍历过的数字及其对应的索引值。</li>
-<li>每遍历到一个新数字的时候，看下 target 与该数的差值是否在map里</li>
-<li>在则直接返回答案，反之继续存储往后走</li>
-</ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> twoSum = <span class="function"><span class="keyword">function</span> (<span class="params">nums, target</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 用对象来模拟 map，存储遍历过的元素和索引</span></span><br><span class="line">  <span class="keyword">const</span> map = &#123;&#125;;</span><br><span class="line">  <span class="keyword">const</span> len = nums.length;</span><br><span class="line">  <span class="comment">// 遍历数组</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; len; i++) &#123;</span><br><span class="line">    <span class="keyword">const</span> cur = nums[i];</span><br><span class="line">    <span class="keyword">const</span> diff = target - cur;</span><br><span class="line">    <span class="comment">// 看看差值 在不在 map里</span></span><br><span class="line">    <span class="keyword">if</span> (diff <span class="keyword">in</span> map) &#123;</span><br><span class="line">      <span class="comment">// 在就返回答案</span></span><br><span class="line">      <span class="keyword">return</span> [map[diff], i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 不在就存储，继续遍历</span></span><br><span class="line">    map[cur] = i;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>这样空间就是O(n)，时间也是O(n)~~</p>
-<p>可以看下<a href="https://leetcode-cn.com/problems/two-sum/solution/liang-shu-zhi-he-by-leetcode-solution/" target="_blank" rel="noopener">官方视频</a></p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
-<li><a href="https://juejin.cn/book/6844733800300150797/section/6844733800350498824" target="_blank" rel="noopener">修言的前端算法和数据结构</a></li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2220,7 +2264,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">236</span>
+                <span class="site-state-item-count">237</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
