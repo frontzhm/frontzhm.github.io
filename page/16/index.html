@@ -261,6 +261,226 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/27/link_preload/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2019/05/27/link_preload/" itemprop="url">
+                  preload让加载和解析解耦
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-27T14:34:51+08:00">
+                2019-05-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/css/" itemprop="url" rel="index">
+                    <span itemprop="name">css</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/05/27/link_preload/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/05/27/link_preload/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
+<li>preload本质：preload 是声明式的 fetch，可以改变浏览器加载资源的优先级，强制浏览器请求资源，同时不阻塞文档 onload 事件，也因此可以将 load 事件与脚本解析过程解耦</li>
+<li>prefetch本质：让浏览器空闲的时候加载下一页可能需要的资源，同样的load和解析解耦</li>
+<li>dns-fetch，让浏览器提前做dns预解析，当静态资源和html不在同一个域的时候，特别好用</li>
+<li>async，defer是script的属性，其让html解析与下载并行，但是async下载完之后立即执行，而defer是html解析完之后再执行，一般按照顺序执行，但据说不是百分百靠谱</li>
+</ul>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>一般写html页面，script写在body结束标签前，这样只有当遇到script标签的时候，才会加载执行，费加载时间不科学吖！尽管大多数基于标记语言的资源能被浏览器的预加载器<a href="https://link.jianshu.com/?t=http://calendar.perfplanet.com/2013/big-bad-preloader/" target="_blank" rel="noopener">（Preloader）</a>提前加载，但还是不尽如人意！  </p>
+<p>理想情况是，先从文档需要的资源，根据优先级，下载到本地，等到需要的时候，就可以直接使用或者解析执行！<br>然后！对！preload就可以干这个事！可随时关注<a href="https://w3c.github.io/preload/" target="_blank" rel="noopener">preload的动态</a>，就目前很多现代浏览器已经支持！  </p>
+<p>preload大白话的意思是，”嗨，浏览器！这个资源在这个页面后面会用到，现在先加载它吧。“</p>
+<h2 id="好处"><a href="#好处" class="headerlink" title="好处"></a>好处</h2><p>好处远不止上面的：</p>
+<ul>
+<li>本质！preload 是声明式的 fetch，可以改变浏览器加载资源的优先级，强制浏览器请求资源，同时不阻塞文档 onload 事件，也因此可以将 load 事件与脚本解析过程解耦</li>
+<li>资源的提前加载。<code>&lt;link rel=&quot;preload&quot; href=&quot;late_discovered_thing.js&quot; as=&quot;script&quot;&gt;</code></li>
+<li>字体的提前加载。<code>&lt;link rel=&quot;preload&quot; href=&quot;font.woff2&quot; as=&quot;font&quot; type=&quot;font/woff2&quot; crossorigin&gt;</code></li>
+<li>动态加载，但不执行。加载某一资源但却不想立即执行它，而是想在特定的时机执行。后面细说代码。</li>
+<li>基于标记语言的异步加载。<code>&lt;link rel=&quot;preload&quot; as=&quot;style&quot; href=&quot;asyncstyle.css&quot; onload=&quot;this.rel=&#39;stylesheet&#39;&quot;&gt;</code>，加载完之后就可以应用到文档里了，script也同理，这里的onload是指window的onload事件，在加一些统计脚本的时候挺合适，不影响页面的onload，<code>&lt;link rel=&quot;preload&quot; as=&quot;script&quot; href=&quot;async_script.js&quot; onload=&quot;var script = document.createElement(&#39;script&#39;); script.src = this.href; document.body.appendChild(script);&quot;&gt;</code></li>
+<li>响应式加载。preload是在link标签上，也就是还可以配合media属性，能让浏览器加载自己需要的资源。<code>&lt;link rel=&quot;preload&quot; as=&quot;image&quot; href=&quot;map.png&quot; media=&quot;(max-width: 600px)&quot;&gt; &lt;link rel=&quot;preload&quot; as=&quot;script&quot; href=&quot;map.js&quot; media=&quot;(min-width: 601px)&quot;&gt;</code></li>
+<li>检测浏览器是不是支持preload，<code>var isSupportPreload = document.createElement(&quot;link&quot;).relList &amp;&amp; document.createElement(&quot;link&quot;).relList.supports(&#39;preload&#39;)</code></li>
+</ul>
+<h2 id="怎么使用preload"><a href="#怎么使用preload" class="headerlink" title="怎么使用preload"></a>怎么使用preload</h2><h3 id="先说说link标签"><a href="#先说说link标签" class="headerlink" title="先说说link标签"></a>先说说link标签</h3><p>先说下link标签的使用。</p>
+<ul>
+<li><a href="(https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/link">link</a>)规定了外部资源与当前文档的关系！</li>
+<li>于是link有不可或缺的两个属性，<code>href</code>外部资源的路径，<code>rel</code>外部资源与当前文档的关系，rel其实relation的缩写，但因为多数用于css，所以rel是<code>stylesheet</code>的时候，是可以省略的</li>
+<li>link标签只能出现在<code>head</code>里</li>
+<li>有全局属性和onload事件，onload事件是指文档所有资源加载完之后</li>
+<li>media：这个属性规定了外部资源适用的<a href="https://developer.mozilla.org/zh-CN/docs/Web/Guide/CSS/Media_queries" target="_blank" rel="noopener">媒体类型</a>。它的值必须是”媒体查询”。这个属性使得用户代理能选择最适合设备运行的媒体类型。<code>&lt;link rel=&quot;stylesheet&quot; media=&quot;(max-width: 800px)&quot; href=&quot;example.css&quot; /&gt;</code></li>
+<li>type这个属性被用于定义链接的内容的类型。这个属性的值应该是像text/html，text/css等MIME类型。这个属性常用的用法是定义链接的样式表，最常用的值是表明了CSS的text/css。</li>
+</ul>
+<h3 id="preload是在link上的"><a href="#preload是在link上的" class="headerlink" title="preload是在link上的"></a>preload是在link上的</h3><ul>
+<li>使用preload很简单，就是link的<code>rel=&quot;preload&quot;</code>，href是仍然是资源路径，然后加上as来说明加载的内容的类型就可以了，常用的<code>&quot;script&quot; &quot;style&quot; &quot;image&quot; &quot;media&quot; &quot;document&quot;</code>。</li>
+<li>preload加载字体的时候，crossorigin 属性是必须的，即便是字体资源在自家服务器上，因为用户代理必须采用匿名模式来获取字体资源。type 属性可以确保浏览器只获取自己支持的资源。比如Chrome 支持 WOFF2，看到这个就下载了，遇到不识别的类型就忽略</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- js --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"preload"</span> <span class="attr">href</span>=<span class="string">"static.js"</span> <span class="attr">as</span>=<span class="string">"script"</span> <span class="attr">onload</span>=<span class="string">"preloadFinished()"</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- css --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"preload"</span> <span class="attr">href</span>=<span class="string">"static.css"</span> <span class="attr">as</span>=<span class="string">"style"</span> <span class="attr">onload</span>=<span class="string">"preloadFinished()"</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 字体，注意crossorigin和type的增加 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"preload"</span> <span class="attr">href</span>=<span class="string">"font.woff2"</span> <span class="attr">as</span>=<span class="string">"font"</span> <span class="attr">type</span>=<span class="string">"font/woff2"</span> <span class="attr">crossorigin</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="细说，动态加载，但不执行"><a href="#细说，动态加载，但不执行" class="headerlink" title="细说，动态加载，但不执行"></a>细说，动态加载，但不执行</h2><p>其实动态加载就是插入带preload的link，执行的时候，动态的创建script。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">loadScript</span>(<span class="params">url</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> link = <span class="built_in">document</span>.createElement(<span class="string">"link"</span>);</span><br><span class="line">    link.href = url</span><br><span class="line">    link.rel = <span class="string">"preload"</span>;</span><br><span class="line">    link.as = <span class="string">"script"</span>;</span><br><span class="line">    <span class="built_in">document</span>.head.appendChild(link);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">execScript</span>(<span class="params">url</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> script = <span class="built_in">document</span>.createElement(<span class="string">"script"</span>);</span><br><span class="line">    script.src = url;</span><br><span class="line">    <span class="built_in">document</span>.body.appendChild(script);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 加载这个js，但不执行</span></span><br><span class="line">loadScript(<span class="string">"myscript.js"</span>)</span><br><span class="line"><span class="comment">// 某个时机执行</span></span><br><span class="line">setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    execScript(<span class="string">"myscript.js"</span>)</span><br><span class="line">&#125;,<span class="number">1000</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="preload的坑"><a href="#preload的坑" class="headerlink" title="preload的坑"></a>preload的坑</h2><p>注意吖，不是说加载了就是执行！！！！！<br>也就是preload只管加载！！！<br>换句话说，你买东西，preload相当于快递到你家门口了，但是你只有拆了包裹才算是使用！！！<br>代码的体现就是，以前的<code>&lt;link href=&quot;xx.css&quot;&gt;</code>和<code>&lt;script src=&quot;xxx.js&quot;&gt;</code>还是要写在相应的位置的！<br>然后<strong>再</strong>在head头里加上<code>&lt;link rel=&quot;preload&quot; href=&quot;xx.css&quot; as=&quot;style&quot;&gt;&lt;link rel=&quot;preload&quot; href=&quot;xxx.js&quot; as=&quot;script&quot;&gt;</code>，preload是锦上添花的！</p>
+<h2 id="浏览器加载机制"><a href="#浏览器加载机制" class="headerlink" title="浏览器加载机制"></a>浏览器加载机制</h2><p>我觉得吧，先去知道<a href="https://juejin.im/post/5a4ed917f265da3e317df515" target="_blank" rel="noopener">浏览器加载机制</a>之后，才能更加体会到preload的美!  </p>
+<p>这边简单的总结下，浏览器的加载机制：</p>
+<ul>
+<li>资源分类。html，css，js…</li>
+<li>安全策略检查。是否加载某处的资源</li>
+<li>资源优先级计算。html、css、font资源 =&gt; preload资源、script、xhr请求 =&gt; 图片、语音、视频 =&gt; <a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Link_prefetching_FAQ" target="_blank" rel="noopener">prefetch</a>预读取的资源(多用于dns)</li>
+<li>综合安全策略和优先级，开始下载资源</li>
+<li>谷歌控制台查看资源优先级的方法：打开开发者工具 -&gt; 点击network -&gt; 刷新页面 -&gt; 在出现的表格的表头那行右击（就是Name,type,size…）选择<code>Priority</code></li>
+</ul>
+<h2 id="prefetch与preload"><a href="#prefetch与preload" class="headerlink" title="prefetch与preload"></a>prefetch与preload</h2><p>prefetch相当于说，“嗨，浏览器，下个页面可能要用到这个资源，你闲着无聊就帮我加载下呗~”。<br>用法跟preload差不离，link的<code>rel=&quot;prefetch&quot;</code></p>
+<p>和preload区别：</p>
+<ul>
+<li>preload是让浏览器提前加载当前页面比较重要的资源，，prefetch是让浏览器没活的时候加载下个页面可能用到的资源  </li>
+<li>prefetch并没有同域的限制，但preload有  </li>
+<li>都不会影响onload事件，准备说有点load事件和解析解耦的感觉  </li>
+<li>当页面上使用到这个资源时候 preload   资源还没下载完，这时候不会造成二次下载，会等待第一次下载并执行脚本。prefetch差不多吧。</li>
+<li>对于 preload 来说，一旦页面关闭了，它就会立即停止 preload 获取资源，而对于 prefetch 资源，即使页面关闭，prefetch 发起的请求仍会进行不会中断。</li>
+</ul>
+<h2 id="随手说下dns-prefetch"><a href="#随手说下dns-prefetch" class="headerlink" title="随手说下dns-prefetch"></a>随手说下dns-prefetch</h2><p>先说域名只是服务器ip地址的美化，也就是虽然请求域名，但实际是先请求dns服务器，dns服务器返回域名所代表的真正的服务器ip，浏览器再向服务器发送请求。<br>dns-prefetch就是让浏览器先将域名发给dns服务器，让浏览器知道，域名所指的真正的服务器，之后在发送请求的时候，就直接发给服务器了。<br>简单的一行就能让支持的浏览器提前解析DNS。也就是说在浏览器请求资源时，DNS查询就已经准备好了。  </p>
+<p>使用方式<code>&lt;link rel=&quot;dns-prefetch&quot; href=&quot;//example.com&quot;&gt;</code></p>
+<p>使用场景：</p>
+<ul>
+<li>项目的静态资源和html不在同一个域上</li>
+<li>有重定向的域名</li>
+</ul>
+<h2 id="还有async，defer"><a href="#还有async，defer" class="headerlink" title="还有async，defer"></a>还有async，defer</h2><p>直接引用<a href="https://segmentfault.com/q/1010000000640869" target="_blank" rel="noopener">这个回答</a><br>，当浏览器碰到 script 脚本的时候：</p>
+<ul>
+<li>没有 defer 或 async，浏览器会立即加载并执行指定的脚本，“立即”指的是在渲染该 script 标签之下的文档元素之前，也就是说不等待后续载入的文档元素，读到就加载并执行。<code>&lt;script src=&quot;script.js&quot;&gt;&lt;/script&gt;</code></li>
+<li>有 async，加载和渲染后续文档元素的过程将和 script.js 的加载与执行并行进行（异步）。<code>&lt;script async src=&quot;script.js&quot;&gt;&lt;/script&gt;</code></li>
+<li>有 defer，加载后续文档元素的过程将和 script.js 的加载并行进行（异步），但是 script.js 的执行要在所有元素解析完成之后，DOMContentLoaded 事件触发之前完成。<code>&lt;script defer src=&quot;myscript.js&quot;&gt;&lt;/script&gt;</code></li>
+</ul>
+<p><img src="https://user-gold-cdn.xitu.io/2019/5/27/16af8d85864e120e?w=787&amp;h=800&amp;f=png&amp;s=126594" alt="不知道是谁的图片"></p>
+<blockquote>
+<p><a href="https://www.jianshu.com/p/24ffa6d45087" target="_blank" rel="noopener">preload的好处</a><br><a href="https://w3c.github.io/preload/" target="_blank" rel="noopener">w3c的preload，一眼可以看到支持</a><br><a href="https://juejin.im/post/5a4ed917f265da3e317df515" target="_blank" rel="noopener">浏览器加载机制</a><br><a href="https://juejin.im/post/58e8acf10ce46300585a7a42" target="_blank" rel="noopener">prefetch和preload</a><br><a href="http://www.alloyteam.com/2015/10/prefetching-preloading-prebrowsing/" target="_blank" rel="noopener">一箩筐的预取技术</a></p>
+</blockquote>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/27/vue_cli/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1695,166 +1915,6 @@ autossh -NR 0.0.0.0:18000:10.73.33.84:8000 han -->
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/05/vue-components/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2019/05/05/vue-components/" itemprop="url">
-                  vue深入了解组件篇
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-05T11:49:48+08:00">
-                2019-05-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/vue/" itemprop="url" rel="index">
-                    <span itemprop="name">vue</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/05/05/vue-components/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/05/05/vue-components/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <ul>
-<li>组件注册的时候，js那边驼峰式，html羊肉串</li>
-<li>prop特性</li>
-<li>非prop特性，$attr接受</li>
-<li>自定义事件，$listeners</li>
-<li>slot</li>
-<li>keep-alive
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/05/05/vue-components/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1904,7 +1964,7 @@ autossh -NR 0.0.0.0:18000:10.73.33.84:8000 han -->
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">239</span>
+                <span class="site-state-item-count">240</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
