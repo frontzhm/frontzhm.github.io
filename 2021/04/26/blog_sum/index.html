@@ -1,0 +1,762 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="js," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="本文是将之前我自己写过文章，简单的分门别类，以方便查看。 算法系列 大白话理解递归本质，可视化递归过程 怎么理解DFS和BFS 有序的数组，试试用指针法遍历 ”回文“字符串尝试双指针 善于利用 查找表 解决查找问题 用栈的情景 队列的情景 反复遍历链表尝试 快慢指针和多指针 环形链表，立flag快速解决 处理链表的本质就是处理节点的指针关系  js基础系列 异步的发展 简单理解渲染引擎和事件循环机">
+<meta name="keywords" content="js">
+<meta property="og:type" content="article">
+<meta property="og:title" content="颜酱的文章汇总">
+<meta property="og:url" content="http://yoursite.com/2021/04/26/blog_sum/index.html">
+<meta property="og:site_name" content="花花的博客">
+<meta property="og:description" content="本文是将之前我自己写过文章，简单的分门别类，以方便查看。 算法系列 大白话理解递归本质，可视化递归过程 怎么理解DFS和BFS 有序的数组，试试用指针法遍历 ”回文“字符串尝试双指针 善于利用 查找表 解决查找问题 用栈的情景 队列的情景 反复遍历链表尝试 快慢指针和多指针 环形链表，立flag快速解决 处理链表的本质就是处理节点的指针关系  js基础系列 异步的发展 简单理解渲染引擎和事件循环机">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2021-04-26T13:04:05.970Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="颜酱的文章汇总">
+<meta name="twitter:description" content="本文是将之前我自己写过文章，简单的分门别类，以方便查看。 算法系列 大白话理解递归本质，可视化递归过程 怎么理解DFS和BFS 有序的数组，试试用指针法遍历 ”回文“字符串尝试双指针 善于利用 查找表 解决查找问题 用栈的情景 队列的情景 反复遍历链表尝试 快慢指针和多指针 环形链表，立flag快速解决 处理链表的本质就是处理节点的指针关系  js基础系列 异步的发展 简单理解渲染引擎和事件循环机">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2021/04/26/blog_sum/"/>
+
+
+
+
+
+  <title> 颜酱的文章汇总 | 花花的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?60f2cb5747a596a24f2a053f1650c30b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">花花的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/26/blog_sum/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                颜酱的文章汇总
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-04-26T21:04:05+08:00">
+                2021-04-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/04/26/blog_sum/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2021/04/26/blog_sum/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文是将之前我自己写过文章，简单的分门别类，以方便查看。</p>
+<h2 id="算法系列"><a href="#算法系列" class="headerlink" title="算法系列"></a>算法系列</h2><ul>
+<li><a href="https://juejin.cn/post/6948718907918123044" target="_blank" rel="noopener">大白话理解递归本质，可视化递归过程</a></li>
+<li><a href="https://juejin.cn/post/6950200059543683086" target="_blank" rel="noopener">怎么理解DFS和BFS</a></li>
+<li><a href="https://juejin.cn/post/6943924805196496903" target="_blank" rel="noopener">有序的数组，试试用指针法遍历</a></li>
+<li><a href="https://juejin.cn/post/6945349048916246564" target="_blank" rel="noopener">”回文“字符串尝试双指针</a></li>
+<li><a href="https://juejin.cn/post/6953579336519647269" target="_blank" rel="noopener">善于利用 查找表 解决查找问题</a></li>
+<li><a href="https://juejin.cn/post/6948294996978040869" target="_blank" rel="noopener">用栈的情景</a></li>
+<li><a href="https://juejin.cn/post/6948338880206602277" target="_blank" rel="noopener">队列的情景</a></li>
+<li><a href="https://juejin.cn/post/6947985231547170853" target="_blank" rel="noopener">反复遍历链表尝试 快慢指针和多指针</a></li>
+<li><a href="https://juejin.cn/post/6948019064446910500" target="_blank" rel="noopener">环形链表，立flag快速解决</a></li>
+<li><a href="https://juejin.cn/post/6945771148663586823" target="_blank" rel="noopener">处理链表的本质就是处理节点的指针关系</a></li>
+</ul>
+<h2 id="js基础系列"><a href="#js基础系列" class="headerlink" title="js基础系列"></a>js基础系列</h2><ul>
+<li><a href="https://juejin.cn/post/6844903779737796621" target="_blank" rel="noopener">异步的发展</a></li>
+<li><a href="https://juejin.cn/post/6920557495215718414" target="_blank" rel="noopener">简单理解渲染引擎和事件循环机制</a></li>
+<li><a href="https://juejin.cn/post/6920448180182056968" target="_blank" rel="noopener">简单的DOM总结</a></li>
+<li><a href="https://juejin.cn/post/6920149136037642248" target="_blank" rel="noopener">使用es6语法</a></li>
+<li><a href="https://juejin.cn/post/6850037281110589454" target="_blank" rel="noopener">export和export default</a></li>
+<li><a href="https://juejin.cn/post/6919809194283515911" target="_blank" rel="noopener">理解原型链，手写new</a></li>
+<li><a href="https://juejin.cn/post/6919768051982270472" target="_blank" rel="noopener">理解执行上下文和其生命周期</a></li>
+<li><a href="https://juejin.cn/post/6919725992957181960" target="_blank" rel="noopener">this到底指向谁，手写bind/call/apply</a></li>
+<li><a href="https://juejin.cn/post/6919431564593987591" target="_blank" rel="noopener">JS内存管理生命周期和垃圾回收机制</a></li>
+<li><a href="https://juejin.cn/post/6919319154667290638" target="_blank" rel="noopener">作用域的一些点</a></li>
+</ul>
+<h2 id="工具篇"><a href="#工具篇" class="headerlink" title="工具篇"></a>工具篇</h2><ul>
+<li><a href="https://juejin.cn/post/6844903939121348616" target="_blank" rel="noopener">oh-my-zsh让终端好用到飞起</a></li>
+<li><a href="https://juejin.cn/post/6844903983895707655" target="_blank" rel="noopener">怎么测试一个接口</a></li>
+<li><a href="https://juejin.cn/post/6844903952731865095" target="_blank" rel="noopener">chrome调试技巧</a></li>
+<li><a href="https://juejin.cn/post/6844903925628436488" target="_blank" rel="noopener">axios设置content-type</a></li>
+<li><a href="https://juejin.cn/post/6844903880413675527" target="_blank" rel="noopener">前端导出excel表格</a></li>
+<li><a href="https://juejin.cn/post/6844903849812033549" target="_blank" rel="noopener">git的使用和git钩子</a></li>
+<li><a href="https://juejin.cn/post/6844903848402927629" target="_blank" rel="noopener">ssh和scp的使用，免密码登录服务器</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/js/" rel="tag"># js</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/04/26/vue_sum/" rel="next" title="vue系列文章汇总">
+                <i class="fa fa-chevron-left"></i> vue系列文章汇总
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2021/04/26/blog_sum/"
+           data-title="颜酱的文章汇总" data-url="http://yoursite.com/2021/04/26/blog_sum/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://omizt4opc.bkt.clouddn.com/avatar.jpg"
+               alt="frontzhm" />
+          <p class="site-author-name" itemprop="name">frontzhm</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">242</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">54</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#算法系列"><span class="nav-number">1.</span> <span class="nav-text">算法系列</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#js基础系列"><span class="nav-number">2.</span> <span class="nav-text">js基础系列</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#工具篇"><span class="nav-number">3.</span> <span class="nav-text">工具篇</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">frontzhm</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"frontzhm"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
