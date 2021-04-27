@@ -261,6 +261,261 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/27/algorithm_questions/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2021/04/27/algorithm_questions/" itemprop="url">
+                  经典算法题目
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-04-27T14:37:15+08:00">
+                2021-04-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/04/27/algorithm_questions/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2021/04/27/algorithm_questions/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="两数求和"><a href="#两数求和" class="headerlink" title="两数求和"></a><a href="https://leetcode-cn.com/problems/two-sum/submissions/" target="_blank" rel="noopener">两数求和</a></h2><p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/leetcode1.png" alt="leetcode1"></p>
+<p>两数求和转化为求差的问题</p>
+<ul>
+<li>遍历数组</li>
+<li>用 map 记录遍历过的元素和索引</li>
+<li>看看(target-当前元素)的值在不在 map 里，在就返回，不在就继续遍历</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> twoSum = <span class="function"><span class="keyword">function</span> (<span class="params">nums, target</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> map = &#123;&#125;;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">    <span class="keyword">const</span> cur = nums[i];</span><br><span class="line">    <span class="keyword">const</span> diff = target - cur;</span><br><span class="line">    <span class="keyword">if</span> (map[diff] !== <span class="literal">undefined</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> [i, map[target - cur]];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 注意这行在下面</span></span><br><span class="line">    map[cur] = i;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>总结：</p>
+<ul>
+<li>一般用 map 记录遍历过的元素，后面找的话就很方便了</li>
+<li>不匹配才记录</li>
+</ul>
+<h2 id="合并两个有序数组"><a href="#合并两个有序数组" class="headerlink" title="合并两个有序数组"></a><a href="https://leetcode-cn.com/problems/two-sum/submissions/" target="_blank" rel="noopener">合并两个有序数组</a></h2><p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/leetcode88.png" alt="leetcode88"></p>
+<ul>
+<li>nums1 的空间正好是两个数组的长度</li>
+<li>两个数组有序，为了减少空间，索性倒序插入进 nums1</li>
+<li>为了记录遍历的进度，对于两个数组，分别放个指针</li>
+<li>数组 1 的指针为空的时候，表示数组 1 遍历完了，数组 2 直接放前面就好</li>
+<li>数组 2 的指针为空的时候，那就不用管啦</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> merge = <span class="function"><span class="keyword">function</span> (<span class="params">nums1, m, nums2, n</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> p1 = m - <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">let</span> p2 = n - <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">let</span> p = m + n - <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">while</span> (p1 &gt;= <span class="number">0</span> &amp;&amp; p2 &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> cur1 = nums1[p1];</span><br><span class="line">    <span class="keyword">const</span> cur2 = nums2[p2];</span><br><span class="line">    <span class="keyword">if</span> (cur1 &gt; cur2) &#123;</span><br><span class="line">      nums1[p] = cur1;</span><br><span class="line">      p = p - <span class="number">1</span>;</span><br><span class="line">      p1 -= <span class="number">1</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      nums1[p] = cur2;</span><br><span class="line">      p = p - <span class="number">1</span>;</span><br><span class="line">      p2 -= <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">console</span>.log(nums1, p1, p2);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">while</span> (p2 &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">    nums1[p] = nums2[p2];</span><br><span class="line">    p = p - <span class="number">1</span>;</span><br><span class="line">    p2 -= <span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> nums1;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>总结：</p>
+<ul>
+<li>数组的指针，一般都是索引，注意索引是可以为 0 的</li>
+<li>指针可以记录遍历的进度</li>
+</ul>
+<h2 id="三数求和"><a href="#三数求和" class="headerlink" title="三数求和"></a><a href="https://leetcode-cn.com/problems/3sum/" target="_blank" rel="noopener">三数求和</a></h2><p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/leetcode15.png" alt="leetcode15"></p>
+<ul>
+<li>三数求和，先排序</li>
+<li>遍历排序后的数组</li>
+<li>用两个指针分别指向未遍历元素两端</li>
+<li>当前元素+两个指针的元素&gt;和，则右指针前移；小于则左指针后移；等于，则看看</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> threeSum = <span class="function"><span class="keyword">function</span> (<span class="params">nums</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (nums.length &lt; <span class="number">3</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> [];</span><br><span class="line">  &#125;</span><br><span class="line">  nums = nums.sort(<span class="function">(<span class="params">x, y</span>) =&gt;</span> x - y);</span><br><span class="line">  <span class="keyword">const</span> len = nums.length;</span><br><span class="line">  <span class="keyword">const</span> res = [];</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt;= len - <span class="number">3</span>; i++) &#123;</span><br><span class="line">    <span class="keyword">const</span> cur = nums[i];</span><br><span class="line">    <span class="comment">// 遍历的元素和上一次的一样就跳过，这样就避免重复</span></span><br><span class="line">    <span class="keyword">if</span> (i &gt;= <span class="number">1</span> &amp;&amp; cur === nums[i - <span class="number">1</span>]) &#123;</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> l = i + <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">let</span> r = len - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (l &lt; r) &#123;</span><br><span class="line">      <span class="keyword">const</span> lVal = nums[l];</span><br><span class="line">      <span class="keyword">const</span> rVal = nums[r];</span><br><span class="line">      <span class="keyword">if</span> (cur + lVal + rVal === <span class="number">0</span>) &#123;</span><br><span class="line">        res.push([cur, lVal, rVal]);</span><br><span class="line">        l += <span class="number">1</span>;</span><br><span class="line">        r -= <span class="number">1</span>;</span><br><span class="line">        <span class="comment">// 一样的就跳</span></span><br><span class="line">        <span class="keyword">while</span> (l &lt; r &amp;&amp; nums[l] === nums[l - <span class="number">1</span>]) &#123;</span><br><span class="line">          l += <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span> (l &lt; r &amp;&amp; nums[r] === nums[r + <span class="number">1</span>]) &#123;</span><br><span class="line">          r -= <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (cur + lVal + rVal &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        r -= <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (l &lt; r &amp;&amp; nums[r] === nums[r + <span class="number">1</span>]) &#123;</span><br><span class="line">          r -= <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (cur + lVal + rVal &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        l += <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (l &lt; r &amp;&amp; nums[l] === nums[l - <span class="number">1</span>]) &#123;</span><br><span class="line">          l += <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> res;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>对撞双指针的思想，常用在有序数组，减少无效遍历</li>
+<li>为了防止重复的，相等则跳过</li>
+</ul>
+<h2 id="验证回文字符串"><a href="#验证回文字符串" class="headerlink" title="验证回文字符串"></a><a href="https://leetcode-cn.com/problems/valid-palindrome-ii/" target="_blank" rel="noopener">验证回文字符串</a></h2><p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/leetcode680.png" alt="leetcode680"></p>
+<ul>
+<li>双指针开始遍历字符串，如果不相等的话，就看下 去掉左边 或 去掉右边之后，剩余的字符串是不是回文，是则是，不是则不是</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isPalindrome</span>(<span class="params">s, l, r</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">while</span> (l &lt; r) &#123;</span><br><span class="line">    <span class="keyword">if</span> (s[l] !== s[r]) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    l++;</span><br><span class="line">    r--;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 遍历完就说明是</span></span><br><span class="line">  <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> validPalindrome = <span class="function"><span class="keyword">function</span> (<span class="params">s</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (!s) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">let</span> l = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">let</span> r = s.length - <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">while</span> (l &lt; r) &#123;</span><br><span class="line">    <span class="keyword">if</span> (s[l] === s[r]) &#123;</span><br><span class="line">      l++;</span><br><span class="line">      r--;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> isPalindrome(s, l + <span class="number">1</span>, r) || isPalindrome(s, l, r - <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 这里说明遍历完了</span></span><br><span class="line">  <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>总结：</p>
+<ul>
+<li>回文字符串有着天然的对称性，所以很适合用对撞指针</li>
+<li>对撞指针常用的遍历就是<code>while(l&lt;r){l++;r--}</code></li>
+</ul>
+<h2 id="合并有序链表"><a href="#合并有序链表" class="headerlink" title="合并有序链表"></a><a href="https://leetcode-cn.com/problems/merge-two-sorted-lists/" target="_blank" rel="noopener">合并有序链表</a></h2><p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/leetcode21.png" alt="leetcode21"></p>
+<ul>
+<li>各一个指针在链表上</li>
+<li>新链表也来个指针</li>
+</ul>
+<p>比较大小，小的就串过去</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> mergeTwoLists = <span class="function"><span class="keyword">function</span> (<span class="params">l1, l2</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> p1 = l1;</span><br><span class="line">  <span class="keyword">let</span> p2 = l2;</span><br><span class="line">  <span class="keyword">let</span> head = <span class="keyword">new</span> ListNode();</span><br><span class="line">  <span class="keyword">let</span> p = head;</span><br><span class="line">  <span class="keyword">while</span> (p1 &amp;&amp; p2) &#123;</span><br><span class="line">    <span class="keyword">if</span> (p1.val &lt; p2.val) &#123;</span><br><span class="line">      p.next = <span class="keyword">new</span> ListNode(p1.val);</span><br><span class="line">      p1 = p1.next;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      p.next = <span class="keyword">new</span> ListNode(p2.val);</span><br><span class="line">      p2 = p2.next;</span><br><span class="line">    &#125;</span><br><span class="line">    p = p.next;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">while</span> (p1) &#123;</span><br><span class="line">    p.next = <span class="keyword">new</span> ListNode(p1.val);</span><br><span class="line">    p1 = p1.next;</span><br><span class="line">    p = p.next;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">while</span> (p2) &#123;</span><br><span class="line">    p.next = <span class="keyword">new</span> ListNode(p2.val);</span><br><span class="line">    p2 = p2.next;</span><br><span class="line">    p = p.next;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> head.next;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>处理链表的本质就是处理节点的指向</li>
+<li>链表遍历非常适合用指针，<code>while(p){p=p.next}</code></li>
+<li>一般链表问题，会新建一个空节点在前面，俗称<code>dummy节点</code></li>
+</ul>
+<h2 id="删除链表的重复元素"><a href="#删除链表的重复元素" class="headerlink" title="删除链表的重复元素"></a><a href="https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list/" target="_blank" rel="noopener">删除链表的重复元素</a></h2><p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/leetcode83.png" alt="leetcode83"></p>
+<ul>
+<li>建个 dummy 节点</li>
+<li>指针遍历链表，遇到相等的就删除，注意删除的时候判断下是不是最后一个节点</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> deleteDuplicates = <span class="function"><span class="keyword">function</span> (<span class="params">head</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> dummy = <span class="keyword">new</span> ListNode();</span><br><span class="line">  dummy.next = head;</span><br><span class="line">  <span class="keyword">let</span> p = head;</span><br><span class="line">  <span class="keyword">while</span> (p &amp;&amp; p.next) &#123;</span><br><span class="line">    <span class="comment">// 相等的话删除节点，注意这里p.next已经变化，需要继续判断，所以有else</span></span><br><span class="line">    <span class="keyword">if</span> (p.val === p.next.val) &#123;</span><br><span class="line">      p.next = p.next.next;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="comment">// 不相等的话，继续遍历</span></span><br><span class="line">      p = p.next;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> dummy.next;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>总结：</p>
+<ul>
+<li>这里必须加上<code>else</code></li>
+</ul>
+<h2 id="删除链表的重复节点-2"><a href="#删除链表的重复节点-2" class="headerlink" title="删除链表的重复节点 2"></a><a href="https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list-ii/submissions/" target="_blank" rel="noopener">删除链表的重复节点 2</a></h2><p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/leetcode82.png" alt="leetcode82"></p>
+<ul>
+<li>删除节点必须要知道前置节点</li>
+<li>设置两个指针，一个指针是前置指针，一个是正常遍历的指针</li>
+<li>遍历的时候，当前值和下一个值相同的时候，指针往前走，直到不相等的时候，将前置指针指向当前指针的下一个，这样就删除了相等的节点，然后当前指针继续遍历。不相同的时候，两个指针同时往右移动</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> deleteDuplicates = <span class="function"><span class="keyword">function</span> (<span class="params">list</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> dummy = <span class="keyword">new</span> ListNode();</span><br><span class="line">  dummy.next = list;</span><br><span class="line">  <span class="keyword">let</span> before = dummy;</span><br><span class="line">  <span class="keyword">let</span> p = dummy.next;</span><br><span class="line">  <span class="keyword">while</span> (p &amp;&amp; p.next) &#123;</span><br><span class="line">    <span class="keyword">if</span> (p &amp;&amp; p.next &amp;&amp; p.val === p.next.val) &#123;</span><br><span class="line">      <span class="comment">// 相等的话p往前走</span></span><br><span class="line">      <span class="keyword">while</span> (p &amp;&amp; p.next &amp;&amp; p.val === p.next.val) &#123;</span><br><span class="line">        p = p.next;</span><br><span class="line">      &#125;</span><br><span class="line">      before.next = p.next;</span><br><span class="line">      <span class="comment">// 当前指针前移</span></span><br><span class="line">      p = p.next;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      before = before.next;</span><br><span class="line">      p = p.next;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> dummy.next;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>总结:</p>
+<ul>
+<li>删除的操作，就是改变节点的指向</li>
+<li>注意指针前移</li>
+</ul>
+<h2 id="删除倒数第-n-个结点"><a href="#删除倒数第-n-个结点" class="headerlink" title="删除倒数第 n 个结点"></a><a href="https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/" target="_blank" rel="noopener">删除倒数第 n 个结点</a></h2><p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/leetcode19.png" alt="leetcode19"></p>
+<ul>
+<li>链表只能从前往后遍历，链表的删除必须要知道前置节点，为了方便新增一个 dummy 节点，这样用两个指针开始指向 dummy 节点，前面的指针先走 N 步，然后两个指针一起走</li>
+<li>前面的指针到达终点的时候，后面一个指针自然就到了倒数第 N+1 个结点的位置，可以执行删除操作了~</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> removeNthFromEnd = <span class="function"><span class="keyword">function</span> (<span class="params">list, n</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> dummy = <span class="keyword">new</span> ListNode();</span><br><span class="line">  dummy.next = list;</span><br><span class="line">  <span class="keyword">let</span> prev = dummy;</span><br><span class="line">  <span class="keyword">let</span> cur = dummy;</span><br><span class="line">  <span class="comment">// cur指针先走n步</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i &lt;= n; i++) &#123;</span><br><span class="line">    cur = cur.next;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 然后两个一起走</span></span><br><span class="line">  <span class="comment">// cur.next指向null的时候，cur就是最后一个节点</span></span><br><span class="line">  <span class="keyword">while</span> (cur &amp;&amp; cur.next) &#123;</span><br><span class="line">    cur = cur.next;</span><br><span class="line">    prev = prev.next;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">console</span>.log(cur, prev);</span><br><span class="line">  prev.next = prev.next.next;</span><br><span class="line">  <span class="keyword">return</span> dummy.next;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>两个指针指向同样的位置，一个指针先走 N 步，另外一个指针再开始一起走，这是快慢指针</li>
+<li>当快指针走到最后一个节点的时候，另外一个指针到了倒数第 N+1 个结点处，这样可以方便删除后面一个节点</li>
+</ul>
+<h2 id="反转链表"><a href="#反转链表" class="headerlink" title="反转链表"></a><a href="https://leetcode-cn.com/problems/fan-zhuan-lian-biao-lcof/submissions/" target="_blank" rel="noopener">反转链表</a></h2><p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/leetcode24.png" alt="leetcode24"></p>
+<ul>
+<li>反转其实就是改变指向</li>
+<li>第一个是null，然后设置prev和p往下遍历</li>
+<li>最后的pre就是原先的最后一个节点，反转后的第一个节点</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> reverseList = <span class="function"><span class="keyword">function</span> (<span class="params">list</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> dummy = <span class="literal">null</span>;</span><br><span class="line">  <span class="keyword">let</span> prev = <span class="literal">null</span>;</span><br><span class="line">  <span class="keyword">let</span> p = list;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">while</span> (p) &#123;</span><br><span class="line">    <span class="keyword">const</span> next = p.next;</span><br><span class="line">    p.next = prev;</span><br><span class="line">    prev = p;</span><br><span class="line">    p = next;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> prev;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>总结：</p>
+<ul>
+<li>还是指针遍历</li>
+<li>最后的返回值和最开始的null节点</li>
+</ul>
+<p><a href="https://juejin.cn/book/6844733800300150797/section/6844733800358871054" target="_blank" rel="noopener">修言的算法小册子 差不多到这里</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/26/blog_sum/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2013,202 +2268,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/06/algorithm_list_pointer/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2021/04/06/algorithm_list_pointer/" itemprop="url">
-                  反复遍历链表，尝试快慢指针和多指针
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-04-06T18:12:56+08:00">
-                2021-04-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2021/04/06/algorithm_list_pointer/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2021/04/06/algorithm_list_pointer/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>最近在看数据结构和算法，努力总结出道~</p>
-<h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
-<li>链表就是嵌套的对象，<code>{val:1,next:{val:2,next:...}}</code></li>
-<li>链表里的指针，听起来很抽象，其实就是部分链表，依旧是嵌套对象，p 是<code>{val:1,next:{val:2,next:...}}</code></li>
-<li>指针往后挪动，其实就是<code>p = p.next</code>，也就是 p 变成<code>{val:2,next:...}</code></li>
-<li>链表的最后一个节点，<code>next</code>肯定是空的</li>
-<li>处理链表的时候，一般为了边界问题，很多时候先创建一个空节点，指向链表，有备无患吧</li>
-<li>删除节点必须要知道前置节点</li>
-<li>反转链表就是反转指针</li>
-</ul>
-<h2 id="练习：删除倒数第-n-个结点"><a href="#练习：删除倒数第-n-个结点" class="headerlink" title="练习：删除倒数第 n 个结点"></a>练习：删除倒数第 n 个结点</h2><p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/list6.png" alt="list6"></p>
-<p>先说说，初始想法：</p>
-<p>链表里遍历，只能从前往后，所以删除倒数第 n 个结点，就是删除第<code>len+1-n</code>个，比如总共 5 个结点，删除倒数第 1 个结点，其实就是第 5 个结点，当然链表里删除节点需要知道前置节点，也就是知道倒数第<code>n+1</code>个结点。</p>
-<p>于是遍历链表知道链表的长度，然后再遍历链接到第<code>len-n</code>个结点处开始删除第<code>len+1-n</code>个节点，但这样就是嵌套遍历。</p>
-<p>怎么能一次遍历就能成功呢？</p>
-<p>其实这里，想想双指针法，可以记录遍历的进度。</p>
-<p>倒数第<code>n+1</code>个结点距离最后一个节点是<code>n</code>步，换言之，如果有两个指针相隔<code>n</code>步，那么前面的指针到达终点时，后一个指针恰好到了倒数第<code>n+1</code>的结点处，就可以顺手的删掉倒数第<code>n</code>个结点了。</p>
-<p>这种两个指针，同个方向，一前一后，就是快慢指针法，解决差距的问题。</p>
-<ul>
-<li>处理边界问题，提前创建空节点</li>
-<li>快指针先走 n 步</li>
-<li>然后快慢指针一起走，直到快指针走到终点，那么慢指针也就到了倒数第<code>n+1</code>个结点处</li>
-<li>删除后面一个节点</li>
-</ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> removeNthFromEnd = <span class="function"><span class="keyword">function</span> (<span class="params">list, n</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 处理边界问题，加个空节点</span></span><br><span class="line">  <span class="keyword">let</span> head = <span class="keyword">new</span> ListNode();</span><br><span class="line">  head.next = list;</span><br><span class="line">  <span class="comment">// 定义快慢指针</span></span><br><span class="line">  <span class="keyword">let</span> slow = head;</span><br><span class="line">  <span class="keyword">let</span> fast = head;</span><br><span class="line">  <span class="comment">// 快指针先走n步</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> count = <span class="number">0</span>; count &lt; n; count++) &#123;</span><br><span class="line">    fast = fast.next;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 快慢一起走，直到快指针到终点，慢指针也就到了倒数第n+1个结点处</span></span><br><span class="line">  <span class="keyword">while</span> (fast &amp;&amp; slow &amp;&amp; fast.next &amp;&amp; slow.next) &#123;</span><br><span class="line">    fast = fast.next;</span><br><span class="line">    slow = slow.next;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 删除倒数第n个结点</span></span><br><span class="line">  slow.next = slow.next.next ? slow.next.next : <span class="literal">null</span>;</span><br><span class="line">  <span class="keyword">return</span> head.next;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>可以看下<a href="https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/solution/shan-chu-lian-biao-de-dao-shu-di-nge-jie-dian-b-61/" target="_blank" rel="noopener">官方题解的其他方案</a></p>
-<h2 id="练习：反转链表"><a href="#练习：反转链表" class="headerlink" title="练习：反转链表"></a>练习：反转链表</h2><p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/list8.png" alt="list8"></p>
-<p>处理链表的本质，就是处理指针。</p>
-<p>所以反转链表的本质，就是反转指针。</p>
-<p>先看下只有两个结点的链表反转：<code>1-&gt;2-&gt;null</code></p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> list = &#123; <span class="attr">val</span>: <span class="number">1</span>, <span class="attr">next</span>: &#123; <span class="attr">val</span>: <span class="number">2</span>, <span class="attr">next</span>: <span class="literal">null</span> &#125; &#125;;</span><br><span class="line"><span class="comment">// null  1-&gt;2</span></span><br><span class="line"><span class="comment">// 建个空节点方便指定</span></span><br><span class="line"><span class="keyword">let</span> p0 = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">let</span> p1 = list;</span><br><span class="line"><span class="comment">// 把1后面的链表（这里只有2），先存下，p2就是&#123;val:2,next:null&#125;</span></span><br><span class="line"><span class="keyword">let</span> p2 = p1.next;</span><br><span class="line"><span class="comment">// 先把1的指针置空，p1就是&#123;val:1,next:null&#125;</span></span><br><span class="line"><span class="comment">// 此时变成 1-&gt;null  2</span></span><br><span class="line">p1.next = p0;</span><br><span class="line"><span class="comment">// 再2的指针指向1，p2就是&#123;val:2,next:p1&#125;</span></span><br><span class="line">p2.next = p1;</span><br></pre></td></tr></table></figure>
-<p>三个结点的链表反转：<code>1-&gt;2-&gt;3-&gt;null</code>，其实道理是类似的，但是 p0 和 p1 指针向前移动。</p>
-<p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/pointer-reverse.gif" alt="pointer-reverse.gif"></p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> reverseList = <span class="function"><span class="keyword">function</span> (<span class="params">list</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> pre = <span class="literal">null</span>;</span><br><span class="line">  <span class="keyword">let</span> cur = list;</span><br><span class="line">  <span class="keyword">while</span> (cur) &#123;</span><br><span class="line">    <span class="comment">// 必须先保存下一个结点，不然置空cur指针之后，拿不到cur的下一个结点</span></span><br><span class="line">    <span class="keyword">let</span> next = cur.next;</span><br><span class="line">    <span class="comment">// 反转cur指针</span></span><br><span class="line">    cur.next = pre;</span><br><span class="line">    <span class="comment">// pre和cur指针往前走</span></span><br><span class="line">    pre = cur;</span><br><span class="line">    cur = next;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// cur为空的时候，说明pre就是首节点</span></span><br><span class="line">  <span class="keyword">return</span> pre;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p><a href="https://leetcode-cn.com/problems/fan-zhuan-lian-biao-lcof/solution/fan-zhuan-lian-biao-yi-dong-de-shuang-zhi-zhen-jia/#comment" target="_blank" rel="noopener">官方视频</a></p>
-<h2 id="练习：反转局部链表"><a href="#练习：反转局部链表" class="headerlink" title="练习：反转局部链表"></a>练习：反转局部链表</h2><p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/list10.png" alt="list10"></p>
-<p>这题的第一感觉是和上面的很像，只要先找到要反转的链表区间，然后反转，再重新连接就可以了。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 官网的注释很明确，直接使用了</span></span><br><span class="line"><span class="keyword">var</span> reverseBetween = <span class="function"><span class="keyword">function</span> (<span class="params">head, left, right</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 因为头节点有可能发生变化，使用虚拟头节点可以避免复杂的分类讨论</span></span><br><span class="line">  <span class="keyword">const</span> head = <span class="keyword">new</span> ListNode();</span><br><span class="line">  head.next = head;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> pre = dummyNode;</span><br><span class="line">  <span class="comment">// 第 1 步：从虚拟头节点走 left - 1 步，来到 left 节点的前一个节点</span></span><br><span class="line">  <span class="comment">// 建议写在 for 循环里，语义清晰</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; left - <span class="number">1</span>; i++) &#123;</span><br><span class="line">    pre = pre.next;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 第 2 步：从 pre 再走 right - left + 1 步，来到 right 节点</span></span><br><span class="line">  <span class="keyword">let</span> rightNode = pre;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; right - left + <span class="number">1</span>; i++) &#123;</span><br><span class="line">    rightNode = rightNode.next;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 第 3 步：切断出一个子链表（截取链表）</span></span><br><span class="line">  <span class="keyword">let</span> leftNode = pre.next;</span><br><span class="line">  <span class="keyword">let</span> curr = rightNode.next;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 注意：切断链接</span></span><br><span class="line">  pre.next = <span class="literal">null</span>;</span><br><span class="line">  rightNode.next = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 第 4 步：同第 206 题，反转链表的子区间</span></span><br><span class="line">  reverseLinkedList(leftNode);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 第 5 步：接回到原来的链表中</span></span><br><span class="line">  pre.next = rightNode;</span><br><span class="line">  leftNode.next = curr;</span><br><span class="line">  <span class="keyword">return</span> dummyNode.next;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> reverseLinkedList = <span class="function">(<span class="params">head</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">let</span> pre = <span class="literal">null</span>;</span><br><span class="line">  <span class="keyword">let</span> cur = head;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">while</span> (cur) &#123;</span><br><span class="line">    <span class="keyword">const</span> next = cur.next;</span><br><span class="line">    cur.next = pre;</span><br><span class="line">    pre = cur;</span><br><span class="line">    cur = next;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>时间复杂度是 O(n)，空间复杂度是 O(1)。</p>
-<p>但是这里遍历了两次列表，想想还能不能继续优化。</p>
-<p>新思路：在需要反转的区间里，每遍历到一个节点，让这个新节点来到反转部分的起始位置。<br><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/list12.png" alt="list12"></p>
-<p>根据上面的思路，写出代码</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> reverseBetween = <span class="function"><span class="keyword">function</span> (<span class="params">list, left, right</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> head = <span class="keyword">new</span> ListNode();</span><br><span class="line">  head.next = list;</span><br><span class="line">  <span class="keyword">let</span> left_pre = head;</span><br><span class="line">  <span class="comment">// 将left_pre指针移到在前一个节点处，且以后一直在这个位置</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; left - <span class="number">1</span>; i++) &#123;</span><br><span class="line">    left_pre = left_pre.next;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// cur指针也始终不变</span></span><br><span class="line">  <span class="keyword">let</span> cur = left_pre.next;</span><br><span class="line">  <span class="comment">// 反转right - left次</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; right - left; i++) &#123;</span><br><span class="line">    <span class="comment">// next始终是cur的下一个节点</span></span><br><span class="line">    <span class="keyword">let</span> next = cur.next;</span><br><span class="line">    <span class="comment">// 先修改cur的下一个指针指向</span></span><br><span class="line">    cur.next = next.next;</span><br><span class="line">    <span class="comment">// 然修改next的下一个指针指向</span></span><br><span class="line">    next.next = left_pre.next;</span><br><span class="line">    <span class="comment">// 最后修改left_Pre的下一个指针指向</span></span><br><span class="line">    left_pre.next = next;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> head.next;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p><a href="https://leetcode-cn.com/problems/reverse-linked-list-ii/solution/fan-zhuan-lian-biao-ii-by-leetcode-solut-teyq/" target="_blank" rel="noopener">官方题解，这个题解非常细致了</a></p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
-<li><a href="https://juejin.cn/book/6844733800300150797/section/6844733800350498824" target="_blank" rel="noopener">修言的前端算法和数据结构</a></li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2258,7 +2317,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">242</span>
+                <span class="site-state-item-count">243</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
