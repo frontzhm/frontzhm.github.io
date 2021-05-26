@@ -261,6 +261,182 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/05/26/input_bug/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2021/05/26/input_bug/" itemprop="url">
+                  input里按回车键会刷新页面 怎么办
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-05-26T20:30:44+08:00">
+                2021-05-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/05/26/input_bug/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2021/05/26/input_bug/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>表象：input里回车键会刷新页面<br>本质：触发了form表单的submit事件</p>
+<p>两种情况：input输入框里按回车键触发submit</p>
+<ol>
+<li>form表单里，<strong>有</strong>button，<strong>有</strong>input输入框，框内按回车会触发submit</li>
+<li>form表单里，<strong>无</strong>button，但是<strong>只有一个input</strong>输入框，框内按回车会触发submit(可有可无其他非input的表单元素)。</li>
+</ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 情况1： --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">""</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 有输入框就行，几个无所谓 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 有没有其他非input输入框的元素都无所谓 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">textarea</span> <span class="attr">name</span>=<span class="string">""</span> <span class="attr">id</span>=<span class="string">""</span> <span class="attr">cols</span>=<span class="string">"30"</span> <span class="attr">rows</span>=<span class="string">"10"</span>&gt;</span><span class="tag">&lt;/<span class="name">textarea</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span>&gt;</span>sss<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 情况2： --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">""</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 只有一个输入框 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 有没有其他非input输入框的元素都无所谓 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">textarea</span> <span class="attr">name</span>=<span class="string">""</span> <span class="attr">id</span>=<span class="string">""</span> <span class="attr">cols</span>=<span class="string">"30"</span> <span class="attr">rows</span>=<span class="string">"10"</span>&gt;</span><span class="tag">&lt;/<span class="name">textarea</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="解决方案1：去掉form标签"><a href="#解决方案1：去掉form标签" class="headerlink" title="解决方案1：去掉form标签"></a>解决方案1：去掉form标签</h2><p>毕竟本质是触发了form的submit事件，那去掉肯定解决问题，但不一定适合去掉。</p>
+<h2 id="解决方案2：监听submit，阻止默认行为"><a href="#解决方案2：监听submit，阻止默认行为" class="headerlink" title="解决方案2：监听submit，阻止默认行为"></a>解决方案2：监听submit，阻止默认行为</h2><p>监听submit，阻止默认行为</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">onsubmit</span>=<span class="string">"event.preventDefault()"</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- js也行 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">  document.querySelector('form').addEventListener('submit',function(e)&#123;</span></span><br><span class="line"><span class="undefined">    e.preventDefault()</span></span><br><span class="line"><span class="undefined">  &#125;)</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="解决方案3：input上监测回车事件"><a href="#解决方案3：input上监测回车事件" class="headerlink" title="解决方案3：input上监测回车事件"></a>解决方案3：input上监测回车事件</h2><p>每个input里监听回车事件：</p>
+<p>注意！！！JS里居然无效</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"aa"</span> <span class="attr">onkeypress</span>=<span class="string">"if(event.keyCode == 13)&#123;event.preventDefault()&#125;"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- return false也行 --&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- &lt;input type="text" name="aa" onkeypress="if(event.keyCode == 13)&#123;return false&#125;"&gt; --&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 但JS无效，回头有空再看看原因 --&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- &lt;script&gt;</span></span><br><span class="line"><span class="comment">  document.querySelectorAll('form input').addEventListener('keypress',function(e)&#123;</span></span><br><span class="line"><span class="comment">    if(event.keyCode == 13) &#123;e.preventDefault()&#125;</span></span><br><span class="line"><span class="comment">  &#125;)</span></span><br><span class="line"><span class="comment">&lt;/script&gt; --&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="解决方案4：添加一个隐藏的input-无button的情况下"><a href="#解决方案4：添加一个隐藏的input-无button的情况下" class="headerlink" title="解决方案4：添加一个隐藏的input(无button的情况下)"></a>解决方案4：添加一个隐藏的input(无button的情况下)</h2><p>在<strong>无button</strong>的情况下，增加一个隐藏的input</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">""</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 只有一个输入框 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 加个隐藏的 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">hidden</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 有没有其他非input输入框的元素都无所谓 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">textarea</span> <span class="attr">name</span>=<span class="string">""</span> <span class="attr">id</span>=<span class="string">""</span> <span class="attr">cols</span>=<span class="string">"30"</span> <span class="attr">rows</span>=<span class="string">"10"</span>&gt;</span><span class="tag">&lt;/<span class="name">textarea</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="element-ui会遇到同样的问题"><a href="#element-ui会遇到同样的问题" class="headerlink" title="element-ui会遇到同样的问题"></a>element-ui会遇到同样的问题</h2><p>el-form/el-input/el-button背后是原生的form/input/button，所以会同样遇到上述问题。</p>
+<p>解决方法也类似：</p>
+<ul>
+<li>去掉el-form表单</li>
+<li><code>&lt;el-form @submit.native.prevent&gt;</code></li>
+<li>无button的情况下，增加 hidden类型的input</li>
+<li>监听input的keypress，不过稍微复杂了点，不写了</li>
+</ul>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
+<li><a href="https://blog.csdn.net/Dream_Weave/article/details/100048057" target="_blank" rel="noopener">HTML - 输入框 Input 按回车 Enter 自动刷新页面解决方案</a></li>
+<li><a href="https://xyz.cinc.biz/2016/07/form-input-enter-auto-submit.html" target="_blank" rel="noopener">HTML form 只有一個 text input 時，在 input 上按 enter 會自動送出表單</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/27/ast/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2158,206 +2334,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/07/algorithm_stack/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2021/04/07/algorithm_stack/" itemprop="url">
-                  遇到括号有效性、下一个更大元素、特定的最小值，尝试栈
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-04-07T14:15:01+08:00">
-                2021-04-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2021/04/07/algorithm_stack/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2021/04/07/algorithm_stack/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>最近在看数据结构和算法，努力总结出道~</p>
-<h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><p>栈的特点：先进后出。</p>
-<p>常用来解决：</p>
-<ul>
-<li>括号有效性：遍历，遇左括号进栈，遇右括号，匹配则出栈，否则 false。遍历完，栈有值为 false，反之为 true</li>
-<li>下一个更大元素系列问题：倒着遍历，将下一个未知变成上一个已知，维护递减栈，也就是比栈顶小进栈，否则出栈</li>
-<li>最小栈：一般“以空间换时间”，使用辅助栈</li>
-</ul>
-<p>循环数组：利用取余的技巧，没有实际扩充数组，但是遍历的时候，感觉像是在遍历循环数组。</p>
-<h2 id="练习：有效括号"><a href="#练习：有效括号" class="headerlink" title="练习：有效括号"></a>练习：有效括号</h2><p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/stack_21.png" alt="stack_21"></p>
-<p>栈的特点就是：后进先出</p>
-<p>对于有效性，由于后遇到的左括号要先闭合，因此我们可以将这个左括号放入栈顶，遇到右括号就可以出栈，消消乐的感觉~</p>
-<p>思路：遍历字符串，遇到左括号进栈，遇到右括号，和栈顶的元素不匹配直接是<code>false</code>，匹配的话出栈。遍历完之后，如果栈有元素，说明<code>false</code>，反之为<code>true</code>。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 语义化更明确些</span></span><br><span class="line"><span class="keyword">const</span> top = <span class="function">(<span class="params">stack</span>) =&gt;</span> stack[stack.length - <span class="number">1</span>];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isValid</span>(<span class="params">s</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> stack = [];</span><br><span class="line">  <span class="comment">// 字典存放配对信息</span></span><br><span class="line">  <span class="keyword">let</span> dict = &#123;</span><br><span class="line">    <span class="string">"&#123;"</span>: <span class="string">"&#125;"</span>,</span><br><span class="line">    <span class="string">"["</span>: <span class="string">"]"</span>,</span><br><span class="line">    <span class="string">"("</span>: <span class="string">")"</span>,</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; s.length; i++) &#123;</span><br><span class="line">    <span class="keyword">let</span> cur = s[i];</span><br><span class="line">    <span class="comment">// 是不是左边括号</span></span><br><span class="line">    <span class="keyword">const</span> isLeft = cur <span class="keyword">in</span> dict;</span><br><span class="line">    <span class="comment">// 左括号进栈</span></span><br><span class="line">    <span class="keyword">if</span> (isLeft) stack.push(cur);</span><br><span class="line">    <span class="comment">// 右括号，和栈顶看看是不是一对，是则出栈，不是则false</span></span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> isPair = dict[top(stack)] === cur;</span><br><span class="line">      <span class="keyword">if</span> (!isPair) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">      stack.pop();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 遍历完，栈里有元素则是false，反之是true</span></span><br><span class="line">  <span class="keyword">return</span> !stack.length;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>空间是 O(n)，时间也是 O(n)</p>
-<p>可以看下<a href="https://leetcode-cn.com/problems/valid-parentheses/solution/valid-parentheses-fu-zhu-zhan-fa-by-jin407891080/" target="_blank" rel="noopener">官方题解</a></p>
-<h2 id="练习：下一个更大元素-1"><a href="#练习：下一个更大元素-1" class="headerlink" title="练习：下一个更大元素 1"></a>练习：下一个更大元素 1</h2><p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/stack_22.png" alt="stack_22"></p>
-<p>这道题的暴力解法很好想到，就是对每个元素后面都进行扫描，找到第一个更大的元素就行了。但是暴力解法的时间复杂度是 O(n^2)。</p>
-<p><a href="https://leetcode-cn.com/problems/next-greater-element-i/solution/dan-diao-zhan-jie-jue-next-greater-number-yi-lei-w/" target="_blank" rel="noopener">下一个更大这类问题</a>可以这样抽象思考：把数组的元素想象成并列站立的人，元素大小想象成人的身高。这些人面对你站成一列，如何求元素「2」的 Next Greater Number 呢？很简单，如果能够看到元素「2」，那么他后面可见的第一个人就是「2」的 Next Greater Number，因为比「2」小的元素身高不够，都被「2」挡住了，第一个露出来的就是答案。</p>
-<p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/stack_23.png" alt="stack_23"></p>
-<p>下一个更大元素系列问题：可以同一套思路和模板</p>
-<ul>
-<li>倒着遍历，将下一个未知变成上一个已知</li>
-<li>维护递减栈，遇见比栈顶大的，栈顶出栈，直到遇见比栈顶小的或者栈空，入栈</li>
-</ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> top = <span class="function">(<span class="params">arr</span>) =&gt;</span> arr[arr.length - <span class="number">1</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">// [1,4,6,2] =&gt; &#123;1:4,4:6,6:-1,2:-1&#125;</span></span><br><span class="line"><span class="keyword">var</span> _nextGreaterElement = <span class="function"><span class="keyword">function</span> (<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 递减栈</span></span><br><span class="line">  <span class="keyword">let</span> stack = [];</span><br><span class="line">  <span class="comment">// 答案存储，这个视不同题目而变化</span></span><br><span class="line">  <span class="keyword">let</span> res = &#123;&#125;;</span><br><span class="line">  <span class="comment">// 倒着遍历</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = arr.length - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">    <span class="keyword">let</span> cur = arr[i];</span><br><span class="line">    <span class="comment">// 维护递减栈，遇见比栈顶大的，栈顶出栈，直到遇见比栈顶小的或者栈空，操作答案和当前值入栈</span></span><br><span class="line">    <span class="keyword">while</span> (stack.length &amp;&amp; cur &gt;= top(stack)) &#123;</span><br><span class="line">      stack.pop();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 存储答案，这个视不同题目而变化</span></span><br><span class="line">    res[i] = stack.length ? top(stack) : <span class="number">-1</span>;</span><br><span class="line">    stack.push(cur);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> res;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> nextGreaterElement = <span class="function"><span class="keyword">function</span> (<span class="params">nums1, nums2</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> res = _nextGreaterElement(nums2);</span><br><span class="line">  <span class="keyword">return</span> nums1.map(<span class="function">(<span class="params">item</span>) =&gt;</span> res[item]);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>这样时间复杂度就是 O(m+n)，空间复杂度也是 O(m+n)</p>
-<p><a href="https://leetcode-cn.com/problems/next-greater-element-i/solution/dan-diao-zhan-jie-jue-next-greater-number-yi-lei-w/" target="_blank" rel="noopener">单调栈解决 Next Greater Number 一类问题</a></p>
-<h2 id="练习：下一个更大元素-2"><a href="#练习：下一个更大元素-2" class="headerlink" title="练习：下一个更大元素 2"></a>练习：下一个更大元素 2</h2><p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/stack_24.png" alt="stack_24"></p>
-<p>这题比刚刚的题复杂在，循环数组上。</p>
-<p>这类问题，其实稍微变化下思路就好~</p>
-<p>[1,4,3] =&gt; 循环数组的话 =&gt; [1,4,3,1,4,3]</p>
-<p>但是不需要真的这样扩充数组，用下取余的小技巧，遍历的次数是两倍数组，但是 cur 的值就是<code>arr[i%len]</code></p>
-<p>然后依旧用上面的思路，但是，这里存储答案只需要在实际长度处开始存储即可。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> top = <span class="function">(<span class="params">arr</span>) =&gt;</span> arr[arr.length - <span class="number">1</span>];</span><br><span class="line"><span class="keyword">var</span> nextGreaterElements = <span class="function"><span class="keyword">function</span> (<span class="params">nums</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 递减栈</span></span><br><span class="line">  <span class="keyword">let</span> s = [];</span><br><span class="line">  <span class="comment">// 这里视题目情况存储，此题用数组就可以</span></span><br><span class="line">  <span class="keyword">let</span> ans = [];</span><br><span class="line">  <span class="keyword">const</span> len = nums.length;</span><br><span class="line">  <span class="comment">// 倒序遍历，数组长度变成2倍长了</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = len * <span class="number">2</span> - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">    <span class="comment">// 用取余运算计算当前值，表面看起来就像真的在遍历循环数组</span></span><br><span class="line">    <span class="keyword">let</span> cur = nums[i % len];</span><br><span class="line">    <span class="keyword">while</span> (s.length &amp;&amp; cur &gt;= top(s)) &#123;</span><br><span class="line">      s.pop();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 在实际数组的长度处，开始存储答案即可</span></span><br><span class="line">    i &lt; len &amp;&amp; (ans[i] = s.length ? top(s) : <span class="number">-1</span>);</span><br><span class="line">    s.push(cur);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> ans;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>时间复杂度和空间复杂度都是 O(n)~</p>
-<p><a href="https://leetcode-cn.com/problems/next-greater-element-i/solution/dan-diao-zhan-jie-jue-next-greater-number-yi-lei-w/" target="_blank" rel="noopener">单调栈解决 Next Greater Number 一类问题</a></p>
-<p>快速试试:<a href="https://leetcode-cn.com/problems/daily-temperatures" target="_blank" rel="noopener">每日温度</a></p>
-<p>请根据每日 气温 列表，重新生成一个列表。对应位置的输出为：要想观测到更高的气温，至少需要等待的天数。如果气温在这之后都不会升高，请在该位置用  0 来代替。</p>
-<p>例如，给定一个列表  temperatures = [73, 74, 75, 71, 69, 72, 76, 73]，你的输出应该是  [1, 1, 4, 2, 1, 1, 0, 0]。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> top = <span class="function">(<span class="params">arr</span>) =&gt;</span> arr[arr.length - <span class="number">1</span>];</span><br><span class="line"><span class="keyword">var</span> dailyTemperatures = <span class="function"><span class="keyword">function</span> (<span class="params">T</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> s = [];</span><br><span class="line">  <span class="keyword">let</span> res = [];</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = T.length - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">    <span class="keyword">const</span> cur = T[i];</span><br><span class="line">    <span class="keyword">while</span> (s.length &amp;&amp; cur &gt;= T[top(s)]) &#123;</span><br><span class="line">      s.pop();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 视情况而定，这里计算天数，显然存储i合适</span></span><br><span class="line">    res[i] = s.length ? top(s) - i : <span class="number">0</span>;</span><br><span class="line">    s.push(i);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> res;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h2 id="练习：最小栈"><a href="#练习：最小栈" class="headerlink" title="练习：最小栈"></a>练习：最小栈</h2><p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/stack_25.png" alt="stack_25"></p>
-<p>这里其实稍微麻烦一点的是，getMin，暴力法肯定容易，但是时间复杂度O(n)，想变成O(1)。</p>
-<p>换个栈思路，每次push的时候，除了存数据，还维护最小栈(辅助栈)，栈顶就是当前数组的最小元素；pop的时候，栈顶元素弹出。</p>
-<p><img src="https://assets.leetcode-cn.com/solution-static/155/155_fig1.gif" alt="155_fig1.gif"></p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Stack</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.data = []</span><br><span class="line">  <span class="keyword">this</span>.helpStack = []</span><br><span class="line">&#125;</span><br><span class="line">Stack.prototype.push = <span class="function"><span class="params">num</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">this</span>.data.push(num)</span><br><span class="line">  <span class="keyword">this</span>.helpStack.push(num&lt;<span class="keyword">this</span>.data[<span class="keyword">this</span>.data.length<span class="number">-1</span>]?num:<span class="keyword">this</span>.data[<span class="keyword">this</span>.data.length<span class="number">-1</span>])</span><br><span class="line">  </span><br><span class="line">&#125;</span><br><span class="line">Stack.prototype.pop = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">this</span>.data.length &amp;&amp; <span class="keyword">this</span>.data.pop()</span><br><span class="line">  <span class="keyword">this</span>.helpStack.length &amp;&amp;<span class="keyword">this</span>.helpStack.pop()</span><br><span class="line">&#125;</span><br><span class="line">Stack.prototype.getMin = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.helpStack[<span class="keyword">this</span>.helpStack.length<span class="number">-1</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>当然这是同步栈的思路，不同步栈的，我个人觉得稍显复杂，有兴趣的可以继续研究~</p>
-<p><a href="https://leetcode-cn.com/problems/min-stack/solution/zui-xiao-zhan-by-leetcode-solution/" target="_blank" rel="noopener">官方动画题解</a></p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
-<li><a href="https://juejin.cn/book/6844733800300150797/section/6844733800350498824" target="_blank" rel="noopener">修言的前端算法和数据结构</a></li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2407,7 +2383,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">244</span>
+                <span class="site-state-item-count">245</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
