@@ -261,6 +261,180 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/25/window_use_ssh_scp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2019/06/25/window_use_ssh_scp/" itemprop="url">
+                  window服务器使用ssh和scp
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-25T16:45:00+08:00">
+                2019-06-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/工具/" itemprop="url" rel="index">
+                    <span itemprop="name">工具</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/06/25/window_use_ssh_scp/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/06/25/window_use_ssh_scp/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>最近接触window服务器，各种尴尬，想用ssh，想用scp，踩了很多坑，大约配置出来了。仅供参考，没研究具体原理。</p>
+<h2 id="window使用ssh"><a href="#window使用ssh" class="headerlink" title="window使用ssh"></a>window使用ssh</h2><ul>
+<li>去下载<a href="https://www.mls-software.com/opensshd.html" target="_blank" rel="noopener">openssh for windows</a>，鼠标滚动页面（开始没滚动居然没找到），看到<img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/opensshd.png" alt="图片">  </li>
+<li>打开小黑框，用下ssh</li>
+<li>使用<code>ssh-keygen -t rsa</code>生成公私钥，这里的公钥很重要，可以免登陆其他服务器。<a href="https://blog.csdn.net/qq_34638161/article/details/80614566" target="_blank" rel="noopener">参考文档</a></li>
+</ul>
+<h2 id="window使用scp"><a href="#window使用scp" class="headerlink" title="window使用scp"></a>window使用scp</h2><ul>
+<li>去下载<a href="https://www.chiark.greenend.org.uk/~sgtatham/putty/" target="_blank" rel="noopener">putty</a></li>
+<li>安装完之后，去安装目录看<img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/pscp.png" alt="pscp的路径"></li>
+<li>在c盘根目录下新建两个文件，如下，写完之后，双击aliaskey.reg 文件，导入到注册表。<a href="https://www.cnblogs.com/onelikeone/p/10783497.html" target="_blank" rel="noopener">参考文档</a></li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 文件1  alias_key.bat</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 别名scp</span></span><br><span class="line">@doskey scp=pscp -scp $*</span><br><span class="line"><span class="meta">#</span><span class="bash"> 下面的就是辅助，可以不看</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 等号左边是右边的别名 $*表示这个命令还可能有其他参数 @表示执行这条命令时不显示这条命令本身</span></span><br><span class="line">@doskey ls=dir /b $*</span><br><span class="line">@doskey l=dir /od/p/q/tw $*</span><br><span class="line"></span><br><span class="line">@REM notepad++工具设置别名为：npp</span><br><span class="line">@doskey npp="C:\Program Files1\Notepad++\notepad++.exe" $*</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 文件2 同目录下新建 aliaskey.reg</span></span><br><span class="line">Windows Registry Editor Version 5.00</span><br><span class="line"></span><br><span class="line">[HKEY_CURRENT_USER\Software\Microsoft\Command Processor]</span><br><span class="line">"AutoRun"="%SystemDrive%\\alias_key.bat"</span><br></pre></td></tr></table></figure>
+<ul>
+<li>打开小黑框，用下scp</li>
+</ul>
+<h2 id="window服务器开通ssh端口"><a href="#window服务器开通ssh端口" class="headerlink" title="window服务器开通ssh端口"></a>window服务器开通ssh端口</h2><ul>
+<li><a href="http://www.freesshd.com/index.php?ctt=download" target="_blank" rel="noopener">下载freeSSHD</a>，选择<code>freeSSHD.exe</code></li>
+<li>一路点是安装，但到对话框的地方注意，这里选择否<code>Do you want to run freesshd as a system service</code>。如果不小心选择是，就去服务里面关掉freeSSHd Server服务即可</li>
+<li>右击桌面上 freeSSHD 小图标，以管理员身份运行，点击之后注意右下角，地主栏上多一个小图标，如果没有注意点开上拉箭头看有没有，然后右击这里的小图标，选择<code>settings</code></li>
+<li>然后 <a href="https://blog.csdn.net/u014296316/article/details/88616023" target="_blank" rel="noopener">按照此文超详细教程</a></li>
+<li>注意配置<code>SFTP</code>这里的地址，其实这里是开通之后小黑框的默认路径</li>
+</ul>
+<h2 id="linux系统ssh连接window服务器"><a href="#linux系统ssh连接window服务器" class="headerlink" title="linux系统ssh连接window服务器"></a>linux系统ssh连接window服务器</h2><p><a href="https://juejin.im/post/5ce4a082e51d4577583ddc24" target="_blank" rel="noopener">配置别名和简单的基础知识</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 后面的window特别奇葩，需要这样cmd 具体的目录 ，才能执行命令</span></span><br><span class="line">ssh 服务器别名 "cmd /c ls"</span><br><span class="line">ssh xytest "cmd /c ls"</span><br></pre></td></tr></table></figure>
+<h2 id="linux系统scp连接window服务器"><a href="#linux系统scp连接window服务器" class="headerlink" title="linux系统scp连接window服务器"></a>linux系统scp连接window服务器</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 传文件还算正常，文件夹的话 是不识别的，如果想传文件夹下所有文件，需要加*</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 注意这里就是刚刚配置的`SFTP`的地址</span></span><br><span class="line">scp -r /Users/zhm/dist/css/* 服务器别名:./spoc/css</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/25/current_monday/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1756,166 +1930,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/22/git/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2019/05/22/git/" itemprop="url">
-                  git各命令的原理和初级使用，顺手玩下git钩子
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-22T09:26:03+08:00">
-                2019-05-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/git/" itemprop="url" rel="index">
-                    <span itemprop="name">git</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/05/22/git/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/05/22/git/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>该文章是在阅读<a href="https://backlog.com/git-tutorial/cn/intro/intro1_1.html" target="_blank" rel="noopener">猴子也懂的git入门</a>和<a href="https://juejin.im/book/5a124b29f265da431d3c472e/section/5a124c446fb9a0451463a3a9" target="_blank" rel="noopener">抛物线大神的git原理和使用小册子，额，需要一点点零花钱</a>之后总结的，估摸着不适合新手…</p>
-<h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
-<li>核心概念：暂存区(索引)，数据库(repository)是每个commit组成的，HEAD/branch/tag都指向某个commit</li>
-<li>远程仓库实际上和本地仓库没啥不同，纯粹为了7x24小时开机并交换大家的修改。</li>
-<li>没事常常<code>git status</code>和<code>git lg</code>，没写错，配置<code>git config --global alias.lg &quot;log --color --graph --pretty=format:&#39;%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&lt;%an&gt;%Creset&#39; --abbrev-commit&quot;</code>，炒鸡炫酷</li>
-<li>需要在git执行某条命令的时候执行脚本，就用到钩子</li>
-<li>搭建远程仓库
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/05/22/git/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1965,7 +1979,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">245</span>
+                <span class="site-state-item-count">246</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

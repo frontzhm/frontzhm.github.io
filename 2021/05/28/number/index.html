@@ -1,0 +1,796 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="js," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="最近一直在看《你不知道的 JS》，看到number类型，觉得有些东西之前不清楚，轻总结了下。 number 类型包括“整数”值和小数值。 但“整数”只是一个没有小数部分的小数值。  JS 没有真正的整数，也就是说，42.0 和 42 一样是“整数”  TL;DR number默认是十进制，并去掉末尾小数部分的 0 二进制、八进制、十六进制：以特殊的0b 0o 0x开头 非常大或者小的数，可以用指数">
+<meta name="keywords" content="js">
+<meta property="og:type" content="article">
+<meta property="og:title" content="重新认识number类型">
+<meta property="og:url" content="http://yoursite.com/2021/05/28/number/index.html">
+<meta property="og:site_name" content="花花的博客">
+<meta property="og:description" content="最近一直在看《你不知道的 JS》，看到number类型，觉得有些东西之前不清楚，轻总结了下。 number 类型包括“整数”值和小数值。 但“整数”只是一个没有小数部分的小数值。  JS 没有真正的整数，也就是说，42.0 和 42 一样是“整数”  TL;DR number默认是十进制，并去掉末尾小数部分的 0 二进制、八进制、十六进制：以特殊的0b 0o 0x开头 非常大或者小的数，可以用指数">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7429c0810ffc4eff9063e8160298dff1~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/424feea71f3a421e958fdb506cde05fb~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:updated_time" content="2021-05-28T06:52:09.250Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="重新认识number类型">
+<meta name="twitter:description" content="最近一直在看《你不知道的 JS》，看到number类型，觉得有些东西之前不清楚，轻总结了下。 number 类型包括“整数”值和小数值。 但“整数”只是一个没有小数部分的小数值。  JS 没有真正的整数，也就是说，42.0 和 42 一样是“整数”  TL;DR number默认是十进制，并去掉末尾小数部分的 0 二进制、八进制、十六进制：以特殊的0b 0o 0x开头 非常大或者小的数，可以用指数">
+<meta name="twitter:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7429c0810ffc4eff9063e8160298dff1~tplv-k3u1fbpfcp-zoom-1.image">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2021/05/28/number/"/>
+
+
+
+
+
+  <title> 重新认识number类型 | 花花的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?60f2cb5747a596a24f2a053f1650c30b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">花花的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/05/28/number/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                重新认识number类型
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-05-28T14:52:09+08:00">
+                2021-05-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/05/28/number/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2021/05/28/number/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近一直在看<a href="https://www.gobeta.net/books/you-dont-know-js-1ed-zh-cn/types-grammar/ch2/" target="_blank" rel="noopener">《你不知道的 JS》</a>，看到<code>number</code>类型，觉得有些东西之前不清楚，轻总结了下。</p>
+<p>number 类型包括“整数”值和小数值。</p>
+<p>但“整数”只是一个没有小数部分的<strong>小数值</strong>。</p>
+<blockquote>
+<p>JS 没有真正的整数，也就是说，42.0 和 42 一样是“整数”</p>
+</blockquote>
+<h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
+<li><code>number</code>默认是十进制，并去掉末尾小数部分的 0</li>
+<li>二进制、八进制、十六进制：以特殊的<code>0b 0o 0x</code>开头</li>
+<li>非常大或者小的数，可以用指数表示：<code>5e10</code></li>
+<li>严格控制小数的位数：<code>toFixed</code>，会四舍五入或补 0</li>
+<li>小数有误差，比较的时候，可以用容差<code>const isEqual = (n1,n2) =&gt; Math.abs( n1 - n2 ) &lt; Number.EPSILON</code></li>
+<li>JS 能表示的最大正负整数是有限的，15 位数以内都是很安全的。ID 超过 15 位的时候，记得用字符串。</li>
+<li><code>NaN</code>是数字类型，但表示”非法数字“，且和自身<strong>不相等</strong>，但是<code>Number.isNaN(NaN) === true</code></li>
+<li><code>Infinity</code>和<code>-Infinity</code>表示无穷，<code>1/0 === Infinity</code>，<code>1/InFinity === 0</code></li>
+</ul>
+<h2 id="十进制"><a href="#十进制" class="headerlink" title="十进制"></a>十进制</h2><p>默认情况下，大多数 number 将会以十进制小数的形式输出，并去掉末尾小数部分的 0</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">42.0</span>;</span><br><span class="line"><span class="keyword">var</span> b = <span class="number">42.3</span>;</span><br><span class="line">a; <span class="comment">// 42</span></span><br><span class="line">b; <span class="comment">// 42.3</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7429c0810ffc4eff9063e8160298dff1~tplv-k3u1fbpfcp-zoom-1.image" alt="number_1"></p>
+<h2 id="其他进制的表示方式：尽量小写"><a href="#其他进制的表示方式：尽量小写" class="headerlink" title="其他进制的表示方式：尽量小写"></a>其他进制的表示方式：尽量小写</h2><ul>
+<li>二进制(0b)：<code>0b11101</code></li>
+<li>八进制(0o)：<code>0o11101</code></li>
+<li>十六进制(0x)：<code>0x11101</code></li>
+</ul>
+<p>推荐，用小写字母，这样易识别，虽然可以大写，但是<code>0O</code>可读性低。</p>
+<h2 id="指数形式：5E5、toExponential"><a href="#指数形式：5E5、toExponential" class="headerlink" title="指数形式：5E5、toExponential"></a>指数形式：5E5、toExponential</h2><p>非常大或者非常小，可以用指数表示。</p>
+<p><code>5E5</code>是一个<code>number</code>类型，表示<code>50000</code>，E 表示为 10 的几次方。<br>但是<code>toExponential</code>返回的是<code>string</code>类型</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 5 * (10^5)</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="number">5e5</span>;</span><br><span class="line">a; <span class="comment">// 500000</span></span><br><span class="line">a.toExponential(); <span class="comment">// "5e+10"</span></span><br></pre></td></tr></table></figure>
+<h2 id="限制小数的位数：toFixed"><a href="#限制小数的位数：toFixed" class="headerlink" title="限制小数的位数：toFixed"></a>限制小数的位数：toFixed</h2><p>当原来的小数位<strong>多于</strong>指定的位数，会四舍五入<br>当原来的小数位<strong>少于</strong>指定的位数，会补 0</p>
+<p>但注意，返回值是<code>string</code>类型</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">42.59</span>;</span><br><span class="line"></span><br><span class="line">a.toFixed(<span class="number">0</span>); <span class="comment">// "43"</span></span><br><span class="line"></span><br><span class="line">a.toFixed(<span class="number">1</span>); <span class="comment">// "42.6"</span></span><br><span class="line"></span><br><span class="line">a.toFixed(<span class="number">3</span>); <span class="comment">// "42.590"</span></span><br></pre></td></tr></table></figure>
+<h2 id="小数值：小数有误差，比较的时候一定慎重"><a href="#小数值：小数有误差，比较的时候一定慎重" class="headerlink" title="小数值：小数有误差，比较的时候一定慎重"></a>小数值：小数有误差，比较的时候一定慎重</h2><p>JS 里整数的计算是正确的，但是小数的计算是有误差的。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0.1</span> + <span class="number">0.2</span> === <span class="number">0.3</span>;</span><br><span class="line"><span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+<p>JS 的 number 的实现基于<a href="https://zh.wikipedia.org/wiki/IEEE_754" target="_blank" rel="noopener">“IEEE 754”</a>标准，简单的说，就是小数的表示肯定有误差，只是误差极小。</p>
+<p>如果相比较两个小数的话，需使用一个很小的“错误舍入”值作为比较的 容差。这个很小的值经常被称为“机械极小值（machine epsilon）”，大约是为 <code>2^-52</code>:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isEqual</span>(<span class="params">n1, n2</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">Math</span>.abs(n1 - n2) &lt; <span class="built_in">Number</span>.EPSILON;</span><br><span class="line">&#125;</span><br><span class="line">isEqual(<span class="number">0.1</span> + <span class="number">0.2</span>, <span class="number">0.3</span>); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<h2 id="安全的整数范围：15-位数以下肯定是安全的"><a href="#安全的整数范围：15-位数以下肯定是安全的" class="headerlink" title="安全的整数范围：15 位数以下肯定是安全的"></a>安全的整数范围：15 位数以下肯定是安全的</h2><p>JS 并不能表示任意位的整数，最大的整数是<code>Number.MAX_SAFE_INTEGER</code>(9007199254740991)，最小的整数是<code>Number.MIN_SAFE_INTEGER</code>(-9007199254740991)</p>
+<p>特别注意，很多 ID 是超出这个范围的，所以 ID 最好是用<code>string</code>，当 ID 超出<strong><code>15</code></strong>位数的话，就肯定要用字符串类型了。</p>
+<p>那超出会怎么样呢，会不准滴！</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">9007199254740995</span>;</span><br><span class="line">a; <span class="comment">// 9007199254740996</span></span><br></pre></td></tr></table></figure>
+<h2 id="测试是不是整数：Number-isInteger"><a href="#测试是不是整数：Number-isInteger" class="headerlink" title="测试是不是整数：Number.isInteger"></a>测试是不是整数：Number.isInteger</h2><p>这里我觉得有坑啦，比如希望用户输入整数，别用这个</p>
+<p>因为<code>xx.0</code>，有小数位，但是它觉得就是整数。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Number</span>.isInteger(<span class="number">42</span>); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">Number</span>.isInteger(<span class="number">42.0</span>); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">Number</span>.isInteger(<span class="number">42.3</span>); <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+<h2 id="NaN：number-类型，表示非正常的数字"><a href="#NaN：number-类型，表示非正常的数字" class="headerlink" title="NaN：number 类型，表示非正常的数字"></a>NaN：number 类型，表示非正常的数字</h2><p>NaN 是一种“哨兵值”（一个被赋予了特殊意义的普通的值），试着进行数学操作但是失败了，而这就是失败的 number 结果。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">1</span> / <span class="string">'foo'</span>;</span><br><span class="line">a; <span class="comment">// NaN</span></span><br></pre></td></tr></table></figure>
+<p>注意：NaN，永远不等于自己。也是 JS 里唯一自己不等于自己的。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="literal">NaN</span> === <span class="literal">NaN</span>; <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+<p>判断是不是 NaN：<code>Number.isNaN</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Number</span>.isNaN(<span class="number">1</span> / <span class="string">'foo'</span>); <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">Object</span>.is(<span class="literal">NaN</span>, <span class="literal">NaN</span>); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<h2 id="Infinity：表示无穷"><a href="#Infinity：表示无穷" class="headerlink" title="Infinity：表示无穷"></a>Infinity：表示无穷</h2><p>数学里，0 是不允许做除数的！！！</p>
+<p>但是 JS 里，任意非 0 的数除以 0，值是<code>Infinity</code></p>
+<p>而任意非 0 的数除以<code>Infinity</code>，都是<code>0</code>或者<code>-0</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> / <span class="number">0</span> - <span class="comment">// Infinity</span></span><br><span class="line">  <span class="number">1</span> / <span class="number">0</span>; <span class="comment">// -Infinity</span></span><br><span class="line"></span><br><span class="line"><span class="number">1</span> / <span class="literal">Infinity</span> - <span class="comment">// 0</span></span><br><span class="line">  <span class="number">1</span> / <span class="literal">Infinity</span>; <span class="comment">// -0</span></span><br><span class="line"></span><br><span class="line"><span class="number">0</span> === <span class="number">-0</span>; <span class="comment">// true</span></span><br><span class="line"><span class="built_in">Object</span>.is(<span class="number">0</span>, <span class="number">-0</span>); <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+<p>虽然<code>-0 === 0</code>但<code>Object.is(0,-0)是false</code>，也就是这两并不完全等价，<code>-0</code>有其本身的意义，比如做动画的时候，表示移动的方向。<br>不过我觉得大部分开发者，可以忽略，=。=</p>
+<blockquote>
+<p>Object.is 很大程度上是为这些特殊的等价情况准备的，0 和-0，NaN 和 NaN。</p>
+</blockquote>
+<h2 id="其他属性和方法"><a href="#其他属性和方法" class="headerlink" title="其他属性和方法"></a>其他属性和方法</h2><p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/424feea71f3a421e958fdb506cde05fb~tplv-k3u1fbpfcp-zoom-1.image" alt="mdn"></p>
+<p>MDN 关于<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Number" target="_blank" rel="noopener">Number</a>的介绍。</p>
+<p>Number 本身也值得一说，其是个函数</p>
+<ul>
+<li>单独调用，表示将参数转化成数字，无法转化则返回<code>NaN</code></li>
+<li>作为构造函数调用，创建<code>number</code>类型的对象</li>
+<li>作为对象，有其属性和方法</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/js/" rel="tag"># js</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/05/26/input_bug/" rel="next" title="input里按回车键会刷新页面 怎么办">
+                <i class="fa fa-chevron-left"></i> input里按回车键会刷新页面 怎么办
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2021/05/28/number/"
+           data-title="重新认识number类型" data-url="http://yoursite.com/2021/05/28/number/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://omizt4opc.bkt.clouddn.com/avatar.jpg"
+               alt="frontzhm" />
+          <p class="site-author-name" itemprop="name">frontzhm</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">246</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">54</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#TL-DR"><span class="nav-number">1.</span> <span class="nav-text">TL;DR</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#十进制"><span class="nav-number">2.</span> <span class="nav-text">十进制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他进制的表示方式：尽量小写"><span class="nav-number">3.</span> <span class="nav-text">其他进制的表示方式：尽量小写</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#指数形式：5E5、toExponential"><span class="nav-number">4.</span> <span class="nav-text">指数形式：5E5、toExponential</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#限制小数的位数：toFixed"><span class="nav-number">5.</span> <span class="nav-text">限制小数的位数：toFixed</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小数值：小数有误差，比较的时候一定慎重"><span class="nav-number">6.</span> <span class="nav-text">小数值：小数有误差，比较的时候一定慎重</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安全的整数范围：15-位数以下肯定是安全的"><span class="nav-number">7.</span> <span class="nav-text">安全的整数范围：15 位数以下肯定是安全的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试是不是整数：Number-isInteger"><span class="nav-number">8.</span> <span class="nav-text">测试是不是整数：Number.isInteger</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NaN：number-类型，表示非正常的数字"><span class="nav-number">9.</span> <span class="nav-text">NaN：number 类型，表示非正常的数字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Infinity：表示无穷"><span class="nav-number">10.</span> <span class="nav-text">Infinity：表示无穷</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他属性和方法"><span class="nav-number">11.</span> <span class="nav-text">其他属性和方法</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">frontzhm</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"frontzhm"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
