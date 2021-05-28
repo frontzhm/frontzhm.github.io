@@ -261,6 +261,193 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/27/wang-editor/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2020/05/27/wang-editor/" itemprop="url">
+                  vue使用富文本编辑器wangEditor，且增加附件功能
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-27T10:19:05+08:00">
+                2020-05-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/05/27/wang-editor/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/05/27/wang-editor/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="官方资料"><a href="#官方资料" class="headerlink" title="官方资料"></a>官方资料</h2><ul>
+<li><a href="www.wangEditor.com">wangEditor官网</a></li>
+<li><a href="www.kancloud.cn/wangfupeng/wangeditor3/332599">wangEditor文档</a></li>
+<li><a href="github.com/wangfupeng1988/wangEditor">wangEditor的github</a></li>
+<li><a href="https://github.com/frontzhm/checkbox" target="_blank" rel="noopener">加上附件的 demo地址</a></li>
+<li>加上附件的 demo效果 <img src="https://user-gold-cdn.xitu.io/2020/6/18/172c5966c233b14a?w=868&amp;h=660&amp;f=gif&amp;s=409632" alt="加上附件的效果图"></li>
+</ul>
+<h2 id="最简单的使用"><a href="#最简单的使用" class="headerlink" title="最简单的使用"></a>最简单的使用</h2><h3 id="封装组件"><a href="#封装组件" class="headerlink" title="封装组件"></a>封装组件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- Editor.vue --&gt;</span><br><span class="line">&lt;template lang=&quot;pug&quot;&gt;</span><br><span class="line">div</span><br><span class="line">  div(ref=&quot;editor&quot;)</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">import E from &quot;wangeditor&quot;;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &quot;editor&quot;,</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      // 富文本内容</span><br><span class="line">      editorContent: &quot;&quot;</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  mounted() &#123;</span><br><span class="line">    // 初始化容器</span><br><span class="line">    var editor = new E(this.$refs.editor);</span><br><span class="line">    // 预先配置内容</span><br><span class="line">    // 当内容变化的时候，将内容扔出去</span><br><span class="line">    editor.customConfig.onchange = html =&gt; &#123;</span><br><span class="line">      this.editorContent = html;</span><br><span class="line">      this.$emit(&quot;update:content&quot;, html);</span><br><span class="line">    &#125;;</span><br><span class="line">    // 创建编辑器</span><br><span class="line">    editor.create();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="调用组件"><a href="#调用组件" class="headerlink" title="调用组件"></a>调用组件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- Edit.vue --&gt;</span><br><span class="line">&lt;template lang=&quot;pug&quot;&gt;</span><br><span class="line">div</span><br><span class="line">  editor(:content.sync=&apos;content&apos;)</span><br><span class="line">  div &#123;&#123;content&#125;&#125;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script type=&quot;text/ecmascript-6&quot;&gt;</span><br><span class="line">import Editor from &apos;@/components/Editor&apos;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &apos;edit&apos;,</span><br><span class="line">  components:&#123;Editor&#125;,</span><br><span class="line">  data()&#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      content:&apos;&apos;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;style scoped&gt;&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="设置初始状态有内容"><a href="#设置初始状态有内容" class="headerlink" title="设置初始状态有内容"></a>设置初始状态有内容</h2><p>一般创建和编辑页面总是同一个，那么当编辑的时候，内容区一开始是有数据的，这里稍微改下组件的写法，增加设置内容，顺便稍微改良写原有的写法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- Editor.vue --&gt;</span><br><span class="line">&lt;template lang=&quot;pug&quot;&gt;</span><br><span class="line">div</span><br><span class="line">  div(ref=&quot;editor&quot;)</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">import E from &quot;wangeditor&quot;;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &quot;editor&quot;,</span><br><span class="line">  props: &#123;</span><br><span class="line">    // 增加content，有内容的时候直接传进来</span><br><span class="line">    content: &#123;</span><br><span class="line">      type: String,</span><br><span class="line">      default() &#123;</span><br><span class="line">        return &quot;&quot;;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      // 富文本内容</span><br><span class="line">      editorContent: &quot;&quot;</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  mounted() &#123;</span><br><span class="line">    // 将content赋值，editorContent变化的时候，不改变父组件的content</span><br><span class="line">    this.editorContent = this.content;</span><br><span class="line">    // 创建编辑器</span><br><span class="line">    this.createEditor();</span><br><span class="line">    // 设置内容</span><br><span class="line">    this._setInitContent(this.editorContent);</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    // 配置参数 创建编辑器</span><br><span class="line">    createEditor() &#123;</span><br><span class="line">      // 初始化容器</span><br><span class="line">      let editor = new E(this.$refs.editor);</span><br><span class="line">      // 方便将配置拆开写</span><br><span class="line">      this.editor = editor;</span><br><span class="line">      // 将富文本的html的内容变化时赋值同步到editorContent，这里的change事件将值赋值给editorContent</span><br><span class="line">      this._syncContent();</span><br><span class="line">      // 创建编辑器</span><br><span class="line">      editor.create();</span><br><span class="line">    &#125;,</span><br><span class="line">    _syncContent() &#123;</span><br><span class="line">      // 设置在create之前，当内容变化的时候，将内容扔出去，同步父组件的content</span><br><span class="line">      this.editor.customConfig.onchange = html =&gt; &#123;</span><br><span class="line">        this.editorContent = html;</span><br><span class="line">        this.$emit(&quot;update:content&quot;, html);</span><br><span class="line">      &#125;;</span><br><span class="line">    &#125;,</span><br><span class="line">    _setInitContent(content) &#123;</span><br><span class="line">      this.editor.txt.html(content);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="增加本地图片上传"><a href="#增加本地图片上传" class="headerlink" title="增加本地图片上传"></a>增加本地图片上传</h2><p>默认上传图片只有网络链接，如果需要上传本地图片，需要增加额外参数。<br>这个编辑器实现了拖拽图片功能，超方便！！！  </p>
+<p><a href="https://www.kancloud.cn/wangfupeng/wangeditor3/335782" target="_blank" rel="noopener">上传图片的详细文档参照这里</a>。<br>项目里，我用的是自定义上传：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">editor.customConfig.customUploadImg = <span class="keyword">async</span> (files, insert) =&gt; &#123;</span><br><span class="line">  <span class="comment">// files 是 input 中选中的文件列表，遍历上传</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; files.length; i++) &#123;</span><br><span class="line">    <span class="keyword">let</span> file = files[i]</span><br><span class="line">    <span class="comment">// 上传服务器拿到图片链接</span></span><br><span class="line">    <span class="keyword">let</span> imgUrl = (<span class="keyword">await</span> <span class="keyword">this</span>._uploadSingleFile(file))</span><br><span class="line">    <span class="comment">// 获取图片 url 后，插入到编辑器</span></span><br><span class="line">    insert(imgUrl)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- Editor.vue --&gt;</span><br><span class="line">&lt;template lang=&quot;pug&quot;&gt;</span><br><span class="line">div</span><br><span class="line">  div(ref=&quot;editor&quot;)</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">import E from &quot;wangeditor&quot;;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &quot;editor&quot;,</span><br><span class="line">  props: &#123;</span><br><span class="line">    // 增加content，有内容的时候直接传进来</span><br><span class="line">    content: &#123;</span><br><span class="line">      type: String,</span><br><span class="line">      default() &#123;</span><br><span class="line">        return &quot;&quot;;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      // 富文本内容</span><br><span class="line">      editorContent: &quot;&quot;</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  mounted() &#123;</span><br><span class="line">    // 将content赋值，editorContent变化的时候，不改变父组件的content</span><br><span class="line">    this.editorContent = this.content;</span><br><span class="line">    // 创建编辑器</span><br><span class="line">    this.createEditor();</span><br><span class="line">    // 设置内容</span><br><span class="line">    this._setInitContent(this.editorContent);</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    // 配置参数 创建编辑器</span><br><span class="line">    createEditor() &#123;</span><br><span class="line">      // 初始化容器</span><br><span class="line">      let editor = new E(this.$refs.editor);</span><br><span class="line">      // 方便将配置拆开写</span><br><span class="line">      this.editor = editor;</span><br><span class="line">      // 将富文本的html的内容变化时赋值同步到editorContent，这里的change事件将值赋值给editorContent</span><br><span class="line">      this._syncContent();</span><br><span class="line">      // 设置上传本地图片</span><br><span class="line">      this._setUploadLocalImg();</span><br><span class="line">      // 创建编辑器</span><br><span class="line">      editor.create();</span><br><span class="line">    &#125;,</span><br><span class="line">    _syncContent() &#123;</span><br><span class="line">      // 设置在create之前，当内容变化的时候，将内容扔出去，同步父组件的content</span><br><span class="line">      this.editor.customConfig.onchange = html =&gt; &#123;</span><br><span class="line">        this.editorContent = html;</span><br><span class="line">        this.$emit(&quot;update:content&quot;, html);</span><br><span class="line">      &#125;;</span><br><span class="line">    &#125;,</span><br><span class="line">    _setInitContent(content) &#123;</span><br><span class="line">      this.editor.txt.html(content);</span><br><span class="line">    &#125;,</span><br><span class="line">    _setUploadLocalImg() &#123;</span><br><span class="line">      this.editor.customConfig.customUploadImg = async (files, insert) =&gt; &#123;</span><br><span class="line">        // files 是 input 中选中的文件列表，遍历上传</span><br><span class="line">        for (let i = 0; i &lt; files.length; i++) &#123;</span><br><span class="line">          let file = files[i];</span><br><span class="line">          // 上传服务器拿到图片链接,这里_uploadSingleFile就是上传图片接口，</span><br><span class="line">          let imgUrl = await this._uploadSingleFile(file);</span><br><span class="line">          // 获取图片 url 后，插入到编辑器</span><br><span class="line">          insert(imgUrl);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;;</span><br><span class="line">    &#125;,</span><br><span class="line">    // 因项目而异</span><br><span class="line">    async _uploadSingleFile(file) &#123;</span><br><span class="line">      let options = &#123;</span><br><span class="line">        url: &quot;/xx/yy&quot;,</span><br><span class="line">        method: &quot;POST&quot;,</span><br><span class="line">        data: &#123; sign: &quot;xxx&quot;, file &#125;,</span><br><span class="line">        // 转化成formData形式</span><br><span class="line">        transformRequest: [</span><br><span class="line">          function(data) &#123;</span><br><span class="line">            let formData = new FormData();</span><br><span class="line">            for (const key in data) &#123;</span><br><span class="line">              const value = data[key];</span><br><span class="line">              formData.append(key, value);</span><br><span class="line">            &#125;</span><br><span class="line">            return formData;</span><br><span class="line">          &#125;</span><br><span class="line">        ]</span><br><span class="line">      &#125;;</span><br><span class="line">      let url = (await &quot;axios&quot;(options)).data.url;</span><br><span class="line">      return url;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="增加上传非图片的附件"><a href="#增加上传非图片的附件" class="headerlink" title="增加上传非图片的附件"></a>增加上传非图片的附件</h2><p>其实稍微有点复杂。<br>这里说下，编辑区和编辑栏可以分开，并且可以写各自的样式，这里很灵活。<br>拆开之后，可以这样<code>this.editor = new E(this.$refs.editorBar, this.$refs.editorText)</code><br>为啥说这个，因为我想把附件的小图标也放在菜单栏里，这里就需要用到一点定位了。<br>而且因为上传附件，所以需要一个展示附件的区域，就称为附件区好了<br>这边处理逻辑是，点击附件小图标之后，触发点击<code>input(type=&#39;file&#39;)</code>，拿到files，去上传，然后显示在文件区<br><img src="https://user-gold-cdn.xitu.io/2020/6/18/172c58c021439b72?w=1069&amp;h=448&amp;f=png&amp;s=27999" alt="效果图"></p>
+<p>这里注意！！！</p>
+<ol>
+<li>编辑区一般设置最大高度，超过这个高度的时候就内部滚动条，所以用容器包裹编辑区，且内外容器设置高度</li>
+<li>文件size会动态变化单位</li>
+<li>不同后缀显示不同文件类型</li>
+<li>文件上传完之后，可以下载或者预览，当然父组件也可以传进files</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- Editor.vue --&gt;</span><br><span class="line">&lt;template lang=&quot;pug&quot;&gt;</span><br><span class="line">div</span><br><span class="line">    //- 编辑栏</span><br><span class="line">    div.editor-bar(ref=&apos;editorBar&apos;)</span><br><span class="line">      div.file-icon</span><br><span class="line">        //- 点img触发实际的input</span><br><span class="line">        img(@click=&apos;$refs.inputFile.click()&apos; src=&apos;https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/file_icon.png&apos; alt=&apos;&apos;)</span><br><span class="line">        //- 实际的input,click事件是解决同一个文件上传两次无效的问题，因为文件可以被删除，所以这里加上这样的事件</span><br><span class="line">        input(ref=&apos;inputFile&apos; hidden  type=&apos;file&apos; multiple accept=&apos;.docx,.pptx,.xlsx,.pdf&apos; @click=&apos;$event.target.value = null&apos;  @change=&apos;uploadFile&apos;)</span><br><span class="line">    //- 编辑区域 编辑区一般设置最大高度，超过这个高度的时候就内部滚动条，所以用容器包裹编辑区，且内外容器设置高度</span><br><span class="line">    div.editor-text-wrap</span><br><span class="line">      div.editor-text(ref=&apos;editorText&apos;)</span><br><span class="line">    //- 附件区域</span><br><span class="line">    ul.file-list(v-if=&apos;editorFiles.length&apos;)</span><br><span class="line">      li.file-item(v-for=&apos;(item,index) in editorFiles&apos; :key=&apos;index&apos; is=&apos;file-item&apos; :file=&apos;item&apos;  @delFile=&apos;delFile(index)&apos;)</span><br><span class="line"></span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">import E from &quot;wangeditor&quot;;</span><br><span class="line">import FileItem from &quot;./FileItem&quot;;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &quot;editor&quot;,</span><br><span class="line">  components: &#123; FileItem &#125;,</span><br><span class="line">  props: &#123;</span><br><span class="line">    // 增加content，有内容的时候直接传进来</span><br><span class="line">    content: &#123;</span><br><span class="line">      type: String,</span><br><span class="line">      default() &#123;</span><br><span class="line">        return &quot;&quot;;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    // files，在有附件的时候可以传过来</span><br><span class="line">    files: &#123;</span><br><span class="line">      type: Array,</span><br><span class="line">      default() &#123;</span><br><span class="line">        return [];</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      // 富文本内容</span><br><span class="line">      editorContent: &quot;&quot;,</span><br><span class="line">      // 附件</span><br><span class="line">      editorFiles: []</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  // 这里直接监控同步数据，当然也可以用store</span><br><span class="line">  watch: &#123;</span><br><span class="line">    editorContent(newValue) &#123;</span><br><span class="line">      this.$emit(&quot;update:content&quot;, newValue);</span><br><span class="line">    &#125;,</span><br><span class="line">    editorFiles(newValue) &#123;</span><br><span class="line">      this.$emit(&quot;update:files&quot;, newValue);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  mounted() &#123;</span><br><span class="line">    // 将content赋值，editorContent变化的时候，不改变父组件的content</span><br><span class="line">    this.editorContent = this.content;</span><br><span class="line">    // 拷贝，注意设置上传状态 name: file.name, size: file.size, isUploaded: false, url: &quot;&quot;</span><br><span class="line">    let files = [...this.files];</span><br><span class="line">    files.length &amp;&amp; files.forEach(item =&gt; (item.isUploaded = true));</span><br><span class="line">    this.editorFiles = [...files];</span><br><span class="line">    // 创建编辑器</span><br><span class="line">    this.createEditor();</span><br><span class="line">    // 设置内容</span><br><span class="line">    this._setInitContent(this.editorContent);</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    async uploadFile(e) &#123;</span><br><span class="line">      let files = e.target.files;</span><br><span class="line">      for (let i = 0; i &lt; files.length; i++) &#123;</span><br><span class="line">        await this._handleSingleFile(files[i]);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    async _handleSingleFile(file) &#123;</span><br><span class="line">      // 存一份 name是下载的时候显示的名字 size一样 isUploaded是不是上传完</span><br><span class="line">      this.curFile = &#123;</span><br><span class="line">        name: file.name,</span><br><span class="line">        size: file.size,</span><br><span class="line">        isUploaded: false,</span><br><span class="line">        url: &quot;&quot;</span><br><span class="line">      &#125;;</span><br><span class="line">      this.editorFiles.push(this.curFile);</span><br><span class="line">      // 上传,上传成功之后设置状态和下载地址</span><br><span class="line">      // let res = await this._uploadSingleFile(file)</span><br><span class="line">      this.curFile.isUploaded = true;</span><br><span class="line">      this.curFile.url = &quot;服务器返回的地址&quot;;</span><br><span class="line">    &#125;,</span><br><span class="line">    // 删除文件的时候</span><br><span class="line">    delFile(index) &#123;</span><br><span class="line">      this.editorFiles.splice(index, 1);</span><br><span class="line">    &#125;,</span><br><span class="line">    // 配置参数 创建编辑器</span><br><span class="line">    createEditor() &#123;</span><br><span class="line">      // 初始化容器</span><br><span class="line">      let editor = new E(this.$refs.editorBar, this.$refs.editorText);</span><br><span class="line">      // 方便将配置拆开写</span><br><span class="line">      this.editor = editor;</span><br><span class="line">      // 将富文本的html的内容变化时赋值同步到editorContent，这里的change事件将值赋值给editorContent</span><br><span class="line">      this._syncContent();</span><br><span class="line">      // 设置上传本地图片</span><br><span class="line">      this._setUploadLocalImg();</span><br><span class="line">      // 创建编辑器</span><br><span class="line">      editor.create();</span><br><span class="line">    &#125;,</span><br><span class="line">    _syncContent() &#123;</span><br><span class="line">      // 设置在create之前，当内容变化的时候，同步editorContent</span><br><span class="line">      this.editor.customConfig.onchange = html =&gt; &#123;</span><br><span class="line">        this.editorContent = html;</span><br><span class="line">      &#125;;</span><br><span class="line">    &#125;,</span><br><span class="line">    _setInitContent(content) &#123;</span><br><span class="line">      this.editor.txt.html(content);</span><br><span class="line">    &#125;,</span><br><span class="line">    _setUploadLocalImg() &#123;</span><br><span class="line">      this.editor.customConfig.customUploadImg = async (files, insert) =&gt; &#123;</span><br><span class="line">        // files 是 input 中选中的文件列表，遍历上传</span><br><span class="line">        for (let i = 0; i &lt; files.length; i++) &#123;</span><br><span class="line">          let file = files[i];</span><br><span class="line">          // 上传服务器拿到图片链接,这里_uploadSingleFile就是上传图片接口，</span><br><span class="line">          let imgUrl = await this._uploadSingleFile(file);</span><br><span class="line">          // 获取图片 url 后，插入到编辑器</span><br><span class="line">          insert(imgUrl);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;;</span><br><span class="line">    &#125;,</span><br><span class="line">    // 因项目而异</span><br><span class="line">    async _uploadSingleFile(file) &#123;</span><br><span class="line">      let options = &#123;</span><br><span class="line">        url: &quot;/xx/yy&quot;,</span><br><span class="line">        method: &quot;POST&quot;,</span><br><span class="line">        data: &#123; sign: &quot;xxx&quot;, file &#125;,</span><br><span class="line">        // 上传文件需要参数转化成formData形式</span><br><span class="line">        transformRequest: [</span><br><span class="line">          function(data) &#123;</span><br><span class="line">            let formData = new FormData();</span><br><span class="line">            for (const key in data) &#123;</span><br><span class="line">              const value = data[key];</span><br><span class="line">              formData.append(key, value);</span><br><span class="line">            &#125;</span><br><span class="line">            return formData;</span><br><span class="line">          &#125;</span><br><span class="line">        ]</span><br><span class="line">      &#125;;</span><br><span class="line">      let url = (await &quot;axios&quot;(options)).data.url;</span><br><span class="line">      return url;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line">/* 编辑区 */</span><br><span class="line">.editor-bar &#123;</span><br><span class="line">  position: relative;</span><br><span class="line">  border: 1px solid #eee;</span><br><span class="line">&#125;</span><br><span class="line">/* 附件图标 */</span><br><span class="line">.file-icon &#123;</span><br><span class="line">  position: absolute;</span><br><span class="line">  top: 12px;</span><br><span class="line">  width: 36px;</span><br><span class="line">  height: 36px;</span><br><span class="line">  z-index: 3;</span><br><span class="line">  cursor: pointer;</span><br><span class="line">  left: 1480px;</span><br><span class="line">&#125;</span><br><span class="line">/* 附件图标图片 */</span><br><span class="line">.file-icon img &#123;</span><br><span class="line">  width: 100%;</span><br><span class="line">  height: 100%;</span><br><span class="line">  display: block;</span><br><span class="line">&#125;</span><br><span class="line">/* 文本区 */</span><br><span class="line">.editor-text-wrap &#123;</span><br><span class="line">  height: 600px;</span><br><span class="line">  margin-top: -1px;</span><br><span class="line">&#125;</span><br><span class="line">.editor-text &#123;</span><br><span class="line">  border: 1px solid #eee;</span><br><span class="line">  height: 100%;</span><br><span class="line">&#125;</span><br><span class="line">/* 文件区 */</span><br><span class="line">.file-list &#123;</span><br><span class="line">  padding: 20px 0 0 20px;</span><br><span class="line">  display: flex;</span><br><span class="line">  border: 1px solid #eee;</span><br><span class="line">  flex-wrap: wrap;</span><br><span class="line">&#125;</span><br><span class="line">.file-item &#123;</span><br><span class="line">  margin: 0 20px 20px 0;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- FileItem.vue --&gt;</span><br><span class="line">&lt;template lang=&quot;pug&quot;&gt;</span><br><span class="line">div.file-item(@click=&apos;clickFile&apos;)</span><br><span class="line">  //- 关闭按钮</span><br><span class="line">  img.icon-delete(alt=&apos;&apos; src=&apos;https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/icon_close.png&apos; @click.stop=&apos;clickDelete&apos;)</span><br><span class="line">  div.file-item-left</span><br><span class="line">    img.icon-file(alt=&apos;&apos; :src=&quot;&apos;https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/icon_&apos;+suffix+&apos;.png&apos;&quot;)</span><br><span class="line">  div.file-item-right</span><br><span class="line">    h3.file-name &#123;&#123;nameShow&#125;&#125;</span><br><span class="line">    div.file-other</span><br><span class="line">      span.file-size &#123;&#123;sizeShow&#125;&#125;</span><br><span class="line">      span.file-upload-status &#123;&#123;file.isUploaded?&apos;上传完成&apos;:&apos;正在上传...&apos;&#125;&#125;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  name: &quot;file-item&quot;,</span><br><span class="line">  props: &#123;</span><br><span class="line">    file: &#123;</span><br><span class="line">      default() &#123;</span><br><span class="line">        return &#123;&#125;;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  computed: &#123;</span><br><span class="line">    suffix() &#123;</span><br><span class="line">      // this.name如 1.2.pptx</span><br><span class="line">      // [1,2,pptx]</span><br><span class="line">      let arr = this.file.name.split(&quot;.&quot;);</span><br><span class="line">      // pptx</span><br><span class="line">      let suffix = arr.slice(-1)[0];</span><br><span class="line">      return suffix;</span><br><span class="line">    &#125;,</span><br><span class="line">    // name超过10的话就变成xx。。。xx</span><br><span class="line">    nameShow() &#123;</span><br><span class="line">      // 1.2</span><br><span class="line">      let name = this.file.name.slice(</span><br><span class="line">        0,</span><br><span class="line">        this.file.name.indexOf(this.suffix) - 1</span><br><span class="line">      );</span><br><span class="line">      console.log(name);</span><br><span class="line">      let pre =</span><br><span class="line">        name.length &lt; 10 ? name : `$&#123;name.slice(0, 8)&#125;...$&#123;name.slice(-2)&#125;`;</span><br><span class="line">      return `$&#123;pre&#125;.$&#123;this.suffix&#125;`;</span><br><span class="line">    &#125;,</span><br><span class="line">    sizeShow() &#123;</span><br><span class="line">      let nBytes = this.file.size;</span><br><span class="line">      let sOutput = nBytes + &quot; bytes&quot;;</span><br><span class="line">      // optional code for multiples approximation</span><br><span class="line">      const aMultiples = [&quot;k&quot;, &quot;m&quot;, &quot;g&quot;, &quot;t&quot;, &quot;p&quot;, &quot;e&quot;, &quot;z&quot;, &quot;y&quot;];</span><br><span class="line">      for (</span><br><span class="line">        let nMultiple = 0, nApprox = nBytes / 1024;</span><br><span class="line">        nApprox &gt; 1;</span><br><span class="line">        nApprox /= 1024, nMultiple++</span><br><span class="line">      ) &#123;</span><br><span class="line">        sOutput = nApprox.toFixed(0) + aMultiples[nMultiple];</span><br><span class="line">      &#125;</span><br><span class="line">      return sOutput;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      x: &quot;close&quot;</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    clickDelete() &#123;</span><br><span class="line">      this.$emit(&quot;delFile&quot;);</span><br><span class="line">    &#125;,</span><br><span class="line">    clickFile() &#123;</span><br><span class="line">      window.open(this.file.url);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line">h1,</span><br><span class="line">h2,</span><br><span class="line">h3 &#123;</span><br><span class="line">  padding: 0;</span><br><span class="line">  margin: 0;</span><br><span class="line">&#125;</span><br><span class="line">/* prettier-ignore */</span><br><span class="line">.file-item &#123;</span><br><span class="line">  background-color: #f0f1f1;</span><br><span class="line">  padding: 13PX 10PX;</span><br><span class="line">  display: flex;</span><br><span class="line">  position: relative;</span><br><span class="line">  width: 260PX;</span><br><span class="line">&#125;</span><br><span class="line">/* prettier-ignore */</span><br><span class="line">.icon-file &#123;</span><br><span class="line">  width: 26PX;</span><br><span class="line">  height: 34PX;</span><br><span class="line">&#125;</span><br><span class="line">/* prettier-ignore */</span><br><span class="line">.file-item-right &#123;</span><br><span class="line">  margin-left: 10PX;</span><br><span class="line">&#125;</span><br><span class="line">/* prettier-ignore */</span><br><span class="line">.file-name &#123;</span><br><span class="line">  font-size: 14PX;</span><br><span class="line">  color: #222;</span><br><span class="line">&#125;</span><br><span class="line">/* prettier-ignore */</span><br><span class="line">.file-other &#123;</span><br><span class="line">  margin-top: 1PX;</span><br><span class="line">  color: #999;</span><br><span class="line">  font-size: 12PX;</span><br><span class="line">&#125;</span><br><span class="line">/* prettier-ignore */</span><br><span class="line">.file-upload-status &#123;</span><br><span class="line">  margin-left: 5PX;</span><br><span class="line">&#125;</span><br><span class="line">/* prettier-ignore */</span><br><span class="line">.icon-delete &#123;</span><br><span class="line">  position: absolute;</span><br><span class="line">  width: 24PX;</span><br><span class="line">  height: 24PX;</span><br><span class="line">  right: 0;</span><br><span class="line">  top: 0;</span><br><span class="line">  z-index: 2;</span><br><span class="line">&#125;</span><br><span class="line">/* PXtorem-disable-next-line */</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="辅助资料"><a href="#辅助资料" class="headerlink" title="辅助资料"></a>辅助资料</h2><ul>
+<li><a href="https://juejin.im/post/5e50fa23518825494b3cccd7" target="_blank" rel="noopener">前端下载文件的5种方法的对比(附加获取文件名)</a></li>
+<li><a href="https://juejin.im/post/5e3f793551882549554857c7" target="_blank" rel="noopener">从选择上传文件缩略图预览到提交上传全流程总结方案</a></li>
+<li><p>accept写法有两种，一种筛选后缀，一种筛选mime类型，多种条件逗号分隔。如<code>accept=&#39;image/*,.docx&#39;</code></p>
+<ul>
+<li>.docx  application/vnd.openxmlformats-officedocument.wordprocessingml.document</li>
+<li>.pptx  application/vnd.openxmlformats-officedocument.presentationml.presentation</li>
+<li>.xlsx  application/vnd.openxmlformats-officedocument.spreadsheetml.sheet</li>
+<li>.pdf   application/pdf</li>
+<li>.gif类  image/*</li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/13/mode-single/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1894,172 +2081,6 @@ class Promise {
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/18/zf/promise-1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2020/04/18/zf/promise-1/" itemprop="url">
-                  未命名
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-18T13:42:52+08:00">
-                2020-04-18
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2020/04/18/zf/promise-1/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/04/18/zf/promise-1/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            // 当executor没有异步代码的时候
-
-const PENDING = "PENDING";
-const RESOLVED = "RESOLVED";
-const REJECTED = "REJECTED";
-
-class Promise {
-  constructor(executor) {
-    this.status = PENDING;
-    this.value = undefined;
-    this.reason = undefined;
-    let resolve = (value) => {
-      if (this.status === PENDING) {
-        this.value = value;
-        this.status = RESOLVED;
-      }
-    };
-    let reject = (value) => {
-      if (this.status === PENDING) {
-        this.reason = reason;
-        this.status = REJECTED;
-      }
-    };
-
-    try {
-      executor(resolve, reject);
-    } catch (error) {
-      reject(error);
-    }
-  }
-  then(onfulfilled, onrejected) {
-    if (this.status === RESOLVED) {
-      onfulfilled(this.value);
-    }
-    if (this.status === REJECTED) {
-      onrejected(this.reason);
-    }
-  }
-}
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2109,7 +2130,7 @@ class Promise {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">246</span>
+                <span class="site-state-item-count">247</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
