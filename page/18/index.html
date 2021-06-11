@@ -261,6 +261,163 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/28/vue-computed/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2019/04/28/vue-computed/" itemprop="url">
+                  computed的get和set用法
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-28T17:26:13+08:00">
+                2019-04-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/vue/" itemprop="url" rel="index">
+                    <span itemprop="name">vue</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/04/28/vue-computed/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/04/28/vue-computed/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
+<li>watch的优势在异步</li>
+<li>computed的get的触发，是在页面有属性(<code>fullName</code>)且依赖的属性值(<code>firstName</code>)变化的时候。常常的应用场景是，某值是随着某某值变化而变化，特别像函数的y与x</li>
+<li>computed的set的触发，是在属性(<code>fullName</code>)直接发生变化的时候。常常的应用场景就是表单元素绑定属性(<code>fullName</code>)，用户交互变化属性值的时候，进而也影响到其依赖的属性(<code>firstName</code>)。简言之，相互影响。
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/04/28/vue-computed/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/28/vue-$-directives-checkbox-all/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1880,158 +2037,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/12/baby_food_feed_rule/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2018/10/12/baby_food_feed_rule/" itemprop="url">
-                  正确的喂养行为
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-12T09:46:45+08:00">
-                2018-10-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/baby/" itemprop="url" rel="index">
-                    <span itemprop="name">baby</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/10/12/baby_food_feed_rule/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/10/12/baby_food_feed_rule/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <a id="more"></a>
-<h2 id="正确的喂养方式-13-1"><a href="#正确的喂养方式-13-1" class="headerlink" title="正确的喂养方式[13-1]"></a>正确的喂养方式[13-1]</h2><p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/feed_error.png" alt="不正确喂养方式的统计"><br><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/feed_control.png" alt="正确的喂养方式"><br><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/feed_control2.png" alt="正确的喂养方式"><br><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/feed_control3.png" alt="正确的喂养方式"></p>
-<h2 id="最有价值的推荐的吃饭经验"><a href="#最有价值的推荐的吃饭经验" class="headerlink" title="最有价值的推荐的吃饭经验"></a>最有价值的推荐的吃饭经验</h2><p>吃东西坐餐椅，并且带绑带。<br>选择餐椅安全简单好清洁即可。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2081,7 +2086,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">247</span>
+                <span class="site-state-item-count">248</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
