@@ -261,6 +261,244 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/09/21/vue-style-guide/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2020/09/21/vue-style-guide/" itemprop="url">
+                  写vue的尽量按照规范来
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-09-21T15:37:41+08:00">
+                2020-09-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/编辑器/" itemprop="url" rel="index">
+                    <span itemprop="name">编辑器</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/09/21/vue-style-guide/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/09/21/vue-style-guide/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><a href="https://cn.vuejs.org/v2/style-guide/index.html#%E8%A7%84%E5%88%99%E5%BD%92%E7%B1%BB" target="_blank" rel="noopener">官方的风格指南</a>。  </p>
+<p>本文按照自己的逻辑，稍微简化了。规范的好处是，排雷更加容易，踩雷更加艰难，项目看着更赏心悦目。</p>
+<h2 id="必要"><a href="#必要" class="headerlink" title="必要"></a>必要</h2><h3 id="组件名为多个单词"><a href="#组件名为多个单词" class="headerlink" title="组件名为多个单词"></a>组件名为多个单词</h3><p>这样做可以避免跟现有的以及未来的 HTML 元素相冲突。比如以前不小心写了个<code>masker</code>的组件，然不生效。</p>
+<h3 id="Prop-定义应该尽量详细"><a href="#Prop-定义应该尽量详细" class="headerlink" title="Prop 定义应该尽量详细"></a>Prop 定义应该尽量详细</h3><p>在开发环境下，如果向一个组件提供格式不正确的 prop，Vue 将会告警，以帮助你捕获潜在的错误来源。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">props: &#123;</span><br><span class="line">  status: <span class="built_in">String</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 更好的做法！</span></span><br><span class="line"></span><br><span class="line">props: &#123;</span><br><span class="line">  status: &#123;</span><br><span class="line">    type: <span class="built_in">String</span>,</span><br><span class="line">    required: <span class="literal">true</span>,</span><br><span class="line">    validator: <span class="function"><span class="keyword">function</span> (<span class="params">value</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> [</span><br><span class="line">        <span class="string">'syncing'</span>,</span><br><span class="line">        <span class="string">'synced'</span>,</span><br><span class="line">        <span class="string">'version-conflict'</span>,</span><br><span class="line">        <span class="string">'error'</span></span><br><span class="line">      ].indexOf(value) !== <span class="number">-1</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="v-for必须设置key"><a href="#v-for必须设置key" class="headerlink" title="v-for必须设置key"></a>v-for必须设置key</h3><p>始终添加一个唯一的键值，以便你和你的团队永远不必担心一些极端情况。也在少数对性能有严格要求的情况下，为了避免对象固化，你可以刻意做一些非常规的处理。</p>
+<h3 id="永远不要把-v-if-和-v-for-同时用在同一个元素上"><a href="#永远不要把-v-if-和-v-for-同时用在同一个元素上" class="headerlink" title="永远不要把 v-if 和 v-for 同时用在同一个元素上"></a>永远不要把 v-if 和 v-for 同时用在同一个元素上</h3><p>如果有这种场景，按照下面的方式改进，以优化性能</p>
+<ol>
+<li><p>过滤一个列表中的项目 (比如 v-for=”user in users” v-if=”user.isActive”)。在这种情形下，请将 users 替换为一个<code>计算属性</code> (比如 activeUsers)，让其返回过滤后的列表。</p>
+</li>
+<li><p>为了避免渲染本应该被隐藏的列表 (比如 v-for=”user in users” v-if=”shouldShowUsers”)。这种情形下，请将 v-if 移动至<code>容器元素</code>上 (比如 ul、ol)</p>
+</li>
+</ol>
+<h2 id="强烈推荐"><a href="#强烈推荐" class="headerlink" title="强烈推荐"></a>强烈推荐</h2><h3 id="组件一律使用单文件申明，而不是Vue-component"><a href="#组件一律使用单文件申明，而不是Vue-component" class="headerlink" title="组件一律使用单文件申明，而不是Vue.component"></a>组件一律使用单文件申明，而不是Vue.component</h3><p>只要有能够拼接文件的构建系统，就把每个组件单独分成文件。</p>
+<h3 id="组件的文件名的格式要么都是PascalCase，要么都是是kebab-case"><a href="#组件的文件名的格式要么都是PascalCase，要么都是是kebab-case" class="headerlink" title="组件的文件名的格式要么都是PascalCase，要么都是是kebab-case"></a>组件的文件名的格式要么都是PascalCase，要么都是是kebab-case</h3><p>但单词大写开头对于代码编辑器的自动补全最为友好，因为这使得我们在 JS(X) 和模板中引用组件的方式尽可能的一致。然而，混用文件命名方式有的时候会导致大小写不敏感的文件系统的问题，这也是横线连接命名同样完全可取的原因。</p>
+<h3 id="基础组件名加特定前缀，比如-Base、App-或-V"><a href="#基础组件名加特定前缀，比如-Base、App-或-V" class="headerlink" title="基础组件名加特定前缀，比如 Base、App 或 V"></a>基础组件名加特定前缀，比如 Base、App 或 V</h3><p>应用特定样式和约定的基础组件 (也就是展示类的、无逻辑的或无状态的组件) 应该全部以一个特定的前缀开头，比如 Base、App 或 V。</p>
+<p>好处：</p>
+<ol>
+<li><p>当你在编辑器中以字母顺序排序时，你的应用的基础组件会全部列在一起，这样更容易识别。</p>
+</li>
+<li><p>因为组件名应该始终是多个单词，所以这样做可以避免你在包裹简单组件时随意选择前缀 (比如 MyButton、VueButton)。</p>
+</li>
+<li><p>因为这些组件会被频繁使用，所以你可能想把它们放到全局而不是在各处分别导入它们。使用相同的前缀可以让 webpack 这样工作：</p>
+</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> requireComponent = <span class="built_in">require</span>.context(<span class="string">"./src"</span>, <span class="literal">true</span>, /Base[A-Z]\w+\.(vue|js)$/)</span><br><span class="line">requireComponent.keys().forEach(<span class="function"><span class="keyword">function</span> (<span class="params">fileName</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> baseComponentConfig = requireComponent(fileName)</span><br><span class="line">  baseComponentConfig = baseComponentConfig.default || baseComponentConfig</span><br><span class="line">  <span class="keyword">var</span> baseComponentName = baseComponentConfig.name || (</span><br><span class="line">    fileName</span><br><span class="line">      .replace(<span class="regexp">/^.+\//</span>, <span class="string">''</span>)</span><br><span class="line">      .replace(<span class="regexp">/\.\w+$/</span>, <span class="string">''</span>)</span><br><span class="line">  )</span><br><span class="line">  Vue.component(baseComponentName, baseComponentConfig)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="每个页面只能使用一次的组件应该以-The-前缀命名，以示其唯一性"><a href="#每个页面只能使用一次的组件应该以-The-前缀命名，以示其唯一性" class="headerlink" title="每个页面只能使用一次的组件应该以 The 前缀命名，以示其唯一性"></a>每个页面只能使用一次的组件应该以 The 前缀命名，以示其唯一性</h3><p>这不意味着组件只可用于一个单页面，而是每个页面只使用一次。这些组件永远不接受任何 prop，因为它们是为你的应用定制的，而不是它们在你的应用中的上下文。如果你发现有必要添加 prop，那就表明这实际上是一个可复用的组件，只是目前在每个页面里只使用一次</p>
+<h3 id="紧密耦合的组件名依次加父组件前缀"><a href="#紧密耦合的组件名依次加父组件前缀" class="headerlink" title="紧密耦合的组件名依次加父组件前缀"></a>紧密耦合的组件名依次加父组件前缀</h3><p>如果一个组件只在某个父组件的场景下有意义，这层关系应该体现在其名字上。因为编辑器通常会按字母顺序组织文件，所以这样做可以把相关联的文件排在一起。不推荐文件夹嵌套。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">components/</span><br><span class="line">|- TodoList.vue</span><br><span class="line">|- TodoListItem.vue</span><br><span class="line">|- TodoListItemButton.vue</span><br></pre></td></tr></table></figure>
+<h3 id="组件名中的单词顺序尽量让相关的在一起"><a href="#组件名中的单词顺序尽量让相关的在一起" class="headerlink" title="组件名中的单词顺序尽量让相关的在一起"></a>组件名中的单词顺序尽量让相关的在一起</h3><p>给组件命名时并不需要遵从自然语言。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">components/</span><br><span class="line">|- SearchButtonClear.vue</span><br><span class="line">|- SearchButtonRun.vue</span><br><span class="line">|- SearchInputExcludeGlob.vue</span><br><span class="line">|- SearchInputQuery.vue</span><br><span class="line">|- SettingsCheckboxLaunchOnStartup.vue</span><br><span class="line">|- SettingsCheckboxTerms.vue</span><br><span class="line"></span><br><span class="line"><span class="comment">// 而不是下面的，这样翻找很困难</span></span><br><span class="line">components/</span><br><span class="line">|- ClearSearchButton.vue</span><br><span class="line">|- ExcludeFromSearchInput.vue</span><br><span class="line">|- LaunchOnStartupCheckbox.vue</span><br><span class="line">|- RunSearchButton.vue</span><br><span class="line">|- SearchInput.vue</span><br><span class="line">|- TermsCheckbox.vue</span><br></pre></td></tr></table></figure>
+<p>好处：</p>
+<ol>
+<li>在多级目录间找来找去，要比在单个 components 目录下滚动查找要花费更多的精力。</li>
+<li>存在组件重名 (比如存在多个 ButtonDelete 组件) 的时候在编辑器里更难快速定位。</li>
+<li>让重构变得更难，因为为一个移动了的组件更新相关引用时，查找/替换通常并不高效。</li>
+</ol>
+<h3 id="模板中组件名始终-kebab-case，-lt-my-component-gt-lt-my-component-gt"><a href="#模板中组件名始终-kebab-case，-lt-my-component-gt-lt-my-component-gt" class="headerlink" title="模板中组件名始终 kebab-case，&lt;my-component&gt;&lt;/my-component&gt;"></a>模板中组件名始终 kebab-case，<code>&lt;my-component&gt;&lt;/my-component&gt;</code></h3><p>对于绝大多数项目来说，在单文件组件和字符串模板中组件名应该总是 PascalCase 的——但是在 DOM 模板中总是 kebab-case 的。</p>
+<h3 id="组件名应该倾向于完整单词而不是缩写"><a href="#组件名应该倾向于完整单词而不是缩写" class="headerlink" title="组件名应该倾向于完整单词而不是缩写"></a>组件名应该倾向于完整单词而不是缩写</h3><p>编辑器中的自动补全已经让书写长命名的代价非常之低了，而其带来的明确性却是非常宝贵的。不常用的缩写尤其应该避免。</p>
+<h3 id="声明-prop的时候用-camelCase，在模板和-JSX-中用-kebab-case"><a href="#声明-prop的时候用-camelCase，在模板和-JSX-中用-kebab-case" class="headerlink" title="声明 prop的时候用 camelCase，在模板和 JSX 中用 kebab-case"></a>声明 prop的时候用 camelCase，在模板和 JSX 中用 kebab-case</h3><p>我们单纯的遵循每个语言的约定。在 JavaScript 中更自然的是 camelCase。而在 HTML 中则是 kebab-case。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">props: &#123;</span><br><span class="line">  greetingText: <span class="built_in">String</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">welcome-message</span> <span class="attr">greeting-text</span>=<span class="string">"hi"</span>&gt;</span><span class="tag">&lt;/<span class="name">welcome-message</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="多个-attribute-的元素-每个-attribute-一行"><a href="#多个-attribute-的元素-每个-attribute-一行" class="headerlink" title="多个 attribute 的元素,每个 attribute 一行"></a>多个 attribute 的元素,每个 attribute 一行</h3><p>在 JavaScript 中，用多行分隔对象的多个 property 是很常见的最佳实践，因为这样更易读。模板和 JSX 值得我们做相同的考虑。</p>
+<h3 id="模板中只能用简单表达式，复杂的用computed"><a href="#模板中只能用简单表达式，复杂的用computed" class="headerlink" title="模板中只能用简单表达式，复杂的用computed"></a>模板中只能用简单表达式，复杂的用computed</h3><p>复杂表达式会让你的模板变得不那么声明式。我们应该尽量描述应该出现的是什么，而非如何计算那个值。而且计算属性和方法使得代码可以重用。</p>
+<h3 id="应把复杂计算属性分割为尽可能多的更简单的-property"><a href="#应把复杂计算属性分割为尽可能多的更简单的-property" class="headerlink" title="应把复杂计算属性分割为尽可能多的更简单的 property"></a>应把复杂计算属性分割为尽可能多的更简单的 property</h3><p>好处：</p>
+<ul>
+<li><p>易于测试。当每个计算属性都包含一个非常简单且很少依赖的表达式时，撰写测试以确保其正确工作就会更加容易。</p>
+</li>
+<li><p>易于阅读。简化计算属性要求你为每一个值都起一个描述性的名称，即便它不可复用。这使得其他开发者 (以及未来的你) 更容易专注在他们关心的代码上并搞清楚发生了什么。</p>
+</li>
+<li><p>更好的“拥抱变化”。任何能够命名的值都可能用在视图上。举个例子，我们可能打算展示一个信息，告诉用户他们存了多少钱；也可能打算计算税费，但是可能会分开展现，而不是作为总价的一部分。</p>
+</li>
+</ul>
+<p>小的、专注的计算属性减少了信息使用时的假设性限制，所以需求变更时也用不着那么多重构了</p>
+<h3 id="attribute-值尽量都带引号"><a href="#attribute-值尽量都带引号" class="headerlink" title="attribute 值尽量都带引号"></a>attribute 值尽量都带引号</h3><p>在 HTML 中不带空格的 attribute 值是可以没有引号的，但这鼓励了大家在特征值里不写空格，导致可读性变差</p>
+<h3 id="指令缩写要么都用，要么都不用"><a href="#指令缩写要么都用，要么都不用" class="headerlink" title="指令缩写要么都用，要么都不用"></a>指令缩写要么都用，要么都不用</h3><p>指令缩写 (用 <code>:</code> 表示 <code>v-bind:</code>、用 <code>@</code> 表示 <code>v-on:</code> 和用 <code>#</code> 表示 <code>v-slot:</code>) 应该要么都用要么都不用。</p>
+<h2 id="推荐"><a href="#推荐" class="headerlink" title="推荐"></a>推荐</h2><h3 id="组件中选项的顺序"><a href="#组件中选项的顺序" class="headerlink" title="组件中选项的顺序"></a>组件中选项的顺序</h3><ul>
+<li>el</li>
+<li>name</li>
+<li>components/directives/filters</li>
+<li>mixins/extends</li>
+<li>props</li>
+<li>data</li>
+<li>computed</li>
+<li>watch</li>
+<li>created之类的生命周期钩子</li>
+<li>methods</li>
+<li>template</li>
+</ul>
+<h3 id="属性顺序"><a href="#属性顺序" class="headerlink" title="属性顺序"></a>属性顺序</h3><ul>
+<li>is</li>
+<li>v-for</li>
+<li>v-if/v-show</li>
+<li>v-pre/v-once</li>
+<li>id</li>
+<li>ref</li>
+<li>key</li>
+<li>v-model</li>
+<li>其他</li>
+<li>v-on</li>
+<li>v-html/v-text</li>
+</ul>
+<h3 id="组件中顶级元素的顺序保持一致"><a href="#组件中顶级元素的顺序保持一致" class="headerlink" title="组件中顶级元素的顺序保持一致"></a>组件中顶级元素的顺序保持一致</h3><p>template/script/style</p>
+<h2 id="谨慎"><a href="#谨慎" class="headerlink" title="谨慎"></a>谨慎</h2><h3 id="如果一组-v-if-v-else-的元素类型相同，最好使用-key-比如两个-lt-div-gt-元素"><a href="#如果一组-v-if-v-else-的元素类型相同，最好使用-key-比如两个-lt-div-gt-元素" class="headerlink" title="如果一组 v-if + v-else 的元素类型相同，最好使用 key (比如两个 &lt;div&gt; 元素)"></a>如果一组 v-if + v-else 的元素类型相同，最好使用 key (比如两个 <code>&lt;div&gt;</code> 元素)</h3><p>默认情况下，Vue 会尽可能高效的更新 DOM。这意味着其在相同类型的元素之间切换时，会修补已存在的元素，而不是将旧的元素移除然后在同一位置添加一个新元素。如果本不相同的元素被识别为相同，则会出现意料之外的结果。</p>
+<h3 id="scoped-中的避免元素选择器，而尽量用类选择器"><a href="#scoped-中的避免元素选择器，而尽量用类选择器" class="headerlink" title="scoped 中的避免元素选择器，而尽量用类选择器"></a>scoped 中的避免元素选择器，而尽量用类选择器</h3><p>在 scoped 样式中，类选择器比元素选择器更好，因为大量使用元素选择器是很慢的。</p>
+<h3 id="优先通过-prop-和事件进行父子组件之间的通信，而不是-this-parent-或变更-prop"><a href="#优先通过-prop-和事件进行父子组件之间的通信，而不是-this-parent-或变更-prop" class="headerlink" title="优先通过 prop 和事件进行父子组件之间的通信，而不是 this.$parent 或变更 prop"></a>优先通过 prop 和事件进行父子组件之间的通信，而不是 this.$parent 或变更 prop</h3><p>一个理想的 Vue 应用是 prop 向下传递，事件向上传递的。遵循这一约定会让你的组件更易于理解。然而，在一些边界情况下 prop 的变更或 this.$parent 能够简化两个深度耦合的组件。</p>
+<p>问题在于，这种做法在很多简单的场景下可能会更方便。但请当心，不要为了一时方便 (少写代码) 而牺牲数据流向的简洁性 (易于理解)。</p>
+<h3 id="应该优先通过-Vuex-管理全局状态，而不是通过-this-root-或一个全局事件总线"><a href="#应该优先通过-Vuex-管理全局状态，而不是通过-this-root-或一个全局事件总线" class="headerlink" title="应该优先通过 Vuex 管理全局状态，而不是通过 this.$root 或一个全局事件总线"></a>应该优先通过 Vuex 管理全局状态，而不是通过 this.$root 或一个全局事件总线</h3><p>通过 this.$root 和/或全局事件总线管理状态在很多简单的情况下都是很方便的，但是并不适用于绝大多数的应用。</p>
+<p>Vuex 是 Vue 的官方类 flux 实现，其提供的不仅是一个管理状态的中心区域，还是组织、追踪和调试状态变更的好工具。它很好地集成在了 Vue 生态系统之中 (包括完整的 Vue DevTools 支持)</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/09/04/el-menu/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2046,201 +2284,11 @@ ssr将component变成字符串
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/15/module/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2020/07/15/module/" itemprop="url">
-                  export导出的是变量！！！是变量！！！
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-15T18:56:46+08:00">
-                2020-07-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2020/07/15/module/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/07/15/module/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>首先，建议仔细看看<a href="https://es6.ruanyifeng.com/#docs/module" target="_blank" rel="noopener">es6 入门的 module 语法</a>。</p>
-<p>我想说说相对重要的点：</p>
-<ul>
-<li>每个 js 文件相互独立，是一个单独的<code>module</code>，输出用<code>export</code>，输入是<code>import</code></li>
-<li><code>export</code>导出的是变量</li>
-<li><code>export default</code>导出的是一个具体的值</li>
-<li><code>export var a=1</code>相当于<code>var a=1;export { a }</code></li>
-<li><code>export default 1</code>相当于<code>var a=1;export { a as default}</code>，一个<code>module</code>只能有一个<code>default</code></li>
-<li><code>export</code>和<code>import</code>只能出现在顶级作用域</li>
-<li>as 可以重命名</li>
-<li><code>import</code>的变量会变量提升，也就是不管写在哪，总会最先被解析</li>
-<li><code>import {a,b} from &#39;./a&#39;</code>，<code>export</code>出去的结构是<code>{a,b}</code>，所以相应的<code>import</code>用的也是<code>{a,b}</code></li>
-<li><code>import a from &#39;./a&#39;</code>，<code>export default</code>导出的是一个值，<code>import</code>的时候可以将值赋值给任意一个变量</li>
-<li><code>import * as all from &#39;./a&#39;</code>，将 a 里面所有的 export 都拿到，因为<code>export {a}</code>，所以这里的 all 就是<code>{a}</code>，且因为<code>export default</code>也是一种<code>export</code>，所以 all 实质上是<code>{a,default}</code></li>
-<li><code>import</code>来的变量，因为是别人家的变量，所以只能读，不能写</li>
-<li><code>export {a} from &#39;./a&#39;</code>这句相当于<code>import {a} from &#39;./a&#39;;export {a}</code></li>
-</ul>
-<h2 id="export导出的是变量"><a href="#export导出的是变量" class="headerlink" title="export导出的是变量"></a><code>export</code>导出的是变量</h2><p>这句怎么理解呢，举个例子</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// a.js</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="number">1</span>;</span><br><span class="line">setInterval(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  a++;</span><br><span class="line">&#125;, <span class="number">500</span>);</span><br><span class="line"><span class="keyword">export</span> &#123; a &#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// b.js</span></span><br><span class="line"><span class="keyword">import</span> &#123; a &#125; <span class="keyword">from</span> <span class="string">"./a"</span>;</span><br><span class="line"><span class="comment">// a会跟随a文件的变化</span></span><br><span class="line">setInterval(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(a);</span><br><span class="line">&#125;, <span class="number">500</span>);</span><br></pre></td></tr></table></figure>
-<p>因为 a 是 a 文件的变量，当 a 的值变化的时候，b 文件的 a 同样变化了，因为 export 出的是一个变量 a,而不是写死的 a 的值</p>
-<p>因为<code>export</code>导出的是变量</p>
-<p>所以可以有以下写法</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">var</span> a = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line"><span class="comment">// 或者</span></span><br><span class="line"><span class="keyword">export</span> &#123; a, fn &#125;;</span><br><span class="line"><span class="comment">// 如果想多次导出一个变量，可以将变量重命名，相同名字的只能有一个哈</span></span><br><span class="line"><span class="keyword">export</span> &#123; a <span class="keyword">as</span> a1, a <span class="keyword">as</span> a2 &#125;;</span><br></pre></td></tr></table></figure>
-<p>所以不能以下写法</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="number">1</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="number">1</span></span><br><span class="line"><span class="comment">// 这句相当于 export 1</span></span><br><span class="line"><span class="keyword">export</span> a</span><br></pre></td></tr></table></figure>
-<h2 id="export-default导出的是值"><a href="#export-default导出的是值" class="headerlink" title="export default导出的是值"></a><code>export default</code>导出的是值</h2><p>这句怎么理解呢，举个类似上面的例子</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// a.js</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="number">1</span>;</span><br><span class="line">setInterval(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  a++;</span><br><span class="line">&#125;, <span class="number">500</span>);</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> a;</span><br><span class="line"></span><br><span class="line"><span class="comment">// b.js</span></span><br><span class="line"><span class="comment">// 没有&#123;&#125;,就是export default的值，这里可以将值赋值给任意变量，不一定非得a</span></span><br><span class="line"><span class="keyword">import</span> a <span class="keyword">from</span> <span class="string">"./a"</span>;</span><br><span class="line"><span class="comment">// a不会随着a文件而变化</span></span><br><span class="line">setInterval(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(a);</span><br><span class="line">&#125;, <span class="number">500</span>);</span><br></pre></td></tr></table></figure>
-<p>因为<code>export default</code>出去的是一个具体的值，一个写死的值，这里就是 1，管他 a 文件后来怎么样呢</p>
-<p>因为<code>export default</code>导出的是变量</p>
-<p>所以可以有以下写法</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="number">1</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line"><span class="comment">// 或者</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> a;</span><br><span class="line"><span class="comment">// 或者</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">export</span> &#123; a <span class="keyword">as</span> <span class="keyword">default</span> &#125;;</span><br></pre></td></tr></table></figure>
-<p>所以不能以下写法</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">var</span> a = <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
-<h2 id="import-有没有"><a href="#import-有没有" class="headerlink" title="import 有没有{}"></a>import 有没有<code>{}</code></h2><p>使用 export default 时，对应的 import 语句不需要使用大括号。<br>使用 export 时，对应的 import 语句需要使用大括号。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// a.js</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">var</span> b = <span class="number">2</span>;</span><br><span class="line"><span class="keyword">export</span> &#123; a &#125;;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> b;</span><br><span class="line"></span><br><span class="line"><span class="comment">// b.js</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> &#123; a &#125; <span class="keyword">from</span> <span class="string">"./a"</span>;</span><br><span class="line"><span class="keyword">import</span> b <span class="keyword">from</span> <span class="string">"./a"</span>;</span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> all <span class="keyword">from</span> <span class="string">"./a"</span>;</span><br><span class="line"><span class="comment">// 可以看看这里的all，&#123;a:1,default:2&#125;，加深对default的理解</span></span><br><span class="line"><span class="built_in">console</span>.log(all);</span><br><span class="line"><span class="comment">// 注意，这里的b其实是相当于 在这里var b= 2，是b文件自己的变量，可以随意赋值</span></span><br><span class="line">b = <span class="number">1</span>;</span><br><span class="line"><span class="comment">// a是a文件的变量，不可修改，只能a文件自己改，以下这句会报错</span></span><br><span class="line">a = <span class="number">333</span>;</span><br></pre></td></tr></table></figure>
-<h2 id="export-from-什么时候用"><a href="#export-from-什么时候用" class="headerlink" title="export from 什么时候用"></a><code>export from</code> 什么时候用</h2><p>我说个应用场景，读者可以举一反三~</p>
-<p>项目里请求的接口很多，放在一个文件里太长，也难以维护，一般会以功能模块划分。</p>
-<p>现在有个<code>api</code>的文件夹，<code>index.js</code>是将所有的接口转出去，还有<code>project.js task.js</code>。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// project.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> add = <span class="function"><span class="params">()</span> =&gt;</span> axios.post(...)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> remove = <span class="function"><span class="params">()</span> =&gt;</span> axios.post(...)</span><br><span class="line"></span><br><span class="line"><span class="comment">// task.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> add = <span class="function"><span class="params">()</span> =&gt;</span> axios.post(...)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> remove = <span class="function"><span class="params">()</span> =&gt;</span> axios.post(...)</span><br><span class="line"></span><br><span class="line"><span class="comment">// index.js</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> * <span class="keyword">as</span> project <span class="keyword">from</span> <span class="string">'project'</span>;</span><br><span class="line"><span class="keyword">export</span> * <span class="keyword">as</span> task <span class="keyword">from</span> <span class="string">'task'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在组件使用的时候</span></span><br><span class="line"><span class="keyword">import</span> api <span class="keyword">from</span> <span class="string">'./api'</span></span><br><span class="line">api.project.add()</span><br><span class="line"></span><br><span class="line"><span class="comment">// 当然一般为了方便使用会在main.js那边将其挂载在全局</span></span><br><span class="line"><span class="comment">// main.js</span></span><br><span class="line"><span class="keyword">import</span> api <span class="keyword">from</span> <span class="string">'./api'</span></span><br><span class="line">Vue.prototype.$api = api</span><br><span class="line"><span class="comment">// 组件使用的时候</span></span><br><span class="line"><span class="keyword">this</span>.$api.project.add()</span><br></pre></td></tr></table></figure>
-<p>es2020 的提案，<code>import(&#39;./a&#39;)</code>可以在需要的时候加载某个模块，比如点击按钮等等，一种懒加载的机制。<br>webpack 已经实现了，所以在<code>vue-router</code>里可以使用这样懒加载一个页面。  </p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  path: <span class="string">"/m"</span>,</span><br><span class="line">  name: <span class="string">"m"</span>,</span><br><span class="line">  component: <span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">import</span>(<span class="comment">/* webpackChunkName: "m" */</span> <span class="string">"../views/M.vue"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/7/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><a class="extend next" rel="next" href="/page/9/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/7/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/">26</a><a class="extend next" rel="next" href="/page/9/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -2285,7 +2333,7 @@ ssr将component变成字符串
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">250</span>
+                <span class="site-state-item-count">251</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
