@@ -261,6 +261,172 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/06/22/radio_component/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2021/06/22/radio_component/" itemprop="url">
+                  用vue简单封装单选组件
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-06-22T16:47:56+08:00">
+                2021-06-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/vue/" itemprop="url" rel="index">
+                    <span itemprop="name">vue</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/06/22/radio_component/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2021/06/22/radio_component/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>表单类的组件，当<code>label</code>的<code>for</code>属性等同于表单元素的<code>ID</code>的时候，点击<code>label</code>就会触发相应的表单元素的点击事件，为一些场景提供方便。</p>
+<p>这边根据业务场景，简单封装一个单选组件。</p>
+<h2 id="单选的基本使用"><a href="#单选的基本使用" class="headerlink" title="单选的基本使用"></a>单选的基本使用</h2><p>先看下<a href="https://cn.vuejs.org/v2/guide/forms.html" target="_blank" rel="noopener">官方单选的基本使用案例</a>：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=<span class="string">"example-4"</span>&gt;</span><br><span class="line">  &lt;input type=<span class="string">"radio"</span> id=<span class="string">"one"</span> value=<span class="string">"One"</span> v-model=<span class="string">"picked"</span>&gt;</span><br><span class="line">  &lt;label <span class="keyword">for</span>=<span class="string">"one"</span>&gt;One&lt;<span class="regexp">/label&gt;</span></span><br><span class="line"><span class="regexp">  &lt;br&gt;</span></span><br><span class="line"><span class="regexp">  &lt;input type="radio" id="two" value="Two" v-model="picked"&gt;</span></span><br><span class="line"><span class="regexp">  &lt;label for="two"&gt;Two&lt;/</span>label&gt;</span><br><span class="line">  &lt;br&gt;</span><br><span class="line">  &lt;span&gt;Picked: &#123;&#123; picked &#125;&#125;&lt;<span class="regexp">/span&gt;</span></span><br><span class="line"><span class="regexp">&lt;/</span>div&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">  el: <span class="string">'#example-4'</span>,</span><br><span class="line">  data: &#123;</span><br><span class="line">    picked: <span class="string">''</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line">&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1deb688a9ed341078a52c45c51eba919~tplv-k3u1fbpfcp-zoom-1.image" alt="radio_2"></p>
+<h2 id="封装单选组件"><a href="#封装单选组件" class="headerlink" title="封装单选组件"></a>封装单选组件</h2><p>显然，实际业务使用中，这么一个个写<code>radio</code>元素的话，非常繁琐，希望封装之后可以这么使用：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">radio-component</span> <span class="attr">:value.sync</span>=<span class="string">"xxx"</span> <span class="attr">:options</span>=<span class="string">"[&#123;text:'北京',value:'bj'&#125;]"</span>&gt;</span><span class="tag">&lt;/<span class="name">radio-component</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>简单传入<code>options</code>和<code>value</code>就可以使用了!</p>
+<ul>
+<li>简单写个<code>id</code>的生成方法</li>
+<li>考虑到父组件更好的调用，直接使用了<code>sync</code>语法糖，当然也可以使用<code>v-model</code>语法糖，个人觉得前者更好理解</li>
+<li>这里的<code>label</code>内部的内容，在实际项目中，可以换成任意的标签和组件，增加灵活性</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div class=&quot;radio-button-box&quot; style=&quot;display: flex&quot;&gt;</span><br><span class="line">    &lt;div v-for=&quot;(item, index) in optionsWithId&quot; :key=&quot;index&quot;&gt;</span><br><span class="line">      &lt;input type=&quot;radio&quot; hidden :value=&quot;item.value&quot; :id=&quot;item.id&quot; /&gt;</span><br><span class="line">      &lt;label :for=&quot;item.id&quot; @click=&quot;clickRadio(item)&quot;&gt;</span><br><span class="line">        &lt;!-- 此处可以任意更换别的组件或者标签 --&gt;</span><br><span class="line">        &lt;button :class=&quot;&#123; btn: true, selected: value === item.value &#125;&quot;&gt;</span><br><span class="line">          &#123;&#123; item.text &#125;&#125;</span><br><span class="line">        &lt;/button&gt;</span><br><span class="line">      &lt;/label&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">/**</span><br><span class="line"> * 本组件本质是单选，options可以自定义，但必须有text和value，默认两个选项</span><br><span class="line"> * value是必传项，这里值发生变化的话，通过sync语法糖修改父组件的value，从而改变这里的value</span><br><span class="line"> *</span><br><span class="line"> * 使用方式：&lt;radio-component :value.sync=&quot;xxx&quot;&gt;&lt;/radio-component&gt;</span><br><span class="line"> */</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  name: &apos;RadioComponent&apos;,</span><br><span class="line">  props: &#123;</span><br><span class="line">    options: &#123; required: true, type: Array &#125;,</span><br><span class="line">    value: &#123; required: true &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  computed: &#123;</span><br><span class="line">    optionsWithId() &#123;</span><br><span class="line">      // 给每项手动加个id</span><br><span class="line">      this.options.forEach(item =&gt; &#123;</span><br><span class="line">        item.id = `radio$&#123;Math.random()</span><br><span class="line">          .toString()</span><br><span class="line">          .slice(3, 13)&#125;`;</span><br><span class="line">      &#125;);</span><br><span class="line">      return this.options;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    clickRadio(item) &#123;</span><br><span class="line">      this.$emit(&quot;update:value&quot;, item.value);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line">.radio-button-box &#123;</span><br><span class="line">  display: flex;</span><br><span class="line">&#125;</span><br><span class="line">.btn &#123;</span><br><span class="line">  margin-right: 20px;</span><br><span class="line">  padding: 5px 10px;</span><br><span class="line">  border: 1px solid;</span><br><span class="line">  font-size: 12px;</span><br><span class="line">&#125;</span><br><span class="line">.btn.selected &#123;</span><br><span class="line">  background-color: #69f;</span><br><span class="line">  color: #fff;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="使用单选组件"><a href="#使用单选组件" class="headerlink" title="使用单选组件"></a>使用单选组件</h2><p>使用的话，其实没啥，存入两个属性就行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;h1&gt;单选组件的使用!&lt;/h1&gt;</span><br><span class="line">    &lt;radio-component :value.sync=&quot;city&quot; :options=&quot;options&quot;&gt;&lt;/radio-component&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">import RadioComponent from &quot;./components/RadioComponent.vue&quot;;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &quot;App&quot;,</span><br><span class="line">  components: &#123; RadioComponent &#125;,</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      city: null,</span><br><span class="line">      options: [</span><br><span class="line">        &#123; text: &quot;北京&quot;, value: &quot;bj&quot; &#125;,</span><br><span class="line">        &#123; text: &quot;上海&quot;, value: &quot;sh&quot; &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1214cc76ea7e4f8f8e086b2c423692bf~tplv-k3u1fbpfcp-zoom-1.image" alt="radio_3.gif"></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/06/19/vue_source_code_1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2209,189 +2375,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/26/blog_sum/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2021/04/26/blog_sum/" itemprop="url">
-                  颜酱的文章汇总
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-04-26T21:04:05+08:00">
-                2021-04-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2021/04/26/blog_sum/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2021/04/26/blog_sum/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>本文是将之前我自己写过文章，简单的分门别类，以方便查看。</p>
-<h2 id="算法系列"><a href="#算法系列" class="headerlink" title="算法系列"></a>算法系列</h2><ul>
-<li><a href="https://juejin.cn/post/6948718907918123044" target="_blank" rel="noopener">大白话理解递归本质，可视化递归过程</a></li>
-<li><a href="https://juejin.cn/post/6950200059543683086" target="_blank" rel="noopener">怎么理解DFS和BFS</a></li>
-<li><a href="https://juejin.cn/post/6943924805196496903" target="_blank" rel="noopener">有序的数组，试试用指针法遍历</a></li>
-<li><a href="https://juejin.cn/post/6945349048916246564" target="_blank" rel="noopener">”回文“字符串尝试双指针</a></li>
-<li><a href="https://juejin.cn/post/6953579336519647269" target="_blank" rel="noopener">善于利用 查找表 解决查找问题</a></li>
-<li><a href="https://juejin.cn/post/6948294996978040869" target="_blank" rel="noopener">用栈的情景</a></li>
-<li><a href="https://juejin.cn/post/6948338880206602277" target="_blank" rel="noopener">队列的情景</a></li>
-<li><a href="https://juejin.cn/post/6947985231547170853" target="_blank" rel="noopener">反复遍历链表尝试 快慢指针和多指针</a></li>
-<li><a href="https://juejin.cn/post/6948019064446910500" target="_blank" rel="noopener">环形链表，立flag快速解决</a></li>
-<li><a href="https://juejin.cn/post/6945771148663586823" target="_blank" rel="noopener">处理链表的本质就是处理节点的指针关系</a></li>
-</ul>
-<h2 id="js基础系列"><a href="#js基础系列" class="headerlink" title="js基础系列"></a>js基础系列</h2><ul>
-<li><a href="https://juejin.cn/post/6844903779737796621" target="_blank" rel="noopener">异步的发展</a></li>
-<li><a href="https://juejin.cn/post/6920557495215718414" target="_blank" rel="noopener">简单理解渲染引擎和事件循环机制</a></li>
-<li><a href="https://juejin.cn/post/6920448180182056968" target="_blank" rel="noopener">简单的DOM总结</a></li>
-<li><a href="https://juejin.cn/post/6920149136037642248" target="_blank" rel="noopener">使用es6语法</a></li>
-<li><a href="https://juejin.cn/post/6850037281110589454" target="_blank" rel="noopener">export和export default</a></li>
-<li><a href="https://juejin.cn/post/6919809194283515911" target="_blank" rel="noopener">理解原型链，手写new</a></li>
-<li><a href="https://juejin.cn/post/6919768051982270472" target="_blank" rel="noopener">理解执行上下文和其生命周期</a></li>
-<li><a href="https://juejin.cn/post/6919725992957181960" target="_blank" rel="noopener">this到底指向谁，手写bind/call/apply</a></li>
-<li><a href="https://juejin.cn/post/6919431564593987591" target="_blank" rel="noopener">JS内存管理生命周期和垃圾回收机制</a></li>
-<li><a href="https://juejin.cn/post/6919319154667290638" target="_blank" rel="noopener">作用域的一些点</a></li>
-</ul>
-<h2 id="工具篇"><a href="#工具篇" class="headerlink" title="工具篇"></a>工具篇</h2><ul>
-<li><a href="https://juejin.cn/post/6844903939121348616" target="_blank" rel="noopener">oh-my-zsh让终端好用到飞起</a></li>
-<li><a href="https://juejin.cn/post/6844903983895707655" target="_blank" rel="noopener">怎么测试一个接口</a></li>
-<li><a href="https://juejin.cn/post/6844903952731865095" target="_blank" rel="noopener">chrome调试技巧</a></li>
-<li><a href="https://juejin.cn/post/6844903925628436488" target="_blank" rel="noopener">axios设置content-type</a></li>
-<li><a href="https://juejin.cn/post/6844903880413675527" target="_blank" rel="noopener">前端导出excel表格</a></li>
-<li><a href="https://juejin.cn/post/6844903849812033549" target="_blank" rel="noopener">git的使用和git钩子</a></li>
-<li><a href="https://juejin.cn/post/6844903848402927629" target="_blank" rel="noopener">ssh和scp的使用，免密码登录服务器</a></li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2441,7 +2424,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">251</span>
+                <span class="site-state-item-count">252</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
