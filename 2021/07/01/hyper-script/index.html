@@ -1,0 +1,766 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="js," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="看 vue 源码的时候，提到了snabbdom，而这个库里有个很重要的函数h。 我就好奇了，为啥用h，h是什么的缩写，表示的到底是什么？ 然后就翻到hyperScript这个词，然后找到了解释  Create HyperText with JavaScript, on client or server  而html是HyperText Markup Language的缩写，超文本标记语言，本质是文">
+<meta name="keywords" content="js">
+<meta property="og:type" content="article">
+<meta property="og:title" content="h函数为什么叫h？">
+<meta property="og:url" content="http://yoursite.com/2021/07/01/hyper-script/index.html">
+<meta property="og:site_name" content="花花的博客">
+<meta property="og:description" content="看 vue 源码的时候，提到了snabbdom，而这个库里有个很重要的函数h。 我就好奇了，为啥用h，h是什么的缩写，表示的到底是什么？ 然后就翻到hyperScript这个词，然后找到了解释  Create HyperText with JavaScript, on client or server  而html是HyperText Markup Language的缩写，超文本标记语言，本质是文">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/892b1a34f9c84d4da90ff769a5c0de91~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a32e2a3b3d264d5894d7e56700184976~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/af1e7b5756b14136acc4e09d13d42f8a~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:updated_time" content="2021-07-06T02:57:04.975Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="h函数为什么叫h？">
+<meta name="twitter:description" content="看 vue 源码的时候，提到了snabbdom，而这个库里有个很重要的函数h。 我就好奇了，为啥用h，h是什么的缩写，表示的到底是什么？ 然后就翻到hyperScript这个词，然后找到了解释  Create HyperText with JavaScript, on client or server  而html是HyperText Markup Language的缩写，超文本标记语言，本质是文">
+<meta name="twitter:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/892b1a34f9c84d4da90ff769a5c0de91~tplv-k3u1fbpfcp-zoom-1.image">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2021/07/01/hyper-script/"/>
+
+
+
+
+
+  <title> h函数为什么叫h？ | 花花的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?60f2cb5747a596a24f2a053f1650c30b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">花花的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/07/01/hyper-script/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                h函数为什么叫h？
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-07-01T19:05:34+08:00">
+                2021-07-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/07/01/hyper-script/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2021/07/01/hyper-script/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>看 vue 源码的时候，提到了<code>snabbdom</code>，而这个库里有个很重要的函数<code>h</code>。</p>
+<p>我就好奇了，为啥用<code>h</code>，<code>h</code>是什么的缩写，表示的到底是什么？</p>
+<p>然后就翻到<code>hyperScript</code>这个词，然后找到了<a href="https://www.npmjs.com/package/hyperscript" target="_blank" rel="noopener">解释</a></p>
+<blockquote>
+<p>Create HyperText with JavaScript, on client or server</p>
+</blockquote>
+<p>而<code>html</code>是<code>HyperText Markup Language</code>的缩写，超文本标记语言，本质是文本，但用的是特殊的标记语言写的，其可以表示 纯文本和媒体资源、表单等其他的非文本，所以是超文本。</p>
+<p>那么<code>hyperScript</code>其实是用 js 创建超文本，这里的超文本特指<code>HTML</code>，而 JS 里可以用<code>DOM</code>（document object model）表示<code>HTML</code>，但 js 本身是有<code>DOM API</code>的，为什么作者还要写这个库？</p>
+<p>举个例子就明白了：</p>
+<p>创建这样的结构:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"parent"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"son"</span>&gt;</span>颜酱真酷<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>传统的方式：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createDiv</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> span = <span class="built_in">document</span>.createElement(<span class="string">"span"</span>);</span><br><span class="line">  span.className = <span class="string">"son"</span>;</span><br><span class="line">  <span class="keyword">const</span> div = <span class="built_in">document</span>.createElement(<span class="string">"div"</span>);</span><br><span class="line">  div.className = <span class="string">"parent"</span>;</span><br><span class="line">  div.appendChild(span);</span><br><span class="line">  <span class="keyword">return</span> div;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>显然这还是结构简单，属性少的情况，如果很多的话，非常繁琐，而且可读性差。</p>
+<p>于是想到了，用简单的语句描述，想要的 DOM 结构，然后用函数统一生成想要的结构</p>
+<p>其实一个元素的三斧头：标签名、标签的其他自身信息、子元素</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">hyperScript</span>(<span class="params">tagName, attrs, children</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// ....</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> h = hyperScript;</span><br><span class="line"><span class="comment">// 这样执行这个方法就可以生成上面的div了</span></span><br><span class="line">h(<span class="string">"div"</span>, &#123; <span class="attr">className</span>: <span class="string">"parent"</span> &#125;, h(<span class="string">"span"</span>, &#123; <span class="attr">className</span>: <span class="string">"son"</span> &#125;, <span class="string">"颜酱真酷"</span>));</span><br></pre></td></tr></table></figure>
+<p>这样可读性强很多，所以这个库的，<code>h函数</code>，是用节点的<strong>描述</strong>（标签名、属性和事件、子元素）去创建<strong>真实</strong>节点的，并返回这个真实节点。</p>
+<p>但 <a href="https://github.com/snabbdom/snabbdom/tree/master/src" target="_blank" rel="noopener">snabbdom</a>这个库是处理<code>vnode</code>的，所以它的的<code>h函数</code>，是用节点的<strong>描述</strong>（标签名、标签的其他自身信息、子元素）创建<strong>虚拟</strong>节点的，并返回这个虚拟节点。</p>
+<p>于是平时看到<strong>h 函数</strong>的时候，心里的联想是<code>Create Virtual HyperText with JavaScript</code>。 </p>
+<p>大白话，h函数就是用节点的描述（标签名、标签的其他自身信息、子元素）创建虚拟节点。</p>
+<h2 id="为什么有了-h-函数还要-vnode-函数"><a href="#为什么有了-h-函数还要-vnode-函数" class="headerlink" title="为什么有了 h 函数还要 vnode 函数?"></a>为什么有了 h 函数还要 vnode 函数?</h2><p>其实 <code>h 函数</code>，更多的时候，是便于用户传参，用户只需要考虑三个要素：标签名、标签的其他自身信息、子元素。</p>
+<p>但是一个<code>vnode</code>有 6 种属性，其中的 key 是从 data 来的，所以<code>vnode</code>函数需要 5 个参数，用户调用的话，显然增加理解门槛，所以用<code>h函数</code>简化了传参，降低调用门槛，而<code>h函数</code>内部调用<code>vnode</code>函数生成<code>vnode</code></p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/892b1a34f9c84d4da90ff769a5c0de91~tplv-k3u1fbpfcp-zoom-1.image" alt="vnode2"><br><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a32e2a3b3d264d5894d7e56700184976~tplv-k3u1fbpfcp-zoom-1.image" alt="vnode3"></p>
+<p>h函数的参数最多三个，但只有第一个是必传项，第二个参数和第三个都是可传项，所以内部对各种情况作了判断，已生成正确的<code>vnode</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// npm i snabbdom 可以快速在编辑器控制台看下，h三个参数，必填的是第一个，data始终是对象，children可以是数组也可以是字符串</span></span><br><span class="line"><span class="keyword">const</span> &#123; h &#125; = <span class="built_in">require</span>(<span class="string">"snabbdom"</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(h(<span class="string">"div.only-sel"</span>));</span><br><span class="line"><span class="built_in">console</span>.log(h(<span class="string">"div.only-data"</span>, &#123; <span class="attr">name</span>: <span class="string">"demo"</span> &#125;));</span><br><span class="line"><span class="built_in">console</span>.log(h(<span class="string">"div.only-text"</span>, <span class="string">"qqq"</span>));</span><br><span class="line"><span class="built_in">console</span>.log(</span><br><span class="line">  h(<span class="string">"div.only-text"</span>, &#123; <span class="attr">key</span>: <span class="string">"data这里设置key"</span> &#125;, [h(<span class="string">"span"</span>), <span class="string">"子text"</span>])</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/af1e7b5756b14136acc4e09d13d42f8a~tplv-k3u1fbpfcp-zoom-1.image" alt="vnode4"></p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
+<li><a href="https://github.com/creeperyang/blog/issues/33" target="_blank" rel="noopener">解析 snabbdom 源码，教你实现精简的 Virtual DOM 库 #33</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/js/" rel="tag"># js</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/06/23/vue_source_code_2/" rel="next" title="数据驱动 - 学习vue源码系列2">
+                <i class="fa fa-chevron-left"></i> 数据驱动 - 学习vue源码系列2
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/07/06/doctor_medicine/" rel="prev" title="药品的基础知识">
+                药品的基础知识 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2021/07/01/hyper-script/"
+           data-title="h函数为什么叫h？" data-url="http://yoursite.com/2021/07/01/hyper-script/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://omizt4opc.bkt.clouddn.com/avatar.jpg"
+               alt="frontzhm" />
+          <p class="site-author-name" itemprop="name">frontzhm</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">256</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">54</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么有了-h-函数还要-vnode-函数"><span class="nav-number">1.</span> <span class="nav-text">为什么有了 h 函数还要 vnode 函数?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引用"><span class="nav-number">2.</span> <span class="nav-text">引用</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">frontzhm</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"frontzhm"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
