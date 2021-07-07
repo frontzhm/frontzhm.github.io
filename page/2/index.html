@@ -261,6 +261,250 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/05/28/tranform_type/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2021/05/28/tranform_type/" itemprop="url">
+                  转换类型的那些事儿
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-05-28T19:35:43+08:00">
+                2021-05-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/05/28/tranform_type/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2021/05/28/tranform_type/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>最近一直在看<a href="https://www.gobeta.net/books/you-dont-know-js-1ed-zh-cn/types-grammar/ch4/" target="_blank" rel="noopener">《你不知道的 JS》</a>，轻总结下，转换类型。</p>
+<p>强制转换分为隐式和显式转化，虽然名声不好，但还是有必要知道。</p>
+<p>显式的强制转换，通过减少困惑，增强了代码的可读性和可维护性。</p>
+<p>隐式的强制转换，有其的“隐藏的”副作用，但有些也是为了增强代码的可读性。</p>
+<h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
+<li>ToString：基本类型和函数就是原地加上引号。但对象、数组转化就麻烦点。</li>
+<li>JSON.stringify：不识别<code>undefined</code>和函数，对于对象可以跳过部分值。可以有第二个和第三个参数。</li>
+<li>ToNumber：一句话难概括。。。</li>
+<li>ToBoolean：只有特定的值是可以转化为<code>false</code>，其他都是<code>true</code></li>
+<li>parseInt：是从字符串里解析数字，遇到非数字就停止。要始终传字符串类型，且加上进制参数</li>
+<li>隐式转化：各种条件表达式、加减乘除、&gt;&lt;、==。<code>&gt;&lt;</code>尽量转化为数字之后在使用。尽量用<code>===</code>替换<code>==</code></li>
+</ul>
+<h2 id="ToString"><a href="#ToString" class="headerlink" title="ToString()"></a>ToString()</h2><p>一般用<code>xx.toString(xx)或者String(xx)</code>显示转化。</p>
+<p>基本类型有自然的字符串化形式</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">String</span>(<span class="literal">null</span>); <span class="comment">// 'null'</span></span><br><span class="line"><span class="built_in">String</span>(<span class="literal">undefined</span>); <span class="comment">// 'undefined'</span></span><br><span class="line"><span class="built_in">String</span>(<span class="literal">true</span>); <span class="comment">// 'true'</span></span><br><span class="line"><span class="built_in">String</span>(<span class="number">1</span>); <span class="comment">// '1'</span></span><br><span class="line"><span class="built_in">String</span>(<span class="number">1000000000000000000000.1</span>); <span class="comment">// "1e+21"， 稍微注意的是，如果数很大或者很小，会变成指数的</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>普通对象，会调用默认的<code>toString()</code>，会返回内部的<code>[[ Class ]]</code></li>
+<li>函数，会返回函数的字符串形式</li>
+<li>数组，会将数组<strong>每个都字符串化</strong>，然后用 <strong>“,”</strong>拼接每个字符串</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">String</span>(&#123;&#125;); <span class="comment">// "[object Object]"(</span></span><br><span class="line"><span class="built_in">String</span>(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;); <span class="comment">// "function()&#123;&#125;"</span></span><br><span class="line"><span class="built_in">String</span>([<span class="number">1</span>, <span class="number">2</span>, &#123;&#125;]); <span class="comment">// "1,2,[object Object]"</span></span><br></pre></td></tr></table></figure>
+<h2 id="JSON-stringify-xx"><a href="#JSON-stringify-xx" class="headerlink" title="JSON.stringify(xx)"></a>JSON.stringify(xx)</h2><p><code>string</code>、<code>number</code>、<code>boolean</code>、和 <code>null</code> 值在 <code>JSON</code> 字符串化时，和<code>xx.toString()</code>的值基本是相同的。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">JSON</span>.stringify(<span class="literal">null</span>); <span class="comment">// 'null'</span></span><br><span class="line"><span class="built_in">JSON</span>.stringify(<span class="literal">true</span>); <span class="comment">// 'true'</span></span><br><span class="line"><span class="built_in">JSON</span>.stringify(<span class="number">1</span>); <span class="comment">// '1'，</span></span><br><span class="line"><span class="built_in">JSON</span>.stringify(<span class="number">1000000000000000000000.1</span>); <span class="comment">// "1e+21"，稍微注意的是，如果数很大或者很小，会变成指数的</span></span><br></pre></td></tr></table></figure>
+<p>但是，其他类型的都不一样了！！！</p>
+<ul>
+<li>遇到 <code>undefined</code>、<code>function</code>、和 <code>symbol</code> 时将会自动地忽略它们，返回<code>undefined</code></li>
+<li>遇到<code>array</code>的时候，如果某项是上面的值，会替换成<code>null</code></li>
+<li>遇到对象的时候，如果对象有<strong><code>toJSON</code></strong>的方法，会将其返回值字符串化。没有的话，直接转化，会跳过值是<code>undefined</code>、<code>function</code>、和 <code>symbol</code>。</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">JSON</span>.stringify(<span class="literal">undefined</span>); <span class="comment">// undefined</span></span><br><span class="line"><span class="built_in">JSON</span>.stringify(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;); <span class="comment">// undefined</span></span><br><span class="line"><span class="built_in">JSON</span>.stringify([<span class="number">1</span>, <span class="number">2</span>, <span class="literal">undefined</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;]); <span class="comment">// "[1,2,null,null]"</span></span><br><span class="line"><span class="built_in">JSON</span>.stringify(&#123; <span class="attr">a</span>: <span class="number">1</span>, <span class="attr">b</span>: <span class="number">2</span>, <span class="attr">c</span>: <span class="literal">undefined</span>, hello() &#123;&#125; &#125;); <span class="comment">// "&#123;\"a\":1,\"b\":2&#125;"</span></span><br><span class="line"><span class="built_in">JSON</span>.stringify(&#123;</span><br><span class="line">  a: <span class="number">1</span>,</span><br><span class="line">  b: <span class="number">2</span>,</span><br><span class="line">  toJSON() &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123; <span class="attr">a</span>: <span class="keyword">this</span>.a &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;); <span class="comment">// "&#123;\"a\":1&#125;"</span></span><br></pre></td></tr></table></figure>
+<h3 id="JSON-stringify-可以不止一个参数"><a href="#JSON-stringify-可以不止一个参数" class="headerlink" title="JSON.stringify 可以不止一个参数"></a>JSON.stringify 可以不止一个参数</h3><p>第二个参数和第三个参数都是可选的。</p>
+<p>第二个参数的作用类似<code>toJSON</code>，可以指定特定的<code>key</code>字符串化，可以是数组，也可以是函数。<br>第三个参数的作用，就是每级缩进，个人觉得这个，作用不大，知道就行。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = &#123; <span class="attr">b</span>: <span class="number">1</span>, <span class="attr">c</span>: <span class="number">2</span> &#125;;</span><br><span class="line"><span class="built_in">JSON</span>.stringify(a, [<span class="string">'b'</span>]); <span class="comment">// "&#123;\"b\":1&#125;"</span></span><br><span class="line"><span class="built_in">JSON</span>.stringify(a, <span class="function"><span class="keyword">function</span> (<span class="params">k, v</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (k === <span class="string">'b'</span>) <span class="keyword">return</span> v;</span><br><span class="line">&#125;); <span class="comment">// "&#123;\"b\":1&#125;"</span></span><br><span class="line"><span class="built_in">JSON</span>.stringify(a, [<span class="string">'c'</span>], <span class="string">'--'</span>); <span class="comment">// "&#123;\n--\"c\": 2\n&#125;"</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/json_1.png" alt="json_1"></p>
+<h2 id="ToNumber"><a href="#ToNumber" class="headerlink" title="ToNumber"></a>ToNumber</h2><p>一般用<code>Number(xx)</code>显示转化。</p>
+<ul>
+<li><code>undefined</code>的话，变成<code>NaN</code></li>
+<li><code>null</code>的话，变成<code>0</code></li>
+<li><code>Boolean</code>的话<code>true</code>变成<code>1</code>，<code>false</code>变成<code>0</code></li>
+<li>字符串的话，<strong>只</strong>含整数或者小数都可以变成正常数字，其他都是<code>NaN</code></li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Number</span>(<span class="literal">undefined</span>); <span class="comment">// NaN</span></span><br><span class="line"><span class="built_in">Number</span>(<span class="literal">null</span>); <span class="comment">// 0</span></span><br><span class="line"><span class="built_in">Number</span>(<span class="literal">true</span>); <span class="comment">// 1</span></span><br><span class="line"><span class="built_in">Number</span>(<span class="literal">false</span>); <span class="comment">// 0</span></span><br><span class="line"><span class="built_in">Number</span>(<span class="string">'1.2'</span>); <span class="comment">// 1.2</span></span><br><span class="line"><span class="built_in">Number</span>(<span class="string">'1.2d'</span>); <span class="comment">// NaN</span></span><br></pre></td></tr></table></figure>
+<p>对象以及数组，会先转换成基本类型值的等价物，然后根据上面的规则继续转化。</p>
+<p>转换成等价物说白了，就是先调用<code>xx.valueOf()</code>没有这个方法的话，就调用<code>xx.toString()</code>，如果这两方法返回基本类型值的话，则<code>Number(返回值)</code>，没返回基本值的话就<strong>报错</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = &#123;</span><br><span class="line">  valueOf() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">'1'</span>;</span><br><span class="line">  &#125;,</span><br><span class="line">  toString() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">'2'</span>;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="built_in">Number</span>(a); <span class="comment">// 1</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> b = &#123; <span class="attr">c</span>: <span class="number">1</span> &#125;;</span><br><span class="line"><span class="built_in">Number</span>(b); <span class="comment">// NaN</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> c = &#123;</span><br><span class="line">  c: <span class="number">1</span>,</span><br><span class="line">  toString() &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;&#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="built_in">Number</span>(c); <span class="comment">// 报错</span></span><br></pre></td></tr></table></figure>
+<h2 id="ToBoolean"><a href="#ToBoolean" class="headerlink" title="ToBoolean"></a>ToBoolean</h2><p>一般用<code>Boolean(xx)</code>显示转化。</p>
+<p>将其他类型的值转化为 Boolean 类型的值，其实只要记住哪些转化为<code>false</code>即可，其他的都是<code>true</code>。</p>
+<ul>
+<li><code>undefined</code></li>
+<li><code>null</code></li>
+<li><code>false</code></li>
+<li><code>+0</code>, <code>-0</code>, <code>NaN</code></li>
+<li><code>&quot;&quot;</code></li>
+</ul>
+<p>特别注意：</p>
+<ul>
+<li>空对象、空函数、空数组转换成 Boolean 的话都是<code>true</code></li>
+<li>用 new 创建基本类型的时候，此时转化成 Boolean 的话也是<code>true</code></li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Boolean</span>(&#123;&#125; &amp;&amp; [] &amp;&amp; <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">Boolean</span>(<span class="keyword">new</span> <span class="built_in">String</span>(<span class="string">''</span>) &amp;&amp; <span class="keyword">new</span> <span class="built_in">Number</span>(<span class="number">0</span>) &amp;&amp; <span class="keyword">new</span> <span class="built_in">Boolean</span>(<span class="literal">false</span>)); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<h2 id="其他的显式转换"><a href="#其他的显式转换" class="headerlink" title="其他的显式转换"></a>其他的显式转换</h2><p>上面的<code>String(x)/Number(x)/Boolean(x)</code>都是显式转化。</p>
+<p>还有一些其他公认的显式转换：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// number =&gt; string</span></span><br><span class="line"><span class="number">1</span> + <span class="string">''</span> === <span class="built_in">String</span>(<span class="number">1</span>);</span><br><span class="line"><span class="comment">// string =&gt; number</span></span><br><span class="line">+<span class="string">'1'</span> === <span class="built_in">Number</span>(<span class="string">'1'</span>);</span><br><span class="line"><span class="comment">// date =&gt; number  获取当前时间戳 等同于 Date.now() 或 new Date().getTime()</span></span><br><span class="line">+<span class="keyword">new</span> <span class="built_in">Date</span>() === <span class="built_in">Number</span>(<span class="keyword">new</span> <span class="built_in">Date</span>());</span><br><span class="line"><span class="comment">// 任意类型 =&gt; Boolean</span></span><br><span class="line">!!<span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="x-等同于-x-1"><a href="#x-等同于-x-1" class="headerlink" title="~x 等同于 -(x+1)"></a>~x 等同于 -(x+1)</h2><p>有时候，还会看到<code>~</code>。<br>在 JS 里，常和<code>indexOf</code>结合使用。</p>
+<p><code>-1</code>也是另一种哨兵值，C 语言里<code>-1</code>表示失败。<br>而 JS 里的<code>indexOf</code>返回值为-1 的话，也表示没找到。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> isInclude = <span class="string">'abc'</span>.indexOf(<span class="string">'d'</span>) !== <span class="number">-1</span>;</span><br><span class="line"><span class="keyword">if</span> (isInclude) &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这种写法没毛病，但如果用<code>~</code>更简洁，这时候用在 if 里，相当于转换成 Boolean</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> isInclude = ~(<span class="string">'abc'</span>).indexOf(<span class="string">'d'</span>)</span><br><span class="line"><span class="keyword">if</span> (isInclude).indexOf(<span class="string">'d'</span>)) &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="解析数字字符串：和强制转换不一样"><a href="#解析数字字符串：和强制转换不一样" class="headerlink" title="解析数字字符串：和强制转换不一样"></a>解析数字字符串：和强制转换不一样</h2><p>解析数字字符串：从一个字符串中解析出一个数字是 <strong>容忍</strong> 非数字字符的 —— 从左到右，如果遇到非数字字符就停止解析 。<br>强制转换是 <strong>不容忍</strong> 并且会失败而得出值 NaN。</p>
+<blockquote>
+<p>解析不应当被视为强制转换的替代品</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="string">'42'</span>;</span><br><span class="line"><span class="keyword">var</span> b = <span class="string">'42px'</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">Number</span>(a); <span class="comment">// 42</span></span><br><span class="line"><span class="built_in">parseInt</span>(a); <span class="comment">// 42</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">Number</span>(b); <span class="comment">// NaN</span></span><br><span class="line"><span class="built_in">parseInt</span>(b); <span class="comment">// 42</span></span><br></pre></td></tr></table></figure>
+<p>parseInt 是工作在<strong>string</strong>值上的，所以<strong>永远</strong>不要传入非 string，不然会强制转换成 string。</p>
+<p>parseInt 还有第二个可选参数，表示将字符串翻译成几进制(2-35)，默认是 10 进制，总是在第二个参数值上传递进制，注意，最终返回的结果是 10 进制。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">parseInt</span>(<span class="string">'0x16'</span>, <span class="number">10</span>); <span class="comment">// 0</span></span><br><span class="line"><span class="built_in">parseInt</span>(<span class="string">'0x16'</span>, <span class="number">16</span>); <span class="comment">// 22</span></span><br><span class="line"><span class="built_in">parseInt</span>(<span class="string">'15'</span>, <span class="number">10</span>); <span class="comment">// 15</span></span><br><span class="line"><span class="comment">// 15作为16进制的翻译，转化为10进制就是21</span></span><br><span class="line"><span class="built_in">parseInt</span>(<span class="string">'15'</span>, <span class="number">16</span>); <span class="comment">// 21</span></span><br></pre></td></tr></table></figure>
+<p>参数是非字符串的话，会有各种奇怪的现象，所以<strong>永远</strong>不要传入非 string</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">parseInt</span>(<span class="number">1</span> / <span class="number">0</span>, <span class="number">19</span>); <span class="comment">// 18  ("I" from "Infinity")</span></span><br><span class="line"><span class="built_in">parseInt</span>(<span class="number">0.000008</span>); <span class="comment">// 0   ("0" from "0.000008")</span></span><br><span class="line"><span class="built_in">parseInt</span>(<span class="number">0.0000008</span>); <span class="comment">// 8   ("8" from "8e-7")</span></span><br><span class="line"><span class="built_in">parseInt</span>(<span class="literal">false</span>, <span class="number">16</span>); <span class="comment">// 250 ("fa" from "false")</span></span><br><span class="line"><span class="built_in">parseInt</span>(<span class="built_in">parseInt</span>, <span class="number">16</span>); <span class="comment">// 15  ("f" from "function..")</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">parseInt</span>(<span class="string">'0x10'</span>); <span class="comment">// 16</span></span><br><span class="line"><span class="built_in">parseInt</span>(<span class="string">'103'</span>, <span class="number">2</span>); <span class="comment">// 2</span></span><br></pre></td></tr></table></figure>
+<h2 id="其他的隐式转换"><a href="#其他的隐式转换" class="headerlink" title="其他的隐式转换"></a>其他的隐式转换</h2><h3 id="、-、-运算符会将两边隐式变成-number-类型"><a href="#、-、-运算符会将两边隐式变成-number-类型" class="headerlink" title="- 、* 、/ 运算符会将两边隐式变成 number 类型"></a>- 、* 、/ 运算符会将两边隐式变成 number 类型</h3><p>这个还好，也容易理解。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'1'</span> - <span class="string">'2'</span> === <span class="number">-1</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="运算符"><a href="#运算符" class="headerlink" title="+ 运算符"></a>+ 运算符</h2><p>使用加号运算符要小心，加到字符串类型的时候，另一边会强制转化成字符串类型。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2</span> + <span class="number">1</span> + <span class="string">'1'</span> === <span class="string">'31'</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="gt-和-lt"><a href="#gt-和-lt" class="headerlink" title="&gt; 和 &lt;"></a>&gt; 和 &lt;</h3><p>这种也会发生类型转换，为了消除歧义，最好转化为数字类型之后在使用。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [<span class="number">42</span>];</span><br><span class="line"><span class="keyword">var</span> b = <span class="string">'043'</span>;</span><br><span class="line"></span><br><span class="line">a &lt; b; <span class="comment">// false -- 字符串比较！</span></span><br><span class="line"><span class="built_in">Number</span>(a) &lt; <span class="built_in">Number</span>(b); <span class="comment">// true -- 数字比较！</span></span><br><span class="line"></span><br><span class="line"><span class="string">'1'</span> - <span class="string">'2'</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="gt-Boolean"><a href="#gt-Boolean" class="headerlink" title="* -&gt; Boolean"></a>* -&gt; Boolean</h3><p>哪个种类的表达式操作（隐含地）要求/强制一个 boolean 转换呢？</p>
+<ul>
+<li>在一个<code>if (..)</code>语句中的测试表达式。</li>
+<li>在一个<code>for ( .. ; .. ; .. )</code>头部的测试表达式（第二个子句）。</li>
+<li>在<code>while (..)</code>和<code>do..while(..)</code>循环中的测试表达式。</li>
+<li>在<code>? :</code>三元表达式中的测试表达式（第一个子句）。</li>
+<li><code>||</code>（“逻辑或”）和<code>&amp;&amp;</code>（“逻辑与”）操作符左手边的操作数（它用作测试表达式 —— 见下面的讨论！）</li>
+</ul>
+<p>特别注意：一个&amp;&amp;或||操作符产生的值不见得是 Boolean 类型。这个产生的值将总是两个操作数表达式其中<strong>之一</strong>的值！</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">42</span>;</span><br><span class="line"><span class="keyword">var</span> b = <span class="string">'abc'</span>;</span><br><span class="line"><span class="keyword">var</span> c = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">a || b; <span class="comment">// 42</span></span><br><span class="line">a &amp;&amp; b; <span class="comment">// "abc"</span></span><br><span class="line"></span><br><span class="line">c || b; <span class="comment">// "abc"</span></span><br><span class="line">c &amp;&amp; b; <span class="comment">// null</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 经常可能会写这样的代码</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="number">42</span>;</span><br><span class="line"><span class="keyword">var</span> b = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">var</span> c = <span class="string">'foo'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 其实这里相当于 if("foo") 因为是if表达式，所以隐式转化为 if(true)</span></span><br><span class="line"><span class="keyword">if</span> (a &amp;&amp; (b || c)) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'yep'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="和"><a href="#和" class="headerlink" title="== 和 ==="></a>== 和 ===</h3><p><code>==</code>两边的转换规则，可能超乎你的想象，所以，最好直接使用<code>===</code>。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/05/28/number/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2141,228 +2385,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/08/recursion_console/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2021/04/08/recursion_console/" itemprop="url">
-                  大白话理解递归本质，可视化递归过程
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-04-08T17:39:41+08:00">
-                2021-04-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2021/04/08/recursion_console/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2021/04/08/recursion_console/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>先来个场景：</p>
-<p>下班了，你带着女友去电影院看电影~（没有女友？快私信我，组里各种白富美！加班没时间？快私信我，组里加班少！）<br>女友问，咱两现在坐在第几排啊？<br>电影院里面太黑了，看不清，没法数，现在你怎么办？</p>
-<p>于是你开始展示你智慧的一面了，先问前排的人他是第几排，你想只要在他的数字上加一，就知道自己在哪一排了。</p>
-<p>但是，前面的人也看不清啊，所以他也问他前面的人。就这样一排一排往前问~<br>直到问到第一排的人，说我在第一排，然后再这样一排一排再把数字传回来。<br>直到你前面的人告诉你他在哪一排，于是你就知道答案了。</p>
-<p>这就是一个非常标准的递归求解问题的分解过程，去的过程叫“递”，回来的过程叫“归”，所以叫“递归”。</p>
-<blockquote>
-<p>递归的本质：将原来的问题，转化为更小的同一问题。问题一点点变小，当问题变成最小级别之后，先解决最小级别的问题的答案，然后大一点的问题也有了答案，一点点的往上，这样原来的问题也就有了答案~</p>
-</blockquote>
-<h2 id="举例理解递归：数组求和"><a href="#举例理解递归：数组求和" class="headerlink" title="举例理解递归：数组求和"></a>举例理解递归：数组求和</h2><p>举个代码的例子理解下递归：对数组求和。</p>
-<p>假设对 <code>[1,2,3,4]</code>求和，可以转化为 [2,3,4]的求和，这样问题就变得更小，直到转为空数组，空数组就是最小级别的问题，先解决最小级别的问题，然后大一点的问题也有了答案，一点点的，这样原来的问题也就有了答案~</p>
-<p>伪代码：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">=&gt; [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]</span><br><span class="line">=&gt; [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>] = <span class="number">1</span> + [<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]</span><br><span class="line">=&gt; [<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>] = <span class="number">2</span> + [<span class="number">3</span>,<span class="number">4</span>]</span><br><span class="line">=&gt; [<span class="number">3</span>,<span class="number">4</span>] = <span class="number">3</span> + [<span class="number">4</span>]</span><br><span class="line">=&gt; [<span class="number">4</span>] = <span class="number">4</span> + []</span><br><span class="line">=&gt; [] = <span class="number">0</span></span><br><span class="line">=&gt; [<span class="number">4</span>] = <span class="number">4</span> + <span class="number">0</span></span><br><span class="line">=&gt; [<span class="number">3</span>,<span class="number">4</span>] = <span class="number">3</span> + <span class="number">4</span></span><br><span class="line">=&gt; [<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>] = <span class="number">2</span> + <span class="number">7</span></span><br><span class="line">=&gt; [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>] = <span class="number">1</span> + <span class="number">9</span></span><br><span class="line">=&gt; 解决</span><br></pre></td></tr></table></figure>
-<p>写真实的代码：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sum</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 先解决最小级别的问题</span></span><br><span class="line">  <span class="keyword">if</span> (arr.length === <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 大的问题 转化为 更小的问题</span></span><br><span class="line">  <span class="keyword">return</span> arr[<span class="number">0</span>] + sum(arr.slice(<span class="number">1</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="可视化递归过程"><a href="#可视化递归过程" class="headerlink" title="可视化递归过程"></a>可视化递归过程</h2><p>上面看完之后，可能还是有点点蒙圈，感觉似懂非懂~</p>
-<p>没事，可视化代码运行，就明白了！可视化的过程，也是调试的技巧！</p>
-<p>先可视化上面的数组求和：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sum</span>(<span class="params">arr, depth</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 递归层级越深，缩进越长。同一层级的，缩进等长</span></span><br><span class="line">  <span class="keyword">const</span> indent = <span class="string">"--"</span>.repeat(depth);</span><br><span class="line">  <span class="comment">// 调用开始，输出一次</span></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">`<span class="subst">$&#123;indent&#125;</span>Start Call: sum of [<span class="subst">$&#123;arr&#125;</span>]`</span>);</span><br><span class="line">  <span class="keyword">if</span> (arr.length === <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> res = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">// 返回之前，输出一次</span></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`<span class="subst">$&#123;indent&#125;</span>Return: sum of [<span class="subst">$&#123;arr&#125;</span>] is <span class="subst">$&#123;res&#125;</span>`</span>);</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">let</span> res = sum(arr.slice(<span class="number">1</span>), depth + <span class="number">1</span>);</span><br><span class="line">  <span class="comment">// 调用之后，输出一次</span></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">`<span class="subst">$&#123;indent&#125;</span>After Call: sum of [<span class="subst">$&#123;arr.slice(<span class="number">1</span>)&#125;</span>],sum is <span class="subst">$&#123;res&#125;</span>`</span>);</span><br><span class="line">  res = arr[<span class="number">0</span>] + res;</span><br><span class="line">  <span class="comment">// 返回之前，输出一次</span></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">`<span class="subst">$&#123;indent&#125;</span>Return: sum of [<span class="subst">$&#123;arr&#125;</span>] is <span class="subst">$&#123;res&#125;</span>`</span>);</span><br><span class="line">  <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line">sum([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>], <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
-<p>执行代码：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Start Call: sum <span class="keyword">of</span> [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]</span><br><span class="line">--Start Call: sum <span class="keyword">of</span> [<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]</span><br><span class="line">----Start Call: sum <span class="keyword">of</span> [<span class="number">3</span>,<span class="number">4</span>]</span><br><span class="line">------Start Call: sum <span class="keyword">of</span> [<span class="number">4</span>]</span><br><span class="line">--------Start Call: sum <span class="keyword">of</span> []  <span class="comment">// 这里是最小级别的问题</span></span><br><span class="line">--------Return: sum <span class="keyword">of</span> [] is <span class="number">0</span> <span class="comment">// 解决最小级别的问题</span></span><br><span class="line">------After Call: sum <span class="keyword">of</span> [],sum is <span class="number">0</span></span><br><span class="line">------Return: sum <span class="keyword">of</span> [<span class="number">4</span>] is <span class="number">4</span></span><br><span class="line">----After Call: sum <span class="keyword">of</span> [<span class="number">4</span>],sum is <span class="number">4</span></span><br><span class="line">----Return: sum <span class="keyword">of</span> [<span class="number">3</span>,<span class="number">4</span>] is <span class="number">7</span></span><br><span class="line">--After Call: sum <span class="keyword">of</span> [<span class="number">3</span>,<span class="number">4</span>],sum is <span class="number">7</span></span><br><span class="line">--Return: sum <span class="keyword">of</span> [<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>] is <span class="number">9</span></span><br><span class="line">After Call: sum <span class="keyword">of</span> [<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>],sum is <span class="number">9</span></span><br><span class="line">Return: sum <span class="keyword">of</span> [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>] is <span class="number">10</span></span><br></pre></td></tr></table></figure>
-<p>再联系本文开头的话，“递”和“归”的过程，就能看出来了~</p>
-<p>大问题转化为更小的同一问题，一直转化到最小级别的问题，先解决最小级别的问题，然后大一点的问题就解决了，一直到原先的问题就会被解决~</p>
-<p>可视化代码的步骤：</p>
-<ul>
-<li>先给函数加个额外的参数：递归深度，表示递归到哪了</li>
-<li>递归深度，可以用字符串缩进可视化</li>
-<li>调用开始的时候，打印下当前的参数（可语义下）</li>
-<li>调用之后，打印下调用返回的结果和对应参数（可语义下）</li>
-<li>返回结果之前，打印下返回结果和对应参数（可语义下）</li>
-</ul>
-<h2 id="怎么写递归"><a href="#怎么写递归" class="headerlink" title="怎么写递归"></a>怎么写递归</h2><p>两步：</p>
-<ul>
-<li>找到递归边界：找到最小级别的问题，并搞定答案</li>
-<li>找到递归式：将大问题转化为更小的同一问题（假设更小的问题有了答案，只想到第一层就行）</li>
-</ul>
-<p>再举个例子：</p>
-<p>有一组数：1,1,2,3,5,8,13,21……..</p>
-<p>问第 n 个数是什么？</p>
-<p>细细看看，其实就是斐波拉契数列，后面一个数等于前两数之和。</p>
-<ul>
-<li>找到递归边界：找到最小级别的问题，并搞定答案</li>
-</ul>
-<p>其实就是前两个数：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">f(<span class="number">1</span>) = <span class="number">1</span>;</span><br><span class="line">f(<span class="number">2</span>) = <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>找到递归式：将大问题转化为更小的同一问题（假设更小的问题有了答案，只想到第一层就行）</li>
-</ul>
-<p>第 n 个数就是前两数之和：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">f(n) = f(n - <span class="number">1</span>) + f(n - <span class="number">2</span>);</span><br></pre></td></tr></table></figure>
-<p>撸码：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">n</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 最小级别的问题，务必搞定答案</span></span><br><span class="line">  <span class="keyword">if</span> (n === <span class="number">1</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">if</span> (n === <span class="number">2</span>) <span class="keyword">return</span> <span class="number">2</span>;</span><br><span class="line">  <span class="comment">// 假设n-1和n-2都知道的话</span></span><br><span class="line">  <span class="keyword">return</span> f(n - <span class="number">1</span>) + f(n - <span class="number">2</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>可以试试可视化过程，这里我就不演示了，当作业了~</p>
-<h2 id="递归的缺陷和解决方案"><a href="#递归的缺陷和解决方案" class="headerlink" title="递归的缺陷和解决方案"></a>递归的缺陷和解决方案</h2><p>两个大缺陷：</p>
-<ul>
-<li>堆栈溢出</li>
-<li>重复计算度高</li>
-</ul>
-<p>可以看到，递归的过程就是函数调用的过程，反复调用函数，函数调用栈会很高，一定数量级之后，会溢栈，专业名词就是<code>堆栈溢出</code>，表现为代码报错了！</p>
-<p>这种缺陷的一个解决办法是：提前规定最大深度，超过深度之后直接报错。<br>当然这个最大深度不一定好估计。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 全局变量，表示递归的深度。</span></span><br><span class="line"><span class="keyword">let</span> depth = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">n</span>) </span>&#123;</span><br><span class="line">  ++depth；</span><br><span class="line">  <span class="keyword">if</span> (depth &gt; <span class="number">1000</span>) <span class="keyword">throw</span> <span class="built_in">Error</span>(<span class="string">'递归层次超过范围了'</span>);</span><br><span class="line">  <span class="keyword">if</span>(n === <span class="number">1</span>) <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">  <span class="keyword">if</span>(n === <span class="number">2</span>) <span class="keyword">return</span> <span class="number">2</span></span><br><span class="line">  <span class="keyword">return</span> f(n<span class="number">-1</span>) + f(n<span class="number">-2</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>重复计算度高怎么理解呢？</p>
-<p>比如计算第 5 个数，等价于 <code>f(3)+f(4)</code>，而<code>f(4)</code>等价于<code>f(3)+f(2)</code>，注意这里的 f(3)出现了两次，这还只是计算第 5 个数，如果更大的话，会重复计算更多次！</p>
-<p>这种缺陷的一个解决办法是：用哈希表保存已经求解过的 f(k)，调用到 f(k) 时，哈希表有则直接返回，不需要重复计算了。<br>当然代价是，空间复杂度变高。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> resolvedList = &#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">n</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (n === <span class="number">1</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">if</span> (n === <span class="number">2</span>) <span class="keyword">return</span> <span class="number">2</span>;</span><br><span class="line">  <span class="comment">// 保存过的话直接返回</span></span><br><span class="line">  <span class="keyword">if</span> (resolvedList[n]) &#123;</span><br><span class="line">    <span class="keyword">return</span> resolvedList[n];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> res = f(n - <span class="number">1</span>) + f(n - <span class="number">2</span>);</span><br><span class="line">  <span class="comment">// 没保存过的，保存下</span></span><br><span class="line">  resolvedList[n] = res;</span><br><span class="line">  <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>除了堆栈溢出、重复计算度这两个大问题，时间上，过多的函数调用会积聚成一个可观的时间成本；空间上，调用一次就会在内存栈中保存一次现场数据，同样也会有可观的空间成本。</p>
-<h2 id="怎么将递归代码改写为非递归代码"><a href="#怎么将递归代码改写为非递归代码" class="headerlink" title="怎么将递归代码改写为非递归代码"></a>怎么将递归代码改写为非递归代码</h2><p>递归的好处是代码简洁易理解，坏处就是上面的。能不能将其转化为非递归代码呢？答案是肯定的！<br>递归的过程可以理解为函数调用栈的过程，我们可以手动模拟进栈出栈，也就是迭代循环！</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 数组求和：</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">function sum(arr) &#123;</span></span><br><span class="line"><span class="comment">  if (arr.length === 0) return 0;</span></span><br><span class="line"><span class="comment">  return arr[0] + sum(arr.slice(1));</span></span><br><span class="line"><span class="comment">&#125;</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sum</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (n === <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">let</span> res = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt;= arr.length; i++) &#123;</span><br><span class="line">    <span class="comment">// 手动迭代res</span></span><br><span class="line">    res = arr[i] + res;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 斐波拉契数列：</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">function f(n) &#123;</span></span><br><span class="line"><span class="comment">  if (n === 1) return 1;</span></span><br><span class="line"><span class="comment">  if (n === 2) return 2;</span></span><br><span class="line"><span class="comment">  return f(n - 1) + f(n - 2);</span></span><br><span class="line"><span class="comment">&#125;</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">n</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (n == <span class="number">1</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">if</span> (n == <span class="number">2</span>) <span class="keyword">return</span> <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> res = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">let</span> pre = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">let</span> prepre = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">3</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">    <span class="comment">// 手动迭代res</span></span><br><span class="line">    res = pre + prepre;</span><br><span class="line">    prepre = pre;</span><br><span class="line">    pre = res;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>“手动”递归，并不是说没有缺点，虽然没有那么多函数调用，但是重复计算度依然很高。<br>另外，迭代循环，对于线性结构的还好理解些，对于非线性结构的理解起来会更困难。</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
-<li><a href="https://coding.imooc.com/learn/list/207.html" target="_blank" rel="noopener">ACM 亚洲区奖牌获得者 liuyubobobo 的玩转数据结构_5-3</a></li>
-<li><a href="https://time.geekbang.org/column/intro/126" target="_blank" rel="noopener">前 Google 工程师王争的数据结构与算法之美_10</a></li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2412,7 +2434,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">256</span>
+                <span class="site-state-item-count">257</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
