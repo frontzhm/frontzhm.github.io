@@ -261,6 +261,198 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/26/algorithm_merge/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2021/03/26/algorithm_merge/" itemprop="url">
+                  有序的数组，试试用指针法遍历 -- 数组经典算法题
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-03-26T19:39:52+08:00">
+                2021-03-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/03/26/algorithm_merge/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2021/03/26/algorithm_merge/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>最近在看数据结构和算法，努力总结出道~</p>
+<h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL:DR"></a>TL:DR</h2><blockquote>
+<p>指针的本质是，记住数组遍历的进度，从而减少无效遍历的范围。</p>
+</blockquote>
+<p>当遍历有序的数组的时候，因为有序，所以更大更小的值已经确定，可以用指针法记住数组遍历的进度，从而减少无效遍历的范围</p>
+<p>数组上，单个指针的话，先将指针指向开始(或末尾)，然后指针移动，当移动到数组之外，就表示数组遍历完毕。</p>
+<p>数组上，两个指针的话，如果出现在两端，随着两边指针移动，未遍历中间的元素范围就慢慢变小，直到指针相邻或者重合表示，遍历完毕，也叫<code>对撞指针法</code>。</p>
+<p>遇到求和或者比大小问题的时候，如果数组是无序的，可以尝试有序之后再使用指针法。</p>
+<h2 id="练习：有序数组合并"><a href="#练习：有序数组合并" class="headerlink" title="练习：有序数组合并"></a>练习：有序数组合并</h2><p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/merge1.png" alt="merge1"></p>
+<p>我看到的第一想法是sort大法：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> merge = <span class="function"><span class="keyword">function</span> (<span class="params">nums1, m, nums2, n</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// num1里面多余的元素删掉，并且将num2里面的元素插入到num1里面</span></span><br><span class="line">  nums1.splice(m,n,...nums2.slice(<span class="number">0</span>,n))</span><br><span class="line">  <span class="comment">// 排序</span></span><br><span class="line">  nums1.sort(<span class="function">(<span class="params">a,b</span>)=&gt;</span>a-b)</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>splice方法一定要会，可删，可增。第一个索引表示要操作的位置（这个位置的元素肯定要变），第二个表示删除后面几个，之后的都表示插入的元素。</p>
+<p>但其实，既然已经有序，就要充分利用这个条件，减少无效遍历。上指针大法！</p>
+<p>本题，因为是num1够长，因为后面的空间是空的，所以从后面开始利用，节省空间。</p>
+<ul>
+<li>nums1、nums2本身有序，所以里面的数也是从小到大排列，也就是最大的数始终在末尾</li>
+<li>将大的数，倒插进num1就好</li>
+<li>一个指针，指向num1的最后一个数的位置。一个指向num2的最后一个数的位置。还用个指针指向填充到num1的哪个位置了</li>
+<li>只要指针还在，就一直比较，前两个指针的数，大的往后填，且指针移动</li>
+<li>指针1小于0的时候，表示num1遍历完了，那直接将num2里面，未遍历的数挨个直接塞到num1里就好</li>
+<li>指针2小于0的时候，表示num2遍历完了，那就不用管了，数都在num1里面了</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">var</span> merge = <span class="function"><span class="keyword">function</span> (<span class="params">nums1, m, nums2, n</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 指针初始都在末尾</span></span><br><span class="line">  <span class="keyword">let</span> pointer1 = m - <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">let</span> pointer2 = n - <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">let</span> fillPointer = m + n - <span class="number">1</span>;</span><br><span class="line">  <span class="comment">// 一直遍历，直到有一个数组遍历完，一个数组遍历完的表现就是：pointer1 &lt;0 ||  pointer2 &lt;0</span></span><br><span class="line">  <span class="keyword">while</span> (pointer1 &gt;= <span class="number">0</span> &amp;&amp; pointer2 &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="comment">// num1指针的指向的值更大的话，就填充此值，然后移动指针，表示此值之后不再需要遍历了</span></span><br><span class="line">    <span class="keyword">if</span> (nums1[pointer1] &gt;= nums2[pointer2]) &#123;</span><br><span class="line">      nums1[fillPointer] = nums1[pointer1];</span><br><span class="line">      pointer1--;</span><br><span class="line">      fillPointer--;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="comment">// 同理</span></span><br><span class="line">      nums1[fillPointer] = nums2[pointer2];</span><br><span class="line">      pointer2--;</span><br><span class="line">      fillPointer--;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 当nums1先遍历完的时候，将nums2里面未遍历的值，插入到nums1即可</span></span><br><span class="line">  <span class="keyword">if</span> (pointer1 &lt; <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="comment">// pointer2 &gt;=0是遍历的条件，一旦小于0就表示遍历完了</span></span><br><span class="line">    <span class="keyword">while</span> (pointer2 &gt;=<span class="number">0</span>) &#123;</span><br><span class="line">      nums1[newPointer] = nums2[pointer2];</span><br><span class="line">      pointer2--;</span><br><span class="line">      newPointer--;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>显然空间O(1)，时间O(m+n)</p>
+<p>可以看下<a href="https://leetcode-cn.com/problems/merge-sorted-array/solution/he-bing-liang-ge-you-xu-shu-zu-by-leetcode/" target="_blank" rel="noopener">官方视频</a></p>
+<h2 id="练习：三数求和"><a href="#练习：三数求和" class="headerlink" title="练习：三数求和"></a>练习：三数求和</h2><p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/threeSum.png" alt="threeSum"></p>
+<p>暴力法，我就不说了，三重遍历，合适的组合丢出来就行，时间复杂度O(n^3)。</p>
+<p>显然，这不是想要的过程。</p>
+<p>两数求和，用Map，以空间换时间。<br>但三数求和，不固定的数有两个，是不适合用Map的，这里数组和求和，联想下指针。</p>
+<p>指针的前提条件是有序的数组，所以这里先排序，然后使用指针法</p>
+<ul>
+<li>数组先排序</li>
+<li>固定一个数nums[i]，再使用左右指针指向 nums[i]后面的两端</li>
+<li>判断三数之和，大于0右指针后退，小于0左指针前进，等于0保存索引且左右指针都动</li>
+<li>nums[i]如果大于0，则停止遍历，因为之后的肯定更大于0</li>
+<li>对于重复的问题：左右指针以及i，只要和前面的值一致则跳过。</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">var</span> threeSum = <span class="function"><span class="keyword">function</span> (<span class="params">nums</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// nums = Array.from(new Set(nums));</span></span><br><span class="line">  nums.sort(<span class="function">(<span class="params">a, b</span>) =&gt;</span> a - b);</span><br><span class="line">  <span class="keyword">let</span> res = [];</span><br><span class="line">  <span class="keyword">let</span> len = nums.length;</span><br><span class="line">  <span class="comment">// i是固定的第一个数的指针</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; len - <span class="number">2</span>; i++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (nums[i] &gt; <span class="number">0</span>) &#123;</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 相等就跳过，因为有i-1所以前面必须判断i&gt;0，不然会报错</span></span><br><span class="line">    <span class="keyword">if</span> (i &gt; <span class="number">0</span> &amp;&amp; nums[i] === nums[i - <span class="number">1</span>]) &#123;</span><br><span class="line">      <span class="keyword">continue</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// L是左指针</span></span><br><span class="line">    <span class="keyword">let</span> L = i + <span class="number">1</span>;</span><br><span class="line">    <span class="comment">// R是右指针</span></span><br><span class="line">    <span class="keyword">let</span> R = len - <span class="number">1</span>;</span><br><span class="line">    <span class="comment">// 当L&gt;=R的时候，表示数组遍历完了</span></span><br><span class="line">    <span class="keyword">while</span> (L &lt; R) &#123;</span><br><span class="line">      <span class="keyword">const</span> sum = nums[L] + nums[R] + nums[i];</span><br><span class="line">      <span class="comment">// 大于0，右指针后退</span></span><br><span class="line">      <span class="keyword">if</span> (sum &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="comment">// 这句是去重复的。值相同的话，跳过，这里注意必须加L&lt;R，不然R--，是有可能小于L的，这不是我们想要的</span></span><br><span class="line">        <span class="keyword">while</span> (L &lt; R &amp;&amp; nums[R] === nums[R - <span class="number">1</span>]) R--;</span><br><span class="line">        R--;</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (sum &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">while</span> (L &lt; R &amp;&amp; nums[L] === nums[L + <span class="number">1</span>]) L++;</span><br><span class="line">        L++;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        res.push([nums[i], nums[L], nums[R]]);</span><br><span class="line">        <span class="keyword">while</span> (L &lt; R &amp;&amp; nums[L] === nums[L + <span class="number">1</span>]) L++;</span><br><span class="line">        L++;</span><br><span class="line">        <span class="keyword">while</span> (L &lt; R &amp;&amp; nums[R] === nums[R - <span class="number">1</span>]) R--;</span><br><span class="line">        R--;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> res;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>时间复杂度降成O(n^2)。  </p>
+<p>可以看下<a href="https://leetcode-cn.com/problems/3sum/solution/hua-jie-suan-fa-15-san-shu-zhi-he-by-guanpengchn/" target="_blank" rel="noopener">官方视频</a></p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
+<li><a href="https://juejin.cn/book/6844733800300150797/section/6844733800350498824" target="_blank" rel="noopener">修言的前端算法和数据结构</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/26/algorithm_sum/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -934,12 +1126,12 @@
 <li>HTML准备一个元素，添加id，这个元素可以是div也可以是textarea</li>
 <li>JS里，增加一行：CKEDITOR.replace(id)</li>
 </ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">textarea</span> <span class="attr">id</span>=<span class="string">"editor1"</span>&gt;</span><span class="tag">&lt;/<span class="name">textarea</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined"> </span></span><br><span class="line"><span class="undefined"> CKEDITOR.replace("editor1")</span></span><br><span class="line"><span class="undefined">      </span></span><br><span class="line"><span class="undefined"> </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">textarea</span> <span class="attr">id</span>=<span class="string">"editor1"</span>&gt;</span><span class="tag">&lt;/<span class="name">textarea</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined"> </span></span><br><span class="line"><span class="javascript"> CKEDITOR.replace(<span class="string">"editor1"</span>)</span></span><br><span class="line"><span class="undefined">      </span></span><br><span class="line"><span class="undefined"> </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <h3 id="行内模式"><a href="#行内模式" class="headerlink" title="行内模式"></a>行内模式</h3><ul>
 <li>HTML准备一个元素，添加id，添加属性contenteditable</li>
 <li>JS里，增加一行：CKEDITOR.inline(id)</li>
 </ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"editor2"</span> <span class="attr">contenteditable</span>=<span class="string">"true"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>可以内置内容<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined"> // CKEDITOR.disableAutoInline = true;</span></span><br><span class="line"><span class="undefined"> CKEDITOR.inline("editor2")</span></span><br><span class="line"><span class="undefined">    </span></span><br><span class="line"><span class="undefined"> </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"editor2"</span> <span class="attr">contenteditable</span>=<span class="string">"true"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>可以内置内容<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript"> <span class="comment">// CKEDITOR.disableAutoInline = true;</span></span></span><br><span class="line"><span class="javascript"> CKEDITOR.inline(<span class="string">"editor2"</span>)</span></span><br><span class="line"><span class="undefined">    </span></span><br><span class="line"><span class="undefined"> </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <h2 id="配置编辑器"><a href="#配置编辑器" class="headerlink" title="配置编辑器"></a>配置编辑器</h2><p>编辑器两种配置方式：</p>
 <ul>
 <li>修改编辑器的config.js文件，这个是全局的。不推荐修改。</li>
@@ -1869,11 +2061,11 @@
 <p>比如现在有三个同级元素<code>a b c</code>，点击 a 之后，想要 b 和 c 也知道 a 被点击。</p>
 <p>那么可以创建一个<code>clickA</code>事件，然后让 b 和 c 绑定这个事件，点击 a 之后就让 b 和 c 触发这个事件</p>
 <p>看个例子：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"a"</span>&gt;</span>a<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"b"</span>&gt;</span>b<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"c"</span>&gt;</span>c<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">  // 新建一个自定义事件</span></span><br><span class="line"><span class="undefined">  var clickA = new Event("clickA");</span></span><br><span class="line"><span class="undefined">  document.querySelector("#a").addEventListener("click", function() &#123;</span></span><br><span class="line"><span class="undefined">    // a点击之后，就是clickA事件触发的时候，但浏览器不认识它，所以感知和派发，可以自己来实现：</span></span><br><span class="line"><span class="undefined">    document.querySelector("#b").dispatchEvent(clickA);</span></span><br><span class="line"><span class="undefined">    document.querySelector("#c").dispatchEvent(clickA);</span></span><br><span class="line"><span class="undefined">  &#125;);</span></span><br><span class="line"><span class="undefined">  document.querySelector("#b").addEventListener("clickA", () =&gt; &#123;</span></span><br><span class="line"><span class="undefined">    console.log("b");</span></span><br><span class="line"><span class="undefined">  &#125;);</span></span><br><span class="line"><span class="undefined">  document.querySelector("#b").addEventListener("clickA", () =&gt; &#123;</span></span><br><span class="line"><span class="undefined">    console.log("c");</span></span><br><span class="line"><span class="undefined">  &#125;);</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"a"</span>&gt;</span>a<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"b"</span>&gt;</span>b<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"c"</span>&gt;</span>c<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">  <span class="comment">// 新建一个自定义事件</span></span></span><br><span class="line"><span class="javascript">  <span class="keyword">var</span> clickA = <span class="keyword">new</span> Event(<span class="string">"clickA"</span>);</span></span><br><span class="line"><span class="javascript">  <span class="built_in">document</span>.querySelector(<span class="string">"#a"</span>).addEventListener(<span class="string">"click"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">    <span class="comment">// a点击之后，就是clickA事件触发的时候，但浏览器不认识它，所以感知和派发，可以自己来实现：</span></span></span><br><span class="line"><span class="javascript">    <span class="built_in">document</span>.querySelector(<span class="string">"#b"</span>).dispatchEvent(clickA);</span></span><br><span class="line"><span class="javascript">    <span class="built_in">document</span>.querySelector(<span class="string">"#c"</span>).dispatchEvent(clickA);</span></span><br><span class="line"><span class="undefined">  &#125;);</span></span><br><span class="line"><span class="javascript">  <span class="built_in">document</span>.querySelector(<span class="string">"#b"</span>).addEventListener(<span class="string">"clickA"</span>, () =&gt; &#123;</span></span><br><span class="line"><span class="javascript">    <span class="built_in">console</span>.log(<span class="string">"b"</span>);</span></span><br><span class="line"><span class="undefined">  &#125;);</span></span><br><span class="line"><span class="javascript">  <span class="built_in">document</span>.querySelector(<span class="string">"#b"</span>).addEventListener(<span class="string">"clickA"</span>, () =&gt; &#123;</span></span><br><span class="line"><span class="javascript">    <span class="built_in">console</span>.log(<span class="string">"c"</span>);</span></span><br><span class="line"><span class="undefined">  &#125;);</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <h2 id="事件代理"><a href="#事件代理" class="headerlink" title="事件代理"></a>事件代理</h2><p>事件在冒泡阶段的时候，会将事件一层层传播，直到整个文档。而从事件对象的<code>target</code>属性，可以知道传播到哪里了。</p>
 <p>于是，利用事件的冒泡特性，可以将多个子元素的同一类型的监听逻辑，合并到父元素上通过一个监听函数来管理的行 为，就是事件代理。</p>
 <p>通过事件代理，我们可以减少内存开销、简化注册步骤，大大提高开发效率。</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>1<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>2<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">  var ul = document.querySelector("ul");</span></span><br><span class="line"><span class="undefined">  ul.addEventListener("click", function(e) &#123;</span></span><br><span class="line"><span class="undefined">    // 这里点击不同的li就会输出相应的内容，e.target就是正在点击的元素</span></span><br><span class="line"><span class="undefined">    console.log(e.target.innerHTML);</span></span><br><span class="line"><span class="undefined">  &#125;);</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>1<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>2<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">  <span class="keyword">var</span> ul = <span class="built_in">document</span>.querySelector(<span class="string">"ul"</span>);</span></span><br><span class="line"><span class="javascript">  ul.addEventListener(<span class="string">"click"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">    <span class="comment">// 这里点击不同的li就会输出相应的内容，e.target就是正在点击的元素</span></span></span><br><span class="line"><span class="javascript">    <span class="built_in">console</span>.log(e.target.innerHTML);</span></span><br><span class="line"><span class="undefined">  &#125;);</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
           
         
@@ -2089,195 +2281,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/20/exam_prototype/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2021/01/20/exam_prototype/" itemprop="url">
-                  理解，原型/原型链/new
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-20T19:54:20+08:00">
-                2021-01-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2021/01/20/exam_prototype/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2021/01/20/exam_prototype/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>本文主要总结了大神的专栏，如果有不对之处，欢迎指正。</p>
-<p>原型（Prototype）模式是一种设计模式，同时更是一种编程范式（programming paradigm）</p>
-<h2 id="理解原型编程范式"><a href="#理解原型编程范式" class="headerlink" title="理解原型编程范式"></a>理解原型编程范式</h2><p>类是先抽象后具体，也就是必须先有类，之后才是实例，然后在关注具体层面的东西。比如 JAVA 中，类是它面向对象系统的根本。</p>
-<p>原型是先具体后抽象，将相似实例关联到一个原型对象，从而囊括较为通用的行为和属性。基于此原型，通过 “复制” 来创建新对象。</p>
-<p>JS 中，原型是面向对象系 统的根本。</p>
-<p>JS 中怎么实现复制的呢？</p>
-<p>JS 是通过使<strong>新对象</strong>保持对原型对象的<strong>引用</strong>来做到了 “复制”（就是新对象上面有 <strong>proto</strong>）。</p>
-<p>JS 不是有 Class 么？</p>
-<p>注意，JS 的 class 只是原型的语法糖：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dog</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(name, age) &#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name;</span><br><span class="line">    <span class="keyword">this</span>.age = age;</span><br><span class="line">  &#125;</span><br><span class="line">  eat() &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"肉骨头真好吃"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>等价于：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Dog</span>(<span class="params">name, age</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.name = name;</span><br><span class="line">  <span class="keyword">this</span>.age = age;</span><br><span class="line">&#125;</span><br><span class="line">Dog.prototype.eat = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"肉骨头真好吃"</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h2 id="理解原型与原型链"><a href="#理解原型与原型链" class="headerlink" title="理解原型与原型链"></a>理解原型与原型链</h2><p>原型编程范式的核心思想就是利用实例来描述对象，用<strong>实例</strong>作为定义对象和继承的基础。</p>
-<p>JS 里，原型编程范式的体现就是基于<strong>原型链</strong>的继承，每个新对象都<strong>保留</strong>了对原型对象的引用。</p>
-<ul>
-<li>每个构造函数都拥有一个 <code>prototype</code> 属性，它指向构造函数的原型对象，这个原型对象中有一个 <code>construtor</code> 属性指回构造函数</li>
-<li>每个实例都有一个*<strong>*proto**</strong>属性，当我们使用构造函数去创建实例时，实例的*<strong>*proto**</strong> 属性就会指向构造函数的原型对象。</li>
-</ul>
-<p>用例子来理解原型链：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建一个Dog构造函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Dog</span>(<span class="params">name, age</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.name = name;</span><br><span class="line">  <span class="keyword">this</span>.age = age;</span><br><span class="line">&#125;</span><br><span class="line">Dog.prototype.eat = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"肉骨头真好吃"</span>);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// 使用Dog构造函数创建dog实例</span></span><br><span class="line"><span class="comment">// 输出"肉骨头真好吃"</span></span><br><span class="line">dog.eat();</span><br><span class="line"><span class="comment">// 输出"[object Object]"</span></span><br><span class="line">dog.toString();</span><br></pre></td></tr></table></figure>
-<p>dog 实例里并没有 eat 方法和 toString 方法，它们还是被成功地调用了。</p>
-<p>因为当<strong>读取</strong>一个实例的属性/方法时，它首先搜索这个实例本身，若没找到，会向上去搜索实例的原型对象；<br>若还没找到，它就去搜索原型对象的原型对象，一直到<code>Object.prototype</code>为止，这个搜索的轨迹，就叫做 <strong>原型链</strong>。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">A</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.name = <span class="string">"a"</span>;</span><br><span class="line">  <span class="keyword">this</span>.color = [<span class="string">"green"</span>, <span class="string">"yellow"</span>];</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">B</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line">B.prototype = <span class="keyword">new</span> A();</span><br><span class="line"><span class="keyword">var</span> b1 = <span class="keyword">new</span> B();</span><br><span class="line"><span class="keyword">var</span> b2 = <span class="keyword">new</span> B();</span><br><span class="line"><span class="comment">// 此处是赋值，并不是读取，所以不会往上找</span></span><br><span class="line">b1.name = <span class="string">"change"</span>;</span><br><span class="line"><span class="comment">// b1.color是读取，如果b1上面没有，是会往上找的</span></span><br><span class="line">b1.color.push(<span class="string">"black"</span>);</span><br><span class="line"><span class="built_in">console</span>.log(b2.name); <span class="comment">// 'a'</span></span><br><span class="line"><span class="built_in">console</span>.log(b2.color); <span class="comment">// ["green", "yellow", "black"]</span></span><br></pre></td></tr></table></figure>
-<h2 id="new-做了啥"><a href="#new-做了啥" class="headerlink" title="new 做了啥"></a>new 做了啥</h2><p>实例大多是被 new 出来的。</p>
-<p>那么 new 到底做了什么呢？</p>
-<ul>
-<li>为这个新的对象开辟一块属于它的内存空间</li>
-<li>把函数体内的 this 指到 开辟的内存空间去</li>
-<li>将新对象的 <code>__proto__</code>这个属性指向对应构造函数的 <code>prototype</code>属性的<strong>引用</strong>，把实例和原型对象关联起来。注意这里是<strong>引用</strong>。</li>
-<li>执行函数体内的逻辑，有可能创建新对象的属性和方法</li>
-<li>最后即便你没有手动 return，构造函数也会帮你把创建的这个新对象 return 出来</li>
-</ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> A = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;;</span><br><span class="line">A.prototype.n = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> b = <span class="keyword">new</span> A();</span><br><span class="line">A.prototype = &#123;</span><br><span class="line">  n: <span class="number">2</span>,</span><br><span class="line">  m: <span class="number">3</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> c = <span class="keyword">new</span> A();</span><br><span class="line"><span class="built_in">console</span>.log(b.n);</span><br><span class="line"><span class="built_in">console</span>.log(b.m);</span><br><span class="line"><span class="built_in">console</span>.log(c.n);</span><br><span class="line"><span class="built_in">console</span>.log(c.m);</span><br></pre></td></tr></table></figure>
-<p>答案是<code>1 undefined 2 3</code>。</p>
-<p>注意，b 实例创建的时候，构造函数的 prototype 的<strong>引用</strong>是<code>{n:1,constructor:A}</code>，所以 b 实例的<strong>proto</strong>也是指向<code>{n:1,constructor:A}</code><br>之后进行<code>A.prototype ={...}</code>，切断了和旧 prototype 的关系，<br>而 b 却仍然保留着旧 prototype 的引用。这就是造 成 b 实例和 c 实例之间表现差异的原因。</p>
-<p>再看个例子</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">A</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">B</span>(<span class="params">a</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.a = a;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">C</span>(<span class="params">a</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (a) &#123;</span><br><span class="line">    <span class="keyword">this</span>.a = a;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">A.prototype.a = <span class="number">1</span>;</span><br><span class="line">B.prototype.a = <span class="number">1</span>;</span><br><span class="line">C.prototype.a = <span class="number">1</span>;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">new</span> A().a); <span class="comment">// 1</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">new</span> B().a); <span class="comment">// undefined</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">new</span> C(<span class="number">2</span>).a); <span class="comment">// 2</span></span><br></pre></td></tr></table></figure>
-<p>这里主要注意，new 操作里，执行函数体的时候，实例会新增自己的属性和方法。</p>
-<h2 id="手写实现-new"><a href="#手写实现-new" class="headerlink" title="手写实现 new"></a>手写实现 new</h2><p>new 做的事：为新对象开辟内存空间、新对象的<strong><strong>proto</strong></strong>指向构造函数的原型对象、函数体的this 指向新对象、执行函数体、函数体没有返回新对象则主动返回新对象</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">myNew</span>(<span class="params">FnCreator, ...args</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 为新对象开辟内存空间</span></span><br><span class="line">  <span class="keyword">let</span> newObj = &#123;&#125;;</span><br><span class="line">  <span class="comment">// 新对象的__proto__指向构造函数的原型对象</span></span><br><span class="line">  newObj.__proto__ = FnCreator.prototype;</span><br><span class="line">  <span class="comment">// this指向新对象、执行函数体</span></span><br><span class="line">  <span class="keyword">const</span> res = FnCreator.call(newObj, ...args);</span><br><span class="line">  <span class="comment">// 函数体没有返回新对象则主动返回新对象</span></span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">typeof</span> res === <span class="string">"object"</span> ? res : newObj;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建一个Dog构造函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Dog</span>(<span class="params">name, age</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.name = name;</span><br><span class="line">  <span class="keyword">this</span>.age = age;</span><br><span class="line">&#125;</span><br><span class="line">Dog.prototype.eat = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"肉骨头真好吃"</span>);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// 创建dog实例</span></span><br><span class="line"><span class="keyword">var</span> dog = myNew(Dog,<span class="string">'d'</span>,<span class="number">2</span>)</span><br><span class="line"><span class="built_in">console</span>.log(dog)</span><br><span class="line"><span class="comment">// 输出"肉骨头真好吃"</span></span><br><span class="line">dog.eat();</span><br><span class="line"><span class="comment">// 输出"[object Object]"</span></span><br><span class="line">dog.toString();</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2327,7 +2330,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">257</span>
+                <span class="site-state-item-count">258</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

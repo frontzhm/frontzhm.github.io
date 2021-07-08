@@ -420,7 +420,7 @@
 <li>子组件内部，事件绑定的时候，让<code>this.props.xx[event]</code>执行</li>
 <li>父组件给子组件传相应事件，这个事件绑定的函数里是修改逻辑，因为写在父组件里，所以容易修改</li>
 </ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 父组件里</span></span><br><span class="line">&lt;Square value=&#123;<span class="keyword">this</span>.state.squares[i]&#125; onClick=&#123;()=&gt;<span class="keyword">this</span>.handleClick(i)&#125;/&gt;;</span><br><span class="line"></span><br><span class="line">handleClick(i)&#123;</span><br><span class="line">    <span class="keyword">const</span> squares = <span class="keyword">this</span>.state.squares.slice()</span><br><span class="line">    squares[i] = <span class="string">'X'</span></span><br><span class="line">    <span class="keyword">this</span>.setState(&#123;squares&#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 子组件里</span></span><br><span class="line">&lt;button onClick=&#123;()=&gt;<span class="keyword">this</span>.props.onClick()&#125;&#125;&gt;&lt;/button&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 父组件里</span></span><br><span class="line">&lt;Square value=&#123;<span class="keyword">this</span>.state.squares[i]&#125; onClick=&#123;()=&gt;<span class="keyword">this</span>.handleClick(i)&#125;/&gt;;</span><br><span class="line"></span><br><span class="line">handleClick(i)&#123;</span><br><span class="line">    <span class="keyword">const</span> squares = <span class="keyword">this</span>.state.squares.slice()</span><br><span class="line">    squares[i] = <span class="string">'X'</span></span><br><span class="line">    <span class="keyword">this</span>.setState(&#123;squares&#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 子组件里</span></span><br><span class="line">&lt;button onClick=&#123;()=&gt;<span class="keyword">this</span>.props.onClick()&#125;&#125;&gt;<span class="xml"><span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
 <p>注意修改属性的时候，不要动原始的数组，而是要复制一份出来，在修改。</p>
 <p>数据不可变的好处：</p>
 <ul>
@@ -584,7 +584,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">257</span>
+                <span class="site-state-item-count">258</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
