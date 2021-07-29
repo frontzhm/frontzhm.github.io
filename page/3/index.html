@@ -261,6 +261,191 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/21/algorithm_search_map/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2021/04/21/algorithm_search_map/" itemprop="url">
+                  善于利用 查找表 解决查找问题
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-04-21T20:03:17+08:00">
+                2021-04-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/04/21/algorithm_search_map/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2021/04/21/algorithm_search_map/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><a href="https://zh.wikipedia.org/wiki/%E6%9F%A5%E6%89%BE%E8%A1%A8" target="_blank" rel="noopener">查找表（Lookup Table）</a>是用<strong>简单</strong>的查询操作替换运行时计算的数组或者关联数组这样的<strong>数据结构</strong>。由于从内存中提取数值经常要比复杂的计算速度快很多，所以这样得到的速度提升是很显著的。</p>
+<p>说人话，将输入和输出存在表里，这样根据输入能快速查找到输出，而不需要经过复杂的计算。</p>
+<p>在算法里，经常会将在数组里的某种操作变成查找表，从而降低时间复杂度：</p>
+<ul>
+<li>快速找到数组中某个值的位置：遍历数组，建立 Map，值是键，索引是值，复杂度就从 O(n)变成 O(1)</li>
+<li>快速找到数组中某个值出现的次数：遍历数组，建立 Map，值是键，索引是次数，复杂度就从 O(n)变成 O(1)</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 数组中每个元素对应的索引</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getIndexMap</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 兼容字符串的写法</span></span><br><span class="line">  <span class="keyword">const</span> map = &#123;&#125;;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt;= arr.length; i++) &#123;</span><br><span class="line">    map[arr[i]] = i;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> map;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 数组中每个元素 出现了几次</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getCountMap</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 兼容字符串的写法</span></span><br><span class="line">  <span class="keyword">const</span> map = &#123;&#125;;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt;= arr.length; i++) &#123;</span><br><span class="line">    <span class="keyword">const</span> cur = arr[i];</span><br><span class="line">    map[cur] = map[cur] ? map[cur] + <span class="number">1</span> : <span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> map;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="练习-1：两个数组的交集"><a href="#练习-1：两个数组的交集" class="headerlink" title="练习 1：两个数组的交集"></a>练习 1：两个数组的交集</h2><p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f05e096584e0470eb347d2661ef51355~tplv-k3u1fbpfcp-zoom-1.image" alt="map1"></p>
+<p>显然是查找一个元素是不是在另一个数组中出现过，而且还关注出现了几次。</p>
+<p>于是思路就有了：</p>
+<ul>
+<li>将数组 nums1 的元素和次数形成 Map</li>
+<li>设置数组变量 res，表示最终的结果</li>
+<li>遍历数组 nums2，Map 中有元素的话，且对应的次数是正整数的话，才将元素推进 res 中，然后将对应的次数减去一，这样就能保证 res 中元素出现的是最少次数</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> intersect = <span class="function"><span class="keyword">function</span> (<span class="params">nums1, nums2</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// getCountMap就是上面的函数</span></span><br><span class="line">  <span class="keyword">const</span> countMap = getCountMap(nums1);</span><br><span class="line">  <span class="keyword">const</span> res = [];</span><br><span class="line">  nums2.forEach(<span class="function">(<span class="params">item</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (countMap[item]) &#123;</span><br><span class="line">      res.push(item);</span><br><span class="line">      countMap[item] = countMap[item] - <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="keyword">return</span> res;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="练习-2：找不同"><a href="#练习-2：找不同" class="headerlink" title="练习 2：找不同"></a>练习 2：找不同</h2><p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c1ee46c3c42e4bedbf98a85b621d7cca~tplv-k3u1fbpfcp-zoom-1.image" alt="leetcode389"></p>
+<p>思路是不是极其相似，这里字符串和数组其实是类似的：</p>
+<ul>
+<li>将 str1 的元素和次数形成 Map</li>
+<li>遍历 str2，Map 中没有元素或者对应的次数是正整数的话，直接返回结果，否则然后将对应的次数减去一</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> findTheDifference = <span class="function"><span class="keyword">function</span> (<span class="params">s, t</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// getCountMap就是上面的函数</span></span><br><span class="line">  <span class="keyword">const</span> countMap = getCountMap(s);</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; t.length; i++) &#123;</span><br><span class="line">    <span class="keyword">const</span> cur = t[i];</span><br><span class="line">    <span class="keyword">if</span> (!countMap[cur]) &#123;</span><br><span class="line">      <span class="keyword">return</span> cur;</span><br><span class="line">    &#125;</span><br><span class="line">    countMap[cur]--;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>当然因为只有一个，还有别的鬼法子：</p>
+<ul>
+<li>s 和 t 中每个字符的 ASCII 码的值求和，两和相减的值转成的字母就是结果</li>
+<li>s 和 t 合并，然后位运算得到的值就是结果</li>
+</ul>
+<p>但是当添加的字母不止一个的时候，还是查找表的法子好使些:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> findTheDifference = <span class="function"><span class="keyword">function</span> (<span class="params">s, t</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// getCountMap就是上面的函数</span></span><br><span class="line">  <span class="keyword">const</span> countMap = getCountMap(s);</span><br><span class="line">  <span class="keyword">let</span> res = <span class="string">""</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; t.length; i++) &#123;</span><br><span class="line">    <span class="keyword">const</span> cur = t[i];</span><br><span class="line">    <span class="keyword">if</span> (!countMap[cur]) &#123;</span><br><span class="line">      res += cur;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      countMap[cur]--;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> res;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>其实只要频繁用到某种计算结果，就可以使用查找表降低时间复杂度~</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
+<li><a href="https://juejin.cn/post/6847009772500156429#heading-6" target="_blank" rel="noopener">写给前端的算法进阶指南，我是如何两个月零基础刷 200 题</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/142482079" target="_blank" rel="noopener">查找表超全总结：解决查找问题</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/14/algorithm_tree/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2103,197 +2288,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/31/algorithm_regx/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2021/03/31/algorithm_regx/" itemprop="url">
-                  字符串匹配类的问题，尝试正则 -- 字符串经典算法题
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-03-31T11:44:25+08:00">
-                2021-03-31
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2021/03/31/algorithm_regx/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2021/03/31/algorithm_regx/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>最近在看数据结构和算法，努力总结出道~</p>
-<h2 id="基础：创建正则"><a href="#基础：创建正则" class="headerlink" title="基础：创建正则"></a>基础：创建正则</h2><p>创建正则，两种方式：</p>
-<ul>
-<li><code>/ab+c/gi</code>，适用于静态的正则表达式</li>
-<li><code>new RegExp(&quot;ab+c&quot;,&quot;gi&quot;)</code>，适用于动态的表达式</li>
-</ul>
-<p>后面的<code>gi</code>是可选标志，可不写，表示允许全局和不分大小写搜索等，</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2313e5df0025468ab883b2f58904a7d3~tplv-k3u1fbpfcp-zoom-1.image" alt="regx2"></p>
-<h2 id="基础：JS-怎么用正则"><a href="#基础：JS-怎么用正则" class="headerlink" title="基础：JS 怎么用正则"></a>基础：JS 怎么用正则</h2><p>JS 使用正则，无外乎调用方法，一个是正则对象的两个方法 <code>exec</code> 和 <code>test</code> 方法, 一个是字符串的 5 个方法<code>match</code>、<code>matchAll</code>、<code>replace</code>、<code>search</code> 和 <code>split</code> 方法。</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c4cbafbfdd7a44ec8b293c6a0bba6eda~tplv-k3u1fbpfcp-zoom-1.image" alt="regx1"></p>
-<p>一般常用的估计就是<code>exec</code>、<code>test</code>、<code>match</code>、<code>replace</code>，注意是哪种对象的方法，确保调用准确。</p>
-<ul>
-<li>看下字符串里<strong>有没有</strong>匹配的字符串，一般用<code>test</code>，返回<code>true/false</code>，如<code>/^hello/.test(&#39;hello world!&#39;)</code>返回<code>true</code></li>
-<li>看下字符串里匹配的字符串具体有哪些，一般用<code>match</code>，返回<code>数组/null</code>，如<code>&#39;Maria has a sheep named Yan&#39;.match(/[A-Z]/g)</code>，返回<code>[&#39;M&#39;,&#39;Y&#39;]</code></li>
-<li>看下字符串里匹配的字符串的详细信息，一般用<code>exec</code>，返回<code>数组/null</code>，需要第一个的时候直接使用，但需要所有的详细信息的时候，需要循环。因为 exec 只返回一个匹配字符串的详细信息</li>
-</ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getMatch</span>(<span class="params">str, reg</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> resArray = [];</span><br><span class="line">  <span class="keyword">let</span> res = reg.exec(str);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">while</span> (res) &#123;</span><br><span class="line">    resArray.push(res);</span><br><span class="line">    res = reg.exec(str);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> resArray</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(getMatch(<span class="string">'table football, foosball'</span>,/foo*<span class="regexp">/g))</span></span><br></pre></td></tr></table></figure>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/71aadba5257543038b3db08fcf39a30c~tplv-k3u1fbpfcp-zoom-1.image" alt="reg2"></p>
-<ul>
-<li>字符串里面的内容需要替换，一般用<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String/replace" target="_blank" rel="noopener"><code>replace</code></a>，返回新的字符串，但不改变原始字符串。replace第二个参数可以是回调函数，返回值就是替换的值，复杂的情况可以结合函数使用。</li>
-</ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> str = <span class="string">'Twas the night before Xmas...'</span>;</span><br><span class="line"><span class="keyword">var</span> newstr = str.replace(<span class="regexp">/xmas/i</span>, <span class="string">'Christmas'</span>);</span><br><span class="line"><span class="comment">// Twas the night before Christmas...</span></span><br><span class="line"><span class="built_in">console</span>.log(newstr);</span><br></pre></td></tr></table></figure>
-<h2 id="练习：搜索字符串"><a href="#练习：搜索字符串" class="headerlink" title="练习：搜索字符串"></a>练习：搜索字符串</h2><p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e91a53ae05a949848584b4ed8bb8225b~tplv-k3u1fbpfcp-zoom-1.image" alt="string3"></p>
-<p>add其实就是存储操作，为了后期查找更快速，以字符串的长度为 <code>key</code>，相同长度的字符串存在一个数组中，整体结构是个<code>Map</code>。</p>
-<p>search，没有点的时候，其实就是普通字符串的查找。<br>麻烦一点的地方是有点的时候，如果用非正则的法子，得判断点的位置，然后看看字符串。但是用正则的话，很方便，直接建立正则就好。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> WordDictionary = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.words = &#123;&#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** </span></span><br><span class="line"><span class="comment"> * @param &#123;string&#125; word</span></span><br><span class="line"><span class="comment"> * @return &#123;void&#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">WordDictionary.prototype.addWord = <span class="function"><span class="keyword">function</span>(<span class="params">word</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> len = word.length</span><br><span class="line">    <span class="comment">// 没有键的话，创建</span></span><br><span class="line">    <span class="keyword">this</span>.words[len] || (<span class="keyword">this</span>.words[len] = [])</span><br><span class="line">    <span class="comment">// 存储到对应的键里</span></span><br><span class="line">    <span class="keyword">this</span>.words[len].push(word);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** </span></span><br><span class="line"><span class="comment"> * @param &#123;string&#125; word</span></span><br><span class="line"><span class="comment"> * @return &#123;boolean&#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">WordDictionary.prototype.search = <span class="function"><span class="keyword">function</span>(<span class="params">word</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> len = word.length</span><br><span class="line">    <span class="comment">// 键对应的词表</span></span><br><span class="line">    <span class="keyword">const</span> list = <span class="keyword">this</span>.words[len]</span><br><span class="line">    <span class="comment">// 没有词表，直接false</span></span><br><span class="line">    <span class="keyword">if</span>(!list) <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">    <span class="keyword">const</span> hasPoint = word.includes(<span class="string">'.'</span>)</span><br><span class="line">    <span class="comment">// 没有点的话 就是看看有没有词</span></span><br><span class="line">    <span class="keyword">if</span>(!hasPoint) <span class="keyword">return</span> list.includes(word)</span><br><span class="line">    <span class="comment">// 建立正则</span></span><br><span class="line">    <span class="keyword">const</span> reg = <span class="keyword">new</span> <span class="built_in">RegExp</span>(word)</span><br><span class="line">    <span class="comment">// 看看有么有匹配的词</span></span><br><span class="line">    <span class="keyword">return</span> list.some(<span class="function"><span class="params">item</span>=&gt;</span>reg.test(item))</span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h2 id="练习：字符串转化成数字"><a href="#练习：字符串转化成数字" class="headerlink" title="练习：字符串转化成数字"></a>练习：字符串转化成数字</h2><p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e3c83d3c01cc44eebb73821b756fff19~tplv-k3u1fbpfcp-zoom-1.image" alt="string4">  </p>
-<p>定理：题目长，意味着题目简单，考验的是耐心~~</p>
-<ul>
-<li>根据第一条，第一步，去掉前面的空格</li>
-<li>根据第二条，第二步，判断有没有正负号，没有的话就是正的</li>
-<li>根据第三条，第三步，遇到非数字或者结尾，停止捕获</li>
-<li>根据第四条，第四步，将数字部分字符串转化为数字</li>
-<li>根据第五条，第五步，转化的数字是不是过界了，最大最小是有界限的</li>
-</ul>
-<p>如果用非正则的法子，前面三步需要挨个处理，但是正则的话，可以一次性处理。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> myAtoi = <span class="function"><span class="keyword">function</span> (<span class="params">s</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// \s是空格，可有可无；+-任意一个可有可无；后面的数字必须有，主要捕获的就是符号加数字</span></span><br><span class="line">  <span class="keyword">const</span> reg = <span class="regexp">/^\s&#123;0,&#125;([+-]&#123;0,1&#125;[0-9]&#123;1,&#125;)/</span>;</span><br><span class="line">  <span class="comment">// 这边捕获第一个就够了，用exec足够</span></span><br><span class="line">  <span class="keyword">const</span> match = reg.exec(s);</span><br><span class="line">  <span class="comment">// 没有捕获到就是null，返回0</span></span><br><span class="line">  <span class="keyword">if</span> (!match) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  <span class="comment">// 捕获到的话，第二项是需要的数字字符串，减0是转化为数字类型</span></span><br><span class="line">  <span class="keyword">const</span> number = match[<span class="number">1</span>] - <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">const</span> min = -<span class="built_in">Math</span>.pow(<span class="number">2</span>, <span class="number">31</span>);</span><br><span class="line">  <span class="keyword">const</span> max = <span class="built_in">Math</span>.pow(<span class="number">2</span>, <span class="number">31</span>) - <span class="number">1</span>;</span><br><span class="line">  <span class="comment">// 边界值处理</span></span><br><span class="line">  <span class="keyword">return</span> number &gt; max ? max : number &lt; min ? min : number;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p><a href="https://leetcode-cn.com/problems/string-to-integer-atoi/solution/zi-fu-chuan-zhuan-huan-zheng-shu-atoi-by-leetcode-/" target="_blank" rel="noopener">官方视频</a></p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
-<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Regular_Expressions" target="_blank" rel="noopener">MDN 的正则解读</a></li>
-<li><a href="https://juejin.cn/book/6844733800300150797/section/6844733800350498824" target="_blank" rel="noopener">修言的前端算法和数据结构</a></li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2343,7 +2337,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">259</span>
+                <span class="site-state-item-count">260</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

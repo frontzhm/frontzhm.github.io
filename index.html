@@ -261,6 +261,185 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/07/29/vue_5_source_code/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2021/07/29/vue_5_source_code/" itemprop="url">
+                  组件注册 - 学习vue源码系列3.4
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-07-29T15:29:33+08:00">
+                2021-07-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/07/29/vue_5_source_code/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2021/07/29/vue_5_source_code/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>决定跟着<a href="https://coding.imooc.com/lesson/228.html#mid=14869" target="_blank" rel="noopener">黄轶老师的 vue2 源码课程</a>好好学习下<code>vue2</code>的源码，学习过程中，尽量输出自己的所得，提高学习效率，水平有限，不对的话请指正~</p>
+<p>将<a href="https://github.com/vuejs/vue" target="_blank" rel="noopener">vue 的源码</a>clone 到本地，切换到分支<code>2.6</code>。</p>
+<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>vue 中除了内置组件<code>keep-alive</code>等，其他组件必须先注册才能使用，不然就会报错<code>Unknown custom element...</code></p>
+<p>vue 有两种注册方式：</p>
+<ul>
+<li>全局注册</li>
+<li>局部注册</li>
+</ul>
+<h2 id="先看个-demo"><a href="#先看个-demo" class="headerlink" title="先看个 demo"></a>先看个 demo</h2><p>组件的两种注册和使用方式如下：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"/Users/zhm/mygit/vue/dist/vue.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">  // 子组件</span></span><br><span class="line"><span class="undefined">  let Hello = &#123;</span></span><br><span class="line"><span class="undefined">    name: "Hello",</span></span><br><span class="line"><span class="xml">    template: "<span class="tag">&lt;<span class="name">div</span>&gt;</span>hello<span class="tag">&lt;/<span class="name">div</span>&gt;</span>",</span></span><br><span class="line"><span class="undefined">  &#125;;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">  // 全局组件</span></span><br><span class="line"><span class="undefined">  let appComponent = &#123;</span></span><br><span class="line"><span class="undefined">    name: "app",</span></span><br><span class="line"><span class="undefined">    // 注册局部组件</span></span><br><span class="line"><span class="undefined">    components: &#123; Hello &#125;,</span></span><br><span class="line"><span class="undefined">    // 使用局部组件</span></span><br><span class="line"><span class="undefined">    template: `</span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="undefined">      &#123;&#123;msg&#125;&#125;</span></span><br><span class="line"><span class="xml">      <span class="tag">&lt;<span class="name">hello</span>&gt;</span><span class="tag">&lt;/<span class="name">hello</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="undefined">    `,</span></span><br><span class="line"><span class="undefined">    data: () =&gt; (&#123; msg: "App" &#125;),</span></span><br><span class="line"><span class="undefined">    created() &#123;</span></span><br><span class="line"><span class="undefined">      console.log(`组件的$options.components`, this.$options.components);</span></span><br><span class="line"><span class="undefined">    &#125;,</span></span><br><span class="line"><span class="undefined">  &#125;;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">  // 注册全局组件</span></span><br><span class="line"><span class="undefined">  Vue.component(appComponent.name, appComponent);</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">  console.log("Vue类上的options.components", Vue.options.components);</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">  // 根组件实例</span></span><br><span class="line"><span class="undefined">  let vueInstance = new Vue(&#123;</span></span><br><span class="line"><span class="undefined">    el: "#app",</span></span><br><span class="line"><span class="xml">    template: `<span class="tag">&lt;<span class="name">app</span>&gt;</span><span class="tag">&lt;/<span class="name">app</span>&gt;</span>`,</span></span><br><span class="line"><span class="undefined">  &#125;);</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>看下打印的结果：<br><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/vue_component1.png" alt="vue_component1"></p>
+<p>注册全局组件，使用<code>Vue.component(name,componentOptions)</code><br>注册局部组件，使用<code>{components:{hello:hello}}</code></p>
+<h2 id="注册全局组件：Vue-component"><a href="#注册全局组件：Vue-component" class="headerlink" title="注册全局组件：Vue.component"></a>注册全局组件：Vue.component</h2><p>看看<code>Vue.component</code>怎么定义的，都做了啥，直接找有点难找，直接贴源码：</p>
+<p><code>initAssetRegisters</code>就是在 Vue 上注册 3 个属性，<code>components/filters/directives</code>。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/core/global-api/assets.js</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">initAssetRegisters</span>(<span class="params">Vue: GlobalAPI</span>) </span>&#123;</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * Create asset registration methods.</span></span><br><span class="line"><span class="comment">   * ASSET_TYPES = [ 'component', 'directive', 'filter' ]</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  ASSET_TYPES.forEach(<span class="function">(<span class="params">type</span>) =&gt;</span> &#123;</span><br><span class="line">    Vue[type] = <span class="function"><span class="keyword">function</span> (<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">      id: string,</span></span></span><br><span class="line"><span class="function"><span class="params">      definition: Function | Object</span></span></span><br><span class="line"><span class="function"><span class="params">    </span>): <span class="title">Function</span> | <span class="title">Object</span> | <span class="title">void</span> </span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (!definition) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.options[type + <span class="string">"s"</span>][id];</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">/* istanbul ignore if */</span></span><br><span class="line">        <span class="keyword">if</span> (process.env.NODE_ENV !== <span class="string">"production"</span> &amp;&amp; type === <span class="string">"component"</span>) &#123;</span><br><span class="line">          validateComponentName(id);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (type === <span class="string">"component"</span> &amp;&amp; isPlainObject(definition)) &#123;</span><br><span class="line">          definition.name = definition.name || id;</span><br><span class="line">          definition = <span class="keyword">this</span>.options._base.extend(definition);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (type === <span class="string">"directive"</span> &amp;&amp; <span class="keyword">typeof</span> definition === <span class="string">"function"</span>) &#123;</span><br><span class="line">          definition = &#123; <span class="attr">bind</span>: definition, <span class="attr">update</span>: definition &#125;;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">this</span>.options[type + <span class="string">"s"</span>][id] = definition;</span><br><span class="line">        <span class="keyword">return</span> definition;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>看源码脑壳疼的地方就是，即便是简单的功能，但为了全面考虑，看起来就感觉多了一层窗户纸，模模糊糊的，上面的内容简化下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// component简写为cp</span></span><br><span class="line">Vue.components = <span class="function"><span class="keyword">function</span> (<span class="params">cpName, cpOptions</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 确保component上面有name属性</span></span><br><span class="line">  cpOptions.name = cpOptions.name | cpName;</span><br><span class="line">  <span class="comment">// Vue.extend其实将cpOptions变成一个Vue的子类.</span></span><br><span class="line">  <span class="keyword">const</span> cpClass = Vue.extend(cpOptions);</span><br><span class="line">  <span class="comment">// 所以全局组件一定在Vue.options.components里</span></span><br><span class="line">  Vue.options.components[cpName] = cpClass;</span><br><span class="line">  <span class="keyword">return</span> cpClass;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Vue.extend其实将cpOptions变成一个Vue的子类,简化下代码如下</span></span><br><span class="line">Vue.extend = <span class="function"><span class="keyword">function</span> (<span class="params">cpOptions</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> Sub = <span class="function"><span class="keyword">function</span> <span class="title">VueComponent</span>(<span class="params">options</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>._init(options);</span><br><span class="line">  &#125;;</span><br><span class="line">  Sub.prototype = <span class="built_in">Object</span>.create(Vue.prototype);</span><br><span class="line">  <span class="comment">// 不同的字段合并策略不一样</span></span><br><span class="line">  Sub.options = mergeOptions(Vue.options, cpOptions);</span><br><span class="line">  <span class="keyword">return</span> Sub;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><code>Vue.options.components[cpName] = cpClass</code>可以看到，全局组件都在<code>Vue.options.components</code>，组件名和组件类一一对应，这样使用组件的时候，就直接调出相应的组件类了。</p>
+<h2 id="使用全局组件"><a href="#使用全局组件" class="headerlink" title="使用全局组件"></a>使用全局组件</h2><p>组件类的<code>options</code>上已经合并了<code>Vue.options</code>，而在组件实例化的阶段，会再次执行<code>mergeOptions</code>的操作，将<code>VueComponent.options.components</code>合并到<code>vm.$options.components</code>。</p>
+<p>然后在创建 <code>vnode</code> 的过程中，会执行 <code>_createElement</code> 方法，我们再来回顾一下这部分的逻辑，它的定义在 <code>src/core/vdom/create-element.js</code> 中：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">_createElement</span> (<span class="params"> context: Component, tag?: string | Class&lt;Component&gt; | Function | Object, data?: VNodeData, children?: any, normalizationType?: number </span>): <span class="title">VNode</span> | <span class="title">Array</span>&lt;<span class="title">VNode</span>&gt; </span>&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">  <span class="keyword">let</span> vnode, ns</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> tag === <span class="string">'string'</span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> Ctor</span><br><span class="line">    <span class="keyword">if</span> (isDef(Ctor = resolveAsset(context.$options, <span class="string">'components'</span>, tag))) &#123;</span><br><span class="line">      <span class="comment">// component</span></span><br><span class="line">      vnode = createComponent(Ctor, data, context, children, tag)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里看到，根据 tag，然后在<code>options.components</code>里找到相应的<code>Ctor</code>，然后再创建<code>组件的vnode</code><br><code>resolveAsset</code>就是根据 <code>tag</code> 找到<code>Ctor</code> 的方法。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/core/utils/options.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">resolveAsset</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  options: Object,</span></span></span><br><span class="line"><span class="function"><span class="params">  type: string,</span></span></span><br><span class="line"><span class="function"><span class="params">  id: string,</span></span></span><br><span class="line"><span class="function"><span class="params">  warnMissing?: boolean</span></span></span><br><span class="line"><span class="function"><span class="params"></span>): <span class="title">any</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// type就是 是components 还是 filters之类的</span></span><br><span class="line">  <span class="keyword">const</span> assets = options[type];</span><br><span class="line">  <span class="comment">// id其实这边指的是组件名，或者说是组件的tag也行</span></span><br><span class="line">  <span class="keyword">if</span> (hasOwn(assets, id)) <span class="keyword">return</span> assets[id];</span><br><span class="line">  <span class="keyword">const</span> camelizedId = camelize(id);</span><br><span class="line">  <span class="comment">// 驼峰的形式</span></span><br><span class="line">  <span class="keyword">if</span> (hasOwn(assets, camelizedId)) <span class="keyword">return</span> assets[camelizedId];</span><br><span class="line">  <span class="comment">// 首字母大写的形式</span></span><br><span class="line">  <span class="keyword">const</span> PascalCaseId = capitalize(camelizedId);</span><br><span class="line">  <span class="comment">// 连字符的形式</span></span><br><span class="line">  <span class="keyword">if</span> (hasOwn(assets, PascalCaseId)) <span class="keyword">return</span> assets[PascalCaseId];</span><br><span class="line">  <span class="comment">// fallback to prototype chain</span></span><br><span class="line">  <span class="keyword">const</span> res = assets[id] || assets[camelizedId] || assets[PascalCaseId];</span><br><span class="line">  <span class="keyword">if</span> (process.env.NODE_ENV !== <span class="string">"production"</span> &amp;&amp; warnMissing &amp;&amp; !res) &#123;</span><br><span class="line">    warn(<span class="string">"Failed to resolve "</span> + type.slice(<span class="number">0</span>, <span class="number">-1</span>) + <span class="string">": "</span> + id, options);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里先用<code>id</code>找，不行就驼峰式<code>id</code>找，首字母大写找，连字符找，所以<code>id</code>形式三种形式都行，找到就返回<code>Ctor</code></p>
+<h2 id="注册局部组件"><a href="#注册局部组件" class="headerlink" title="注册局部组件"></a>注册局部组件</h2><p>注册局部组件，其实就是在当前组件的options里加上<code>components:{hello}</code>，而<code>mergeOptions</code>的时候肯定被合并到<code>vm.$options.components</code>上，组件实例化的时候，依旧通过<code>resolveAsset</code>拿到对应的<code>Ctor</code></p>
+<p>当然局部组件，只能在组件内才能使用组件。<br>全局组件之所以能被所有的组件使用，是因为组件实例化的时候，<code>Vue.options.components</code>会被合并到<code>vm.$options.components</code>。</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
+<li><a href="https://coding.imooc.com/lesson/228.html#mid=14869" target="_blank" rel="noopener">黄轶老师的 vue2 源码解密课程</a></li>
+<li><a href="https://ustbhuangyi.github.io/vue-analysis/v2/components/component-register.html#%E5%85%A8%E5%B1%80%E6%B3%A8%E5%86%8C" target="_blank" rel="noopener">vue.js 技术揭秘</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/07/26/vue_4_source_code/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2128,199 +2307,6 @@ cease (cess) v.走了（彻底的）、停止、终结 -->
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/06/17/automatic_generator/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2021/06/17/automatic_generator/" itemprop="url">
-                  简单手写async函数，让生成器函数自动执行
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-06-17T11:35:08+08:00">
-                2021-06-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2021/06/17/automatic_generator/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2021/06/17/automatic_generator/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><code>async</code>函数实现了异步代码以近乎同步的方式写，可读性强，使用的时候真是非常方便。</p>
-<p>其本质是生成器函数的语法糖，本文尝试手写一个函数来替换<code>async</code>函数，去掉糖衣看看。</p>
-<h2 id="async函数的-demo"><a href="#async函数的-demo" class="headerlink" title="async函数的 demo"></a><code>async</code>函数的 demo</h2><p>先写一个<code>async</code>函数的 demo:</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> getData = <span class="function"><span class="params">()</span> =&gt;</span></span><br><span class="line">  <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve</span>) =&gt;</span> setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> resolve(<span class="string">'data'</span>), <span class="number">1000</span>));</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> data = <span class="keyword">await</span> getData();</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'data: '</span>, data);</span><br><span class="line">  <span class="keyword">const</span> data2 = <span class="keyword">await</span> getData();</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'data2: '</span>, data2);</span><br><span class="line">  <span class="keyword">return</span> <span class="string">'success'</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这样的一个函数 应该再1秒后打印data 再过一秒打印data2 最后打印success</span></span><br><span class="line">test().then(<span class="function">(<span class="params">res</span>) =&gt;</span> <span class="built_in">console</span>.log(res));</span><br></pre></td></tr></table></figure>
-<h2 id="换成生成器函数的-demo"><a href="#换成生成器函数的-demo" class="headerlink" title="换成生成器函数的 demo"></a>换成生成器函数的 demo</h2><p>每个<code>async</code>函数，其实是在类似执行一个<code>生成器</code>函数，而转化成生成器函数也很简单：</p>
-<ul>
-<li>去掉<code>async</code></li>
-<li>加上<code>*</code></li>
-<li>将<code>await</code>换成<code>yield</code></li>
-</ul>
-<p>示例转化下：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> getData = <span class="function"><span class="params">()</span> =&gt;</span></span><br><span class="line">  <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve</span>) =&gt;</span> setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> resolve(<span class="string">'data'</span>), <span class="number">1000</span>));</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">testGen</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> data = <span class="keyword">yield</span> getData();</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'data: '</span>, data);</span><br><span class="line">  <span class="keyword">const</span> data2 = <span class="keyword">yield</span> getData();</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'data2: '</span>, data2);</span><br><span class="line">  <span class="keyword">return</span> <span class="string">'success'</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="生成器函数的基础知识"><a href="#生成器函数的基础知识" class="headerlink" title="生成器函数的基础知识"></a>生成器函数的基础知识</h2><p><a href="https://es6.ruanyifeng.com/#docs/generator" target="_blank" rel="noopener">生成器函数</a>虽然是个函数，但是其返回是一个<a href="https://es6.ruanyifeng.com/#docs/iterator" target="_blank" rel="noopener">迭代器</a>。</p>
-<p>运行完整个生成器函数的话，<code>next</code>的调用次数 = <code>yield</code>的次数 + 1</p>
-<p>先看个简单的 demo：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">gen</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> data = <span class="keyword">yield</span> <span class="string">'第 1 个yield'</span>;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'data: '</span>, data);</span><br><span class="line">  <span class="keyword">const</span> data2 = <span class="keyword">yield</span> <span class="string">'第 2 个yield'</span>;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'data2: '</span>, data2);</span><br><span class="line">  <span class="keyword">return</span> <span class="string">'success'</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> it = gen();</span><br><span class="line"><span class="keyword">var</span> &#123; value, done &#125; = it.next(<span class="string">'第 1 个next'</span>);</span><br><span class="line"><span class="keyword">var</span> &#123; value, done &#125; = it.next(<span class="string">'第 2 个next'</span>);</span><br><span class="line"><span class="keyword">var</span> &#123; value, done &#125; = it.next(<span class="string">'第 3 个next'</span>);</span><br></pre></td></tr></table></figure>
-<p>理解<code>next</code>和<code>yield</code>语句尤为关键</p>
-<ul>
-<li><code>next</code>让函数内部代码开始执行，<code>next</code> 本身是个函数，<ul>
-<li>其<strong>返回值</strong>是一个对象，<code>value</code>是相同索引的<code>yield</code>后面的内容 或 生成器函数的返回值，<code>done</code>是标志函数是否执行完。</li>
-<li>但是其参数却是，上一个索引<code>yield</code>的替换，也就是输入。换言之，<code>yield</code>可以换成<code>大一个索引的next参数</code></li>
-</ul>
-</li>
-<li><code>next</code>执行的时候，遇到<code>yield</code>就暂停</li>
-</ul>
-<p>将生成器函数以伪代码的方式，表达下：</p>
-<p>伪代码里将<code>yield</code>和<code>next</code>全部换掉，并注上暂停的点，这样我觉得就理解的七七八八了</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">gen</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// const data = yield '第 1 个yield';</span></span><br><span class="line">  <span class="keyword">const</span> data = <span class="string">'第 2 个next'</span>; <span class="comment">// 第 2 个 next的参数，这也是第一个暂停处，注意并没赋值</span></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'data: '</span>, data);</span><br><span class="line">  <span class="comment">// const data2 = yield '第 2 个yield';</span></span><br><span class="line">  <span class="keyword">const</span> data2 = <span class="string">'第 3 个next'</span>; <span class="comment">// 第 3 个 next的参数，这也是第二个暂停处，注意并没赋值</span></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'data2: '</span>, data2);</span><br><span class="line">  <span class="keyword">return</span> <span class="string">'生成器函数的返回值'</span>; <span class="comment">// 生成器函数运行完毕</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// it是迭代器</span></span><br><span class="line"><span class="keyword">const</span> it = gen();</span><br><span class="line"><span class="comment">// 第一个next函数的返回值是 第一个yield后面的内容</span></span><br><span class="line"><span class="comment">// var &#123; value, done &#125; = it.next('第 1 个next');</span></span><br><span class="line"><span class="keyword">var</span> value = <span class="string">'第 1 个yield'</span>,</span><br><span class="line">  done = <span class="literal">false</span>; <span class="comment">// 第一个next函数的返回值是 第一个yield后面的内容</span></span><br><span class="line"><span class="comment">// var &#123; value, done &#125; = it.next('第 2 个next');</span></span><br><span class="line"><span class="keyword">var</span> value = <span class="string">'第 2 个yield'</span>,</span><br><span class="line">  done = <span class="literal">false</span>; <span class="comment">// 第二个next函数的返回值是 第二个yield后面的内容</span></span><br><span class="line"><span class="comment">// var &#123; value, done &#125; = it.next('第 3 个next');</span></span><br><span class="line"><span class="keyword">var</span> value = <span class="string">'生成器函数的返回值'</span>,</span><br><span class="line">  done = <span class="literal">true</span>; <span class="comment">// 注意，这里done为true，所以value就是是生成器函数的返回值</span></span><br></pre></td></tr></table></figure>
-<p>所以可见，遇到<code>yield</code>赋值语句的时候，一定提醒自己，跟<code>yield</code>后面的内容没有一毛钱关系！</p>
-<p>遇到<code>next</code>的赋值语句的时候，<code>value</code>和<code>next</code>的参数没有一毛钱关系！</p>
-<h2 id="让生成器手动执行"><a href="#让生成器手动执行" class="headerlink" title="让生成器手动执行"></a>让生成器手动执行</h2><p>再回到主体的生成器函数的例子：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> getData = <span class="function"><span class="params">()</span> =&gt;</span></span><br><span class="line">  <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve</span>) =&gt;</span> setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> resolve(<span class="string">'data'</span>), <span class="number">1000</span>));</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">testGen</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> data = <span class="keyword">yield</span> getData(); <span class="comment">// data = 第2个next的参数</span></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'data: '</span>, data);</span><br><span class="line">  <span class="keyword">const</span> data2 = <span class="keyword">yield</span> getData(); <span class="comment">// data = 第3个next的参数</span></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'data2: '</span>, data2);</span><br><span class="line">  <span class="keyword">return</span> <span class="string">'success'</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>想让<code>data</code>是数据的话，跟<code>yield</code>后面的并没关系，而是跟<code>next</code>的传入有关。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> it = testGen();</span><br><span class="line"><span class="comment">// value是 第1个yield的后面的getData() 其实就是promise实例，</span></span><br><span class="line"><span class="keyword">let</span> res = it.next();</span><br><span class="line"><span class="keyword">let</span> promise = res.value;</span><br><span class="line"><span class="keyword">let</span> done = res.done;</span><br><span class="line">promise.then(<span class="function">(<span class="params">data</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// promise是 第2个yield的后面的getData() 其实就是promise实例。注意这里的next参数才是上面data的赋值</span></span><br><span class="line">  res = it.next(data);</span><br><span class="line">  promise = res.value;</span><br><span class="line">  done = res.done;</span><br><span class="line">  promise.then(<span class="function">(<span class="params">data</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// done为true，promise是 生成器函数的返回值。注意这里的next参数才是上面data2的赋值</span></span><br><span class="line">    res = it.next(data);</span><br><span class="line">    promise = res.value;</span><br><span class="line">    done = res.done;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<h2 id="让生成器函数自动执行"><a href="#让生成器函数自动执行" class="headerlink" title="让生成器函数自动执行"></a>让生成器函数自动执行</h2><p>将上面的过程封装成一个函数，让其自动执行生成器函数，可以将重复的地方拿出来：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">co</span>(<span class="params">gen, ...args</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function">(<span class="params">...args</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> it = gen(...args);</span><br><span class="line">    <span class="comment">// 首次先运行</span></span><br><span class="line">    <span class="keyword">let</span> res = it.next();</span><br><span class="line">    <span class="keyword">let</span> promise = res.value;</span><br><span class="line">    <span class="keyword">let</span> done = res.done;</span><br><span class="line">    <span class="comment">// 重复的部分封装下：</span></span><br><span class="line">    <span class="keyword">const</span> fn = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (done) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">Promise</span>.resolve(promise);</span><br><span class="line">      &#125;</span><br><span class="line">      promise.then(<span class="function">(<span class="params">data</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">// done为true，promise是 生成器函数的返回值。注意这里的next参数才是上面data2的赋值</span></span><br><span class="line">        res = it.next(data);</span><br><span class="line">        promise = res.value;</span><br><span class="line">        done = res.done;</span><br><span class="line">        <span class="comment">// 继续往前走</span></span><br><span class="line">        fn();</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;;</span><br><span class="line">    fn();</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line">co(testGen)();</span><br></pre></td></tr></table></figure>
-<h2 id="更好的版本"><a href="#更好的版本" class="headerlink" title="更好的版本"></a>更好的版本</h2><p>考虑到异常情况，其实更复杂一点。</p>
-<p>这边直接搬运<a href="https://juejin.cn/post/6844904102053281806#heading-5" target="_blank" rel="noopener">手写 async await 的最简实现（20 行）</a></p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">asyncToGenerator</span>(<span class="params">generatorFunc</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> gen = generatorFunc.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="function"><span class="keyword">function</span> <span class="title">step</span>(<span class="params">key, arg</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">let</span> generatorResult;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">          generatorResult = gen[key](arg);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">          <span class="keyword">return</span> reject(error);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">const</span> &#123; value, done &#125; = generatorResult;</span><br><span class="line">        <span class="keyword">if</span> (done) &#123;</span><br><span class="line">          <span class="keyword">return</span> resolve(value);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          <span class="keyword">return</span> <span class="built_in">Promise</span>.resolve(value).then(</span><br><span class="line">            (val) =&gt; step(<span class="string">'next'</span>, val),</span><br><span class="line">            (err) =&gt; step(<span class="string">'throw'</span>, err)</span><br><span class="line">          );</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      step(<span class="string">'next'</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>思路：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">asyncToGenerator</span>(<span class="params">generatorFunc</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 返回的是一个新的函数</span></span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 先调用generator函数 生成迭代器</span></span><br><span class="line">    <span class="comment">// 对应 var gen = testG()</span></span><br><span class="line">    <span class="keyword">const</span> gen = generatorFunc.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 返回一个promise 因为外部是用.then的方式 或者await的方式去使用这个函数的返回值的</span></span><br><span class="line">    <span class="comment">// var test = asyncToGenerator(testG)</span></span><br><span class="line">    <span class="comment">// test().then(res =&gt; console.log(res))</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">    </span><br><span class="line">      <span class="comment">// 内部定义一个step函数 用来一步一步的跨过yield的阻碍</span></span><br><span class="line">      <span class="comment">// key有next和throw两种取值，分别对应了gen的next和throw方法</span></span><br><span class="line">      <span class="comment">// arg参数则是用来把promise resolve出来的值交给下一个yield</span></span><br><span class="line">      <span class="function"><span class="keyword">function</span> <span class="title">step</span>(<span class="params">key, arg</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">let</span> generatorResult</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 这个方法需要包裹在try catch中</span></span><br><span class="line">        <span class="comment">// 如果报错了 就把promise给reject掉 外部通过.catch可以获取到错误</span></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">          generatorResult = gen[key](arg)</span><br><span class="line">        &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">          <span class="keyword">return</span> reject(error)</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// gen.next() 得到的结果是一个 &#123; value, done &#125; 的结构</span></span><br><span class="line">        <span class="keyword">const</span> &#123; value, done &#125; = generatorResult</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (done) &#123;</span><br><span class="line">          <span class="comment">// 如果已经完成了 就直接resolve这个promise</span></span><br><span class="line">          <span class="comment">// 这个done是在最后一次调用next后才会为true</span></span><br><span class="line">          <span class="comment">// 以本文的例子来说 此时的结果是 &#123; done: true, value: 'success' &#125;</span></span><br><span class="line">          <span class="comment">// 这个value也就是generator函数最后的返回值</span></span><br><span class="line">          <span class="keyword">return</span> resolve(value)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          <span class="comment">// 除了最后结束的时候外，每次调用gen.next()</span></span><br><span class="line">          <span class="comment">// 其实是返回 &#123; value: Promise, done: false &#125; 的结构，</span></span><br><span class="line">          <span class="comment">// 这里要注意的是Promise.resolve可以接受一个promise为参数</span></span><br><span class="line">          <span class="comment">// 并且这个promise参数被resolve的时候，这个then才会被调用</span></span><br><span class="line">          <span class="keyword">return</span> <span class="built_in">Promise</span>.resolve(</span><br><span class="line">            <span class="comment">// 这个value对应的是yield后面的promise</span></span><br><span class="line">            value</span><br><span class="line">          ).then(</span><br><span class="line">            <span class="comment">// value这个promise被resove的时候，就会执行next</span></span><br><span class="line">            <span class="comment">// 并且只要done不是true的时候 就会递归的往下解开promise</span></span><br><span class="line">            <span class="comment">// 对应gen.next().value.then(value =&gt; &#123;</span></span><br><span class="line">            <span class="comment">//    gen.next(value).value.then(value2 =&gt; &#123;</span></span><br><span class="line">            <span class="comment">//       gen.next() </span></span><br><span class="line">            <span class="comment">//</span></span><br><span class="line">            <span class="comment">//      // 此时done为true了 整个promise被resolve了 </span></span><br><span class="line">            <span class="comment">//      // 最外部的test().then(res =&gt; console.log(res))的then就开始执行了</span></span><br><span class="line">            <span class="comment">//    &#125;)</span></span><br><span class="line">            <span class="comment">// &#125;)</span></span><br><span class="line">            <span class="function"><span class="keyword">function</span> <span class="title">onResolve</span>(<span class="params">val</span>) </span>&#123;</span><br><span class="line">              step(<span class="string">"next"</span>, val)</span><br><span class="line">            &#125;,</span><br><span class="line">            <span class="comment">// 如果promise被reject了 就再次进入step函数</span></span><br><span class="line">            <span class="comment">// 不同的是，这次的try catch中调用的是gen.throw(err)</span></span><br><span class="line">            <span class="comment">// 那么自然就被catch到 然后把promise给reject掉啦</span></span><br><span class="line">            <span class="function"><span class="keyword">function</span> <span class="title">onReject</span>(<span class="params">err</span>) </span>&#123;</span><br><span class="line">              step(<span class="string">"throw"</span>, err)</span><br><span class="line">            &#125;,</span><br><span class="line">          )</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      step(<span class="string">"next"</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
-<li><a href="https://juejin.cn/post/6844904202053281806" target="_blank" rel="noopener">手写 async await 的最简实现（20 行）</a></li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2370,7 +2356,7 @@ cease (cess) v.走了（彻底的）、停止、终结 -->
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">259</span>
+                <span class="site-state-item-count">260</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

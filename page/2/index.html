@@ -261,6 +261,199 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/06/17/automatic_generator/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2021/06/17/automatic_generator/" itemprop="url">
+                  简单手写async函数，让生成器函数自动执行
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-06-17T11:35:08+08:00">
+                2021-06-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/06/17/automatic_generator/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2021/06/17/automatic_generator/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><code>async</code>函数实现了异步代码以近乎同步的方式写，可读性强，使用的时候真是非常方便。</p>
+<p>其本质是生成器函数的语法糖，本文尝试手写一个函数来替换<code>async</code>函数，去掉糖衣看看。</p>
+<h2 id="async函数的-demo"><a href="#async函数的-demo" class="headerlink" title="async函数的 demo"></a><code>async</code>函数的 demo</h2><p>先写一个<code>async</code>函数的 demo:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> getData = <span class="function"><span class="params">()</span> =&gt;</span></span><br><span class="line">  <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve</span>) =&gt;</span> setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> resolve(<span class="string">'data'</span>), <span class="number">1000</span>));</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> data = <span class="keyword">await</span> getData();</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'data: '</span>, data);</span><br><span class="line">  <span class="keyword">const</span> data2 = <span class="keyword">await</span> getData();</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'data2: '</span>, data2);</span><br><span class="line">  <span class="keyword">return</span> <span class="string">'success'</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这样的一个函数 应该再1秒后打印data 再过一秒打印data2 最后打印success</span></span><br><span class="line">test().then(<span class="function">(<span class="params">res</span>) =&gt;</span> <span class="built_in">console</span>.log(res));</span><br></pre></td></tr></table></figure>
+<h2 id="换成生成器函数的-demo"><a href="#换成生成器函数的-demo" class="headerlink" title="换成生成器函数的 demo"></a>换成生成器函数的 demo</h2><p>每个<code>async</code>函数，其实是在类似执行一个<code>生成器</code>函数，而转化成生成器函数也很简单：</p>
+<ul>
+<li>去掉<code>async</code></li>
+<li>加上<code>*</code></li>
+<li>将<code>await</code>换成<code>yield</code></li>
+</ul>
+<p>示例转化下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> getData = <span class="function"><span class="params">()</span> =&gt;</span></span><br><span class="line">  <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve</span>) =&gt;</span> setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> resolve(<span class="string">'data'</span>), <span class="number">1000</span>));</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">testGen</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> data = <span class="keyword">yield</span> getData();</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'data: '</span>, data);</span><br><span class="line">  <span class="keyword">const</span> data2 = <span class="keyword">yield</span> getData();</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'data2: '</span>, data2);</span><br><span class="line">  <span class="keyword">return</span> <span class="string">'success'</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="生成器函数的基础知识"><a href="#生成器函数的基础知识" class="headerlink" title="生成器函数的基础知识"></a>生成器函数的基础知识</h2><p><a href="https://es6.ruanyifeng.com/#docs/generator" target="_blank" rel="noopener">生成器函数</a>虽然是个函数，但是其返回是一个<a href="https://es6.ruanyifeng.com/#docs/iterator" target="_blank" rel="noopener">迭代器</a>。</p>
+<p>运行完整个生成器函数的话，<code>next</code>的调用次数 = <code>yield</code>的次数 + 1</p>
+<p>先看个简单的 demo：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">gen</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> data = <span class="keyword">yield</span> <span class="string">'第 1 个yield'</span>;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'data: '</span>, data);</span><br><span class="line">  <span class="keyword">const</span> data2 = <span class="keyword">yield</span> <span class="string">'第 2 个yield'</span>;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'data2: '</span>, data2);</span><br><span class="line">  <span class="keyword">return</span> <span class="string">'success'</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> it = gen();</span><br><span class="line"><span class="keyword">var</span> &#123; value, done &#125; = it.next(<span class="string">'第 1 个next'</span>);</span><br><span class="line"><span class="keyword">var</span> &#123; value, done &#125; = it.next(<span class="string">'第 2 个next'</span>);</span><br><span class="line"><span class="keyword">var</span> &#123; value, done &#125; = it.next(<span class="string">'第 3 个next'</span>);</span><br></pre></td></tr></table></figure>
+<p>理解<code>next</code>和<code>yield</code>语句尤为关键</p>
+<ul>
+<li><code>next</code>让函数内部代码开始执行，<code>next</code> 本身是个函数，<ul>
+<li>其<strong>返回值</strong>是一个对象，<code>value</code>是相同索引的<code>yield</code>后面的内容 或 生成器函数的返回值，<code>done</code>是标志函数是否执行完。</li>
+<li>但是其参数却是，上一个索引<code>yield</code>的替换，也就是输入。换言之，<code>yield</code>可以换成<code>大一个索引的next参数</code></li>
+</ul>
+</li>
+<li><code>next</code>执行的时候，遇到<code>yield</code>就暂停</li>
+</ul>
+<p>将生成器函数以伪代码的方式，表达下：</p>
+<p>伪代码里将<code>yield</code>和<code>next</code>全部换掉，并注上暂停的点，这样我觉得就理解的七七八八了</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">gen</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// const data = yield '第 1 个yield';</span></span><br><span class="line">  <span class="keyword">const</span> data = <span class="string">'第 2 个next'</span>; <span class="comment">// 第 2 个 next的参数，这也是第一个暂停处，注意并没赋值</span></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'data: '</span>, data);</span><br><span class="line">  <span class="comment">// const data2 = yield '第 2 个yield';</span></span><br><span class="line">  <span class="keyword">const</span> data2 = <span class="string">'第 3 个next'</span>; <span class="comment">// 第 3 个 next的参数，这也是第二个暂停处，注意并没赋值</span></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'data2: '</span>, data2);</span><br><span class="line">  <span class="keyword">return</span> <span class="string">'生成器函数的返回值'</span>; <span class="comment">// 生成器函数运行完毕</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// it是迭代器</span></span><br><span class="line"><span class="keyword">const</span> it = gen();</span><br><span class="line"><span class="comment">// 第一个next函数的返回值是 第一个yield后面的内容</span></span><br><span class="line"><span class="comment">// var &#123; value, done &#125; = it.next('第 1 个next');</span></span><br><span class="line"><span class="keyword">var</span> value = <span class="string">'第 1 个yield'</span>,</span><br><span class="line">  done = <span class="literal">false</span>; <span class="comment">// 第一个next函数的返回值是 第一个yield后面的内容</span></span><br><span class="line"><span class="comment">// var &#123; value, done &#125; = it.next('第 2 个next');</span></span><br><span class="line"><span class="keyword">var</span> value = <span class="string">'第 2 个yield'</span>,</span><br><span class="line">  done = <span class="literal">false</span>; <span class="comment">// 第二个next函数的返回值是 第二个yield后面的内容</span></span><br><span class="line"><span class="comment">// var &#123; value, done &#125; = it.next('第 3 个next');</span></span><br><span class="line"><span class="keyword">var</span> value = <span class="string">'生成器函数的返回值'</span>,</span><br><span class="line">  done = <span class="literal">true</span>; <span class="comment">// 注意，这里done为true，所以value就是是生成器函数的返回值</span></span><br></pre></td></tr></table></figure>
+<p>所以可见，遇到<code>yield</code>赋值语句的时候，一定提醒自己，跟<code>yield</code>后面的内容没有一毛钱关系！</p>
+<p>遇到<code>next</code>的赋值语句的时候，<code>value</code>和<code>next</code>的参数没有一毛钱关系！</p>
+<h2 id="让生成器手动执行"><a href="#让生成器手动执行" class="headerlink" title="让生成器手动执行"></a>让生成器手动执行</h2><p>再回到主体的生成器函数的例子：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> getData = <span class="function"><span class="params">()</span> =&gt;</span></span><br><span class="line">  <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve</span>) =&gt;</span> setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> resolve(<span class="string">'data'</span>), <span class="number">1000</span>));</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">testGen</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> data = <span class="keyword">yield</span> getData(); <span class="comment">// data = 第2个next的参数</span></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'data: '</span>, data);</span><br><span class="line">  <span class="keyword">const</span> data2 = <span class="keyword">yield</span> getData(); <span class="comment">// data = 第3个next的参数</span></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'data2: '</span>, data2);</span><br><span class="line">  <span class="keyword">return</span> <span class="string">'success'</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>想让<code>data</code>是数据的话，跟<code>yield</code>后面的并没关系，而是跟<code>next</code>的传入有关。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> it = testGen();</span><br><span class="line"><span class="comment">// value是 第1个yield的后面的getData() 其实就是promise实例，</span></span><br><span class="line"><span class="keyword">let</span> res = it.next();</span><br><span class="line"><span class="keyword">let</span> promise = res.value;</span><br><span class="line"><span class="keyword">let</span> done = res.done;</span><br><span class="line">promise.then(<span class="function">(<span class="params">data</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// promise是 第2个yield的后面的getData() 其实就是promise实例。注意这里的next参数才是上面data的赋值</span></span><br><span class="line">  res = it.next(data);</span><br><span class="line">  promise = res.value;</span><br><span class="line">  done = res.done;</span><br><span class="line">  promise.then(<span class="function">(<span class="params">data</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// done为true，promise是 生成器函数的返回值。注意这里的next参数才是上面data2的赋值</span></span><br><span class="line">    res = it.next(data);</span><br><span class="line">    promise = res.value;</span><br><span class="line">    done = res.done;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="让生成器函数自动执行"><a href="#让生成器函数自动执行" class="headerlink" title="让生成器函数自动执行"></a>让生成器函数自动执行</h2><p>将上面的过程封装成一个函数，让其自动执行生成器函数，可以将重复的地方拿出来：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">co</span>(<span class="params">gen, ...args</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function">(<span class="params">...args</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> it = gen(...args);</span><br><span class="line">    <span class="comment">// 首次先运行</span></span><br><span class="line">    <span class="keyword">let</span> res = it.next();</span><br><span class="line">    <span class="keyword">let</span> promise = res.value;</span><br><span class="line">    <span class="keyword">let</span> done = res.done;</span><br><span class="line">    <span class="comment">// 重复的部分封装下：</span></span><br><span class="line">    <span class="keyword">const</span> fn = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (done) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">Promise</span>.resolve(promise);</span><br><span class="line">      &#125;</span><br><span class="line">      promise.then(<span class="function">(<span class="params">data</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">// done为true，promise是 生成器函数的返回值。注意这里的next参数才是上面data2的赋值</span></span><br><span class="line">        res = it.next(data);</span><br><span class="line">        promise = res.value;</span><br><span class="line">        done = res.done;</span><br><span class="line">        <span class="comment">// 继续往前走</span></span><br><span class="line">        fn();</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;;</span><br><span class="line">    fn();</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line">co(testGen)();</span><br></pre></td></tr></table></figure>
+<h2 id="更好的版本"><a href="#更好的版本" class="headerlink" title="更好的版本"></a>更好的版本</h2><p>考虑到异常情况，其实更复杂一点。</p>
+<p>这边直接搬运<a href="https://juejin.cn/post/6844904102053281806#heading-5" target="_blank" rel="noopener">手写 async await 的最简实现（20 行）</a></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">asyncToGenerator</span>(<span class="params">generatorFunc</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> gen = generatorFunc.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="function"><span class="keyword">function</span> <span class="title">step</span>(<span class="params">key, arg</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">let</span> generatorResult;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">          generatorResult = gen[key](arg);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">          <span class="keyword">return</span> reject(error);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">const</span> &#123; value, done &#125; = generatorResult;</span><br><span class="line">        <span class="keyword">if</span> (done) &#123;</span><br><span class="line">          <span class="keyword">return</span> resolve(value);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          <span class="keyword">return</span> <span class="built_in">Promise</span>.resolve(value).then(</span><br><span class="line">            (val) =&gt; step(<span class="string">'next'</span>, val),</span><br><span class="line">            (err) =&gt; step(<span class="string">'throw'</span>, err)</span><br><span class="line">          );</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      step(<span class="string">'next'</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>思路：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">asyncToGenerator</span>(<span class="params">generatorFunc</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 返回的是一个新的函数</span></span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 先调用generator函数 生成迭代器</span></span><br><span class="line">    <span class="comment">// 对应 var gen = testG()</span></span><br><span class="line">    <span class="keyword">const</span> gen = generatorFunc.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 返回一个promise 因为外部是用.then的方式 或者await的方式去使用这个函数的返回值的</span></span><br><span class="line">    <span class="comment">// var test = asyncToGenerator(testG)</span></span><br><span class="line">    <span class="comment">// test().then(res =&gt; console.log(res))</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">    </span><br><span class="line">      <span class="comment">// 内部定义一个step函数 用来一步一步的跨过yield的阻碍</span></span><br><span class="line">      <span class="comment">// key有next和throw两种取值，分别对应了gen的next和throw方法</span></span><br><span class="line">      <span class="comment">// arg参数则是用来把promise resolve出来的值交给下一个yield</span></span><br><span class="line">      <span class="function"><span class="keyword">function</span> <span class="title">step</span>(<span class="params">key, arg</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">let</span> generatorResult</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 这个方法需要包裹在try catch中</span></span><br><span class="line">        <span class="comment">// 如果报错了 就把promise给reject掉 外部通过.catch可以获取到错误</span></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">          generatorResult = gen[key](arg)</span><br><span class="line">        &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">          <span class="keyword">return</span> reject(error)</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// gen.next() 得到的结果是一个 &#123; value, done &#125; 的结构</span></span><br><span class="line">        <span class="keyword">const</span> &#123; value, done &#125; = generatorResult</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (done) &#123;</span><br><span class="line">          <span class="comment">// 如果已经完成了 就直接resolve这个promise</span></span><br><span class="line">          <span class="comment">// 这个done是在最后一次调用next后才会为true</span></span><br><span class="line">          <span class="comment">// 以本文的例子来说 此时的结果是 &#123; done: true, value: 'success' &#125;</span></span><br><span class="line">          <span class="comment">// 这个value也就是generator函数最后的返回值</span></span><br><span class="line">          <span class="keyword">return</span> resolve(value)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          <span class="comment">// 除了最后结束的时候外，每次调用gen.next()</span></span><br><span class="line">          <span class="comment">// 其实是返回 &#123; value: Promise, done: false &#125; 的结构，</span></span><br><span class="line">          <span class="comment">// 这里要注意的是Promise.resolve可以接受一个promise为参数</span></span><br><span class="line">          <span class="comment">// 并且这个promise参数被resolve的时候，这个then才会被调用</span></span><br><span class="line">          <span class="keyword">return</span> <span class="built_in">Promise</span>.resolve(</span><br><span class="line">            <span class="comment">// 这个value对应的是yield后面的promise</span></span><br><span class="line">            value</span><br><span class="line">          ).then(</span><br><span class="line">            <span class="comment">// value这个promise被resove的时候，就会执行next</span></span><br><span class="line">            <span class="comment">// 并且只要done不是true的时候 就会递归的往下解开promise</span></span><br><span class="line">            <span class="comment">// 对应gen.next().value.then(value =&gt; &#123;</span></span><br><span class="line">            <span class="comment">//    gen.next(value).value.then(value2 =&gt; &#123;</span></span><br><span class="line">            <span class="comment">//       gen.next() </span></span><br><span class="line">            <span class="comment">//</span></span><br><span class="line">            <span class="comment">//      // 此时done为true了 整个promise被resolve了 </span></span><br><span class="line">            <span class="comment">//      // 最外部的test().then(res =&gt; console.log(res))的then就开始执行了</span></span><br><span class="line">            <span class="comment">//    &#125;)</span></span><br><span class="line">            <span class="comment">// &#125;)</span></span><br><span class="line">            <span class="function"><span class="keyword">function</span> <span class="title">onResolve</span>(<span class="params">val</span>) </span>&#123;</span><br><span class="line">              step(<span class="string">"next"</span>, val)</span><br><span class="line">            &#125;,</span><br><span class="line">            <span class="comment">// 如果promise被reject了 就再次进入step函数</span></span><br><span class="line">            <span class="comment">// 不同的是，这次的try catch中调用的是gen.throw(err)</span></span><br><span class="line">            <span class="comment">// 那么自然就被catch到 然后把promise给reject掉啦</span></span><br><span class="line">            <span class="function"><span class="keyword">function</span> <span class="title">onReject</span>(<span class="params">err</span>) </span>&#123;</span><br><span class="line">              step(<span class="string">"throw"</span>, err)</span><br><span class="line">            &#125;,</span><br><span class="line">          )</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      step(<span class="string">"next"</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
+<li><a href="https://juejin.cn/post/6844904202053281806" target="_blank" rel="noopener">手写 async await 的最简实现（20 行）</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/06/16/write-promise/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2157,191 +2350,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/21/algorithm_search_map/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2021/04/21/algorithm_search_map/" itemprop="url">
-                  善于利用 查找表 解决查找问题
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-04-21T20:03:17+08:00">
-                2021-04-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2021/04/21/algorithm_search_map/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2021/04/21/algorithm_search_map/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><a href="https://zh.wikipedia.org/wiki/%E6%9F%A5%E6%89%BE%E8%A1%A8" target="_blank" rel="noopener">查找表（Lookup Table）</a>是用<strong>简单</strong>的查询操作替换运行时计算的数组或者关联数组这样的<strong>数据结构</strong>。由于从内存中提取数值经常要比复杂的计算速度快很多，所以这样得到的速度提升是很显著的。</p>
-<p>说人话，将输入和输出存在表里，这样根据输入能快速查找到输出，而不需要经过复杂的计算。</p>
-<p>在算法里，经常会将在数组里的某种操作变成查找表，从而降低时间复杂度：</p>
-<ul>
-<li>快速找到数组中某个值的位置：遍历数组，建立 Map，值是键，索引是值，复杂度就从 O(n)变成 O(1)</li>
-<li>快速找到数组中某个值出现的次数：遍历数组，建立 Map，值是键，索引是次数，复杂度就从 O(n)变成 O(1)</li>
-</ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 数组中每个元素对应的索引</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getIndexMap</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 兼容字符串的写法</span></span><br><span class="line">  <span class="keyword">const</span> map = &#123;&#125;;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt;= arr.length; i++) &#123;</span><br><span class="line">    map[arr[i]] = i;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> map;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 数组中每个元素 出现了几次</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getCountMap</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 兼容字符串的写法</span></span><br><span class="line">  <span class="keyword">const</span> map = &#123;&#125;;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt;= arr.length; i++) &#123;</span><br><span class="line">    <span class="keyword">const</span> cur = arr[i];</span><br><span class="line">    map[cur] = map[cur] ? map[cur] + <span class="number">1</span> : <span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> map;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="练习-1：两个数组的交集"><a href="#练习-1：两个数组的交集" class="headerlink" title="练习 1：两个数组的交集"></a>练习 1：两个数组的交集</h2><p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f05e096584e0470eb347d2661ef51355~tplv-k3u1fbpfcp-zoom-1.image" alt="map1"></p>
-<p>显然是查找一个元素是不是在另一个数组中出现过，而且还关注出现了几次。</p>
-<p>于是思路就有了：</p>
-<ul>
-<li>将数组 nums1 的元素和次数形成 Map</li>
-<li>设置数组变量 res，表示最终的结果</li>
-<li>遍历数组 nums2，Map 中有元素的话，且对应的次数是正整数的话，才将元素推进 res 中，然后将对应的次数减去一，这样就能保证 res 中元素出现的是最少次数</li>
-</ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> intersect = <span class="function"><span class="keyword">function</span> (<span class="params">nums1, nums2</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// getCountMap就是上面的函数</span></span><br><span class="line">  <span class="keyword">const</span> countMap = getCountMap(nums1);</span><br><span class="line">  <span class="keyword">const</span> res = [];</span><br><span class="line">  nums2.forEach(<span class="function">(<span class="params">item</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (countMap[item]) &#123;</span><br><span class="line">      res.push(item);</span><br><span class="line">      countMap[item] = countMap[item] - <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="keyword">return</span> res;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h2 id="练习-2：找不同"><a href="#练习-2：找不同" class="headerlink" title="练习 2：找不同"></a>练习 2：找不同</h2><p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c1ee46c3c42e4bedbf98a85b621d7cca~tplv-k3u1fbpfcp-zoom-1.image" alt="leetcode389"></p>
-<p>思路是不是极其相似，这里字符串和数组其实是类似的：</p>
-<ul>
-<li>将 str1 的元素和次数形成 Map</li>
-<li>遍历 str2，Map 中没有元素或者对应的次数是正整数的话，直接返回结果，否则然后将对应的次数减去一</li>
-</ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> findTheDifference = <span class="function"><span class="keyword">function</span> (<span class="params">s, t</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// getCountMap就是上面的函数</span></span><br><span class="line">  <span class="keyword">const</span> countMap = getCountMap(s);</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; t.length; i++) &#123;</span><br><span class="line">    <span class="keyword">const</span> cur = t[i];</span><br><span class="line">    <span class="keyword">if</span> (!countMap[cur]) &#123;</span><br><span class="line">      <span class="keyword">return</span> cur;</span><br><span class="line">    &#125;</span><br><span class="line">    countMap[cur]--;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>当然因为只有一个，还有别的鬼法子：</p>
-<ul>
-<li>s 和 t 中每个字符的 ASCII 码的值求和，两和相减的值转成的字母就是结果</li>
-<li>s 和 t 合并，然后位运算得到的值就是结果</li>
-</ul>
-<p>但是当添加的字母不止一个的时候，还是查找表的法子好使些:</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> findTheDifference = <span class="function"><span class="keyword">function</span> (<span class="params">s, t</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// getCountMap就是上面的函数</span></span><br><span class="line">  <span class="keyword">const</span> countMap = getCountMap(s);</span><br><span class="line">  <span class="keyword">let</span> res = <span class="string">""</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; t.length; i++) &#123;</span><br><span class="line">    <span class="keyword">const</span> cur = t[i];</span><br><span class="line">    <span class="keyword">if</span> (!countMap[cur]) &#123;</span><br><span class="line">      res += cur;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      countMap[cur]--;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> res;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>其实只要频繁用到某种计算结果，就可以使用查找表降低时间复杂度~</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
-<li><a href="https://juejin.cn/post/6847009772500156429#heading-6" target="_blank" rel="noopener">写给前端的算法进阶指南，我是如何两个月零基础刷 200 题</a></li>
-<li><a href="https://zhuanlan.zhihu.com/p/142482079" target="_blank" rel="noopener">查找表超全总结：解决查找问题</a></li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2391,7 +2399,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">259</span>
+                <span class="site-state-item-count">260</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

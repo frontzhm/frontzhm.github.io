@@ -261,6 +261,165 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/31/mock-api-vue/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2020/12/31/mock-api-vue/" itemprop="url">
+                  vue项目里怎么快速mock接口
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-12-31T18:31:16+08:00">
+                2020-12-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/12/31/mock-api-vue/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/12/31/mock-api-vue/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>vue项目是使用<code>npm run serve</code>打开的时候，会自动分配一个端口，比如<code>http://localhost:8080/</code>。<br>但有时候，希望在同样接口的下，模拟服务器请求，比如<code>http://localhost:8080/api/list</code></p>
+<ul>
+<li>项目根目录，新建文件<code>.env.mock</code>里面写上<code>NODE_ENV = &#39;mock&#39;</code></li>
+<li><code>package.json</code> 那边增加一行快捷命令，<code>&quot;mock&quot;: &quot;vue-cli-service serve --mode mock&quot;,</code></li>
+<li><code>vue.config.js</code>那边增加<code>devServer</code>设置，下面有代码</li>
+<li>命令行执行<code>npm run mock</code>，此时就可以请求<code>http://localhost:8080/api/list</code>了，而<code>http://localhost:8080</code>仍然是普通页面</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  devServer: &#123;</span><br><span class="line">    before(app) &#123;</span><br><span class="line">      app.get(<span class="string">"/api/list"</span>, (req, res) =&gt; res.json(&#123; <span class="attr">state</span>: <span class="number">1</span>, <span class="attr">data</span>: <span class="string">"ok"</span> &#125;));</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/mock-vue1.png" alt="mock-vue1"><br><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/mock-vue2.png" alt="mock-vue2"></p>
+<p>json好看是用了插件<code>JSON viewer</code></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/31/table-component/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1948,180 +2107,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/26/vue-message/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2020/11/26/vue-message/" itemprop="url">
-                  怎么写弹框组件
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-11-26T17:32:19+08:00">
-                2020-11-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2020/11/26/vue-message/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/11/26/vue-message/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>弹框组件有两个特点：一是弹框的元素一般是<code>body</code>的子元素，而不是位于<code>#app</code>内部；二是，使用的时候一般通过<code>函数</code>，比如<code>Message(&quot;创建成功&quot;)</code>。</p>
-<h2 id="怎么让组件显示在-app外面"><a href="#怎么让组件显示在-app外面" class="headerlink" title="怎么让组件显示在#app外面"></a>怎么让组件显示在#app外面</h2><p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/message1.gif" alt="message1"></p>
-<p>其实只是信息差的事，很容易理解的。</p>
-<p>一般，组件的模板编译之后，默认挂载在<code>app</code>里，但其实我们可以手动选择将其挂载在任意处。</p>
-<p>需要四步：</p>
-<ul>
-<li>创建组件类，其实就是<code>Vue.extend(SelfComponent)</code>，<code>extend</code>会自动将组件对象转化为组件类</li>
-<li>创建组件实例，可能需要传入<code>data</code>之类的参数，<code>new xx({data:{...}})</code></li>
-<li>编译组件实例，就是将<code>template</code>里的字符串变成实际的<code>dom</code>节点，编译完之后的节点赋值给了该组件实例的<code>$el</code></li>
-<li>将节点插入到文档中任意位置即可</li>
-</ul>
-<p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/message2.png" alt="message2"></p>
-<h2 id="怎么通过函数显示组件"><a href="#怎么通过函数显示组件" class="headerlink" title="怎么通过函数显示组件"></a>怎么通过函数显示组件</h2><p>其实上面的如果实现了，这个就更简单了，封装个函数，搞定！！！</p>
-<p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/message3.png" alt="message3"></p>
-<p>当然一般会将<code>Message</code>方法单独写在一个文件，这样使用的时候，只需要引用<code>Message.js</code>即可</p>
-<h2 id="怎么实现this-message-呢"><a href="#怎么实现this-message-呢" class="headerlink" title="怎么实现this.$message()呢"></a>怎么实现this.$message()呢</h2><p>这个就更没啥了。。。</p>
-<p>在<code>main.js</code>那边将<code>message</code>方法挂载在原型上面即可</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">Vue.prototype.$message = 刚刚封装的Message方法</span><br><span class="line"><span class="string">``</span><span class="string">` </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">## 怎么给message增加类型呢</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">一般`</span>message<span class="string">`有成功、错误、警告之类的，此时需要在参数那边多加一个`</span>type<span class="string">`，当然组件内部也需要根据`</span>type<span class="string">`显示不同的样式。</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">增加`</span>type<span class="string">`之后，为了更方便使用，希望能`</span>message.success(<span class="string">'ok'</span>)<span class="string">`，其实也不难。</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">`</span><span class="string">``</span>js</span><br><span class="line"><span class="comment">// options是 &#123;type:xx,message:xxx&#125;</span></span><br><span class="line"><span class="keyword">const</span> Message = <span class="function">(<span class="params">options</span>) =&gt;</span>&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    <span class="keyword">const</span> messageInstance = <span class="keyword">new</span> MessageConstructor(&#123;</span><br><span class="line">        data: &#123; options &#125;</span><br><span class="line">      &#125;);</span><br><span class="line">    <span class="comment">//   ...</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> types =[<span class="string">"success"</span>,<span class="string">"error"</span>,<span class="string">"warning"</span>]</span><br><span class="line">types.forEach(<span class="function"><span class="params">type</span>=&gt;</span>&#123;</span><br><span class="line">    Message[type] = <span class="function"><span class="params">message</span> =&gt;</span>&#123;</span><br><span class="line">        <span class="keyword">let</span> options = &#123;&#125;</span><br><span class="line">        options.message = message</span><br><span class="line">        options.type = type</span><br><span class="line">        Message(options)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// 使用的时候就可以</span></span><br><span class="line">Message.success(<span class="string">'ok'</span>)</span><br></pre></td></tr></table></figure>
-<h2 id="怎么让message在2s后自动消失呢"><a href="#怎么让message在2s后自动消失呢" class="headerlink" title="怎么让message在2s后自动消失呢"></a>怎么让message在2s后自动消失呢</h2><p>一般<code>message</code>显示个几秒就不显示了，这个其实就直接在<code>message</code>组件里，写个定时器销毁组件就好了</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mounted()&#123;</span><br><span class="line">    <span class="keyword">this</span>.timer = setTimeout(<span class="function"><span class="params">()</span>=&gt;</span>&#123;</span><br><span class="line">        <span class="comment">// 销毁组件，这个只能让组件对象消失，但节点仍然在</span></span><br><span class="line">        <span class="keyword">this</span>.$destroy()</span><br><span class="line">        <span class="comment">// 再移除节点</span></span><br><span class="line">        <span class="keyword">this</span>.$el.parentNode.removeChild(<span class="keyword">this</span>.$el)</span><br><span class="line">    &#125;,<span class="number">2000</span>)</span><br><span class="line">    clearTimeout(<span class="keyword">this</span>.timer)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="附注：代码"><a href="#附注：代码" class="headerlink" title="附注：代码"></a>附注：代码</h2><h3 id="代码：让组件显示在-app外面"><a href="#代码：让组件显示在-app外面" class="headerlink" title="代码：让组件显示在#app外面"></a>代码：让组件显示在#app外面</h3><p>Message.vue</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 普通的Message组件--&gt;</span><br><span class="line">&lt;template lang=&quot;pug&quot;&gt;</span><br><span class="line">    div &#123;&#123;message&#125;&#125;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &quot;Message&quot;,</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      message: &quot;&quot;</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-<p>使用message的组件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&lt;template lang=&quot;pug&quot;&gt;</span><br><span class="line">  div#app</span><br><span class="line">    button(@click=&quot;showMessage&quot;) 点击显示</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">import Vue from &quot;vue&quot;;</span><br><span class="line">import Message from &quot;./components/Message.vue&quot;;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &quot;App&quot;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    showMessage() &#123;</span><br><span class="line">      // 单纯的new Message是不行的，Message只是一个对象，必须是一个组件类</span><br><span class="line">      const MessageConstructor = Vue.extend(Message);</span><br><span class="line">      // 创建message组件实例，传入data</span><br><span class="line">      const messageInstance = new MessageConstructor(&#123;</span><br><span class="line">        data: &#123; message: &quot;hi&quot; &#125;</span><br><span class="line">      &#125;);</span><br><span class="line">      // 编译message组件实例，编译完之后的dom存放在messageInstance.$el</span><br><span class="line">      messageInstance.$mount();</span><br><span class="line">      // 将dom插入到body里即可</span><br><span class="line">      document.body.appendChild(messageInstance.$el);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="代码：函数显示组件"><a href="#代码：函数显示组件" class="headerlink" title="代码：函数显示组件"></a>代码：函数显示组件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">&lt;template lang=&quot;pug&quot;&gt;</span><br><span class="line">  div#app</span><br><span class="line">    button(@click=&quot;showMessage&quot;) 点击显示</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">import Vue from &quot;vue&quot;;</span><br><span class="line">import MessageComponent from &quot;./components/MessageComponent.vue&quot;;</span><br><span class="line"></span><br><span class="line">// 封装个函数，即可</span><br><span class="line">const Message = content =&gt; &#123;</span><br><span class="line">  // 单纯的new Message是不行的，Message只是一个对象，必须是一个组件类</span><br><span class="line">  const MessageConstructor = Vue.extend(MessageComponent);</span><br><span class="line">  // 创建message组件实例，传入data</span><br><span class="line">  const messageInstance = new MessageConstructor(&#123;</span><br><span class="line">    data: &#123; message: content &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">  // 编译message组件实例，编译完之后的dom存放在messageInstance.$el</span><br><span class="line">  messageInstance.$mount();</span><br><span class="line">  // 将dom插入到body里即可</span><br><span class="line">  document.body.appendChild(messageInstance.$el);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  name: &quot;App&quot;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    showMessage() &#123;</span><br><span class="line">      Message(&quot;hi&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2171,7 +2156,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">259</span>
+                <span class="site-state-item-count">260</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
