@@ -261,6 +261,239 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/08/03/vue_6_source_code_reactive/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2021/08/03/vue_6_source_code_reactive/" itemprop="url">
+                  响应式原理 - 学习vue源码系列4.2
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-08-03T18:26:28+08:00">
+                2021-08-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/08/03/vue_6_source_code_reactive/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2021/08/03/vue_6_source_code_reactive/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>决定跟着<a href="https://coding.imooc.com/lesson/228.html#mid=14869" target="_blank" rel="noopener">黄轶老师的 vue2 源码课程</a>好好学习下<code>vue2</code>的源码，学习过程中，尽量输出自己的所得，提高学习效率，水平有限，不对的话请指正~</p>
+<p>将<a href="https://github.com/vuejs/vue" target="_blank" rel="noopener">vue 的源码</a>clone 到本地，切换到分支<code>2.6</code>。</p>
+<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>前面说了，vue 是怎么实现<strong>初始化</strong>数据渲染和组件化的，但当数据变动的时候，dom 又是怎么更新的呢。</p>
+<h2 id="先看个-demo"><a href="#先看个-demo" class="headerlink" title="先看个 demo"></a>先看个 demo</h2><p>数据变更:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span>&gt;</span>hello<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>假设希望点击之后能将<code>hello</code>变成<code>hello world</code>的话，寻常怎么操作。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1.修改数据</span></span><br><span class="line"><span class="keyword">const</span> text = <span class="string">"hello world"</span>;</span><br><span class="line"><span class="comment">// 2.获取dom，监听事件</span></span><br><span class="line"><span class="built_in">document</span>.querySelector(<span class="string">"#app"</span>).onclick = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// 3.手动操作dom重新渲染</span></span><br><span class="line">  app.innerHTML = text;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>如果需要多次修改的话，就不得不<strong>每次</strong>都手动操作 dom，重新渲染。</p>
+<p>而 vue，去掉了<code>手动操作dom</code>，根据数据变化<strong>自动</strong>操作 dom。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span> @<span class="attr">click</span>=<span class="string">"changeMsg"</span>&gt;</span>&#123;&#123; message &#125;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"/Users/zhm/mygit/vue/dist/vue.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">  <span class="keyword">var</span> app = <span class="keyword">new</span> Vue(&#123;</span></span><br><span class="line"><span class="javascript">    el: <span class="string">"#app"</span>,</span></span><br><span class="line"><span class="undefined">    data: &#123;</span></span><br><span class="line"><span class="javascript">      message: <span class="string">"Hello Vue!"</span>,</span></span><br><span class="line"><span class="undefined">    &#125;,</span></span><br><span class="line"><span class="undefined">    methods: &#123;</span></span><br><span class="line"><span class="undefined">      changeMsg() &#123;</span></span><br><span class="line"><span class="javascript">        <span class="comment">// 这边只是 改变了数据，其余的由vue本身去更新dom，重新渲染</span></span></span><br><span class="line"><span class="javascript">        <span class="keyword">this</span>.message = <span class="string">"Hello World!"</span>;</span></span><br><span class="line"><span class="undefined">      &#125;,</span></span><br><span class="line"><span class="undefined">    &#125;,</span></span><br><span class="line"><span class="undefined">  &#125;);</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="响应式对象"><a href="#响应式对象" class="headerlink" title="响应式对象"></a>响应式对象</h2><p>其实<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty" target="_blank" rel="noopener"><code>Object.defineProperty</code></a>应该都听过了，嗯，主要就是用这个属性。</p>
+<p>普通获取对象属性，设置对象属性都可以用这个，但是比较麻烦，所以一般分场景使用。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** 普通创建属性的方式： **/</span></span><br><span class="line"><span class="keyword">var</span> obj = &#123; <span class="attr">a</span>: <span class="number">1</span> &#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** defineProperty创建、获取和设置属性的方式： **/</span></span><br><span class="line"><span class="keyword">var</span> obj = &#123;&#125;;</span><br><span class="line"><span class="comment">// ！注意需要另设一个变量，存储属性的值。</span></span><br><span class="line"><span class="keyword">let</span> value = <span class="number">1</span>;</span><br><span class="line"><span class="built_in">Object</span>.defineProperty(obj, <span class="string">"a"</span>, &#123;</span><br><span class="line">  get() &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"get"</span>);</span><br><span class="line">    <span class="keyword">return</span> value;</span><br><span class="line">  &#125;,</span><br><span class="line">  set(newValue) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"set"</span>);</span><br><span class="line">    value = newValue;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 当然获取属性和设置的话，是一样的 */</span></span><br><span class="line"><span class="comment">// 获取</span></span><br><span class="line"><span class="built_in">console</span>.log(obj.a);</span><br><span class="line"><span class="comment">// 设置</span></span><br><span class="line">obj.a = <span class="number">2</span>;</span><br></pre></td></tr></table></figure>
+<p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/reactive_1.png" alt="reactive_1"></p>
+<p><code>Object.defineProperty</code>的核心就是<code>get</code>和<code>set</code>，因为是函数，所以能做很多事。</p>
+<p>所谓的劫持，每次<strong>获取/设置</strong>属性的时候，都会执行<code>get/set</code>函数，既然是函数，自然能做一些别的事情。</p>
+<blockquote>
+<p>所谓的响应式对象，当对象的某属性有<code>get/set</code>，就称为响应式对象。</p>
+</blockquote>
+<h2 id="简版的响应式Vue"><a href="#简版的响应式Vue" class="headerlink" title="简版的响应式Vue"></a>简版的响应式Vue</h2><p>先写个简版的响应式<code>Vue</code>，大致有个印象，真实的源码处理的情景比较多，看懂简版的，再看源码，不容易迷路。。。</p>
+<p>主要做了以下几件事：</p>
+<ul>
+<li>用<code>vm._data</code>指向<code>options.data</code></li>
+<li>将<code>vm._data</code>上面的属性都代理到<code>vm</code>上</li>
+<li><code>vm._data.__ob__</code>指向Observer实例，而这个实例的value是data的响应式</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> vm = <span class="keyword">new</span> Vue(&#123; <span class="attr">data</span>: &#123; <span class="attr">a</span>: <span class="number">1</span> &#125; &#125;);</span><br><span class="line"><span class="built_in">console</span>.dir(vm);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Vue</span>(<span class="params">options</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.vm = <span class="keyword">this</span>;</span><br><span class="line">  <span class="keyword">this</span>.$options = options;</span><br><span class="line">  <span class="comment">/* this._init() initState()开始 */</span></span><br><span class="line">  initData(<span class="keyword">this</span>);</span><br><span class="line">  <span class="comment">/* this._init() initState()结束 */</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">initData</span>(<span class="params">vm</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> data = vm.$options.data;</span><br><span class="line">  vm._data = data;</span><br><span class="line">  <span class="comment">// 将data上面的属性直接挂在vm上</span></span><br><span class="line">  <span class="built_in">Object</span>.keys(data).forEach(<span class="function">(<span class="params">key</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">/* proxy(vm, "_data", key) 开始 */</span></span><br><span class="line">    <span class="built_in">Object</span>.defineProperty(vm, key, &#123;</span><br><span class="line">      enumerable: <span class="literal">true</span>,</span><br><span class="line">      configurable: <span class="literal">true</span>,</span><br><span class="line">      get() &#123;</span><br><span class="line">        <span class="keyword">return</span> vm._data[key];</span><br><span class="line">      &#125;,</span><br><span class="line">      set(newValue) &#123;</span><br><span class="line">        vm.data[key] = newValue;</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="comment">/* proxy(vm, "_data", key) 结束 */</span></span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* observe(data) 开始 */</span></span><br><span class="line">  data.__ob__ = data.__ob__ || <span class="keyword">new</span> Observer(data);</span><br><span class="line">  <span class="comment">/* observe(data) 结束 */</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Observer</span>(<span class="params">data</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.value = data;</span><br><span class="line">  <span class="comment">// this.dep = new Dep();</span></span><br><span class="line">  data.__ob__ = <span class="keyword">this</span>;</span><br><span class="line">  <span class="built_in">Object</span>.keys(data).forEach(<span class="function">(<span class="params">key</span>) =&gt;</span> &#123;</span><br><span class="line">    defineReactive(data, key);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// defineReactive将 obj.x 这种定义属性的方式  变成Object.defineProperty(obj, 'x' , &#123;get()&#123;&#125;&#125;</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">defineReactive</span>(<span class="params">data, key</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// const dep = new Dep();</span></span><br><span class="line">  <span class="keyword">let</span> value = data[key];</span><br><span class="line"></span><br><span class="line">  <span class="built_in">Object</span>.defineProperty(data, key, &#123;</span><br><span class="line">    enumerable: <span class="literal">true</span>,</span><br><span class="line">    configurable: <span class="literal">true</span>,</span><br><span class="line">    get: <span class="function"><span class="keyword">function</span> <span class="title">reactiveGetter</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="comment">// dep.depend();</span></span><br><span class="line">      <span class="keyword">return</span> value;</span><br><span class="line">    &#125;,</span><br><span class="line">    set: <span class="function"><span class="keyword">function</span> <span class="title">reactiveSetter</span>(<span class="params">newValue</span>) </span>&#123;</span><br><span class="line">      <span class="comment">// dep.notify();</span></span><br><span class="line">      value = newValue;</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/reactive_2.png" alt="reactive_2"></p>
+<h2 id="initState"><a href="#initState" class="headerlink" title="initState"></a>initState</h2><p>Vue 的构造函数，开始就是<code>this._init(..)</code>，而<code>Vue.prototype._init = function(){initState(this)}</code>。</p>
+<p>这里的<code>initState</code>就是让<code>Vue</code>的<strong>实例</strong>变成响应式对象的关键，这个方法就是对<code>options</code>进行各种初始化的操作，而本文的重点是对<code>data/props</code>的处理。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/core/instance/state.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">initState</span>(<span class="params">vm: Component</span>) </span>&#123;</span><br><span class="line">  vm._watchers = [];</span><br><span class="line">  <span class="keyword">const</span> opts = vm.$options;</span><br><span class="line">  <span class="keyword">if</span> (opts.props) initProps(vm, opts.props);</span><br><span class="line">  <span class="keyword">if</span> (opts.methods) initMethods(vm, opts.methods);</span><br><span class="line">  <span class="keyword">if</span> (opts.data) &#123;</span><br><span class="line">    initData(vm);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    observe((vm._data = &#123;&#125;), <span class="literal">true</span> <span class="comment">/* asRootData */</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (opts.computed) initComputed(vm, opts.computed);</span><br><span class="line">  <span class="keyword">if</span> (opts.watch &amp;&amp; opts.watch !== nativeWatch) &#123;</span><br><span class="line">    initWatch(vm, opts.watch);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="props-的处理"><a href="#props-的处理" class="headerlink" title="props 的处理"></a>props 的处理</h3><p>先看<code>initProps</code>，主要其实就是</p>
+<ul>
+<li>遍历<code>options.props</code></li>
+<li>每个 prop 变成响应式（set/get），且每个 prop，也同步到<code>vm._props.xx</code></li>
+<li>通过<code>proxy</code>把<code>vm._props.xxx</code> 的访问代理到 <code>vm.xxx</code> 上</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/core/instance/state.js</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">initProps</span>(<span class="params">vm: Component, propsOptions: Object</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> propsData = vm.$options.propsData || &#123;&#125;;</span><br><span class="line">  <span class="keyword">const</span> props = (vm._props = &#123;&#125;);</span><br><span class="line">  <span class="comment">// cache prop keys so that future props updates can iterate using Array</span></span><br><span class="line">  <span class="comment">// instead of dynamic object key enumeration.</span></span><br><span class="line">  <span class="keyword">const</span> keys = (vm.$options._propKeys = []);</span><br><span class="line">  <span class="keyword">const</span> isRoot = !vm.$parent;</span><br><span class="line">  <span class="comment">// root instance props should be converted</span></span><br><span class="line">  <span class="keyword">if</span> (!isRoot) &#123;</span><br><span class="line">    toggleObserving(<span class="literal">false</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">const</span> key <span class="keyword">in</span> propsOptions) &#123;</span><br><span class="line">    keys.push(key);</span><br><span class="line">    <span class="keyword">const</span> value = validateProp(key, propsOptions, propsData, vm);</span><br><span class="line">    defineReactive(props, key, value);</span><br><span class="line">    <span class="comment">// static props are already proxied on the component's prototype</span></span><br><span class="line">    <span class="comment">// during Vue.extend(). We only need to proxy props defined at</span></span><br><span class="line">    <span class="comment">// instantiation here.</span></span><br><span class="line">    <span class="keyword">if</span> (!(key <span class="keyword">in</span> vm)) &#123;</span><br><span class="line">      proxy(vm, <span class="string">`_props`</span>, key);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  toggleObserving(<span class="literal">true</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="data-的处理"><a href="#data-的处理" class="headerlink" title="data 的处理"></a>data 的处理</h3><p>data 的初始化也做了两件事：</p>
+<ul>
+<li>遍历<code>data</code>对象，每一个<code>vm._data.xx</code>通过<code>proxy</code>代理到<code>vm._data</code></li>
+<li>调用<code>observe</code>观察<code>data</code>变化，将其也变成响应式</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/core/instance/state.js</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">initData</span>(<span class="params">vm: Component</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> data = vm.$options.data;</span><br><span class="line">  data = vm._data = <span class="keyword">typeof</span> data === <span class="string">"function"</span> ? getData(data, vm) : data || &#123;&#125;;</span><br><span class="line">  <span class="keyword">if</span> (!isPlainObject(data)) &#123;</span><br><span class="line">    data = &#123;&#125;;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// proxy data on instance</span></span><br><span class="line">  <span class="keyword">const</span> keys = <span class="built_in">Object</span>.keys(data);</span><br><span class="line">  <span class="keyword">const</span> props = vm.$options.props;</span><br><span class="line">  <span class="keyword">const</span> methods = vm.$options.methods;</span><br><span class="line">  <span class="keyword">let</span> i = keys.length;</span><br><span class="line">  <span class="keyword">while</span> (i--) &#123;</span><br><span class="line">    <span class="keyword">const</span> key = keys[i];</span><br><span class="line">    <span class="keyword">if</span> (!isReserved(key)) &#123;</span><br><span class="line">      proxy(vm, <span class="string">`_data`</span>, key);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// observe data</span></span><br><span class="line">  observe(data, <span class="literal">true</span> <span class="comment">/* asRootData */</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="proxy-代理"><a href="#proxy-代理" class="headerlink" title="proxy 代理"></a>proxy 代理</h2><p>初始化 data 和 props 一个关键操作，就是让他们变成响应式，然后代理到<code>vm</code>上。</p>
+<p>代理？其实就是就是一个中介。本身只是一个线索，会连接到真实的资源。</p>
+<p>举个例子，看下面的<code>obj</code>，有个<code>data</code>属性，现在想<code>obj.a</code>也可以访问到 a 属性，怎么办？</p>
+<p>此时<code>obj.a</code>就是一个中介，其真实连接的资源是<code>obj.data.a</code>。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> obj = &#123; <span class="attr">data</span>: &#123; <span class="attr">a</span>: <span class="number">1</span> &#125; &#125;;</span><br></pre></td></tr></table></figure>
+<p>其实还是利用上面的<code>Object.defineProperty</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Object</span>.defineProperty(obj, <span class="string">"a"</span>, &#123;</span><br><span class="line">  get() &#123;</span><br><span class="line">    <span class="comment">// 这里的obj.data.a就相当于存储变量</span></span><br><span class="line">    <span class="keyword">return</span> obj.data.a;</span><br><span class="line">  &#125;,</span><br><span class="line">  set(newValue) &#123;</span><br><span class="line">    obj.data.a = newValue;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// 1</span></span><br><span class="line"><span class="built_in">console</span>.log(obj.a);</span><br></pre></td></tr></table></figure>
+<p>现在看源码里，对于<code>proxy</code>的实现：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/core/instance/state.js</span></span><br><span class="line"><span class="comment">// const noop = function empty()&#123;&#125;</span></span><br><span class="line"><span class="keyword">const</span> sharedPropertyDefinition = &#123;</span><br><span class="line">  enumerable: <span class="literal">true</span>,</span><br><span class="line">  configurable: <span class="literal">true</span>,</span><br><span class="line">  get: noop,</span><br><span class="line">  set: noop,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// target相当于obj，sourceKey相当于data，key相当于a</span></span><br><span class="line"><span class="comment">// proxy就是可以让vm.x 代理到 vm.data.x</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">proxy</span>(<span class="params">target: Object, sourceKey: string, key: string</span>) </span>&#123;</span><br><span class="line">  sharedPropertyDefinition.get = <span class="function"><span class="keyword">function</span> <span class="title">proxyGetter</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>[sourceKey][key];</span><br><span class="line">  &#125;;</span><br><span class="line">  sharedPropertyDefinition.set = <span class="function"><span class="keyword">function</span> <span class="title">proxySetter</span>(<span class="params">val</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>[sourceKey][key] = val;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="built_in">Object</span>.defineProperty(target, key, sharedPropertyDefinition);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="observe：给增加一个-Observer-实例"><a href="#observe：给增加一个-Observer-实例" class="headerlink" title="observe：给增加一个 Observer 实例"></a>observe：给增加一个 Observer 实例</h2><p><code>observe</code> 的功能就是用来监测数据的变化，给非 <code>VNode</code> 的对象类型数据添加一个 <code>Observer</code>，如果已经添加过则直接返回，否则在满足一定条件下去实例化一个 <code>Observer</code> 对象实例。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/core/observer/index.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">observe</span>(<span class="params">value: any, asRootData: ?boolean</span>): <span class="title">Observer</span> | <span class="title">void</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (!isObject(value) || value <span class="keyword">instanceof</span> VNode) &#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">let</span> ob: Observer | <span class="keyword">void</span>;</span><br><span class="line">  <span class="keyword">if</span> (hasOwn(value, <span class="string">"__ob__"</span>) &amp;&amp; value.__ob__ <span class="keyword">instanceof</span> Observer) &#123;</span><br><span class="line">    ob = value.__ob__;</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (</span><br><span class="line">    shouldObserve &amp;&amp;</span><br><span class="line">    !isServerRendering() &amp;&amp;</span><br><span class="line">    (<span class="built_in">Array</span>.isArray(value) || isPlainObject(value)) &amp;&amp;</span><br><span class="line">    <span class="built_in">Object</span>.isExtensible(value) &amp;&amp;</span><br><span class="line">    !value._isVue</span><br><span class="line">  ) &#123;</span><br><span class="line">    ob = <span class="keyword">new</span> Observer(value);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (asRootData &amp;&amp; ob) &#123;</span><br><span class="line">    ob.vmCount++;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> ob;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Observer-类：给对象的每个属性添加-getter-和-setter"><a href="#Observer-类：给对象的每个属性添加-getter-和-setter" class="headerlink" title="Observer 类：给对象的每个属性添加 getter 和 setter"></a>Observer 类：给对象的每个属性添加 getter 和 setter</h2><p><code>Observer</code> 是一个类，它的作用是给对象的属性添加 getter 和 setter，用于依赖收集和派发更新：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Observer class that is attached to each observed</span></span><br><span class="line"><span class="comment"> * object. Once attached, the observer converts the target</span></span><br><span class="line"><span class="comment"> * object's property keys into getter/setters that</span></span><br><span class="line"><span class="comment"> * collect dependencies and dispatch updates.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">Observer</span> </span>&#123;</span><br><span class="line">  value: any;</span><br><span class="line">  dep: Dep;</span><br><span class="line">  vmCount: number; <span class="comment">// number of vms that has this object as root $data</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">constructor</span>(value: any) &#123;</span><br><span class="line">    <span class="keyword">this</span>.value = value;</span><br><span class="line">    <span class="comment">// 实例化 Dep 对象</span></span><br><span class="line">    <span class="keyword">this</span>.dep = <span class="keyword">new</span> Dep();</span><br><span class="line">    <span class="keyword">this</span>.vmCount = <span class="number">0</span>;</span><br><span class="line">    def(value, <span class="string">"__ob__"</span>, <span class="keyword">this</span>);</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(value)) &#123;</span><br><span class="line">      <span class="keyword">const</span> augment = hasProto ? protoAugment : copyAugment;</span><br><span class="line">      augment(value, arrayMethods, arrayKeys);</span><br><span class="line">      <span class="keyword">this</span>.observeArray(value);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">this</span>.walk(value);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * Walk through each property and convert them into</span></span><br><span class="line"><span class="comment">   * getter/setters. This method should only be called when</span></span><br><span class="line"><span class="comment">   * value type is Object.</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  walk(obj: <span class="built_in">Object</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> keys = <span class="built_in">Object</span>.keys(obj);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; keys.length; i++) &#123;</span><br><span class="line">      defineReactive(obj, keys[i]);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * Observe a list of Array items.</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  observeArray(items: <span class="built_in">Array</span>&lt;any&gt;) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>, l = items.length; i &lt; l; i++) &#123;</span><br><span class="line">      observe(items[i]);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>Observer</code> 的构造函数逻辑很简单:</p>
+<ul>
+<li>实例化 <code>Dep</code> 对象，</li>
+<li>通过执行 <code>def</code> 函数把自身实例添加到数据对象 <code>value</code> 的 <code>__ob__</code> 属性上</li>
+</ul>
+<p><code>def</code>就是给一个对象，定义一个属性，设置一个属性值，默认此属性是不可遍历的。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// def的定义</span></span><br><span class="line"><span class="comment">// src/core/util/lang.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">def</span>(<span class="params">obj: Object, key: string, val: any, enumerable?: boolean</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">Object</span>.defineProperty(obj, key, &#123;</span><br><span class="line">    value: val,</span><br><span class="line">    enumerable: !!enumerable,</span><br><span class="line">    writable: <span class="literal">true</span>,</span><br><span class="line">    configurable: <span class="literal">true</span>,</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>def</code>相当于<code>Object.defineProperty</code>的简单封装。</p>
+<h2 id="defineReactive：给对象的某个属性动态添加-getter-和-setter"><a href="#defineReactive：给对象的某个属性动态添加-getter-和-setter" class="headerlink" title="defineReactive：给对象的某个属性动态添加 getter 和 setter"></a>defineReactive：给对象的某个属性动态添加 getter 和 setter</h2><p><code>defineReactive</code> 的功能就是给对象动态添加 <code>getter</code> 和 <code>setter</code>，让对象成为响应式对象：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/core/observer/index.js</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Define a reactive property on an Object.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">defineReactive</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  obj: Object,</span></span></span><br><span class="line"><span class="function"><span class="params">  key: string,</span></span></span><br><span class="line"><span class="function"><span class="params">  val: any,</span></span></span><br><span class="line"><span class="function"><span class="params">  customSetter?: ?Function,</span></span></span><br><span class="line"><span class="function"><span class="params">  shallow?: boolean</span></span></span><br><span class="line"><span class="function"><span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 初始化 Dep 对象的实例</span></span><br><span class="line">  <span class="keyword">const</span> dep = <span class="keyword">new</span> Dep();</span><br><span class="line">  <span class="comment">// 拿到 obj 的属性描述符</span></span><br><span class="line">  <span class="keyword">const</span> property = <span class="built_in">Object</span>.getOwnPropertyDescriptor(obj, key);</span><br><span class="line">  <span class="keyword">if</span> (property &amp;&amp; property.configurable === <span class="literal">false</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// cater for pre-defined getter/setters</span></span><br><span class="line">  <span class="keyword">const</span> getter = property &amp;&amp; property.get;</span><br><span class="line">  <span class="keyword">const</span> setter = property &amp;&amp; property.set;</span><br><span class="line">  <span class="keyword">if</span> ((!getter || setter) &amp;&amp; <span class="built_in">arguments</span>.length === <span class="number">2</span>) &#123;</span><br><span class="line">    val = obj[key];</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> childOb = !shallow &amp;&amp; observe(val);</span><br><span class="line">  <span class="built_in">Object</span>.defineProperty(obj, key, &#123;</span><br><span class="line">    enumerable: <span class="literal">true</span>,</span><br><span class="line">    configurable: <span class="literal">true</span>,</span><br><span class="line">    get: <span class="function"><span class="keyword">function</span> <span class="title">reactiveGetter</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="keyword">const</span> value = getter ? getter.call(obj) : val;</span><br><span class="line">      <span class="keyword">if</span> (Dep.target) &#123;</span><br><span class="line">        dep.depend();</span><br><span class="line">        <span class="keyword">if</span> (childOb) &#123;</span><br><span class="line">          childOb.dep.depend();</span><br><span class="line">          <span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(value)) &#123;</span><br><span class="line">            dependArray(value);</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> value;</span><br><span class="line">    &#125;,</span><br><span class="line">    set: <span class="function"><span class="keyword">function</span> <span class="title">reactiveSetter</span>(<span class="params">newVal</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">const</span> value = getter ? getter.call(obj) : val;</span><br><span class="line">      <span class="comment">/* eslint-disable no-self-compare */</span></span><br><span class="line">      <span class="keyword">if</span> (newVal === value || (newVal !== newVal &amp;&amp; value !== value)) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">/* eslint-enable no-self-compare */</span></span><br><span class="line">      <span class="keyword">if</span> (process.env.NODE_ENV !== <span class="string">"production"</span> &amp;&amp; customSetter) &#123;</span><br><span class="line">        customSetter();</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (setter) &#123;</span><br><span class="line">        setter.call(obj, newVal);</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        val = newVal;</span><br><span class="line">      &#125;</span><br><span class="line">      childOb = !shallow &amp;&amp; observe(newVal);</span><br><span class="line">      dep.notify();</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>defineReactive</code> 函数：</p>
+<ul>
+<li>最开始初始化 <code>Dep</code> 对象的实例，</li>
+<li>接着拿到 <code>obj</code> 的属性描述符，</li>
+<li>然后对子对象递归调用 <code>observe</code>方法</li>
+</ul>
+<p>这样就保证了无论 <code>obj</code> 的结构多复杂，它的所有子属性也能变成响应式的对象，<br>这样我们访问或修改 <code>obj</code> 中一个嵌套较深的属性，也能触发 <code>getter</code> 和 <code>setter</code>。</p>
+<p>最后利用 <code>Object.defineProperty</code> 去给 <code>obj</code> 的属性 <code>key</code> 添加 <code>getter</code> 和 <code>setter</code>。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>响应式对象，核心就是利用 <code>Object.defineProperty</code> 给数据添加了 <code>getter</code> 和 <code>setter</code>。<br>这样在访问数据以及写数据的时候能自动执行一些逻辑：</p>
+<ul>
+<li><code>getter</code> 做的事情是依赖收集</li>
+<li><code>setter</code> 做的事情是派发更新</li>
+</ul>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
+<li><a href="https://coding.imooc.com/lesson/228.html#mid=14869" target="_blank" rel="noopener">黄轶老师的 vue2 源码解密课程</a></li>
+<li><a href="https://ustbhuangyi.github.io/vue-analysis/v2/reactive/reactive-object.html" target="_blank" rel="noopener">vue.js 技术揭秘</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/07/29/vue_5_source_code/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2080,238 +2313,11 @@ cease (cess) v.走了（彻底的）、停止、终结 -->
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/06/19/vue_source_code_1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2021/06/19/vue_source_code_1/" itemprop="url">
-                  准备工作 - 学习vue源码系列1
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-06-19T18:09:17+08:00">
-                2021-06-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2021/06/19/vue_source_code_1/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2021/06/19/vue_source_code_1/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>决定跟着<a href="https://coding.imooc.com/lesson/228.html#mid=14869" target="_blank" rel="noopener">黄轶老师的vue2源码课程</a>好好学习下<code>vue2</code>的源码，学习过程中，尽量输出自己的所得，提高学习效率，水平有限，不对的话请指正~</p>
-<p>将<a href="https://github.com/vuejs/vue" target="_blank" rel="noopener">vue的源码</a>clone到本地，切换到分支<code>2.6</code>。</p>
-<h2 id="认识-flow"><a href="#认识-flow" class="headerlink" title="认识 flow"></a>认识 flow</h2><p><code>Flow</code> 是 <code>facebook</code> 出品的 <code>JavaScript</code> 静态类型检查工具。<br>vue使用其进行<strong>类型检测</strong>。</p>
-<h3 id="怎么使用-flow"><a href="#怎么使用-flow" class="headerlink" title="怎么使用 flow"></a>怎么使用 flow</h3><p>安装：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i flow-bin -g</span><br></pre></td></tr></table></figure>
-<p>创建配置文件：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flow init</span><br></pre></td></tr></table></figure>
-<p>创建一个 js 文件</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*@flow*/</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">split</span>(<span class="params">str</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> str.split(<span class="string">" "</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">split(<span class="number">11</span>);</span><br></pre></td></tr></table></figure>
-<p>执行<code>flow</code>命令，就可以检测了，这边会发现报错</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b621c5cbf6024414a0800f9cd70f6d09~tplv-k3u1fbpfcp-zoom-1.image" alt="flow1"></p>
-<h3 id="flow-的工作方式"><a href="#flow-的工作方式" class="headerlink" title="flow 的工作方式"></a>flow 的工作方式</h3><p>通常类型检查分成 2 种方式：</p>
-<ul>
-<li><p>类型推断：通过变量的使用上下文来推断出变量类型，然后根据这些推断来检查类型。(上面的例子就是推断)</p>
-</li>
-<li><p>类型注释：事先注释好我们期待的类型，Flow 会基于这些注释来判断。(推荐)</p>
-</li>
-</ul>
-<p>类型注释和 ts 非常像：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*@flow*/</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">x: number, y: number</span>): <span class="title">number</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> x + y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">add(<span class="string">"Hello"</span>, <span class="number">11</span>);</span><br><span class="line"><span class="comment">// 执行 flow，会报错</span></span><br></pre></td></tr></table></figure>
-<p>一般在需要<code>flow</code>检查的文件首行加上<code>/*@flow*/</code></p>
-<p>如果可以为<code>undefined</code>或者<code>null</code>的话：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> foo: string | <span class="keyword">void</span> = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">var</span> foo: ?string = <span class="literal">null</span>;</span><br></pre></td></tr></table></figure>
-<h3 id="flow-在-vue-源码中的使用"><a href="#flow-在-vue-源码中的使用" class="headerlink" title="flow 在 vue 源码中的使用"></a>flow 在 vue 源码中的使用</h3><p>flow 可以自定义类型，vue 的主目录下<code>.flowconfig</code> 文件， 它是 Flow 的配置文件。<br>这其中的 [libs] 部分用来描述包含指定库<strong>定义</strong>的目录，默认是名为 <code>flow</code> 的目录。</p>
-<p>遇到某个类型，想要看数据结构的话，就翻看这里。</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c70da7e521c3457abfd2b1417d4b5352~tplv-k3u1fbpfcp-zoom-1.image" alt="flow2"></p>
-<h2 id="vue-源码目录设计"><a href="#vue-源码目录设计" class="headerlink" title="vue 源码目录设计"></a>vue 源码目录设计</h2><p>主要看<code>src</code>的设计:</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c005a42077124ce797b8985663bd31ba~tplv-k3u1fbpfcp-zoom-1.image" alt="vue_dir1"></p>
-<p>功能模块拆分的非常清楚，让阅读性和可维护性都很优雅。</p>
-<h2 id="vue-源码构建"><a href="#vue-源码构建" class="headerlink" title="vue 源码构建"></a>vue 源码构建</h2><p><code>Vue.js</code> 源码是基于 <a href="https://github.com/rollup/rollup" target="_blank" rel="noopener">Rollup</a> 构建的，它的构建相关配置都在 <code>scripts</code> 目录下。</p>
-<p><code>Rollup</code> 主要是构建 <code>js</code> 文件，不处理其他的文件，相比 <code>webpack</code> 更轻量。</p>
-<p>所谓<strong>构建</strong>，就是运行命令之后，生成最终的文件。</p>
-<h3 id="构建脚本"><a href="#构建脚本" class="headerlink" title="构建脚本"></a>构建脚本</h3><p>构建脚本是<code>package.json</code>，其中的的<code>build</code>命令，就是构建命令。</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9c7795d6b3694f728811552b94ebdf96~tplv-k3u1fbpfcp-zoom-1.image" alt="vue_dir2"></p>
-<p>vue 的三种运行环境：</p>
-<ul>
-<li>web（普通的 web 端）</li>
-<li>ssr（服务端）</li>
-<li>weex（原生）</li>
-</ul>
-<h3 id="构建过程"><a href="#构建过程" class="headerlink" title="构建过程"></a>构建过程</h3><p><code>src/build.js</code>其实就是获取配置，然后根据环境参数过滤，最后在<code>dist</code>目录生成相应的<code>js</code>文件。</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/63dc4185d6d946a98660c0fcfe593cdd~tplv-k3u1fbpfcp-zoom-1.image" alt="vue_source_code1"></p>
-<p>为了让配置中的<code>entry/dist</code>路径更具可读性，<code>vue</code>进行了一些技巧性的操作:</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> builds = &#123;</span><br><span class="line">  <span class="string">"web-runtime-cjs-dev"</span>: &#123;</span><br><span class="line">    <span class="comment">// 这里的 web会被替换成web的绝对路径，resolve就是做这个事的</span></span><br><span class="line">    entry: resolve(<span class="string">"web/entry-runtime.js"</span>),</span><br><span class="line">    <span class="comment">// 同理 dist也是如此</span></span><br><span class="line">    dest: resolve(<span class="string">"dist/vue.runtime.common.dev.js"</span>),</span><br><span class="line">    format: <span class="string">"cjs"</span>,</span><br><span class="line">    env: <span class="string">"development"</span>,</span><br><span class="line">    banner,</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>再看下<code>resolve</code>:</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> resolve = <span class="function">(<span class="params">p</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> base = p.split(<span class="string">"/"</span>)[<span class="number">0</span>];</span><br><span class="line">  <span class="comment">// // aliases就是 路径的别名哈希表 &#123;compile:"compiler文件夹的绝对地址",core:.....&#125;</span></span><br><span class="line">  <span class="keyword">if</span> (aliases[base]) &#123;</span><br><span class="line">    <span class="keyword">return</span> path.resolve(aliases[base], p.slice(base.length + <span class="number">1</span>));</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> path.resolve(__dirname, <span class="string">"../"</span>, p);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h3 id="format属性"><a href="#format属性" class="headerlink" title="format属性"></a>format属性</h3><p><code>format</code>表示 最后生成的 <code>js</code> 文件符合什么规范：</p>
-<ul>
-<li>commonJS 规范，其实就是<code>require/module.exports</code></li>
-<li>ESModule 规范，其实就是<code>import/export</code></li>
-<li>umd 规范，算是兼容模式，</li>
-</ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span> (<span class="params">window, factory</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> exports === <span class="string">"object"</span>) &#123;</span><br><span class="line">    <span class="built_in">module</span>.exports = factory();</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> define === <span class="string">"function"</span> &amp;&amp; define.amd) &#123;</span><br><span class="line">    define(factory);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">window</span>.eventUtil = factory();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)(<span class="keyword">this</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">//module ...</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<h3 id="小技巧：打印错误和文件大小"><a href="#小技巧：打印错误和文件大小" class="headerlink" title="小技巧：打印错误和文件大小"></a>小技巧：打印错误和文件大小</h3><p>有两个函数，可以日常使用</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getSize</span> (<span class="params">code</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (code.length / <span class="number">1024</span>).toFixed(<span class="number">2</span>) + <span class="string">'kb'</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// catch(logError) 这样使用非常方便</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">logError</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(e)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="Runtime-Only-VS-Runtime-Compiler"><a href="#Runtime-Only-VS-Runtime-Compiler" class="headerlink" title="Runtime Only VS Runtime + Compiler"></a>Runtime Only VS Runtime + Compiler</h3><p>其实这两个是相对的。</p>
-<p>使用<code>vue</code>的时候，如果<code>template</code>是字符串的话，如下</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">  template: <span class="string">'&lt;div&gt;&#123;&#123; hi &#125;&#125;&lt;/div&gt;'</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<p>这种代码一般是在运行环境里，由<strong>运行环境</strong>将<code>template</code>编译成<code>render</code>函数，这里特别注意，编译是<strong>运行环境</strong>做的，这样<code>vue</code>就必须包含怎么<code>编译</code>的代码，专业名词就是<code>Compiler</code></p>
-<p>当然如果代码里没有这样的字符串，自然也就不需要<code>Compiler</code>。</p>
-<p>显然加上<code>Compiler</code>既增加了<code>vue</code>的体积，又让运行环境干编译，会更费时。</p>
-<p>那另外一种就好理解了，所谓的<code>Runtime</code>其实就是没有<code>Compiler</code>的<code>vue</code>代码，一般开发是用<code>.vue</code>文件表示模板，而<code>.vue</code>文件，是在你的编辑器里，也称为编译环境里，将其编译成<code>render</code>函数（依靠webpack的vue-loader插件），这样运行环境自然不需要编译，只需要运行就行，专业名词就是<code>Runtime</code></p>
-<p>显然<code>Runtime</code>既轻量，又省时。</p>
-<p>说句人话，开发的时候如果模板没有字符串的话，直接<code>Runtime</code>就好，不需要<code>Compiler</code></p>
-<h2 id="从入口开始"><a href="#从入口开始" class="headerlink" title="从入口开始"></a>从入口开始</h2><p>先找到定义<code>vue</code>的地方！</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/27410c9b056343df8e9e231d5d63b57f~tplv-k3u1fbpfcp-zoom-1.image" alt="vue_source_code3"></p>
-<p><code>dist</code>的<code>vue.js</code>是由<code>entry-runtime-with-compiler.js</code>生成的，一层层往上找线索~</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// entry-runtime-with-compiler.js</span></span><br><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">'./runtime/index.js'</span></span><br><span class="line"><span class="comment">// runtime/index.js</span></span><br><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">'core/index'</span></span><br><span class="line"><span class="comment">// core/index.js</span></span><br><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">'./instance/index'</span></span><br><span class="line"><span class="comment">// instance/index  找到啦！</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Vue</span> (<span class="params">options</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (process.env.NODE_ENV !== <span class="string">'production'</span> &amp;&amp;</span><br><span class="line">    !(<span class="keyword">this</span> <span class="keyword">instanceof</span> Vue)</span><br><span class="line">  ) &#123;</span><br><span class="line">    warn(<span class="string">'Vue is a constructor and should be called with the `new` keyword'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">this</span>._init(options)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e33e886890d64dad9a0bd65284a8d1ac~tplv-k3u1fbpfcp-zoom-1.image" alt="vue_source_code4"></p>
-<p>这里用函数的形式定义了类，好处是方便在<code>Vue.prototype</code>上面拓展，这样拓展的方法和属性可以分布在别的文件，方便维护。</p>
-<h3 id="小技巧：怎么判断有没有用new调用"><a href="#小技巧：怎么判断有没有用new调用" class="headerlink" title="小技巧：怎么判断有没有用new调用"></a>小技巧：怎么判断有没有用new调用</h3><p>其实就是<code>this</code>是不是属于当前实例</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">C</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(!<span class="keyword">this</span> instanceOf C)&#123;<span class="built_in">console</span>.log(<span class="string">'C is a constructor and should be called with the `new` keyword'</span>)&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="小技巧：函数的形式定义类，方便拓展"><a href="#小技巧：函数的形式定义类，方便拓展" class="headerlink" title="小技巧：函数的形式定义类，方便拓展"></a>小技巧：函数的形式定义类，方便拓展</h3><p><code>class</code>关键字的方式，拓展会不方便，反而函数的形式更加便捷，可以将方法和属性分门别类在其他文件</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">C</span>(<span class="params"></span>)</span>&#123;&#125;</span><br><span class="line"><span class="comment">// getName.js</span></span><br><span class="line">C.prototype.getName = <span class="function"><span class="keyword">function</span> <span class="title">getName</span>(<span class="params"></span>)</span>&#123;&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
-<li><a href="https://coding.imooc.com/lesson/228.html#mid=14869" target="_blank" rel="noopener">黄轶老师的vue2源码解密课程</a></li>
-<li><a href="https://ustbhuangyi.github.io/vue-analysis/v2/prepare/flow.html#flow-%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%96%B9%E5%BC%8F" target="_blank" rel="noopener">vue.js 技术揭秘</a></li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/">26</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/27/">27</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -2356,7 +2362,7 @@ cease (cess) v.走了（彻底的）、停止、终结 -->
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">260</span>
+                <span class="site-state-item-count">261</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
