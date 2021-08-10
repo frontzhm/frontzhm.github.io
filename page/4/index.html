@@ -261,6 +261,250 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/01/react_new/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2021/04/01/react_new/" itemprop="url">
+                  React的入门学习
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-04-01T20:07:04+08:00">
+                2021-04-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/vue/" itemprop="url" rel="index">
+                    <span itemprop="name">vue</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/04/01/react_new/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2021/04/01/react_new/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>React 是一个声明式，高效且灵活的用于构建用户界面的 JavaScript 库。使用 React 可以将一些简短、独立的代码片段组合成复杂的 UI 界面，这些代码片段被称作“组件”。</p>
+<h2 id="怎么写一个React类组件"><a href="#怎么写一个React类组件" class="headerlink" title="怎么写一个React类组件"></a>怎么写一个React类组件</h2><ul>
+<li>定义一个<code>React.component</code>的子类</li>
+<li>ui的dom结构就是<code>render</code>函数的返回值</li>
+<li>props是传给组件的属性集合</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ShoppingList</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">component</span></span>&#123;</span><br><span class="line">    render()&#123;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">            &lt;div&gt;&#123;&#123;<span class="keyword">this</span>.props.name&#125;&#125;&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">        </span></span><br><span class="line"><span class="regexp">        )</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp">/</span><span class="regexp">/ 用法示例</span></span><br><span class="line"><span class="regexp">&lt;shoppingList name="Huahua"/</span>&gt;</span><br></pre></td></tr></table></figure>
+<p>render 返回了一个 React 元素（本质上就是一个对象），这是一种对渲染内容的轻量级描述。</p>
+<p>实际内部将其转化成：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> React.createElement(<span class="string">'div'</span>, &#123;<span class="attr">className</span>: <span class="string">'shopping-list'</span>&#125;,</span><br><span class="line">  React.createElement(<span class="string">'h1'</span>, <span class="comment">/* ... h1 children ... */</span>),</span><br><span class="line">  React.createElement(<span class="string">'ul'</span>, <span class="comment">/* ... ul children ... */</span>)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>在 React 应用中，数据通过 props 的传递，从父组件流向子组件。</p>
+<p>注意{}外面是没有引号的，表示这段代码是js代码。</p>
+<p>事件的时候，如果写在dom上，可以用箭头函数规避this的问题。</p>
+<p>阻止组件渲染的话，可以<code>return null</code></p>
+<h2 id="怎么写一个函数组件"><a href="#怎么写一个函数组件" class="headerlink" title="怎么写一个函数组件"></a>怎么写一个函数组件</h2><p>当组件里，只有render方法的时候，就该换成函数组件啦！<br>换言之，函数组件没有自己的state!<br>函数组件不需要继承<code>React.component</code>类！</p>
+<p>其实就是写一个普通函数，然后返回<code>React元素</code>即可~~</p>
+<p>如果需要props的话，就传一个props!</p>
+<p>注意事件的写法发生了变化！<br>注意事件的写法发生了变化！<br>注意事件的写法发生了变化！  </p>
+<p>把原先子类的<code>onClick={() =&gt; this.props.onClick()}</code>改成了更短的 <code>onClick={props.onClick}</code>!  </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Square</span>(<span class="params">props</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;button className=<span class="string">"square"</span> onClick=&#123;props.onClick&#125;&gt;</span><br><span class="line">      &#123;props.value&#125;</span><br><span class="line">    &lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">  );</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>只有两种值的时候，可以考虑布尔值。</p>
+<h2 id="React元素是不可变对象"><a href="#React元素是不可变对象" class="headerlink" title="React元素是不可变对象"></a>React元素是不可变对象</h2><p>React 元素是不可变对象。一旦被创建，你就无法更改它的子元素或者属性。一个元素就像电影的单帧：它代表了某个特定时刻的 UI</p>
+<p>想要更新的话，就是重新创建。</p>
+<p>但注意，React元素重新创建，不代表真实的DOM重建，React是根据之前的区别，而对DOM进行必要的更新，并不是新建</p>
+<h2 id="怎么给组件加私有属性state"><a href="#怎么给组件加私有属性state" class="headerlink" title="怎么给组件加私有属性state"></a>怎么给组件加私有属性state</h2><ul>
+<li>组件类里面，写个constructor，定义state</li>
+<li>为了方便使用props，这边也将props传过来</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Square</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  construtor(props)&#123;</span><br><span class="line">    <span class="keyword">super</span>(props)</span><br><span class="line">    <span class="keyword">this</span>.state = &#123;</span><br><span class="line">      value:<span class="literal">null</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;button className=<span class="string">"square"</span> onClick=&#123;()=&gt;&#123;<span class="keyword">this</span>.setState(&#123;<span class="attr">value</span>:<span class="string">'X'</span>&#125;)&#125;&gt;</span><br><span class="line">        &#123;<span class="keyword">this</span>.state.value&#125;</span><br><span class="line">      &lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">    );</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<h2 id="怎么修改私有属性state"><a href="#怎么修改私有属性state" class="headerlink" title="怎么修改私有属性state"></a>怎么修改私有属性state</h2><ul>
+<li>setState的方法</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">this</span>.setState(&#123;<span class="attr">value</span>:<span class="string">'x'</span>&#125;)</span><br></pre></td></tr></table></figure>
+<p>State 的更新可能是异步的！！！ </p>
+<p>出于性能考虑，React 可能会把多个 setState() 调用合并成一个调用。</p>
+<p>如果需要使用到上一次的state</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">this</span>.setState(<span class="function">(<span class="params">state, props</span>) =&gt;</span> (&#123;</span><br><span class="line">  counter: state.counter + props.increment</span><br><span class="line">&#125;));</span><br></pre></td></tr></table></figure>
+<h2 id="怎么将子组件的state提升为父组件的"><a href="#怎么将子组件的state提升为父组件的" class="headerlink" title="怎么将子组件的state提升为父组件的"></a>怎么将子组件的state提升为父组件的</h2><p>遇到下面的情况，就要提升state：</p>
+<ul>
+<li>同时获取多个子组件数据</li>
+<li>两个组件之间需要相互通讯</li>
+</ul>
+<p>需要把子组件的 state 数据提升至其共同的父组件当中保存。<br>之后父组件可以通过 props 将状态数据传递到子组件当中。<br>这样应用当中所有组件的状态数据就能够更方便地同步共享了。</p>
+<h2 id="怎么写事件"><a href="#怎么写事件" class="headerlink" title="怎么写事件"></a>怎么写事件</h2><ul>
+<li>react的事件命名都是小驼峰</li>
+<li>html元素，一般就是onClick之类</li>
+<li>react组件，可以用自定义的事件</li>
+<li>如果是React类定义的组件，注意大括号里，使用箭头函数</li>
+<li>如果是函数组件，注意不用箭头函数</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// react类定义的组件的话</span></span><br><span class="line"></span><br><span class="line">&lt;button onClick=&#123;(e)=&gt;<span class="keyword">this</span>.props.onClick(e)&#125;&#125;&gt;</span><br><span class="line"></span><br><span class="line">&lt;Square value=&#123;<span class="keyword">this</span>.state.squares[i]&#125; onClick=&#123;(e)=&gt;<span class="keyword">this</span>.handleClick(i,e)&#125;/&gt;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 函数组件的话</span></span><br><span class="line">&lt;button onClick=&#123;props.onClick&#125;&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="怎么让子组件修改父组件的私有属性state"><a href="#怎么让子组件修改父组件的私有属性state" class="headerlink" title="怎么让子组件修改父组件的私有属性state"></a>怎么让子组件修改父组件的私有属性state</h2><ul>
+<li>子组件内部，事件绑定的时候，让<code>this.props.xx[event]</code>执行</li>
+<li>父组件给子组件传相应事件，这个事件绑定的函数里是修改逻辑，因为写在父组件里，所以容易修改</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 父组件里</span></span><br><span class="line">&lt;Square value=&#123;<span class="keyword">this</span>.state.squares[i]&#125; onClick=&#123;()=&gt;<span class="keyword">this</span>.handleClick(i)&#125;/&gt;;</span><br><span class="line"></span><br><span class="line">handleClick(i)&#123;</span><br><span class="line">    <span class="keyword">const</span> squares = <span class="keyword">this</span>.state.squares.slice()</span><br><span class="line">    squares[i] = <span class="string">'X'</span></span><br><span class="line">    <span class="keyword">this</span>.setState(&#123;squares&#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 子组件里</span></span><br><span class="line">&lt;button onClick=&#123;()=&gt;<span class="keyword">this</span>.props.onClick()&#125;&#125;&gt;<span class="xml"><span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+<p>注意修改属性的时候，不要动原始的数组，而是要复制一份出来，在修改。</p>
+<p>数据不可变的好处：</p>
+<ul>
+<li>简化复杂的功能，比如撤销和恢复的功能</li>
+<li>跟踪数据的改变。如果直接修改数据则需要和之前的版本比较，但跟踪不可变数据的话，发现对象变成一个新对象的话，就说对象发生了改变</li>
+<li>确定React中何时重新渲染。不可变性最主要的优势在于它可以帮助我们在 React 中创建 pure components。我们可以很轻松的确定不可变数据是否发生了改变，从而确定何时对组件进行重新渲染。</li>
+</ul>
+<h2 id="列表渲染：map"><a href="#列表渲染：map" class="headerlink" title="列表渲染：map"></a>列表渲染：map</h2><p>一般通过某数据列表生成元素的时候，会使用map。<br>而且，一般提前通过变量得到，。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> history = <span class="keyword">this</span>.state.history.map(<span class="function">(<span class="params">item,index</span>)=&gt;</span>&#123;</span><br><span class="line">      <span class="keyword">const</span> desc = index === <span class="number">0</span>?<span class="string">'Go to game start'</span>:<span class="string">`Go to move #<span class="subst">$&#123;index+<span class="number">1</span>&#125;</span>`</span>;</span><br><span class="line">      <span class="keyword">return</span> (</span><br><span class="line">        &lt;li key=&#123;index&#125;&gt;&#123;desc&#125;&lt;<span class="regexp">/li&gt;</span></span><br><span class="line"><span class="regexp">      )</span></span><br><span class="line"><span class="regexp">    &#125;)</span></span><br><span class="line"><span class="regexp">    </span></span><br><span class="line"><span class="regexp"> render()&#123;</span></span><br><span class="line"><span class="regexp">    return (</span></span><br><span class="line"><span class="regexp">        &lt;ol&gt;&#123;history&#125;&lt;/</span>ol&gt;</span><br><span class="line">    )</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="动态列表，要指定key"><a href="#动态列表，要指定key" class="headerlink" title="动态列表，要指定key"></a>动态列表，要指定key</h2><p>每当一个列表重新渲染时，React 会根据每一项列表元素的 key 来检索上一次渲染时与每个 key 所匹配的列表项。</p>
+<ul>
+<li>如果 React 发现当前的列表有一个之前<strong>不存在</strong>的 key，那么就会<strong>创建</strong>出一个新的组件。</li>
+<li>如果 React 发现和之前对比<strong>少</strong>了一个 key，那么就会<strong>销毁</strong>之前对应的组件。</li>
+<li>如果一个组件的 key 发生了<strong>变化</strong>，这个组件会被<strong>销毁</strong>，然后使用新的 state 重新创建一份。</li>
+</ul>
+<p>key 是 React 中一个特殊的保留属性（还有一个是 ref，拥有更高级的特性）。</p>
+<blockquote>
+<p>当 React 元素被创建出来的时候，React 会提取出 key 属性，然后把 key 直接存储在返回的元素上。</p>
+</blockquote>
+<p>虽然 key 看起来好像是 props 中的一个，但是不能通过 this.props.key 来获取 key。<br>React 会通过 key 来自动判断哪些组件需要更新。组件是不能访问到它的 key 的。</p>
+<p>如果你没有指定任何 key，React 会发出警告，并且会把数组的索引当作默认的 key。但是如果想要对列表进行<strong>重新排序、新增、删除</strong>操作时，把数组索引作为 key 是有问题的。</p>
+<p>组件的 key 值并不需要在全局都保证唯一，只需要在当前的同一级元素之间保证唯一即可。</p>
+<blockquote>
+<p>静态列表是可以将索引作为key的</p>
+</blockquote>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li>开发者工具查看react元素：chrome浏览器的插件<code>React Devtools</code></li>
+<li>组件的生命周期：componentDidMount是组件第一次被渲染到 DOM 中的时候，componentWillUnmount是当 DOM 中组件被删除的时候</li>
+<li>怎么不改变原数组的情况下，复制数组和给数组添加元素：<code>slice()</code>和<code>arr.concat(item)</code></li>
+<li>某数据存在的话，才渲染元素：&amp;&amp;运算符：<code>{count &amp;&amp; &lt;h1&gt;{count}&lt;/h1&gt;}</code></li>
+<li>特殊的属性：JSX 里的 class 变成了 className，而 tabindex 则变为 tabIndex。key和ref是保留属性。</li>
+<li>包含验证、追踪访问字段以及处理表单提交的解决方案，可以尝试<a href="https://jaredpalmer.com/formik" target="_blank" rel="noopener">formilk</a></li>
+</ul>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
+<li><p><a href="https://zh-hans.reactjs.org/tutorial/tutorial.html" target="_blank" rel="noopener">react官网入门</a></p>
+</li>
+<li><p><a href="https://www.bilibili.com/video/BV1wy4y1D7JT" target="_blank" rel="noopener">react入门视频</a></p>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/31/algorithm_list/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2011,253 +2255,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/02/03/computer_composition_baisc/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2021/02/03/computer_composition_baisc/" itemprop="url">
-                  计算机组成原理的概述
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-02-03T18:40:10+08:00">
-                2021-02-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/计算机/" itemprop="url" rel="index">
-                    <span itemprop="name">计算机</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2021/02/03/computer_composition_baisc/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2021/02/03/computer_composition_baisc/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>最近在看一些计算机基础课，边看边输出总结吧，方便自己查阅，也希望对读者有用。</p>
-<h2 id="计算机发展的四个阶段"><a href="#计算机发展的四个阶段" class="headerlink" title="计算机发展的四个阶段"></a>计算机发展的四个阶段</h2><ul>
-<li>电子管计算机（第二次世界大战因为破解密文发明的）：1946-1957</li>
-<li>晶体管计算机：1957-1964</li>
-<li>集成电路计算机（IBM可以卖电脑，且操作系统有了雏形）：1964-1980</li>
-<li>超大规模集成电路计算机（乔布斯发明了一代苹果电脑）：1980-现在</li>
-</ul>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/018c827556ac4d139cbb480070075882~tplv-k3u1fbpfcp-zoom-1.image" alt="computer1.png"><br><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3d28c944e479412189abeaef759662ee~tplv-k3u1fbpfcp-zoom-1.image" alt="computer2.png"><br><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/db8d7dc06c6b476fa63a2fac6cfcc03a~tplv-k3u1fbpfcp-zoom-1.image" alt="computer3.png"><br><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8af0fa424fbf45428987325d01c0cc73~tplv-k3u1fbpfcp-zoom-1.image" alt="computer4.png"></p>
-<h3 id="微型计算机的发展历史"><a href="#微型计算机的发展历史" class="headerlink" title="微型计算机的发展历史"></a>微型计算机的发展历史</h3><p>集成电路计算机之后就算是微型计算机了</p>
-<ul>
-<li>单核CPU：1971-现在</li>
-<li>多核CPU：2005-现在</li>
-</ul>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2b0d0aa987b34dc9905f6890695f2c93~tplv-k3u1fbpfcp-zoom-1.image" alt="computer6.png"><br><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/070fd63ca8064d39b21edf514c2d6936~tplv-k3u1fbpfcp-zoom-1.image" alt="computer7.png"></p>
-<h2 id="计算机的分类"><a href="#计算机的分类" class="headerlink" title="计算机的分类"></a>计算机的分类</h2><ul>
-<li>超级计算机：运算速度超过TFlops/s（每秒一万亿次浮点运算）</li>
-<li>大型计算机：IOE基本包揽（IBM ORACLE EMC，但维护费用很高，阿里在2008年提出”去IOE“，于是有了2009年的阿里云）</li>
-<li>迷你计算机（服务器）：联想、华为、浪潮等生产</li>
-<li>工作站：性能比普通计算机强劲，适用于图形或视频工作者</li>
-<li>微型计算机：就我们普通用的电脑，分为台式机、笔记本、一体机</li>
-</ul>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5e07537cdccc4abeae795f4704e1db2b~tplv-k3u1fbpfcp-zoom-1.image" alt="computer8.png"><br><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7da08e61dba240fea3bd1ab0026259da~tplv-k3u1fbpfcp-zoom-1.image" alt="computer9.png"><br><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c0d945bd00104262bb41df457e040306~tplv-k3u1fbpfcp-zoom-1.image" alt="computer10.png"><br><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b703bc0476b8460a97ed55f93f5bc94e~tplv-k3u1fbpfcp-zoom-1.image" alt="computer11.png"></p>
-<h2 id="计算机的体系"><a href="#计算机的体系" class="headerlink" title="计算机的体系"></a>计算机的体系</h2><p>早期的计算机功能单一，想要<strong>切换功能</strong>，需要<strong>重新</strong>接电路之类的复杂操作。</p>
-<p>冯诺依曼把程序指令和运行数据<strong>存储</strong>起来，使得计算机从专用电路计算机发展成为<strong>通用</strong>电路计算机，这也称为也成为<code>冯诺依曼体系</code>。</p>
-<p>为了实现能切换功能，冯诺依曼体系的主要组成部分如下：</p>
-<ul>
-<li>存储器：存储程序和数据</li>
-<li>控制器：切换程序</li>
-<li>运算器：运算</li>
-<li>输入设备：把需要的程序和数据送至计算机</li>
-<li>输出设备：按照要求把处理输出给用户</li>
-</ul>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9c1d1f5fd9bf4406954b03c749dad8fe~tplv-k3u1fbpfcp-zoom-1.image" alt="computer12.png"><br><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/76a887095aad4195bbac548d3ec48997~tplv-k3u1fbpfcp-zoom-1.image" alt="computer13.png"></p>
-<p>冯诺依曼的瓶颈：CPU是由控制器和运算器组成，而CPU运行速度<strong>远高于</strong>存储器的速率，导致CPU经常空转，从而计算机性能无法提升</p>
-<p>现代计算机这基础上进行了修改，将存储器放进CPU，以存储器为核心，根据局部性原理设计了存储器的层次结构，大幅提升计算机性能。</p>
-<h2 id="计算机的编程语言"><a href="#计算机的编程语言" class="headerlink" title="计算机的编程语言"></a>计算机的编程语言</h2><p>人类语言：i am yan<br>计算机语言：01010110  </p>
-<p>两者并不相通，为了让计算机明白人类的语言，就需要翻译或者解释人类语言。</p>
-<p>所以编程语言分为编译型语言和解释型语言。</p>
-<ul>
-<li>编译型：程序代码在编译阶段，提前翻译成较低层次的编程语言逻辑（整体），在运行时直接运行。如C++、 OC、GoLang</li>
-<li>解释型：程序代码在运行阶段，<strong>逐行</strong>翻译成较低层次的编程语言去执行。如PHP、Python、Javascript</li>
-<li>有些语言则是两者的混合，C#、Java，如：Java =&gt; 编译 =&gt; JVM字节码（JVM虚拟机） =&gt; 解释 =&gt; 机器码</li>
-</ul>
-<h2 id="计算机的层次结构"><a href="#计算机的层次结构" class="headerlink" title="计算机的层次结构"></a>计算机的层次结构</h2><p>先说三个概念</p>
-<ul>
-<li>机器语言：是方便计算机理解和运行的编程语言，一般程序员无法理解</li>
-<li>汇编语言：是方便程序员描述硬件逻辑的编程语言，与底层硬件接近</li>
-<li>高级语言：是程序员接触的高级语言，与人类语言接近</li>
-</ul>
-<p>为了理解计算机的整体体系，将其大致划分为7个层次结构，从下到上：</p>
-<ul>
-<li>硬件逻辑层：门、触发器等逻辑电路组成，属于电子工程领域</li>
-<li>微程序机器层：编程语言是微指令集，微指令所组成的微程序直接交由硬件执行，由硬件公司的程序员编写</li>
-<li>传统机器层：编程语言是CPU指令集，编程语言和硬件直接相关，不同架构的CPU使用不同的CPU指令集</li>
-<li>操作系统层：向上提供操作界面，向下对接了指令系统管理硬件资源，是位于软件和硬件之间的适配层</li>
-<li>汇编语言层：编程语言是汇编语言，经过汇编器可以直接翻译成可执行的机器语言</li>
-<li>高级语言层：编程语言是程序员接触的高级语言，如Python、Java、GoLang、C/C++</li>
-<li>应用层：满足计算机针对某种用途而专门设计的APP，如Word</li>
-</ul>
-<!-- 一条机器指令对应一个微程序 一个微程序对应一组微指令 -->
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e7c8789da29c4413a2c60c7af84d0d91~tplv-k3u1fbpfcp-zoom-1.image" alt="computer14"><br><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c1994e6127f246b19e8065010e17756d~tplv-k3u1fbpfcp-zoom-1.image" alt="computer16"></p>
-<h2 id="计算机的计算单位"><a href="#计算机的计算单位" class="headerlink" title="计算机的计算单位"></a>计算机的计算单位</h2><p>主要是容量单位和速度单位</p>
-<h3 id="容量单位"><a href="#容量单位" class="headerlink" title="容量单位"></a>容量单位</h3><p>计算机在物理层面，用高低电平记录信息，高表示1低表示0，只认识0/1两种状态，0/1也就是一个比特位bit</p>
-<p>1个bit能表示的信息太少了，后来用8个bit表示一个字节，也就是 1Byte = 8bits</p>
-<p>后来Byte也不足以描述容量，于是有了更大的单位</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/529f684298234800aaab9a8829dda2fc~tplv-k3u1fbpfcp-zoom-1.image" alt="computer17"></p>
-<p>1G = 1024MB = 1024*1024KB = 1024*1024*1024B = 1024*1024*1024*8bits</p>
-<p>也就是 <code>1G = 1024^3B</code></p>
-<p>这里有个梗，买电脑的时候说的500G硬盘，到家打开发现只有465G？</p>
-<p>因为厂商的<code>1G = 1000^3B</code>，换算成真实的容量<code>500*1000^3/1024^3 = 465G</code></p>
-<!-- 1024是2的10次方 -->
-<h3 id="速度单位"><a href="#速度单位" class="headerlink" title="速度单位"></a>速度单位</h3><ul>
-<li>网络速度：描述网络速度的常用单位是比特率，是指每秒传送的比特(bit)数。单位为 bps(Bit Per Second)，比特率越高，每秒传送数据就越多。<br>就是Mbit/s，100Mbit/s = (100/8)MB/s = 12.5MB/s。也就是100M光纤，峰值只有12M/s。</li>
-<li>CPU速度：描述CPU速度的常用单位是Hz，表示是每秒中的周期性变动重复次数的计量，也可以简单理解为在单位时间内完成振动的次数。如蝴蝶的翅膀震动的频率是15Hz，表示1s中翅膀震动15次，蜜蜂是400Hz。CPU这里表示高低电平变换的频率。</li>
-</ul>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b75dcd57d51e4958b54170b715ab8b09~tplv-k3u1fbpfcp-zoom-1.image" alt="computer18"></p>
-<p>再说一个梗：为啥光纤说的百兆宽带，实际使用中只有12M多？</p>
-<p>因为：100Mbps = 100Mbit/s = (100/8)MB/s = 12.5MB/s</p>
-<p>为什么人能听到蜜蜂的声音听不到蝴蝶的声音？</p>
-<p>因为：人耳听到的范围是20Hz~2wHz</p>
-<h2 id="计算机的字符和编码集"><a href="#计算机的字符和编码集" class="headerlink" title="计算机的字符和编码集"></a>计算机的字符和编码集</h2><h3 id="字符编码集的历史"><a href="#字符编码集的历史" class="headerlink" title="字符编码集的历史"></a>字符编码集的历史</h3><ul>
-<li>ASCII编码集：共有128个字符（95个可打印，33不可打印的字符），128 = 2^7，所以使用7个bits就可以表示所有的ASCII码</li>
-</ul>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3fc6774f13ac4f84a3ac18fc72c848de~tplv-k3u1fbpfcp-zoom-1.image" alt="computer20"></p>
-<ul>
-<li>扩充ASCII编码集：随着计算机开始普及，一些字符就不能用ASCII码表示了，如π，于是开始将7个bits变成8个bits，从而可以表示255个字符</li>
-</ul>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f92af54cc6a64c1f9dc621a78e246c8b~tplv-k3u1fbpfcp-zoom-1.image" alt="computer21"></p>
-<ul>
-<li>Unicode标准：普及到各个国家，需要兼容各个国家的语言，于是有了unicode标准，可以用不同的编码实现，比如UTF-8、UTF-16、UTF-32。编程推荐<code>utf-8</code>。</li>
-</ul>
-<h3 id="中文编码集的发展"><a href="#中文编码集的发展" class="headerlink" title="中文编码集的发展"></a>中文编码集的发展</h3><ul>
-<li>GB2312：1980年诞生的，但是不符合国际标准，外国人访问中国网站，因为本地没有，所以会乱码</li>
-<li>GBK：1995年诞生的，向下兼容了<code>GB2312</code>且向上支持国际ISO标准，收录<strong>21003</strong>个字符，支持中日韩汉字</li>
-</ul>
-<p>一个问题，假设有10000个汉字，6000个日本字，3000个韩国字，1000个特殊字符，如果让你设计一套通用的编码集，请问每个字至少几个比特位？</p>
-<p>1个比特位，只能表示2种信息，0表示1种，1表示1种。<br>2个比特位，能表示4种信息，00、01、10、11<br>对，就是排列组合，n个比特位能表示2^n种信息<br>于是，10000+6000+3000+1000 = 20000 &lt; 2^15，也就是15个比特位</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p>本文图片是截图自<a href="https://coding.imooc.com/lesson/355.html" target="_blank" rel="noopener">咚咚呛老师的编程基础课</a><br>本文多数是总结性文字，也部分引用课程文字~</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2307,7 +2304,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">261</span>
+                <span class="site-state-item-count">262</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

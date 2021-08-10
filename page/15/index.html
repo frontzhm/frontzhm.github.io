@@ -261,6 +261,196 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/30/test-api/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2019/10/30/test-api/" itemprop="url">
+                  怎么测试一个接口，postman？form？axios？
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-30T16:23:59+08:00">
+                2019-10-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/10/30/test-api/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/10/30/test-api/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>接口写出来之后，想要测试其正确性。最快速的方法莫过于postman，能脱离代码。当然前端还可以form表单提交或者利用axios。这里想说，当一个接口出来以后，根据其不同的<code>content-type</code>，三种测试方式也有很大不同。</p>
+<h2 id="先说说content-type"><a href="#先说说content-type" class="headerlink" title="先说说content-type"></a>先说说content-type</h2><p>请求头和响应头总会有<code>content-type</code>，正如翻译<code>内容类型</code>，请求的时候表示body里的内容类型，响应的时候表示返回体里的内容类型。  </p>
+<p>get请求的时候没有body，参数是拼接在接口地址后面的，所以get请求的时候，没有<code>content-type</code>。</p>
+<p>post请求的时候，如果有body，接口肯定有<code>content-type</code>的值，而前端必须将请求头设置成相应的值，这样接口拿到正确的数据，不同的<code>content-type</code>，前后端处理的方法很多时候也是不同的。</p>
+<p><code>content-type</code>有很多类型，但是接口常用的是三种类型如下(如果有上传文件则只能用<code>multipart/form-data</code>)：</p>
+<ul>
+<li><code>application/json</code>，此时前端传的body格式是<code>{&quot;a&quot;:1,&quot;b&quot;:2}</code></li>
+<li><code>application/x-www-form-urlencoded</code>，此时前端传的body格式是<code>a=1&amp;b=2</code></li>
+<li><code>multipart/form-data</code>，此时前端传的body格式如下，每个表单项使用 <code>--[boundary]</code> 分割开来，最后一行使用 <code>--[boundary]--</code> 结尾，下面对应的就是<code>{name:&#39;huahua&#39;,file:文件流,}</code></li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">------WebKitFormBoundary6VWyGefevm60vjtn</span><br><span class="line">Content-Disposition: form-data; name=<span class="string">"name"</span></span><br><span class="line"></span><br><span class="line">huahua</span><br><span class="line">------WebKitFormBoundary6VWyGefevm60vjtn</span><br><span class="line">Content-Disposition: form-data; name=<span class="string">"file"</span>; filename=<span class="string">"study.md"</span></span><br><span class="line">Content-Type: text/markdown</span><br><span class="line"></span><br><span class="line">------WebKitFormBoundary6VWyGefevm60vjtn--</span><br></pre></td></tr></table></figure>
+<h2 id="application-json"><a href="#application-json" class="headerlink" title="application/json"></a>application/json</h2><p>当接口规定需要的<code>content-type</code>为<code>application/json</code>时</p>
+<ul>
+<li>代码里可以<code>axios.post(&#39;/api/user&#39;,{a:1,b:2})</code>，axios会将对象自动变成json对象之后，发送出去，content-type也会因为第二个参数是对象，而自动变成<code>application/json</code>，无需额外设置。如果用的别的库，根据库看看是否需要设置请求头<code>Content-Type = application/json</code></li>
+<li>postman里，使用的时候，如下图：<img src="https://user-gold-cdn.xitu.io/2019/10/30/16e1bb88a76eccf1?w=1564&amp;h=318&amp;f=png&amp;s=70853" alt="postman">，这里postman也会因为你选择<code>JSON</code>，而自动设置<code>Content-Type = application/json</code></li>
+</ul>
+<p>这里弱弱的说下后台<code>app.use(bodyParser.json())</code>然后拿到的<code>let {a,b} = req.body</code></p>
+<h2 id="application-x-www-form-urlencoded"><a href="#application-x-www-form-urlencoded" class="headerlink" title="application/x-www-form-urlencoded"></a>application/x-www-form-urlencoded</h2><p>当接口规定需要的<code>content-type</code>为<code>application/x-www-form-urlencoded</code>时</p>
+<ul>
+<li>代码里可以<code>axios.post(&#39;/api/user&#39;,Qs.stringify({a:1,b:2}))</code>，stringify会将其变成<code>a=1&amp;b=2</code>,content-type也会因为第二个参数是字符串，而自动变成<code>application/application/x-www-form-urlencoded</code>，无需额外设置。如果用的别的库，根据库看看是否需要设置请求头<code>Content-Type = application/x-www-form-urlencoded</code>，备注axios还可以在transformRequest处理，不细说了</li>
+<li>代码里还可以form元素自动提交<code>&lt;form method=&quot;post&quot; action=&quot;/api/user&quot;&gt;&lt;input type=&quot;text&quot; name=&quot;a&quot;&gt;&lt;input type=&quot;text&quot; name=&quot;b&quot;&gt;&lt;button type=&quot;submit&quot;&gt;提交&lt;/button&gt;&lt;/form&gt;</code>，这里不需要设置enctype，因为其默认值就是<code>application/application/x-www-form-urlencoded</code></li>
+<li>postman里，使用的时候，如下图：<img src="https://user-gold-cdn.xitu.io/2019/10/30/16e1bb88a792bbb1?w=1484&amp;h=404&amp;f=png&amp;s=49836" alt="postman">，这里postman也会因为你选择<code>x-www-form-urlencoded</code>，而自动设置<code>Content-Type = application/x-www-form-urlencoded</code></li>
+</ul>
+<p>这里弱弱的说下后台<code>app.use(bodyParser.urlencoded({ extended: false }))</code>然后拿到的<code>let {a,b} = req.body</code>。</p>
+<h2 id="multipart-form-data"><a href="#multipart-form-data" class="headerlink" title="multipart/form-data"></a>multipart/form-data</h2><p>当接口规定需要的<code>content-type</code>为<code>multipart/form-data</code>时，分为两种情况：没有上传文件和有上传文件</p>
+<h3 id="没有上传文件的时候"><a href="#没有上传文件的时候" class="headerlink" title="没有上传文件的时候"></a>没有上传文件的时候</h3><ul>
+<li>代码里可以<code>let formData = new FormData();formData.append(&#39;a&#39;,1);formData.append(&#39;b&#39;,2);axios.post(&#39;/api/user&#39;,formData)</code>，axios会自动将其变成加边界的形式,content-type也会因为第二个参数是formData，而自动变成<code>application/multipart/form-data</code>，无需额外设置。如果用的别的库，根据库看看是否需要设置请求头<code>Content-Type = multipart/form-data</code>，备注axios还可以在transformRequest处理，不细说了</li>
+<li>代码里还可以form元素自动提交<code>&lt;form method=&quot;post&quot; action=&quot;/api/user&quot; enctype=&quot;multipart/form-data&quot;&gt;&lt;input type=&quot;text&quot; name=&quot;a&quot;&gt;&lt;input type=&quot;text&quot; name=&quot;b&quot;&gt;&lt;button type=&quot;submit&quot;&gt;提交&lt;/button&gt;&lt;/form&gt;</code>，这里必须设置enctype</li>
+<li>postman里，使用的时候，如下图：<img src="https://user-gold-cdn.xitu.io/2019/10/30/16e1bb88a792bbb1?w=1484&amp;h=404&amp;f=png&amp;s=49836" alt="postman">，这里postman也会因为你选择<code>multipart/form-data</code>，而自动设置<code>Content-Type = application/multipart/form-data</code></li>
+</ul>
+<p>这里弱弱的说下后台<code>let upload = multer();app.post(&#39;/formdata&#39;, upload.none(), (req, res)=&gt; { let {a,b} = req.body;... })</code>，没有文件加上<code>upload.none()</code></p>
+<h2 id="有上传文件的时候"><a href="#有上传文件的时候" class="headerlink" title="有上传文件的时候"></a>有上传文件的时候</h2><ul>
+<li>代码里可以<code>let formData = new FormData();formData.append(&#39;a&#39;,1);formData.append(&#39;avatar&#39;,xx.files[0]);axios.post(&#39;/api/user&#39;,formData)</code>，axios会自动将其变成加边界的形式,content-type也会因为第二个参数是formData，而自动变成<code>application/multipart/form-data</code>，无需额外设置。如果用的别的库，根据库看看是否需要设置请求头<code>Content-Type = multipart/form-data</code>，备注axios还可以在transformRequest处理，不细说了</li>
+<li>代码里还可以form元素自动提交<code>&lt;form method=&quot;post&quot; action=&quot;/api/user&quot; enctype=&quot;multipart/form-data&quot;&gt;&lt;input type=&quot;text&quot; name=&quot;a&quot;&gt;&lt;input type=&quot;file&quot; name=&quot;avatar&quot;&gt;&lt;button type=&quot;submit&quot;&gt;提交&lt;/button&gt;&lt;/form&gt;</code>，这里必须设置enctype</li>
+<li>postman里，使用的时候，如下图：<img src="https://user-gold-cdn.xitu.io/2019/10/30/16e1bb88a7a5fda1?w=2122&amp;h=386&amp;f=png&amp;s=98372" alt="postman">，这里postman也会因为你选择<code>multipart/form-data</code>，而自动设置<code>Content-Type = application/multipart/form-data</code></li>
+</ul>
+<p>这里弱弱的说下后台<code>let upload = multer({ dest: &#39;uploads/&#39; });app.post(&#39;/formdata&#39;, upload.single(&#39;avatar&#39;), (req, res)=&gt; { let file= req.avatar;let {a,b} = req.body;... })</code>，文件暂存在<code>uploads/</code>，<a href="https://github.com/expressjs/multer" target="_blank" rel="noopener">multer的具体用法</a></p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ul>
+<li><a href="https://www.jianshu.com/p/29e38bcc8a1d" target="_blank" rel="noopener">深入解析 multipart/form-data</a></li>
+<li><a href="https://medium.com/cubemail88/node-js-express-js-body-parser-%E8%99%95%E7%90%86multipart-form-data%E7%9A%84%E8%A7%A3%E6%B1%BA%E6%96%B9%E6%A1%88-d89d2699b9f" target="_blank" rel="noopener">express.js + body-parser 處理multipart/form-data的解決方案</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/29/self-vue-router/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1972,168 +2162,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/19/vue-env/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2019/09/19/vue-env/" itemprop="url">
-                  env文件里小心$
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-19T15:47:37+08:00">
-                2019-09-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/09/19/vue-env/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/09/19/vue-env/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <!-- # env文件里小心$ -->
-<p>最近在折腾<a href="https://juejin.im/post/5d79fcf1f265da03f233faad" target="_blank" rel="noopener">项目的环境配置</a>，目的是能在本地开发的时候，快速切换到各种环境的接口，而不必麻烦他人来讲项目放到相应的服务器。</p>
-<p>这样也能快速调试线上错误，美哉！</p>
-<p>但重构的时候，发现调用线上接口的时候，总是报验签错误。明明测试环境，都成了。验签也看不出来毛病的啊！</p>
-<p>仔细查找，发现是因为正式环境的appKey里面有<code>$</code>，但获取的时候，并不能获取到<code>$</code>后面的字符串！！！</p>
-<p>解决方案就是：在<code>$</code>后加个<code>\</code><br>如下：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 这样不行的</span></span><br><span class="line"><span class="comment"># VUE_APP_APPKEY = '21321$2121'</span></span><br><span class="line"><span class="comment"># 必须这样</span></span><br><span class="line">VUE_APP_APPKEY = <span class="string">'21321\$2121'</span></span><br></pre></td></tr></table></figure>
-<p>总结下，目前知道的env的细节：</p>
-<ul>
-<li>key必须大写</li>
-<li>在vue里除了<code>NODE_ENV BASE_URL</code>其他字段必须以<code>VUE_APP_</code>开头</li>
-<li>value的值如果有<code>$</code>，请必须是<code>\$</code></li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2183,7 +2211,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">261</span>
+                <span class="site-state-item-count">262</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
