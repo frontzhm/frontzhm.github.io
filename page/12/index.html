@@ -261,6 +261,166 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/18/zf-3-observe/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2020/04/18/zf-3-observe/" itemprop="url">
+                  发布订阅--观察者模式
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-18T10:31:54+08:00">
+                2020-04-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/04/18/zf-3-observe/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/04/18/zf-3-observe/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>我希望读两本书之后才能说话。</p>
+<p>当然可以通过装饰函数来：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 希望读完两本书再说话</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 这是基本的说话</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">wantSay</span>(<span class="params">data</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"say"</span>, data);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 处理函数的装饰，让某件事满足条件了才能做</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">timesFn</span>(<span class="params">times, fn</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> obj = &#123;&#125;;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">key, value</span>) </span>&#123;</span><br><span class="line">    times = times - <span class="number">1</span>;</span><br><span class="line">    obj[key] = value;</span><br><span class="line">    <span class="keyword">if</span> (times === <span class="number">0</span>) &#123;</span><br><span class="line">      fn(obj);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 这是只有两本了才说话</span></span><br><span class="line"><span class="keyword">let</span> timesWantSay = timesFn(<span class="number">2</span>, wantSay);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 每次读完一本的时候就看看 是不是读完两本可以说话了啊</span></span><br><span class="line">fs.readFile(<span class="string">"./a.txt"</span>, data =&gt; &#123;</span><br><span class="line">  timesWantSay(<span class="string">"name"</span>, data);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// 每次读完一本的时候就看看 是不是读完两本可以说话了啊</span></span><br><span class="line">fs.readFile(<span class="string">"./b.txt"</span>, data =&gt; &#123;</span><br><span class="line">  timesWantSay(<span class="string">"age"</span>, data);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>这里，如果我还想读完两本书打游戏，那么就还需要<code>play,timesWantPlay</code>，以及每次读完书的时候，看看能不能玩。当事情越来越多的时候，就会不方便管理。</p>
+<p>于是将读完书之后要做的事情，写在清单里，每次读完之后，把清单里的事情做一遍就行。<br>这里，可以用一个对象管理。</p>
+<p>发布订阅模式</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> e = &#123;</span><br><span class="line">  <span class="comment">// 每做完一件事情记录一些数据，方便他人使用</span></span><br><span class="line">  _obj:&#123;&#125;,</span><br><span class="line">  <span class="comment">// 要做的事情的清单</span></span><br><span class="line">  _callbacks:[],</span><br><span class="line">  <span class="comment">// 往清单里加事情</span></span><br><span class="line">  on(fn)&#123;</span><br><span class="line">    <span class="keyword">this</span>._callbacks.push(fn)</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment">// 依次做清单上面的事情</span></span><br><span class="line">  emit(key,value)&#123;</span><br><span class="line">    <span class="comment">// 这里，顺便将记录的数据也一起准备好，以方便做事的时候需要数据</span></span><br><span class="line">    <span class="keyword">this</span>._callbacks.forEach(<span class="function"><span class="params">fn</span>=&gt;</span>fn(<span class="keyword">this</span>._obj))</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">say</span>(<span class="params">word</span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(&#123;word&#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">play</span>(<span class="params">game</span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(&#123;game&#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">timesFn</span>(<span class="params">times, fn</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> obj = &#123;&#125;;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">key, value</span>) </span>&#123;</span><br><span class="line">    times = times - <span class="number">1</span>;</span><br><span class="line">    obj[key] = value;</span><br><span class="line">    <span class="keyword">if</span> (times === <span class="number">0</span>) &#123;</span><br><span class="line">      fn(obj);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line">e.on(timesFn(say,<span class="number">2</span>))</span><br><span class="line">e.on(timesFn(play,<span class="number">2</span>))</span><br><span class="line"></span><br><span class="line">fs.readFile(<span class="string">"./a.txt"</span>, (err,data) =&gt; &#123;</span><br><span class="line">  e.emit(<span class="string">'a'</span>,data)</span><br><span class="line">&#125;);</span><br><span class="line">fs.readFile(<span class="string">"./b.txt"</span>, (err,data) =&gt; &#123;</span><br><span class="line">  e.emit(<span class="string">'b'</span>,data)</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>答案参照回头</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">let</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</span><br><span class="line"><span class="comment">// 订阅 on --- 发布 emit,promise也是基于这</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> e = &#123;</span><br><span class="line">    _obj:&#123;&#125;,</span><br><span class="line">    _callback:[],</span><br><span class="line">    <span class="comment">// 订阅就是将函数放进数组里</span></span><br><span class="line">    on(callback)&#123;</span><br><span class="line">        <span class="keyword">this</span>._callback.push(callback)</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// emit存结果，且让订阅的数组中的方法依次执行</span></span><br><span class="line">    emit(key,value)&#123;</span><br><span class="line">        <span class="keyword">this</span>._obj[key] = value</span><br><span class="line">        <span class="keyword">this</span>._callback.forEach(<span class="function"><span class="params">fn</span>=&gt;</span>&#123;</span><br><span class="line">            fn(<span class="keyword">this</span>._obj)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 只要发布了，就必须让订阅的事执行</span></span><br><span class="line"><span class="comment">// 每次发布都会触发此函数</span></span><br><span class="line">e.on(<span class="function"><span class="params">obj</span>=&gt;</span><span class="built_in">console</span>.log(<span class="string">'一个'</span>))</span><br><span class="line">e.on(<span class="function"><span class="params">obj</span>=&gt;</span>&#123;</span><br><span class="line">    <span class="comment">// 用户根据结果决定次数</span></span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">Object</span>.keys(obj).length === <span class="number">2</span>)&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'2个'</span>,obj)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// 解耦on和emit，后期每个实例有自己的on emit</span></span><br><span class="line"><span class="comment">// 这里特别注意，run code时候，工作目录是当前根目录，所以./表示的是当前根目录，这里可以先用下绝对路径</span></span><br><span class="line">fs.readFile(<span class="string">"/Users/zhm/blog/source/_posts/zf-age.txt"</span>,<span class="string">'utf8'</span>, (err,data) =&gt; &#123;</span><br><span class="line">    e.emit(<span class="string">'age'</span>,data)</span><br><span class="line">&#125;)</span><br><span class="line">fs.readFile(<span class="string">"/Users/zhm/blog/source/_posts/zf-name.txt"</span>,<span class="string">'utf8'</span>, (err,data) =&gt; &#123;</span><br><span class="line">    e.emit(<span class="string">'name'</span>,data)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 发布订阅 发布就是把fn放到一个数组里 订阅就是依次执行数组里的fn。 特点，发布和订阅没有关系，，没有发布，我照样能订阅</span></span><br><span class="line"><span class="comment">// 观察者模式 观察者 被观察者</span></span><br></pre></td></tr></table></figure>
+<p>观察者模式，爸爸和妈妈根据小宝宝的状态做些事情</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 观察者和被观察者是有关联的</span></span><br><span class="line"><span class="comment">// 观察者需要将自己放到被观察者之上，当被观察者状态发生变化，需要通知所有的观察者</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 宝宝和父母，宝宝就是被观察者 父母就是观察者</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Subject</span></span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(name)&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name</span><br><span class="line">        <span class="keyword">this</span>.state = <span class="string">'开心'</span></span><br><span class="line">        <span class="keyword">this</span>.observers = []</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 将观察者放进数组，也就是愿意让这个数组里面的观察者  观察</span></span><br><span class="line">    attach(observer)&#123;</span><br><span class="line">        <span class="comment">// 相当于发布订阅的订阅on，收集observer</span></span><br><span class="line">        <span class="keyword">this</span>.observers.push(observer)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 当被观察者的状态发生变化的时候，让每个观察者都知道这个事，观察者会根据状态做出相应行为</span></span><br><span class="line">    setState(state)&#123;</span><br><span class="line">        <span class="keyword">this</span>.state = state</span><br><span class="line">        <span class="comment">// 相当于发布订阅的发布emit，让observer都行动起来</span></span><br><span class="line">        <span class="keyword">this</span>.observers.forEach(<span class="function"><span class="params">o</span>=&gt;</span>&#123;</span><br><span class="line">            o.update(<span class="keyword">this</span>)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Observer</span></span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(name)&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 只要被观察者的状态发生变化就会调用这个方法</span></span><br><span class="line">    update(s)&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">`<span class="subst">$&#123;<span class="keyword">this</span>.name&#125;</span>发现 <span class="subst">$&#123;s.name&#125;</span><span class="subst">$&#123;s.state&#125;</span>`</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> baby = <span class="keyword">new</span> Subject(<span class="string">'宝宝'</span>)</span><br><span class="line"><span class="keyword">let</span> baba = <span class="keyword">new</span> Observer(<span class="string">'爸爸'</span>)</span><br><span class="line"><span class="keyword">let</span> mama = <span class="keyword">new</span> Observer(<span class="string">'妈妈'</span>)</span><br><span class="line">baby.attach(baba)</span><br><span class="line">baby.attach(mama)</span><br><span class="line">baby.setState(<span class="string">'不开心'</span>)</span><br><span class="line">baby.setState(<span class="string">'开心'</span>)</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/31/stringify/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1895,184 +2055,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/25/summary-2019/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2019/12/25/summary-2019/" itemprop="url">
-                  2019跌宕起伏 | 掘金年度征文
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-25T10:36:28+08:00">
-                2019-12-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/阅读/" itemprop="url" rel="index">
-                    <span itemprop="name">阅读</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/12/25/summary-2019/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/12/25/summary-2019/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>2019对我个人而言还是蛮有点转折意义的，总的来说，幸运更多。<br>但是回顾起来感慨万千。<br>下面可以当个小故事听听。  </p>
-<p>故事背景，年前，前任公司因经营不善，拖欠工资，没有任何补偿的强制开除，被迫失业。<br>然后 开始找工作 + 讨工资的旅程。</p>
-<h2 id="讨工资"><a href="#讨工资" class="headerlink" title="讨工资"></a>讨工资</h2><p>先说讨工资，很心酸，公司一再谈判，先说未来十二个月慢慢分期给，我不同意，然后说不要补偿，未来六个月慢慢给，我不同意，最后就去仲裁了，对公司死心了，直接拒绝调解，申请了个法律援助，跑了挺多趟机构的，好在今年陆陆续续的给了，最后给齐了。<br>讨工资也算圆满了。<br>但是心里却很抵制创业公司了，我经历了四家创业公司，三家都基本over了，还有一家背景很好，所以活下来了，所以创业公司给我的感觉，九死一生，想着尽量去大点的公司。  </p>
-<h2 id="找工作"><a href="#找工作" class="headerlink" title="找工作"></a>找工作</h2><p>再说找工作，其实还有个小背景，因为有个小宝宝，我并不想找加班厉害的公司，这也算是我的底线吧。<br>一开始，我面试，前几轮还算顺利，但最后一轮，我说了我晚上不太能加班的情况，基本就不会有回复了。<br>有一次，有一家我觉得还不错的公司，人事打电话说，先跟我口头offer，跟我谈薪资，谈福利，说随后就给offer，我蛮兴奋的，但是两个小时之后，突然又打电话说，有新的人选了，我就呵呵了，心里觉得也好，这种不讲信用的公司，不去就不去吧。<br>还有一次，居然过了火花思维的面试，我也很兴奋，但是最后人事却说要996半年，虽然我真的超级喜欢火花思维，但是忍了忍，我放弃了，那会心里挺难过的，权衡利弊也没办法。<br>年前感觉约了十来个吧，无疾而终。<br>就到了过年。<br>就到了年后。<br>一边学习，一边投简历，但是年后居然没有人打电话面试，我的天！！！年前好歹每天电话还是有几个的！！！<br>投了两周吧，有天有个电话来了，面试的，挺兴奋的，也去面试了，通过了，但是是做讲师的，我虽然不太乐意，但是，好处是不用加班，那会就想着快点工作赚钱，我就去了。<br>去了才觉得，每天都是煎熬，这个公司，跟开始的感觉不一样，特别的政治主义，俗话的官大一级压死人，完全不合我的三观，但为了赚钱，我也忍了，奈何，有天上级突然问我能不能去上海出差半年，不行，我果断的回了她，然后就把我开了。<br>算了，开就开吧，好歹赚了点生活费，没事继续找吧。<br>投了一周，又没消息，哎。<br>我爱人说，要不来我公司吧，虽然是外包，但好歹是个工作，我跟上司关系还行，跟他说不加班的话，应该也没问题的，也很近，离家十来分钟，等娃大了，你再好好找找，嗯好。<br>然后我爱人把我的简历推给人事了，爱人的上司面试我的，给我一个小项目，让我试着做做，虽然花了一天时间，但是做完了，很开心，然后也过了面试，开始谈薪水，低到没朋友，我没立刻答应，给自己一周的时间再找找，如果没有合适的就去，有总比没好。<br>新的一周，我接着投，有电话了，感觉还是挺惊着的，毕竟好久没电话了，总归有就是好事。<br>接电话，约面试，居然是一家还不错的公司，离家近，整体氛围也很棒，跟面试官聊了很多，很喜欢，然而又996，我没立刻拒绝，总归再看看吧。<br>接着又有两家公司约面试，意外的，公司我觉得都还不错，而且说不怎么加班，感觉很开心，像是一个幸运周，而且都通过了，很惊喜。<br>拒了外包和996的那家公司，开始选择这两家公司，也是一番纠葛，一些原由竟然加薪了，很开心，最终选定一家。<br>找工作也算圆满了。</p>
-<h2 id="新工作"><a href="#新工作" class="headerlink" title="新工作"></a>新工作</h2><p>开始新一段旅程，兴奋也紧张。<br>幸运的是，有个项目，由我自己创建加管理，那会我还不是很会vue，之前的公司用的比较浅。<br>我自己找了很多资料看，最终用<code>vuecli</code>搭建项目，一点点推进，遇到问题，探索加记录。</p>
-<ul>
-<li>axios封装请求</li>
-<li>kepp-alive缓存页面</li>
-<li>配置title</li>
-<li>router的使用</li>
-<li>vuex的数据管理</li>
-<li>环境的快速切换</li>
-<li>最开心的是，一键配置表单和表格，能秒速生成html，很省心！</li>
-</ul>
-<p>还增加一些工具层面的改良：</p>
-<ul>
-<li>oh-my-zsh配置终端</li>
-<li>用命令连接window服务器，用脚本一键部署</li>
-<li>git的深度理解</li>
-</ul>
-<p>近期想着研究reactNative，感觉还挺新奇的。  </p>
-<h2 id="展望2020"><a href="#展望2020" class="headerlink" title="展望2020"></a>展望2020</h2><p>2020年的小目标：</p>
-<ul>
-<li>node的深度使用</li>
-<li>python的简单爬虫</li>
-<li>js高级使用，最好有个开源项目</li>
-<li>薪资再涨涨</li>
-</ul>
-<h2 id="感谢掘金"><a href="#感谢掘金" class="headerlink" title="感谢掘金"></a>感谢掘金</h2><p>这里特别感谢掘金，虽然注册的挺早，但是输出却在今年~<br>每次发文，自己会努力将逻辑捋的顺一点，争取写的能让人看懂~<br>每次得到赞，就超级开心，哈哈哈，觉得自己也是俗的不行~<br>真的感谢掘金这样一个平台，让我在这里自由输出，得到成长，得到一些小开心~<br>未来也希望，掘金越来越好！<br>本文灵感是，掘金的活动<a href="https://juejin.im/post/5def04e06fb9a01631780bec" target="_blank" rel="noopener">掘金年度征文 | 2019 与我的技术之路 征文活动正在进行中……</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2122,7 +2104,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">262</span>
+                <span class="site-state-item-count">263</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

@@ -261,6 +261,234 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/28/set-node-server/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2019/03/28/set-node-server/" itemprop="url">
+                  服务器配置node环境和项目
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-28T13:38:29+08:00">
+                2019-03-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/server/" itemprop="url" rel="index">
+                    <span itemprop="name">server</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/03/28/set-node-server/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/03/28/set-node-server/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="配置node环境"><a href="#配置node环境" class="headerlink" title="配置node环境"></a>配置node环境</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> ssh登录服务器</span></span><br><span class="line">ssh m@124.4.5.4</span><br><span class="line">输入密码</span><br><span class="line">cd /home/zhm/software</span><br><span class="line"><span class="meta">#</span><span class="bash"> 下载  [wget命令是下载](http://www.cnblogs.com/peida/archive/2013/03/18/2965369.html)</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 不要这个源码 编译太费劲 wget https://nodejs.org/dist/v10.15.3/node-v10.15.3.tar.gz</span></span><br><span class="line">wget https://nodejs.org/dist/v10.15.3/node-v10.15.3-linux-x64.tar.xz</span><br><span class="line"><span class="meta">#</span><span class="bash"> 解压 node-v10.15.3.tar.gz被解压到当前目录，文件夹node-v10.15.3</span></span><br><span class="line">xz -d node-v10.15.3-linux-x64.tar.xz</span><br><span class="line"><span class="meta">#</span><span class="bash"> 再次解压</span></span><br><span class="line">tar -xvf node-v10.15.3-linux-x64.tar</span><br><span class="line"><span class="meta">#</span><span class="bash"> 拿到目录</span></span><br><span class="line">cd node-v10.15.3-linux-x64</span><br><span class="line"><span class="meta">#</span><span class="bash"> 这个路径等下要用，假设这个路径是AAA  其实可以看下 ls bin就可以看到 `npm node npx`这也是为什么能用命令的原因</span></span><br><span class="line">pwd</span><br><span class="line"><span class="meta">#</span><span class="bash"> npm node设置到全局 两种方式 </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 软链接</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 先获取PATH变量 会打印类似于 /usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin 一般会有/usr/local/bin，假设这个路径是BBB。</span></span></span><br><span class="line">echo $PATH</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 我们将node和npm链接到PATH下，这样就可以执行  其实就是建立软链接。</span></span></span><br><span class="line">ln -s AAA/bin/node BBB/node</span><br><span class="line">ln -s AAA/bin/npm BBB/npm</span><br><span class="line">ln -s AAA/bin/npx BBB/npx</span><br><span class="line"><span class="meta">#</span><span class="bash"> 永久设置（没试了）</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 首先在 root 目录下找到 .bash_profile 文件，编辑，vi ~/.bash_profile 找到 PATH=<span class="variable">$PATH</span>:<span class="variable">$HOME</span>/bin，在后面添加路径为：PATH=<span class="variable">$PATH</span>:<span class="variable">$HOME</span>/bin:/usr/<span class="built_in">local</span>/nodejs/bin保存修改，然后重载一下，<span class="built_in">source</span> ~/.bash_profile</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 在任意目录下</span></span><br><span class="line">npm -v</span><br><span class="line">node -v</span><br><span class="line">npx -v</span><br></pre></td></tr></table></figure>
+<h2 id="特别之处"><a href="#特别之处" class="headerlink" title="特别之处"></a>特别之处</h2><p>在Linux系统下，使用NodeJS监听80或443端口提供HTTP(S)服务时需要root权限。<br>有两种方式可以做到。</p>
+<p>一种方式是使用sudo命令运行NodeJS。例如通过以下命令运行的server.js中有权限使用80和443端口。一般推荐这种方式，可以保证仅为有需要的JS脚本提供root权限。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo node server.js</span><br></pre></td></tr></table></figure>
+<p>另一种方式是使用chmod +s命令让NodeJS总是以root权限运行，具体做法如下。因为这种方式让任何JS脚本都有了root权限，不太安全，因此在需要很考虑安全的系统下不推荐使用。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo chown root /usr/local/bin/node</span><br><span class="line">sudo chmod +s /usr/local/bin/node</span><br></pre></td></tr></table></figure>
+<h2 id="项目运行"><a href="#项目运行" class="headerlink" title="项目运行"></a>项目运行</h2><p>将项目放进来。 <code>nohup</code>加在一个命令的最前面，表示不挂断的运行命令。<code>&amp;</code>加载一个命令的最后面，表示这个命令放在后台执行。查看运行的命令，有两个命令可以来查看，ps 和 jobs。区别在于 jobs 只能查看当前终端后台执行的任务，换了终端就看不见了。而ps命令适用于查看瞬时进程的动态，可以看到别的终端的任务。杀掉程序 <code>kill pid号</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 让程序在后台运行</span></span><br><span class="line">nohup node app.js &amp;</span><br><span class="line"><span class="meta">#</span><span class="bash"> 看下任务号 node的那个</span></span><br><span class="line">ps</span><br><span class="line"><span class="meta">#</span><span class="bash"> 如果需要终止的话</span></span><br><span class="line">kill 21455</span><br></pre></td></tr></table></figure>
+<h2 id="公钥"><a href="#公钥" class="headerlink" title="公钥"></a>公钥</h2><p>检查有没有安装ssh：<code>ssh -v</code>，安装的命令<code>ssh-keygen -t rsa -C &quot;youremail@example.com&quot;</code>一路回车确定下就安装好了。生成在当前用户名下会有一个.sh文件。<br>检查有没有共钥： <code>ls -a ~/.ssh</code><br>生成公钥：<code>ssh-keygen</code>它先要求你确认保存公钥的位置（.ssh/id_rsa）,然后它会让你重复一个密码两次，如果不想在使用公钥的时候输入密码，可以留空。<br>打印公钥复制发给管理人员：<code>cat ~/.ssh/id_rsa.pub</code></p>
+<h2 id="安装git"><a href="#安装git" class="headerlink" title="安装git"></a>安装git</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install git</span><br></pre></td></tr></table></figure>
+<h2 id="远程编辑文件"><a href="#远程编辑文件" class="headerlink" title="远程编辑文件"></a>远程编辑文件</h2><p>vscode安装插件sftp；作者是liximomo。<br> .vscode 在该目录下新建一个sftp.json。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">"host"</span>: <span class="string">"服务器ip地址"</span>,</span><br><span class="line">    <span class="string">"port"</span>: <span class="number">22</span>,</span><br><span class="line">    <span class="string">"username"</span>: <span class="string">"登录名"</span>,</span><br><span class="line">    <span class="string">"password"</span>: <span class="string">"登录密码"</span>,</span><br><span class="line">    <span class="string">"protocol"</span>: <span class="string">"sftp"</span>,</span><br><span class="line">    <span class="string">"agent"</span>: <span class="string">""</span>,</span><br><span class="line">    <span class="string">"privateKeyPath"</span>: <span class="string">"存放在本地的已配置好的用于登录工作站的密钥文件（也可以是ppk文件"</span>,</span><br><span class="line">    <span class="string">"passphrase"</span>: <span class="string">""</span>,</span><br><span class="line">    <span class="string">"passive"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"interactiveAuth"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="string">"remotePath"</span>: <span class="string">"工作站上与本地工程同步的文件夹路径，需要和本地工程文件根目录同名，且在使用sftp上传文件之前要手动在工作站上mkdir生成这个根目录"</span>,</span><br><span class="line">    <span class="string">"uploadOnSave"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="string">"syncMode"</span>: <span class="string">"update"</span>,</span><br><span class="line">    <span class="string">"ignore"</span>: [</span><br><span class="line">        <span class="string">"**/.vscode/**"</span>,</span><br><span class="line">        <span class="string">"**/.git/**"</span>,</span><br><span class="line">        <span class="string">"**/.DS_Store"</span></span><br><span class="line">    ],</span><br><span class="line">    <span class="string">"watcher"</span>: &#123;</span><br><span class="line">        <span class="string">"files"</span>: <span class="string">"glob"</span>,</span><br><span class="line">        <span class="string">"autoUpload"</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="string">"autoDelete"</span>: <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="vim编辑器"><a href="#vim编辑器" class="headerlink" title="vim编辑器"></a>vim编辑器</h2><p>vim是从vi发展出来的一个文本编辑器。代码补完、编译及错误跳转等方便编程的功能特别丰富。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim xx.html</span><br></pre></td></tr></table></figure>
+<p>进入插入模式：</p>
+<p>i: 插入光标前一个字符</p>
+<p>I: 插入行首</p>
+<p>a: 插入光标后一个字符</p>
+<p>A: 插入行未</p>
+<p>o: 向下新开一行,插入行首</p>
+<p>O: 向上新开一行,插入行首<br>进入命令模式：</p>
+<p>ESC:从插入模式或末行模式进入命令模式</p>
+<p>移动光标：</p>
+<p>h: 左移 </p>
+<p>j: 下移 </p>
+<p>k: 上移 </p>
+<p>l: 右移</p>
+<p>M: 光标移动到中间行 </p>
+<p>L: 光标移动到屏幕最后一行行首 </p>
+<p>G: 移动到指定行,行号 -G</p>
+<p>w: 向后一次移动一个字 </p>
+<p>b: 向前一次移动一个字</p>
+<p>{: 按段移动,上移 </p>
+<p>}: 按段移动,下移</p>
+<p>Ctr-d: 向下翻半屏 </p>
+<p>Ctr-u: 向上翻半屏</p>
+<p>Ctr-f: 向下翻一屏 </p>
+<p>Ctr-b: 向上翻一屏</p>
+<p>gg: 光标移动文件开头 </p>
+<p>G: 光标移动到文件末尾<br>删除命令：</p>
+<p>x: 删除光标后一个字符,相当于 Del </p>
+<p>X: 删除光标前一个字符,相当于 Backspace</p>
+<p>dd: 删除光标所在行,n dd 删除指定的行数 D: 删除光标后本行所有内容,包含光标所在字符 </p>
+<p>d0: 删除光标前本行所有内容,不包含光标所在字符</p>
+<p>dw: 删除光标开始位置的字,包含光标所在字符<br>撤销命令</p>
+<p>u: 一步一步撤销 </p>
+<p>Ctr-r: 反撤销<br>重复命令：</p>
+<p>.: 重复上一次操作的命令<br>文本行移动：</p>
+<blockquote>
+<blockquote>
+<p>: 文本行右移 </p>
+</blockquote>
+</blockquote>
+<p>&lt;&lt;: 文本行左移<br>复制粘贴：</p>
+<p>yy: 复制当前行,n yy 复制 n 行 </p>
+<p>p: 在光标所在位置向下新开辟一行,粘贴<br>可视模式：</p>
+<p>v: 按字符移动,选中文本 </p>
+<p>V: 按行移动,选中文本可视模式可以配合 d, y, &gt;&gt;, &lt;&lt; 实现对文本块的删除,复制,左右移动<br>替换操作：</p>
+<p>r: 替换当前字符 </p>
+<p>R: 替换当前行光标后的字符<br>查找命令：</p>
+<p>/: str查找<br>n: 下一个<br>N：上一个<br>替换命令：</p>
+<p>把abc全部换成123</p>
+<p>末行模式下，将光标所在行的abc替换成123<br>:%s/abc/123/g</p>
+<p>末行模式下，将第一行至第10行之间的abc替换成123<br>:1, 10s/abc/123/g<br>vim里执行shell下命令：</p>
+<p>末行模式里输入！，后面跟命令</p>
+<blockquote>
+<p><a href="https://segmentfault.com/a/1190000014826120" target="_blank" rel="noopener">linux下安装node npm并配置</a><br><a href="https://www.jianshu.com/p/abbe619070d6" target="_blank" rel="noopener">源码包</a><br><a href="https://segmentfault.com/a/1190000011844958" target="_blank" rel="noopener">vscode的sftp插件</a></p>
+</blockquote>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/21/vdom/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2185,237 +2413,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/12/baby_learn_eat/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2018/10/12/baby_learn_eat/" itemprop="url">
-                  宝宝学会吃饭
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-12T09:46:45+08:00">
-                2018-10-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/baby/" itemprop="url" rel="index">
-                    <span itemprop="name">baby</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/10/12/baby_learn_eat/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/10/12/baby_learn_eat/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="进食能力的发展-11-1"><a href="#进食能力的发展-11-1" class="headerlink" title="进食能力的发展[11-1]"></a>进食能力的发展[11-1]</h1><p> <img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/6m_food_active.png" alt="6m_food_active"><br> <img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/7m_food_active.png" alt="7m_food_active"><br> <img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/8m_food_active.png" alt="8m_food_active"> </p>
-<p> <img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/9m_food_active.png" alt="9m_food_active"> </p>
-<p> <img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/10m_food_active.png" alt="10m_food_active"> </p>
-<p> <img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/12m_food_active.png" alt="12m_food_active"> </p>
-<p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/15m_food_active.png" alt="15m_food_active"> </p>
-<p>进食能力包括两方面:  </p>
-<pre><code>1. 自主进食能力(食物从面前到嘴里:抓 握 捏 舀 夹 递)
-1. 咀嚼吞咽的能力(食物从嘴里到肚子里: 送 吞 嚼 拌 吐 连)
-</code></pre><h1 id="为什么要让宝宝自己吃-11-2"><a href="#为什么要让宝宝自己吃-11-2" class="headerlink" title="为什么要让宝宝自己吃[11-2]"></a>为什么要让宝宝自己吃[11-2]</h1><ol>
-<li>手眼口协调,精细动作发育</li>
-<li>增强自信,独立,责任感</li>
-<li>增强进食兴趣,减少拒食</li>
-<li>共同进餐,解放家长的时间</li>
-<li>权威机构的建议:<br> <img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/qw_food_active.png" alt="qw_food_active"> </li>
-</ol>
-<h1 id="开始学习自己吃饭的时间-11-3-10min左右"><a href="#开始学习自己吃饭的时间-11-3-10min左右" class="headerlink" title="开始学习自己吃饭的时间[11-3 10min左右]"></a>开始学习自己吃饭的时间[11-3 10min左右]</h1><p>7.5个月左右的时间全手抓握,10个月左右的时间拇指抓握  </p>
-<p>看信号,任意信号就是想自己吃饭的意愿:  </p>
-<pre><code>宝宝抢勺子,抢碗 =&gt; 试试
-宝宝抓面前的食物 =&gt; 香蕉 胡萝卜
-宝宝闹(不乐意吃 咬勺子)) 
-</code></pre><h1 id="手指食物-11-4"><a href="#手指食物-11-4" class="headerlink" title="手指食物[11-4]"></a>手指食物[11-4]</h1><p>手指食物的形状  </p>
-<pre><code>1. 初始阶段,只知道全手握:长条状,不小于6厘米,大人小拇指粗
-2. 后续阶段,可以打开手吃,可以换手: 随便什么形状,她可以抓起来吃就行
-</code></pre><p>增加食物表面粗糙:  </p>
-<pre><code>1. 外面裹米粉,如香蕉,牛油果等等
-1. 波浪刀
-1. 球状食物一定切开
-</code></pre><p>初始手指食物的硬度: 软!软!软!(手一捏就烂了,苹果不行的,如黄瓜 西蓝花 胡萝卜 土豆)</p>
-<p>后续手指食物: 学会咀嚼之后可以宽松点,因为会咀嚼了嘛,可以一锅煮</p>
-<p>初始食物的要求: 能抓,能捏烂</p>
-<p>  <img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/hand_food.png" alt="hand_food.png">  </p>
-<p>  <img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/hand_food2.png" alt="hand_food2.png">  </p>
-<p>  <img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/hand_food3.png" alt="hand_food3.png"><br><a href="https://mp.weixin.qq.com/s/cVyrfWnjxMpRzWee7x_nVA" target="_blank" rel="noopener">90种手指食物汇总</a></p>
-<h1 id="用勺子吃饭-11-5"><a href="#用勺子吃饭-11-5" class="headerlink" title="用勺子吃饭[11-5]"></a>用勺子吃饭[11-5]</h1><p>用手: 6-18个月<br>用勺子:10-18个月<br>练习次数是关键:    </p>
-<pre><code>第一阶段:好孩子弯头勺(10-14m)
-第二阶段:oxo金属勺(12-24m)
-第三阶段:爱迪生勺子(24-36m)
-</code></pre><p>碗: 深/稳[防滑垫 或者 吸盘]</p>
-<p>开始的时候用增加成功率的食物[能180度翻转,粘性强]: 稠厚的米粉 食物泥 软焖饭  稠密的粥  酸奶</p>
-<p>开始的时候,舀好食物放着.因为这步比较难.容易挫伤宝宝.然后宝宝拿着有食物的勺子送到嘴里就ok了.<br>观察,如果哪步对宝宝有困难就帮助她.</p>
-<h1 id="为什么不自己吃呢-11-6"><a href="#为什么不自己吃呢-11-6" class="headerlink" title="为什么不自己吃呢[11-6]"></a>为什么不自己吃呢[11-6]</h1><p>意愿 + 能力<br>能力的提高:  </p>
-<pre><code>1. 递送东西(抓握东西 传递东西 把那个递给妈妈)
-2. 打开手心(手心里放个小泡芙 哇 手心里有什么)
-3. 舀取搬运(比如一个放满玉米粒,一个空着,让宝宝练习搬运)
-</code></pre><p>意愿:  </p>
-<pre><code>1. 尽量随着宝宝
-1. 喝汤喽,擦一擦绘本
-1. 相互喂食(为妈妈吃)
-1. 让宝宝多观察大人吃饭
-</code></pre><h1 id="一千个喂饭的理由-11-7"><a href="#一千个喂饭的理由-11-7" class="headerlink" title="一千个喂饭的理由[11-7]"></a>一千个喂饭的理由[11-7]</h1><p>他还是个孩子啊,[给他机会试试]<br>有一种不行叫我觉得你不行[权威机构]<br>干呕好可怕,不敢给了[干呕是正常的保护机制 避免食物引起窒息]<br>需要注意:  </p>
-<pre><code>1. 宝宝在餐椅里面坐直
-2. 去掉干扰源,专心进餐
-3. 给合适的条状,不要太小
-4. 吃东西的时候,家长必须看护
-</code></pre><p>噎住的话有视频[多次看]</p>
-<p>防止脏的话:<br>    地上报纸/浴帘<br>    身上反穿衣 裤子大人袖套</p>
-<h1 id="咀嚼能力-11-8"><a href="#咀嚼能力-11-8" class="headerlink" title="咀嚼能力[11-8]"></a>咀嚼能力[11-8]</h1><p> <img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/food_develop.png" alt="food_develop"><br> <img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/food_jujue1.png" alt="food_jujue1"><br> <img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/food_jujue2.png" alt="food_jujue2"><br> <img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/food_jujue3.png" alt="food_jujue3"><br> <img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/food_jujue4.png" alt="food_jujue4"> </p>
-<h1 id="咀嚼能力的锻炼-11-9"><a href="#咀嚼能力的锻炼-11-9" class="headerlink" title="咀嚼能力的锻炼[11-9]"></a>咀嚼能力的锻炼[11-9]</h1><p>2+1的锻炼法: 三餐用一餐比较难一点,也可以某一餐有难的和容易的.  </p>
-<p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/2add1_0.png" alt="2add1"><br><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/2add1.png" alt="2add1"><br><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/2add1_2.png" alt="2add1"><br><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/2add1_3.png" alt="2add1"><br><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/2add1_4.png" alt="2add1"> </p>
-<h1 id="出牙期不爱吃饭-11-10"><a href="#出牙期不爱吃饭-11-10" class="headerlink" title="出牙期不爱吃饭[11-10]"></a>出牙期不爱吃饭[11-10]</h1><p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/tooth.png" alt="tooth"></p>
-<p>2岁半基本长齐.</p>
-<p>出牙的表现:  </p>
-<pre><code>1. 口水多(擦净口水 抹润肤产品)
-2. 喜欢咬人(冷藏的牙胶 硅胶指套牙刷 上桌前先啃牙胶)
-3. 轻微发烧(安抚)
-4. 黏人娇气(安抚 牙齿的绘本 玩具)
-5. 睡眠不安
-6. 啃勺子 啃碗(啃牙胶 给手指食物 给较硬的食物)
-7. 烦躁哭闹(安抚 询问是否还要吃么 增加加餐的量 抱出来溜达下再试试抱进去餐椅)
-8. 进食中断(吐出去 含着饭不动 =&gt; 降低进食难度 尊重意愿 减少进餐时间)
-9. 进食变少(少量多餐)
-10. 拒绝硬食(吸管碗 吸吸乐 粥)
-11. 偏爱酸甜凉(食物放凉 增加酸甜食物 酸奶水果入餐)
-</code></pre><p>解决办法:改变食物  </p>
-<ol>
-<li>泥状(<a href="https://mp.weixin.qq.com/s/csOflpGQ0GE7oVrWzxZdgg" target="_blank" rel="noopener">汤羹米糊的做法 </a>)</li>
-<li>粥(<a href="https://mp.weixin.qq.com/s/UAMblfa_h5HAntwJtF9HrQ" target="_blank" rel="noopener">粥做法 </a>)</li>
-<li>面(<a href="https://mp.weixin.qq.com/s/gt91c7eNP_Nmq4XY-spCHQ" target="_blank" rel="noopener">面做法 </a>)</li>
-</ol>
-<h1 id="咀嚼力的问题-11-11"><a href="#咀嚼力的问题-11-11" class="headerlink" title="咀嚼力的问题[11-11]"></a>咀嚼力的问题[11-11]</h1><p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/food_jujue_problem.png" alt="food_jujue_problem"></p>
-<p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/baby/food_jujue_problem2.png" alt="food_jujue_problem"></p>
-<h1 id="喂养调整案例-11-12"><a href="#喂养调整案例-11-12" class="headerlink" title="喂养调整案例[11-12]"></a>喂养调整案例[11-12]</h1><p>不要边吃边玩 + 坚决在餐椅里吃 =&gt; 提供手指食物</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2465,7 +2462,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">262</span>
+                <span class="site-state-item-count">263</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
