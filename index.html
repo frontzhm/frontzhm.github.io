@@ -261,6 +261,215 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/08/24/throttle_debounce/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2021/08/24/throttle_debounce/" itemprop="url">
+                  用吃巧克力来理解 防抖和节流！
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-08-24T18:51:52+08:00">
+                2021-08-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/08/24/throttle_debounce/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2021/08/24/throttle_debounce/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>词语不陌生，但是回回看，回回忘记，究其根本就是没理解。</p>
+<p>让我们先忘掉这两个词语，进入一个新的情境~</p>
+<p>现在你是一个 5 岁的宝宝，今天有小朋友要来，妈妈准备了很多巧克力。<br>你一看，赶紧就说，妈妈我要吃巧克力，妈妈给了你一块，你又叨叨了一次，又给了一块。<br>第三次叨叨的时候，妈妈就不太高兴了，你已经吃了 2 块了，剩下的巧克力要等小朋友来吃。</p>
+<p>作为一个 5 岁的宝宝，你难以接受，于是，一直跟着妈妈后面叨叨，“妈妈，我要吃巧克力，我好想吃巧克力”。</p>
+<p>妈妈被你烦的不行，就妥协的说，“我定个半小时的计时器，计时结束就给你一块，还想要的话，那我们再设置半小时定时器”。<br>于是，妈妈就<strong>设置</strong>了半小时定时器~</p>
+<p>但是你只是 5 岁的宝宝啊，心里还是很想很想吃，于是，还是在后面叨叨，但妈妈<strong>无视</strong>你，带上耳塞了。<br>半小时<strong>计时结束</strong>，计时器响了，妈妈果然就<strong>给</strong>你一块了！</p>
+<p>吃完之后，你又去叨叨了，于是妈妈<strong>重新设置</strong>了半小时的定时器。</p>
+<h2 id="节流-throttle"><a href="#节流-throttle" class="headerlink" title="节流 throttle"></a>节流 throttle</h2><p>好，现在来根据上面的例子，说说妈妈的策略</p>
+<p>你一直跟妈妈要巧克力，如果说一次就给一次，妈妈就要给你无数个巧克力，显然妈妈觉得很累。</p>
+<p>于是妈妈拿了个定时器，你叨叨的时候，如果定时器还在计时，就无视你，如果计时器不在计时的话，重新计时。计时结束就给一次。</p>
+<p>这样大大减少了满足的频次。</p>
+<p>现在切换角色，你是开发者，网页里有个查询的按钮，每次点击就会请求接口，返回新的查询数据。</p>
+<p>但有些用户（测试），可能无聊，一直点着查询提交按钮，一秒点个十次，服务器就得返回十次数据。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">"btn"</span>&gt;</span>提交<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">  let times = 0;</span></span><br><span class="line"><span class="undefined">  const fn = () =&gt;</span></span><br><span class="line"><span class="undefined">    console.log(`发送请求$&#123;++times&#125;次`, new Date().toLocaleTimeString());</span></span><br><span class="line"><span class="undefined">  btn.onclick = fn;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e666e65b01fc444d898b262fd0e5ab78~tplv-k3u1fbpfcp-zoom-1.image" alt="debouce_throttle1"></p>
+<p>测试就来找你了，“老铁，控制下频次，一秒发一次请求吧”。</p>
+<p>这时候，就是节流，你不一定需要记住名词，但你记得怎么控制就行</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> times = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">const</span> fn = <span class="built_in">console</span>.log(<span class="string">`发送请求<span class="subst">$&#123;++times&#125;</span>次`</span>, <span class="keyword">new</span> <span class="built_in">Date</span>().toLocaleTimeString());</span><br><span class="line"></span><br><span class="line"><span class="comment">// 拿一个计时器</span></span><br><span class="line"><span class="keyword">var</span> timer;</span><br><span class="line"><span class="comment">/* 这里的点击就相当于是叨叨要巧克力</span></span><br><span class="line"><span class="comment"> * 每次叨叨的时候，看下计时器在不在计时，</span></span><br><span class="line"><span class="comment"> * 如果正在计时的话，就无视</span></span><br><span class="line"><span class="comment"> * 如果不在计时的话，就重新开始计时</span></span><br><span class="line"><span class="comment"> * 计时结束，妈妈会主动给巧克力，然后关掉计时器</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">btn.onclick = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// 计时器还在计时，就无视</span></span><br><span class="line">  <span class="keyword">if</span> (timer) &#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 计时器不在计时，就重新开始计时</span></span><br><span class="line">  timer = setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 计时结束的时候，妈妈主动给巧克力，然后关掉计时器</span></span><br><span class="line">    fn();</span><br><span class="line">    timer = <span class="literal">null</span>;</span><br><span class="line">  &#125;, <span class="number">1000</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="节流的通用版"><a href="#节流的通用版" class="headerlink" title="节流的通用版"></a>节流的通用版</h2><p>把后面的函数用另外一个函数生成，就成了节流的简短版</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">throttle</span>(<span class="params">fn, delay</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 拿一个计时器</span></span><br><span class="line">  <span class="keyword">var</span> timer;</span><br><span class="line">  <span class="keyword">return</span> <span class="function">(<span class="params">...args</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 计时器还在计时，就无视</span></span><br><span class="line">    <span class="keyword">if</span> (timer) &#123;</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 计时器不在计时，就重新开始计时</span></span><br><span class="line">    timer = setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="comment">// 计时结束的时候，妈妈主动给巧克力，然后关掉计时器</span></span><br><span class="line">      fn(...args);</span><br><span class="line">      timer = <span class="literal">null</span>;</span><br><span class="line">    &#125;, delay);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line">btn.onclick = throttle(fn, <span class="number">1000</span>);</span><br></pre></td></tr></table></figure>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8f6cdae0110440519c32f2c531f60b77~tplv-k3u1fbpfcp-zoom-1.image" alt="debouce_throttle2"></p>
+<h2 id="防抖"><a href="#防抖" class="headerlink" title="防抖"></a>防抖</h2><p>重新回到情境里，你已经连续两个小时都在叨叨了，妈妈想要清净会，于是改了主意~</p>
+<p>“这是个定时器，如果你叨叨的话，我就重新开始计时；计时结束，我就给你一个巧克力”</p>
+<p>你一听这话，就赶紧闭嘴了</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> times = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">const</span> fn = <span class="built_in">console</span>.log(<span class="string">`发送请求<span class="subst">$&#123;++times&#125;</span>次`</span>, <span class="keyword">new</span> <span class="built_in">Date</span>().toLocaleTimeString());</span><br><span class="line"></span><br><span class="line"><span class="comment">// 拿一个计时器</span></span><br><span class="line"><span class="keyword">var</span> timer;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 这里的点击就相当于是叨叨要巧克力</span></span><br><span class="line"><span class="comment"> * 每次叨叨的时候，计时器就重新计时</span></span><br><span class="line"><span class="comment"> * 计时结束，妈妈会主动给巧克力</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">btn.onclick = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// 只要叨叨，就重新计时</span></span><br><span class="line">  timer &amp;&amp; clearTimeout(timer);</span><br><span class="line">  timer = setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 计时结束，妈妈主动给巧克力，关掉计时器</span></span><br><span class="line">    fn();</span><br><span class="line">    timer = <span class="literal">null</span>;</span><br><span class="line">  &#125;, <span class="number">1000</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3d800242940e4d938dbdba70f6a92587~tplv-k3u1fbpfcp-zoom-1.image" alt="debouce_throttle4"></p>
+<p>这就是防抖，叨叨就重新计时，闭嘴了一段时间，才会给巧克力</p>
+<h2 id="防抖的通用版"><a href="#防抖的通用版" class="headerlink" title="防抖的通用版"></a>防抖的通用版</h2><p>同理，把后面的函数用另外一个函数生成，就成了防抖的简短版</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">debounce</span>(<span class="params">fn, delay</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 拿一个计时器</span></span><br><span class="line">  <span class="keyword">var</span> timer = <span class="literal">null</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="function">(<span class="params">...args</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 只要叨叨，就重新计时</span></span><br><span class="line">    timer &amp;&amp; clearTimeout(timer);</span><br><span class="line">    timer = setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="comment">// 计时结束，妈妈主动给巧克力，关掉计时器</span></span><br><span class="line">      fn(...args);</span><br><span class="line">      timer = <span class="literal">null</span>;</span><br><span class="line">    &#125;, delay);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line">btn.onclick = debounce(fn, <span class="number">1000</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="防抖和节流的异同"><a href="#防抖和节流的异同" class="headerlink" title="防抖和节流的异同"></a>防抖和节流的异同</h2><p>其实通过上面的情景，我觉得你基本能感受到了这两的异同点。</p>
+<p>原始情况：只要叨叨，就满足要求。<br>缺点就是：满足的太频繁。</p>
+<p>现在用节流和防抖的话：</p>
+<ul>
+<li>节流是拿一个定时器，你叨叨的时候，如果计时器还在计时的话，就无视；如果不在计时的话，就开始计时；<br>计时结束，主动满足要求。<br>结果就是：你一直叨叨的话，显然每隔一段时间，你就能满足要求</li>
+<li>防抖是拿一个定时器，你叨叨的时候，就重新计时；<br>计时结束，主动满足要求。<br>结果就是：你一直叨叨的话，显示不会被满足要求，只有停止叨叨，隔一段时间才会被满足要求</li>
+</ul>
+<p>相同点：都拿个计时器，计时结束，主动满足要求。<br>不同点：叨叨的时候，<strong>隔段时间就满足</strong>要求 还是 <strong>停止叨叨</strong>隔段时间之后，才满足要求。</p>
+<h2 id="怎么选择呢"><a href="#怎么选择呢" class="headerlink" title="怎么选择呢"></a>怎么选择呢</h2><p>其实想选择哪个，看业务情况和你的心情了！</p>
+<p>比如，页面滚动的时候，你想实时知道滚动的高度，但这个实时其实没必要到 10 毫秒的程度，那就想着 50 毫秒获取一次，也就是页面在滚动的时候，你希望每隔 50ms 就获取一次，那就显然是节流~</p>
+<p>如果你是希望，页面停止滚动的时候，才需要获取，那就显然是防抖~</p>
+<p>滚动可以类比为，一直叨叨要巧克力，获取页面高度相当于给巧克力满足你~</p>
+<p>如果没有特别的需求只是单纯的想控制获取次数，随你开心啦~~</p>
+<p>常用的场景：</p>
+<ul>
+<li>点击按钮发请求的时候</li>
+<li>页面滚动的时候</li>
+<li>用户在输入文字实时发请求的时候</li>
+</ul>
+<h2 id="怎么记忆不混淆"><a href="#怎么记忆不混淆" class="headerlink" title="怎么记忆不混淆"></a>怎么记忆不混淆</h2><p>防抖就理解为，防止你嘴唇不停的抖动，只有不抖了，隔段时间才满足。<br>知道了防抖，另一个就是节流了。</p>
+<h2 id="实际怎么使用"><a href="#实际怎么使用" class="headerlink" title="实际怎么使用"></a>实际怎么使用</h2><p>虽然简版的能满足一些场景，但一般不建议使用自己手写的，你知道这么个逻辑就行<br>实际使用的时候，直接使用库里封装好的比较稳妥，以<code>lodash</code>为例:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// npm i lodash 或者 https://cdn.bootcdn.net/ajax/libs/lodash.js/4.17.21/lodash.min.js</span></span><br><span class="line">btn.onclick = _.throttle(fn, <span class="number">1000</span>);</span><br><span class="line">btn.onclick = _.debounce(fn, <span class="number">1000</span>);</span><br></pre></td></tr></table></figure>
+<p>这里额外注意两个参数：</p>
+<ul>
+<li>leading，表示开始计时之前，要不要先给你一个巧克力，默认是 false，也就是计时开始之前不给巧克力</li>
+<li>trailing，表示计时结束，要不要给你巧克力，默认是 true，也就是计时结束给巧克力</li>
+</ul>
+<p>这两个参数，根据场景使用，文中的例子就是默认的情况，其他的情况，同理知道，不再细说~</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
+<li><a href="https://www.telerik.com/blogs/debouncing-and-throttling-in-javascript" target="_blank" rel="noopener">debouncing-and-throttling-in-javascript</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/08/16/vue_8_source_code_mvvm/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2031,185 +2240,6 @@ cease (cess) v.走了（彻底的）、停止、终结 -->
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/07/01/hyper-script/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2021/07/01/hyper-script/" itemprop="url">
-                  h函数为什么叫h？
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-07-01T19:05:34+08:00">
-                2021-07-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2021/07/01/hyper-script/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2021/07/01/hyper-script/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>看 vue 源码的时候，提到了<code>snabbdom</code>，而这个库里有个很重要的函数<code>h</code>。</p>
-<p>我就好奇了，为啥用<code>h</code>，<code>h</code>是什么的缩写，表示的到底是什么？</p>
-<p>然后就翻到<code>hyperScript</code>这个词，然后找到了<a href="https://www.npmjs.com/package/hyperscript" target="_blank" rel="noopener">解释</a></p>
-<blockquote>
-<p>Create HyperText with JavaScript, on client or server</p>
-</blockquote>
-<p>而<code>html</code>是<code>HyperText Markup Language</code>的缩写，超文本标记语言，本质是文本，但用的是特殊的标记语言写的，其可以表示 纯文本和媒体资源、表单等其他的非文本，所以是超文本。</p>
-<p>那么<code>hyperScript</code>其实是用 js 创建超文本，这里的超文本特指<code>HTML</code>，而 JS 里可以用<code>DOM</code>（document object model）表示<code>HTML</code>，但 js 本身是有<code>DOM API</code>的，为什么作者还要写这个库？</p>
-<p>举个例子就明白了：</p>
-<p>创建这样的结构:</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"parent"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"son"</span>&gt;</span>颜酱真酷<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>传统的方式：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createDiv</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> span = <span class="built_in">document</span>.createElement(<span class="string">"span"</span>);</span><br><span class="line">  span.className = <span class="string">"son"</span>;</span><br><span class="line">  <span class="keyword">const</span> div = <span class="built_in">document</span>.createElement(<span class="string">"div"</span>);</span><br><span class="line">  div.className = <span class="string">"parent"</span>;</span><br><span class="line">  div.appendChild(span);</span><br><span class="line">  <span class="keyword">return</span> div;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>显然这还是结构简单，属性少的情况，如果很多的话，非常繁琐，而且可读性差。</p>
-<p>于是想到了，用简单的语句描述，想要的 DOM 结构，然后用函数统一生成想要的结构</p>
-<p>其实一个元素的三斧头：标签名、标签的其他自身信息、子元素</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">hyperScript</span>(<span class="params">tagName, attrs, children</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// ....</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> h = hyperScript;</span><br><span class="line"><span class="comment">// 这样执行这个方法就可以生成上面的div了</span></span><br><span class="line">h(<span class="string">"div"</span>, &#123; <span class="attr">className</span>: <span class="string">"parent"</span> &#125;, h(<span class="string">"span"</span>, &#123; <span class="attr">className</span>: <span class="string">"son"</span> &#125;, <span class="string">"颜酱真酷"</span>));</span><br></pre></td></tr></table></figure>
-<p>这样可读性强很多，所以这个库的，<code>h函数</code>，是用节点的<strong>描述</strong>（标签名、属性和事件、子元素）去创建<strong>真实</strong>节点的，并返回这个真实节点。</p>
-<p>但 <a href="https://github.com/snabbdom/snabbdom/tree/master/src" target="_blank" rel="noopener">snabbdom</a>这个库是处理<code>vnode</code>的，所以它的的<code>h函数</code>，是用节点的<strong>描述</strong>（标签名、标签的其他自身信息、子元素）创建<strong>虚拟</strong>节点的，并返回这个虚拟节点。</p>
-<p>于是平时看到<strong>h 函数</strong>的时候，心里的联想是<code>Create Virtual HyperText with JavaScript</code>。 </p>
-<p>大白话，h函数就是用节点的描述（标签名、标签的其他自身信息、子元素）创建虚拟节点。</p>
-<h2 id="为什么有了-h-函数还要-vnode-函数"><a href="#为什么有了-h-函数还要-vnode-函数" class="headerlink" title="为什么有了 h 函数还要 vnode 函数?"></a>为什么有了 h 函数还要 vnode 函数?</h2><p>其实 <code>h 函数</code>，更多的时候，是便于用户传参，用户只需要考虑三个要素：标签名、标签的其他自身信息、子元素。</p>
-<p>但是一个<code>vnode</code>有 6 种属性，其中的 key 是从 data 来的，所以<code>vnode</code>函数需要 5 个参数，用户调用的话，显然增加理解门槛，所以用<code>h函数</code>简化了传参，降低调用门槛，而<code>h函数</code>内部调用<code>vnode</code>函数生成<code>vnode</code></p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/892b1a34f9c84d4da90ff769a5c0de91~tplv-k3u1fbpfcp-zoom-1.image" alt="vnode2"><br><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a32e2a3b3d264d5894d7e56700184976~tplv-k3u1fbpfcp-zoom-1.image" alt="vnode3"></p>
-<p>h函数的参数最多三个，但只有第一个是必传项，第二个参数和第三个都是可传项，所以内部对各种情况作了判断，已生成正确的<code>vnode</code></p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// npm i snabbdom 可以快速在编辑器控制台看下，h三个参数，必填的是第一个，data始终是对象，children可以是数组也可以是字符串</span></span><br><span class="line"><span class="keyword">const</span> &#123; h &#125; = <span class="built_in">require</span>(<span class="string">"snabbdom"</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(h(<span class="string">"div.only-sel"</span>));</span><br><span class="line"><span class="built_in">console</span>.log(h(<span class="string">"div.only-data"</span>, &#123; <span class="attr">name</span>: <span class="string">"demo"</span> &#125;));</span><br><span class="line"><span class="built_in">console</span>.log(h(<span class="string">"div.only-text"</span>, <span class="string">"qqq"</span>));</span><br><span class="line"><span class="built_in">console</span>.log(</span><br><span class="line">  h(<span class="string">"div.only-text"</span>, &#123; <span class="attr">key</span>: <span class="string">"data这里设置key"</span> &#125;, [h(<span class="string">"span"</span>), <span class="string">"子text"</span>])</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/af1e7b5756b14136acc4e09d13d42f8a~tplv-k3u1fbpfcp-zoom-1.image" alt="vnode4"></p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
-<li><a href="https://github.com/creeperyang/blog/issues/33" target="_blank" rel="noopener">解析 snabbdom 源码，教你实现精简的 Virtual DOM 库 #33</a></li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2259,7 +2289,7 @@ cease (cess) v.走了（彻底的）、停止、终结 -->
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">263</span>
+                <span class="site-state-item-count">264</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

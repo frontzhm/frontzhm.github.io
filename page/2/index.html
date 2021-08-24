@@ -261,6 +261,185 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/07/01/hyper-script/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2021/07/01/hyper-script/" itemprop="url">
+                  h函数为什么叫h？
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-07-01T19:05:34+08:00">
+                2021-07-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/07/01/hyper-script/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2021/07/01/hyper-script/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>看 vue 源码的时候，提到了<code>snabbdom</code>，而这个库里有个很重要的函数<code>h</code>。</p>
+<p>我就好奇了，为啥用<code>h</code>，<code>h</code>是什么的缩写，表示的到底是什么？</p>
+<p>然后就翻到<code>hyperScript</code>这个词，然后找到了<a href="https://www.npmjs.com/package/hyperscript" target="_blank" rel="noopener">解释</a></p>
+<blockquote>
+<p>Create HyperText with JavaScript, on client or server</p>
+</blockquote>
+<p>而<code>html</code>是<code>HyperText Markup Language</code>的缩写，超文本标记语言，本质是文本，但用的是特殊的标记语言写的，其可以表示 纯文本和媒体资源、表单等其他的非文本，所以是超文本。</p>
+<p>那么<code>hyperScript</code>其实是用 js 创建超文本，这里的超文本特指<code>HTML</code>，而 JS 里可以用<code>DOM</code>（document object model）表示<code>HTML</code>，但 js 本身是有<code>DOM API</code>的，为什么作者还要写这个库？</p>
+<p>举个例子就明白了：</p>
+<p>创建这样的结构:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"parent"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"son"</span>&gt;</span>颜酱真酷<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>传统的方式：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createDiv</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> span = <span class="built_in">document</span>.createElement(<span class="string">"span"</span>);</span><br><span class="line">  span.className = <span class="string">"son"</span>;</span><br><span class="line">  <span class="keyword">const</span> div = <span class="built_in">document</span>.createElement(<span class="string">"div"</span>);</span><br><span class="line">  div.className = <span class="string">"parent"</span>;</span><br><span class="line">  div.appendChild(span);</span><br><span class="line">  <span class="keyword">return</span> div;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>显然这还是结构简单，属性少的情况，如果很多的话，非常繁琐，而且可读性差。</p>
+<p>于是想到了，用简单的语句描述，想要的 DOM 结构，然后用函数统一生成想要的结构</p>
+<p>其实一个元素的三斧头：标签名、标签的其他自身信息、子元素</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">hyperScript</span>(<span class="params">tagName, attrs, children</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// ....</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> h = hyperScript;</span><br><span class="line"><span class="comment">// 这样执行这个方法就可以生成上面的div了</span></span><br><span class="line">h(<span class="string">"div"</span>, &#123; <span class="attr">className</span>: <span class="string">"parent"</span> &#125;, h(<span class="string">"span"</span>, &#123; <span class="attr">className</span>: <span class="string">"son"</span> &#125;, <span class="string">"颜酱真酷"</span>));</span><br></pre></td></tr></table></figure>
+<p>这样可读性强很多，所以这个库的，<code>h函数</code>，是用节点的<strong>描述</strong>（标签名、属性和事件、子元素）去创建<strong>真实</strong>节点的，并返回这个真实节点。</p>
+<p>但 <a href="https://github.com/snabbdom/snabbdom/tree/master/src" target="_blank" rel="noopener">snabbdom</a>这个库是处理<code>vnode</code>的，所以它的的<code>h函数</code>，是用节点的<strong>描述</strong>（标签名、标签的其他自身信息、子元素）创建<strong>虚拟</strong>节点的，并返回这个虚拟节点。</p>
+<p>于是平时看到<strong>h 函数</strong>的时候，心里的联想是<code>Create Virtual HyperText with JavaScript</code>。 </p>
+<p>大白话，h函数就是用节点的描述（标签名、标签的其他自身信息、子元素）创建虚拟节点。</p>
+<h2 id="为什么有了-h-函数还要-vnode-函数"><a href="#为什么有了-h-函数还要-vnode-函数" class="headerlink" title="为什么有了 h 函数还要 vnode 函数?"></a>为什么有了 h 函数还要 vnode 函数?</h2><p>其实 <code>h 函数</code>，更多的时候，是便于用户传参，用户只需要考虑三个要素：标签名、标签的其他自身信息、子元素。</p>
+<p>但是一个<code>vnode</code>有 6 种属性，其中的 key 是从 data 来的，所以<code>vnode</code>函数需要 5 个参数，用户调用的话，显然增加理解门槛，所以用<code>h函数</code>简化了传参，降低调用门槛，而<code>h函数</code>内部调用<code>vnode</code>函数生成<code>vnode</code></p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/892b1a34f9c84d4da90ff769a5c0de91~tplv-k3u1fbpfcp-zoom-1.image" alt="vnode2"><br><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a32e2a3b3d264d5894d7e56700184976~tplv-k3u1fbpfcp-zoom-1.image" alt="vnode3"></p>
+<p>h函数的参数最多三个，但只有第一个是必传项，第二个参数和第三个都是可传项，所以内部对各种情况作了判断，已生成正确的<code>vnode</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// npm i snabbdom 可以快速在编辑器控制台看下，h三个参数，必填的是第一个，data始终是对象，children可以是数组也可以是字符串</span></span><br><span class="line"><span class="keyword">const</span> &#123; h &#125; = <span class="built_in">require</span>(<span class="string">"snabbdom"</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(h(<span class="string">"div.only-sel"</span>));</span><br><span class="line"><span class="built_in">console</span>.log(h(<span class="string">"div.only-data"</span>, &#123; <span class="attr">name</span>: <span class="string">"demo"</span> &#125;));</span><br><span class="line"><span class="built_in">console</span>.log(h(<span class="string">"div.only-text"</span>, <span class="string">"qqq"</span>));</span><br><span class="line"><span class="built_in">console</span>.log(</span><br><span class="line">  h(<span class="string">"div.only-text"</span>, &#123; <span class="attr">key</span>: <span class="string">"data这里设置key"</span> &#125;, [h(<span class="string">"span"</span>), <span class="string">"子text"</span>])</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/af1e7b5756b14136acc4e09d13d42f8a~tplv-k3u1fbpfcp-zoom-1.image" alt="vnode4"></p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
+<li><a href="https://github.com/creeperyang/blog/issues/33" target="_blank" rel="noopener">解析 snabbdom 源码，教你实现精简的 Virtual DOM 库 #33</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/06/23/vue_source_code_2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2136,259 +2315,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/27/ast/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2021/04/27/ast/" itemprop="url">
-                  怎么理解AST，并实现手写babel插件
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-04-27T19:32:37+08:00">
-                2021-04-27
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2021/04/27/ast/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2021/04/27/ast/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>程序表面看就是文本文件里的字符，计算机首先对其进行词法、语法分析，然后用某种计算机能理解的低级语言来重新表达程序，而这其中AST就是一个重点。</p>
-<p>水平有限，粗浅的说下AST的理解，并通过手写babel插件来加深理解。</p>
-<p>先看看， JS 是怎么编译执行的</p>
-<ul>
-<li><a href="https://zh.wikipedia.org/wiki/%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90" target="_blank" rel="noopener">词法分析</a>，将原始代码生成<code>Tokens</code></li>
-<li><a href="https://zh.wikipedia.org/wiki/%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90" target="_blank" rel="noopener">语法分析</a>，将<code>Tokens</code>生成<a href="https://zh.wikipedia.org/wiki/%E6%8A%BD%E8%B1%A1%E8%AA%9E%E6%B3%95%E6%A8%B9" target="_blank" rel="noopener">抽象语法树（Abstract Syntax Tree，AST）</a></li>
-<li>预编译，当 JavaScript 引擎解析脚本时，它会在预编译期对所有声明的变量和函数进行处理！并且是先预声明变量，再预定义函数！</li>
-<li>解释执行，在执行过程中，JavaScript 引擎是严格按着作用域机制（scope）来执行的，并且 JavaScript 的变量和普通函数作用域是在定义时决定的，而不是执行时决定的。</li>
-</ul>
-<p>后两者暂不介绍，先简单理解下词法分析和语法分析：</p>
-<h2 id="词法分析"><a href="#词法分析" class="headerlink" title="词法分析"></a>词法分析</h2><p>词法分析：将原始代码转化成<strong>最小单元的词语</strong>数组，<strong>最小单元的词语数组</strong>的专业名词是<code>Tokens</code>，这里注意，词语会加上相应的类型。</p>
-<p>比如：<code>var a = &#39;hello&#39;</code></p>
-<p>词法分析之后输出<code>Tokens</code>如下：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">  &#123;</span><br><span class="line">    type: <span class="string">"Keyword"</span>,</span><br><span class="line">    value: <span class="string">"var"</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    type: <span class="string">"Identifier"</span>,</span><br><span class="line">    value: <span class="string">"a"</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    type: <span class="string">"Punctuator"</span>,</span><br><span class="line">    value: <span class="string">"="</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    type: <span class="string">"String"</span>,</span><br><span class="line">    value: <span class="string">"'hello'"</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
-<p>可借助网站<a href="https://esprima.org/demo/parse.html#" target="_blank" rel="noopener">esprima</a>在线生成。</p>
-<h2 id="语法分析"><a href="#语法分析" class="headerlink" title="语法分析"></a>语法分析</h2><p>语法分析：将<code>Tokens</code>按照语法规则，输出<code>抽象语法树</code>，抽象语法树其实就是<code>JSON对象</code></p>
-<p>将 JS 进行生成抽象语法树的网站：<a href="https://astexplorer.net/" target="_blank" rel="noopener">astexplorer</a></p>
-<p>比如：<code>var a = &#39;hello&#39;</code></p>
-<p>语法分析之后生成抽象语法树如下：</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"type"</span>: <span class="string">"Program"</span>,</span><br><span class="line">  <span class="attr">"body"</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"VariableDeclaration"</span>,</span><br><span class="line">      <span class="attr">"declarations"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="attr">"type"</span>: <span class="string">"VariableDeclarator"</span>,</span><br><span class="line">          <span class="attr">"id"</span>: &#123;</span><br><span class="line">            <span class="attr">"type"</span>: <span class="string">"Identifier"</span>,</span><br><span class="line">            <span class="attr">"name"</span>: <span class="string">"a"</span></span><br><span class="line">          &#125;,</span><br><span class="line">          <span class="attr">"init"</span>: &#123;</span><br><span class="line">            <span class="attr">"type"</span>: <span class="string">"Literal"</span>,</span><br><span class="line">            <span class="attr">"value"</span>: <span class="string">"hello"</span>,</span><br><span class="line">            <span class="attr">"raw"</span>: <span class="string">"'hello'"</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      ],</span><br><span class="line">      <span class="attr">"kind"</span>: <span class="string">"var"</span></span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  <span class="attr">"sourceType"</span>: <span class="string">"script"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>借助网站<a href="https://esprima.org/demo/parse.html#" target="_blank" rel="noopener">esprima</a> 或 <a href="https://astexplorer.net/" target="_blank" rel="noopener">astexplorer</a>生成。</p>
-<p>也可以借助<code>esprima</code>库生成：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> esprima = <span class="built_in">require</span>(<span class="string">"esprima"</span>);</span><br><span class="line"><span class="keyword">const</span> createAst = <span class="function">(<span class="params">code</span>) =&gt;</span> esprima.parseModule(code, &#123; <span class="attr">tokens</span>: <span class="literal">true</span> &#125;);</span><br><span class="line"><span class="keyword">const</span> code = <span class="string">`var a="hello"`</span>;</span><br><span class="line"><span class="keyword">const</span> ast = createAst(code);</span><br><span class="line"><span class="built_in">console</span>.log(ast);</span><br></pre></td></tr></table></figure>
-<p>注意到这里，是代码生成AST然后编译，但也可以用AST转化成代码</p>
-<p>看着好像AST跟日常代码有点远，但其实一直在接触：</p>
-<ul>
-<li><code>webpack</code> 和 <code>lint</code> 核心都是通过 <code>AST</code> 对代码进行检查、分析</li>
-<li><code>UglifyJS</code> 通过 <code>AST</code> 实现代码压缩混淆</li>
-<li><code>babel</code>核心通过AST而实现代码转换功能</li>
-</ul>
-<p>以下要一步步实践~</p>
-<h2 id="修改-AST-生成新的代码"><a href="#修改-AST-生成新的代码" class="headerlink" title="修改 AST 生成新的代码"></a>修改 AST 生成新的代码</h2><h3 id="AST-怎么转成-代码"><a href="#AST-怎么转成-代码" class="headerlink" title="AST 怎么转成 代码"></a>AST 怎么转成 代码</h3><p>借助<code>esprima</code>将代码转化成<code>AST</code>，同理可以可借助<code>escodegen</code>将 AST 转化为代码.</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> esprima = <span class="built_in">require</span>(<span class="string">"esprima"</span>);</span><br><span class="line"><span class="comment">// code变成AST的函数</span></span><br><span class="line"><span class="keyword">const</span> createAst = <span class="function">(<span class="params">code</span>) =&gt;</span> esprima.parseModule(code, &#123; <span class="attr">tokens</span>: <span class="literal">true</span> &#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> escodegen = <span class="built_in">require</span>(<span class="string">"escodegen"</span>);</span><br><span class="line"><span class="comment">// AST变成code的函数</span></span><br><span class="line"><span class="keyword">let</span> astToCode = <span class="function">(<span class="params">ast</span>) =&gt;</span> escodegen.generate(ast);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> code = <span class="string">`var a="hello"`</span>;</span><br><span class="line"><span class="keyword">const</span> ast = createAst(code);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> newCode = astToCode(ast);</span><br><span class="line"><span class="comment">// var a = 'hello';</span></span><br><span class="line"><span class="built_in">console</span>.log(newCode);</span><br></pre></td></tr></table></figure>
-<h3 id="怎么修改-AST"><a href="#怎么修改-AST" class="headerlink" title="怎么修改 AST"></a>怎么修改 AST</h3><p>AST 其实就是 JSON 对象，当然怎么修改对象，就怎么修改 AST 啦。</p>
-<p>比如想将<code>var a=&#39;hello&#39;</code> 变成 <code>const a=&#39;hello&#39;</code>，先看下两个代码的 AST，然后将前者修改成和后者一样就好啦！</p>
-<p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/const_var.png" alt="const_var"></p>
-<p>细看看只有，kind 那里不一样，这样就简单啦！</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ...同上面</span></span><br><span class="line"><span class="keyword">const</span> code = <span class="string">`var a="hello"`</span>;</span><br><span class="line"><span class="keyword">const</span> ast = createAst(code);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 直接修改kind</span></span><br><span class="line">ast.body[<span class="number">0</span>].kind = <span class="string">"const"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> newCode = astToCode(ast);</span><br><span class="line"><span class="comment">// const a = 'hello';</span></span><br><span class="line"><span class="built_in">console</span>.log(newCode);</span><br></pre></td></tr></table></figure>
-<p>但简单的这样直接修改很容易，一旦代码变得复杂，嵌套层次变多，或者修改的代码变多，上面的方式就难过了，这里借助另外一个工具库<code>estraverse</code>，遍历找到需要的地方，然后修改</p>
-<h3 id="怎么遍历-AST"><a href="#怎么遍历-AST" class="headerlink" title="怎么遍历 AST"></a>怎么遍历 AST</h3><p>AST 虽然是一个 JSON 对象，但是可以以树的结构去理解，而<code>estraverse</code>是以<a href="https://juejin.cn/post/6950200059543683086" target="_blank" rel="noopener">深度优先</a>的方式遍历 AST 的。</p>
-<p>凡是带所有属性 type 的都是一个节点。</p>
-<p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/DFS_1.png" alt="DFS_1"></p>
-<p>也可以用代码直观的理解，<code>estraverse</code>怎么遍历<code>AST</code>的：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> esprima = <span class="built_in">require</span>(<span class="string">"esprima"</span>);</span><br><span class="line"><span class="comment">// code变成AST的函数</span></span><br><span class="line"><span class="keyword">const</span> createAst = <span class="function">(<span class="params">code</span>) =&gt;</span> esprima.parseModule(code, &#123; <span class="attr">tokens</span>: <span class="literal">true</span> &#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> code = <span class="string">`var a="hello"`</span>;</span><br><span class="line"><span class="keyword">const</span> ast = createAst(code);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 遍历</span></span><br><span class="line"><span class="keyword">const</span> estraverse = <span class="built_in">require</span>(<span class="string">"estraverse"</span>);</span><br><span class="line"><span class="keyword">let</span> depth = <span class="number">0</span>;</span><br><span class="line"><span class="comment">// 层次越深，缩进就越多</span></span><br><span class="line"><span class="keyword">const</span> createIndent = <span class="function">(<span class="params">depth</span>) =&gt;</span> <span class="string">" "</span>.repeat(depth);</span><br><span class="line"></span><br><span class="line">estraverse.traverse(ast, &#123;</span><br><span class="line">  enter(node) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`<span class="subst">$&#123;createIndent(depth)&#125;</span> <span class="subst">$&#123;node.type&#125;</span> 进入`</span>);</span><br><span class="line">    depth++;</span><br><span class="line">  &#125;,</span><br><span class="line">  leave(node) &#123;</span><br><span class="line">    depth--;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`<span class="subst">$&#123;createIndent(depth)&#125;</span> <span class="subst">$&#123;node.type&#125;</span> 离开`</span>);</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>对照着生成的 AST 看，很明显就是深度遍历的过程:</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Program 进入</span><br><span class="line"> VariableDeclaration 进入</span><br><span class="line">  VariableDeclarator 进入</span><br><span class="line">   Identifier 进入</span><br><span class="line">   Identifier 离开</span><br><span class="line">   Literal 进入</span><br><span class="line">   Literal 离开</span><br><span class="line">  VariableDeclarator 离开</span><br><span class="line"> VariableDeclaration 离开</span><br><span class="line">Program 离开</span><br></pre></td></tr></table></figure>
-<h3 id="借助-estraverse-修改-AST"><a href="#借助-estraverse-修改-AST" class="headerlink" title="借助 estraverse 修改 AST"></a>借助 estraverse 修改 AST</h3><p>比如：<code>var a=&#39;hello&#39;; var b=&#39;world&#39;</code> 将<code>var</code>修改成<code>const</code>的话</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ..createAst astToCode函数同上面</span></span><br><span class="line"><span class="keyword">const</span> estraverse = <span class="built_in">require</span>(<span class="string">"estraverse"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> code = <span class="string">`var a='hello'; var b='world'`</span>;</span><br><span class="line"><span class="keyword">const</span> ast = createAst(code);</span><br><span class="line"></span><br><span class="line">estraverse.traverse(ast, &#123;</span><br><span class="line">  enter(node) &#123;</span><br><span class="line">    <span class="comment">// 凡是var的都改成const</span></span><br><span class="line">    <span class="keyword">if</span> (node.kind === <span class="string">"var"</span>) &#123;</span><br><span class="line">      node.kind = <span class="string">"const"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> newCode = astToCode(ast);</span><br><span class="line"><span class="comment">// const a = 'hello'; const b = 'world';</span></span><br><span class="line"><span class="built_in">console</span>.log(newCode);</span><br></pre></td></tr></table></figure>
-<p>通过<code>estraverse</code>，很方便的，将旧的 AST<strong>增删改</strong>其中的结点，从而生成想要的新的 AST！</p>
-<h2 id="用-babel-types-快速生成一个-AST"><a href="#用-babel-types-快速生成一个-AST" class="headerlink" title="用 babel-types 快速生成一个 AST"></a>用 babel-types 快速生成一个 AST</h2><p>上面的生成一个 AST 总是先有 code 才行，怎么能直接生成 AST 呢？</p>
-<p><a href="https://babeljs.io/docs/en/babel-types#functiondeclaration" target="_blank" rel="noopener"><code>babel-types</code></a>!!!!</p>
-<p>AST 是由节点构成的，只要生成相应描述的节点就可以哒。</p>
-<p>借助<a href="https://babeljs.io/docs/en/babel-types#functiondeclaration" target="_blank" rel="noopener"><code>babel-types</code></a>可以生成任意的节点！</p>
-<p>比如<code>const a=&#39;hello&#39;,b=&#39;world&#39;</code>:</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">"type"</span>: <span class="string">"VariableDeclaration"</span>,</span><br><span class="line">  <span class="string">"declarations"</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">"type"</span>: <span class="string">"VariableDeclarator"</span>,</span><br><span class="line">      <span class="string">"id"</span>: &#123;</span><br><span class="line">        <span class="string">"type"</span>: <span class="string">"Identifier"</span>,</span><br><span class="line">        <span class="string">"name"</span>: <span class="string">"a"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="string">"init"</span>: &#123;</span><br><span class="line">        <span class="string">"type"</span>: <span class="string">"Literal"</span>,</span><br><span class="line">        <span class="string">"value"</span>: <span class="string">"hello"</span>,</span><br><span class="line">        <span class="string">"raw"</span>: <span class="string">"'hello'"</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">"type"</span>: <span class="string">"VariableDeclarator"</span>,</span><br><span class="line">      <span class="string">"id"</span>: &#123;</span><br><span class="line">        <span class="string">"type"</span>: <span class="string">"Identifier"</span>,</span><br><span class="line">        <span class="string">"name"</span>: <span class="string">"b"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="string">"init"</span>: &#123;</span><br><span class="line">        <span class="string">"type"</span>: <span class="string">"Literal"</span>,</span><br><span class="line">        <span class="string">"value"</span>: <span class="string">"world"</span>,</span><br><span class="line">        <span class="string">"raw"</span>: <span class="string">"'world'"</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  <span class="string">"kind"</span>: <span class="string">"const"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>其实就是 init + id =&gt; VariableDeclarator + kind =&gt; VariableDeclaration</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> kind = <span class="string">"const"</span>;</span><br><span class="line"><span class="keyword">const</span> id = t.identifier(<span class="string">"a"</span>);</span><br><span class="line"><span class="keyword">const</span> init = t.stringLiteral(<span class="string">"hello"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> id2 = t.identifier(<span class="string">"b"</span>);</span><br><span class="line"><span class="keyword">const</span> init2 = t.stringLiteral(<span class="string">"world"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// a=hello</span></span><br><span class="line"><span class="keyword">const</span> variableDeclarator = t.variableDeclarator(id, init);</span><br><span class="line"><span class="keyword">const</span> variableDeclarator2 = t.variableDeclarator(id2, init2);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> declarations = [variableDeclarator, variableDeclarator2];</span><br><span class="line"><span class="keyword">const</span> ast = t.variableDeclaration(kind, declarations);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这里的ast就是上面展开的</span></span><br><span class="line"><span class="built_in">console</span>.log(ast);</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>type 名一般就是相应的 API 名，同级的其他属性就是 API 的参数。</p>
-</blockquote>
-<h2 id="怎么写一个-babel-插件"><a href="#怎么写一个-babel-插件" class="headerlink" title="怎么写一个 babel 插件"></a>怎么写一个 babel 插件</h2><p><code>babel</code> 最重要的功能就是将<code>ECMAScript 2015+</code> 版本的代码转换为向后兼容的 <code>JavaScript</code> 语法。</p>
-<p>因为转化的地方非常多，<code>babel</code>一般以插件的形式，通过<code>babel-core</code>连接插件，从而转换代码。</p>
-<p>假设将<code>const</code>转化为<code>var</code>的话：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> t = <span class="built_in">require</span>(<span class="string">"babel-types"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 插件</span></span><br><span class="line"><span class="keyword">const</span> ConstPlugin = &#123;</span><br><span class="line">  visitor: &#123;</span><br><span class="line">    <span class="comment">// path是对应的type的路径，其属性node也可以理解为一个描述const表达式的对象</span></span><br><span class="line">    <span class="comment">// 遍历到VariableDeclaration的时候，就把kind换成var</span></span><br><span class="line">    VariableDeclaration(path) &#123;</span><br><span class="line">      <span class="keyword">let</span> node = path.node;</span><br><span class="line">      <span class="built_in">console</span>.log(node);</span><br><span class="line">      <span class="keyword">if</span> (node.kind === <span class="string">"const"</span>) &#123;</span><br><span class="line">        node.kind = <span class="string">"var"</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 试下写的插件</span></span><br><span class="line"><span class="keyword">const</span> code = <span class="string">`const a='hello'`</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> babel = <span class="built_in">require</span>(<span class="string">"babel-core"</span>);</span><br><span class="line"><span class="keyword">let</span> newCode = babel.transform(code, &#123; <span class="attr">plugins</span>: [ConstPlugin] &#125;);</span><br><span class="line"><span class="comment">// var a = 'hello';</span></span><br><span class="line"><span class="built_in">console</span>.log(newCode.code);</span><br></pre></td></tr></table></figure>
-<h2 id="手写实现插件-babel-plugin-arrow-functions"><a href="#手写实现插件-babel-plugin-arrow-functions" class="headerlink" title="手写实现插件 babel-plugin-arrow-functions"></a>手写实现插件 babel-plugin-arrow-functions</h2><p><a href="https://babeljs.io/docs/en/babel-plugin-transform-arrow-functions" target="_blank" rel="noopener">babel-plugin-arrow-functions</a>的功能：将箭头函数转化为普通函数</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="function">(<span class="params">s</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> s;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> b = <span class="function">(<span class="params">s</span>) =&gt;</span> s;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 转化成</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="function"><span class="keyword">function</span> (<span class="params">s</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> s;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> b = <span class="function"><span class="keyword">function</span> (<span class="params">s</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> s;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>先看下箭头函数和转化成普通函数之后的 AST 区别：</p>
-<p><img src="https://blog-huahua.oss-cn-beijing.aliyuncs.com/blog/code/ast_2.png" alt="ast_2"></p>
-<ul>
-<li>注意，body 的类型如果不是<code>BlockStatement</code>的话，就换成<code>BlockStatement</code>;是的话，不用管</li>
-<li>type 是<code>ArrowFunctionExpression</code>的节点，可以换成<code>FunctionExpression</code>节点</li>
-</ul>
-<p>因为写<code>babel</code>插件，所以必须借助<code>babel-core</code>转换成新代码：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// npm i babel-core babel-types</span></span><br><span class="line"><span class="keyword">const</span> t = <span class="built_in">require</span>(<span class="string">"babel-types"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 插件</span></span><br><span class="line"><span class="keyword">const</span> ArrowPlugin = &#123;</span><br><span class="line">  visitor: &#123;</span><br><span class="line">    ArrowFunctionExpression(path) &#123;</span><br><span class="line">      <span class="keyword">let</span> node = path.node;</span><br><span class="line">      <span class="keyword">let</span> &#123; params, body &#125; = node;</span><br><span class="line">      <span class="comment">// 如果不是代码块的话，生成一个代码块</span></span><br><span class="line">      <span class="keyword">if</span> (!t.isBlockStatement(body)) &#123;</span><br><span class="line">        <span class="comment">// 生成return语句</span></span><br><span class="line">        <span class="keyword">let</span> returnStatement = t.returnStatement(body);</span><br><span class="line">        <span class="comment">// 创建代码块语句</span></span><br><span class="line">        body = t.blockStatement([returnStatement]);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">// 利用t生成一个等价的普通函数的表达式对象</span></span><br><span class="line">      <span class="keyword">const</span> functionJSON = t.functionExpression( <span class="literal">null</span>, params, body, <span class="literal">false</span>, <span class="literal">false</span> );</span><br><span class="line">      <span class="comment">// 替换掉当前path</span></span><br><span class="line">      path.replaceWith(functionJSON);</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 试下写的插件</span></span><br><span class="line"><span class="keyword">const</span> arrowJsCode = <span class="string">`var a = (s) =&gt; &#123; return s; &#125;; var b = (s) =&gt; s;`</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> babel = <span class="built_in">require</span>(<span class="string">"babel-core"</span>);</span><br><span class="line"><span class="keyword">let</span> functionJSCode = babel.transform(arrowJsCode, &#123; <span class="attr">plugins</span>: [ArrowPlugin] &#125;);</span><br><span class="line"><span class="comment">// var a = function (s) &#123; return s; &#125;;var b = function (s) &#123; return s; &#125;;</span></span><br><span class="line"><span class="built_in">console</span>.log(functionJSCode.code);</span><br></pre></td></tr></table></figure>
-<!-- 
-## 手写实现 `babel-plugin-class`
-
-将 es6 的 class 语法转换成 es5 语法。
-
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dog</span> </span>&#123;&#125;</span><br><span class="line"><span class="comment">// =&gt; 转化成</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Dog</span>(<span class="params"></span>) </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
-<p>其实生成空的 Dog 函声明很简单：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> functionDeclaration = t.functionDeclaration( t.identifier(<span class="string">"Dog"</span>), [], t.blockStatement([]), <span class="literal">false</span>, <span class="literal">false</span> );</span><br></pre></td></tr></table></figure>
-<p>将一个带有 prototype 试着转换下：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// npm i babel-core babel-types</span></span><br><span class="line"><span class="keyword">const</span> babel = <span class="built_in">require</span>(<span class="string">"babel-core"</span>);</span><br><span class="line"><span class="keyword">const</span> t = <span class="built_in">require</span>(<span class="string">"babel-types"</span>);</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> - class语句的时候</span></span><br><span class="line"><span class="comment"> - constructor</span></span><br><span class="line"><span class="comment"> - prototype</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> - 生成function</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="comment">// 插件</span></span><br><span class="line"><span class="keyword">const</span> ClassPlugin = &#123;</span><br><span class="line">  visitor: &#123;</span><br><span class="line">    ClassDeclaration(path) &#123;</span><br><span class="line">      <span class="keyword">let</span> &#123; node &#125; = path;</span><br><span class="line">      <span class="keyword">const</span> className = node.id.name;</span><br><span class="line">      <span class="keyword">let</span> functionDeclaration = t.functionDeclaration(</span><br><span class="line">        t.identifier(className),</span><br><span class="line">        [],</span><br><span class="line">        t.blockStatement([]),</span><br><span class="line">        <span class="literal">false</span>,</span><br><span class="line">        <span class="literal">false</span></span><br><span class="line">      );</span><br><span class="line"></span><br><span class="line">      <span class="comment">// class代码块里的内容</span></span><br><span class="line">      <span class="keyword">const</span> classList = node.body.body;</span><br><span class="line">      <span class="keyword">const</span> es5Fns = [];</span><br><span class="line">      classList.forEach(<span class="function">(<span class="params">item, index</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">// 把constructor的相关内容等价替换成函数的内容</span></span><br><span class="line">        <span class="keyword">if</span> (item.kind === <span class="string">"constructor"</span>) &#123;</span><br><span class="line">          functionDeclaration = t.functionDeclaration(</span><br><span class="line">            t.identifier(className),</span><br><span class="line">            item.params,</span><br><span class="line">            item.body,</span><br><span class="line">            <span class="literal">false</span>,</span><br><span class="line">            <span class="literal">false</span></span><br><span class="line">          );</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          <span class="comment">// 其他就是原型上面的方法 Dog.prototype</span></span><br><span class="line">          <span class="keyword">let</span> protoObj = t.memberExpression(</span><br><span class="line">            t.identifier(className),</span><br><span class="line">            t.identifier(<span class="string">"prototype"</span>)</span><br><span class="line">          );</span><br><span class="line">          <span class="comment">// Dog.prototype.getName</span></span><br><span class="line">          <span class="keyword">let</span> left = t.memberExpression(protoObj, t.identifier(item.key.name));</span><br><span class="line">          <span class="keyword">let</span> right = t.functionExpression(<span class="literal">null</span>, [], item.body, <span class="literal">false</span>, <span class="literal">false</span>);</span><br><span class="line">          <span class="keyword">let</span> assign = t.assignmentExpression(<span class="string">"="</span>, left, right);</span><br><span class="line">          es5Fns.push(assign);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;);</span><br><span class="line">      <span class="comment">// 有没有定义prototype的方法</span></span><br><span class="line">      <span class="keyword">const</span> hasFns = es5Fns.length &gt; <span class="number">0</span>;</span><br><span class="line">      <span class="comment">// 有的话，既要Function声明，也需要多个prototype的赋值语句，所以用的replaceWithMultiple</span></span><br><span class="line">      <span class="comment">// 没有的话，只需要Function声明即可，一句的话用replaceWith就行</span></span><br><span class="line">      hasFns</span><br><span class="line">        ? path.replaceWithMultiple([functionDeclaration, ...es5Fns])</span><br><span class="line">        : path.replaceWith(functionDeclaration);</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 试下写的插件</span></span><br><span class="line"><span class="keyword">const</span> es6Code = <span class="string">`</span></span><br><span class="line"><span class="string">class Dog&#123;</span></span><br><span class="line"><span class="string">  constructor(name)&#123;</span></span><br><span class="line"><span class="string">    this.name = name</span></span><br><span class="line"><span class="string">  &#125;</span></span><br><span class="line"><span class="string">  getName()&#123;</span></span><br><span class="line"><span class="string">    return this.name</span></span><br><span class="line"><span class="string">  &#125;</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">`</span>;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">function Dog (name) &#123;</span></span><br><span class="line"><span class="comment">  this.name = name</span></span><br><span class="line"><span class="comment">&#125;</span></span><br><span class="line"><span class="comment">Dog.prototype.getName = function () &#123;</span></span><br><span class="line"><span class="comment">  return this.name</span></span><br><span class="line"><span class="comment">&#125;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">let</span> es5Code = babel.transform(es6Code, &#123;</span><br><span class="line">  plugins: [ClassPlugin],</span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">console</span>.log(es5Code.code);</span><br></pre></td></tr></table></figure>
-<h2 id="实现模块的按需加载babel-plugin-import"><a href="#实现模块的按需加载babel-plugin-import" class="headerlink" title="实现模块的按需加载babel-plugin-import"></a>实现模块的按需加载<code>babel-plugin-import</code></h2><p>按需加载其实就是将本身</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; Button, Alert &#125; <span class="keyword">from</span> <span class="string">"antd"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 实际上变成</span></span><br><span class="line"><span class="keyword">import</span> Button <span class="keyword">from</span> <span class="string">"antd/lib/Button"</span>;</span><br><span class="line"><span class="keyword">import</span> Alert <span class="keyword">from</span> <span class="string">"antd/lib/Alert"</span>;</span><br></pre></td></tr></table></figure>
-<p>如果引入的时候，是解构语句，就可以按需加载<br>按需加载怎么换句式呢？</p>
-<p>首先如果解构里面是多个的话，换也是多个<br>且更换解构语法和路径</p>
-<p>先判断是不是解构，不是的话再往下</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> babel = <span class="built_in">require</span>(<span class="string">"babel-core"</span>);</span><br><span class="line"><span class="keyword">const</span> t = <span class="built_in">require</span>(<span class="string">"babel-types"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> ImportPlugin = &#123;</span><br><span class="line">  visitor: &#123;</span><br><span class="line">    <span class="comment">//   只有声明语句的时候才替换</span></span><br><span class="line">    ImportDeclaration(path) &#123;</span><br><span class="line">      <span class="keyword">const</span> &#123;</span><br><span class="line">        node: &#123; specifiers, source &#125;,</span><br><span class="line">      &#125; = path;</span><br><span class="line">      <span class="keyword">const</span> isDefault = t.isImportDefaultSpecifier(specifiers[<span class="number">0</span>]);</span><br><span class="line">      <span class="keyword">if</span> (!isDefault) &#123;</span><br><span class="line">        <span class="keyword">const</span> newImports = specifiers.map(<span class="function">(<span class="params">specifier</span>) =&gt;</span> &#123;</span><br><span class="line">          <span class="keyword">const</span> componentName = specifier.local.name;</span><br><span class="line">          <span class="keyword">const</span> specifiers = t.importDefaultSpecifier(</span><br><span class="line">            t.identifier(componentName)</span><br><span class="line">          );</span><br><span class="line">          <span class="keyword">const</span> realPath = <span class="string">`<span class="subst">$&#123;source.value&#125;</span>/lib/<span class="subst">$&#123;componentName&#125;</span>`</span>;</span><br><span class="line">          <span class="keyword">const</span> importDeclaration = t.importDeclaration(</span><br><span class="line">            [specifiers],</span><br><span class="line">            t.stringLiteral(realPath)</span><br><span class="line">          );</span><br><span class="line">          <span class="keyword">return</span> importDeclaration;</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">const</span> isMultiple = specifiers.length &gt; <span class="number">1</span>;</span><br><span class="line">        isMultiple</span><br><span class="line">          ? path.replaceWithMultiple(newImports)</span><br><span class="line">          : path.replaceWith(newImports[<span class="number">0</span>]);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> code = <span class="string">`import &#123;Button,Alert&#125; from 'antd' `</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> r = babel.transform(code, &#123;</span><br><span class="line">  plugins: [ImportPlugin],</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(r.code);</span><br><span class="line"><span class="comment">// import Button from 'antd/lib/Button'</span></span><br><span class="line"><span class="comment">// import Alert from 'antd/lib/Alert'</span></span><br></pre></td></tr></table></figure>
-<h2 id="试试"><a href="#试试" class="headerlink" title="试试"></a>试试</h2><p>npm i webpack webpack-cli babel-loader@7 babel-preset-env babel-preset-react antd<br>npm i react react-dom</p>
-<p>在 node_modules 下新建文件 <code>babel-plugin-hua-import.js</code></p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> babel = <span class="built_in">require</span>(<span class="string">"babel-core"</span>);</span><br><span class="line"><span class="keyword">const</span> t = <span class="built_in">require</span>(<span class="string">"babel-types"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> ImportPlugin = &#123;</span><br><span class="line">  visitor: &#123;</span><br><span class="line">    <span class="comment">//   只有声明语句的时候才替换</span></span><br><span class="line">    ImportDeclaration(path) &#123;</span><br><span class="line">      <span class="keyword">const</span> &#123;</span><br><span class="line">        node: &#123; specifiers, source &#125;,</span><br><span class="line">      &#125; = path;</span><br><span class="line">      <span class="keyword">const</span> isDefault = t.isImportDefaultSpecifier(specifiers[<span class="number">0</span>]);</span><br><span class="line">      <span class="keyword">if</span> (!isDefault) &#123;</span><br><span class="line">        <span class="keyword">const</span> newImports = specifiers.map(<span class="function">(<span class="params">specifier</span>) =&gt;</span> &#123;</span><br><span class="line">          <span class="keyword">const</span> componentName = specifier.local.name;</span><br><span class="line">          <span class="keyword">const</span> specifiers = t.importDefaultSpecifier(</span><br><span class="line">            t.identifier(componentName)</span><br><span class="line">          );</span><br><span class="line">          <span class="keyword">const</span> realPath = <span class="string">`<span class="subst">$&#123;source.value&#125;</span>/lib/<span class="subst">$&#123;componentName&#125;</span>`</span>.toLowerCase();</span><br><span class="line">          <span class="keyword">const</span> importDeclaration = t.importDeclaration(</span><br><span class="line">            [specifiers],</span><br><span class="line">            t.stringLiteral(realPath)</span><br><span class="line">          );</span><br><span class="line">          <span class="keyword">return</span> importDeclaration;</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">const</span> isMultiple = specifiers.length &gt; <span class="number">1</span>;</span><br><span class="line">        isMultiple</span><br><span class="line">          ? path.replaceWithMultiple(newImports)</span><br><span class="line">          : path.replaceWith(newImports[<span class="number">0</span>]);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// const code = `import &#123;Button,Alert&#125; from 'antd' `</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// const r = babel.transform(code, &#123;</span></span><br><span class="line"><span class="comment">//   plugins: [ImportPlugin]</span></span><br><span class="line"><span class="comment">// &#125;)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// console.log(r.code)</span></span><br><span class="line"><span class="comment">// import Button from 'antd/lib/Button'</span></span><br><span class="line"><span class="comment">// import Alert from 'antd/lib/Alert'</span></span><br><span class="line"><span class="built_in">module</span>.export = ImportPlugin;</span><br></pre></td></tr></table></figure>
-<p>写个 demo.js</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">"react"</span>;</span><br><span class="line"><span class="keyword">import</span> ReactDOM <span class="keyword">from</span> <span class="string">"react-dom"</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; Button &#125; <span class="keyword">from</span> <span class="string">"antd"</span>;</span><br></pre></td></tr></table></figure>
-<p>写个 webpack.config.js</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  mode: <span class="string">"development"</span>,</span><br><span class="line">  entry: <span class="string">"./demo.js"</span>,</span><br><span class="line">  output: &#123;</span><br><span class="line">    filename: <span class="string">"bundle.js"</span>,</span><br><span class="line">    path: __dirname,</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="built_in">module</span>: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.js$/</span>,</span><br><span class="line">        use: &#123;</span><br><span class="line">          loader: <span class="string">"babel-loader"</span>,</span><br><span class="line">          options: &#123;</span><br><span class="line">            presets: [<span class="string">"env"</span>, <span class="string">"react"</span>],</span><br><span class="line">            <span class="comment">// plugins: ['hua-import']</span></span><br><span class="line">          &#125;,</span><br><span class="line">        &#125;,</span><br><span class="line">        exclude: <span class="string">"/node_modules/"</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">    ],</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>上面加上 plugins 和不加 plugins 执行一遍 就会发现 bundle.js 的大小质的区别 一个是 5.4M，一个是 2k –&gt;</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
-<li><a href="https://cheogo.github.io/learn-javascript/201709/runtime.html">JavaScript 语法解析、AST、V8、JIT</a></li>
-<li><a href="https://juejin.cn/post/6844904035271573511#heading-0">手把手带你入门 AST 抽象语法树</a></li>
-<li><a href="https://segmentfault.com/a/1190000016231512">AST 抽象语法树——最基础的 javascript 重点知识，99%的人根本不了解</a></li>
-<li><a href="https://juejin.cn/post/6844903858632654856">babel 快速上手指南</a></li>
-</ul>
--->
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2438,7 +2364,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">263</span>
+                <span class="site-state-item-count">264</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

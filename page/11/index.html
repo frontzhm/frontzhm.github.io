@@ -261,6 +261,169 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/12/create-api/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="frontzhm">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="花花的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2020/05/12/create-api/" itemprop="url">
+                  怎么使用create-api，初级版
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-12T19:24:32+08:00">
+                2020-05-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/05/12/create-api/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/05/12/create-api/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>create-api是黄轶老师写的，<a href="https://github.com/cube-ui/vue-create-api" target="_blank" rel="noopener">github地址</a>。<br>插件的意思是说，让某个组件以api的方式，能动态插入到body的下面，很像弹出层。<br>我个人目前觉得，弹出全局页面非常适合。<br>这边是使用的初级版。  </p>
+<ol>
+<li>安装：  </li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install vue-create-api</span><br></pre></td></tr></table></figure>
+<ol>
+<li>写个普通的Hello组件：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div class=&quot;box&quot; @click=&quot;clickHandler&quot;&gt;</span><br><span class="line">    &#123;&#123; content &#125;&#125;</span><br><span class="line">    &lt;slot name=&quot;other&quot;&gt;&lt;/slot&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script type=&quot;text/ecmascript-6&quot;&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &apos;hello&apos;,</span><br><span class="line">  props: &#123;</span><br><span class="line">    content: &#123;</span><br><span class="line">      type: String,</span><br><span class="line">      default: &apos;Hello&apos;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    clickHandler(e) &#123;</span><br><span class="line">      this.$emit(&apos;click1&apos;, e)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line">.box &#123;</span><br><span class="line">  position: fixed;</span><br><span class="line">  left: 0;</span><br><span class="line">  right: 0;</span><br><span class="line">  top: 0;</span><br><span class="line">  bottom: 0;</span><br><span class="line">  z-index: 2;</span><br><span class="line">  background-color: #fff;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>某页面用的时候</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--xx.vue--&gt;</span><br><span class="line">&lt;template lang=&quot;pug&quot;&gt;</span><br><span class="line">div</span><br><span class="line">  div 111</span><br><span class="line"></span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">import Vue from &quot;vue&quot;;</span><br><span class="line">import Hello from &quot;@/components/Hello.vue&quot;;</span><br><span class="line">import CreateAPI from &quot;vue-create-api&quot;;</span><br><span class="line">Vue.use(CreateAPI);</span><br><span class="line">// 这行就是创建 this.$createHello，常用的话直接在main那边创建</span><br><span class="line">Vue.createAPI(Hello, true);</span><br><span class="line">export default &#123;</span><br><span class="line">  components: &#123; Hello &#125;,</span><br><span class="line">  mounted() &#123;</span><br><span class="line">    let renderFn = createElement =&gt; &#123;</span><br><span class="line">      return [</span><br><span class="line">        createElement(</span><br><span class="line">          &quot;h1&quot;,</span><br><span class="line">          &#123;</span><br><span class="line">            slot: &quot;other&quot;</span><br><span class="line">          &#125;,</span><br><span class="line">          &quot;other content&quot;</span><br><span class="line">        )</span><br><span class="line">      ];</span><br><span class="line">    &#125;;</span><br><span class="line">    // 这里就是使用，使用之后在body那边就插入了Hello组件，和#app同级</span><br><span class="line">    this.$createHello(</span><br><span class="line">      &#123;</span><br><span class="line">        //   Hello组件里的props在这里传递</span><br><span class="line">        $props: &#123;</span><br><span class="line">          content: &quot;I am from a vue component&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        //   Hello组件里的向外派发的事件在这里</span><br><span class="line">        $events: &#123;</span><br><span class="line">          click1() &#123;</span><br><span class="line">            console.log(&quot;1&quot;);</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">    //   Hello组件里的slot需要在这里，没有slot就不需要这个</span><br><span class="line">      renderFn</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>这里附上<a href="https://cn.vuejs.org/v2/guide/render-function.html" target="_blank" rel="noopener">renderFn的写法</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/09/multi-select/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1895,173 +2058,6 @@ baby.setState('开心')
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/18/zf-3-emit/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="frontzhm">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omizt4opc.bkt.clouddn.com/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="花花的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2020/04/18/zf-3-emit/" itemprop="url">
-                  未命名
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-18T10:33:37+08:00">
-                2020-04-18
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2020/04/18/zf-3-emit/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/04/18/zf-3-emit/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            // 这是多个请求结果返回之后向做的事
-
-let fs = require('fs');
-// 订阅 on --- 发布 emit,promise也是基于这
-
-let e = {
-    _obj:{},
-    _callback:[],
-    // 订阅就是将函数放进数组里
-    on(callback){
-        this._callback.push(callback)
-    },
-    // emit存结果，且让订阅的数组中的方法依次执行
-    emit(key,value){
-        this._obj[key] = value
-        this._callback.forEach(fn=>{
-            fn(this._obj)
-        })
-    }
-}
-// 只要发布了，就必须让订阅的事执行
-// 每次发布都会触发此函数
-e.on(obj=>console.log('一个'))
-e.on(obj=>{
-    // 用户根据结果决定次数
-    if(Object.keys(obj).length === 2){
-        console.log('2个',obj)
-    }
-})
-// 解耦on和emit，后期每个实例有自己的on emit
-// 这里特别注意，run code时候，工作目录是当前根目录，所以./表示的是当前根目录，这里可以先用下绝对路径
-fs.readFile("/Users/zhm/blog/source/_posts/zf-age.txt",'utf8', (err,data) => {
-    e.emit('age',data)
-})
-fs.readFile("/Users/zhm/blog/source/_posts/zf-name.txt",'utf8', (err,data) => {
-    e.emit('name',data)
-})
-
-// 发布订阅 发布就是把fn放到一个数组里 订阅就是依次执行数组里的fn。 特点，发布和订阅没有关系，，没有发布，我照样能订阅
-// 观察者模式 观察者 被观察者
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2111,7 +2107,7 @@ fs.readFile("/Users/zhm/blog/source/_posts/zf-name.txt",'utf8', (err,data) => {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">263</span>
+                <span class="site-state-item-count">264</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
